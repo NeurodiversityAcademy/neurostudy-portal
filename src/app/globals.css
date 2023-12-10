@@ -1,10 +1,7 @@
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
-  font-family: var(--poppins-font);
-  /* --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
-    'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
-    'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace; */
+  font-family: var(--poppins-font);  
 
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -40,7 +37,7 @@
   --card-rgb: 180, 185, 188;
   --card-border-rgb: 131, 134, 135;
 
-  /* based on  NDA style guide  */
+  
   --Heading1: 128px;
   --Heading2: 96px;
   --Heading3: 64px;
