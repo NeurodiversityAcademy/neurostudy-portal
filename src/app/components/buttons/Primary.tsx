@@ -1,19 +1,13 @@
 import React from "react";
 import styles from "./button.module.css";
-import { HiOutlineChevronDown } from "react-icons/hi2";
-import { HiMiniMagnifyingGlass } from "react-icons/hi2";
+import Image from "next/image";
+import PrimaryOulined from '../../images/PrimaryOulined.svg'
 
 export default function Secondary() {
   return (
     <div>
-      <button className={styles.btn1}>
-        <span className={styles.icon}>
-          <HiMiniMagnifyingGlass />
-        </span>
-        <span>Search</span>
-        <span className={styles.icon}>
-          <HiOutlineChevronDown />
-        </span>
+      <button className={styles.btn1}>       
+        <Image src={PrimaryOulined} alt="Search" />      
       </button>
     </div>
   );
