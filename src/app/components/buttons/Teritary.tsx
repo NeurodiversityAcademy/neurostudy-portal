@@ -1,17 +1,13 @@
 import React from "react";
-
 import styles from "./button.module.css";
-import { FaRegArrowAltCircleRight } from "react-icons/fa";
+import Image from "next/image";
+import TertiaryOutlined from '../../images/TertiaryOutlined.svg'
 
 export default function Teritary() {
   return (
     <div >
-      <button className={styles.btn3}>
-       
-        <span>Learn more </span>
-        <span className={styles.icon}>       
-        <FaRegArrowAltCircleRight />        
-        </span>
+      <button className={styles.btn3}>             
+        <Image src={TertiaryOutlined } alt="Learn more"/>  
       </button>
     </div>
   );

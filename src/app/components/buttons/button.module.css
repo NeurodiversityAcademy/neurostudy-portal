@@ -21,11 +21,9 @@
  
   width: 24px;
   height: 24px;
-    padding: 2.23px, 2.25px, 2.25px, 2.23px; 
-  
+  padding: 2.23px, 2.25px, 2.25px, 2.23px;  
   font-weight: 100;
   font-size: larger;
-
 }
 
 .btn1Full {
@@ -123,4 +121,6 @@
 .display {
   margin: 50px;
 }
+
+
 
