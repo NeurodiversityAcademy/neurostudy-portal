@@ -1,32 +1,35 @@
 import React from "react";
 import styles from "./button.module.css";
-import PrimaryFull from "./PrimaryFull";
-import Primary from "./Primary";
-import Secondary from "./Secondary";
-import SecondaryFull from "./SecondaryFull";
-import Teritary from "./Teritary";
-import TeritaryFull from "./TeritartFull";
+
+import MyPrimaryFull from "./MyPrimaryFull"
+
+import MyPrimary from "./MyPrimary";
+
+import MySecondary from "./MySecondary";
+import MySecondaryFull from "./MySecondaryFull";
+import MyTeritary from "./MyTeritary";
+import MyTeritaryFull from "./MyTeritaryFull";
 
 export default function ButtonDisplay() {
   return (
     <div >
       <div className={styles.display} >
-        <PrimaryFull />
+        <MyPrimaryFull />
       </div>
       <div className={styles.display} >
-        <Primary />
+        <MyPrimary />
       </div>
       <div className={styles.display}>
-        <SecondaryFull />
+        <MySecondaryFull />
       </div>
       <div className={styles.display}>
-        <Secondary />
+        <MySecondary />
       </div>
       <div  className={styles.display}>
-      <Teritary/>
+      <MyTeritary/>
       </div>
       <div  className={styles.display}>
-        <TeritaryFull/>
+        <MyTeritaryFull/>
       </div>
     </div>
   );
