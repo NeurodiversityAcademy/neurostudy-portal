@@ -1,19 +1,16 @@
-
 .badgeContainer {
-    position: relative;
-    width: 100%;
-    height: 952px;
-  }
-  
-  .badgeOverlay {
-    position: absolute;
-    top: 25%; 
-    left: 55%; 
+  position: relative;
+  width: 100%;
+  height: 952px;
+}
 
-  }
-  .badgeContainer img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; 
-  }
-  
+.badgeOverlay {
+  position: absolute;
+  top: 25%;
+  left: 55%;
+}
+.badgeContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

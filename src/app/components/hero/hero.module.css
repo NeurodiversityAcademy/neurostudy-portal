@@ -1,0 +1,146 @@
+@media (min-width: 480px) {
+  .textContainer {
+    display: flex;
+    flex-direction: column;
+    width: 55vw;
+    padding: 20px;
+    color: var(--GhostWhite);
+    justify-content: center;
+  }
+  .textContainer h1 {
+    margin: 0px;
+  }
+  .textContainer h2 {
+    margin: 0px;
+  }
+  .textBox {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    color: var(--GhostWhite);
+  }
+  .bannerContainer {
+    text-align: end;
+    position: relative;
+    width: 100vw;
+    height: 70vh;
+    background-image: url('../../images/bg.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .teacherContainer{
+    text-align: center;
+    margin: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center  
+  }
+  .teacherContainer div {
+    margin-bottom: 30px;
+  }
+  .teacherBodyText{
+    width: 50vw;
+  }
+  .factContainer{
+    text-align: center;
+    margin: 0px;
+    background-color: #2D005B; 
+  }
+  .factTitle{
+    padding-top: 32px;
+  }
+  .factGrid {
+    display: flex;
+    margin: 80px;;
+   gap: 24px;
+   align-items: center;
+   justify-content: center  
+
+  }  
+  
+  .gridItem {
+    text-align: center; 
+    max-width: 480px;
+  }
+  .factReference{
+    text-align: right;
+    margin-right: 80px;
+    padding: 40px;
+  }
+ 
+}
+@media (max-width: 480px) {
+  .bannerContainer {
+    text-align: center;
+    position: relative;
+    width: 100vw;
+    height: 35vh;
+    background-image: url('../../images/bg.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+  }
+
+  .textContainer {
+    display: flex;
+    flex-direction: column;
+    width: 70vw;
+    padding: 20px;
+    color: var(--GhostWhite);
+    justify-content: center;
+  }
+
+  .textContainer h1 {
+    margin: 0px;
+    font-size: 24px;
+  }
+  .textContainer h2 {
+    font-size: 20px;
+    margin: 0px;
+  }
+  .teacherContainer{
+    text-align: center;    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+      
+  }
+  .teacherContainer div {
+    margin-bottom: 30px;
+  }
+  .teacherBodyText{
+    width: 70vw;
+  }
+  .factContainer{
+    text-align: center;
+    margin: 0px;
+    background-color: #2D005B; 
+  }
+  .factTitle{
+    padding-top: 32px;
+  }
+  .factGrid {
+    display: flex;
+    flex-direction: column;
+    margin: 80px;
+   gap: 24px;
+   align-items: center;
+   justify-content: center  
+
+  }  
+  
+  .gridItem {
+    text-align: center; 
+    max-width: 480px;
+  }
+  .factReference{
+    text-align: right;
+    margin-right: 80px;
+    padding: 10px;
+  }
+}

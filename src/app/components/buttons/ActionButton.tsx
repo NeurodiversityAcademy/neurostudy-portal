@@ -14,7 +14,7 @@ export enum ButtonStyle {
 
 interface ActionButtonProps {
   label: string;
-  icon: string;
+  icon?: string;
   style?: ButtonStyle;
   disabled?: boolean;
   onClick?: () => void;
