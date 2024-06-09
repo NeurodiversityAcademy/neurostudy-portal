@@ -3,9 +3,10 @@ import TeacherCRMContactInterface from '../interfaces/TeacherCRMContactInterface
 import CRMCreateResponseInterface from '../interfaces/CRMCreateResponseInterface';
 import axios from 'axios';
 import { UserFormSubmissionType } from '../interfaces/UserFormSubmissionType';
+import { SubscriptionType } from '../interfaces/SubscriptionType';
 
 export const registerCRMContact = async (
-  contact: TeacherCRMContactInterface | UserFormSubmissionType
+  contact: TeacherCRMContactInterface | UserFormSubmissionType | SubscriptionType
 ): Promise<CRMCreateResponseInterface | boolean> => {
   const data = JSON.stringify({
     properties: contact,
