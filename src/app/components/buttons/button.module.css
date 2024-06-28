@@ -37,14 +37,15 @@
   border-radius: 8px;
   border: 1px;
   gap: 8px;
-  border: 1px solid #6600cc;
-  background: #6600cc;
+  border: 1px solid var(--cherryPieVariant);
+  background: var(--cherryPieVariant);
   color: #f8f8ff;
   font-family: var(--poppins-font);
   font-weight: 600;
   font-size: large;
   padding: 12px, 24px, 12px, 24px;
 }
+
 .btn2 {
   display: flex;
   align-items: center;
@@ -53,14 +54,15 @@
   border-radius: 8px;
   border: 1px;
   gap: 8px;
-  border: 1px solid #6600cc;
+  border: 1px solid var(--cherryPieVariant);
   background-color: white;
-  color: #6600cc;
+  color: var(--cherryPieVariant);
   font-family: var(--poppins-font);
   font-weight: 600;
   font-size: large;
   padding: 12px, 24px, 12px, 24px;
 }
+
 .btn2Full {
   display: flex;
   align-items: center;
@@ -71,20 +73,21 @@
   border-radius: 8px;
   border: 1px;
   gap: 8px;
-  border: 1px solid #6600cc;
+  border: 1px solid var(--cherryPieVariant);
   background-color: white;
-  color: #6600cc;
+  color: var(--cherryPieVariant);
   font-family: var(--poppins-font);
   font-weight: 600;
   font-size: large;
 
   padding: 12px, 24px, 12px, 24px;
 }
+
 .btn3 {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #6600cc;
+  color: var(--cherryPieVariant);
   background-color: white;
   border: white;
   width: 173px;
@@ -97,6 +100,7 @@
   font-size: large;
   line-height: 24px;
 }
+
 .btn3Full {
   width: 312px;
   height: 48px;
@@ -106,7 +110,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #6600cc;
+  color: var(--cherryPieVariant);
   background-color: white;
   border: white;
   font-family: var(--poppins-font);
@@ -114,6 +118,7 @@
   font-size: large;
   line-height: 24px;
 }
+
 .display {
   margin: 50px;
 }

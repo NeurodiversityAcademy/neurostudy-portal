@@ -1,7 +1,7 @@
 .textBoxContainer {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  margin-bottom: 5px;
   width: 100%;
 }
 
@@ -20,7 +20,7 @@
   width: 100%;
 } */
 
-.textBoxContainer input[type='email'] {
+.textBoxContainer input {
   max-width: 100%;
   padding: 0px;
   padding-left: 15px;
@@ -29,6 +29,7 @@
 .longer {
   width: 25rem;
 }
+
 /* errorRed */
 .textboxError {
   border: 1px solid var(--errorRed);
@@ -39,7 +40,7 @@
   margin-bottom: -1rem;
 }
 
-@media (width <= 320px) {
+@media (width <=320px) {
 
   .textBox {
     height: 28px;

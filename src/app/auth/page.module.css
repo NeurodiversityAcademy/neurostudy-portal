@@ -1,0 +1,107 @@
+.container {
+  background: var(--GhostWhiteSub);
+}
+
+.container>div:first-child {
+  max-width: 960px;
+  margin: auto;
+}
+
+.bannerColumn {
+  display: flex;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+    linear-gradient(194.75deg, rgba(102, 0, 204, 0) -78.84%, rgba(102, 0, 204, 0.4) 36.62%, #4A4AFF 102.62%);
+  color: var(--GhostWhite);
+  padding: 24px;
+  align-content: space-between;
+  flex-wrap: wrap;
+  border-radius: 0px 8px 8px 0px;
+  word-break: break-word;
+  gap: 144px;
+  box-shadow: -2px 2px 8px 0px #0000001F;
+}
+
+.forgotPassword {
+  text-align: right;
+  text-decoration: underline;
+}
+
+.forgotPassword>a {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--cherryPieVariant);
+}
+
+.breakLineWrapper {
+  display: flex;
+  align-items: center;
+  padding: 1rem 0px;
+}
+
+.breakLine {
+  border: 1px solid var(--greyVariant);
+  width: 100%;
+  height: 0px;
+}
+
+.or {
+  margin: 0px 3px;
+  color: var(--BondBlackVariant);
+  font-size: 0.9rem;
+}
+
+.btn {
+  width: 100%;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.submitBtn {
+  background: var(--cherryPie);
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.callToAction {
+  color: var(--cherryPieVariant);
+}
+
+.callToAction>a {
+  font-weight: 600;
+}
+
+.formColumn {
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+  box-shadow: 0px 2px 8px 0px #0000001F;
+}
+
+.formColumnWrapper {
+  width: 543px;
+  max-width: 100%;
+}
+
+.formTitleWrapper {
+  border-bottom: 1px solid var(--greyVariant);
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+}
+
+.dobInputContainer {
+  display: flex;
+}
+
+.dobInputContainer>* {
+  flex: 1 0 0;
+}
+
+@media (max-width: 767px) {
+  .bannerColumn {
+    display: none;
+  }
+
+  .formColumnWrapper {
+    width: 100%;
+  }
+}

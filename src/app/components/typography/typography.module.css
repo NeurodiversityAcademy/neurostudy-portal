@@ -1,106 +1,95 @@
+.common {
+  color: var(--BondBlack);
+  font-style: normal;
+  line-height: normal;
+}
+
+.mobBody3 {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.mobBody3Strong {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.heading3 {
+  font-size: 28px;
+  font-weight: 500;
+}
+
 @media (min-width: 480px) {
+
   /* desktop view */
   .heading1 {
-    color: var(--BondBlack);
     font-size: 48px;
-    font-style: normal;
     font-weight: 700;
-    line-height: normal;
   }
+
   .heading2 {
-    color: var(--BondBlack);
     font-size: 36px;
-    font-style: normal;
     font-weight: 500;
-    line-height: normal;
   }
+
   .body1 {
-    color: var(--BondBlack);
-    font-family: var(--poppins-font);
     font-size: 20px;
-    font-style: normal;
     font-weight: 400;
-    line-height: normal;
   }
+
   .body2Strong {
-    color: var(--BondBlack);
-    font-family: var(--poppins-font);
     font-size: 16px;
-    font-style: normal;
     font-weight: 600;
-    line-height: normal;
   }
 }
+
 @media (max-width: 480px) {
+
   /* mobile view */
   .heading1 {
-    color: var(--BondBlack);
     font-size: 24px;
-    font-style: normal;
     font-weight: 700;
-    line-height: normal;
   }
+
   .heading2 {
-    color: var(--BondBlack);
     font-size: 20px;
-    font-style: normal;
     font-weight: 500;
-    line-height: normal;
   }
-  .body1 {
-    color: var(--BondBlack);
-    font-family: var(--poppins-font);
+
+  .heading3 {
     font-size: 18px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
   }
+
+  .body1 {
+    font-size: 18px;
+    font-weight: 400;
+  }
+
   .body2 {
-    color: var(--BondBlack);
-    font-family: var(--poppins-font);
     font-size: 16px;
-    font-style: normal;
     font-weight: 400;
-    line-height: normal;
   }
+
   .body2Strong {
-    color: var(--BondBlack);
-    font-family: var(--poppins-font);
     font-size: 16px;
-    font-style: normal;
     font-weight: 600;
-    line-height: normal;
   }
+
   .mobBody3 {
-    color: var(--BondBlack);
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
+    font-size: 12px;
   }
+
   .mobBody3Strong {
-    color: var(--BondBlack);
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
+    font-size: 12px;
   }
 }
 
 .labelText {
-  color: var(--BondBlack);
-  font-family: var(--poppins-font);
   font-size: 12px;
-  font-style: normal;
   font-weight: 400;
-  line-height: normal;
 }
 
 .body2 {
-  color: var(--BondBlack);
-  font-family: var(--poppins-font);
   font-size: 16px;
-  font-style: normal;
   font-weight: 400;
-  line-height: normal;
 }

@@ -21,11 +21,18 @@ export enum BUTTON_STYLE {
   TertiaryFull = 'tertiary-full',
 }
 
+export enum TEXTBOX_VARIANT {
+  LONG = 'long',
+  LONGER = 'longer',
+  REGULAR = 'regular',
+}
+
 export const HOST_URL =
   process.env.HOST_URL || 'https://neurodiversityacademy.com';
 export const SITE_NAME = 'Neurodiversity Academy';
 export const LANGUAGES = { 'en-US': '/en-US' };
 export const LOCALE = 'en_US';
+
 export enum META_TYPE {
   WEBSITE = 'website',
   ARTICLE = 'article',

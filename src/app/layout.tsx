@@ -1,4 +1,5 @@
 import './globals.css';
+import './foundation.css';
 import { Poppins } from 'next/font/google';
 import Footer from './components/footer/Footer';
 import Navbar from './components/navbar/Navbar';
@@ -7,7 +8,7 @@ import { Analytics } from '@vercel/analytics/react';
 
 const poppins = Poppins({
   subsets: ['latin'],
-  weight: ['900', '800', '700', '600', '500', '100'],
+  weight: ['900', '800', '700', '600', '500', '400', '100'],
   style: ['normal'],
 });
 

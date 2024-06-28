@@ -10,18 +10,26 @@
   --Subheading2: 36px;
   --Subheading3: 32px;
   --GhostWhite: #f8f8ff;
-  --GhostWhiteVariant:#EFEFFF;
+  --GhostWhiteSub: #f8f8ff;
+  --GhostWhiteVariant: #EFEFFF;
   --skyBlue: #3399ff;
   --persianRose: #ff0099;
   --cherryPie: #330066;
   --navyBlue: #000066;
   --BondBlack: #070707;
-  --BondBlackVariant:#3E3E3E;
+  --BondBlackVariant: #3E3E3E;
+  --BondBlackSub: #5c5b5b;
   --cherryPieSub: #d2a4ff;
+  --cherryPieVariant: #6600cc;
+  --cherryPieVariantSub: #9834fc;
+  --cherryPieBlue: #7240fc;
+  --cherryPieBlueVariant: #5d1df1;
   --errorRed: red;
   --grey: #b8b8b8;
   --greyVariant: #d3d3d3;
+  --grey-500: #4D4B52;
 }
+
 body {
   margin: 0px;
   padding: 0px;

@@ -68,10 +68,9 @@
 
 @media (990px<= width <1200px) {
   .container {
-    margin: 40px;
     display: flex;
     justify-content: space-between;
-    padding: 0px;
+    padding: 40px;
   }
 }
 @media (max-width: 990px) {

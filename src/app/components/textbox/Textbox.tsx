@@ -1,18 +1,23 @@
+// NOTE
+// This is the old `TextBox` component. We will be slowly moving towards the new `TextBox`
+// component placed in the `formInputs` folder - which utilizes `react-hook-form`
+
 import { ChangeEvent } from 'react';
 import styles from './textbox.module.css';
 import Typography, { TypographyVariant } from '../typography/Typography';
+import classNames from 'classnames';
+import { TEXTBOX_VARIANT as TextboxVariant } from '@/app/utilities/constants';
 
-export enum TextboxVariant {
-  LONG = 'long',
-  LONGER = 'longer',
-  REGULAR = 'regular',
-}
+// NOTE
+// This is for synchronization purpose and to avoid multiple changes throughout
+// the application for the time being
+export { TextboxVariant };
 
 type TextBoxProps = {
   name: string;
   label: string;
   type: string;
-  value: string;
+  value?: string | undefined;
   required: boolean;
   placeholder: string;
   errorMessage?: string;
@@ -22,39 +27,50 @@ type TextBoxProps = {
   onBlur?: () => void;
 };
 
-export default function TextBox(props: TextBoxProps) {
-  let textBoxClass = props.className ? props.className : styles.textBox;
-  if (props.errorMessage) {
-    textBoxClass = `${textBoxClass} ${styles.textboxError}`;
-  }
-  if (props.variant === TextboxVariant.LONG) {
-    textBoxClass = `${textBoxClass} ${styles.long}`;
-  } else if (props.variant === TextboxVariant.LONGER) {
-    textBoxClass = `${textBoxClass} ${styles.longer}`;
-  }
+export default function TextBox({
+  className,
+  errorMessage,
+  variant,
+  name,
+  label,
+  type,
+  value,
+  placeholder,
+  required,
+  onBlur,
+  onChange,
+}: TextBoxProps) {
+  const inputClassName = classNames(
+    className || styles.textBox,
+    errorMessage && styles.textboxError,
+    {
+      [styles.long]: variant === TextboxVariant.LONG,
+      [styles.longer]: variant === TextboxVariant.LONGER,
+    }
+  );
 
   return (
     <div className={styles.textBoxContainer}>
-      <label htmlFor={props.name} className={styles.label}>
+      <label htmlFor={name} className={styles.label}>
         <Typography
           variant={TypographyVariant.Body2}
-          color={props.errorMessage && 'red'}
+          color={errorMessage && 'red'}
         >
-          {props.label}
+          {label}
         </Typography>
       </label>
       <input
-        name={props.name}
-        type={props.type}
-        value={props.value}
-        onChange={props.onChange}
-        required={props.required}
-        placeholder={props.placeholder}
-        className={textBoxClass}
-        onBlur={props.onBlur}
+        name={name}
+        type={type}
+        value={value}
+        onChange={onChange}
+        required={required}
+        placeholder={placeholder}
+        className={inputClassName}
+        onBlur={onBlur}
       />
-      {props.errorMessage && (
-        <span className={styles.errorMessage}>{props.errorMessage}</span>
+      {errorMessage && (
+        <span className={styles.errorMessage}>{errorMessage}</span>
       )}
     </div>
   );
