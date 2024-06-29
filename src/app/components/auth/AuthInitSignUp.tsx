@@ -21,11 +21,17 @@ import AuthFormHeader from './AuthFormHeader';
 import AuthFormFooter from './AuthFormFooter';
 import { SignUpOutput, signUp } from 'aws-amplify/auth';
 import { FORM_STATE } from '@/app/utilities/auth/constants';
-import { useState } from 'react';
 import LoaderWrapper from '../loader/LoaderWrapper';
 import toast from 'react-hot-toast';
 import { notifyError } from '@/app/utilities/common';
 import AuthVerifyForm from './AuthVerifyForm';
+import { useAppSelector } from '@/app/redux/store';
+import { useDispatch } from 'react-redux';
+import {
+  setFormState,
+  setUsername,
+} from '@/app/redux/features/form/form-slice';
+import { setIsLoading } from '@/app/redux/features/loader/loader-slice';
 
 interface SignUpFieldValues extends FieldValues {
   email: string;
@@ -38,17 +44,20 @@ const AuthInitSignUp: React.FC = () => {
     mode: 'onBlur',
   });
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [formState, setFormState] = useState<FORM_STATE>(
-    FORM_STATE.INITIALIZED
-  );
-  const [username, setUsername] = useState<string>('');
+  const isLoading = useAppSelector((state) => state.loaderReducer.isLoading);
+  const formState = useAppSelector((state) => state.formReducer.formState);
+  const username = useAppSelector((state) => state.formReducer.username);
+  const dispatch = useDispatch();
+
+  function setDispatchLoading(isDisptachLoading: boolean): void {
+    dispatch(setIsLoading(isDisptachLoading));
+  }
 
   const onSubmit = async (data: SignUpFieldValues) => {
     const { email, password } = data;
 
-    setUsername('');
-    setIsLoading(true);
+    dispatch(setUsername(''));
+    setDispatchLoading(true);
 
     try {
       const { nextStep }: SignUpOutput = await signUp({
@@ -65,15 +74,15 @@ const AuthInitSignUp: React.FC = () => {
       const { signUpStep } = nextStep;
 
       if (signUpStep === FORM_STATE.CONFIRM_SIGN_UP) {
-        setUsername(email);
-        setFormState(signUpStep as FORM_STATE);
+        dispatch(setUsername(email));
+        dispatch(setFormState(signUpStep as FORM_STATE));
       } else {
         toast(TOAST_DEV_IN_PROGRESS_MESSAGE);
       }
     } catch (ex) {
       notifyError(ex as object);
     } finally {
-      setIsLoading(false);
+      setDispatchLoading(false);
     }
   };
 
@@ -87,7 +96,10 @@ const AuthInitSignUp: React.FC = () => {
     >
       <AuthFormHeader />
       {isConfirming && (
-        <AuthVerifyForm username={username} setIsLoading={setIsLoading} />
+        <AuthVerifyForm
+          username={username ?? ''}
+          setIsLoading={setDispatchLoading}
+        />
       )}
       <Form
         methods={methods}

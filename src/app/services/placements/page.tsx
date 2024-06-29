@@ -3,7 +3,7 @@ import Typography, {
   TypographyVariant,
 } from '@/app/components/typography/Typography';
 import { Metadata } from 'next';
-import { META_KEY } from '../../../app/utilities/constants';
+import { META_KEY } from '../../utilities/constants';
 import { createMetadata } from '@/app/utilities/common';
 import Subscribe from '@/app/components/subscribe/subscribe';
 import Contact from '@/app/components/contact/Contact';

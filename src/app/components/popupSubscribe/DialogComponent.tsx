@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import TextBox from '@/app/components/formElements/TextBox/TextBox';
 import ActionButton from '../buttons/ActionButton';
 import CRMCreateResponseInterface from '@/app/interfaces/CRMCreateResponseInterface';
@@ -17,15 +17,20 @@ import Form from '@/app/components/formElements/Form';
 import { FieldValues, UseFormReturn, useForm } from 'react-hook-form';
 import { notifyError } from '@/app/utilities/common';
 import LoaderWrapper from '../loader/LoaderWrapper';
+import { FORM_STATE } from '@/app/utilities/auth/constants';
+import { useAppSelector } from '@/app/redux/store';
+import { useDispatch } from 'react-redux';
+import { setIsLoading } from '@/app/redux/features/loader/loader-slice';
+import { setFormState } from '@/app/redux/features/form/form-slice';
 
 interface SubscribeFieldValues extends FieldValues {
   email: string;
 }
 
 const DialogPopUp: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const [submissionSuccess, setSubmissionSuccess] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
+  const isLoading = useAppSelector((state) => state.loaderReducer.isLoading);
+  const formState = useAppSelector((state) => state.formReducer.formState);
+  const dispatch = useDispatch();
   const popupRef = useRef<HTMLDivElement | null>(null);
 
   useClickOutside(onClose);
@@ -38,19 +43,19 @@ const DialogPopUp: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       email: data.email,
     };
 
-    setIsLoading(true);
+    dispatch(setIsLoading(true));
 
     try {
       const outcome: CRMCreateResponseInterface =
         await registerSubscriptionData(userSubscriptionData);
 
       if (outcome.id || !outcome) {
-        setSubmissionSuccess(true);
+        dispatch(setFormState(FORM_STATE.DONE));
       }
     } catch (error) {
       notifyError(error as object);
     } finally {
-      setIsLoading(false);
+      dispatch(setIsLoading(false));
     }
   };
 
@@ -81,7 +86,7 @@ const DialogPopUp: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 className={styles.formColumnWrapper}
                 expandLoaderWidth
               >
-                {!submissionSuccess ? (
+                {formState !== FORM_STATE.DONE ? (
                   <>
                     <div>
                       <p className={styles.title}>

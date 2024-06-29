@@ -1,6 +1,13 @@
 import React, { createElement } from 'react';
 import styles from './typography.module.css';
 import classNames from 'classnames';
+import { Poppins } from 'next/font/google';
+
+export const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['900', '800', '700', '600', '500', '400', '100'],
+  style: ['normal'],
+});
 
 export enum TypographyVariant {
   H1 = 'h1',

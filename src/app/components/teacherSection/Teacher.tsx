@@ -1,17 +1,21 @@
 'use client';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styles from './teacher.module.css';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import ActionButton from '../buttons/ActionButton';
 import DialogPopUp from '../popupSubscribe/DialogComponent';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
+import { useAppSelector } from '@/app/redux/store';
+import { useDispatch } from 'react-redux';
+import { toggleModal } from '@/app/redux/features/modal/modal-slice';
 
 export default function Teacher() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const isModalOpen = useAppSelector((state) => state.modalReducer.isModalOpen);
+  const dispatch = useDispatch();
 
-  const toggleModal = useCallback(() => {
-    setIsModalOpen(!isModalOpen);
-  }, [isModalOpen]);
+  const handleToggleModal = useCallback(() => {
+    dispatch(toggleModal());
+  }, [dispatch]);
 
   useEffect(() => {
     document.body.style.overflow = isModalOpen ? 'hidden' : 'auto';
@@ -34,10 +38,10 @@ export default function Teacher() {
       <ActionButton
         label='Subscribe Us'
         style={BUTTON_STYLE.Primary}
-        onClick={toggleModal}
+        onClick={handleToggleModal}
         className={'mt-4'}
       />
-      {isModalOpen && <DialogPopUp onClose={toggleModal} />}
+      {isModalOpen && <DialogPopUp onClose={handleToggleModal} />}
     </div>
   );
 }

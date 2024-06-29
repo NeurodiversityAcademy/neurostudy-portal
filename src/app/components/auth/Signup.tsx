@@ -5,10 +5,10 @@ import AuthLeftBanner from './AuthLeftBanner';
 import classNames from 'classnames';
 import AuthInitSignUp from './AuthInitSignUp';
 import AuthFinishSignUp from './AuthFinishSignUp';
-import { useRootContext } from '@/app/root-provider';
+import { useAppSelector } from '@/app/redux/store';
 
 const SignUp = () => {
-  const { user } = useRootContext();
+  const user = useAppSelector((state) => state.authReducer.user);
 
   return (
     <main className={styles.container}>

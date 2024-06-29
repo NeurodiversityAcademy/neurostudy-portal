@@ -22,8 +22,14 @@ import { FORM_STATE } from '@/app/utilities/auth/constants';
 import { useRouter } from 'next/navigation';
 import { notifyError } from '@/app/utilities/common';
 import LoaderWrapper from '../loader/LoaderWrapper';
-import { useState } from 'react';
 import AuthVerifyForm from './AuthVerifyForm';
+import { useAppSelector } from '@/app/redux/store';
+import { useDispatch } from 'react-redux';
+import { setIsLoading } from '@/app/redux/features/loader/loader-slice';
+import {
+  setFormState,
+  setUsername,
+} from '@/app/redux/features/form/form-slice';
 
 interface LoginFieldValues extends FieldValues {
   username: string;
@@ -36,18 +42,21 @@ const Login = () => {
     mode: 'onBlur',
   });
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [username, setUsername] = useState<string>('');
-  const [formState, setFormState] = useState<FORM_STATE>(
-    FORM_STATE.INITIALIZED
-  );
+  const isLoading = useAppSelector((state) => state.loaderReducer.isLoading);
+  const username = useAppSelector((state) => state.formReducer.username);
+  const formState = useAppSelector((state) => state.formReducer.formState);
+  const dispatch = useDispatch();
 
   const isConfirming = formState === FORM_STATE.CONFIRM_SIGN_UP;
+
+  function setDispatchLoading(isDisptachLoading: boolean): void {
+    dispatch(setIsLoading(isDisptachLoading));
+  }
 
   const onSubmit = async (data: LoginFieldValues) => {
     const { username, password } = data;
 
-    setIsLoading(true);
+    setDispatchLoading(true);
 
     try {
       const {
@@ -59,15 +68,15 @@ const Login = () => {
         // https://trello.com/c/suoF46yg/131-infrastructure-key-constant-based-url-setup
         router.replace(isConfirming ? '/auth/signup' : '/');
       } else if (signInStep === FORM_STATE.CONFIRM_SIGN_UP) {
-        setUsername(username);
-        setFormState(signInStep as FORM_STATE);
+        dispatch(setUsername(username));
+        dispatch(setFormState(signInStep as FORM_STATE));
       } else {
         toast(TOAST_DEV_IN_PROGRESS_MESSAGE);
       }
     } catch (ex) {
       notifyError(ex as object);
     } finally {
-      setIsLoading(false);
+      setDispatchLoading(false);
     }
   };
 
@@ -84,8 +93,8 @@ const Login = () => {
             <AuthFormHeader title='Login' subText='to your account' />
             {isConfirming && (
               <AuthVerifyForm
-                username={username}
-                setIsLoading={setIsLoading}
+                username={username ?? ''}
+                setIsLoading={setDispatchLoading}
                 onSuccess={methods.handleSubmit(onSubmit)}
               />
             )}

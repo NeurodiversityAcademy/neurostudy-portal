@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+
 import TextBox from '@/app/components/formElements/TextBox/TextBox';
 import TextArea from '@/app/components/formElements/TextArea/TextArea';
 import ActionButton from '../buttons/ActionButton';
@@ -19,6 +19,11 @@ import { FieldValues, UseFormReturn, useForm } from 'react-hook-form';
 import { notifyError } from '@/app/utilities/common';
 import useWindowWidth from '@/app/hooks/useWindowWidth';
 import LoaderWrapper from '../loader/LoaderWrapper';
+import { FORM_STATE } from '@/app/utilities/auth/constants';
+import { useAppSelector } from '@/app/redux/store';
+import { useDispatch } from 'react-redux';
+import { setIsLoading } from '@/app/redux/features/loader/loader-slice';
+import { resetForm, setFormState } from '@/app/redux/features/form/form-slice';
 
 interface ContactFieldValues extends FieldValues {
   firstname: string;
@@ -30,9 +35,9 @@ interface ContactFieldValues extends FieldValues {
 }
 
 const ContactUsForm: React.FC = () => {
-  const [submissionSuccess, setSubmissionSuccess] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
+  const isLoading = useAppSelector((state) => state.loaderReducer.isLoading);
+  const formState = useAppSelector((state) => state.formReducer.formState);
+  const dispatch = useDispatch();
   const windowWidth = useWindowWidth();
 
   const methods: UseFormReturn<ContactFieldValues> =
@@ -50,19 +55,20 @@ const ContactUsForm: React.FC = () => {
       message,
     };
 
-    setIsLoading(true);
+    dispatch(setIsLoading(true));
 
     try {
       const outcome = (await registerContactData(
         userRegistrationData
       )) as CRMCreateResponseInterface;
       if (outcome.id) {
-        setSubmissionSuccess(true);
+        dispatch(setFormState(FORM_STATE.DONE));
       }
     } catch (error) {
       notifyError(error as object);
     } finally {
-      setIsLoading(false);
+      dispatch(setIsLoading(false));
+      setTimeout(() => dispatch(resetForm()), 2000);
     }
   };
 
@@ -76,7 +82,7 @@ const ContactUsForm: React.FC = () => {
           >
             Contact Us
           </Typography>
-          {submissionSuccess ? (
+          {formState === FORM_STATE.DONE ? (
             <Typography variant={TypographyVariant.Body1}>
               Thank you for contacting us. We will get back to you shortly.
             </Typography>
