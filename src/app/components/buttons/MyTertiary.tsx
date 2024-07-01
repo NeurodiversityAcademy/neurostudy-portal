@@ -1,5 +1,5 @@
 import React from 'react';
-import CircleRight from '../../images/CircleRightOrg.svg';
+import CircleRight from '../../images/CircleRightOrg.jpg';
 import ActionButton from './ActionButton';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 

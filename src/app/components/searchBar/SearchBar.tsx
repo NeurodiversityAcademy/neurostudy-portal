@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import dropdownOptions from '../selectOptions/searchOptionsData.json';
 import styles from './searchBar.module.css';
-import Search from '../../images/Search.svg';
+import Search from '../../images/Search.jpg';
 import ActionButton from '../buttons/ActionButton';
 import SearchSelect from '../searchSelect/SearchSelect';
 

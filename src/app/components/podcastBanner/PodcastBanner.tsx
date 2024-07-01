@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './PodcastBanner.module.css';
-import Banner from '../../images/podcast-banner.svg';
+import Banner from '../../images/podcast-banner.jpg';
 import Image from 'next/image';
 
 export default function PodcastBanner() {

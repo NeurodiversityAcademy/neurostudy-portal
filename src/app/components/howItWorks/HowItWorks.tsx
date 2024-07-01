@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './howItWorks.module.css';
 import Image from 'next/image';
-import explore from '../../images/stepsExplore.svg';
-import enquire from '../../images/stepsEnquire.svg';
-import profile from '../../images/stepsProfile.svg';
-import quality from '../../images/stepsQuality.svg';
-import guide from '../../images/stepsGuide.svg';
+import explore from '../../images/stepsExplore.jpg';
+import enquire from '../../images/stepsEnquire.jpg';
+import profile from '../../images/stepsProfile.jpg';
+import quality from '../../images/stepsQuality.jpg';
+import guide from '../../images/stepsGuide.jpg';
 import Typography, { TypographyVariant } from '../typography/Typography';
 
 export default function HowItWorks() {

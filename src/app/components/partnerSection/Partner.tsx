@@ -8,10 +8,10 @@ import Typography, {
 import LeftArrow from '../../images/arrow_left.png';
 import RightArrow from '../../images/arrow_right.png';
 import useEmblaCarouse from 'embla-carousel-react';
-import InclusiveChange from '../../images/logo_inclusive_change.svg';
-import GritNFlow from '../../images/logo_grit_and_flow.svg';
-import TechDiversity from '../../images/logo_tech_diversity.svg';
-import Unify360 from '../../images/logo_unify360.svg';
+import InclusiveChange from '../../images/logo_inclusive_change.jpg';
+import GritNFlow from '../../images/logo_grit_and_flow.jpg';
+import TechDiversity from '../../images/logo_tech_diversity.jpg';
+import Unify360 from '../../images/logo_unify360.jpg';
 
 export default function Partner() {
   const [emblaRef, emblaApi] = useEmblaCarouse({ loop: true, skipSnaps: true });

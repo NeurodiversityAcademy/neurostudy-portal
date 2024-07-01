@@ -1,5 +1,5 @@
 import React from 'react';
-import Search from '../../images/SearchOrg.svg';
+import Search from '../../images/SearchOrg.jpg';
 import ActionButton from './ActionButton';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 

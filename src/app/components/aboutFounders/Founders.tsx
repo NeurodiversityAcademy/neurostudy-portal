@@ -1,8 +1,8 @@
 'use client';
 import React from 'react';
 import Image from 'next/image';
-import Will from '../../images/Will.svg';
-import Pratik from '../../images/Pratik.svg';
+import Will from '../../images/Will.jpg';
+import Pratik from '../../images/Pratik.jpg';
 import linkedin from '../../images/linkedin.svg';
 
 import Typography, { TypographyVariant } from '../typography/Typography';

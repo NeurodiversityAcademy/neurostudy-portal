@@ -1,6 +1,6 @@
 import ActionButton from '../buttons/ActionButton';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
-import CircleRight from '../../images/CircleRightOrg.svg';
+import CircleRight from '../../images/CircleRightOrg.jpg';
 import styles from './learnMore.module.css';
 
 interface LearnMoreProps {

@@ -2,12 +2,12 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './footer.module.css';
-import footerLogo from '../../images/footerLogo.svg';
+import footerLogo from '../../images/footerLogo.jpg';
 import Typography, { TypographyVariant } from '../typography/Typography';
-import facebookIcon from '../../images/facebook.svg';
-import linkedinIcon from '../../images/linkedin.svg';
-import instagramicon from '../../images/instagram.svg';
-import twitterIcon from '../../images/twitter.svg';
+import facebookIcon from '../../images/facebook.jpg';
+import linkedinIcon from '../../images/linkedin.jpg';
+import instagramicon from '../../images/instagram.jpg';
+import twitterIcon from '../../images/twitter.jpg';
 
 export default function Footer() {
   return (

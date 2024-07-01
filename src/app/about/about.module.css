@@ -4,7 +4,7 @@
 .container {
   height: 700px;
   width: 100vw;
-  background-image: url('../../app/images/ImageGroupDesktop.svg');
+  background-image: url('../../app/images/ImageGroupDesktop.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -13,7 +13,7 @@
   justify-content: center;
 }
 .subContainer {
-  background-image: url('../../app/images/imageEffectDesktop.svg');
+  background-image: url('../../app/images/imageEffectDesktop.jpg');
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -28,10 +28,10 @@
 
 @media (max-width: 800px) {
   .container {
-    background-image: url('../../app/images/imageGroupMobile.svg');
+    background-image: url('../../app/images/imageGroupMobile.jpg');
   }
   .subContainer {
-    background-image: url('../../app/images/imageEffectMobile.svg');
+    background-image: url('../../app/images/imageEffectMobile.jpg');
     position: absolute;
     bottom: 0;
     width: 100%;
