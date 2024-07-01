@@ -4,12 +4,12 @@ import Image from 'next/image';
 
 import Typography, { TypographyVariant } from '../typography/Typography';
 import styles from './values.module.css';
-import support from '../../images/valuesSupport.svg';
-import respect from '../../images/valuesRespect.svg';
-import safety from '../../images/valuesSafety.svg';
-import innovation from '../../images/valueInnovation.svg';
-import fun from '../../images/valueFun.svg';
-import leadership from '../../images/valueLeadership.svg';
+import support from '../../images/valuesSupport.jpg';
+import respect from '../../images/valuesRespect.jpg';
+import safety from '../../images/valuesSafety.jpg';
+import innovation from '../../images/valueInnovation.jpg';
+import fun from '../../images/valueFun.jpg';
+import leadership from '../../images/valueLeadership.jpg';
 
 export default function Values() {
   return (

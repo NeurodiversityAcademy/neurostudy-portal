@@ -4,8 +4,8 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 // import MyLogin from '../buttons/MyLogin';
 import Image from 'next/image';
-import Logo from '../../images/Logo-navbar.svg';
-import Hamburger from '../../images/hamburgerMenu.svg';
+import Logo from '../../images/Logo-navbar.jpg';
+import Hamburger from '../../images/hamburgerMenu.jpg';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import UserOutlet from './UserOutlet';
 

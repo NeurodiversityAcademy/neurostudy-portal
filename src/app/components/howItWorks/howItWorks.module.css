@@ -28,7 +28,7 @@
     align-items: center;
     color: var(--bondBlack);
     gap: auto;
-    background-image: url('../../images/stepsLine4.svg');
+    background-image: url('../../images/stepsLine4.jpg');
   }
   .gridItem1 {
     display: flex;
@@ -37,7 +37,7 @@
     align-items: center;
     color: var(--bondBlack);
     gap: auto;
-    background-image: url('../../images/stepsLine.svg');
+    background-image: url('../../images/stepsLine.jpg');
   }
   .gridItem5 {
     display: flex;
@@ -46,7 +46,7 @@
     align-items: center;
     color: var(--bondBlack);
     gap: auto;
-    background-image: url('../../images/stepsLine5.svg');
+    background-image: url('../../images/stepsLine5.jpg');
     margin: 0px;
   }
   .gridItem span {
@@ -93,6 +93,6 @@
     padding-bottom: 1vh;
   }
   .stepsGrid {
-    background-image: url('../../images/stepsline1Mobile.svg');
+    background-image: url('../../images/stepsline1Mobile.jpg');
   }
 }

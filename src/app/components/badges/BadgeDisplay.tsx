@@ -1,9 +1,9 @@
 import React from 'react';
 import Image from 'next/image';
 import styles from './badgeDisplay.module.css';
-import goldBadge from '../../images/goldBadge.svg';
-import silverBadge from '../../images/silverBadge.svg';
-import bronzeBadge from '../../images/bronzeBadge.svg';
+import goldBadge from '../../images/goldBadge.jpg';
+import silverBadge from '../../images/silverBadge.jpg';
+import bronzeBadge from '../../images/bronzeBadge.jpg';
 
 export default function BadgeDisplay() {
   return (

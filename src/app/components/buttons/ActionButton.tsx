@@ -1,14 +1,14 @@
 'use client';
 import React from 'react';
 import styles from './button.module.css';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 import classNames from 'classnames';
 import Link from 'next/link';
 
 interface ActionButtonProps {
   label: string;
-  icon?: string;
+  icon?: StaticImageData;
   style?: BUTTON_STYLE;
   disabled?: boolean;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void | undefined;

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Search from '../../images/Search.svg';
+import Search from '../../images/Search.jpg';
 import ActionButton from './ActionButton';
 
 export default function myPrimary() {

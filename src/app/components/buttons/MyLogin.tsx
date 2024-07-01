@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import ArrowDownCircle from '../../images/arrowDownCircle.svg';
+import ArrowDownCircle from '../../images/arrowDownCircle.jpg';
 import ActionButton from './ActionButton';
 import styles from './button.module.css';
 
