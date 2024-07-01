@@ -13,6 +13,9 @@ export const PHONE_REGEX = /^(?:\+61|0)?[2-9]\d{8}$/;
 
 export const NAME_REGEX = /^[a-zA-Z0-9. -]+$/;
 
+export const PASSWORD_REGEX =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
 export enum BUTTON_STYLE {
   Primary = 'primary',
   Secondary = 'secondary',

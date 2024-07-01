@@ -7,10 +7,11 @@ import styles from './auth.module.css';
 import commonStyles from '@/app/styles/common.module.css';
 import Form from '@/app/components/formElements/Form';
 import { FieldValues, UseFormReturn, useForm } from 'react-hook-form';
-import TextBox from '@/app/components/formElements/TextBox';
+import TextBox from '@/app/components/formElements/TextBox/TextBox';
 import {
   BUTTON_STYLE,
   EMAIL_REGEX,
+  PASSWORD_REGEX,
   TOAST_DEV_IN_PROGRESS_MESSAGE,
 } from '@/app/utilities/constants';
 import classNames from 'classnames';
@@ -20,11 +21,17 @@ import AuthFormHeader from './AuthFormHeader';
 import AuthFormFooter from './AuthFormFooter';
 import { SignUpOutput, signUp } from 'aws-amplify/auth';
 import { FORM_STATE } from '@/app/utilities/auth/constants';
-import { useState } from 'react';
 import LoaderWrapper from '../loader/LoaderWrapper';
 import toast from 'react-hot-toast';
 import { notifyError } from '@/app/utilities/common';
 import AuthVerifyForm from './AuthVerifyForm';
+import { useAppSelector } from '@/app/redux/store';
+import { useDispatch } from 'react-redux';
+import {
+  setFormState,
+  setUsername,
+} from '@/app/redux/features/form/form-slice';
+import { setIsLoading } from '@/app/redux/features/loader/loader-slice';
 
 interface SignUpFieldValues extends FieldValues {
   email: string;
@@ -33,20 +40,24 @@ interface SignUpFieldValues extends FieldValues {
 }
 
 const AuthInitSignUp: React.FC = () => {
-  const { control, handleSubmit }: UseFormReturn<SignUpFieldValues> =
-    useForm<SignUpFieldValues>({ mode: 'onBlur' });
+  const methods: UseFormReturn<SignUpFieldValues> = useForm<SignUpFieldValues>({
+    mode: 'onBlur',
+  });
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [formState, setFormState] = useState<FORM_STATE>(
-    FORM_STATE.INITIALIZED
-  );
-  const [username, setUsername] = useState<string>('');
+  const isLoading = useAppSelector((state) => state.loaderReducer.isLoading);
+  const formState = useAppSelector((state) => state.formReducer.formState);
+  const username = useAppSelector((state) => state.formReducer.username);
+  const dispatch = useDispatch();
+
+  function setDispatchLoading(isDisptachLoading: boolean): void {
+    dispatch(setIsLoading(isDisptachLoading));
+  }
 
   const onSubmit = async (data: SignUpFieldValues) => {
     const { email, password } = data;
 
-    setUsername('');
-    setIsLoading(true);
+    dispatch(setUsername(''));
+    setDispatchLoading(true);
 
     try {
       const { nextStep }: SignUpOutput = await signUp({
@@ -63,15 +74,15 @@ const AuthInitSignUp: React.FC = () => {
       const { signUpStep } = nextStep;
 
       if (signUpStep === FORM_STATE.CONFIRM_SIGN_UP) {
-        setUsername(email);
-        setFormState(signUpStep as FORM_STATE);
+        dispatch(setUsername(email));
+        dispatch(setFormState(signUpStep as FORM_STATE));
       } else {
         toast(TOAST_DEV_IN_PROGRESS_MESSAGE);
       }
     } catch (ex) {
       notifyError(ex as object);
     } finally {
-      setIsLoading(false);
+      setDispatchLoading(false);
     }
   };
 
@@ -85,11 +96,14 @@ const AuthInitSignUp: React.FC = () => {
     >
       <AuthFormHeader />
       {isConfirming && (
-        <AuthVerifyForm username={username} setIsLoading={setIsLoading} />
+        <AuthVerifyForm
+          username={username ?? ''}
+          setIsLoading={setDispatchLoading}
+        />
       )}
       <Form
-        control={control}
-        onSubmit={handleSubmit(onSubmit)}
+        methods={methods}
+        onSubmit={methods.handleSubmit(onSubmit)}
         className={classNames(isConfirming && commonStyles.hide)}
       >
         <TextBox
@@ -107,6 +121,7 @@ const AuthInitSignUp: React.FC = () => {
           required
           placeholder='Password'
           autoComplete='new-password'
+          pattern={PASSWORD_REGEX}
         />
         <TextBox
           name='repeatPassword'
@@ -118,7 +133,7 @@ const AuthInitSignUp: React.FC = () => {
           rules={{
             validate: (value) => {
               return (
-                value == control._formValues.password ||
+                value == methods.control._formValues.password ||
                 'Should match the password field'
               );
             },

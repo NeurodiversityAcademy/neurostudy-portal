@@ -1,8 +1,8 @@
 'use client';
 
 import { ChangeEvent, ReactNode } from 'react';
-import styles from './textBox.module.css';
-import Typography, { TypographyVariant } from '../typography/Typography';
+import styles from './textarea.module.css';
+import Typography, { TypographyVariant } from '../../typography/Typography';
 import classNames from 'classnames';
 import {
   Controller,
@@ -10,58 +10,46 @@ import {
   Path,
   PathValue,
   RegisterOptions,
-  ValidationRule,
+  useFormContext,
 } from 'react-hook-form';
-import { useFormContext } from './formContext';
+import { TEXTBOX_COL_WIDTH } from '../TextBox/TextBox';
 
-export enum TEXTBOX_COL_WIDTH {
-  SMALLER = 3,
-  SMALL = 4,
-  HALF = 6,
-  FULL = 12,
-}
-
-interface TextBoxProps<TFieldValues extends FieldValues> {
+interface TextAreaProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>;
   label: string;
   showLabel?: boolean;
-  type?: string;
   defaultValue?: PathValue<TFieldValues, Path<TFieldValues>> | undefined;
   required?: boolean;
   placeholder?: string;
   className?: string;
-  pattern?: ValidationRule<RegExp>;
-  onChange?: ((event: ChangeEvent<HTMLInputElement>) => void) | undefined;
+  rows?: number;
+  cols?: TEXTBOX_COL_WIDTH;
+  onChange?: ((event: ChangeEvent<HTMLTextAreaElement>) => void) | undefined;
   onBlur?: () => void;
-  autoComplete?: string;
-  colWidth?: TEXTBOX_COL_WIDTH;
   rules?: Pick<
     RegisterOptions<FieldValues>,
     'maxLength' | 'minLength' | 'validate' | 'required'
   >;
 }
 
-const TextBox = <TFieldValues extends FieldValues>({
-  className,
+const TextArea = <TFieldValues extends FieldValues>({
   name,
   label,
   showLabel = false,
-  type = 'text',
   defaultValue = '' as PathValue<TFieldValues, Path<TFieldValues>>,
-  placeholder,
   required = false,
-  pattern,
+  placeholder,
+  className,
+  rows = 5,
+  cols = TEXTBOX_COL_WIDTH.FULL,
   onChange,
   onBlur,
-  autoComplete,
-  colWidth = TEXTBOX_COL_WIDTH.FULL,
   rules: rootRules,
-}: TextBoxProps<TFieldValues>) => {
+}: TextAreaProps<TFieldValues>) => {
   const { control } = useFormContext();
 
   const rules = {
     required,
-    pattern,
     ...rootRules,
   };
 
@@ -80,7 +68,7 @@ const TextBox = <TFieldValues extends FieldValues>({
         const error = errors[name];
 
         const inputClassName = classNames(
-          styles.input,
+          styles.message,
           className,
           error && styles.error
         );
@@ -88,8 +76,8 @@ const TextBox = <TFieldValues extends FieldValues>({
         return (
           <div
             className={classNames(
-              'border-box-parent col-md-' + colWidth,
-              styles.container
+              'border-box-parent col-md-' + cols,
+              styles.textAreaContainer
             )}
           >
             {showLabel && (
@@ -111,17 +99,17 @@ const TextBox = <TFieldValues extends FieldValues>({
                 </Typography>
               </label>
             )}
-            <input
-              type={type}
+            <textarea
               placeholder={placeholder}
               className={inputClassName}
-              autoComplete={autoComplete}
+              rows={rows}
+              cols={cols}
               {...field}
-              onChange={function (this: HTMLInputElement, ...args) {
+              onChange={function (this: HTMLTextAreaElement, ...args) {
                 field.onChange.apply(this, args);
                 onChange?.apply(this, args);
               }}
-              onBlur={function (this: HTMLInputElement) {
+              onBlur={function (this: HTMLTextAreaElement) {
                 field.onBlur.apply(this);
                 onBlur?.apply(this);
               }}
@@ -138,4 +126,4 @@ const TextBox = <TFieldValues extends FieldValues>({
   );
 };
 
-export default TextBox;
+export default TextArea;

@@ -42,6 +42,11 @@
   object-fit: contain;
 }
 
+.primaryBtn {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
 .successTitle h2 {
   line-height: 2.4rem;
 }
@@ -110,9 +115,8 @@
     line-height: 0.7rem;
   }
 
-  .textArea {
-    width: 80%;
-    margin-bottom: 0rem;
+  .primaryBtn {
+    margin-bottom: 1rem;
   }
 
   .successTitle {
@@ -192,9 +196,8 @@
     line-height: 1.2rem;
   }
 
-  .textArea {
-    width: 80%;
-    margin-bottom: 0rem;
+  .primaryBtn {
+    margin-bottom: 1rem;
   }
 
   .successTitle {

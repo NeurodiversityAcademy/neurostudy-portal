@@ -1,6 +1,6 @@
 'use client';
 import styles from './navbar.module.css';
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 // import MyLogin from '../buttons/MyLogin';
 import Image from 'next/image';
@@ -8,16 +8,22 @@ import Logo from '../../images/Logo-navbar.svg';
 import Hamburger from '../../images/hamburgerMenu.svg';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import UserOutlet from './UserOutlet';
+import { useAppSelector } from '@/app/redux/store';
+import {
+  toggleDropdown,
+  closeDropdown,
+} from '@/app/redux/features/navbar/navbar-slice';
+import { useDispatch } from 'react-redux';
 
 export default function Navbar() {
-  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const isDropdownVisible = useAppSelector(
+    (state) => state.navBarReducer.isDropdownVisible
+  );
+  const dispatch = useDispatch();
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
-  const toggleDropdown = () => {
-    setIsDropdownVisible(!isDropdownVisible);
-  };
-  const closeDropdown = () => {
-    setIsDropdownVisible(false);
+  const handleToggleDropdown = () => {
+    dispatch(toggleDropdown());
   };
 
   useEffect(() => {
@@ -26,7 +32,7 @@ export default function Navbar() {
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
-        closeDropdown();
+        dispatch(closeDropdown());
       }
     };
     if (isDropdownVisible) {
@@ -37,7 +43,7 @@ export default function Navbar() {
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  }, [isDropdownVisible]);
+  }, [isDropdownVisible, dispatch]);
 
   return (
     <nav className={styles.nav}>
@@ -120,13 +126,16 @@ export default function Navbar() {
           className={styles.hamburger}
           src={Hamburger}
           alt='hamburger menu'
-          onClick={toggleDropdown}
+          onClick={handleToggleDropdown}
         />
         <div className={styles.dropdownContainer} ref={dropdownRef}>
           {isDropdownVisible && (
             <ul className={`${styles.dropdownMenu}`}>
               <li className={styles.li}>
-                <Link href='/neurodivergentmates' onClick={toggleDropdown}>
+                <Link
+                  href='/neurodivergentmates'
+                  onClick={handleToggleDropdown}
+                >
                   <Typography variant={TypographyVariant.Body2}>
                     Neurodivergent Mates
                   </Typography>
@@ -135,7 +144,7 @@ export default function Navbar() {
               <li className={styles.li}>
                 <Link
                   href='/services/neurodiversitytraining'
-                  onClick={toggleDropdown}
+                  onClick={handleToggleDropdown}
                 >
                   <Typography variant={TypographyVariant.Body2}>
                     Neurodiversity Training
@@ -145,7 +154,7 @@ export default function Navbar() {
               <li className={styles.li}>
                 <Link
                   href='/services/advisoryconsulting'
-                  onClick={toggleDropdown}
+                  onClick={handleToggleDropdown}
                 >
                   <Typography variant={TypographyVariant.Body2}>
                     Advisory Consulting
@@ -153,35 +162,41 @@ export default function Navbar() {
                 </Link>
               </li>
               <li className={styles.li}>
-                <Link href='/services/networking' onClick={toggleDropdown}>
+                <Link
+                  href='/services/networking'
+                  onClick={handleToggleDropdown}
+                >
                   <Typography variant={TypographyVariant.Body2}>
                     Networking & Workshops
                   </Typography>
                 </Link>
               </li>
               <li className={styles.li}>
-                <Link href='/services/coaching' onClick={toggleDropdown}>
+                <Link href='/services/coaching' onClick={handleToggleDropdown}>
                   <Typography variant={TypographyVariant.Body2}>
                     Career coaching
                   </Typography>
                 </Link>
               </li>
               <li className={styles.li}>
-                <Link href='/services/placements' onClick={toggleDropdown}>
+                <Link
+                  href='/services/placements'
+                  onClick={handleToggleDropdown}
+                >
                   <Typography variant={TypographyVariant.Body2}>
                     Placements
                   </Typography>
                 </Link>
               </li>
               <li className={styles.li}>
-                <Link href='/about' onClick={toggleDropdown}>
+                <Link href='/about' onClick={handleToggleDropdown}>
                   <Typography variant={TypographyVariant.Body2}>
                     About Us
                   </Typography>
                 </Link>
               </li>
               <li className={styles.li}>
-                <Link href='/contact' onClick={toggleDropdown}>
+                <Link href='/contact' onClick={handleToggleDropdown}>
                   <Typography variant={TypographyVariant.Body2}>
                     Contact
                   </Typography>

@@ -6,12 +6,12 @@ export interface MetadataProps {
 }
 
 export interface MetadataParams {
-  title?: string;
-  keywords?: string;
-  description?: string;
-  canonical?: string;
-  type?: META_TYPE;
-  images?:
+  title: string;
+  keywords: string;
+  description: string;
+  canonical: string;
+  type: META_TYPE;
+  images:
     | {
         url: string;
       }[]

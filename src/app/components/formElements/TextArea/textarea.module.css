@@ -1,0 +1,25 @@
+.textAreaContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.label {
+  padding: 0px 3px;
+}
+
+.message{
+  border: 1px solid var(--BondBlack);
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-family: var(--poppin-font);
+  resize: none;
+}
+
+.textAreaError {
+  border: 1px solid var(--errorRed);
+}
+
+.errorMessage {
+  color: var(--errorRed);
+}

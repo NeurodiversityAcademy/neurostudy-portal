@@ -1,35 +1,14 @@
 .container {
   display: flex;
   justify-content: center;
-}
-
-.container form {
-  background-color: var(--GhostWhite);
-  width: 90vw;
-  backdrop-filter: 100px;
-  border-radius: 8px;
-  margin: 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid var(--CherryPie);
-  border-radius: 10px;
+  overflow-x: hidden;
 }
 
 .title {
-  border-right: 2px solid rgb(105, 103, 103);
-
+  border-right: 2px solid var(--grey-300);
   padding: 30px;
-  height: 70vh;
+  height: auto;
   align-items: center;
-}
-
-.closeButton {
-  position: fixed;
-  top: 1%;
-  right: 1%;
-  margin: 0px;
 }
 
 .textboxBody {
@@ -40,88 +19,76 @@
   padding: 30px 50px;
 }
 
-.primaryBtn {
-  margin: 25px auto;
-}
-
-.textArea {
-  margin-bottom: 15px;
-  text-align: left;
-}
-
-.header {
-  margin: 0px;
-  text-align: center;
-}
-
-.header h1 {
-  margin: 0px 0px 40px 0px;
-}
-
-.name {
+.nameArea,
+.phoneArea {
   display: flex;
-  margin-bottom: 15px;
-  gap: 50px;
 }
 
-@media (max-width: 800px) {
-  .container {
-    display: flex;
-    justify-content: center;
-  }
+.emailJobArea {
+  display: flex;
+  width: 70%;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: 0.9rem;
+}
 
-  .container form {
-    background-color: var(--GhostWhite);
-    width: 100vw;
-    backdrop-filter: 100px;
-    border-radius: 8px;
-    display: flex;
+.primaryBtn {
+  width: 80%;
+  margin-top: 1rem;
+  padding: 0 15px;
+}
+
+@media (max-width: 480px) {
+
+  .container {
     flex-direction: column;
-    border: 1px solid var(--CherryPie);
-    border-radius: 10px;
+    align-items: center;
   }
 
   .title {
-    border-bottom: 2px solid rgb(105, 103, 103);
-    border-right: 0px;
-    padding: 30px;
-    margin: 10px 25px;
-    height: fit-content;
     text-align: center;
-    align-items: center;
+    border-right: none;
+    border-bottom: 2px solid var(--grey-300);
+    width: 75%;
+    padding-top: 10px;
   }
 
-  .name {
-    display: flex;
+  .mobileTitle {
+    font-size: var(--heading2-font-size);
+  }
+
+  .nameArea {
     flex-direction: column;
-    margin-bottom: 1px;
-    gap: 0px;
+    gap: 0;
   }
 
-  .textboxBody {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0px 0px;
+  .phoneArea {
+    display: block;
+    gap: 0;
   }
 
-  .textboxBody input {
-    width: 60vw;
+  .secondPhone {
+    display: none;
   }
 
-  .textboxBody textarea {
-    width: 60vw;
+  .emailJobArea {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .messageArea {
+    margin-bottom: 2rem;
   }
 
   .primaryBtn {
-    margin: 1.2rem 0px;
+    margin: 1.2rem auto;
   }
 
-  .success {
-    padding: 10px;
-    display: flex;
-    text-align: center;
-  }
+}
 
+@media (min-width: 1280px) {
+  .nameArea,
+  .phoneArea {
+    gap: 2rem;
+  }
 }

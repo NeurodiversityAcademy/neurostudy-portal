@@ -1,6 +1,6 @@
 // NOTE
 // This is the old `TextBox` component. We will be slowly moving towards the new `TextBox`
-// component placed in the `formInputs` folder - which utilizes `react-hook-form`
+// component placed in the `formElements` folder - which utilizes `react-hook-form`
 
 import { ChangeEvent } from 'react';
 import styles from './textbox.module.css';

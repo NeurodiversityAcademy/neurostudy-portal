@@ -3,28 +3,30 @@
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 import ActionButton from '../buttons/ActionButton';
 import styles from './navbar.module.css';
-import { useRootContext } from '@/app/root-provider';
 import { signOut } from 'aws-amplify/auth';
 import toast from 'react-hot-toast';
 import { notifyError } from '@/app/utilities/common';
 import LoaderWrapper from '../loader/LoaderWrapper';
-import { useState } from 'react';
+import { useAppSelector } from '@/app/redux/store';
+import { useDispatch } from 'react-redux';
+import { setIsLoading } from '@/app/redux/features/loader/loader-slice';
 
 const UserOutlet: React.FC = () => {
-  const { user } = useRootContext();
+  const user = useAppSelector((state) => state.authReducer.user);
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const isLoading = useAppSelector((state) => state.loaderReducer.isLoading);
+  const dispatch = useDispatch();
 
   const onSignOut = () => {
     (async () => {
-      setIsLoading(true);
+      dispatch(setIsLoading(true));
       try {
         await signOut();
         toast.success('Successfully logged out.');
       } catch (ex) {
         notifyError(ex as object);
       } finally {
-        setIsLoading(false);
+        dispatch(setIsLoading(false));
       }
     })();
   };

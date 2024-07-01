@@ -35,8 +35,9 @@
 }
 
 .primaryBtn {
-    margin-top: 20px;
     margin-bottom: 40px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .successTitle {
@@ -91,10 +92,6 @@
         font-size: 0.8rem;
     }
 
-    .primaryBtn {
-        width: 100%;
-    }
-
     .successTitle {
         margin-top: 0;
         text-align: center;
@@ -145,10 +142,6 @@
 
     .inputArea {
         width: 85%;
-    }
-
-    .textArea {
-        margin-bottom: -0.5rem;
     }
 
     .successTitle {
@@ -205,10 +198,6 @@
         width: 80%;
     }
 
-    .textArea {
-        margin-bottom: -0.5rem;
-    }
-
     .successTitle {
         margin-top: 3.8rem;
     }
@@ -262,10 +251,6 @@
 
     .inputArea {
         width: 100%;
-    }
-
-    .textArea {
-        margin-bottom: 1.35rem;
     }
 
     .successTitle {

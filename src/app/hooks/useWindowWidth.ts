@@ -1,14 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { throttle } from '../utilities/common';
+import { useAppSelector } from '../redux/store';
+import { useDispatch } from 'react-redux';
+import { setWindowWidth } from '../redux/features/window/window.slice';
 
-const useWindowWidth = (defaultWidth: number = 1150): number => {
-  const [windowWidth, setWindowWidth] = useState(defaultWidth);
+const useWindowWidth = (): number => {
+  const windowWidth = useAppSelector(
+    (state) => state.windowReducer.windowWidth
+  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setWindowWidth(window.innerWidth);
+    dispatch(setWindowWidth(window.innerWidth));
 
     const updateWidth = throttle(() => {
-      setWindowWidth(window.innerWidth);
+      dispatch(setWindowWidth(window.innerWidth));
     });
 
     window.addEventListener('resize', updateWidth);
@@ -16,7 +22,7 @@ const useWindowWidth = (defaultWidth: number = 1150): number => {
     return () => {
       window.removeEventListener('resize', updateWidth);
     };
-  }, []);
+  }, [dispatch]);
 
   return windowWidth;
 };

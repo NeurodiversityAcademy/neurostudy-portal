@@ -1,3 +1,7 @@
+// NOTE
+// This is the old `TextArea` component. We will be slowly moving towards the new `TextArea`
+// component placed in the `formElements` folder - which utilizes `react-hook-form`
+
 import React, { ChangeEvent } from 'react';
 import styles from './textarea.module.css';
 import Typography, { TypographyVariant } from '../typography/Typography';
