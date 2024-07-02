@@ -12,7 +12,7 @@ import {
 import { FORM_STATE } from '@/app/utilities/auth/constants';
 import { SignUpOutput, autoSignIn, confirmSignUp } from 'aws-amplify/auth';
 import { notifyError } from '@/app/utilities/common';
-import TextBox from '../formElements/TextBox';
+import TextBox from '../formElements/TextBox/TextBox';
 import toast from 'react-hot-toast';
 
 interface PropType {
@@ -30,7 +30,7 @@ const AuthVerifyForm: React.FC<PropType> = ({
   setIsLoading,
   onSuccess,
 }: PropType) => {
-  const { control, handleSubmit }: UseFormReturn<VerificationFieldValues> =
+  const methods: UseFormReturn<VerificationFieldValues> =
     useForm<VerificationFieldValues>({ mode: 'onBlur' });
 
   const onSubmit = async (data: VerificationFieldValues) => {
@@ -66,7 +66,7 @@ const AuthVerifyForm: React.FC<PropType> = ({
   };
 
   return (
-    <Form control={control} onSubmit={handleSubmit(onSubmit)}>
+    <Form methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
       <Typography variant={TypographyVariant.Body3} className='pt-3'>
         Please enter the verification code sent to <b>{username}</b>.
       </Typography>

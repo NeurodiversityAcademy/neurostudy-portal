@@ -70,10 +70,23 @@
   --grey: #b8b8b8;
   --greyVariant: #d3d3d3;
   --grey-500: #4D4B52;
+  --grey-300: #696767;
   --pure-white: #ffffff;
 }
 
 body {
   margin: 0px;
   padding: 0px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.hide {
+  display: none;
+}
+
+.error {
+  border: 1px solid var(--errorRed);
 }

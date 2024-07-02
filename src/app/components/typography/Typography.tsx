@@ -78,7 +78,7 @@ const Typography: React.FC<TypographyProps> = ({
       break;
   }
 
-  props.className = classNames(styles.common, rootClassName, variantClassName);
+  props.className = classNames(styles.common, variantClassName, rootClassName);
 
   return createElement(tag, props, children);
 };

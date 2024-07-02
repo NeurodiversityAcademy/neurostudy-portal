@@ -1,285 +1,259 @@
 .container {
-    width: 80%;
-    display: flex;
-    flex-wrap: nowrap;
-    margin: 0px auto;
-    justify-content: center;
+  width: 80%;
+  display: flex;
+  flex-wrap: nowrap;
+  margin: 0px auto;
+  justify-content: center;
 }
 
 .imageWrapper {
-    position: relative;
-    width: 380px;
-    height: 400px;
-    object-fit: contain;
+  position: relative;
+  width: 380px;
+  height: 400px;
+  object-fit: contain;
 }
 
 .contentWrapper {
-    width: 30%;
-    text-align: left;
+  width: 30%;
+  text-align: left;
 }
 
 .title {
-    font-size: 2rem;
-    line-height: 2.4rem;
-    font-weight: 500;
-    margin-top: 6.5rem;
-    text-overflow: wrap;
-    margin-bottom: -1px;
+  font-size: 2rem;
+  line-height: 2.4rem;
+  font-weight: 500;
+  margin-top: 6.5rem;
+  text-overflow: wrap;
+  margin-bottom: -1px;
 }
 
 .description {
-    color: var(--grey);
-    font-weight: 400;
-    font-size: 1rem;
-    width: 90%;
+  color: var(--grey);
+  font-weight: 400;
+  font-size: 1rem;
+  width: 90%;
 }
 
 .primaryBtn {
-    margin-top: 20px;
-    margin-bottom: 40px;
+  margin-bottom: 40px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .successTitle {
-    margin-top: 28%;
+  margin-top: 28%;
 }
 
 .successTitle h2 {
-    line-height: 2.4rem;
+  line-height: 2.4rem;
 }
 
 .successSpan {
-    font-size: 1rem;
+  font-size: 1rem;
 }
 
 .successH2 {
-    display: block;
+  display: block;
 }
 
 @media (max-width: 480px) {
 
-    .main {
-        width: auto;
-        margin: 0px 0px;
-    }
+  .main {
+    width: auto;
+    margin: 0px 0px;
+  }
 
-    .container {
-        flex-direction: column;
-        margin: 0px;
-        width: 100%;
-        align-items: center;
-    }
+  .container {
+    flex-direction: column;
+    margin: 0px;
+    width: 100%;
+    align-items: center;
+  }
 
-    .imageWrapper {
-        width: 280px;
-        height: 300px;
-    }
+  .imageWrapper {
+    width: 280px;
+    height: 300px;
+  }
 
-    .contentWrapper {
-        width: 70%;
-    }
+  .contentWrapper {
+    width: 70%;
+  }
 
-    .title {
-        margin-top: 10%;
-        text-align: center;
-        font-size: 1.5rem;
-    }
+  .title {
+    margin-top: 10%;
+    text-align: center;
+    font-size: 1.5rem;
+  }
 
-    .description {
-        text-align: center;
-        margin-left: auto;
-        margin-right: auto;
-        font-size: 0.8rem;
-    }
+  .description {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 0.8rem;
+  }
 
-    .primaryBtn {
-        width: 100%;
-    }
+  .successTitle {
+    margin-top: 0;
+    text-align: center;
+  }
 
-    .successTitle {
-        margin-top: 0;
-        text-align: center;
-    }
-
-    .successH2 {
-        display: block;
-        text-wrap: nowrap;
-    }
+  .successH2 {
+    display: block;
+    text-wrap: nowrap;
+  }
 
 }
 
 @media (min-width: 480px) and (max-width: 1024px) {
 
-    .main {
-        width: 100%;
-        margin: 0px 0px;
-    }
+  .main {
+    width: 100%;
+    margin: 0px 0px;
+  }
 
-    .container {
-        width: 80%;
-        margin: 0px auto;
-        justify-content: center;
-    }
+  .container {
+    width: 80%;
+    margin: 0px auto;
+    justify-content: center;
+  }
 
-    .imageWrapper {
-        width: 230px;
-        height: 250px;
-    }
+  .imageWrapper {
+    width: 230px;
+    height: 250px;
+  }
 
-    .contentWrapper {
-        width: 40%;
-    }
+  .contentWrapper {
+    width: 40%;
+  }
 
-    .title {
-        font-size: 1.3rem;
-        line-height: 1.5rem;
-        margin-top: 3.4rem;
-        margin-bottom: -4px;
-        width: 90%;
-    }
+  .title {
+    font-size: 1.3rem;
+    line-height: 1.5rem;
+    margin-top: 3.4rem;
+    margin-bottom: -4px;
+    width: 90%;
+  }
 
-    .description {
-        font-size: 0.65rem;
-        width: 75%;
-        margin-bottom: -1px;
-    }
+  .description {
+    font-size: 0.65rem;
+    width: 75%;
+    margin-bottom: -1px;
+  }
 
-    .inputArea {
-        width: 85%;
-    }
 
-    .textArea {
-        margin-bottom: -0.5rem;
-    }
+  .successTitle {
+    margin-top: 2.4rem;
+  }
 
-    .successTitle {
-        margin-top: 2.4rem;
-    }
+  .successSpan {
+    font-size: 0.8rem;
+  }
 
-    .successSpan {
-        font-size: 0.8rem;
-    }
-
-    .successH2 {
-        font-size: 1.3rem;
-        line-height: 1.8rem;
-    }
+  .successH2 {
+    font-size: 1.3rem;
+    line-height: 1.8rem;
+  }
 
 }
 
 @media (min-width: 1024px) {
 
-    .main {
-        width: 100%;
-        margin: 0px 0px;
-    }
+  .main {
+    width: 100%;
+    margin: 0px 0px;
+  }
 
-    .container {
-        width: 80%;
-        margin: 0px auto;
-        justify-content: center;
-    }
+  .container {
+    width: 80%;
+    margin: 0px auto;
+    justify-content: center;
+  }
 
-    .imageWrapper {
-        width: 270px;
-        height: 300px;
-    }
+  .imageWrapper {
+    width: 270px;
+    height: 300px;
+  }
 
-    .contentWrapper {
-        width: 40%;
-    }
+  .contentWrapper {
+    width: 40%;
+  }
 
-    .title {
-        font-size: 1.4rem;
-        line-height: 1.7rem;
-        margin-top: 4.7rem;
-        margin-bottom: -4px;
-        width: 90%;
-    }
+  .title {
+    font-size: 1.4rem;
+    line-height: 1.7rem;
+    margin-top: 4.7rem;
+    margin-bottom: -4px;
+    width: 90%;
+  }
 
-    .description {
-        font-size: 0.7rem;
-        width: 65%;
-    }
+  .description {
+    font-size: 0.7rem;
+    width: 65%;
+  }
 
-    .inputArea {
-        width: 80%;
-    }
+  .successTitle {
+    margin-top: 3.8rem;
+  }
 
-    .textArea {
-        margin-bottom: -0.5rem;
-    }
+  .successSpan {
+    font-size: 1rem;
+  }
 
-    .successTitle {
-        margin-top: 3.8rem;
-    }
-
-    .successSpan {
-        font-size: 1rem;
-    }
-
-    .successH2 {
-        font-size: 1.6rem;
-        line-height: 1.8rem;
-    }
+  .successH2 {
+    font-size: 1.6rem;
+    line-height: 1.8rem;
+  }
 
 }
 
 @media (min-width: 1280px) {
 
-    .main {
-        width: 63%;
-        margin: 0px auto;
-    }
+  .main {
+    width: 63%;
+    margin: 0px auto;
+  }
 
-    .container {
-        width: 100%;
-        margin: 0px auto 2rem auto;
-    }
+  .container {
+    width: 100%;
+    margin: 0px auto 2rem auto;
+  }
 
-    .imageWrapper {
-        width: 380px;
-        height: 400px;
-        margin-right: -1.4rem;
-    }
+  .imageWrapper {
+    width: 380px;
+    height: 400px;
+    margin-right: -1.4rem;
+  }
 
-    .contentWrapper {
-        width: 40%;
-    }
+  .contentWrapper {
+    width: 40%;
+  }
 
-    .title {
-        font-size: 1.93rem;
-        line-height: 2.3rem;
-        margin-top: 6.2rem;
-        margin-bottom: -4px;
-    }
+  .title {
+    font-size: 1.93rem;
+    line-height: 2.3rem;
+    margin-top: 6.2rem;
+    margin-bottom: -4px;
+  }
 
-    .description {
-        line-height: 1.4rem;
-        font-size: 0.96rem;
-        width: 80%;
-        margin-bottom: 2rem;
-    }
+  .description {
+    line-height: 1.4rem;
+    font-size: 0.96rem;
+    width: 80%;
+    margin-bottom: 2rem;
+  }
 
-    .inputArea {
-        width: 100%;
-    }
+  .successTitle {
+    margin-top: 27%;
+  }
 
-    .textArea {
-        margin-bottom: 1.35rem;
-    }
+  .successSpan {
+    font-size: 1.2rem;
+  }
 
-    .successTitle {
-        margin-top: 27%;
-    }
-
-    .successSpan {
-        font-size: 1.2rem;
-    }
-
-    .successH2 {
-        font-size: 2rem;
-        margin-top: 0rem;
-        line-height: 2.8rem;
-    }
+  .successH2 {
+    font-size: 2rem;
+    margin-top: 0rem;
+    line-height: 2.8rem;
+  }
 
 }

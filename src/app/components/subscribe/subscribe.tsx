@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import TextBox, { TextboxVariant } from '../textbox/Textbox';
+import TextBox from '@/app/components/formElements/TextBox/TextBox';
 import ActionButton from '../buttons/ActionButton';
 import CRMCreateResponseInterface from '@/app/interfaces/CRMCreateResponseInterface';
 import { UserSubscriptionType } from '@/app/interfaces/UserSubscriptionType';
@@ -12,99 +12,104 @@ import MailboxLady from '../../images/mailboxLady.png';
 import Typography, {
   TypographyVariant,
 } from '@/app/components/typography/Typography';
+import { FieldValues, UseFormReturn, useForm } from 'react-hook-form';
+import Form from '@/app/components/formElements/Form';
+import { notifyError } from '@/app/utilities/common';
+import LoaderWrapper from '../loader/LoaderWrapper';
+
+interface SubscribeFieldValues extends FieldValues {
+  email: string;
+}
 
 export default function Subscribe() {
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const [submissionSuccess, setSubmissionSuccess] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const methods: UseFormReturn<SubscribeFieldValues> =
+    useForm<SubscribeFieldValues>({ mode: 'onBlur' });
+
+  const onSubmit = async (data: SubscribeFieldValues) => {
     const userSubscriptionData: UserSubscriptionType = {
-      email: email,
+      email: data.email,
     };
-    if (emailError) {
-      return;
-    } else {
+
+    setIsLoading(true);
+
+    try {
       const outcome: CRMCreateResponseInterface =
         await registerSubscriptionData(userSubscriptionData);
 
       if (outcome.id || !outcome) {
         setSubmissionSuccess(true);
       }
+    } catch (error) {
+      notifyError(error as object);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const [submissionSuccess, setSubmissionSuccess] = useState(false);
-  const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState<string | undefined>();
-
   return (
     <div className={styles.main}>
-      <form onSubmit={(event) => handleSubmit(event)}>
-        <div className={styles.container}>
-          <div className={styles.imageWrapper}>
-            <Image
-              src={MailboxLady}
-              alt='Subscribe to our Newsletter'
-              title='Subscribe to out Newsletter'
-              fill={true}
-              quality={100}
-            />
-          </div>
-          <div className={styles.contentWrapper}>
-            {!submissionSuccess ? (
-              <>
-                <div>
-                  <p className={styles.title}>Subscribe to our Newsletter!</p>
-                </div>
-                <p className={styles.description}>
-                  Be the first to get exclusive offers and latest news
-                </p>
-                <div className={styles.inputArea}>
-                  <div className={styles.textArea}>
-                    <TextBox
-                      variant={TextboxVariant.LONG}
-                      name={'Email'}
-                      label={''}
-                      type={'email'}
-                      value={email}
-                      required={true}
-                      errorMessage={emailError}
-                      placeholder={'Enter your email address'}
-                      onBlur={() =>
-                        !EMAIL_REGEX.test(email)
-                          ? setEmailError('Email Address is invalid')
-                          : setEmailError(undefined)
-                      }
-                      onChange={(e) => setEmail(e.target.value.trim())}
-                    />
-                  </div>
+      <div className={styles.container}>
+        <div className={styles.imageWrapper}>
+          <Image
+            src={MailboxLady}
+            alt='Subscribe to our Newsletter'
+            title='Subscribe to out Newsletter'
+            fill={true}
+            quality={100}
+          />
+        </div>
+        <LoaderWrapper
+          isLoading={isLoading}
+          className={styles.contentWrapper}
+          expandLoaderWidth
+        >
+          {!submissionSuccess ? (
+            <>
+              <p className={styles.title}>Subscribe to our Newsletter!</p>
+              <p className={styles.description}>
+                Be the first to get exclusive offers and latest news
+              </p>
+              <Form methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
+                <TextBox
+                  name='email'
+                  type='email'
+                  label='Email Address'
+                  required
+                  placeholder='Email address'
+                  pattern={EMAIL_REGEX}
+                />
+                <div className='mt-2'>
                   <ActionButton
                     type='submit'
                     label='Subscribe Now'
                     style={BUTTON_STYLE.Primary}
-                    className={styles.primaryBtn}
                     fullWidth
                   />
                 </div>
-              </>
-            ) : (
-              <>
-                <p className={styles.successTitle}>
-                  <Typography variant={TypographyVariant.H2}>
-                    <span className={styles.successSpan}>
-                      Thank you for subscribing to
-                    </span>
-                    <span className={styles.successH2}>
-                      Neurodiversity Academy!
-                    </span>
-                  </Typography>
-                </p>
-                <p className={styles.description}>
-                  Check your email for our exclusive offers and latest news
-                </p>
-              </>
-            )}
-          </div>
-        </div>
-      </form>
+              </Form>
+            </>
+          ) : (
+            <>
+              <p className={styles.successTitle}>
+                <Typography variant={TypographyVariant.H2}>
+                  <span className={styles.successSpan}>
+                    Thank you for subscribing to
+                  </span>
+                  <span className={styles.successH2}>
+                    Neurodiversity Academy!
+                  </span>
+                </Typography>
+              </p>
+              <p className={styles.description}>
+                Check your email for our exclusive offers and latest news
+              </p>
+            </>
+          )}
+        </LoaderWrapper>
+      </div>
     </div>
   );
 }

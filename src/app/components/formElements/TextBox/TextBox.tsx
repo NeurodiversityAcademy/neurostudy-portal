@@ -1,8 +1,7 @@
 'use client';
 
-import { ChangeEvent, ReactNode } from 'react';
+import { ChangeEvent } from 'react';
 import styles from './textBox.module.css';
-import Typography, { TypographyVariant } from '../typography/Typography';
 import classNames from 'classnames';
 import {
   Controller,
@@ -11,15 +10,11 @@ import {
   PathValue,
   RegisterOptions,
   ValidationRule,
+  useFormContext,
 } from 'react-hook-form';
-import { useFormContext } from './formContext';
-
-export enum TEXTBOX_COL_WIDTH {
-  SMALLER = 3,
-  SMALL = 4,
-  HALF = 6,
-  FULL = 12,
-}
+import Label from '../Label/Label';
+import ErrorBox from '../ErrorBox/ErrorBox';
+import { FORM_ELEMENT_COL_WIDTH } from '@/app/utilities/constants';
 
 interface TextBoxProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>;
@@ -34,7 +29,7 @@ interface TextBoxProps<TFieldValues extends FieldValues> {
   onChange?: ((event: ChangeEvent<HTMLInputElement>) => void) | undefined;
   onBlur?: () => void;
   autoComplete?: string;
-  colWidth?: TEXTBOX_COL_WIDTH;
+  colWidth?: FORM_ELEMENT_COL_WIDTH;
   rules?: Pick<
     RegisterOptions<FieldValues>,
     'maxLength' | 'minLength' | 'validate' | 'required'
@@ -54,7 +49,7 @@ const TextBox = <TFieldValues extends FieldValues>({
   onChange,
   onBlur,
   autoComplete,
-  colWidth = TEXTBOX_COL_WIDTH.FULL,
+  colWidth = FORM_ELEMENT_COL_WIDTH.FULL,
   rules: rootRules,
 }: TextBoxProps<TFieldValues>) => {
   const { control } = useFormContext();
@@ -82,7 +77,7 @@ const TextBox = <TFieldValues extends FieldValues>({
         const inputClassName = classNames(
           styles.input,
           className,
-          error && styles.error
+          error && 'error'
         );
 
         return (
@@ -93,23 +88,12 @@ const TextBox = <TFieldValues extends FieldValues>({
             )}
           >
             {showLabel && (
-              <label htmlFor={name} className={styles.label}>
-                <Typography
-                  variant={TypographyVariant.Body2}
-                  color={error && 'red'}
-                >
-                  {label}
-                  {required && '* '}
-                  {required && (
-                    <Typography
-                      variant={TypographyVariant.LABELtext}
-                      color='var(--grey)'
-                    >
-                      (required)
-                    </Typography>
-                  )}
-                </Typography>
-              </label>
+              <Label
+                name={name}
+                color={error && 'red'}
+                label={label}
+                required={required}
+              />
             )}
             <input
               type={type}
@@ -127,9 +111,7 @@ const TextBox = <TFieldValues extends FieldValues>({
               }}
             />
             {error && (
-              <small className={styles.errorMessage}>
-                {(error.message || `${label} is invalid.`) as ReactNode}
-              </small>
+              <ErrorBox message={error.message?.toString()} label={label} />
             )}
           </div>
         );

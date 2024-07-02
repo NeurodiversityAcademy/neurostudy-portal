@@ -4,10 +4,9 @@ import Typography, {
   TypographyVariant,
 } from '@/app/components/typography/Typography';
 import styles from './auth.module.css';
-import commonStyles from '@/app/styles/common.module.css';
 import Form from '@/app/components/formElements/Form';
 import { FieldValues, UseFormReturn, useForm } from 'react-hook-form';
-import TextBox from '@/app/components/formElements/TextBox';
+import TextBox from '@/app/components/formElements/TextBox/TextBox';
 import {
   BUTTON_STYLE,
   EMAIL_REGEX,
@@ -33,8 +32,9 @@ interface SignUpFieldValues extends FieldValues {
 }
 
 const AuthInitSignUp: React.FC = () => {
-  const { control, handleSubmit }: UseFormReturn<SignUpFieldValues> =
-    useForm<SignUpFieldValues>({ mode: 'onBlur' });
+  const methods: UseFormReturn<SignUpFieldValues> = useForm<SignUpFieldValues>({
+    mode: 'onBlur',
+  });
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [formState, setFormState] = useState<FORM_STATE>(
@@ -88,9 +88,9 @@ const AuthInitSignUp: React.FC = () => {
         <AuthVerifyForm username={username} setIsLoading={setIsLoading} />
       )}
       <Form
-        control={control}
-        onSubmit={handleSubmit(onSubmit)}
-        className={classNames(isConfirming && commonStyles.hide)}
+        methods={methods}
+        onSubmit={methods.handleSubmit(onSubmit)}
+        className={classNames(isConfirming && '.hide')}
       >
         <TextBox
           name='email'
@@ -118,7 +118,7 @@ const AuthInitSignUp: React.FC = () => {
           rules={{
             validate: (value) => {
               return (
-                value == control._formValues.password ||
+                value == methods.getValues('password') ||
                 'Should match the password field'
               );
             },
@@ -126,7 +126,7 @@ const AuthInitSignUp: React.FC = () => {
         />
         <Typography
           variant={TypographyVariant.Body2}
-          className={classNames('pt-3', commonStyles.textCenter)}
+          className='pt-3 text-center'
         >
           By signing up, you agree to our{' '}
           <Link href='#'>Terms and Conditions</Link>

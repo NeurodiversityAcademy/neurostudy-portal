@@ -1,196 +1,152 @@
 'use client';
 import React, { useState } from 'react';
-import TextBox, { TextboxVariant } from '../textbox/Textbox';
+import TextBox from '@/app/components/formElements/TextBox/TextBox';
+import TextArea from '@/app/components/formElements/TextArea/TextArea';
 import ActionButton from '../buttons/ActionButton';
 import styles from './contactUs.module.css';
 import CRMCreateResponseInterface from '@/app/interfaces/CRMCreateResponseInterface';
 import { UserFormSubmissionType } from '@/app/interfaces/UserFormSubmissionType';
-import Typography, { TypographyVariant } from '../typography/Typography';
 import {
   BUTTON_STYLE,
   EMAIL_REGEX,
+  FORM_ELEMENT_COL_WIDTH,
   NAME_REGEX,
   PHONE_REGEX,
 } from '@/app/utilities/constants';
 import { registerContactData } from '@/app/utilities/register/registerContactData';
-import TextArea from '../textArea/TextArea';
+import Form from '@/app/components/formElements/Form';
+import { FieldValues, UseFormReturn, useForm } from 'react-hook-form';
+import { notifyError, notifySuccess } from '@/app/utilities/common';
+import LoaderWrapper from '../loader/LoaderWrapper';
+import ContactUsLeftBanner from './ContactUsLeftBanner';
+import classNames from 'classnames';
+
+interface ContactFieldValues extends FieldValues {
+  firstname: string;
+  lastname: string;
+  email: string;
+  phone: string;
+  jobtitle: string;
+  message: string;
+}
 
 const ContactUsForm: React.FC = () => {
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const methods: UseFormReturn<ContactFieldValues> =
+    useForm<ContactFieldValues>({ mode: 'onBlur' });
+
+  const onSubmit = async (data: ContactFieldValues) => {
+    const { firstname, lastname, email, phone, jobtitle, message } = data;
+
     const userRegistrationData: UserFormSubmissionType = {
-      firstname: firstName,
-      lastname: lastName,
-      email: email,
-      phone: phoneNumber,
-      jobtitle: jobtitle,
-      message: message,
+      firstname,
+      lastname,
+      email,
+      phone,
+      jobtitle,
+      message,
     };
-    if (
-      firstNameError ||
-      lastNameError ||
-      phoneNumberError ||
-      emailError ||
-      jobtitleError ||
-      messageError
-    ) {
-      return;
-    } else {
+
+    setIsLoading(true);
+
+    try {
       const outcome = (await registerContactData(
         userRegistrationData
       )) as CRMCreateResponseInterface;
       if (outcome.id) {
-        setSubmissionSuccess(true);
+        notifySuccess('Successfully sent');
       }
+    } catch (error) {
+      notifyError(error as object);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const [submissionSuccess, setSubmissionSuccess] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [firstNameError, setFirstNameError] = useState<string | undefined>();
-  const [lastName, setLastName] = useState('');
-  const [lastNameError, setLastNameError] = useState<string | undefined>();
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [phoneNumberError, setPhoneNumberError] = useState<string | undefined>(
-    ''
-  );
-  const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState<string | undefined>();
-  const [jobtitle, setJobtitle] = useState('');
-  const [jobtitleError, setJobtitleError] = useState<string | undefined>();
-  const [message, setMessage] = useState('');
-  const [messageError, setMessageError] = useState<string | undefined>();
-
   return (
     <div className={styles.container}>
-      <form onSubmit={(event) => handleSubmit(event)}>
-        <div className={styles.title}>
-          <Typography variant={TypographyVariant.H1}>Contact Us</Typography>
-          <Typography variant={TypographyVariant.Body1}>
-            We will try our best to get back to you as soon as possible
-          </Typography>
-        </div>
-        <div className={styles.textboxBody}>
-          <div className={styles.name}>
-            <div className={styles.textArea}>
+      <div className='row'>
+        <ContactUsLeftBanner />
+        <div className={classNames(styles.formColumn, 'col-md-8')}>
+          <LoaderWrapper
+            isLoading={isLoading}
+            className={styles.formColumnWrapper}
+            expandLoaderWidth
+          >
+            <Form methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
               <TextBox
-                name={'FirstName'}
-                label={'First Name (required)'}
-                type={'text'}
-                value={firstName}
-                required={true}
-                placeholder={'Enter your first name'}
-                errorMessage={firstNameError}
-                onChange={(e) => setFirstName(e.target.value.trim())}
-                onBlur={() =>
-                  !NAME_REGEX.test(firstName)
-                    ? setFirstNameError('First Name is invalid')
-                    : setFirstNameError(undefined)
-                }
+                name='firstname'
+                label='First Name'
+                required
+                placeholder='Enter your first name'
+                pattern={NAME_REGEX}
+                showLabel
+                colWidth={FORM_ELEMENT_COL_WIDTH.HALF}
               />
-            </div>
-            <div className={styles.textArea}>
               <TextBox
-                name={'LastName'}
-                label={'Last Name (required)'}
-                type={'text'}
-                value={lastName}
-                required={true}
-                placeholder={'Enter your last name'}
-                errorMessage={lastNameError}
-                onBlur={() =>
-                  !NAME_REGEX.test(lastName)
-                    ? setLastNameError('Last Name is invalid')
-                    : setLastNameError(undefined)
-                }
-                onChange={(e) => setLastName(e.target.value.trim())}
+                name='lastname'
+                label='Last Name'
+                required
+                placeholder='Enter your last name'
+                pattern={NAME_REGEX}
+                showLabel
+                colWidth={FORM_ELEMENT_COL_WIDTH.HALF}
               />
-            </div>
-          </div>
-          <div className={styles.textArea}>
-            <TextBox
-              name={'PhoneNumber'}
-              label={'Phone Number (required)'}
-              type={'text'}
-              value={phoneNumber}
-              errorMessage={phoneNumberError}
-              required={false}
-              placeholder={'Enter your phone number'}
-              onBlur={() => {
-                !PHONE_REGEX.test(phoneNumber)
-                  ? setPhoneNumberError('Phone number is invalid')
-                  : setPhoneNumberError(undefined);
-              }}
-              onChange={(e) => setPhoneNumber(e.target.value.trim())}
-            />
-          </div>
-          <div className={styles.textArea}>
-            <TextBox
-              variant={TextboxVariant.LONGER}
-              name={'Email'}
-              label={'Email Address (required)'}
-              type={'email'}
-              value={email}
-              required={true}
-              errorMessage={emailError}
-              placeholder={'Enter your email address'}
-              onBlur={() =>
-                !EMAIL_REGEX.test(email)
-                  ? setEmailError('Email Address is invalid')
-                  : setEmailError(undefined)
-              }
-              onChange={(e) => setEmail(e.target.value.trim())}
-            />
-          </div>
-          <div className={styles.textArea}>
-            <TextBox
-              variant={TextboxVariant.LONGER}
-              name={'jobtitle'}
-              label={'Job Title (required)'}
-              type={'text'}
-              value={jobtitle}
-              required={true}
-              placeholder={'Teacher, Student, Institute, Other'}
-              errorMessage={jobtitleError}
-              onBlur={() =>
-                !jobtitle.trim()
-                  ? setJobtitleError('The Job title is invalid')
-                  : setJobtitleError(undefined)
-              }
-              onChange={(e) => setJobtitle(e.target.value.trim())}
-            />
-          </div>
-          <div className={`${styles.textArea} ${styles.message}`}>
-            <TextArea
-              name={'Message'}
-              label={'Message'}
-              value={message}
-              required={false}
-              placeholder={'Enter your message'}
-              maxlength={300}
-              onBlur={() =>
-                !message.trim()
-                  ? setMessageError('')
-                  : setMessageError(undefined)
-              }
-              onChange={(e) => setMessage(e.target.value)}
-            ></TextArea>
-          </div>
-          <ActionButton
-            type='submit'
-            label='Submit'
-            style={BUTTON_STYLE.Primary}
-            className={styles.primaryBtn}
-          />
-          {submissionSuccess && (
-            <div className={styles.success}>
-              <Typography variant={TypographyVariant.Body1}>
-                Thank you for contacting us. We will get back to you shortly.
-              </Typography>
-            </div>
-          )}
+              <TextBox
+                name='phone'
+                label='Phone number'
+                placeholder='Enter your phone number'
+                pattern={PHONE_REGEX}
+                showLabel
+                colWidth={FORM_ELEMENT_COL_WIDTH.HALF}
+              />
+              <TextBox
+                name='secondphone'
+                label='Phone number (secondary)'
+                placeholder='Enter your secondary phone number'
+                pattern={PHONE_REGEX}
+                showLabel
+                colWidth={FORM_ELEMENT_COL_WIDTH.HALF}
+              />
+              <TextBox
+                name='email'
+                label='Email Address'
+                required
+                placeholder='Enter your email address'
+                pattern={EMAIL_REGEX}
+                showLabel
+                colWidth={FORM_ELEMENT_COL_WIDTH.BIG}
+              />
+              <TextBox
+                name='jobtitle'
+                label='Designation'
+                required
+                placeholder='Teacher, Student, Institute, Other'
+                showLabel
+                colWidth={FORM_ELEMENT_COL_WIDTH.BIG}
+              />
+              <TextArea
+                name='message'
+                label='Message'
+                showLabel
+                placeholder={'Enter your message'}
+                rules={{
+                  maxLength: 300,
+                }}
+              ></TextArea>
+              <div className='my-3'>
+                <ActionButton
+                  type='submit'
+                  label='Submit'
+                  style={BUTTON_STYLE.Primary}
+                  fullWidth
+                />
+              </div>
+            </Form>
+          </LoaderWrapper>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

@@ -59,3 +59,11 @@ export const TOAST_UNKNOWN_ERROR_MESSAGE =
 
 export const TOAST_DEV_IN_PROGRESS_MESSAGE =
   'This (or part of this) feature is currently under development. Please check back later.';
+
+export enum FORM_ELEMENT_COL_WIDTH {
+  SMALLER = 3,
+  SMALL = 4,
+  HALF = 6,
+  BIG = 8,
+  FULL = 12,
+}

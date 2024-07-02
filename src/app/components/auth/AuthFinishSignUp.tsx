@@ -6,12 +6,13 @@ import Typography, {
 import styles from './auth.module.css';
 import Form from '@/app/components/formElements/Form';
 import { FieldValues, UseFormReturn, useForm } from 'react-hook-form';
-import TextBox, {
-  TEXTBOX_COL_WIDTH,
-} from '@/app/components/formElements/TextBox';
+import TextBox from '@/app/components/formElements/TextBox/TextBox';
 import classNames from 'classnames';
 import ActionButton from '@/app/components/buttons/ActionButton';
-import { BUTTON_STYLE } from '@/app/utilities/constants';
+import {
+  BUTTON_STYLE,
+  FORM_ELEMENT_COL_WIDTH,
+} from '@/app/utilities/constants';
 import AuthFormHeader from './AuthFormHeader';
 
 interface SignUpFieldValues extends FieldValues {
@@ -23,26 +24,27 @@ interface SignUpFieldValues extends FieldValues {
 }
 
 const AuthFinishSignUp: React.FC = () => {
-  const { control }: UseFormReturn<SignUpFieldValues> =
-    useForm<SignUpFieldValues>({ mode: 'onBlur' });
+  const methods: UseFormReturn<SignUpFieldValues> = useForm<SignUpFieldValues>({
+    mode: 'onBlur',
+  });
 
   return (
     <div className={styles.formColumnWrapper}>
       <AuthFormHeader title='Almost Done' subText='one last step' />
-      <Form control={control}>
+      <Form methods={methods}>
         <TextBox
           name='firstName'
           label='First Name'
           required
           placeholder='First Name'
-          colWidth={TEXTBOX_COL_WIDTH.HALF}
+          colWidth={FORM_ELEMENT_COL_WIDTH.HALF}
         />
         <TextBox
           name='lastName'
           label='Last Name'
           required
           placeholder='Last Name'
-          colWidth={TEXTBOX_COL_WIDTH.HALF}
+          colWidth={FORM_ELEMENT_COL_WIDTH.HALF}
         />
         <Typography
           variant={TypographyVariant.Body3}

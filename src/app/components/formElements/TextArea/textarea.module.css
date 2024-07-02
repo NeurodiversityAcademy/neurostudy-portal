@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  gap: 5px;
+}
+
+.input {
+  border: 1px solid var(--grey-500);
+  color: var(--grey-500);
+  padding: 0px 15px;
+  border-radius: 8px;
+  font-family: inherit;
+  padding: 10px 15px;
+  resize: none;
+}

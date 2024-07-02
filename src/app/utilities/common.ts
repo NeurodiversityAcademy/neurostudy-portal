@@ -52,7 +52,7 @@ export const throttle = (
 
 export const createMetadata = (
   key: META_KEY,
-  customMetadata?: MetadataParams
+  customMetadata?: Partial<MetadataParams>
 ) => {
   const config = { ...metadata[key], ...customMetadata };
   const { title, description, keywords, canonical, type, images } = config;
@@ -84,4 +84,8 @@ export const notifyError = (ex: object) => {
     (ex instanceof Error && ex.message) || TOAST_UNKNOWN_ERROR_MESSAGE;
 
   toast.error(message);
+};
+
+export const notifySuccess = (message: string) => {
+  toast.success(message);
 };
