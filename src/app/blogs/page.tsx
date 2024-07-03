@@ -7,22 +7,10 @@ import Typography, {
 import { BlogInterface } from '../interfaces/BlogInterface';
 import Blog from '../components/blog/Blog';
 import { Metadata } from 'next';
-import { HOST_URL, META_TYPE } from '../utilities/constants';
-import metadataJSON from '../../app/utilities/metadata/metadata.json';
+import { META_KEY } from '../utilities/constants';
 import { createMetadata } from '../utilities/common';
 
-const { title, description, images, keywords } = metadataJSON.metadata.blogs;
-const canonical = `${HOST_URL}/blogs`;
-const type = META_TYPE.WEBSITE;
-
-export const metadata: Metadata = createMetadata({
-  title,
-  keywords,
-  description,
-  canonical,
-  type,
-  images,
-});
+export const metadata: Metadata = createMetadata(META_KEY.BLOGS);
 
 const CardList: React.FC = () => {
   const blogs: BlogInterface[] = blogData.blogs;

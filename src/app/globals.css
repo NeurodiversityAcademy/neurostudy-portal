@@ -1,14 +1,55 @@
 :root {
   font-family: var(--poppins-font);
 
-  /* based on  NDA style guide  */
-  --Heading1: 128px;
-  --Heading2: 96px;
-  --Heading3: 64px;
-  --Heading4: 48px;
-  --Subheading1: 40px;
-  --Subheading2: 36px;
-  --Subheading3: 32px;
+
+  /* Desktop */
+  --heading1-font-weight: 700;
+  --heading1-font-size: 48px;
+
+  --heading2-font-weight: 500;
+  --heading2-font-size: 36px;
+
+  --heading3-font-weight: 500;
+  --heading3-font-size: 28px;
+
+  --body1-font-weight: 400;
+  --body1-font-size: 24px;
+
+  --body2-strong-font-weight: 600;
+  --body2-strong-font-size: 16px;
+
+  --body2-font-weight: 400;
+  --body2-font-size: 16px;
+
+  --body3-strong-font-weight: 500;
+  --body3-strong-font-size: 14px;
+
+  --body3-font-weight: 400;
+  --body3-font-size: 14px;
+
+  --labeltext-font-weight: 400;
+  --labeltext-font-size: 12px;
+
+  /* Mobile */
+  --mobile-heading1-font-size: 24px;
+  --mobile-heading2-font-size: 20px;
+  --mobile-heading3-font-size: 18px;
+  --mobile-body1-font-size: 18px;
+  --mobile-body2-strong-font-size: 16px;
+  --mobile-body2-font-size: 16px;
+  --mobile-body3-strong-font-size: 12px;
+  --mobile-body3-font-size: 12px;
+
+  /* Button */
+  --primary-button-width: 312px;
+  --primary-button-height: 44px;
+
+  --secondary-button-width: 165px;
+  --secondary-button-height: 48px;
+
+  --tertiary-button-width: 173px;
+  --tertiary-button-height: 48px;
+
   --GhostWhite: #f8f8ff;
   --GhostWhiteSub: #f8f8ff;
   --GhostWhiteVariant: #EFEFFF;
@@ -25,9 +66,11 @@
   --cherryPieBlue: #7240fc;
   --cherryPieBlueVariant: #5d1df1;
   --errorRed: red;
+  --darkred: darkred;
   --grey: #b8b8b8;
   --greyVariant: #d3d3d3;
   --grey-500: #4D4B52;
+  --pure-white: #ffffff;
 }
 
 body {

@@ -36,7 +36,7 @@ export default function TextHeavyArticle({
         <Typography
           variant={
             windowWidth <= 430
-              ? TypographyVariant.Body3MOBstrong
+              ? TypographyVariant.Body3Strong
               : TypographyVariant.Body2Strong
           }
         >

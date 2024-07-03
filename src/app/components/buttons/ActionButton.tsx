@@ -1,9 +1,10 @@
 'use client';
-import React, { useCallback } from 'react';
+import React from 'react';
 import styles from './button.module.css';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
+import classNames from 'classnames';
+import Link from 'next/link';
 
 interface ActionButtonProps {
   label: string;
@@ -15,6 +16,7 @@ interface ActionButtonProps {
   className?: string;
   type?: 'button' | 'submit' | 'reset' | undefined;
   to?: string;
+  fullWidth?: boolean;
 }
 
 export default function ActionButton({
@@ -22,50 +24,20 @@ export default function ActionButton({
   icon,
   style,
   disabled,
-  onClick: onRootClick,
+  onClick,
   iconPosition = 'left',
   className,
   type,
   to,
+  fullWidth,
 }: ActionButtonProps) {
-  const router = useRouter();
-
-  const onClick = useCallback(
-    function (this: HTMLButtonElement, e: React.MouseEvent<HTMLButtonElement>) {
-      onRootClick?.call(this, e);
-      to && router.push(to);
-    },
-    [router, onRootClick, to]
-  );
-
-  let buttonStyles;
-
-  switch (style) {
-    case 'primary-full':
-      buttonStyles = styles.btn1Full;
-      break;
-    case 'secondary':
-      buttonStyles = styles.btn2;
-      break;
-    case 'secondary-full':
-      buttonStyles = styles.btn2Full;
-      break;
-    case 'tertiary':
-      buttonStyles = styles.btn3;
-      break;
-    case 'tertiary-full':
-      buttonStyles = styles.btn3Full;
-      break;
-    default:
-      buttonStyles = styles.btn1;
-  }
-
-  if (disabled) {
-    buttonStyles = `${buttonStyles} ${styles.disabled}`;
-  }
-  if (className) {
-    buttonStyles = `${buttonStyles} ${className}`;
-  }
+  const buttonStyles = classNames(styles.common, className, {
+    [styles.primary]: style === BUTTON_STYLE.Primary,
+    [styles.secondary]: style === BUTTON_STYLE.Secondary,
+    [styles.tertiary]: style === BUTTON_STYLE.Tertiary,
+    [styles.disabled]: disabled,
+    [styles.fullWidth]: fullWidth,
+  });
 
   return (
     <button
@@ -75,7 +47,7 @@ export default function ActionButton({
       type={type}
     >
       {iconPosition === 'left' && icon && <Image src={icon} alt='icon' />}
-      <span>{label}</span>
+      {to ? <Link href={to}>{label}</Link> : <span>{label}</span>}
       {iconPosition === 'right' && icon && <Image src={icon} alt='icon' />}
     </button>
   );

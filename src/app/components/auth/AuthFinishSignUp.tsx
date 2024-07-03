@@ -3,7 +3,7 @@
 import Typography, {
   TypographyVariant,
 } from '@/app/components/typography/Typography';
-import styles from '../page.module.css';
+import styles from './auth.module.css';
 import Form from '@/app/components/formElements/Form';
 import { FieldValues, UseFormReturn, useForm } from 'react-hook-form';
 import TextBox, {
@@ -27,7 +27,7 @@ const AuthFinishSignUp: React.FC = () => {
     useForm<SignUpFieldValues>({ mode: 'onBlur' });
 
   return (
-    <>
+    <div className={styles.formColumnWrapper}>
       <AuthFormHeader title='Almost Done' subText='one last step' />
       <Form control={control}>
         <TextBox
@@ -45,7 +45,7 @@ const AuthFinishSignUp: React.FC = () => {
           colWidth={TEXTBOX_COL_WIDTH.HALF}
         />
         <Typography
-          variant={TypographyVariant.Body3MOB}
+          variant={TypographyVariant.Body3}
           className={classNames(styles.dobLabel, 'col-md-12', 'pt-2')}
         >
           Date of Birth
@@ -75,17 +75,17 @@ const AuthFinishSignUp: React.FC = () => {
             />
           </div>
         </div>
-        <div>
+        <div className='my-3'>
           <ActionButton
             type='submit'
             label='Submit'
             disabled
-            className={classNames(styles.btn, styles.submitBtn)}
-            style={BUTTON_STYLE.PrimaryFull}
+            style={BUTTON_STYLE.Primary}
+            fullWidth
           />
         </div>
       </Form>
-    </>
+    </div>
   );
 };
 

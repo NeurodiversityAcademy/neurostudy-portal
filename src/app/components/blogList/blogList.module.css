@@ -8,9 +8,10 @@
     justify-content: center;
     width: 100%;
   }
-  .accessButton {
-    width: 15rem;
-    height: 4rem;
+
+  .buttonArea {
+    width: 100%;
+    max-width: var(--primary-button-width);
     margin: 20px 0px;
   }
 }
@@ -22,9 +23,10 @@
     align-items: center;
     justify-content: center;
   }
-  .accessButton {
-    width: 10rem;
-    height: 3rem;
-    margin: 10px 0px 50px 0px;
+
+  .buttonArea {
+    width: 80%;
+    margin: 5px 0px 50px 0px;
   }
+
 }

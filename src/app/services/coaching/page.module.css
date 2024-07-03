@@ -13,18 +13,8 @@
         padding: 0px 10px;
     }
 
-    .serviceDescriptionList {
+    .serviceDescription {
         margin: 0px 30px;
-    }
-
-    .serviceDescriptionList li {
-        text-align: justify;
-    }
-
-    .accessButton {
-        width: 15rem;
-        height: 3rem;
-        margin: 20px 0px 3.6rem 0px;
     }
 
 }
@@ -47,22 +37,11 @@
         margin-bottom: 30px;
     }
 
-    .serviceDescriptionList {
+    .serviceDescription {
         margin-bottom: 50px;
         max-width: 65vw;
-        list-style: none;
+        
     }
-
-    .serviceDescriptionList li {
-        text-align: justify;
-        padding-bottom: 50px;
-    }
-
-    .accessButton {
-        width: 16rem;
-        height: 3rem;
-        margin-top: -50px;
-        margin-bottom: 6rem;
-    }
+    
 }
     

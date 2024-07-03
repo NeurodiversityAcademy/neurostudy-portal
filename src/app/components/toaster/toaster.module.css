@@ -1,0 +1,15 @@
+.container .common {
+  color: var(--GhostWhiteVariant);
+}
+
+.container .default {
+  background-color: var(--cherryPieVariantSub);
+}
+
+.container .success {
+  background-color: var(--cherryPie);
+}
+
+.container .error {
+  background-color: var(--darkred);
+}

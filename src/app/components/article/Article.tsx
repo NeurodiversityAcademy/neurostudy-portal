@@ -1,11 +1,9 @@
 import React from 'react';
 import Typography, { TypographyVariant } from '../typography/Typography';
-import ActionButton from '../buttons/ActionButton';
-import CircleRight from '../../images/CircleRightOrg.svg';
 import styles from './article.module.css';
 import { ArticleInterface } from '@/app/interfaces/ArticleInterface';
 import Image from 'next/image';
-import { BUTTON_STYLE } from '@/app/utilities/constants';
+import LearnMore from '../LearnMore/LearnMore';
 
 export default function Article({
   id,
@@ -24,16 +22,7 @@ export default function Article({
             {description}
           </Typography>
         </div>
-        <div className={styles.buttonArea}>
-          <ActionButton
-            label='Learn more'
-            icon={CircleRight}
-            style={BUTTON_STYLE.Tertiary}
-            disabled={false}
-            iconPosition='right'
-            to={`/articles/article/?articleId=${id}`}
-          />
-        </div>
+        <LearnMore dest={`/articles/article/?articleId=${id}`} />
       </div>
     </div>
   );

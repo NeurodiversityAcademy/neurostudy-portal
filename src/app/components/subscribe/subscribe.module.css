@@ -34,13 +34,9 @@
     width: 90%;
 }
 
-.accessButton {
-    width: 100%;
-    height: 36px;
+.primaryBtn {
     margin-top: 20px;
     margin-bottom: 40px;
-    font-size: 0.9rem;
-    font-weight: 400;
 }
 
 .successTitle {
@@ -95,6 +91,10 @@
         font-size: 0.8rem;
     }
 
+    .primaryBtn {
+        width: 100%;
+    }
+
     .successTitle {
         margin-top: 0;
         text-align: center;
@@ -107,7 +107,7 @@
 
 }
 
-@media (max-width: 1024px) and (min-width: 480px) {
+@media (min-width: 480px) and (max-width: 1024px) {
 
     .main {
         width: 100%;
@@ -143,13 +143,12 @@
         margin-bottom: -1px;
     }
 
-    .textArea {
+    .inputArea {
         width: 85%;
-        margin-bottom: -0.5rem;
     }
 
-    .buttonArea {
-        width: 85%;
+    .textArea {
+        margin-bottom: -0.5rem;
     }
 
     .successTitle {
@@ -202,13 +201,12 @@
         width: 65%;
     }
 
-    .textArea {
+    .inputArea {
         width: 80%;
-        margin-bottom: -0.5rem;
     }
 
-    .buttonArea {
-        width: 80%;
+    .textArea {
+        margin-bottom: -0.5rem;
     }
 
     .successTitle {
@@ -237,13 +235,13 @@
         width: 100%;
         margin: 0px auto 2rem auto;
     }
-    
+
     .imageWrapper {
         width: 380px;
         height: 400px;
         margin-right: -1.4rem;
     }
-    
+
     .contentWrapper {
         width: 40%;
     }
@@ -262,13 +260,12 @@
         margin-bottom: 2rem;
     }
 
-    .textArea {
-        width: 98%;
-        margin-bottom: 1.35rem;
+    .inputArea {
+        width: 100%;
     }
 
-    .buttonArea {
-        width: 98%
+    .textArea {
+        margin-bottom: 1.35rem;
     }
 
     .successTitle {

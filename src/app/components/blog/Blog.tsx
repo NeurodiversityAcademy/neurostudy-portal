@@ -1,11 +1,9 @@
 import React from 'react';
 import Typography, { TypographyVariant } from '../typography/Typography';
-import ActionButton from '../buttons/ActionButton';
-import CircleRight from '../../images/CircleRightOrg.svg';
 import styles from './blog.module.css';
 import Image from 'next/image';
 import { BlogInterface } from '@/app/interfaces/BlogInterface';
-import { BUTTON_STYLE } from '@/app/utilities/constants';
+import LearnMore from '../LearnMore/LearnMore';
 
 export default function Blog({
   id,
@@ -24,16 +22,7 @@ export default function Blog({
             {description}
           </Typography>
         </div>
-        <div className={styles.buttonArea}>
-          <ActionButton
-            label='Learn more'
-            icon={CircleRight}
-            style={BUTTON_STYLE.Tertiary}
-            disabled={false}
-            iconPosition='right'
-            to={`/blogs/blog/?blogId=${id}`}
-          ></ActionButton>
-        </div>
+        <LearnMore dest={`/blogs/blog/?blogId=${id}`} />
       </div>
     </div>
   );

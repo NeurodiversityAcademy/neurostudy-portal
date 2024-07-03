@@ -2,6 +2,7 @@
   display: flex;
   justify-content: center;
 }
+
 .container form {
   background-color: var(--GhostWhite);
   width: 90vw;
@@ -15,6 +16,7 @@
   border: 1px solid var(--CherryPie);
   border-radius: 10px;
 }
+
 .title {
   border-right: 2px solid rgb(105, 103, 103);
 
@@ -22,12 +24,14 @@
   height: 70vh;
   align-items: center;
 }
+
 .closeButton {
   position: fixed;
   top: 1%;
   right: 1%;
   margin: 0px;
 }
+
 .textboxBody {
   display: flex;
   flex-direction: column;
@@ -35,36 +39,37 @@
   align-items: left;
   padding: 30px 50px;
 }
-.container button {
-  margin: 25px;
-  text-align: center;
+
+.primaryBtn {
+  margin: 25px auto;
 }
+
 .textArea {
   margin-bottom: 15px;
   text-align: left;
 }
 
-.buttonArea {
-  display: flex;
-  justify-content: center;
-}
 .header {
   margin: 0px;
   text-align: center;
 }
+
 .header h1 {
   margin: 0px 0px 40px 0px;
 }
+
 .name {
   display: flex;
   margin-bottom: 15px;
   gap: 50px;
 }
+
 @media (max-width: 800px) {
   .container {
     display: flex;
     justify-content: center;
   }
+
   .container form {
     background-color: var(--GhostWhite);
     width: 100vw;
@@ -75,6 +80,7 @@
     border: 1px solid var(--CherryPie);
     border-radius: 10px;
   }
+
   .title {
     border-bottom: 2px solid rgb(105, 103, 103);
     border-right: 0px;
@@ -84,12 +90,14 @@
     text-align: center;
     align-items: center;
   }
+
   .name {
     display: flex;
     flex-direction: column;
     margin-bottom: 1px;
     gap: 0px;
   }
+
   .textboxBody {
     display: flex;
     flex-direction: column;
@@ -97,18 +105,23 @@
     align-items: center;
     padding: 0px 0px;
   }
+
   .textboxBody input {
     width: 60vw;
   }
-    .textboxBody textarea {
+
+  .textboxBody textarea {
     width: 60vw;
   }
-  .textboxBody button {
-    margin: 10px 0px 0px 0px;
+
+  .primaryBtn {
+    margin: 1.2rem 0px;
   }
+
   .success {
     padding: 10px;
     display: flex;
     text-align: center;
   }
+
 }

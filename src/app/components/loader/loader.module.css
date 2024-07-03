@@ -1,0 +1,56 @@
+.container {
+  position: relative;
+}
+
+.loaderContainer>*:not(:last-child) {
+  opacity: .5;
+}
+
+.loader {
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: #4d4b520f;
+  border-radius: 8px;
+}
+
+.expand {
+  margin-left: -15px;
+  margin-right: -15px;
+  width: calc(100% + 30px);
+}
+
+.circle {
+  display: inline-block;
+  background-color: var(--navyBlue);
+  width: 15px;
+  height: 15px;
+  margin: 2px;
+  border-radius: 100%;
+  animation: 0.7s linear 0s infinite normal both running spinner;
+}
+
+.circle:nth-child(3n + 1) {
+  animation-delay: .35ms;
+}
+
+.circle:nth-child(3n + 2) {
+  animation-delay: .7ms;
+}
+
+@keyframes spinner {
+  50% {
+    transform: scale(0.75);
+    opacity: 0.2;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

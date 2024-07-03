@@ -5,7 +5,7 @@ import ActionButton from '../buttons/ActionButton';
 import CRMCreateResponseInterface from '@/app/interfaces/CRMCreateResponseInterface';
 import { UserSubscriptionType } from '@/app/interfaces/UserSubscriptionType';
 import { registerSubscriptionData } from '@/app/utilities/register/registerSubscriptionData';
-import { EMAIL_REGEX } from '@/app/utilities/constants';
+import { BUTTON_STYLE, EMAIL_REGEX } from '@/app/utilities/constants';
 import Image from 'next/image';
 import styles from './subscribe.module.css';
 import MailboxLady from '../../images/mailboxLady.png';
@@ -57,30 +57,31 @@ export default function Subscribe() {
                 <p className={styles.description}>
                   Be the first to get exclusive offers and latest news
                 </p>
-                <div className={styles.textArea}>
-                  <TextBox
-                    variant={TextboxVariant.LONG}
-                    name={'Email'}
-                    label={''}
-                    type={'email'}
-                    value={email}
-                    required={true}
-                    errorMessage={emailError}
-                    placeholder={'Enter your email address'}
-                    onBlur={() =>
-                      !EMAIL_REGEX.test(email)
-                        ? setEmailError('Email Address is invalid')
-                        : setEmailError(undefined)
-                    }
-                    onChange={(e) => setEmail(e.target.value.trim())}
-                  />
-                </div>
-                <div className={styles.buttonArea}>
+                <div className={styles.inputArea}>
+                  <div className={styles.textArea}>
+                    <TextBox
+                      variant={TextboxVariant.LONG}
+                      name={'Email'}
+                      label={''}
+                      type={'email'}
+                      value={email}
+                      required={true}
+                      errorMessage={emailError}
+                      placeholder={'Enter your email address'}
+                      onBlur={() =>
+                        !EMAIL_REGEX.test(email)
+                          ? setEmailError('Email Address is invalid')
+                          : setEmailError(undefined)
+                      }
+                      onChange={(e) => setEmail(e.target.value.trim())}
+                    />
+                  </div>
                   <ActionButton
                     type='submit'
                     label='Subscribe Now'
-                    disabled={false}
-                    className={styles.accessButton}
+                    style={BUTTON_STYLE.Primary}
+                    className={styles.primaryBtn}
+                    fullWidth
                   />
                 </div>
               </>

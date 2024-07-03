@@ -9,8 +9,8 @@ export enum TypographyVariant {
   Body1 = 'body1',
   Body2Strong = 'body2-strong',
   Body2 = 'body2',
-  Body3MOBstrong = 'body3-mob-strong',
-  Body3MOB = 'body3-mob',
+  Body3Strong = 'body3-strong',
+  Body3 = 'body3',
   LABELtext = 'labelText',
 }
 
@@ -67,11 +67,11 @@ const Typography: React.FC<TypographyProps> = ({
     case TypographyVariant.Body2:
       variantClassName = styles.body2;
       break;
-    case TypographyVariant.Body3MOBstrong:
-      variantClassName = styles.mobBody3Strong;
+    case TypographyVariant.Body3Strong:
+      variantClassName = styles.body3Strong;
       break;
-    case TypographyVariant.Body3MOB:
-      variantClassName = styles.mobBody3;
+    case TypographyVariant.Body3:
+      variantClassName = styles.body3;
       break;
     case TypographyVariant.LABELtext:
       variantClassName = styles.labelText;

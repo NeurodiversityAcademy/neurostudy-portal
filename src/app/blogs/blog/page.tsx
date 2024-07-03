@@ -10,7 +10,7 @@ import DisplayPodcast from '@/app/components/podcast/DisplayPodcast';
 import Subscribe from '@/app/components/subscribe/subscribe';
 import { MetadataProps } from '@/app/interfaces/MetadataProps';
 import { Metadata } from 'next';
-import { HOST_URL, META_TYPE } from '@/app/utilities/constants';
+import { HOST_URL, META_KEY } from '@/app/utilities/constants';
 import { createMetadata } from '@/app/utilities/common';
 
 export async function generateMetadata({
@@ -27,16 +27,14 @@ export async function generateMetadata({
   const { title, keywords, imageUrl, description } = blog;
   // NOTE
   // Previous `type` was 'blog', which the `openGraph` attribute doesn't accept as `type`
-  const type = META_TYPE.ARTICLE;
   const canonical = `${HOST_URL}/blogs/blog?blogId=${blogId}`;
   const images = [{ url: imageUrl }];
 
-  return createMetadata({
+  return createMetadata(META_KEY.BLOG, {
     title,
     keywords,
     description,
     canonical,
-    type,
     images,
   });
 }

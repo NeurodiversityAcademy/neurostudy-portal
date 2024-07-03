@@ -7,15 +7,11 @@
     align-items: center;
     justify-content: center;
   }
+
   .teacherBodyText {
     width: 70vw;
     line-height: 10px;
     margin-bottom: 30px;
-  }
-  .accessButton {
-    width: 15rem;
-    height: 4rem;
-    margin: 20px 0px;
   }
 
   .customModal {
@@ -34,7 +30,13 @@
     width: 300px;
   }
 
+  .buttonArea {
+    width: 100%;
+    max-width: var(--primary-button-width);
+  }
+
 }
+
 @media (max-width: 480px) {
   .teacherContainer {
     text-align: center;
@@ -43,13 +45,10 @@
     align-items: center;
     justify-content: center;
   }
+
   .teacherBodyText {
     margin-bottom: 30px;
     padding: 0px 10px;
   }
-  .accessButton {
-    width: 15rem;
-    height: 3rem;
-    margin: 20px 0px;
-  }
+
 }

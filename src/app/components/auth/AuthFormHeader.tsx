@@ -1,7 +1,7 @@
 import Typography, {
   TypographyVariant,
 } from '@/app/components/typography/Typography';
-import styles from '../page.module.css';
+import styles from './auth.module.css';
 
 type AuthFormHeaderProps = {
   title?: string;

@@ -8,10 +8,9 @@ import Fact from './components/fact/Fact';
 import HowItWorks from './components/howItWorks/HowItWorks';
 import Partner from './components/partnerSection/Partner';
 import { Metadata } from 'next';
-import Subscribe from './components/subscribe/subscribe';
-import { HOST_URL, META_TYPE } from './utilities/constants';
-import metadataJSON from '../app/utilities/metadata/metadata.json';
 import { createMetadata } from './utilities/common';
+import { META_KEY } from './utilities/constants';
+import Subscribe from './components/subscribe/subscribe';
 
 const getGoogleAnalyticsScript = () => {
   return (
@@ -30,22 +29,7 @@ const getGoogleAnalyticsScript = () => {
   );
 };
 
-const { title, description, images, keywords } = metadataJSON.metadata.home;
-const canonical = `${HOST_URL}/`;
-const type = META_TYPE.WEBSITE;
-
-export const metadata: Metadata = {
-  metadataBase: new URL(HOST_URL),
-
-  ...createMetadata({
-    title,
-    keywords,
-    description,
-    canonical,
-    type,
-    images,
-  }),
-};
+export const metadata: Metadata = createMetadata(META_KEY.HOME);
 
 export default function Home() {
   return (

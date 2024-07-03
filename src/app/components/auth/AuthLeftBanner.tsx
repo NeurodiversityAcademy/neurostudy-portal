@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import styles from '../page.module.css';
+import styles from './auth.module.css';
 import Typography, {
   TypographyVariant,
 } from '@/app/components/typography/Typography';

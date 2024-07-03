@@ -17,12 +17,6 @@
         padding: 0px 10px;
     }
 
-    .accessButton {
-        width: 15rem;
-        height: 3rem;
-        margin: 20px 0px 3.6rem 0px;
-    }
-
 }
 
 @media (min-width: 480px) {
@@ -43,12 +37,6 @@
         margin-bottom: 30px;
         max-width: 65vw;
         text-align: justify;
-    }
-
-    .accessButton {
-        width: 16rem;
-        height: 3rem;
-        margin-bottom: 6rem;
     }
 
 }

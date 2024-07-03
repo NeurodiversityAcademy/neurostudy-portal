@@ -14,11 +14,9 @@ export const PHONE_REGEX = /^(?:\+61|0)?[2-9]\d{8}$/;
 export const NAME_REGEX = /^[a-zA-Z0-9. -]+$/;
 
 export enum BUTTON_STYLE {
-  PrimaryFull = 'primary-full',
+  Primary = 'primary',
   Secondary = 'secondary',
-  SecondaryFull = 'secondary-full',
   Tertiary = 'tertiary',
-  TertiaryFull = 'tertiary-full',
 }
 
 export enum TEXTBOX_VARIANT {
@@ -37,3 +35,27 @@ export enum META_TYPE {
   WEBSITE = 'website',
   ARTICLE = 'article',
 }
+
+export enum META_KEY {
+  HOME = 'home',
+  NEURODIVERGENT_MATES = 'neurodivergentmates',
+  NEURODIVERSITY_TRAINING = 'neurodiversitytraining',
+  ADVISORY_CONSULTING = 'advisoryconsulting',
+  NETWORKING = 'networking',
+  COACHING = 'coaching',
+  PLACEMENTS = 'placements',
+  ABOUT = 'about',
+  CONTACT = 'contact',
+  ARTICLES = 'articles',
+  ARTICLE = 'article',
+  BLOGS = 'blogs',
+  BLOG = 'blog',
+  SIGNUP = 'signup',
+  LOGIN = 'login',
+}
+
+export const TOAST_UNKNOWN_ERROR_MESSAGE =
+  'Unknown error occurred, please try back again later.';
+
+export const TOAST_DEV_IN_PROGRESS_MESSAGE =
+  'This (or part of this) feature is currently under development. Please check back later.';

@@ -2,28 +2,13 @@ import styles from './page.module.css';
 import Typography, {
   TypographyVariant,
 } from '@/app/components/typography/Typography';
-import ActionButton from '@/app/components/buttons/ActionButton';
 import { Metadata } from 'next';
-import Subscribe from '@/app/components/subscribe/subscribe';
-import { HOST_URL, META_TYPE } from '../../../app/utilities/constants';
-import metadataJSON from '../../../app/utilities/metadata/metadata.json';
+import { META_KEY } from '../../../app/utilities/constants';
 import { createMetadata } from '@/app/utilities/common';
+import Subscribe from '@/app/components/subscribe/subscribe';
+import Contact from '@/app/components/contact/Contact';
 
-const { home, neurodivergentmates, networking } = metadataJSON.metadata;
-const { title, description, images } = networking;
-const keywords =
-  home.keywords + neurodivergentmates.keywords + networking.keywords;
-const canonical = `${HOST_URL}/services/networking`;
-const type = META_TYPE.WEBSITE;
-
-export const metadata: Metadata = createMetadata({
-  title,
-  keywords,
-  description,
-  canonical,
-  type,
-  images,
-});
+export const metadata: Metadata = createMetadata(META_KEY.NETWORKING);
 
 export default function Page() {
   return (
@@ -45,12 +30,7 @@ export default function Page() {
           </Typography>
         </p>
       </div>
-      <ActionButton
-        label='Contact us'
-        disabled={false}
-        className={styles.accessButton}
-        to='/contact'
-      />
+      <Contact />
       <Subscribe />
     </div>
   );

@@ -9,6 +9,7 @@ import {
   FieldValues,
   Path,
   PathValue,
+  RegisterOptions,
   ValidationRule,
 } from 'react-hook-form';
 import { useFormContext } from './formContext';
@@ -34,6 +35,10 @@ interface TextBoxProps<TFieldValues extends FieldValues> {
   onBlur?: () => void;
   autoComplete?: string;
   colWidth?: TEXTBOX_COL_WIDTH;
+  rules?: Pick<
+    RegisterOptions<FieldValues>,
+    'maxLength' | 'minLength' | 'validate' | 'required'
+  >;
 }
 
 const TextBox = <TFieldValues extends FieldValues>({
@@ -50,12 +55,14 @@ const TextBox = <TFieldValues extends FieldValues>({
   onBlur,
   autoComplete,
   colWidth = TEXTBOX_COL_WIDTH.FULL,
+  rules: rootRules,
 }: TextBoxProps<TFieldValues>) => {
   const { control } = useFormContext();
 
   const rules = {
     required,
     pattern,
+    ...rootRules,
   };
 
   return (

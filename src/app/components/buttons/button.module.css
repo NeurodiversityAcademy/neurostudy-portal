@@ -1,4 +1,15 @@
-.btn1 {
+.common {
+  padding-inline: 0px;
+  padding-block: 0px;
+}
+
+.common>a {
+  color: inherit;
+  text-decoration: inherit;
+  font-weight: inherit;
+}
+
+.primary {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -6,12 +17,58 @@
   border-radius: 8px;
   border: 1px;
   gap: 8px;
-  border: 1px solid #6600cc;
-  background: #330066;
-  color: #f8f8ff;
+  border: 1px solid var(--cherryPieVariant);
+  background: var(--cherryPie);
+  color: var(--GhostWhite);
   font-family: var(--poppins-font);
-  font-weight: 600;
-  font-size: large;
+  font-weight: var(--body2-strong-font-weight);
+  font-size: var(--body2-strong-font-size);
+  width: var(--primary-button-width);
+  height: var(--primary-button-height);
+}
+
+.primary>a {
+  width: 100%;
+  height: var(--primary-button-height);
+  line-height: var(--primary-button-height);
+}
+
+.secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px;
+  gap: 8px;
+  border: 1px solid var(--cherryPieVariant);
+  background-color: var(--pure-white);
+  color: var(--cherryPieVariant);
+  font-family: var(--poppins-font);
+  font-weight: var(--body2-strong-font-weight);
+  font-size: var(--body2-strong-font-size);
+  width: var(--secondary-button-width);
+  height: var(--secondary-button-height);
+  padding: 12px, 24px, 12px, 24px;
+}
+
+.tertiary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cherryPieVariant);
+  background-color: var(--pure-white);
+  border: var(--GhostWhite);
+  width: 173px;
+  height: 48px;
+  padding: 12px, 24px, 12px, 24px;
+  border-radius: 8px;
+  gap: 8px;
+  font-family: var(--poppins-font);
+  font-weight: var(--body2-strong-font-weight);
+  font-size: var(--body2-strong-font-size);
+  width: var(--tertiary-button-width);
+  height: var(--tertiary-button-height);
+  line-height: 24px;
 }
 
 .disabled {
@@ -27,98 +84,17 @@
   font-size: larger;
 }
 
-.btn1Full {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 312px;
-  height: 48px;
-  border-radius: 8px;
-  border: 1px;
-  gap: 8px;
-  border: 1px solid var(--cherryPieVariant);
-  background: var(--cherryPieVariant);
-  color: #f8f8ff;
-  font-family: var(--poppins-font);
-  font-weight: 600;
-  font-size: large;
-  padding: 12px, 24px, 12px, 24px;
-}
-
-.btn2 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 8px;
-  border: 1px;
-  gap: 8px;
-  border: 1px solid var(--cherryPieVariant);
-  background-color: white;
-  color: var(--cherryPieVariant);
-  font-family: var(--poppins-font);
-  font-weight: 600;
-  font-size: large;
-  padding: 12px, 24px, 12px, 24px;
-}
-
-.btn2Full {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 312px;
-  height: 48px;
-  border-radius: 8px;
-  border: 1px;
-  gap: 8px;
-  border: 1px solid var(--cherryPieVariant);
-  background-color: white;
-  color: var(--cherryPieVariant);
-  font-family: var(--poppins-font);
-  font-weight: 600;
-  font-size: large;
-
-  padding: 12px, 24px, 12px, 24px;
-}
-
-.btn3 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--cherryPieVariant);
-  background-color: white;
-  border: white;
-  width: 173px;
-  height: 48px;
-  padding: 12px, 24px, 12px, 24px;
-  border-radius: 8px;
-  gap: 8px;
-  font-family: var(--poppins-font);
-  font-weight: 600;
-  font-size: large;
-  line-height: 24px;
-}
-
-.btn3Full {
-  width: 312px;
-  height: 48px;
-  padding: 12px, 24px, 12px, 24px;
-  border-radius: 8px;
-  gap: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--cherryPieVariant);
-  background-color: white;
-  border: white;
-  font-family: var(--poppins-font);
-  font-weight: 600;
-  font-size: large;
-  line-height: 24px;
-}
-
 .display {
   margin: 50px;
+}
+
+@media (max-width: 480px) {
+  .primary {
+    width: 80%;
+  }
+}
+
+/* Notes: keep this at the last because it needs to override all width property above and achieve 100% width */
+.fullWidth {
+  width: 100%;
 }

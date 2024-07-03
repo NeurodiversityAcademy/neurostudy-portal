@@ -8,16 +8,14 @@
         padding-bottom: 50px;
     }
 
+    .title {
+        width: 90%;
+    }
+
     .bodyText {
         text-align: justify;
         margin: 0 30px 30px 30px;
         padding: 0px 10px;
-    }
-
-    .accessButton {
-        width: 15rem;
-        height: 3rem;
-        margin: 20px 0px 3.6rem 0px;
     }
 
 }
@@ -37,15 +35,9 @@
     }
 
     .bodyText {
-        margin-bottom: 30px;
+        margin-bottom: 50px;
         max-width: 65vw;
         text-align: justify;
-    }
-
-    .accessButton {
-        width: 16rem;
-        height: 3rem;
-        margin-bottom: 6rem;
     }
 
 }

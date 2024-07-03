@@ -52,7 +52,7 @@ export default function Fact() {
       </div>
       <div className={styles.factReference}>
         <Typography
-          variant={TypographyVariant.Body3MOB}
+          variant={TypographyVariant.Body3}
           color='var(--BondBlackVariant)'
         >
           *People with Disability in Australia 2022

@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Logo from '../../images/Logo-navbar.svg';
 import Hamburger from '../../images/hamburgerMenu.svg';
 import Typography, { TypographyVariant } from '../typography/Typography';
+import UserOutlet from './UserOutlet';
 
 export default function Navbar() {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -111,6 +112,7 @@ export default function Navbar() {
                 </Typography>
               </Link>
             </li>
+            {<UserOutlet />}
           </ul>
           {/* <MyLogin className={styles.login} /> */}
         </div>
@@ -185,6 +187,7 @@ export default function Navbar() {
                   </Typography>
                 </Link>
               </li>
+              {<UserOutlet />}
             </ul>
           )}
         </div>
