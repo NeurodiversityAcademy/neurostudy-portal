@@ -12,6 +12,7 @@ import { MetadataProps } from '@/app/interfaces/MetadataProps';
 import { Metadata } from 'next';
 import { HOST_URL, META_KEY } from '@/app/utilities/constants';
 import { createMetadata } from '@/app/utilities/common';
+import Link from 'next/link';
 
 export async function generateMetadata({
   searchParams,
@@ -46,7 +47,11 @@ export default function OneBlog({ searchParams }: MetadataProps) {
 
   if (!blog) {
     return (
-      <Typography variant={TypographyVariant.H1}>Blog not found</Typography>
+      <div>
+        <h2>Not Found</h2>
+        <p>Could not find requested resource</p>
+        <Link href='/article?'>Return Home</Link>
+      </div>
     );
   }
 
