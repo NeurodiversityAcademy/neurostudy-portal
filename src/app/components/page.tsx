@@ -6,11 +6,21 @@ import Example from './typography/Example';
 import styles from '../page.module.css';
 import BadgeDisplay from './badges/BadgeDisplay';
 import Typography, { TypographyVariant } from './typography/Typography';
-import { useState, ChangeEvent } from 'react';
-import Textbox, { TextboxVariant } from './textbox/Textbox';
+import TextBox from '@/app/components/formElements/TextBox/TextBox';
+import { EMAIL_REGEX, FORM_ELEMENT_COL_WIDTH } from '../utilities/constants';
+import { FieldValues, useForm, UseFormReturn } from 'react-hook-form';
+import Form from '@/app/components/formElements/Form';
+import TextArea from '@/app/components/formElements/TextArea/TextArea';
+
+interface LoginFieldValues extends FieldValues {
+  username: string;
+  password: string;
+}
 
 export default function Components() {
-  const [name, setName] = useState('');
+  const methods: UseFormReturn<LoginFieldValues> = useForm<LoginFieldValues>({
+    mode: 'onBlur',
+  });
 
   return (
     <main className={styles.main}>
@@ -44,62 +54,51 @@ export default function Components() {
           singleBlog={false}
         />
       </div>
-      <div className={styles.border}>
-        <Typography variant={TypographyVariant.H2}>Textboxes</Typography>
-        <Typography variant={TypographyVariant.Body2}>Regular</Typography>
-        <Textbox
-          name={'Username'}
-          label={'Username'}
-          type={'text'}
-          value={name}
-          required={false}
-          placeholder={'Name goes here'}
-          // errorMessage={'Error'}
-          variant={TextboxVariant.REGULAR}
-          onChange={function (event: ChangeEvent<HTMLInputElement>): void {
-            setName(event.target.value);
-          }}
-        />
-        <Typography variant={TypographyVariant.Body2}>Long</Typography>
-        <Textbox
-          name={'Username'}
-          label={'Username'}
-          type={'text'}
-          value={name}
-          required={false}
-          placeholder={'Name goes here'}
-          variant={TextboxVariant.LONG}
-          onChange={function (event: ChangeEvent<HTMLInputElement>): void {
-            setName(event.target.value);
-          }}
-        />
-        <Typography variant={TypographyVariant.Body2}>Longer</Typography>
-        <Textbox
-          name={'Username'}
-          label={'Username'}
-          type={'text'}
-          value={name}
-          required={false}
-          placeholder={'Name goes here'}
-          variant={TextboxVariant.LONGER}
-          onChange={function (event: ChangeEvent<HTMLInputElement>): void {
-            setName(event.target.value);
-          }}
-        />
-        <Typography variant={TypographyVariant.Body2}>Longer Error</Typography>
-        <Textbox
-          name={'Username'}
-          label={'Username'}
-          type={'text'}
-          value={name}
-          required={false}
-          placeholder={'Name goes here'}
-          errorMessage={'Error'}
-          variant={TextboxVariant.LONGER}
-          onChange={function (event: ChangeEvent<HTMLInputElement>): void {
-            setName(event.target.value);
-          }}
-        />
+      <div className={styles.form}>
+        <Form methods={methods} onSubmit={() => {}}>
+          <Typography variant={TypographyVariant.H2}>Textboxes</Typography>
+          <Typography variant={TypographyVariant.Body2}>Regular</Typography>
+          <TextBox
+            name='username1'
+            type='email'
+            label='Email Address'
+            required
+            placeholder='Email address'
+            pattern={EMAIL_REGEX}
+            colWidth={FORM_ELEMENT_COL_WIDTH.HALF}
+          />
+          <Typography variant={TypographyVariant.Body2}>Full Width</Typography>
+          <TextBox
+            name='username3'
+            type='email'
+            label='Email Address'
+            required
+            placeholder='Email address'
+            pattern={EMAIL_REGEX}
+          />
+          <Typography variant={TypographyVariant.H2}>TextArea</Typography>
+          <Typography variant={TypographyVariant.Body2}>Regular</Typography>
+          <TextArea
+            name='message1'
+            label='Message'
+            showLabel
+            placeholder={'Enter your message'}
+            rules={{
+              maxLength: 300,
+            }}
+            cols={FORM_ELEMENT_COL_WIDTH.HALF}
+          ></TextArea>
+          <Typography variant={TypographyVariant.Body2}>Full Width</Typography>
+          <TextArea
+            name='message2'
+            label='Message'
+            showLabel
+            placeholder={'Enter your message'}
+            rules={{
+              maxLength: 300,
+            }}
+          ></TextArea>
+        </Form>
       </div>
     </main>
   );

@@ -15,6 +15,7 @@ import {
 import Label from '../Label/Label';
 import ErrorBox from '../ErrorBox/ErrorBox';
 import { FORM_ELEMENT_COL_WIDTH } from '@/app/utilities/constants';
+import CloseButton from '../../buttons/CloseButton';
 
 interface TextBoxProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>;
@@ -54,13 +55,16 @@ const TextBox = <TFieldValues extends FieldValues>({
   colWidth = FORM_ELEMENT_COL_WIDTH.FULL,
   rules: rootRules,
 }: TextBoxProps<TFieldValues>) => {
-  const { control } = useFormContext();
+  const { control, watch, setValue } = useFormContext();
 
   const rules = {
     required,
     pattern,
     ...rootRules,
   };
+
+  const inputVal = watch(name, defaultValue);
+  const isInputEmpty = inputVal.trim() === '';
 
   return (
     <Controller
@@ -82,6 +86,13 @@ const TextBox = <TFieldValues extends FieldValues>({
           className,
           error && styles.error
         );
+
+        const handleClick = () => {
+          setValue(name, '' as TFieldValues['name'], {
+            shouldValidate: true,
+            shouldDirty: true,
+          });
+        };
 
         return (
           <div
@@ -115,6 +126,12 @@ const TextBox = <TFieldValues extends FieldValues>({
             />
             {error && (
               <ErrorBox message={error.message?.toString()} label={label} />
+            )}
+            {!isInputEmpty && (
+              <CloseButton
+                className={styles.closeButton}
+                onClick={handleClick}
+              />
             )}
           </div>
         );

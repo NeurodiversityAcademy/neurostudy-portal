@@ -4,6 +4,7 @@
   padding-top: 10px;
   padding-bottom: 10px;
   gap: 5px;
+  position: relative;
 }
 
 .input {
@@ -13,8 +14,23 @@
   border-radius: 8px;
   font-family: inherit;
   height: 37px;
+  outline: none;
+}
+
+.input:focus {
+  border: 1px solid var(--cherryPieVariant);
 }
 
 .error {
   border: 1px solid var(--errorRed);
+}
+
+.closeButton {
+  position: absolute;
+  right: 0;
+  z-index: 2;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  transform: translateX(-20px) translateY(8px);
 }

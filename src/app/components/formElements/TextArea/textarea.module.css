@@ -10,12 +10,27 @@
   border: 1px solid var(--grey-500);
   color: var(--grey-500);
   padding: 0px 15px;
-  border-radius: 8px;
+  border-radius: 12px;
   font-family: inherit;
   padding: 10px 15px;
   resize: none;
+  outline: none;
+}
+
+.input:focus {
+  border: 1px solid var(--cherryPieVariant);
 }
 
 .error {
   border: 1px solid var(--errorRed);
+}
+
+.closeButton {
+  position: absolute;
+  right: 0;
+  z-index: 2;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  transform: translateX(-20px) translateY(39px);
 }
