@@ -1,13 +1,15 @@
 import { UserProps } from '@/app/interfaces/User';
 import { DEFAULT_USER } from '../auth/constants';
+import APIError from '@/app/interfaces/APIError';
 
 const RETURN_DEFAULT_ERROR_MESSAGE = process.env.NODE_ENV === 'production';
 const DEFAULT_ERROR_MESSAGE = `Provided user doesn't satisfy type-check.`;
 
 const throwError = (message: string): void => {
-  throw new Error(
-    RETURN_DEFAULT_ERROR_MESSAGE ? DEFAULT_ERROR_MESSAGE : message
-  );
+  throw new APIError({
+    error: RETURN_DEFAULT_ERROR_MESSAGE ? DEFAULT_ERROR_MESSAGE : message,
+    status: 400,
+  });
 };
 
 export default function assertUserProps(

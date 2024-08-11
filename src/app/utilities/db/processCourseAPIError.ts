@@ -1,8 +1,11 @@
-import { returnBadResponse } from '../responses';
+import { DynamoDBServiceException } from '@aws-sdk/client-dynamodb';
+import { returnDBError } from './responses';
+import processAPIError from '../api/processAPIError';
 
 export default function processCourseAPIError(ex: unknown): Response {
-  const error = ex as Parameters<typeof returnBadResponse>[0];
-  const status = parseInt((error?.status as string) || '0');
-  delete error?.status;
-  return returnBadResponse(error, status);
+  if (ex instanceof DynamoDBServiceException) {
+    return returnDBError(ex);
+  }
+
+  return processAPIError(ex as Parameters<typeof processAPIError>[0]);
 }

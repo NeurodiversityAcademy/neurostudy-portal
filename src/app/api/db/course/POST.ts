@@ -1,3 +1,4 @@
+import APIError from '@/app/interfaces/APIError';
 import { UserToken } from '@/app/interfaces/User';
 import { ADMIN_EMAILS } from '@/app/utilities/api/constants';
 import isAuthenticated from '@/app/utilities/auth/isAuthenticated';
@@ -17,7 +18,7 @@ export default async function POST(req: NextRequest): Promise<Response> {
     const { email } = user;
 
     if (!ADMIN_EMAILS.includes(email)) {
-      throw { error: 'Forbidden Resource.', status: 403 };
+      throw new APIError({ error: 'Forbidden Resource.', status: 403 });
     }
 
     const data = await createCourseTable();

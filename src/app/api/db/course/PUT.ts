@@ -1,12 +1,14 @@
 import APIError from '@/app/interfaces/APIError';
+import { CourseProps } from '@/app/interfaces/Course';
 import { UserToken } from '@/app/interfaces/User';
 import { ADMIN_EMAILS } from '@/app/utilities/api/constants';
 import isAuthenticated from '@/app/utilities/auth/isAuthenticated';
-import describeCourseTable from '@/app/utilities/db/describeCourseTable';
+import insertCourseRows from '@/app/utilities/db/insertCourseRows';
 import processCourseAPIError from '@/app/utilities/db/processCourseAPIError';
+import assertCourseData from '@/app/utilities/validation/assertCourseData';
 import { NextRequest, NextResponse } from 'next/server';
 
-export default async function GET(req: NextRequest): Promise<Response> {
+export default async function PUT(req: NextRequest): Promise<Response> {
   try {
     const userResponse: UserToken | Response = await isAuthenticated({ req });
 
@@ -21,8 +23,11 @@ export default async function GET(req: NextRequest): Promise<Response> {
       throw new APIError({ error: 'Forbidden Resource.', status: 403 });
     }
 
-    const data = await describeCourseTable();
-    return NextResponse.json(data);
+    const data: CourseProps[] = await req.json();
+    assertCourseData(data);
+
+    const res = await insertCourseRows(data);
+    return NextResponse.json(res);
   } catch (ex) {
     return processCourseAPIError(ex);
   }

@@ -18,13 +18,28 @@ export const INVALID_CREDENTIALS_MESSAGE = 'Incorrect username or password.';
 export const DEFAULT_SESSION_AGE_IN_SECONDS = 2 * 24 * 60 * 60;
 
 // NOTE
-// This will be here until we utilize `zod` or similar validation library
+// These will be here until we utilize `zod` or similar validation library
 // This helps us to generate a type based on the given attribute values
 // and validate/assert based on that as well
 export const DEFAULT_USER = {
   FirstName: '',
   LastName: '',
   DOB: '', // ISO String - `2024-03-22T04:28:32.981Z`
+};
+export const DEFAULT_COURSE = {
+  InstitutionName: 'Central Queensland University',
+  Title: 'Bachelor of Laws',
+  Location: 'Sydney',
+  Duration: 24,
+  Rating: 3.9,
+  Tier: 'GOLD',
+  Criteria: {
+    Faculty: 4,
+  },
+  Level: 'MASTERS',
+  InterestArea: 'Cyber Security',
+  Mode: 'Hybrid',
+  Neurotypes: [],
 };
 
 export const USER_TABLE_NAME = process.env.USER_TABLE_NAME || 'NDAUsers';

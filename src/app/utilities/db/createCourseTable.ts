@@ -26,7 +26,7 @@ export default async function createCourseTable() {
       AttributeDefinitions: [
         { AttributeName: 'InstitutionName', AttributeType: 'S' },
         { AttributeName: 'Title', AttributeType: 'S' },
-        { AttributeName: 'Area', AttributeType: 'S' },
+        { AttributeName: 'InterestArea', AttributeType: 'S' },
         { AttributeName: 'Level', AttributeType: 'S' },
         { AttributeName: 'Rating', AttributeType: 'N' },
       ],
@@ -40,7 +40,7 @@ export default async function createCourseTable() {
       },
       GlobalSecondaryIndexes: [
         createDefaultGSI('Title'),
-        createDefaultGSI('Area'),
+        createDefaultGSI('InterestArea'),
         createDefaultGSI('Level'),
         createDefaultGSI('Rating'),
       ],
