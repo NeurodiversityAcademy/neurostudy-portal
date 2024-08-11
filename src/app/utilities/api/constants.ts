@@ -10,3 +10,7 @@ export const DEFAULT_SERVER_ERROR_RES = {
   name: DEFAULT_SERVER_ERROR_NAME,
   message: DEFAULT_SERVER_ERROR_MESSAGE,
 };
+
+export const RETURN_DEFAULT_ERROR_MESSAGE =
+  process.env.NODE_ENV === 'production';
+export const DEFAULT_ASSERTION_ERROR_MESSAGE = `Provided data doesn't satisfy type-check.`;
