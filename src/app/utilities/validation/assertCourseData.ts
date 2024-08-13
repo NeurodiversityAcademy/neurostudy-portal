@@ -11,11 +11,6 @@ export default function assertCourseData(
     throwError(`Invalid request payload, expected a JSON array.`);
   }
 
-  const { length } = data;
-  if (length < 1 || length > 25) {
-    throwError(`Length of the data should be between 1 & 25, inclusive.`);
-  }
-
   let index: number = -1;
   for (const item of data) {
     index++;
