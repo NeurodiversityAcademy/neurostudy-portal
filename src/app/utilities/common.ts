@@ -122,3 +122,12 @@ export const createRequestConfig = <D = unknown>(
 export const getUniqueID = (): string => {
   return 'u' + Math.random().toString(32).substring(2);
 };
+
+export const isObjEmpty = (
+  data: Record<string | number | symbol, unknown>
+): boolean => {
+  for (const _ in data) {
+    return false;
+  }
+  return true;
+};
