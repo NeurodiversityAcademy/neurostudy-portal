@@ -4,6 +4,7 @@ import { isObjEmpty } from '@/app/utilities/common';
 import { getIndexName } from '@/app/utilities/db/common';
 import { dbDocumentClient } from '@/app/utilities/db/configure';
 import {
+  COURSE_TABLE_FILTERABLE_NON_INDEX_KEYS,
   COURSE_TABLE_INDEX_KEY_DEFINITIONS,
   COURSE_TABLE_NAME,
   COURSE_TABLE_PARTITION_KEY,
@@ -60,6 +61,11 @@ export default async function GET(req: NextRequest): Promise<Response> {
       ExpressionAttributeValues[`:${key}`] = value;
       ExpressionAttributeNames[`#${key}`] = key;
     };
+
+    COURSE_TABLE_FILTERABLE_NON_INDEX_KEYS.forEach((key) => {
+      const value = searchParams.get(key);
+      value && updateExpressionAttributes(key, value);
+    });
 
     for (const indexKey in indexKeyValueObj) {
       updateExpressionAttributes(indexKey, indexKeyValueObj[indexKey]);

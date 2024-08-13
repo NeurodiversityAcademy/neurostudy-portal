@@ -9,3 +9,9 @@ export const COURSE_TABLE_INDEX_KEY_DEFINITIONS: AttributeDefinition[] = [
   { AttributeName: 'Level', AttributeType: 'S' },
   { AttributeName: 'Rating', AttributeType: 'N' },
 ];
+
+export const COURSE_TABLE_FILTERABLE_NON_INDEX_KEYS = [
+  'Location',
+  'Mode',
+  'Tier',
+];
