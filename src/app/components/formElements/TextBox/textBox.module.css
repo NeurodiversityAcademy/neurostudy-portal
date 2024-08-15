@@ -15,6 +15,7 @@
   font-family: inherit;
   height: 37px;
   outline: none;
+  padding-right: 34px;
 }
 
 .input:focus {

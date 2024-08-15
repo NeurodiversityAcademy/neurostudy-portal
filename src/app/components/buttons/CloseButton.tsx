@@ -7,11 +7,12 @@ import { ReactEventHandler } from 'react';
 interface CloseButtonProps {
   onClick?: ReactEventHandler<HTMLButtonElement>;
   className?: string;
+  style?: React.CSSProperties;
 }
 
-const CloseButton = ({ onClick, className }: CloseButtonProps) => {
+const CloseButton = ({ onClick, className, style }: CloseButtonProps) => {
   return (
-    <button onClick={onClick} className={className}>
+    <button onClick={onClick} className={className} style={style}>
       <Image src={Close} alt={Close}></Image>
     </button>
   );

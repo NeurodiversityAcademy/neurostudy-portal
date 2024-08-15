@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import styles from './textarea.module.css';
 import classNames from 'classnames';
 import {
@@ -15,6 +15,7 @@ import Label from '../Label/Label';
 import ErrorBox from '../ErrorBox/ErrorBox';
 import { FORM_ELEMENT_COL_WIDTH } from '@/app/utilities/constants';
 import CloseButton from '../../buttons/CloseButton';
+import { calculateScrollbarWidth } from '@/app/utilities/common';
 
 interface TextAreaProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>;
@@ -50,6 +51,9 @@ const TextArea = <TFieldValues extends FieldValues>({
 }: TextAreaProps<TFieldValues>) => {
   const { control, watch, setValue } = useFormContext();
 
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const [buttonRight, setButtonRight] = useState<number>(20);
+
   const rules = {
     required,
     ...rootRules,
@@ -57,6 +61,32 @@ const TextArea = <TFieldValues extends FieldValues>({
 
   const inputVal = watch(name, defaultValue);
   const isInputEmpty = inputVal.trim() === '';
+
+  const adjustButtonPosition = () => {
+    const textArea = textAreaRef.current;
+    if (textArea) {
+      const scrollbarWidth =
+        textArea.scrollHeight > textArea.clientHeight
+          ? calculateScrollbarWidth() - 3
+          : 0;
+      setButtonRight(20 + scrollbarWidth);
+    }
+  };
+
+  useEffect(() => {
+    adjustButtonPosition();
+
+    const textArea = textAreaRef.current;
+    if (textArea) {
+      textArea.addEventListener('scroll', adjustButtonPosition);
+    }
+
+    return () => {
+      if (textArea) {
+        textArea.removeEventListener('scroll', adjustButtonPosition);
+      }
+    };
+  }, [buttonRight]);
 
   return (
     <Controller
@@ -114,6 +144,7 @@ const TextArea = <TFieldValues extends FieldValues>({
                 field.onBlur.apply(this);
                 onBlur?.apply(this);
               }}
+              ref={textAreaRef}
             />
             {error && (
               <ErrorBox message={error.message?.toString()} label={label} />
@@ -122,6 +153,9 @@ const TextArea = <TFieldValues extends FieldValues>({
               <CloseButton
                 className={styles.closeButton}
                 onClick={handleClick}
+                style={{
+                  transform: `translateX(-${buttonRight}px) translateY(39px)`,
+                }}
               />
             )}
           </div>
