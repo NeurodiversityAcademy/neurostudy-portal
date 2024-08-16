@@ -4,6 +4,7 @@ import {
   API_POINT_CONSUMPTION_LIMIT,
 } from './constants';
 import { NextRequest } from 'next/server';
+import APIError from '@/app/interfaces/APIError';
 
 const rateLimiter = new RateLimiterMemory({
   points: API_POINT_CONSUMPTION_LIMIT,
@@ -25,7 +26,7 @@ export const consumeRateWithIp = async (
 
     return { ip, data: res };
   } catch (ex) {
-    throw { ip, error: ex };
+    throw new APIError({ status: 429, error: 'Too Many Requests.' });
   }
 };
 

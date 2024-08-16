@@ -1,5 +1,4 @@
-import { UserToken } from '@/app/interfaces/User';
-import isAuthenticated from '@/app/utilities/auth/isAuthenticated';
+import { consumeRateWithIp } from '@/app/utilities/api/rateLimiter';
 import { isObjEmpty } from '@/app/utilities/common';
 import { getIndexName } from '@/app/utilities/db/common';
 import { dbDocumentClient } from '@/app/utilities/db/configure';
@@ -24,11 +23,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export default async function GET(req: NextRequest): Promise<Response> {
   try {
-    const userResponse: UserToken | Response = await isAuthenticated({ req });
-
-    if (userResponse instanceof Response) {
-      return userResponse;
-    }
+    await consumeRateWithIp(req);
 
     const { searchParams } = req.nextUrl;
 
