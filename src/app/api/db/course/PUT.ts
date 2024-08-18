@@ -1,13 +1,15 @@
 import APIError from '@/app/interfaces/APIError';
-import { CourseProps } from '@/app/interfaces/Course';
+import { CourseProps, CourseWithoutIdProps } from '@/app/interfaces/Course';
 import { UserToken } from '@/app/interfaces/User';
 import { ADMIN_EMAILS } from '@/app/utilities/api/constants';
 import throwAssertionError from '@/app/utilities/api/throwAssertionError';
 import isAuthenticated from '@/app/utilities/auth/isAuthenticated';
-import insertCourseRows from '@/app/utilities/db/insertCourseRows';
+import { COURSE_TABLE_PARTITION_KEY } from '@/app/utilities/db/constants';
+import insertCourseRows from '@/app/utilities/db/course/insertCourseRows';
 import processCourseAPIError from '@/app/utilities/db/processCourseAPIError';
-import assertCourseData from '@/app/utilities/validation/assertCourseData';
+import assertCourseWithoutIdData from '@/app/utilities/validation/assertCourseWithoutIdData';
 import { NextRequest, NextResponse } from 'next/server';
+import { v4 } from 'uuid';
 
 export default async function PUT(req: NextRequest): Promise<Response> {
   try {
@@ -24,8 +26,13 @@ export default async function PUT(req: NextRequest): Promise<Response> {
       throw new APIError({ error: 'Forbidden Resource.', status: 403 });
     }
 
-    const data: CourseProps[] = await req.json();
-    assertCourseData(data);
+    const reqData: CourseWithoutIdProps[] = await req.json();
+    assertCourseWithoutIdData(reqData);
+
+    const data: CourseProps[] = reqData.map((item) => ({
+      [COURSE_TABLE_PARTITION_KEY]: v4(),
+      ...item,
+    }));
 
     const { length } = data;
     if (length < 1 || length > 25) {

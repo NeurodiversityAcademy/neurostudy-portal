@@ -1,12 +1,12 @@
-import { CourseProps } from '@/app/interfaces/Course';
+import { CourseWithoutIdProps } from '@/app/interfaces/Course';
 import throwAssertionError from '../api/throwAssertionError';
-import { DEFAULT_COURSE } from '../db/constants';
+import { DEFAULT_COURSE, DEFAULT_COURSE_WITHOUT_ID } from '../db/constants';
 
 const throwError = throwAssertionError;
 
-export default function assertCourseData(
-  data: CourseProps[]
-): asserts data is CourseProps[] {
+export default function assertCourseWithoutIdData(
+  data: CourseWithoutIdProps[]
+): asserts data is CourseWithoutIdProps[] {
   if (!Array.isArray(data)) {
     throwError(`Invalid request payload, expected a JSON array.`);
   }
@@ -20,7 +20,7 @@ export default function assertCourseData(
 
     let key: string;
     for (key in item) {
-      if (key in DEFAULT_COURSE) {
+      if (key in DEFAULT_COURSE_WITHOUT_ID) {
         /* @ts-expect-error: Server will check this at run-time (along with FE) */
         const expectedType: keyof typeof DEFAULT_COURSE =
           /* @ts-expect-error: Server will check this at run-time (along with FE) */

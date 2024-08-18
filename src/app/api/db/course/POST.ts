@@ -2,7 +2,7 @@ import APIError from '@/app/interfaces/APIError';
 import { UserToken } from '@/app/interfaces/User';
 import { ADMIN_EMAILS } from '@/app/utilities/api/constants';
 import isAuthenticated from '@/app/utilities/auth/isAuthenticated';
-import createCourseTable from '@/app/utilities/db/createCourseTable';
+import createCourseTable from '@/app/utilities/db/course/createCourseTable';
 import processCourseAPIError from '@/app/utilities/db/processCourseAPIError';
 import { NextRequest, NextResponse } from 'next/server';
 

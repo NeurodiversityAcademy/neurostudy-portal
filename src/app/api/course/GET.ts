@@ -7,7 +7,6 @@ import {
   COURSE_TABLE_INDEX_KEY_DEFINITIONS,
   COURSE_TABLE_NAME,
   COURSE_TABLE_PARTITION_KEY,
-  COURSE_TABLE_SORT_KEY,
 } from '@/app/utilities/db/constants';
 import processCourseAPIError from '@/app/utilities/db/processCourseAPIError';
 import assertCourseData from '@/app/utilities/validation/assertCourseData';
@@ -28,7 +27,6 @@ export default async function GET(req: NextRequest): Promise<Response> {
     const { searchParams } = req.nextUrl;
 
     const partitionKeyValue = searchParams.get(COURSE_TABLE_PARTITION_KEY);
-    const sortKeyValue = searchParams.get(COURSE_TABLE_SORT_KEY);
     const indexKeyValueObj: Record<string, string> = {};
 
     COURSE_TABLE_INDEX_KEY_DEFINITIONS.forEach(
@@ -66,8 +64,6 @@ export default async function GET(req: NextRequest): Promise<Response> {
       updateExpressionAttributes(indexKey, indexKeyValueObj[indexKey]);
     }
 
-    sortKeyValue &&
-      updateExpressionAttributes(COURSE_TABLE_SORT_KEY, sortKeyValue);
     partitionKeyValue &&
       updateExpressionAttributes(COURSE_TABLE_PARTITION_KEY, partitionKeyValue);
 
@@ -82,12 +78,6 @@ export default async function GET(req: NextRequest): Promise<Response> {
           FilterExpressionObj[COURSE_TABLE_PARTITION_KEY]
         );
         delete FilterExpressionObj[COURSE_TABLE_PARTITION_KEY];
-        if (sortKeyValue) {
-          KeyConditionExpression.push(
-            FilterExpressionObj[COURSE_TABLE_SORT_KEY]
-          );
-          delete FilterExpressionObj[COURSE_TABLE_SORT_KEY];
-        }
       } else {
         for (const indexKey in indexKeyValueObj) {
           IndexName = getIndexName(indexKey);

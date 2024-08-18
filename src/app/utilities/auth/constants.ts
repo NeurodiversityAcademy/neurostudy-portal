@@ -26,21 +26,6 @@ export const DEFAULT_USER = {
   LastName: '',
   DOB: '', // ISO String - `2024-03-22T04:28:32.981Z`
 };
-export const DEFAULT_COURSE = {
-  InstitutionName: 'Central Queensland University',
-  Title: 'Bachelor of Laws',
-  Location: 'Sydney',
-  Duration: 24,
-  Rating: 3.9,
-  Tier: 'GOLD',
-  Criteria: {
-    Faculty: 4,
-  },
-  Level: 'MASTERS',
-  InterestArea: 'Cyber Security',
-  Mode: 'Hybrid',
-  Neurotypes: [],
-};
 
 export const USER_TABLE_NAME = process.env.USER_TABLE_NAME || 'NDAUsers';
 export const USER_TABLE_PARTITION_ID = 'Email';
