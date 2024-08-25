@@ -1,13 +1,22 @@
 import styles from './profileBody.module.css';
 import ProfileBodyHeader from './ProfileBodyHeader';
 import ProfileCard from './ProfileCard';
+import ProfileInfoSection from './ProfileInfoSection';
+
+const user: Record<string, string | number> = {
+  username: 'Olivia Rhyme',
+  firstName: 'Olivia',
+  lastName: 'Rhyme',
+  email: 'Olivia@gmail.com',
+  age: 24,
+};
 
 const ProfileBody: React.FC = () => {
   return (
     <div className={styles.container}>
-      <ProfileBodyHeader />
+      <ProfileBodyHeader user={user} />
       <ProfileCard title='Personal Information'>
-        Section for inputs!
+        <ProfileInfoSection user={user} />
       </ProfileCard>
       <ProfileCard title='Neuro Condition & Learning Preferences' collapsible>
         Section for inputs!

@@ -6,13 +6,11 @@ import styles from './profileBodyHeader.module.css';
 import editImageIconSrc from '@/app/images/editImageIcon.svg';
 import { notifyInProgress } from '@/app/utilities/common';
 
-const user: Record<string, string | number> = {
-  username: 'Olivia Rhyme',
-  email: 'Olivia@gmail.com',
-  age: 24,
-};
+interface Props {
+  user: Record<string, string | number>;
+}
 
-const ProfileBodyHeader: React.FC = () => {
+const ProfileBodyHeader: React.FC<Props> = ({ user }) => {
   const { username, email, age } = user;
 
   return (
