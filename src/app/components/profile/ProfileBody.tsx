@@ -2,6 +2,10 @@ import styles from './profileBody.module.css';
 import ProfileBodyHeader from './ProfileBodyHeader';
 import ProfileCard from './ProfileCard';
 import ProfileInfoSection from './ProfileInfoSection';
+import preferenceIcon from '@/app/images/preferenceIcon.svg';
+import challengeIcon from '@/app/images/challengeIcon.svg';
+import goalIcon from '@/app/images/goalIcon.svg';
+import strategyIcon from '@/app/images/strategyIcon.svg';
 
 const user: Record<string, string | number> = {
   username: 'Olivia Rhyme',
@@ -18,16 +22,36 @@ const ProfileBody: React.FC = () => {
       <ProfileCard title='Personal Information'>
         <ProfileInfoSection user={user} />
       </ProfileCard>
-      <ProfileCard title='Neuro Condition & Learning Preferences' collapsible>
+      <ProfileCard
+        leftIconSrc={preferenceIcon}
+        leftIconAlt='Neuro Condition & Learning Preferences'
+        title='Neuro Condition & Learning Preferences'
+        collapsible
+      >
         Section for inputs!
       </ProfileCard>
-      <ProfileCard title='Comfort & Challenges' collapsible>
+      <ProfileCard
+        leftIconSrc={challengeIcon}
+        leftIconAlt='Comfort & Challenges'
+        title='Comfort & Challenges'
+        collapsible
+      >
         Section for inputs!
       </ProfileCard>
-      <ProfileCard title='Goals & Interests' collapsible>
+      <ProfileCard
+        leftIconSrc={goalIcon}
+        leftIconAlt='Goals & Interests'
+        title='Goals & Interests'
+        collapsible
+      >
         Section for inputs!
       </ProfileCard>
-      <ProfileCard title='Strategies & Support' collapsible>
+      <ProfileCard
+        leftIconSrc={strategyIcon}
+        leftIconAlt='Strategies & Support'
+        title='Strategies & Support'
+        collapsible
+      >
         Section for inputs!
       </ProfileCard>
     </div>

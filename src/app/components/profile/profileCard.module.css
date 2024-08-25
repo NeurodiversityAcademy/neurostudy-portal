@@ -13,6 +13,8 @@
   border-bottom: 1px solid var(--grey-100);
   padding-bottom: 24px;
   transition: all 150ms linear;
+  gap: 8px;
+  align-items: center;
 }
 
 .title {
