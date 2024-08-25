@@ -1,0 +1,24 @@
+.container {
+  background-color: var(--pure-white);
+  border-radius: 8px;
+  gap: 1px;
+  border: 1px solid var(--grey-4);
+  padding: 24px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--grey-100);
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 18px;
+}
+
+.collapsibleIcon {
+  margin-left: auto;
+}

@@ -1,5 +1,10 @@
 .container {
   background: linear-gradient(135deg, rgba(102, 0, 204, 0.5) 0%, rgba(74, 74, 255, 0.5) 100%);
-  padding: 15px 25px;
+  padding: 2rem 25px;
   min-height: 300px;
+}
+
+.container>div {
+  flex-direction: row-reverse;
+  row-gap: 24px;
 }
