@@ -1,5 +1,10 @@
+'use client';
+
+import Image from 'next/image';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import styles from './profileBodyHeader.module.css';
+import editImageIconSrc from '@/app/images/editImageIcon.svg';
+import { notifyInProgress } from '@/app/utilities/common';
 
 const user: Record<string, string | number> = {
   username: 'Olivia Rhyme',
@@ -12,7 +17,13 @@ const ProfileBodyHeader: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.imageContainer}></div>
+      <div className={styles.imageContainer}>
+        <Image
+          src={editImageIconSrc}
+          alt='Edit Image'
+          onClick={() => notifyInProgress()}
+        />
+      </div>
       <div className={styles.content}>
         <Typography variant={TypographyVariant.H3} className='mb-0'>
           {username}
