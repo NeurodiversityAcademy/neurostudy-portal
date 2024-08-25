@@ -2,5 +2,13 @@
   border-radius: 8px;
   border: 1px solid var(--cherryPieSub);
   padding: 24px;
-  visibility: hidden;
+  gap: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.level {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }

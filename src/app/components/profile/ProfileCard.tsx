@@ -4,7 +4,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import Image from 'next/image';
 import styles from './profileCard.module.css';
 import Typography, { TypographyVariant } from '../typography/Typography';
-import ArrowDown from '@/app/images/ArrowDown';
+import ArrowDown from '@/app/components/images/ArrowDown';
 import classNames from 'classnames';
 
 interface IconStrProps {
