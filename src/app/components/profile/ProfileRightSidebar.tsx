@@ -11,12 +11,18 @@ const ProfileRightSidebar: React.FC = () => {
       <div className={styles.level}>
         <Image src={starImgSrc} alt='Star' />
         <Typography
-          variant={TypographyVariant.Body2}
+          variant={TypographyVariant.Body2Strong}
           color='var(--cherryPieVariant)'
         >
           Level 1
         </Typography>
       </div>
+      <div className={styles.slider}>
+        <div />
+      </div>
+      <Typography variant={TypographyVariant.Body2}>
+        Complete 1 Step to reach Level 2
+      </Typography>
     </div>
   );
 };
