@@ -55,7 +55,7 @@ export const throttle = (
 export const createMetadata = (
   key: META_KEY,
   customMetadata?: Partial<MetadataParams>
-) => {
+): Metadata => {
   const config = { ...metadata[key], ...customMetadata };
   const { title, description, keywords, canonical, type, images } = config;
 
