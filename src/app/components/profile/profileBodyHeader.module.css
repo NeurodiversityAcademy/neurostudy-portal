@@ -1,7 +1,15 @@
 .container {
+  display: flex;
   background-color: var(--pure-white);
   border-radius: 8px;
-  gap: 1px;
+  gap: 24px;
   border: 1px solid var(--grey-4);
   padding: 24px;
+}
+
+.imageContainer {
+  height: 120px;
+  width: 120px;
+  border-radius: 100%;
+  background-color: #E8E4E4;
 }
