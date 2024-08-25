@@ -1,9 +1,13 @@
-import { ReactNode } from 'react';
+'use client';
+
+import { ReactNode, useEffect, useState } from 'react';
 import Image from 'next/image';
 import styles from './profileCard.module.css';
 import Typography, { TypographyVariant } from '../typography/Typography';
+import ArrowDown from '@/app/images/ArrowDown';
+import classNames from 'classnames';
 
-interface IconProps {
+interface IconStrProps {
   leftIconSrc: string;
   leftIconAlt: string;
 }
@@ -13,13 +17,13 @@ interface WithoutIconProps {
   leftIconAlt?: null;
 }
 
-type FullIconProps = IconProps | WithoutIconProps;
+type IconProps = IconStrProps | WithoutIconProps;
 
 type Props = {
   children?: ReactNode;
   title: string;
   collapsible?: boolean;
-} & FullIconProps;
+} & IconProps;
 
 const ProfileCard: React.FC<Props> = ({
   title,
@@ -28,8 +32,20 @@ const ProfileCard: React.FC<Props> = ({
   children,
   collapsible = false,
 }) => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const toggleContent = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
+  useEffect(() => {
+    !collapsible && setIsCollapsed(false);
+  }, [collapsible]);
+
   return (
-    <div className={styles.container}>
+    <div
+      className={classNames(styles.container, isCollapsed && styles.collapsed)}
+    >
       <div className={styles.header}>
         {leftIconSrc && <Image src={leftIconSrc} alt={leftIconAlt} />}
         <Typography
@@ -39,10 +55,13 @@ const ProfileCard: React.FC<Props> = ({
           {title}
         </Typography>
         {collapsible && (
-          <div className={styles.collapsibleIcon}>Collapsible Icon</div>
+          <ArrowDown
+            className={styles.collapsibleIcon}
+            onClick={toggleContent}
+          />
         )}
       </div>
-      {children}
+      <div className={styles.content}>{children}</div>
     </div>
   );
 };

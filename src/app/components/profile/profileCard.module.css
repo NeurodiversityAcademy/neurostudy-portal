@@ -12,7 +12,7 @@
   flex-wrap: wrap;
   border-bottom: 1px solid var(--grey-100);
   padding-bottom: 24px;
-  margin-bottom: 24px;
+  transition: all 150ms linear;
 }
 
 .title {
@@ -20,5 +20,30 @@
 }
 
 .collapsibleIcon {
+  transform-origin: center;
+  transition: transform 150ms linear;
   margin-left: auto;
+  fill: var(--BondBlack);
+  cursor: pointer;
+}
+
+.collapsibleIcon:hover {
+  opacity: .6;
+}
+
+.content {
+  padding-top: 24px;
+}
+
+.collapsed>.header {
+  padding-bottom: 0px;
+  border: none;
+}
+
+.collapsed .collapsibleIcon {
+  transform: rotate(180deg);
+}
+
+.collapsed .content {
+  display: none;
 }
