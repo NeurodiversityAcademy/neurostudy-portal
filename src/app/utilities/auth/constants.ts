@@ -18,7 +18,7 @@ export const INVALID_CREDENTIALS_MESSAGE = 'Incorrect username or password.';
 export const DEFAULT_SESSION_AGE_IN_SECONDS = 2 * 24 * 60 * 60;
 
 // NOTE
-// This will be here until we utilize `zod` or similar validation library
+// These will be here until we utilize `zod` or similar validation library
 // This helps us to generate a type based on the given attribute values
 // and validate/assert based on that as well
 export const DEFAULT_USER = {
