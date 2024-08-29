@@ -26,7 +26,10 @@ export enum TEXTBOX_VARIANT {
 }
 
 export const HOST_URL =
-  process.env.HOST_URL || 'https://neurodiversityacademy.com';
+  process.env.NEXT_PUBLIC_HOST_URL ||
+  (process.env.NODE_ENV === 'development'
+    ? 'http://localhost:3000'
+    : 'https://neurodiversityacademy.com');
 export const SITE_NAME = 'Neurodiversity Academy';
 export const LANGUAGES = { 'en-US': '/en-US' };
 export const LOCALE = 'en_US';
