@@ -8,12 +8,14 @@ interface LoaderProps {
   isLoading: boolean;
   target?: HTMLElement;
   expand?: boolean;
+  alignTop?: boolean;
 }
 
 export default function Loader({
   isLoading,
   target,
   expand = false,
+  alignTop = false,
 }: LoaderProps) {
   const ref = useRef<HTMLSpanElement>(null);
 
@@ -38,7 +40,13 @@ export default function Loader({
 
   return (
     isLoading && (
-      <div className={classNames(styles.loader, expand && styles.expand)}>
+      <div
+        className={classNames(
+          styles.loader,
+          expand && styles.expand,
+          alignTop && styles.loaderAlignTop
+        )}
+      >
         <span className={styles.circle} />
         <span className={styles.circle} />
         <span className={styles.circle} />
