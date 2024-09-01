@@ -3,8 +3,8 @@ import assertUserProps from '../validation/assertUserData';
 
 export default function processProfileFormData(_user: Record<string, unknown>) {
   const user = { ..._user };
-  let key: string;
-  for (key in user) {
+
+  Object.keys(user).forEach((key: string) => {
     if (!(key in DEFAULT_USER)) {
       delete user[key];
     } else {
@@ -20,7 +20,7 @@ export default function processProfileFormData(_user: Record<string, unknown>) {
         user[key] = parseInt(user[key] as string);
       }
     }
-  }
+  });
 
   assertUserProps(user);
 

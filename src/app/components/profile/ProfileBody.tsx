@@ -40,7 +40,7 @@ const ProfileBody: React.FC = () => {
       } = ref;
 
       if (!(await trigger(undefined, { shouldFocus: true }))) {
-        break;
+        return;
       }
 
       Object.assign(data, getValues());
@@ -53,9 +53,9 @@ const ProfileBody: React.FC = () => {
     <div className={styles.container}>
       <ProfileBodyHeader />
       <ProfileInfoSection ref={getRefUpdater('info')} />
-      <ProfilePreferenceSection />
-      <ProfileChallengeSection />
-      <ProfileGoalSection />
+      <ProfilePreferenceSection ref={getRefUpdater('preference')} />
+      <ProfileChallengeSection ref={getRefUpdater('challenge')} />
+      <ProfileGoalSection ref={getRefUpdater('goal')} />
       <ProfileStrategySection ref={getRefUpdater('strategy')} />
       <div className={styles.btnContainer}>
         <ActionButton
