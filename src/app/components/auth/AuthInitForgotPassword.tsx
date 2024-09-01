@@ -13,7 +13,7 @@ import AuthFormHeader from './AuthFormHeader';
 import ActionButton from '../buttons/ActionButton';
 import { BUTTON_STYLE, EMAIL_REGEX } from '@/app/utilities/constants';
 import {
-  getAxiosAuthErrorMessage,
+  getAxiosErrorMessage,
   notifyError,
   notifyInProgress,
 } from '@/app/utilities/common';
@@ -51,7 +51,7 @@ const AuthInitForgotPassword: React.FC<InitForgotPasswordProps> = ({
           break;
       }
     } catch (ex) {
-      notifyError(getAxiosAuthErrorMessage(ex as object));
+      notifyError(getAxiosErrorMessage(ex as object));
     } finally {
       setIsLoading(false);
     }

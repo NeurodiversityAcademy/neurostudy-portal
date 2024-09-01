@@ -11,7 +11,7 @@ import { BUTTON_STYLE } from '@/app/utilities/constants';
 import ActionButton from '../buttons/ActionButton';
 import AuthResendOTPBtn from './AuthResendOTPBtn';
 import {
-  getAxiosAuthErrorMessage,
+  getAxiosErrorMessage,
   notifyError,
   notifySuccess,
 } from '@/app/utilities/common';
@@ -43,11 +43,11 @@ const AuthFinishForgotPassword: React.FC<FinishForgotPasswordProps> = ({
         newPassword,
       });
 
-      notifySuccess('Password reset successfully.');
+      notifySuccess('Password successfully reset.');
 
       handleResetDone();
     } catch (ex) {
-      notifyError(getAxiosAuthErrorMessage(ex as object));
+      notifyError(getAxiosErrorMessage(ex as object));
     } finally {
       setIsLoading(false);
     }

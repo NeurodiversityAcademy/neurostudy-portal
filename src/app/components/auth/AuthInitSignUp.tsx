@@ -18,7 +18,7 @@ import { FORM_STATE } from '@/app/utilities/auth/constants';
 import { useState } from 'react';
 import LoaderWrapper from '../loader/LoaderWrapper';
 import {
-  getAxiosAuthErrorMessage,
+  getAxiosErrorMessage,
   notifyError,
   notifyInProgress,
 } from '@/app/utilities/common';
@@ -71,7 +71,7 @@ const AuthInitSignUp: React.FC = () => {
         notifyInProgress();
       }
     } catch (ex) {
-      notifyError(getAxiosAuthErrorMessage(ex as object));
+      notifyError(getAxiosErrorMessage(ex as object));
     } finally {
       setIsLoading(false);
     }
