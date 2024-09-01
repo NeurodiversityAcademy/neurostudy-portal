@@ -25,6 +25,7 @@ export const DEFAULT_USER = {
   FirstName: '',
   LastName: '',
   DOB: '', // ISO String - `2024-03-22T04:28:32.981Z`
+  Age: 0,
   Conditions: [],
   Institutions: [],
   EnvDescription: '',

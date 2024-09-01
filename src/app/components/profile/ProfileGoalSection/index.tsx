@@ -20,6 +20,7 @@ const ProfileGoalSection: React.FC = () => {
       leftIconAlt='Goals & Interests'
       title='Goals & Interests'
       collapsible
+      isLoading={isLoading}
     >
       <Form initialized={!isLoading} methods={methods}>
         <TextBox

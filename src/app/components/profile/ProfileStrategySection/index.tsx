@@ -7,13 +7,31 @@ import strategyIcon from '@/app/images/strategyIcon.svg';
 import ProfileCard from '../ProfileCard';
 import TextArea from '../../formElements/TextArea/TextArea';
 import { useProfileContext } from '@/app/utilities/profile/ProfileProvider';
+import {
+  forwardRef,
+  ForwardRefExoticComponent,
+  RefAttributes,
+  useImperativeHandle,
+} from 'react';
+import { ProfileSectionRef } from '@/app/interfaces/Profile';
+import { UserProps } from '@/app/interfaces/User';
 
-const ProfileStrategySection: React.FC = () => {
+const ProfileStrategySection: ForwardRefExoticComponent<
+  RefAttributes<ProfileSectionRef>
+> = forwardRef<ProfileSectionRef>((_, ref) => {
   const { data, isLoading } = useProfileContext();
 
-  const methods: UseFormReturn = useForm({
+  const methods: UseFormReturn<UserProps> = useForm<UserProps>({
     mode: 'onBlur',
   });
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      methods,
+    }),
+    [methods]
+  );
 
   return (
     <ProfileCard
@@ -21,6 +39,7 @@ const ProfileStrategySection: React.FC = () => {
       leftIconAlt='Strategies & Support'
       title='Strategies & Support'
       collapsible
+      isLoading={isLoading}
     >
       <Form initialized={!isLoading} methods={methods}>
         <TextBox
@@ -47,6 +66,8 @@ const ProfileStrategySection: React.FC = () => {
       </Form>
     </ProfileCard>
   );
-};
+});
+
+ProfileStrategySection.displayName = 'ProfileStrategySection';
 
 export default ProfileStrategySection;

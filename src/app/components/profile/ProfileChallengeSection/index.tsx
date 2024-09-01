@@ -20,6 +20,7 @@ const ProfileChallengeSection: React.FC = () => {
       leftIconAlt='Comfort & Challenges'
       title='Comfort & Challenges'
       collapsible
+      isLoading={isLoading}
     >
       <Form initialized={!isLoading} methods={methods}>
         <TextBox

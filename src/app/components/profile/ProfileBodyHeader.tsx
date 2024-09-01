@@ -6,21 +6,12 @@ import styles from './profileBodyHeader.module.css';
 import editImageIconSrc from '@/app/images/editImageIcon.svg';
 import { notifyInProgress } from '@/app/utilities/common';
 import { useProfileContext } from '@/app/utilities/profile/ProfileProvider';
-import { UserWithEmailProps } from '@/app/interfaces/User';
 import ProfileCard from './ProfileCard';
 
 const ProfileBodyHeader: React.FC = () => {
-  const { data: _data, isLoading } = useProfileContext();
+  const { data, isLoading } = useProfileContext();
 
-  const data: UserWithEmailProps = _data || {
-    FirstName: '',
-    LastName: '',
-    Email: '',
-  };
-
-  // TODO
-  // Fetch `Age`/`DOB`
-  const Age = isLoading ? '' : 24;
+  const { FirstName = '', LastName = '', Email = '', Age = 0 } = data || {};
 
   return (
     <ProfileCard header={null} isLoading={isLoading}>
@@ -34,12 +25,10 @@ const ProfileBodyHeader: React.FC = () => {
         </div>
         <div className={styles.content}>
           <Typography variant={TypographyVariant.H3} className='mb-0'>
-            {data.FirstName + ' ' + data.LastName}
+            {FirstName + ' ' + LastName}
           </Typography>
           <Typography variant={TypographyVariant.Body3} color='var(--grey-300)'>
-            {[data.Email, Age ? Age + ' Years' : '']
-              .filter((v) => v)
-              .join(' | ')}
+            {[Email, Age ? Age + ' Years' : ''].filter((v) => v).join(' | ')}
           </Typography>
         </div>
       </div>
