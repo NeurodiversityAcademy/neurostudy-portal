@@ -8,14 +8,11 @@ import { ProfileSectionRef } from '@/app/interfaces/Profile';
 import { STRATEGY_FIELDS } from '@/app/utilities/profile/constants';
 import ProfileStrategyForm from './Form';
 import ProfileAttributes from '../ProfileAttributes';
-import getProfileSectionData from '@/app/utilities/profile/getProfileSectionData';
 
 const ProfileStrategySection: ForwardRefExoticComponent<
   RefAttributes<ProfileSectionRef>
 > = forwardRef<ProfileSectionRef>((_, formRef) => {
-  const { data: _data, isLoading, isEditing } = useProfileContext();
-
-  const data = _data && getProfileSectionData(_data, STRATEGY_FIELDS);
+  const { isLoading, isEditing } = useProfileContext();
 
   return (
     <ProfileCard
@@ -28,7 +25,7 @@ const ProfileStrategySection: ForwardRefExoticComponent<
       {isEditing ? (
         <ProfileStrategyForm ref={formRef} />
       ) : (
-        data && <ProfileAttributes data={data} />
+        <ProfileAttributes fields={STRATEGY_FIELDS} />
       )}
     </ProfileCard>
   );

@@ -7,15 +7,12 @@ import { forwardRef, ForwardRefExoticComponent, RefAttributes } from 'react';
 import { ProfileSectionRef } from '@/app/interfaces/Profile';
 import ProfileChallengeForm from './Form';
 import ProfileAttributes from '../ProfileAttributes';
-import { CHALLENGE_FIELDS } from '@/app/utilities/profile/constants';
-import getProfileSectionData from '@/app/utilities/profile/getProfileSectionData';
+import { CHALLENGE_FIELDS, STRATEGY_FIELDS } from '@/app/utilities/profile/constants';
 
 const ProfileChallengeSection: ForwardRefExoticComponent<
   RefAttributes<ProfileSectionRef>
 > = forwardRef<ProfileSectionRef>((_, formRef) => {
-  const { data: _data, isLoading, isEditing } = useProfileContext();
-
-  const data = _data && getProfileSectionData(_data, CHALLENGE_FIELDS);
+  const { isLoading, isEditing } = useProfileContext();
 
   return (
     <ProfileCard
@@ -28,7 +25,7 @@ const ProfileChallengeSection: ForwardRefExoticComponent<
       {isEditing ? (
         <ProfileChallengeForm ref={formRef} />
       ) : (
-        data && <ProfileAttributes data={data} />
+        <ProfileAttributes fields={CHALLENGE_FIELDS} />
       )}
     </ProfileCard>
   );

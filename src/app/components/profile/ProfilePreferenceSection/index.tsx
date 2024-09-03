@@ -7,15 +7,12 @@ import { ProfileSectionRef } from '@/app/interfaces/Profile';
 import ProfilePreferenceForm from './Form';
 import { forwardRef, ForwardRefExoticComponent, RefAttributes } from 'react';
 import ProfileAttributes from '../ProfileAttributes';
-import getProfileSectionData from '@/app/utilities/profile/getProfileSectionData';
 import { PREFERENCE_FIELDS } from '@/app/utilities/profile/constants';
 
 const ProfilePreferenceSection: ForwardRefExoticComponent<
   RefAttributes<ProfileSectionRef>
 > = forwardRef<ProfileSectionRef>((_, formRef) => {
-  const { data: _data, isLoading, isEditing } = useProfileContext();
-
-  const data = _data && getProfileSectionData(_data, PREFERENCE_FIELDS);
+  const { isLoading, isEditing } = useProfileContext();
 
   return (
     <ProfileCard
@@ -28,7 +25,7 @@ const ProfilePreferenceSection: ForwardRefExoticComponent<
       {isEditing ? (
         <ProfilePreferenceForm ref={formRef} />
       ) : (
-        data && <ProfileAttributes data={data} />
+        <ProfileAttributes fields={PREFERENCE_FIELDS} />
       )}
     </ProfileCard>
   );
