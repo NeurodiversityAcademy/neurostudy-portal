@@ -12,9 +12,11 @@ import { ProfileSectionRef } from '@/app/interfaces/Profile';
 import ActionButton from '../buttons/ActionButton';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 import { useProfileContext } from '@/app/utilities/profile/ProfileProvider';
+import { useRouter } from 'next/navigation';
 
 const ProfileBody: React.FC = () => {
   const { saveData, isLoading, isEditing } = useProfileContext();
+  const router = useRouter();
 
   // NOTE
   // Instead of using `ref.current` and nesting, we will attach attributes
@@ -63,7 +65,12 @@ const ProfileBody: React.FC = () => {
             label='Cancel'
             style={BUTTON_STYLE.Secondary}
             className={styles.cancelBtn}
-            disabled
+            onClick={() => {
+              // TODO
+              // - Use a utility function to form the `href` through object
+              // - It should also have the ability to set relative search query
+              router.push('?edit=0');
+            }}
           />
           <ActionButton
             label='Save'
