@@ -1,35 +1,21 @@
 'use client';
 
-import { useForm, UseFormReturn } from 'react-hook-form';
-import Form from '../../formElements/Form';
-import TextBox from '../../formElements/TextBox/TextBox';
 import challengeIcon from '@/app/images/challengeIcon.svg';
 import ProfileCard from '../ProfileCard';
 import { useProfileContext } from '@/app/utilities/profile/ProfileProvider';
-import {
-  forwardRef,
-  ForwardRefExoticComponent,
-  RefAttributes,
-  useImperativeHandle,
-} from 'react';
+import { forwardRef, ForwardRefExoticComponent, RefAttributes } from 'react';
 import { ProfileSectionRef } from '@/app/interfaces/Profile';
+import ProfileChallengeForm from './Form';
+import ProfileAttributes from '../ProfileAttributes';
+import { CHALLENGE_FIELDS } from '@/app/utilities/profile/constants';
+import getProfileSectionData from '@/app/utilities/profile/getProfileSectionData';
 
 const ProfileChallengeSection: ForwardRefExoticComponent<
   RefAttributes<ProfileSectionRef>
-> = forwardRef<ProfileSectionRef>((_, ref) => {
-  const { data, isLoading } = useProfileContext();
+> = forwardRef<ProfileSectionRef>((_, formRef) => {
+  const { data: _data, isLoading, isEditing } = useProfileContext();
 
-  const methods: UseFormReturn = useForm({
-    mode: 'onBlur',
-  });
-
-  useImperativeHandle(
-    ref,
-    () => ({
-      methods,
-    }),
-    [methods]
-  );
+  const data = _data && getProfileSectionData(_data, CHALLENGE_FIELDS);
 
   return (
     <ProfileCard
@@ -39,32 +25,11 @@ const ProfileChallengeSection: ForwardRefExoticComponent<
       collapsible
       isLoading={isLoading}
     >
-      <Form initialized={!isLoading} methods={methods}>
-        <TextBox
-          name='Comforts'
-          label='Tell us about things you are comfortable with'
-          showLabel
-          placeholder='E.G. Online classes'
-          helperText='This will help us create personalised experience for you'
-          defaultValue={data?.Comforts?.join(', ') || ''}
-        />
-        <TextBox
-          name='Struggles'
-          label='Tell us about things that you have struggled with in the past'
-          showLabel
-          placeholder='E.G. Zoom Meetings'
-          helperText='This will help us create personalised experience for you'
-          defaultValue={data?.Struggles?.join(', ') || ''}
-        />
-        <TextBox
-          name='Challenges'
-          label='Tell us about the challenges that you have faced in the past'
-          showLabel
-          placeholder='E.G. Online Learning'
-          helperText='This will help us create personalised experience for you'
-          defaultValue={data?.Challenges?.join(', ') || ''}
-        />
-      </Form>
+      {isEditing ? (
+        <ProfileChallengeForm ref={formRef} />
+      ) : (
+        data && <ProfileAttributes data={data} />
+      )}
     </ProfileCard>
   );
 });
