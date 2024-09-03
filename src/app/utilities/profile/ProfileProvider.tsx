@@ -12,6 +12,7 @@ import {
 import saveUserProfile from './saveUserProfile';
 import { getAxiosErrorMessage, notifyError, notifySuccess } from '../common';
 import processProfileFormData from './processProfileFormData';
+import { useSearchParams } from 'next/navigation';
 
 interface PropType {
   children: ReactNode;
@@ -21,6 +22,7 @@ export interface ProfileContent {
   data: UserWithEmailProps | undefined;
   isLoading: boolean;
   saveData: (_data: Record<string, unknown>) => void;
+  isEditing: boolean;
 }
 
 export const ProfileContext = createContext<ProfileContent | undefined>(
@@ -38,8 +40,14 @@ export const useProfileContext = () => {
 };
 
 export default function ProfileProvider({ children }: PropType) {
+  const searchParams = useSearchParams();
+
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [data, setData] = useState<UserWithEmailProps>();
+
+  const [isEditing, setIsEditing] = useState<boolean>(
+    () => searchParams.get('edit') === '1'
+  );
 
   const saveData = async (_data: Record<string, unknown>) => {
     setIsLoading(true);
@@ -70,8 +78,13 @@ export default function ProfileProvider({ children }: PropType) {
     getData();
   }, []);
 
+  useEffect(() => {
+    const _isEditing: boolean = searchParams.get('edit') === '1';
+    _isEditing !== isEditing && setIsEditing(_isEditing);
+  }, [isEditing, searchParams]);
+
   return (
-    <ProfileContext.Provider value={{ data, isLoading, saveData }}>
+    <ProfileContext.Provider value={{ data, isLoading, saveData, isEditing }}>
       {children}
     </ProfileContext.Provider>
   );
