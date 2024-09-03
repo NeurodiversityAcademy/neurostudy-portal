@@ -14,6 +14,12 @@ export const CHALLENGE_FIELDS = [
   'Challenges',
 ] as const;
 
+export const STRATEGY_FIELDS = [
+  'Strategies',
+  'ManagingWays',
+  'EffectiveStrategy',
+] as const;
+
 export const PROFILE_LABEL_MAPPER: Partial<Record<keyof UserProps, string>> = {
   Conditions: 'Neuro-Condition',
   Institutions: 'Learning Institution',
@@ -22,4 +28,7 @@ export const PROFILE_LABEL_MAPPER: Partial<Record<keyof UserProps, string>> = {
   Comforts: 'Things you are comfortable with',
   Struggles: 'Things that you have struggled with in the past',
   Challenges: 'Tell us about the challenges that you have faced in the past',
+  Strategies: 'Time Management Strategies',
+  ManagingWays: 'Sensory Overload Management in Learning Environments',
+  EffectiveStrategy: 'Effective Learning Strategy',
 };
