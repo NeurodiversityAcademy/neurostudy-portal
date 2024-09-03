@@ -1,35 +1,21 @@
 'use client';
 
-import { useForm, UseFormReturn } from 'react-hook-form';
-import Form from '../../formElements/Form';
-import TextBox from '../../formElements/TextBox/TextBox';
 import goalIcon from '@/app/images/goalIcon.svg';
 import ProfileCard from '../ProfileCard';
 import { useProfileContext } from '@/app/utilities/profile/ProfileProvider';
-import {
-  forwardRef,
-  ForwardRefExoticComponent,
-  RefAttributes,
-  useImperativeHandle,
-} from 'react';
+import { forwardRef, ForwardRefExoticComponent, RefAttributes } from 'react';
 import { ProfileSectionRef } from '@/app/interfaces/Profile';
+import ProfileGoalForm from './Form';
+import getProfileSectionData from '@/app/utilities/profile/getProfileSectionData';
+import ProfileAttributes from '../ProfileAttributes';
+import { GOAL_FIELDS } from '@/app/utilities/profile/constants';
 
 const ProfileGoalSection: ForwardRefExoticComponent<
   RefAttributes<ProfileSectionRef>
-> = forwardRef<ProfileSectionRef>((_, ref) => {
-  const { data, isLoading } = useProfileContext();
+> = forwardRef<ProfileSectionRef>((_, formRef) => {
+  const { data: _data, isLoading, isEditing } = useProfileContext();
 
-  const methods: UseFormReturn = useForm({
-    mode: 'onBlur',
-  });
-
-  useImperativeHandle(
-    ref,
-    () => ({
-      methods,
-    }),
-    [methods]
-  );
+  const data = _data && getProfileSectionData(_data, GOAL_FIELDS);
 
   return (
     <ProfileCard
@@ -39,16 +25,11 @@ const ProfileGoalSection: ForwardRefExoticComponent<
       collapsible
       isLoading={isLoading}
     >
-      <Form initialized={!isLoading} methods={methods}>
-        <TextBox
-          name='Contents'
-          label='What kind of content would you find most engaging?'
-          showLabel
-          placeholder='E.G. AR/VR'
-          helperText='This will help us create personalised experience for you'
-          defaultValue={data?.Contents?.join(', ') || ''}
-        />
-      </Form>
+      {isEditing ? (
+        <ProfileGoalForm ref={formRef} />
+      ) : (
+        data && <ProfileAttributes data={data} />
+      )}
     </ProfileCard>
   );
 });
