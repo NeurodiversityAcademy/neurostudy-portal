@@ -1,5 +1,5 @@
 'use client';
-import React, { ReactElement, ReactEventHandler } from 'react';
+import React, { isValidElement, ReactElement, ReactEventHandler } from 'react';
 import styles from './button.module.css';
 import Image from 'next/image';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
@@ -40,7 +40,7 @@ export default function ActionButton({
   });
 
   const iconElem =
-    icon && (typeof icon === 'string' ? <Image src={icon} alt='icon' /> : icon);
+    icon && (isValidElement(icon) ? icon : <Image src={icon} alt='icon' />);
 
   const children = (
     <>
