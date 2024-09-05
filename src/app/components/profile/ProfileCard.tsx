@@ -4,7 +4,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import Image from 'next/image';
 import styles from './profileCard.module.css';
 import Typography, { TypographyVariant } from '../typography/Typography';
-import ArrowDown from '@/app/components/images/ArrowDown';
+import ArrowDownIcon from '@/app/components/images/ArrowDown';
 import classNames from 'classnames';
 import LoaderWrapper from '../loader/LoaderWrapper';
 
@@ -81,7 +81,7 @@ const ProfileCard: React.FC<Props> = ({
               {title}
             </Typography>
             {!popup && collapsible && (
-              <ArrowDown
+              <ArrowDownIcon
                 className={styles.collapsibleIcon}
                 onClick={toggleContent}
               />

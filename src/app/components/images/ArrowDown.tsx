@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 
-export default function ArrowDown(
+export default function ArrowDownIcon(
   props: React.SVGProps<SVGSVGElement>
 ): ReactElement<SVGElement> {
   return (

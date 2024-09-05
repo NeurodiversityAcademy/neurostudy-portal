@@ -13,6 +13,7 @@ import ActionButton from '../../buttons/ActionButton';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 import useIsProfileSectionEmpty from '@/app/hooks/useIsProfileSectionEmpty';
 import { ProfileFieldsType } from '@/app/interfaces/Profile';
+import AddIcon from '../../images/Add';
 
 type Props = {
   fields: ProfileFieldsType;
@@ -50,6 +51,7 @@ export default function ProfileAttributes({
         <>
           <ProfileAttribute label={label} value={value} />
           <ActionButton
+            icon={<AddIcon />}
             label={btnText}
             style={BUTTON_STYLE.Secondary}
             className={styles.addBtn}

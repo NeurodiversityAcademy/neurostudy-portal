@@ -1,5 +1,5 @@
 'use client';
-import React, { ReactEventHandler } from 'react';
+import React, { ReactElement, ReactEventHandler } from 'react';
 import styles from './button.module.css';
 import Image from 'next/image';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 interface ActionButtonProps {
   label: string;
-  icon?: string;
+  icon?: string | ReactElement<SVGElement>;
   style?: BUTTON_STYLE;
   disabled?: boolean;
   onClick?: ReactEventHandler<HTMLButtonElement>;
@@ -39,11 +39,14 @@ export default function ActionButton({
     [styles.fullWidth]: fullWidth,
   });
 
+  const iconElem =
+    icon && (typeof icon === 'string' ? <Image src={icon} alt='icon' /> : icon);
+
   const children = (
     <>
-      {iconPosition === 'left' && icon && <Image src={icon} alt='icon' />}
+      {iconPosition === 'left' && iconElem}
       <span>{label}</span>
-      {iconPosition === 'right' && icon && <Image src={icon} alt='icon' />}
+      {iconPosition === 'right' && iconElem}
     </>
   );
 
