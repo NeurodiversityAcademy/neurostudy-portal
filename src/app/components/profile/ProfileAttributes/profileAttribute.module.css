@@ -17,3 +17,9 @@
 .emptyDesc {
   color: var(--grey-300);
 }
+
+.addBtn {
+  width: auto;
+  padding: 0px 2rem;
+  align-self: flex-start;
+}

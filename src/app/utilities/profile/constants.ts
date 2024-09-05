@@ -32,3 +32,17 @@ export const PROFILE_LABEL_MAPPER: Partial<Record<keyof UserProps, string>> = {
   ManagingWays: 'Sensory Overload Management in Learning Environments',
   EffectiveStrategy: 'Effective Learning Strategy',
 };
+
+export const PROFILE_EMPTY_ATTRIBUTE_MAP = new Map<
+  typeof PREFERENCE_FIELDS,
+  {
+    label: string;
+    value: string;
+    btnText: string;
+  }
+>();
+PROFILE_EMPTY_ATTRIBUTE_MAP.set(PREFERENCE_FIELDS, {
+  label: 'Answer few questions',
+  value: 'Tell us about your Neuro Condition & Learning Preferences',
+  btnText: 'Learning Preferences',
+});
