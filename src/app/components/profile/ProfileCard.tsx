@@ -36,6 +36,7 @@ type Props = {
   isLoading?: boolean;
   children?: ReactNode;
   collapsible?: boolean;
+  popup?: boolean;
 } & IconProps &
   HeaderProps;
 
@@ -47,6 +48,7 @@ const ProfileCard: React.FC<Props> = ({
   children,
   collapsible = false,
   header,
+  popup = false,
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -60,19 +62,25 @@ const ProfileCard: React.FC<Props> = ({
 
   return (
     <div
-      className={classNames(styles.container, isCollapsed && styles.collapsed)}
+      className={classNames(
+        styles.container,
+        isCollapsed && styles.collapsed,
+        popup && styles.popup
+      )}
     >
       {header !== null &&
         (header === undefined ? (
           <div className={styles.header}>
-            {leftIconSrc && <Image src={leftIconSrc} alt={leftIconAlt} />}
+            {!popup && leftIconSrc && (
+              <Image src={leftIconSrc} alt={leftIconAlt} />
+            )}
             <Typography
               variant={TypographyVariant.Body2Strong}
               className={styles.title}
             >
               {title}
             </Typography>
-            {collapsible && (
+            {!popup && collapsible && (
               <ArrowDown
                 className={styles.collapsibleIcon}
                 onClick={toggleContent}
