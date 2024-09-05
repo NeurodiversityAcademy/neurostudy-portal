@@ -66,4 +66,12 @@ export const PROFILE_EMPTY_ATTRIBUTE_MAP = new Map<
       btnText: 'Comfort & Challenges',
     },
   ],
+  [
+    STRATEGY_FIELDS,
+    {
+      label: 'Answer few questions',
+      value: 'Tell us about your Strategies',
+      btnText: 'Strategies',
+    },
+  ],
 ]);

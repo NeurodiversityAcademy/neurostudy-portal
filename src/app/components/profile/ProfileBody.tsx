@@ -19,6 +19,7 @@ const POPUP_SECTION_MAPPER = {
   preference: ProfilePreferenceSection,
   goal: ProfileGoalSection,
   challenge: ProfileChallengeSection,
+  strategy: ProfileStrategySection,
 };
 
 const ProfileBody: React.FC = () => {
@@ -102,7 +103,12 @@ const ProfileBody: React.FC = () => {
           setPopupSection('goal');
         }}
       />
-      <ProfileStrategySection ref={getRefUpdater('strategy')} />
+      <ProfileStrategySection
+        ref={getRefUpdater('strategy')}
+        onSectionEdit={() => {
+          setPopupSection('strategy');
+        }}
+      />
       {isEditing && (
         <ProfileFormFooter onCancel={onCancel} onSubmit={onSubmit} />
       )}
