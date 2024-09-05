@@ -16,7 +16,8 @@ import ProfileFormFooter from './ProfileFormFooter';
 import { UserProps } from '@/app/interfaces/User';
 
 const POPUP_SECTION_MAPPER = {
-  Preference: ProfilePreferenceSection,
+  preference: ProfilePreferenceSection,
+  goal: ProfileGoalSection,
 };
 
 const ProfileBody: React.FC = () => {
@@ -85,11 +86,16 @@ const ProfileBody: React.FC = () => {
       <ProfilePreferenceSection
         ref={getRefUpdater('preference')}
         onSectionEdit={() => {
-          setPopupSection('Preference');
+          setPopupSection('preference');
         }}
       />
       <ProfileChallengeSection ref={getRefUpdater('challenge')} />
-      <ProfileGoalSection ref={getRefUpdater('goal')} />
+      <ProfileGoalSection
+        ref={getRefUpdater('goal')}
+        onSectionEdit={() => {
+          setPopupSection('goal');
+        }}
+      />
       <ProfileStrategySection ref={getRefUpdater('strategy')} />
       {isEditing && (
         <ProfileFormFooter onCancel={onCancel} onSubmit={onSubmit} />

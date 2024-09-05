@@ -1,6 +1,12 @@
 import { SubmitHandler, UseFormReturn } from 'react-hook-form';
 import { UserProps } from './User';
 import { MouseEventHandler } from 'react';
+import {
+  CHALLENGE_FIELDS,
+  GOAL_FIELDS,
+  PREFERENCE_FIELDS,
+  STRATEGY_FIELDS,
+} from '../utilities/profile/constants';
 
 export interface ProfileSectionRef {
   methods: UseFormReturn<UserProps>;
@@ -31,3 +37,9 @@ export interface ProfileSectionFormProps {
   onSubmit?: SubmitHandler<UserProps>;
   onCancel?: MouseEventHandler<HTMLButtonElement>;
 }
+
+export type ProfileFieldsType =
+  | typeof PREFERENCE_FIELDS
+  | typeof GOAL_FIELDS
+  | typeof CHALLENGE_FIELDS
+  | typeof STRATEGY_FIELDS;

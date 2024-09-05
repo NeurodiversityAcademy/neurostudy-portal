@@ -12,27 +12,28 @@ import { useProfileContext } from '@/app/utilities/profile/ProfileProvider';
 import ActionButton from '../../buttons/ActionButton';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 import useIsProfileSectionEmpty from '@/app/hooks/useIsProfileSectionEmpty';
+import { ProfileFieldsType } from '@/app/interfaces/Profile';
 
-type Props<UserPropKeys extends keyof UserProps = keyof UserProps> = {
-  fields: readonly UserPropKeys[];
+type Props = {
+  fields: ProfileFieldsType;
   onSectionEdit?: MouseEventHandler<HTMLButtonElement>;
 };
 
-export default function ProfileAttributes<
-  UserPropKeys extends keyof UserProps = keyof UserProps,
->({ fields, onSectionEdit }: Props<UserPropKeys>): ReactNode {
+export default function ProfileAttributes({
+  fields,
+  onSectionEdit,
+}: Props): ReactNode {
   const { data: wholeData } = useProfileContext();
 
-  const data: UserProps<UserPropKeys> | undefined = useUpdatedValue<
-    UserProps<UserPropKeys> | undefined,
+  const data: UserProps | undefined = useUpdatedValue<
+    UserProps | undefined,
     UserProps | undefined
   >(wholeData, () => {
-    return wholeData && getProfileSectionData<UserPropKeys>(wholeData, fields);
+    return wholeData && getProfileSectionData(wholeData, fields);
   });
 
-  const isDataEmpty = useIsProfileSectionEmpty<UserPropKeys>(data);
+  const isDataEmpty = useIsProfileSectionEmpty(data);
   const emptyAttributeInfo =
-    /* @ts-expect-error: Either the key maps to a value or returns undefined */
     (isDataEmpty && PROFILE_EMPTY_ATTRIBUTE_MAP.get(fields)) || undefined;
 
   if (!data) {

@@ -1,3 +1,4 @@
+import { ProfileFieldsType } from '@/app/interfaces/Profile';
 import { UserProps } from '@/app/interfaces/User';
 
 export const PREFERENCE_FIELDS = [
@@ -34,15 +35,27 @@ export const PROFILE_LABEL_MAPPER: Partial<Record<keyof UserProps, string>> = {
 };
 
 export const PROFILE_EMPTY_ATTRIBUTE_MAP = new Map<
-  typeof PREFERENCE_FIELDS,
+  ProfileFieldsType,
   {
     label: string;
     value: string;
     btnText: string;
   }
->();
-PROFILE_EMPTY_ATTRIBUTE_MAP.set(PREFERENCE_FIELDS, {
-  label: 'Answer few questions',
-  value: 'Tell us about your Neuro Condition & Learning Preferences',
-  btnText: 'Learning Preferences',
-});
+>([
+  [
+    PREFERENCE_FIELDS,
+    {
+      label: 'Answer few questions',
+      value: 'Tell us about your Neuro Condition & Learning Preferences',
+      btnText: 'Learning Preferences',
+    },
+  ],
+  [
+    GOAL_FIELDS,
+    {
+      label: 'Answer few questions',
+      value: 'Tell us about your Goals & Interests',
+      btnText: 'Goals & Interests',
+    },
+  ],
+]);
