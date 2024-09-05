@@ -58,4 +58,12 @@ export const PROFILE_EMPTY_ATTRIBUTE_MAP = new Map<
       btnText: 'Goals & Interests',
     },
   ],
+  [
+    CHALLENGE_FIELDS,
+    {
+      label: 'Answer few questions',
+      value: 'Tell us about your Comfort & Challenges',
+      btnText: 'Comfort & Challenges',
+    },
+  ],
 ]);

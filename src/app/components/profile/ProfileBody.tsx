@@ -18,6 +18,7 @@ import { UserProps } from '@/app/interfaces/User';
 const POPUP_SECTION_MAPPER = {
   preference: ProfilePreferenceSection,
   goal: ProfileGoalSection,
+  challenge: ProfileChallengeSection,
 };
 
 const ProfileBody: React.FC = () => {
@@ -89,7 +90,12 @@ const ProfileBody: React.FC = () => {
           setPopupSection('preference');
         }}
       />
-      <ProfileChallengeSection ref={getRefUpdater('challenge')} />
+      <ProfileChallengeSection
+        ref={getRefUpdater('challenge')}
+        onSectionEdit={() => {
+          setPopupSection('challenge');
+        }}
+      />
       <ProfileGoalSection
         ref={getRefUpdater('goal')}
         onSectionEdit={() => {
