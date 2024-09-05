@@ -7,6 +7,12 @@
   flex-direction: column;
 }
 
+.container>img {
+  width: 100%;
+  max-width: 381px;
+  height: auto;
+}
+
 .level {
   display: flex;
   align-items: center;

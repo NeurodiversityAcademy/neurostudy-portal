@@ -7,7 +7,7 @@ import { forwardRef, ForwardRefExoticComponent, RefAttributes } from 'react';
 import { ProfileSectionRef } from '@/app/interfaces/Profile';
 import ProfileChallengeForm from './Form';
 import ProfileAttributes from '../ProfileAttributes';
-import { CHALLENGE_FIELDS, STRATEGY_FIELDS } from '@/app/utilities/profile/constants';
+import { CHALLENGE_FIELDS } from '@/app/utilities/profile/constants';
 
 const ProfileChallengeSection: ForwardRefExoticComponent<
   RefAttributes<ProfileSectionRef>
