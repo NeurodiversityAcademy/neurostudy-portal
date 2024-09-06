@@ -4,7 +4,6 @@
   padding-top: 10px;
   padding-bottom: 10px;
   gap: 5px;
-  position: relative;
 }
 
 .input {
@@ -16,7 +15,6 @@
   padding: 10px 15px;
   resize: none;
   outline: none;
-  padding-right: 34px;
 }
 
 .input:focus {
@@ -34,4 +32,5 @@
   border: none;
   cursor: pointer;
   background-color: transparent;
+  transform: translateX(-20px) translateY(39px);
 }

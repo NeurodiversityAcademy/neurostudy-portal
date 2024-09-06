@@ -122,22 +122,3 @@ export const createRequestConfig = <D = unknown>(
 export const getUniqueID = (): string => {
   return 'u' + Math.random().toString(32).substring(2);
 };
-
-export const calculateScrollbarWidth = (): number => {
-  const outer = document.createElement('div');
-  outer.style.visibility = 'hidden';
-  outer.style.overflow = 'scroll';
-  outer.style.width = '50px';
-
-  const inner = document.createElement('div');
-  inner.style.width = '100%';
-
-  outer.appendChild(inner);
-  document.body.appendChild(outer);
-
-  const scrollbarWidth = outer.offsetWidth - outer.clientWidth;
-
-  document.body.removeChild(outer);
-
-  return scrollbarWidth;
-};
