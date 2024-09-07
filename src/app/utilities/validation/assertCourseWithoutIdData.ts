@@ -1,6 +1,6 @@
 import { CourseWithoutIdProps } from '@/app/interfaces/Course';
 import throwAssertionError from '../api/throwAssertionError';
-import { DEFAULT_COURSE, DEFAULT_COURSE_WITHOUT_ID } from '../db/constants';
+import { DEFAULT_COURSE_WITHOUT_ID } from '../db/constants';
 
 const throwError = throwAssertionError;
 
@@ -22,9 +22,9 @@ export default function assertCourseWithoutIdData(
     for (key in item) {
       if (key in DEFAULT_COURSE_WITHOUT_ID) {
         /* @ts-expect-error: Server will check this at run-time (along with FE) */
-        const expectedType: keyof typeof DEFAULT_COURSE =
+        const expectedType: keyof typeof DEFAULT_COURSE_WITHOUT_ID =
           /* @ts-expect-error: Server will check this at run-time (along with FE) */
-          typeof DEFAULT_COURSE[key];
+          typeof DEFAULT_COURSE_WITHOUT_ID[key];
         /* @ts-expect-error: Server will check this at run-time (along with FE) */
         const providedType: unknown = typeof item[key];
         if (expectedType !== providedType) {
