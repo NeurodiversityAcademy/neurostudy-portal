@@ -22,7 +22,7 @@ export interface ProfileContent {
   data: UserWithEmailProps | undefined;
   isLoading: boolean;
   saveData: (
-    _data: Record<string, unknown>,
+    data: Record<string, unknown>,
     onSuccess?: () => void
   ) => Promise<void>;
   isEditing: boolean;
@@ -52,7 +52,7 @@ export default function ProfileProvider({ children }: PropType) {
     () => searchParams.get('edit') === '1'
   );
 
-  const saveData = async (
+  const saveData: ProfileContent['saveData'] = async (
     _data: Record<string, unknown>,
     onSuccess?: () => void
   ) => {

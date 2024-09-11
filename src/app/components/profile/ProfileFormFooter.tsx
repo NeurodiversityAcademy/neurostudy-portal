@@ -21,7 +21,7 @@ const ProfileFormFooter: React.FC<Props> = ({
   const { isLoading } = useProfileContext();
 
   return (
-    <div className={classNames(styles.container, className)}>
+    <div className={classNames(styles.container, 'mt-3', className)}>
       <ActionButton
         type='button'
         label='Cancel'

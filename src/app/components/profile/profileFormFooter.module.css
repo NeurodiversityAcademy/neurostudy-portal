@@ -1,6 +1,7 @@
 .container {
   display: flex;
-  gap: 24px;
+  column-gap: var(--profile-x-gap);
+  row-gap: var(--profile-y-gap);
   flex-wrap: wrap;
 }
 

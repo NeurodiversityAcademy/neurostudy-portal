@@ -70,9 +70,7 @@ const ProfileChallengeForm: ForwardRefExoticComponent<
           helperText='This will help us create personalised experience for you'
           defaultValue={data?.Challenges?.join(', ') || ''}
         />
-        {onSubmit ? (
-          <ProfileFormFooter onCancel={onCancel} className='mt-4' />
-        ) : null}
+        {onSubmit ? <ProfileFormFooter onCancel={onCancel} /> : null}
       </Form>
     );
   }

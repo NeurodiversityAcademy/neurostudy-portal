@@ -6,5 +6,5 @@
 
 .container>div {
   flex-direction: row-reverse;
-  row-gap: 24px;
+  row-gap: var(--profile-y-gap);
 }

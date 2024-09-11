@@ -44,6 +44,10 @@
   --secondary-button-width: 165px;
   --tertiary-button-width: 173px;
 
+  /* Profile */
+  --profile-x-gap: 20px;
+  --profile-y-gap: 15px;
+
   --GhostWhite: #f8f8ff;
   --GhostWhiteSub: #f8f8ff;
   --GhostWhiteVariant: #efefff;
