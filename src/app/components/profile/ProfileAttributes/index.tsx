@@ -24,7 +24,7 @@ export default function ProfileAttributes<
   });
 
   if (!data) {
-    return null
+    return null;
   }
 
   return (
