@@ -2,7 +2,6 @@
 
 import { useForm, UseFormReturn } from 'react-hook-form';
 import Form from '../../formElements/Form';
-import TextBox from '../../formElements/TextBox/TextBox';
 import { useProfileContext } from '@/app/utilities/profile/ProfileProvider';
 import {
   forwardRef,
@@ -16,9 +15,14 @@ import {
   ProfileSectionRef,
 } from '@/app/interfaces/Profile';
 import { UserProps } from '@/app/interfaces/User';
-import { STRATEGY_FIELDS } from '@/app/utilities/profile/constants';
+import {
+  PROFILE_FIELD_OPTIONS,
+  STRATEGY_FIELDS,
+} from '@/app/utilities/profile/constants';
 import TextArea from '../../formElements/TextArea/TextArea';
 import ProfileFormFooter from '../ProfileFormFooter';
+import Dropdown from '../../formElements/Dropdown/Dropdown';
+import Radio from '../../formElements/Radio/Radio';
 
 type UserStrategyProps = UserProps<(typeof STRATEGY_FIELDS)[number]>;
 
@@ -47,19 +51,38 @@ const ProfileStrategyForm: ForwardRefExoticComponent<
         methods={methods}
         onSubmit={onSubmit && methods.handleSubmit(onSubmit)}
       >
-        <TextBox
+        <Dropdown
           name='Strategies'
           label='What strategies do you use to manage your time effectively?'
           showLabel
           placeholder='E.G. Focused Learning'
-          defaultValue={data?.Strategies?.join(', ') || ''}
+          creatable
+          defaultValue={data?.Strategies || []}
+          options={PROFILE_FIELD_OPTIONS.Strategies}
         />
-        <TextBox
+        <Dropdown
           name='ManagingWays'
           label='How do you manage sensory overload in learning environments?'
           showLabel
           placeholder='E.G. Focus'
-          defaultValue={data?.ManagingWays?.join(', ') || ''}
+          creatable
+          defaultValue={data?.ManagingWays || []}
+          options={PROFILE_FIELD_OPTIONS.ManagingWays}
+        />
+        <Radio
+          name='FocusAids'
+          label='Would access to fidget toys, noise-canceling headphones, or other focus aids be beneficial 
+  for you?'
+          showLabel
+          defaultValue={data?.FocusAids}
+          options={PROFILE_FIELD_OPTIONS.FocusAids}
+        />
+        <Radio
+          name='MeetNDLearners'
+          label='Would you be interested in meeting/collaborating with other ND learners?*'
+          showLabel
+          defaultValue={data?.MeetNDLearners}
+          options={PROFILE_FIELD_OPTIONS.MeetNDLearners}
         />
         <TextArea
           name='EffectiveStrategy'

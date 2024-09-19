@@ -11,7 +11,7 @@
 
 .label {
   font-size: 14px;
-  color: var(----BondBlackVariant);
+  color: var(--BondBlackVariant);
 }
 
 .emptyDesc {

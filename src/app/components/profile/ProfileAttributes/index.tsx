@@ -67,7 +67,7 @@ export default function ProfileAttributes({
         Object.keys(data).map((_key) => {
           const key = _key as keyof typeof data;
           const label = PROFILE_LABEL_MAPPER[key] || '';
-          const value = data[key] || '';
+          const value = data[key];
           return <ProfileAttribute key={key} label={label} value={value} />;
         })}
     </div>
