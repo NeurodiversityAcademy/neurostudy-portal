@@ -1,0 +1,16 @@
+.radioRoot {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  position: relative;
+}
+
+.radioContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.radioContainer.vertical {
+  flex-direction: column;
+}
