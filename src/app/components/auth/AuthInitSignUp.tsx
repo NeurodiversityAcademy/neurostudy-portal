@@ -17,11 +17,7 @@ import { SignUpOutput } from 'aws-amplify/auth';
 import { FORM_STATE } from '@/app/utilities/auth/constants';
 import { useState } from 'react';
 import LoaderWrapper from '../loader/LoaderWrapper';
-import {
-  getAxiosErrorMessage,
-  notifyError,
-  notifyInProgress,
-} from '@/app/utilities/common';
+import { notifyAxiosError, notifyInProgress } from '@/app/utilities/common';
 import AuthVerifyForm from './AuthVerifyForm';
 import signUp from '@/app/utilities/auth/signUp';
 
@@ -71,7 +67,7 @@ const AuthInitSignUp: React.FC = () => {
         notifyInProgress();
       }
     } catch (ex) {
-      notifyError(getAxiosErrorMessage(ex as object));
+      notifyAxiosError(ex);
     } finally {
       setIsLoading(false);
     }
