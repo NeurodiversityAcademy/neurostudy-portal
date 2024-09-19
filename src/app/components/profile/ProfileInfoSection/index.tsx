@@ -74,6 +74,17 @@ const ProfileInfoSection: ForwardRefExoticComponent<
           placeholder='Age'
           showLabel
           defaultValue={data?.Age || ''}
+          rules={{
+            validate: (_value) => {
+              const value = parseFloat(_value);
+
+              if (isNaN(value)) {
+                return '"Number" type expected.';
+              }
+
+              return value > 0 || 'Value should be greater than 0.';
+            },
+          }}
         />
         {/* // TODO */}
         {/* 'Email' is not actually a part of the accepted field values. */}

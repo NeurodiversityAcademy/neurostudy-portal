@@ -72,7 +72,7 @@ const ProfileGoalForm: ForwardRefExoticComponent<
           options={PROFILE_FIELD_OPTIONS.Interests}
           rules={{
             validate: {
-              limit5: (value) => value.length <= 3 || 'Choose at most 5.',
+              limit5: (value) => value.length <= 5 || 'Choose at most 5.',
             },
           }}
         />
