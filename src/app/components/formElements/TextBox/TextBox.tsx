@@ -15,6 +15,7 @@ import {
 import Label from '../Label/Label';
 import ErrorBox from '../ErrorBox/ErrorBox';
 import { FORM_ELEMENT_COL_WIDTH } from '@/app/utilities/constants';
+import HelperText from '../HelperText/HelperText';
 
 interface TextBoxProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>;
@@ -115,7 +116,7 @@ const TextBox = <TFieldValues extends FieldValues>({
                 onBlur?.apply(this);
               }}
             />
-            {helperText && <div className={styles.helper}>{helperText}</div>}
+            <HelperText>{helperText}</HelperText>
             {error && (
               <ErrorBox message={error.message?.toString()} label={label} />
             )}
