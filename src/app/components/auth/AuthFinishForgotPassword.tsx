@@ -61,7 +61,7 @@ const AuthFinishForgotPassword: React.FC<FinishForgotPasswordProps> = ({
     >
       <AuthFormHeader title='Almost Done' subText='one last step' />
       <Form methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
-        <Typography variant={TypographyVariant.Body3} className='pt-3'>
+        <Typography variant={TypographyVariant.Body3}>
           Please enter the verification code sent to <b>{username}</b>.
         </Typography>
         <TextBox

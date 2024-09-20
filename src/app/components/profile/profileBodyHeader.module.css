@@ -1,21 +1,27 @@
 .container {
   display: flex;
-  gap: 24px;
+  column-gap: var(--profile-x-gap);
+  row-gap: var(--profile-y-gap);
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .imageContainer {
-  height: 120px;
-  width: 120px;
+  height: calc(var(--profile-y-gap) * 4);
+  width: calc(var(--profile-y-gap) * 4);
   border-radius: 100%;
-  background-color: #E8E4E4;
+  background-color: #e8e4e4;
   position: relative;
+  flex-shrink: 0;
 }
 
-.imageContainer>img {
+.imageContainer > img {
   position: absolute;
-  right: 12px;
-  bottom: 6px;
+  right: 3%;
+  bottom: 3%;
   cursor: pointer;
+  width: 28%;
+  height: auto;
 }
 
 .editBtn {

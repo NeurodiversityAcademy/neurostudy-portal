@@ -73,7 +73,7 @@ const AuthInitForgotPassword: React.FC<InitForgotPasswordProps> = ({
           placeholder='Email address'
           pattern={EMAIL_REGEX}
         />
-        <div className='my-3'>
+        <div className='mt-2 mb-3'>
           <ActionButton
             type='submit'
             label='Send Code'

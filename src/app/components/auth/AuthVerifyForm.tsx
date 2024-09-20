@@ -14,6 +14,7 @@ import TextBox from '../formElements/TextBox/TextBox';
 import AuthResendOTPBtn from './AuthResendOTPBtn';
 import { signIn } from 'next-auth/react';
 import { INVALID_CREDENTIALS_MESSAGE } from '@/app/utilities/auth/constants';
+import classNames from 'classnames';
 
 interface PropType {
   username: string;
@@ -90,7 +91,7 @@ const AuthVerifyForm: React.FC<PropType> = ({
 
   return (
     <Form methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
-      <Typography variant={TypographyVariant.Body3} className='pt-3'>
+      <Typography variant={TypographyVariant.Body3}>
         Please enter the verification code sent to <b>{username}</b>.
       </Typography>
       <TextBox
@@ -99,7 +100,7 @@ const AuthVerifyForm: React.FC<PropType> = ({
         required
         placeholder='Verification Code'
       />
-      <div className={styles.verifyFormBtnContainer}>
+      <div className={classNames(styles.verifyFormBtnContainer, 'mt-2 mb-3')}>
         <ActionButton
           type='submit'
           label='Verify'

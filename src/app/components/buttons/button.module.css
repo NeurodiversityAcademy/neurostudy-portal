@@ -2,6 +2,7 @@
   padding-inline: 0px;
   padding-block: 0px;
   cursor: pointer;
+  padding: 8px 12px;
 }
 
 .a {
@@ -30,7 +31,6 @@
   font-weight: var(--body2-strong-font-weight);
   font-size: var(--body2-strong-font-size);
   width: var(--primary-button-width);
-  height: var(--primary-button-height);
 }
 
 .secondary {
@@ -47,7 +47,6 @@
   font-weight: var(--body2-strong-font-weight);
   font-size: var(--body2-strong-font-size);
   width: var(--secondary-button-width);
-  height: var(--secondary-button-height);
 }
 
 .tertiary {
@@ -63,8 +62,6 @@
   font-weight: var(--body2-strong-font-weight);
   font-size: var(--body2-strong-font-size);
   width: var(--tertiary-button-width);
-  height: var(--tertiary-button-height);
-  line-height: calc(var(--tertiary-button-height) / 2);
 }
 
 .disabled {

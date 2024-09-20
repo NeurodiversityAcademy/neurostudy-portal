@@ -28,7 +28,7 @@ const ProfileBodyHeader: React.FC = () => {
           />
         </div>
         <div className={styles.content}>
-          <Typography variant={TypographyVariant.H3} className='mb-0'>
+          <Typography variant={TypographyVariant.H3} className='m-0'>
             {FirstName + ' ' + LastName}
           </Typography>
           <Typography variant={TypographyVariant.Body3} color='var(--grey-300)'>

@@ -68,9 +68,7 @@ const ProfileStrategyForm: ForwardRefExoticComponent<
           placeholder={`Ex. - Having a good night's sleep, waking up early and start studying in a tranquil environment`}
           defaultValue={data?.EffectiveStrategy || ''}
         />
-        {onSubmit ? (
-          <ProfileFormFooter onCancel={onCancel} className='mt-4' />
-        ) : null}
+        {onSubmit ? <ProfileFormFooter onCancel={onCancel} /> : null}
       </Form>
     );
   }
