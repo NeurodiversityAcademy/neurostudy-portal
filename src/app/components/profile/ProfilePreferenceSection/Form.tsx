@@ -70,9 +70,7 @@ const ProfilePreferenceForm: ForwardRefExoticComponent<
           placeholder='Ex. - I prefer a remote setup with an option to opt for hybrid system'
           defaultValue={data?.EnvDescription || ''}
         />
-        {onSubmit ? (
-          <ProfileFormFooter onCancel={onCancel} className='mt-4' />
-        ) : null}
+        {onSubmit ? <ProfileFormFooter onCancel={onCancel} /> : null}
       </Form>
     );
   }

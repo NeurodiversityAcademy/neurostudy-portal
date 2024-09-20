@@ -1,0 +1,77 @@
+.item {
+  padding: 6px 8px;
+  transition: background-color 200ms ease;
+  display: flex;
+  align-items: center;
+  border: 0;
+  border-radius: 8px;
+  box-sizing: border-box;
+  background-color: unset;
+  font-size: 14px;
+  line-height: 1em;
+  outline: none;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.item:hover {
+  background-color: #f0f0f0;
+}
+
+.input {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--grey-500);
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 8px;
+  cursor: pointer;
+  transition: all 200ms linear;
+  background-color: transparent;
+  outline: 0;
+}
+
+.radio {
+  border-radius: 16px;
+}
+
+.radio[aria-checked='true'] {
+  outline: 6px solid var(--cherryPieVariant);
+  outline-offset: -10px;
+}
+
+.checkbox[aria-checked='true'] {
+  background-color: var(--cherryPieVariant);
+  border-color: transparent;
+}
+
+.item:focus > .checkbox,
+.item:focus > .radio,
+.item:focus.pill {
+  outline: 1px solid var(--BondBlack);
+}
+
+.item:focus > .radio[aria-checked='true'] {
+  outline: 4px solid var(--cherryPieVariant);
+}
+
+.item:focus > .radio[aria-checked='true']::after {
+  content: '';
+  border: 2px solid var(--BondBlack);
+  width: calc(100% + 1px);
+  height: calc(100% + 2px);
+  border-radius: 18px;
+  position: absolute;
+  left: -2px;
+}
+
+.checkmark {
+  color: var(--pure-white);
+}
+
+.item > label {
+  cursor: inherit;
+}

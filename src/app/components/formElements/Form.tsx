@@ -3,6 +3,7 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { FieldValues, FormProvider, UseFormReturn } from 'react-hook-form';
 import classNames from 'classnames';
+import styles from './form.module.css';
 
 interface FormProps<TFieldValues extends FieldValues>
   extends React.HTMLAttributes<HTMLFormElement> {
@@ -26,7 +27,7 @@ const Form = <TFieldValues extends FieldValues>({
     }
   }, [methods, initialized, _initialized]);
 
-  rest.className = classNames(rest.className, 'row');
+  rest.className = classNames(rest.className, 'row', styles.container);
 
   return (
     <FormProvider key={initialized ? 'initialized' : 'loading'} {...methods}>

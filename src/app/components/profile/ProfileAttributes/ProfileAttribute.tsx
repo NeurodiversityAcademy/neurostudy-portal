@@ -5,7 +5,7 @@ import ProfileEmptyDescription from './ProfileEmptyDescription';
 
 interface Props {
   label: string;
-  value: string | number | unknown[] | undefined;
+  value: string | number | boolean | unknown[] | undefined;
 }
 
 export default function ProfileAttribute({

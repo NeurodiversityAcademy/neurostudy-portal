@@ -103,6 +103,11 @@ export const getAxiosErrorMessage = (ex: object): string => {
     : TOAST_UNKNOWN_ERROR_MESSAGE;
 };
 
+export const notifyAxiosError = (ex: unknown) => {
+  process.env.NODE_ENV === 'development' && console.error(ex);
+  notifyError(getAxiosErrorMessage(ex as object));
+};
+
 export const createRequestConfig = <D = unknown>(
   path: string,
   data?: D,
@@ -131,3 +136,5 @@ export const isObjEmpty = (
   }
   return true;
 };
+
+export const emptyFunc = () => void 0;

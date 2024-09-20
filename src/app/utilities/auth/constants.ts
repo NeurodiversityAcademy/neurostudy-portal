@@ -36,6 +36,13 @@ export const DEFAULT_USER = {
   Comforts: [''],
   Struggles: [''],
   Challenges: [''],
+  LearningStyle: [''],
+  FocusAids: false,
+  MeetNDLearners: false,
+  Adjustments: [''],
+  UsedTools: [''],
+  Goals: [''],
+  Interests: [''],
 };
 
 export const USER_TABLE_NAME = process.env.USER_TABLE_NAME || 'NDAUsers';

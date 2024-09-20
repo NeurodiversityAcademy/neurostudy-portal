@@ -3,7 +3,7 @@
   border-radius: 8px;
   gap: 1px;
   border: 1px solid var(--cherryPieSub);
-  box-shadow: 0px 2px 4px 0px #0000001F;
+  box-shadow: 0px 2px 4px 0px #0000001f;
   box-sizing: border-box;
   animation-name: appear;
   animation-duration: 400ms;
@@ -16,29 +16,41 @@
   overflow: auto;
 }
 
-.container>*:first-child {
-  padding-top: 24px;
+.container > *:first-child {
+  padding-top: var(--profile-y-gap);
 }
 
-.container>*:last-child {
-  padding-bottom: 24px;
+.container > *:last-child {
+  padding-bottom: var(--profile-y-gap);
 }
 
-.container>* {
-  padding-left: 24px;
-  padding-right: 24px;
+.container > * {
+  padding-left: var(--profile-x-gap);
+  padding-right: var(--profile-x-gap);
 }
 
 .header {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
   border-bottom: 1px solid var(--grey-100);
-  padding-bottom: 24px;
+  padding-bottom: var(--profile-y-gap);
   transition: all 150ms linear;
-  gap: 8px;
-  align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: var(--profile-y-gap);
+}
+
+.header > * {
+  vertical-align: middle;
+}
+
+.header > img {
+  margin-right: 8px;
+}
+
+.header > svg {
+  margin-top: 1px;
+  margin-left: 8px;
+  float: right;
 }
 
 .title {
@@ -54,10 +66,10 @@
 }
 
 .collapsibleIcon:hover {
-  opacity: .6;
+  opacity: 0.6;
 }
 
-.collapsed>.header {
+.collapsed > .header {
   margin-bottom: 0px;
   border: none;
 }
@@ -71,9 +83,9 @@
 }
 
 .formWrapper {
-  margin: -24px;
-  padding: 24px;
-  min-height: 12px;
+  margin: calc(var(--profile-y-gap) * -1) calc(var(--profile-x-gap) * -1);
+  padding: var(--profile-y-gap) var(--profile-x-gap);
+  min-height: 27px;
 }
 
 @keyframes appear {
