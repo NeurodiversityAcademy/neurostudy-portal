@@ -4,8 +4,12 @@ import {
   USER_TABLE_PARTITION_ID,
 } from '../utilities/auth/constants';
 
-export type UserProps = Partial<typeof DEFAULT_USER>;
-export type UserWithEmailProps = Partial<typeof DEFAULT_USER> & {
+type RootUserProps = typeof DEFAULT_USER;
+export type UserProps<K extends keyof RootUserProps = keyof RootUserProps> =
+  Partial<{
+    [P in K]: RootUserProps[P];
+  }>;
+export type UserWithEmailProps = Partial<RootUserProps> & {
   [USER_TABLE_PARTITION_ID]: string;
 };
 

@@ -63,4 +63,5 @@
 .formWrapper {
   margin: -24px;
   padding: 24px;
+  min-height: 12px;
 }

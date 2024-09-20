@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: 14px;
+  color: var(----BondBlackVariant);
+}
+
+.emptyDesc {
+  color: var(--grey-300);
+}

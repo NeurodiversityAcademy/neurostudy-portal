@@ -12,9 +12,11 @@ import { ProfileSectionRef } from '@/app/interfaces/Profile';
 import ActionButton from '../buttons/ActionButton';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 import { useProfileContext } from '@/app/utilities/profile/ProfileProvider';
+import { useRouter } from 'next/navigation';
 
 const ProfileBody: React.FC = () => {
-  const { saveData, isLoading } = useProfileContext();
+  const { saveData, isLoading, isEditing } = useProfileContext();
+  const router = useRouter();
 
   // NOTE
   // Instead of using `ref.current` and nesting, we will attach attributes
@@ -52,26 +54,33 @@ const ProfileBody: React.FC = () => {
   return (
     <div className={styles.container}>
       <ProfileBodyHeader />
-      <ProfileInfoSection ref={getRefUpdater('info')} />
+      {isEditing && <ProfileInfoSection ref={getRefUpdater('info')} />}
       <ProfilePreferenceSection ref={getRefUpdater('preference')} />
       <ProfileChallengeSection ref={getRefUpdater('challenge')} />
       <ProfileGoalSection ref={getRefUpdater('goal')} />
       <ProfileStrategySection ref={getRefUpdater('strategy')} />
-      <div className={styles.btnContainer}>
-        <ActionButton
-          label='Cancel'
-          style={BUTTON_STYLE.Secondary}
-          className={styles.cancelBtn}
-          disabled
-        />
-        <ActionButton
-          label='Save'
-          style={BUTTON_STYLE.Primary}
-          className={styles.saveBtn}
-          onClick={onSubmit}
-          disabled={isLoading}
-        />
-      </div>
+      {isEditing && (
+        <div className={styles.btnContainer}>
+          <ActionButton
+            label='Cancel'
+            style={BUTTON_STYLE.Secondary}
+            className={styles.cancelBtn}
+            onClick={() => {
+              // TODO
+              // - Use a utility function to form the `href` through object
+              // - It should also have the ability to set relative search query
+              router.push('?edit=0');
+            }}
+          />
+          <ActionButton
+            label='Save'
+            style={BUTTON_STYLE.Primary}
+            className={styles.saveBtn}
+            onClick={onSubmit}
+            disabled={isLoading}
+          />
+        </div>
+      )}
     </div>
   );
 };
