@@ -1,6 +1,5 @@
 export default class APIError extends Error {
   status: number;
-  error: string;
 
   constructor({
     error,
@@ -13,7 +12,14 @@ export default class APIError extends Error {
     super(error);
     this.name = this.constructor.name;
     this.status = status;
-    this.error = error;
+
+    Object.defineProperty(this, 'message', {
+      value: error,
+      enumerable: true,
+      writable: true,
+      configurable: true,
+    });
+
     Error.captureStackTrace(this, this.constructor);
   }
 }

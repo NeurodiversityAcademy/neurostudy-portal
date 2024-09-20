@@ -3,7 +3,7 @@
 import ActionButton from '../buttons/ActionButton';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 import {
-  getAxiosAuthErrorMessage,
+  getAxiosErrorMessage,
   notifyError,
   notifySuccess,
 } from '@/app/utilities/common';
@@ -50,7 +50,7 @@ const AuthResendOTPBtn: React.FC<PropType> = ({
         await resetPassword({ username });
       }
     } catch (ex) {
-      notifyError(getAxiosAuthErrorMessage(ex as object));
+      notifyError(getAxiosErrorMessage(ex as object));
     } finally {
       notifySuccess('Code sent!');
       setStartTime(Date.now());

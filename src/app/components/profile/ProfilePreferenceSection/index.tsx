@@ -7,13 +7,30 @@ import preferenceIcon from '@/app/images/preferenceIcon.svg';
 import ProfileCard from '../ProfileCard';
 import TextArea from '../../formElements/TextArea/TextArea';
 import { useProfileContext } from '@/app/utilities/profile/ProfileProvider';
+import {
+  forwardRef,
+  ForwardRefExoticComponent,
+  RefAttributes,
+  useImperativeHandle,
+} from 'react';
+import { ProfileSectionRef } from '@/app/interfaces/Profile';
 
-const ProfilePreferenceSection: React.FC = () => {
+const ProfilePreferenceSection: ForwardRefExoticComponent<
+  RefAttributes<ProfileSectionRef>
+> = forwardRef<ProfileSectionRef>((_, ref) => {
   const { data, isLoading } = useProfileContext();
 
   const methods: UseFormReturn = useForm({
     mode: 'onBlur',
   });
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      methods,
+    }),
+    [methods]
+  );
 
   return (
     <ProfileCard
@@ -50,6 +67,8 @@ const ProfilePreferenceSection: React.FC = () => {
       </Form>
     </ProfileCard>
   );
-};
+});
+
+ProfilePreferenceSection.displayName = 'ProfilePreferenceSection';
 
 export default ProfilePreferenceSection;

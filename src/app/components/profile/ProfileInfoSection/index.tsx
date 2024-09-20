@@ -11,13 +11,31 @@ import { useForm, UseFormReturn } from 'react-hook-form';
 import { notifyInProgress } from '@/app/utilities/common';
 import ProfileCard from '../ProfileCard';
 import { useProfileContext } from '@/app/utilities/profile/ProfileProvider';
+import { UserProps } from '@/app/interfaces/User';
+import {
+  forwardRef,
+  ForwardRefExoticComponent,
+  RefAttributes,
+  useImperativeHandle,
+} from 'react';
+import { ProfileSectionRef } from '@/app/interfaces/Profile';
 
-const ProfileInfoSection: React.FC = () => {
+const ProfileInfoSection: ForwardRefExoticComponent<
+  RefAttributes<ProfileSectionRef>
+> = forwardRef<ProfileSectionRef>((_, ref) => {
   const { data, isLoading } = useProfileContext();
 
-  const methods: UseFormReturn = useForm({
+  const methods: UseFormReturn<UserProps> = useForm<UserProps>({
     mode: 'onBlur',
   });
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      methods,
+    }),
+    [methods]
+  );
 
   return (
     <ProfileCard title='Personal Information' isLoading={isLoading}>
@@ -55,9 +73,12 @@ const ProfileInfoSection: React.FC = () => {
           required
           placeholder='Age'
           showLabel
-          // TODO
-          defaultValue=''
+          defaultValue={data?.Age || ''}
         />
+        {/* // TODO */}
+        {/* 'Email' is not actually a part of the accepted field values. */}
+        {/* We need to apply strict typing and make sure no unacceptable field values */}
+        {/* passes the system. The applied strategy needs to be convenient. */}
         <TextBox
           name='Email'
           label='Email Address'
@@ -66,10 +87,13 @@ const ProfileInfoSection: React.FC = () => {
           pattern={EMAIL_REGEX}
           showLabel
           defaultValue={data?.Email || ''}
+          disabled
         />
       </Form>
     </ProfileCard>
   );
-};
+});
+
+ProfileInfoSection.displayName = 'ProfileInfoSection';
 
 export default ProfileInfoSection;

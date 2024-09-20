@@ -6,13 +6,30 @@ import TextBox from '../../formElements/TextBox/TextBox';
 import challengeIcon from '@/app/images/challengeIcon.svg';
 import ProfileCard from '../ProfileCard';
 import { useProfileContext } from '@/app/utilities/profile/ProfileProvider';
+import {
+  forwardRef,
+  ForwardRefExoticComponent,
+  RefAttributes,
+  useImperativeHandle,
+} from 'react';
+import { ProfileSectionRef } from '@/app/interfaces/Profile';
 
-const ProfileChallengeSection: React.FC = () => {
+const ProfileChallengeSection: ForwardRefExoticComponent<
+  RefAttributes<ProfileSectionRef>
+> = forwardRef<ProfileSectionRef>((_, ref) => {
   const { data, isLoading } = useProfileContext();
 
   const methods: UseFormReturn = useForm({
     mode: 'onBlur',
   });
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      methods,
+    }),
+    [methods]
+  );
 
   return (
     <ProfileCard
@@ -20,6 +37,7 @@ const ProfileChallengeSection: React.FC = () => {
       leftIconAlt='Comfort & Challenges'
       title='Comfort & Challenges'
       collapsible
+      isLoading={isLoading}
     >
       <Form initialized={!isLoading} methods={methods}>
         <TextBox
@@ -49,6 +67,8 @@ const ProfileChallengeSection: React.FC = () => {
       </Form>
     </ProfileCard>
   );
-};
+});
+
+ProfileChallengeSection.displayName = 'ProfileChallengeSection';
 
 export default ProfileChallengeSection;

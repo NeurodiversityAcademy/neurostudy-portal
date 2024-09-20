@@ -97,7 +97,7 @@ export const notifyInProgress = () => {
   toast.info(TOAST_DEV_IN_PROGRESS_MESSAGE);
 };
 
-export const getAxiosAuthErrorMessage = (ex: object): string => {
+export const getAxiosErrorMessage = (ex: object): string => {
   return ex instanceof AxiosError
     ? ex.response?.data?.message || ex.message
     : TOAST_UNKNOWN_ERROR_MESSAGE;
