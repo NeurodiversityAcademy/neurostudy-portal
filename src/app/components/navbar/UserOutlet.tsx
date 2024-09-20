@@ -16,7 +16,7 @@ const UserOutlet: React.FC = () => {
     (async () => {
       setIsSigningOut(true);
       try {
-        await signOut({ redirect: false });
+        await signOut({ callbackUrl: '/' });
         notifySuccess('Successfully logged out.');
       } catch (ex) {
         notifyError(ex as object);

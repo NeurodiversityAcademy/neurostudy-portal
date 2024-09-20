@@ -53,6 +53,7 @@ export enum META_KEY {
   SIGNUP = 'signup',
   LOGIN = 'login',
   FORGOT_PASSWORD = 'forgotpassword',
+  PROFILE = 'profile',
 }
 
 export const TOAST_UNKNOWN_ERROR_MESSAGE =

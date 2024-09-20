@@ -25,6 +25,7 @@ interface TextBoxProps<TFieldValues extends FieldValues> {
   required?: boolean;
   placeholder?: string;
   className?: string;
+  helperText?: string;
   pattern?: ValidationRule<RegExp>;
   onChange?: ((event: ChangeEvent<HTMLInputElement>) => void) | undefined;
   onBlur?: () => void;
@@ -45,6 +46,7 @@ const TextBox = <TFieldValues extends FieldValues>({
   type = 'text',
   defaultValue = '' as PathValue<TFieldValues, Path<TFieldValues>>,
   placeholder,
+  helperText,
   required = false,
   disabled = false,
   pattern,
@@ -113,6 +115,7 @@ const TextBox = <TFieldValues extends FieldValues>({
                 onBlur?.apply(this);
               }}
             />
+            {helperText && <div className={styles.helper}>{helperText}</div>}
             {error && (
               <ErrorBox message={error.message?.toString()} label={label} />
             )}

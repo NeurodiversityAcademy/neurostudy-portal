@@ -69,9 +69,11 @@
   --darkred: darkred;
   --grey: #b8b8b8;
   --greyVariant: #d3d3d3;
+  --grey-100: #E1E1E2;
   --grey-500: #4D4B52;
   --grey-300: #696767;
   --pure-white: #ffffff;
+  --grey-4: #D1D1D6;
 }
 
 body {
