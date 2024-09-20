@@ -10,11 +10,7 @@ import { useForm, UseFormReturn } from 'react-hook-form';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 import ActionButton from '../buttons/ActionButton';
 import AuthResendOTPBtn from './AuthResendOTPBtn';
-import {
-  getAxiosErrorMessage,
-  notifyError,
-  notifySuccess,
-} from '@/app/utilities/common';
+import { notifyAxiosError, notifySuccess } from '@/app/utilities/common';
 import { useState } from 'react';
 import { FinishForgotPasswordProps } from '@/app/interfaces/ForgotPasswordInterface';
 import confirmResetPassword from '@/app/utilities/auth/confirmResetPassword';
@@ -47,7 +43,7 @@ const AuthFinishForgotPassword: React.FC<FinishForgotPasswordProps> = ({
 
       handleResetDone();
     } catch (ex) {
-      notifyError(getAxiosErrorMessage(ex as object));
+      notifyAxiosError(ex);
     } finally {
       setIsLoading(false);
     }

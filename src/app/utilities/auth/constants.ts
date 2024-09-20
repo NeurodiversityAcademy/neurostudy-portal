@@ -47,3 +47,4 @@ export const DEFAULT_USER = {
 
 export const USER_TABLE_NAME = process.env.USER_TABLE_NAME || 'NDAUsers';
 export const USER_TABLE_PARTITION_ID = 'Email';
+export const CALLBACK_URL_ON_LOGIN = '/profile';

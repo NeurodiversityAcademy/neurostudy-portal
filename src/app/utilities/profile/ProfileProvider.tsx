@@ -10,7 +10,7 @@ import {
   useState,
 } from 'react';
 import saveUserProfile from './saveUserProfile';
-import { getAxiosErrorMessage, notifyError, notifySuccess } from '../common';
+import { notifyAxiosError, notifySuccess } from '../common';
 import processProfileFormData from './processProfileFormData';
 import { useSearchParams } from 'next/navigation';
 
@@ -69,7 +69,7 @@ export default function ProfileProvider({ children }: PropType) {
       notifySuccess('Profile successfully saved.');
       onSuccess?.();
     } catch (ex) {
-      notifyError(getAxiosErrorMessage(ex as object));
+      notifyAxiosError(ex);
     } finally {
       setIsLoading(false);
     }

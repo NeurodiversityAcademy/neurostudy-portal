@@ -12,11 +12,7 @@ import LoaderWrapper from '../loader/LoaderWrapper';
 import AuthFormHeader from './AuthFormHeader';
 import ActionButton from '../buttons/ActionButton';
 import { BUTTON_STYLE, EMAIL_REGEX } from '@/app/utilities/constants';
-import {
-  getAxiosErrorMessage,
-  notifyError,
-  notifyInProgress,
-} from '@/app/utilities/common';
+import { notifyAxiosError, notifyInProgress } from '@/app/utilities/common';
 import AuthFormFooter from './AuthFormFooter';
 import { InitForgotPasswordProps } from '@/app/interfaces/ForgotPasswordInterface';
 import resetPassword from '@/app/utilities/auth/resetPassword';
@@ -51,7 +47,7 @@ const AuthInitForgotPassword: React.FC<InitForgotPasswordProps> = ({
           break;
       }
     } catch (ex) {
-      notifyError(getAxiosErrorMessage(ex as object));
+      notifyAxiosError(ex);
     } finally {
       setIsLoading(false);
     }

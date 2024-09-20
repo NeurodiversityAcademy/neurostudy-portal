@@ -43,7 +43,8 @@ const ProfileBody: React.FC = () => {
     // TODO
     // - Use a utility function to form the `href` through object
     // - It should also have the ability to set relative search query
-    router.push('?edit=0');
+    // - Make adjustments wherever applicable / router[key]() is used
+    router.push('/profile');
   };
 
   const onSubmit = async () => {

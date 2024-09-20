@@ -47,7 +47,7 @@
   margin-right: 8px;
 }
 
-.header > svg {
+.header > .collapsibleIcon {
   margin-top: 1px;
   margin-left: 8px;
   float: right;
@@ -58,9 +58,10 @@
 }
 
 .collapsibleIcon {
+  background: none;
+  border: 0;
   transform-origin: center;
   transition: transform 150ms linear;
-  margin-left: auto;
   fill: var(--BondBlack);
   cursor: pointer;
 }

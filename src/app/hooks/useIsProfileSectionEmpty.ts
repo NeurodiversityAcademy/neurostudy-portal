@@ -16,6 +16,9 @@ export default function useIsProfileSectionEmpty(data: UserProps | undefined) {
           isEmpty = false;
           break;
         }
+      } else if (typeof value === 'boolean') {
+        isEmpty = false;
+        break;
       } else if (value?.toString?.()) {
         isEmpty = false;
         break;

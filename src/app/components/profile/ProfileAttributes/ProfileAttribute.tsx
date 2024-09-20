@@ -12,11 +12,20 @@ export default function ProfileAttribute({
   label,
   value: _value,
 }: Props): ReactNode {
-  const value = _value
-    ? Array.isArray(_value)
-      ? _value.join(', ')
-      : _value.toString()
-    : null;
+  const value = ((val) => {
+    if (typeof val === 'boolean') {
+      return val ? 'Yes' : 'No';
+    }
+
+    if (val) {
+      if (Array.isArray(val)) {
+        return val.join(', ');
+      }
+      return val.toString();
+    }
+
+    return null;
+  })(_value);
 
   return (
     <div className={styles.info}>

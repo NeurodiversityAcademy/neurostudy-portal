@@ -5,16 +5,12 @@ export default function processProfileFormData(_user: Record<string, unknown>) {
   const user = { ..._user };
 
   Object.keys(user).forEach((key: string) => {
-    if (!(key in DEFAULT_USER)) {
+    if (!(key in DEFAULT_USER) || user[key] === undefined) {
       delete user[key];
     } else {
-      // TODO
-      // We will use proper input components and then solve this accordingly
       /* @ts-expect-error: Following line won't require proper type checking of `key` */
       if (Array.isArray(DEFAULT_USER[key])) {
-        user[key] = (user[key] as string)
-          .split(',')
-          .map((item: string) => item.trim());
+        user[key] = user[key] || [];
         /* @ts-expect-error: Following line won't require proper type checking of `key` */
       } else if (typeof DEFAULT_USER[key] === 'number') {
         user[key] = parseInt(user[key] as string);

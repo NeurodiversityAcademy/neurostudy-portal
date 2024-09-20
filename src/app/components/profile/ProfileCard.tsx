@@ -1,6 +1,12 @@
 'use client';
 
-import { ReactNode, useEffect, useState } from 'react';
+import {
+  MouseEventHandler,
+  ReactNode,
+  useEffect,
+  useId,
+  useState,
+} from 'react';
 import Image from 'next/image';
 import styles from './profileCard.module.css';
 import Typography, { TypographyVariant } from '../typography/Typography';
@@ -50,27 +56,49 @@ const ProfileCard: React.FC<Props> = ({
   header,
   popup = false,
 }) => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const contentId = useId() + '-card-content';
+  const [expanded, setExpanded] = useState(true);
 
-  const toggleContent = () => {
-    setIsCollapsed(!isCollapsed);
+  const toggleContent: MouseEventHandler = ({ currentTarget, target }) => {
+    if (!collapsible) {
+      return;
+    }
+
+    const selection = window.getSelection();
+
+    if (
+      currentTarget.querySelector('button')?.contains(target as Node) ||
+      !selection ||
+      !selection.toString() ||
+      !currentTarget.contains(selection.focusNode)
+    ) {
+      setExpanded(!expanded);
+    }
   };
 
   useEffect(() => {
-    !collapsible && setIsCollapsed(false);
+    !collapsible && setExpanded(true);
   }, [collapsible]);
 
   return (
     <div
       className={classNames(
         styles.container,
-        isCollapsed && styles.collapsed,
+        !expanded && styles.collapsed,
         popup && styles.popup
       )}
     >
       {header !== null &&
         (header === undefined ? (
-          <div className={styles.header}>
+          <div
+            className={styles.header}
+            {...(collapsible && {
+              'aria-expanded': expanded,
+              'aria-controls': contentId,
+              role: 'button',
+              onClick: toggleContent,
+            })}
+          >
             {!popup && leftIconSrc && (
               <Image src={leftIconSrc} alt={leftIconAlt} />
             )}
@@ -81,14 +109,17 @@ const ProfileCard: React.FC<Props> = ({
               {title}
             </Typography>
             {!popup && collapsible && (
-              <ArrowDownIcon
+              <button
+                aria-expanded={expanded}
+                aria-controls={contentId}
                 className={styles.collapsibleIcon}
-                onClick={toggleContent}
-              />
+              >
+                <ArrowDownIcon />
+              </button>
             )}
           </div>
         ) : null)}
-      <div className={styles.content}>
+      <div className={styles.content} id={contentId} aria-hidden={!expanded}>
         <LoaderWrapper
           isLoading={isLoading}
           loaderAlignTop
