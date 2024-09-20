@@ -3,33 +3,50 @@
 import challengeIcon from '@/app/images/challengeIcon.svg';
 import ProfileCard from '../ProfileCard';
 import { useProfileContext } from '@/app/utilities/profile/ProfileProvider';
-import { forwardRef, ForwardRefExoticComponent, RefAttributes } from 'react';
-import { ProfileSectionRef } from '@/app/interfaces/Profile';
+import {
+  forwardRef,
+  ForwardRefExoticComponent,
+  PropsWithoutRef,
+  RefAttributes,
+} from 'react';
+import {
+  ProfileSectionProps,
+  ProfileSectionRef,
+} from '@/app/interfaces/Profile';
 import ProfileChallengeForm from './Form';
 import ProfileAttributes from '../ProfileAttributes';
 import { CHALLENGE_FIELDS } from '@/app/utilities/profile/constants';
 
 const ProfileChallengeSection: ForwardRefExoticComponent<
-  RefAttributes<ProfileSectionRef>
-> = forwardRef<ProfileSectionRef>((_, formRef) => {
-  const { isLoading, isEditing } = useProfileContext();
+  PropsWithoutRef<ProfileSectionProps> & RefAttributes<ProfileSectionRef>
+> = forwardRef<ProfileSectionRef, ProfileSectionProps>(
+  ({ popup = false, onSubmit, onCancel, onSectionEdit }, formRef) => {
+    const { isLoading, isEditing } = useProfileContext();
 
-  return (
-    <ProfileCard
-      leftIconSrc={challengeIcon}
-      leftIconAlt='Comfort & Challenges'
-      title='Comfort & Challenges'
-      collapsible
-      isLoading={isLoading}
-    >
-      {isEditing ? (
-        <ProfileChallengeForm ref={formRef} />
-      ) : (
-        <ProfileAttributes fields={CHALLENGE_FIELDS} />
-      )}
-    </ProfileCard>
-  );
-});
+    return (
+      <ProfileCard
+        leftIconSrc={challengeIcon}
+        leftIconAlt='Comfort & Challenges'
+        title='Comfort & Challenges'
+        collapsible
+        isLoading={isLoading}
+        popup={popup}
+      >
+        {isEditing || popup ? (
+          <ProfileChallengeForm
+            ref={formRef}
+            {...(popup ? { onSubmit, onCancel } : null)}
+          />
+        ) : (
+          <ProfileAttributes
+            fields={CHALLENGE_FIELDS}
+            onSectionEdit={onSectionEdit}
+          />
+        )}
+      </ProfileCard>
+    );
+  }
+);
 
 ProfileChallengeSection.displayName = 'ProfileChallengeSection';
 

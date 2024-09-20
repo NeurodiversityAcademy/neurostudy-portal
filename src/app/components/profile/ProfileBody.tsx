@@ -9,13 +9,21 @@ import ProfileGoalSection from './ProfileGoalSection';
 import ProfileStrategySection from './ProfileStrategySection';
 import { useState } from 'react';
 import { ProfileSectionRef } from '@/app/interfaces/Profile';
-import ActionButton from '../buttons/ActionButton';
-import { BUTTON_STYLE } from '@/app/utilities/constants';
 import { useProfileContext } from '@/app/utilities/profile/ProfileProvider';
 import { useRouter } from 'next/navigation';
+import Dialog from '../dialog';
+import ProfileFormFooter from './ProfileFormFooter';
+import { UserProps } from '@/app/interfaces/User';
+
+const POPUP_SECTION_MAPPER = {
+  preference: ProfilePreferenceSection,
+  goal: ProfileGoalSection,
+  challenge: ProfileChallengeSection,
+  strategy: ProfileStrategySection,
+};
 
 const ProfileBody: React.FC = () => {
-  const { saveData, isLoading, isEditing } = useProfileContext();
+  const { saveData, isEditing } = useProfileContext();
   const router = useRouter();
 
   // NOTE
@@ -26,6 +34,16 @@ const ProfileBody: React.FC = () => {
     return (ref: ProfileSectionRef | null) => {
       refObj[key] = ref;
     };
+  };
+
+  const [popupSection, setPopupSection] =
+    useState<keyof typeof POPUP_SECTION_MAPPER>();
+
+  const onCancel = () => {
+    // TODO
+    // - Use a utility function to form the `href` through object
+    // - It should also have the ability to set relative search query
+    router.push('?edit=0');
   };
 
   const onSubmit = async () => {
@@ -51,36 +69,55 @@ const ProfileBody: React.FC = () => {
     saveData(data);
   };
 
+  const onClosePopup = () => {
+    setPopupSection(undefined);
+  };
+
+  const onSectionSubmit = async (data: UserProps) => {
+    saveData(data, () => {
+      setPopupSection(undefined);
+    });
+  };
+
+  const PopupComp = popupSection ? POPUP_SECTION_MAPPER[popupSection] : null;
+
   return (
     <div className={styles.container}>
       <ProfileBodyHeader />
       {isEditing && <ProfileInfoSection ref={getRefUpdater('info')} />}
-      <ProfilePreferenceSection ref={getRefUpdater('preference')} />
-      <ProfileChallengeSection ref={getRefUpdater('challenge')} />
-      <ProfileGoalSection ref={getRefUpdater('goal')} />
-      <ProfileStrategySection ref={getRefUpdater('strategy')} />
+      <ProfilePreferenceSection
+        ref={getRefUpdater('preference')}
+        onSectionEdit={() => {
+          setPopupSection('preference');
+        }}
+      />
+      <ProfileChallengeSection
+        ref={getRefUpdater('challenge')}
+        onSectionEdit={() => {
+          setPopupSection('challenge');
+        }}
+      />
+      <ProfileGoalSection
+        ref={getRefUpdater('goal')}
+        onSectionEdit={() => {
+          setPopupSection('goal');
+        }}
+      />
+      <ProfileStrategySection
+        ref={getRefUpdater('strategy')}
+        onSectionEdit={() => {
+          setPopupSection('strategy');
+        }}
+      />
       {isEditing && (
-        <div className={styles.btnContainer}>
-          <ActionButton
-            label='Cancel'
-            style={BUTTON_STYLE.Secondary}
-            className={styles.cancelBtn}
-            onClick={() => {
-              // TODO
-              // - Use a utility function to form the `href` through object
-              // - It should also have the ability to set relative search query
-              router.push('?edit=0');
-            }}
-          />
-          <ActionButton
-            label='Save'
-            style={BUTTON_STYLE.Primary}
-            className={styles.saveBtn}
-            onClick={onSubmit}
-            disabled={isLoading}
-          />
-        </div>
+        <ProfileFormFooter onCancel={onCancel} onSubmit={onSubmit} />
       )}
+
+      <Dialog open={!!popupSection} onClose={onClosePopup}>
+        {PopupComp && (
+          <PopupComp popup onSubmit={onSectionSubmit} onCancel={onClosePopup} />
+        )}
+      </Dialog>
     </div>
   );
 };

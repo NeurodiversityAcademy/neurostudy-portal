@@ -3,18 +3,3 @@
   flex-direction: column;
   gap: 24px;
 }
-
-.btnContainer {
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-.cancelBtn {
-  background-color: transparent;
-  width: 106px;
-}
-
-.saveBtn {
-  width: 166px;
-}

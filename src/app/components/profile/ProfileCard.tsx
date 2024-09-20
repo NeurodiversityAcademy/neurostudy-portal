@@ -4,7 +4,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import Image from 'next/image';
 import styles from './profileCard.module.css';
 import Typography, { TypographyVariant } from '../typography/Typography';
-import ArrowDown from '@/app/components/images/ArrowDown';
+import ArrowDownIcon from '@/app/components/images/ArrowDown';
 import classNames from 'classnames';
 import LoaderWrapper from '../loader/LoaderWrapper';
 
@@ -36,6 +36,7 @@ type Props = {
   isLoading?: boolean;
   children?: ReactNode;
   collapsible?: boolean;
+  popup?: boolean;
 } & IconProps &
   HeaderProps;
 
@@ -47,6 +48,7 @@ const ProfileCard: React.FC<Props> = ({
   children,
   collapsible = false,
   header,
+  popup = false,
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -60,20 +62,26 @@ const ProfileCard: React.FC<Props> = ({
 
   return (
     <div
-      className={classNames(styles.container, isCollapsed && styles.collapsed)}
+      className={classNames(
+        styles.container,
+        isCollapsed && styles.collapsed,
+        popup && styles.popup
+      )}
     >
       {header !== null &&
         (header === undefined ? (
           <div className={styles.header}>
-            {leftIconSrc && <Image src={leftIconSrc} alt={leftIconAlt} />}
+            {!popup && leftIconSrc && (
+              <Image src={leftIconSrc} alt={leftIconAlt} />
+            )}
             <Typography
               variant={TypographyVariant.Body2Strong}
               className={styles.title}
             >
               {title}
             </Typography>
-            {collapsible && (
-              <ArrowDown
+            {!popup && collapsible && (
+              <ArrowDownIcon
                 className={styles.collapsibleIcon}
                 onClick={toggleContent}
               />

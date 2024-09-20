@@ -21,7 +21,10 @@ interface PropType {
 export interface ProfileContent {
   data: UserWithEmailProps | undefined;
   isLoading: boolean;
-  saveData: (_data: Record<string, unknown>) => void;
+  saveData: (
+    _data: Record<string, unknown>,
+    onSuccess?: () => void
+  ) => Promise<void>;
   isEditing: boolean;
 }
 
@@ -49,17 +52,22 @@ export default function ProfileProvider({ children }: PropType) {
     () => searchParams.get('edit') === '1'
   );
 
-  const saveData = async (_data: Record<string, unknown>) => {
+  const saveData = async (
+    _data: Record<string, unknown>,
+    onSuccess?: () => void
+  ) => {
     setIsLoading(true);
 
     try {
       const formData: UserProps = processProfileFormData(_data);
+
       await saveUserProfile(formData);
 
       const newData: UserWithEmailProps = Object.assign({}, data, formData);
       setData(newData);
 
       notifySuccess('Profile successfully saved.');
+      onSuccess?.();
     } catch (ex) {
       notifyError(getAxiosErrorMessage(ex as object));
     } finally {

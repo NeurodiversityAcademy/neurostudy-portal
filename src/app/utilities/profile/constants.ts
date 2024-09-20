@@ -1,3 +1,4 @@
+import { ProfileFieldsType } from '@/app/interfaces/Profile';
 import { UserProps } from '@/app/interfaces/User';
 
 export const PREFERENCE_FIELDS = [
@@ -32,3 +33,45 @@ export const PROFILE_LABEL_MAPPER: Partial<Record<keyof UserProps, string>> = {
   ManagingWays: 'Sensory Overload Management in Learning Environments',
   EffectiveStrategy: 'Effective Learning Strategy',
 };
+
+export const PROFILE_EMPTY_ATTRIBUTE_MAP = new Map<
+  ProfileFieldsType,
+  {
+    label: string;
+    value: string;
+    btnText: string;
+  }
+>([
+  [
+    PREFERENCE_FIELDS,
+    {
+      label: 'Answer few questions',
+      value: 'Tell us about your Neuro Condition & Learning Preferences',
+      btnText: 'Learning Preferences',
+    },
+  ],
+  [
+    GOAL_FIELDS,
+    {
+      label: 'Answer few questions',
+      value: 'Tell us about your Goals & Interests',
+      btnText: 'Goals & Interests',
+    },
+  ],
+  [
+    CHALLENGE_FIELDS,
+    {
+      label: 'Answer few questions',
+      value: 'Tell us about your Comfort & Challenges',
+      btnText: 'Comfort & Challenges',
+    },
+  ],
+  [
+    STRATEGY_FIELDS,
+    {
+      label: 'Answer few questions',
+      value: 'Tell us about your Strategies',
+      btnText: 'Strategies',
+    },
+  ],
+]);
