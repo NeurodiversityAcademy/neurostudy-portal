@@ -6,8 +6,21 @@ import styles from './profileCard.module.css';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import ArrowDown from '@/app/components/images/ArrowDown';
 import classNames from 'classnames';
+import LoaderWrapper from '../loader/LoaderWrapper';
 
-interface IconStrProps {
+interface WithHeaderProps {
+  header: ReactNode | null;
+  title?: undefined;
+}
+
+interface WithoutHeaderProps {
+  header?: undefined;
+  title: string;
+}
+
+type HeaderProps = WithHeaderProps | WithoutHeaderProps;
+
+interface WithIconProps {
   leftIconSrc: string;
   leftIconAlt: string;
 }
@@ -17,20 +30,23 @@ interface WithoutIconProps {
   leftIconAlt?: null;
 }
 
-type IconProps = IconStrProps | WithoutIconProps;
+type IconProps = WithIconProps | WithoutIconProps;
 
 type Props = {
+  isLoading?: boolean;
   children?: ReactNode;
-  title: string;
   collapsible?: boolean;
-} & IconProps;
+} & IconProps &
+  HeaderProps;
 
 const ProfileCard: React.FC<Props> = ({
+  isLoading = false,
   title,
   leftIconSrc,
   leftIconAlt,
   children,
   collapsible = false,
+  header,
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -46,22 +62,33 @@ const ProfileCard: React.FC<Props> = ({
     <div
       className={classNames(styles.container, isCollapsed && styles.collapsed)}
     >
-      <div className={styles.header}>
-        {leftIconSrc && <Image src={leftIconSrc} alt={leftIconAlt} />}
-        <Typography
-          variant={TypographyVariant.Body2Strong}
-          className={styles.title}
+      {header !== null &&
+        (header === undefined ? (
+          <div className={styles.header}>
+            {leftIconSrc && <Image src={leftIconSrc} alt={leftIconAlt} />}
+            <Typography
+              variant={TypographyVariant.Body2Strong}
+              className={styles.title}
+            >
+              {title}
+            </Typography>
+            {collapsible && (
+              <ArrowDown
+                className={styles.collapsibleIcon}
+                onClick={toggleContent}
+              />
+            )}
+          </div>
+        ) : null)}
+      <div className={styles.content}>
+        <LoaderWrapper
+          isLoading={isLoading}
+          loaderAlignTop
+          className={styles.formWrapper}
         >
-          {title}
-        </Typography>
-        {collapsible && (
-          <ArrowDown
-            className={styles.collapsibleIcon}
-            onClick={toggleContent}
-          />
-        )}
+          {children}
+        </LoaderWrapper>
       </div>
-      <div className={styles.content}>{children}</div>
     </div>
   );
 };

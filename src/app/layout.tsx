@@ -18,7 +18,11 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(HOST_URL),
+  metadataBase: new URL(
+    HOST_URL.includes('localhost')
+      ? 'https://neurodiversityacademy.com'
+      : HOST_URL
+  ),
 };
 
 export default async function RootLayout({

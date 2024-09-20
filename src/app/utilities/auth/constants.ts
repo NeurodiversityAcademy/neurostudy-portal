@@ -25,6 +25,16 @@ export const DEFAULT_USER = {
   FirstName: '',
   LastName: '',
   DOB: '', // ISO String - `2024-03-22T04:28:32.981Z`
+  Conditions: [],
+  Institutions: [],
+  EnvDescription: '',
+  Strategies: [],
+  ManagingWays: [],
+  EffectiveStrategy: '',
+  Contents: [],
+  Comforts: [],
+  Struggles: [],
+  Challenges: [],
 };
 
 export const USER_TABLE_NAME = process.env.USER_TABLE_NAME || 'NDAUsers';

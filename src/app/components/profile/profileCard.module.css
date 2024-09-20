@@ -2,10 +2,21 @@
   background-color: var(--pure-white);
   border-radius: 8px;
   gap: 1px;
-  border: 1px solid var(--grey-4);
-  padding: 24px;
   border: 1px solid var(--cherryPieSub);
   box-shadow: 0px 2px 4px 0px #0000001F;
+}
+
+.container>*:first-child {
+  padding-top: 24px;
+}
+
+.container>*:last-child {
+  padding-bottom: 24px;
+}
+
+.container>* {
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
 .header {
@@ -17,6 +28,7 @@
   transition: all 150ms linear;
   gap: 8px;
   align-items: center;
+  margin-bottom: 24px;
 }
 
 .title {
@@ -35,12 +47,8 @@
   opacity: .6;
 }
 
-.content {
-  padding-top: 24px;
-}
-
 .collapsed>.header {
-  padding-bottom: 0px;
+  margin-bottom: 0px;
   border: none;
 }
 
@@ -50,4 +58,9 @@
 
 .collapsed .content {
   display: none;
+}
+
+.formWrapper {
+  margin: -24px;
+  padding: 24px;
 }
