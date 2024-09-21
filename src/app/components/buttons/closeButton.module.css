@@ -1,0 +1,13 @@
+.closeBtn {
+  position: absolute;
+  z-index: 2;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  top: 5.5px;
+  right: 3px;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 30px;
+}

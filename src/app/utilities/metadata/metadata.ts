@@ -14,9 +14,11 @@ import {
   KEYWORDS_PLACEMENTS,
   KEYWORDS_SIGNUP,
   KEYWORDS_FORGOT_PASSWORD,
+  KEYWORDS_PROFILE,
 } from './keywords';
+import { MetadataParams } from '@/app/interfaces/MetadataProps';
 
-export const metadata = {
+export const metadata: Record<string, Partial<MetadataParams>> = {
   [META_KEY.HOME]: {
     title: 'Homepage - Neurodiversity Academy',
     description: 'Homepage for Neurodiversity Academy',
@@ -141,6 +143,13 @@ export const metadata = {
     description: 'Forgot password page for Neurodiversity Academy',
     keywords: KEYWORDS_FORGOT_PASSWORD,
     canonical: `${HOST_URL}/forgotpassword`,
+    type: META_TYPE.WEBSITE,
+  },
+  [META_KEY.PROFILE]: {
+    title: 'User Profile - Neurodiversity Academy',
+    description: 'Profile page of a user',
+    keywords: KEYWORDS_PROFILE,
+    canonical: `${HOST_URL}/profile`,
     type: META_TYPE.WEBSITE,
   },
 };

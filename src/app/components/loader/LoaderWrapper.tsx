@@ -8,6 +8,7 @@ interface LoaderWrapperProps {
   children: ReactNode;
   className?: string;
   expandLoaderWidth?: boolean;
+  loaderAlignTop?: boolean;
 }
 
 export default function LoaderWrapper({
@@ -15,6 +16,7 @@ export default function LoaderWrapper({
   children,
   className,
   expandLoaderWidth = false,
+  loaderAlignTop = false,
 }: LoaderWrapperProps) {
   return (
     <div
@@ -25,7 +27,11 @@ export default function LoaderWrapper({
       )}
     >
       {children}
-      <Loader isLoading={isLoading} expand={expandLoaderWidth} />
+      <Loader
+        isLoading={isLoading}
+        expand={expandLoaderWidth}
+        alignTop={loaderAlignTop}
+      />
     </div>
   );
 }

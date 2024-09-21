@@ -1,20 +1,25 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding-top: 10px;
-  padding-bottom: 10px;
   gap: 5px;
   position: relative;
 }
 
+.inputWrapper {
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+
 .input {
+  width: 100%;
   border: 1px solid var(--grey-500);
   color: var(--grey-500);
-  padding: 0px 15px;
+  padding: 8px 15px;
   border-radius: 8px;
   font-family: inherit;
-  height: 37px;
   outline: none;
+  box-sizing: border-box;
   padding-right: 34px;
 }
 
@@ -24,14 +29,4 @@
 
 .error {
   border: 1px solid var(--errorRed);
-}
-
-.closeButton {
-  position: absolute;
-  right: 0;
-  z-index: 2;
-  border: none;
-  cursor: pointer;
-  background-color: transparent;
-  transform: translateX(-20px) translateY(8px);
 }

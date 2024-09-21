@@ -11,12 +11,18 @@
   position: absolute;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
   top: 0px;
   left: 0px;
   width: 100%;
   height: 100%;
   background-color: #4d4b520f;
+  padding: 20px;
   border-radius: 8px;
+}
+
+.loaderAlignTop {
+  align-items: flex-start;
 }
 
 .expand {

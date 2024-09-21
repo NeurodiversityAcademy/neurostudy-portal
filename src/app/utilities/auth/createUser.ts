@@ -16,8 +16,13 @@ const createUser = async (email: string): Promise<NewUserProps> => {
   const defaultUser: Partial<NewUserProps> = { ...DEFAULT_USER };
   let key: keyof NewUserProps;
   for (key in defaultUser) {
-    if (typeof defaultUser[key] === 'number') {
+    const value = defaultUser[key];
+    if (typeof value === 'number' || typeof value === 'boolean') {
       delete defaultUser[key];
+    } else if (Array.isArray(value)) {
+      while (value.pop()) {
+        void 0;
+      }
     }
   }
 

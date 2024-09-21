@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  column-gap: var(--profile-x-gap);
+  row-gap: var(--profile-y-gap);
+  flex-wrap: wrap;
+}
+
+.cancelBtn {
+  background-color: transparent;
+  width: 106px;
+}
+
+.saveBtn {
+  width: 166px;
+}

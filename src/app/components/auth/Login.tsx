@@ -15,7 +15,10 @@ import {
 import classNames from 'classnames';
 import Form from '@/app/components/formElements/Form';
 import AuthFormHeader from './AuthFormHeader';
-import { FORM_STATE } from '@/app/utilities/auth/constants';
+import {
+  CALLBACK_URL_ON_LOGIN,
+  FORM_STATE,
+} from '@/app/utilities/auth/constants';
 import { useRouter } from 'next/navigation';
 import { notifyError, notifyInProgress } from '@/app/utilities/common';
 import LoaderWrapper from '../loader/LoaderWrapper';
@@ -74,7 +77,7 @@ const Login = () => {
       if (res.ok) {
         // TODO
         // https://trello.com/c/suoF46yg/131-infrastructure-key-constant-based-url-setup
-        router.replace('/');
+        router.replace(CALLBACK_URL_ON_LOGIN);
       } else if (res?.error) {
         try {
           const signInOutput: SignInOutput = JSON.parse(res.error);
@@ -139,10 +142,10 @@ const Login = () => {
                 required
                 placeholder='Password'
               />
-              <div className={classNames(styles.forgotPassword, 'pt-1')}>
+              <div className={styles.forgotPassword}>
                 <Link href='/forgotpassword'>Forgot Password?</Link>
               </div>
-              <div className='my-3'>
+              <div className='mb-3'>
                 <ActionButton
                   type='submit'
                   label='Login'

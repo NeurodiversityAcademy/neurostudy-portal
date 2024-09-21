@@ -16,6 +16,7 @@ import Label from '../Label/Label';
 import ErrorBox from '../ErrorBox/ErrorBox';
 import { FORM_ELEMENT_COL_WIDTH } from '@/app/utilities/constants';
 import CloseButton from '../../buttons/CloseButton';
+import HelperText from '../HelperText/HelperText';
 
 interface TextBoxProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>;
@@ -26,6 +27,7 @@ interface TextBoxProps<TFieldValues extends FieldValues> {
   required?: boolean;
   placeholder?: string;
   className?: string;
+  helperText?: string;
   pattern?: ValidationRule<RegExp>;
   onChange?: ((event: ChangeEvent<HTMLInputElement>) => void) | undefined;
   onBlur?: () => void;
@@ -46,6 +48,7 @@ const TextBox = <TFieldValues extends FieldValues>({
   type = 'text',
   defaultValue = '' as PathValue<TFieldValues, Path<TFieldValues>>,
   placeholder,
+  helperText,
   required = false,
   disabled = false,
   pattern,
@@ -55,16 +58,13 @@ const TextBox = <TFieldValues extends FieldValues>({
   colWidth = FORM_ELEMENT_COL_WIDTH.FULL,
   rules: rootRules,
 }: TextBoxProps<TFieldValues>) => {
-  const { control, watch, setValue } = useFormContext();
+  const { control, setValue } = useFormContext();
 
   const rules = {
     required,
     pattern,
     ...rootRules,
   };
-
-  const inputVal = watch(name, defaultValue);
-  const isInputEmpty = inputVal.trim() === '';
 
   return (
     <Controller
@@ -78,7 +78,7 @@ const TextBox = <TFieldValues extends FieldValues>({
           field,
           formState: { errors },
         } = props;
-
+        const { value } = field;
         const error = errors[name];
 
         const inputClassName = classNames(
@@ -88,7 +88,7 @@ const TextBox = <TFieldValues extends FieldValues>({
         );
 
         const handleClick = () => {
-          setValue(name, '' as TFieldValues['name'], {
+          setValue(name, '' as TFieldValues[typeof name], {
             shouldValidate: true,
             shouldDirty: true,
           });
@@ -109,29 +109,29 @@ const TextBox = <TFieldValues extends FieldValues>({
                 required={required}
               />
             )}
-            <input
-              type={type}
-              placeholder={placeholder}
-              className={inputClassName}
-              autoComplete={autoComplete}
-              {...field}
-              onChange={function (this: HTMLInputElement, ...args) {
-                field.onChange.apply(this, args);
-                onChange?.apply(this, args);
-              }}
-              onBlur={function (this: HTMLInputElement) {
-                field.onBlur.apply(this);
-                onBlur?.apply(this);
-              }}
-            />
+            <div className={styles.inputWrapper}>
+              <input
+                type={type}
+                placeholder={placeholder}
+                className={inputClassName}
+                autoComplete={autoComplete}
+                {...field}
+                onChange={function (this: HTMLInputElement, ...args) {
+                  field.onChange.apply(this, args);
+                  onChange?.apply(this, args);
+                }}
+                onBlur={function (this: HTMLInputElement) {
+                  field.onBlur.apply(this);
+                  onBlur?.apply(this);
+                }}
+              />
+              {!disabled && value?.toString().trim() && (
+                <CloseButton onClick={handleClick} />
+              )}
+            </div>
+            <HelperText>{helperText}</HelperText>
             {error && (
               <ErrorBox message={error.message?.toString()} label={label} />
-            )}
-            {!isInputEmpty && (
-              <CloseButton
-                className={styles.closeButton}
-                onClick={handleClick}
-              />
             )}
           </div>
         );

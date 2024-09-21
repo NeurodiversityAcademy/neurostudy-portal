@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  column-gap: var(--profile-x-gap);
+  row-gap: var(--profile-y-gap);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.imageContainer {
+  height: calc(var(--profile-y-gap) * 4);
+  width: calc(var(--profile-y-gap) * 4);
+  border-radius: 100%;
+  background-color: #e8e4e4;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.imageContainer > img {
+  position: absolute;
+  right: 3%;
+  bottom: 3%;
+  cursor: pointer;
+  width: 28%;
+  height: auto;
+}
+
+.editBtn {
+  margin-left: auto;
+  align-self: center;
+}

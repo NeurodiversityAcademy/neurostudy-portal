@@ -1,0 +1,16 @@
+.checkBoxRoot {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  position: relative;
+}
+
+.checkBoxContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.checkBoxContainer.vertical {
+  flex-direction: column;
+}

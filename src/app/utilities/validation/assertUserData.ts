@@ -1,14 +1,8 @@
 import { UserProps } from '@/app/interfaces/User';
 import { DEFAULT_USER } from '../auth/constants';
+import throwAssertionError from '../api/throwAssertionError';
 
-const RETURN_DEFAULT_ERROR_MESSAGE = process.env.NODE_ENV === 'production';
-const DEFAULT_ERROR_MESSAGE = `Provided user doesn't satisfy type-check.`;
-
-const throwError = (message: string): void => {
-  throw new Error(
-    RETURN_DEFAULT_ERROR_MESSAGE ? DEFAULT_ERROR_MESSAGE : message
-  );
-};
+const throwError = throwAssertionError;
 
 export default function assertUserProps(
   user: UserProps

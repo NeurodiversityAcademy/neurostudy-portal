@@ -9,6 +9,7 @@ import GoogleLogo from '@/app/images/googleLogo.svg';
 import FacebookLogo from '@/app/images/facebookLogo.svg';
 import { notifyError } from '@/app/utilities/common';
 import { signIn } from 'next-auth/react';
+import { CALLBACK_URL_ON_LOGIN } from '@/app/utilities/auth/constants';
 
 type AuthFormFooterProps = {
   text?: string;
@@ -25,7 +26,7 @@ const AuthFormFooter: React.FC<AuthFormFooterProps> = ({
     try {
       await signIn(
         'cognito',
-        { redirect: true, callbackUrl: '/' },
+        { redirect: true, callbackUrl: CALLBACK_URL_ON_LOGIN },
         { identity_provider: 'Google' }
       );
     } catch (ex) {

@@ -55,7 +55,7 @@ export const throttle = (
 export const createMetadata = (
   key: META_KEY,
   customMetadata?: Partial<MetadataParams>
-) => {
+): Metadata => {
   const config = { ...metadata[key], ...customMetadata };
   const { title, description, keywords, canonical, type, images } = config;
 
@@ -97,10 +97,15 @@ export const notifyInProgress = () => {
   toast.info(TOAST_DEV_IN_PROGRESS_MESSAGE);
 };
 
-export const getAxiosAuthErrorMessage = (ex: object): string => {
+export const getAxiosErrorMessage = (ex: object): string => {
   return ex instanceof AxiosError
     ? ex.response?.data?.message || ex.message
     : TOAST_UNKNOWN_ERROR_MESSAGE;
+};
+
+export const notifyAxiosError = (ex: unknown) => {
+  process.env.NODE_ENV === 'development' && console.error(ex);
+  notifyError(getAxiosErrorMessage(ex as object));
 };
 
 export const createRequestConfig = <D = unknown>(
@@ -122,3 +127,14 @@ export const createRequestConfig = <D = unknown>(
 export const getUniqueID = (): string => {
   return 'u' + Math.random().toString(32).substring(2);
 };
+
+export const isObjEmpty = (
+  data: Record<string | number | symbol, unknown>
+): boolean => {
+  for (const _ in data) {
+    return false;
+  }
+  return true;
+};
+
+export const emptyFunc = () => void 0;

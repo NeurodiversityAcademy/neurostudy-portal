@@ -10,11 +10,7 @@ import { useForm, UseFormReturn } from 'react-hook-form';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 import ActionButton from '../buttons/ActionButton';
 import AuthResendOTPBtn from './AuthResendOTPBtn';
-import {
-  getAxiosAuthErrorMessage,
-  notifyError,
-  notifySuccess,
-} from '@/app/utilities/common';
+import { notifyAxiosError, notifySuccess } from '@/app/utilities/common';
 import { useState } from 'react';
 import { FinishForgotPasswordProps } from '@/app/interfaces/ForgotPasswordInterface';
 import confirmResetPassword from '@/app/utilities/auth/confirmResetPassword';
@@ -43,11 +39,11 @@ const AuthFinishForgotPassword: React.FC<FinishForgotPasswordProps> = ({
         newPassword,
       });
 
-      notifySuccess('Password reset successfully.');
+      notifySuccess('Password successfully reset.');
 
       handleResetDone();
     } catch (ex) {
-      notifyError(getAxiosAuthErrorMessage(ex as object));
+      notifyAxiosError(ex);
     } finally {
       setIsLoading(false);
     }
@@ -61,7 +57,7 @@ const AuthFinishForgotPassword: React.FC<FinishForgotPasswordProps> = ({
     >
       <AuthFormHeader title='Almost Done' subText='one last step' />
       <Form methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
-        <Typography variant={TypographyVariant.Body3} className='pt-3'>
+        <Typography variant={TypographyVariant.Body3}>
           Please enter the verification code sent to <b>{username}</b>.
         </Typography>
         <TextBox

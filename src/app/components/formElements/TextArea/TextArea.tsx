@@ -20,13 +20,13 @@ interface TextAreaProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>;
   label: string;
   showLabel?: boolean;
-  defaultValue?: PathValue<TFieldValues, Path<TFieldValues>> | undefined;
+  defaultValue?: PathValue<TFieldValues, Path<TFieldValues>>;
   required?: boolean;
   placeholder?: string;
   className?: string;
   rows?: number;
   cols?: FORM_ELEMENT_COL_WIDTH;
-  onChange?: ((event: ChangeEvent<HTMLTextAreaElement>) => void) | undefined;
+  onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void;
   onBlur?: () => void;
   rules?: Pick<
     RegisterOptions<FieldValues>,
@@ -48,15 +48,12 @@ const TextArea = <TFieldValues extends FieldValues>({
   onBlur,
   rules: rootRules,
 }: TextAreaProps<TFieldValues>) => {
-  const { control, watch, setValue } = useFormContext();
+  const { control, setValue } = useFormContext();
 
   const rules = {
     required,
     ...rootRules,
   };
-
-  const inputVal = watch(name, defaultValue);
-  const isInputEmpty = inputVal.trim() === '';
 
   return (
     <Controller
@@ -69,7 +66,7 @@ const TextArea = <TFieldValues extends FieldValues>({
           field,
           formState: { errors },
         } = props;
-
+        const { value } = field;
         const error = errors[name];
 
         const inputClassName = classNames(
@@ -79,7 +76,7 @@ const TextArea = <TFieldValues extends FieldValues>({
         );
 
         const handleClick = () => {
-          setValue(name, '' as TFieldValues['name'], {
+          setValue(name, '' as TFieldValues[typeof name], {
             shouldValidate: true,
             shouldDirty: true,
           });
@@ -100,29 +97,26 @@ const TextArea = <TFieldValues extends FieldValues>({
                 required={required}
               />
             )}
-            <textarea
-              placeholder={placeholder}
-              className={inputClassName}
-              rows={rows}
-              cols={cols}
-              {...field}
-              onChange={function (this: HTMLTextAreaElement, ...args) {
-                field.onChange.apply(this, args);
-                onChange?.apply(this, args);
-              }}
-              onBlur={function (this: HTMLTextAreaElement) {
-                field.onBlur.apply(this);
-                onBlur?.apply(this);
-              }}
-            />
+            <div className={styles.inputWrapper}>
+              <textarea
+                placeholder={placeholder}
+                className={inputClassName}
+                rows={rows}
+                cols={cols}
+                {...field}
+                onChange={function (this: HTMLTextAreaElement, ...args) {
+                  field.onChange.apply(this, args);
+                  onChange?.apply(this, args);
+                }}
+                onBlur={function (this: HTMLTextAreaElement) {
+                  field.onBlur.apply(this);
+                  onBlur?.apply(this);
+                }}
+              />
+              {value?.trim() && <CloseButton onClick={handleClick} />}
+            </div>
             {error && (
               <ErrorBox message={error.message?.toString()} label={label} />
-            )}
-            {!isInputEmpty && (
-              <CloseButton
-                className={styles.closeButton}
-                onClick={handleClick}
-              />
             )}
           </div>
         );

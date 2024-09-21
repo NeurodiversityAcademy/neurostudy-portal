@@ -27,6 +27,9 @@ const useAuthError = () => {
         case 'Callback':
           notifyError('User was not granted access. Please try again later.');
           break;
+        case 'AuthRequired':
+          notifyError('Please login first.');
+          break;
         default:
           notifyError(TOAST_UNKNOWN_ERROR_MESSAGE);
       }
@@ -37,7 +40,12 @@ const useAuthError = () => {
 
       const newSearchParams = params.toString();
 
-      router.replace(window.location.pathname + (newSearchParams ?? ''));
+      const newUrl =
+        window.location.pathname +
+        (newSearchParams ? '?' + newSearchParams : '') +
+        window.location.hash;
+
+      router.replace(newUrl);
     });
   }, [error, router, searchParams]);
 };

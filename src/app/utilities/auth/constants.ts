@@ -18,14 +18,33 @@ export const INVALID_CREDENTIALS_MESSAGE = 'Incorrect username or password.';
 export const DEFAULT_SESSION_AGE_IN_SECONDS = 2 * 24 * 60 * 60;
 
 // NOTE
-// This will be here until we utilize `zod` or similar validation library
+// These will be here until we utilize `zod` or similar validation library
 // This helps us to generate a type based on the given attribute values
 // and validate/assert based on that as well
 export const DEFAULT_USER = {
   FirstName: '',
   LastName: '',
   DOB: '', // ISO String - `2024-03-22T04:28:32.981Z`
+  Age: 0,
+  Conditions: [''],
+  Institutions: [''],
+  EnvDescription: '',
+  Strategies: [''],
+  ManagingWays: [''],
+  EffectiveStrategy: '',
+  Contents: [''],
+  Comforts: [''],
+  Struggles: [''],
+  Challenges: [''],
+  LearningStyle: [''],
+  FocusAids: false,
+  MeetNDLearners: false,
+  Adjustments: [''],
+  UsedTools: [''],
+  Goals: [''],
+  Interests: [''],
 };
 
 export const USER_TABLE_NAME = process.env.USER_TABLE_NAME || 'NDAUsers';
 export const USER_TABLE_PARTITION_ID = 'Email';
+export const CALLBACK_URL_ON_LOGIN = '/profile';

@@ -23,10 +23,12 @@
     "isomorphic-dompurify": "^2.12.0",
     "next": "14.0.3",
     "next-auth": "^4.24.7",
+    "rate-limiter-flexible": "^5.0.3",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.52.0",
-    "react-icons": "^4.12.0"
+    "react-icons": "^4.12.0",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@types/dompurify": "^3.0.5",

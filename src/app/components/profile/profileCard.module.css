@@ -1,0 +1,102 @@
+.container {
+  background-color: var(--pure-white);
+  border-radius: 8px;
+  gap: 1px;
+  border: 1px solid var(--cherryPieSub);
+  box-shadow: 0px 2px 4px 0px #0000001f;
+  box-sizing: border-box;
+  animation-name: appear;
+  animation-duration: 400ms;
+}
+
+.container.popup {
+  width: 810px;
+  max-width: 80vw;
+  max-height: 95vh;
+  overflow: auto;
+}
+
+.container > *:first-child {
+  padding-top: var(--profile-y-gap);
+}
+
+.container > *:last-child {
+  padding-bottom: var(--profile-y-gap);
+}
+
+.container > * {
+  padding-left: var(--profile-x-gap);
+  padding-right: var(--profile-x-gap);
+}
+
+.header {
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--grey-100);
+  padding-bottom: var(--profile-y-gap);
+  transition: all 150ms linear;
+  margin-bottom: var(--profile-y-gap);
+}
+
+.header > * {
+  vertical-align: middle;
+}
+
+.header > img {
+  margin-right: 8px;
+}
+
+.header > .collapsibleIcon {
+  margin-top: 1px;
+  margin-left: 8px;
+  float: right;
+}
+
+.title {
+  font-size: 18px;
+}
+
+.collapsibleIcon {
+  background: none;
+  border: 0;
+  transform-origin: center;
+  transition: transform 150ms linear;
+  fill: var(--BondBlack);
+  cursor: pointer;
+}
+
+.collapsibleIcon:hover {
+  opacity: 0.6;
+}
+
+.collapsed > .header {
+  margin-bottom: 0px;
+  border: none;
+}
+
+.collapsed .collapsibleIcon {
+  transform: rotate(180deg);
+}
+
+.collapsed .content {
+  display: none;
+}
+
+.formWrapper {
+  margin: calc(var(--profile-y-gap) * -1) calc(var(--profile-x-gap) * -1);
+  padding: var(--profile-y-gap) var(--profile-x-gap);
+  min-height: 27px;
+}
+
+@keyframes appear {
+  from {
+    transform: translateY(-10px);
+    opacity: 0.2;
+  }
+
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
