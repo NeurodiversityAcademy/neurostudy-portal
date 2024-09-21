@@ -18,7 +18,7 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
-  padding: 4px 15px;
+  padding: 4px 30px 4px 15px;
 }
 
 .inputWrapper[aria-disabled='true'] {
@@ -33,6 +33,7 @@
   font-family: inherit;
   outline: none;
   padding: 4px 0px;
+  max-width: 100%;
 }
 
 .inputWrapper:focus-within {
@@ -89,4 +90,10 @@
 .dropdownList > * {
   flex: 1;
   align-self: unset;
+}
+
+.clearBtn {
+  position: absolute;
+  right: 15px;
+  top: 5px;
 }

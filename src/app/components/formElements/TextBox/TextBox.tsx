@@ -15,8 +15,8 @@ import {
 import Label from '../Label/Label';
 import ErrorBox from '../ErrorBox/ErrorBox';
 import { FORM_ELEMENT_COL_WIDTH } from '@/app/utilities/constants';
-import CloseButton from '../../buttons/CloseButton';
 import HelperText from '../HelperText/HelperText';
+import ClearButton from '../ClearButton/ClearButton';
 
 interface TextBoxProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>;
@@ -58,7 +58,7 @@ const TextBox = <TFieldValues extends FieldValues>({
   colWidth = FORM_ELEMENT_COL_WIDTH.FULL,
   rules: rootRules,
 }: TextBoxProps<TFieldValues>) => {
-  const { control, setValue, setFocus } = useFormContext();
+  const methods = useFormContext<TFieldValues>();
 
   const rules = {
     required,
@@ -68,7 +68,7 @@ const TextBox = <TFieldValues extends FieldValues>({
 
   return (
     <Controller
-      control={control}
+      control={methods.control}
       name={name}
       defaultValue={defaultValue}
       rules={rules}
@@ -80,14 +80,6 @@ const TextBox = <TFieldValues extends FieldValues>({
         } = props;
         const { value } = field;
         const error = errors[name];
-
-        const handleClick = () => {
-          setValue(name, '' as TFieldValues[typeof name], {
-            shouldValidate: true,
-            shouldDirty: true,
-          });
-          setFocus(name);
-        };
 
         return (
           <div
@@ -122,9 +114,12 @@ const TextBox = <TFieldValues extends FieldValues>({
                   onBlur?.apply(this);
                 }}
               />
-              {!disabled && value?.toString().trim() && (
-                <CloseButton onClick={handleClick} />
-              )}
+              <ClearButton<TFieldValues>
+                methods={methods}
+                name={name}
+                value={value}
+                disabled={disabled}
+              />
             </div>
             <HelperText>{helperText}</HelperText>
             {error && (

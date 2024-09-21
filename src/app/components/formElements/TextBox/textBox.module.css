@@ -11,18 +11,18 @@
   position: relative;
   border: 1px solid var(--grey-500);
   border-radius: 8px;
+  padding: 0px 15px;
 }
 
 .input {
   width: 100%;
   color: var(--grey-500);
-  padding: 8px 15px;
+  padding: 8px 0px;
   border-radius: 8px;
   border: 0;
   font-family: inherit;
   outline: none;
   box-sizing: border-box;
-  padding-right: 34px;
 }
 
 .inputWrapper:focus-within {

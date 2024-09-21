@@ -14,7 +14,7 @@ import {
 import Label from '../Label/Label';
 import ErrorBox from '../ErrorBox/ErrorBox';
 import { FORM_ELEMENT_COL_WIDTH } from '@/app/utilities/constants';
-import CloseButton from '../../buttons/CloseButton';
+import ClearButton from '../ClearButton/ClearButton';
 
 interface TextAreaProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>;
@@ -48,7 +48,7 @@ const TextArea = <TFieldValues extends FieldValues>({
   onBlur,
   rules: rootRules,
 }: TextAreaProps<TFieldValues>) => {
-  const { control, setValue, setFocus } = useFormContext();
+  const methods = useFormContext<TFieldValues>();
 
   const rules = {
     required,
@@ -57,7 +57,7 @@ const TextArea = <TFieldValues extends FieldValues>({
 
   return (
     <Controller
-      control={control}
+      control={methods.control}
       name={name}
       defaultValue={defaultValue}
       rules={rules}
@@ -68,14 +68,6 @@ const TextArea = <TFieldValues extends FieldValues>({
         } = props;
         const { value } = field;
         const error = errors[name];
-
-        const handleClick = () => {
-          setValue(name, '' as TFieldValues[typeof name], {
-            shouldValidate: true,
-            shouldDirty: true,
-          });
-          setFocus(name);
-        };
 
         return (
           <div
@@ -110,7 +102,12 @@ const TextArea = <TFieldValues extends FieldValues>({
                   onBlur?.apply(this);
                 }}
               />
-              {value?.trim() && <CloseButton onClick={handleClick} />}
+              <ClearButton<TFieldValues>
+                methods={methods}
+                name={name}
+                value={value}
+                className={styles.clearBtn}
+              />
             </div>
             {error && (
               <ErrorBox message={error.message?.toString()} label={label} />
