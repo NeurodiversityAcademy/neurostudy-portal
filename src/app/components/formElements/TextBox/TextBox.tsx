@@ -58,7 +58,7 @@ const TextBox = <TFieldValues extends FieldValues>({
   colWidth = FORM_ELEMENT_COL_WIDTH.FULL,
   rules: rootRules,
 }: TextBoxProps<TFieldValues>) => {
-  const { control, setValue } = useFormContext();
+  const { control, setValue, setFocus } = useFormContext();
 
   const rules = {
     required,
@@ -81,17 +81,12 @@ const TextBox = <TFieldValues extends FieldValues>({
         const { value } = field;
         const error = errors[name];
 
-        const inputClassName = classNames(
-          styles.input,
-          className,
-          error && styles.error
-        );
-
         const handleClick = () => {
           setValue(name, '' as TFieldValues[typeof name], {
             shouldValidate: true,
             shouldDirty: true,
           });
+          setFocus(name);
         };
 
         return (
@@ -109,11 +104,13 @@ const TextBox = <TFieldValues extends FieldValues>({
                 required={required}
               />
             )}
-            <div className={styles.inputWrapper}>
+            <div
+              className={classNames(styles.inputWrapper, error && styles.error)}
+            >
               <input
                 type={type}
                 placeholder={placeholder}
-                className={inputClassName}
+                className={classNames(styles.input, className)}
                 autoComplete={autoComplete}
                 {...field}
                 onChange={function (this: HTMLInputElement, ...args) {

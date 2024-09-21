@@ -9,21 +9,23 @@
   display: flex;
   width: 100%;
   position: relative;
+  border: 1px solid var(--grey-500);
+  border-radius: 8px;
 }
 
 .input {
   width: 100%;
-  border: 1px solid var(--grey-500);
   color: var(--grey-500);
   padding: 8px 15px;
   border-radius: 8px;
+  border: 0;
   font-family: inherit;
   outline: none;
   box-sizing: border-box;
   padding-right: 34px;
 }
 
-.input:focus {
+.inputWrapper:focus-within {
   border: 1px solid var(--cherryPieVariant);
 }
 

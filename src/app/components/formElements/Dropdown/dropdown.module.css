@@ -6,6 +6,7 @@
 }
 
 .inputWrapper {
+  position: relative;
   box-sizing: border-box;
   width: 100%;
   border: 1px solid var(--grey-500);
@@ -32,6 +33,14 @@
   font-family: inherit;
   outline: none;
   padding: 4px 0px;
+}
+
+.inputWrapper:focus-within {
+  border: 1px solid var(--cherryPieVariant);
+}
+
+.error {
+  border: 1px solid var(--errorRed);
 }
 
 .dropdownListContainer {

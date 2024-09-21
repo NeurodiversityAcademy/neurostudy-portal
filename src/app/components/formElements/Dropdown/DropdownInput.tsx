@@ -9,7 +9,7 @@ import {
 } from 'react';
 import styles from './dropdown.module.css';
 import classNames from 'classnames';
-import { ControllerProps, FieldValues } from 'react-hook-form';
+import { ControllerProps, FieldValues, UseFormReturn } from 'react-hook-form';
 import CheckBoxItem from '../CheckBoxItem/CheckBoxItem';
 import Label from '../Label/Label';
 import { PillFocusEventHandler } from '@/app/interfaces/Pill';
@@ -17,6 +17,7 @@ import { SelectOption, DropdownProps } from '@/app/interfaces/FormElements';
 import ErrorBox from '../ErrorBox/ErrorBox';
 import Pill from '../Pill/Pill';
 import HelperText from '../HelperText/HelperText';
+import CloseButton from '../../buttons/CloseButton';
 
 type RenderProps<TFieldValues extends FieldValues> = Parameters<
   ControllerProps<TFieldValues>['render']
@@ -25,6 +26,7 @@ type RenderProps<TFieldValues extends FieldValues> = Parameters<
 interface PropType<TFieldValues extends FieldValues>
   extends DropdownProps<TFieldValues> {
   renderProps: RenderProps<TFieldValues>;
+  methods: UseFormReturn<TFieldValues>;
 }
 
 const DEFAULT_SELECTED_OPTIONS: SelectOption['value'][] = [];
@@ -41,6 +43,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
   renderProps,
   creatable,
   defaultErrorMessage,
+  methods,
 }: PropType<TFieldValues>) => {
   const {
     field,
@@ -155,6 +158,14 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     }
   };
 
+  const handleClick = () => {
+    methods.setValue(name, '' as TFieldValues[typeof name], {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+    methods.setFocus(name);
+  };
+
   useLayoutEffect(() => {
     nextFocusElemRef.current?.focus();
   }, [selectedOptions]);
@@ -183,7 +194,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
         />
       )}
       <div
-        className={styles.inputWrapper}
+        className={classNames(styles.inputWrapper, error && styles.error)}
         onBlurCapture={() => {
           nextFocusElemRef.current = undefined;
         }}
@@ -211,6 +222,9 @@ const DropdownInput = <TFieldValues extends FieldValues>({
             value={inputValue}
             onKeyDown={onInputKeyDown}
           />
+        )}
+        {!disabled && !!field.value?.length && (
+          <CloseButton onClick={handleClick} />
         )}
       </div>
       {!disabled && (

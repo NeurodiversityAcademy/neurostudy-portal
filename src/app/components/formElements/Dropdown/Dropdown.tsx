@@ -21,13 +21,13 @@ const Dropdown = <TFieldValues extends FieldValues>(
     rules: _rules,
   } = rootProps;
 
-  const { control } = useFormContext<TFieldValues>();
+  const methods = useFormContext<TFieldValues>();
 
   const rules = { required, ..._rules };
 
   return (
     <Controller
-      control={control}
+      control={methods.control}
       name={name}
       defaultValue={
         (defaultValue.length ? defaultValue : '') as PathValue<
@@ -40,6 +40,7 @@ const Dropdown = <TFieldValues extends FieldValues>(
       render={(props) => (
         <DropdownInput<TFieldValues>
           {...rootProps}
+          methods={methods}
           rules={rules}
           renderProps={props}
         />

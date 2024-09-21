@@ -48,7 +48,7 @@ const TextArea = <TFieldValues extends FieldValues>({
   onBlur,
   rules: rootRules,
 }: TextAreaProps<TFieldValues>) => {
-  const { control, setValue } = useFormContext();
+  const { control, setValue, setFocus } = useFormContext();
 
   const rules = {
     required,
@@ -69,17 +69,12 @@ const TextArea = <TFieldValues extends FieldValues>({
         const { value } = field;
         const error = errors[name];
 
-        const inputClassName = classNames(
-          styles.input,
-          className,
-          error && styles.error
-        );
-
         const handleClick = () => {
           setValue(name, '' as TFieldValues[typeof name], {
             shouldValidate: true,
             shouldDirty: true,
           });
+          setFocus(name);
         };
 
         return (
@@ -97,10 +92,12 @@ const TextArea = <TFieldValues extends FieldValues>({
                 required={required}
               />
             )}
-            <div className={styles.inputWrapper}>
+            <div
+              className={classNames(styles.inputWrapper, error && styles.error)}
+            >
               <textarea
                 placeholder={placeholder}
-                className={inputClassName}
+                className={classNames(styles.input, className)}
                 rows={rows}
                 cols={cols}
                 {...field}
