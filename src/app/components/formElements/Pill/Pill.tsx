@@ -3,12 +3,13 @@ import {
   ForwardedRef,
   forwardRef,
   HTMLAttributes,
-  MouseEvent,
+  SyntheticEvent,
   useImperativeHandle,
   useRef,
 } from 'react';
 import styles from './pill.module.css';
 import { PillFocusEventHandler, PillRef } from '@/app/interfaces/Pill';
+import CloseButton from '../../buttons/CloseButton';
 
 type DefaultValue = string | number;
 
@@ -19,7 +20,7 @@ interface PillProps<Value = DefaultValue>
   selected?: boolean;
   canClose?: boolean;
   onFocus?: PillFocusEventHandler;
-  onClose: (value: Value, e: MouseEvent<HTMLButtonElement>) => void;
+  onClose: (value: Value, e: SyntheticEvent<HTMLButtonElement>) => void;
 }
 
 const Pill = <Value,>(
@@ -57,18 +58,14 @@ const Pill = <Value,>(
       aria-selected={selected}
       {...rest}
     >
-      {label}
+      <label>{label}</label>
       {selected && canClose && (
-        <button
+        <CloseButton
           ref={btnRef}
-          type='button'
-          className={styles.close}
+          className={styles.clear}
           onFocus={onFocus}
           onClick={(e) => onClose(value, e)}
-          aria-label='Close'
-        >
-          <span aria-hidden='true'>x</span>
-        </button>
+        />
       )}
     </div>
   );
