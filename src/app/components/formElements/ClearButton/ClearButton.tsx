@@ -35,6 +35,7 @@ const ClearButton = <TFieldValues extends FieldValues>({
           });
           methods.setFocus(name);
         }}
+        aria-label='Clear'
         {...rest}
       />
     )
