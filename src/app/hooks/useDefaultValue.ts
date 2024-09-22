@@ -18,7 +18,7 @@ export default function useDefaultValue<TFieldValues extends FieldValues>({
   const { isDirty } = fieldState;
 
   useEffect(() => {
-    const update = (value: DefaultValue<TFieldValues>) => {
+    const update = (value: TFieldValues[typeof name]) => {
       setTimeout(() => {
         setValue(name, value);
       });
