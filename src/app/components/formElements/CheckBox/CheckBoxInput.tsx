@@ -6,15 +6,17 @@ import {
   RenderProps,
 } from '@/app/interfaces/FormElements';
 import CheckBoxItem from '../CheckBoxItem/CheckBoxItem';
-import { FieldValues } from 'react-hook-form';
+import { FieldValues, UseFormReturn } from 'react-hook-form';
 import Label from '../Label/Label';
 import HelperText from '../HelperText/HelperText';
 import ErrorBox from '../ErrorBox/ErrorBox';
 import classNames from 'classnames';
+import useDefaultValue from '@/app/hooks/useDefaultValue';
 
 interface PropType<TFieldValues extends FieldValues>
   extends CheckBoxProps<TFieldValues> {
   renderProps: RenderProps<TFieldValues>;
+  methods: UseFormReturn<TFieldValues>;
 }
 
 const DEFAULT_SELECTED_OPTIONS: SelectOption['value'][] = [];
@@ -26,22 +28,28 @@ const CheckBoxInput = <TFieldValues extends FieldValues>({
   options,
   helperText,
   required = false,
+  defaultValue,
   onChange,
   orientation = 'horizontal',
-  renderProps,
   defaultErrorMessage,
+  renderProps,
+  methods,
 }: PropType<TFieldValues>) => {
   const {
     field,
     formState: { errors },
   } = renderProps;
-
-  const { disabled, onBlur } = field;
-
   const error = errors[name];
+  const { disabled, onBlur } = field;
 
   const selectedOptions: SelectOption['value'][] =
     field.value || DEFAULT_SELECTED_OPTIONS;
+
+  useDefaultValue<TFieldValues>({
+    renderProps,
+    defaultValue,
+    setValue: methods.setValue,
+  });
 
   const setSelectedOptions = (valueArr: SelectOption['value'][]) => {
     const value = valueArr.length ? valueArr : '';

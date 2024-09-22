@@ -26,6 +26,7 @@
   margin-right: -8px;
   margin-left: -1px;
   padding: 2px;
+  flex-shrink: 0;
 }
 
 .clear > img {

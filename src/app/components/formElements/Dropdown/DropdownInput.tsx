@@ -1,3 +1,5 @@
+'use client';
+
 import {
   useState,
   ChangeEvent,
@@ -18,6 +20,7 @@ import ErrorBox from '../ErrorBox/ErrorBox';
 import Pill from '../Pill/Pill';
 import HelperText from '../HelperText/HelperText';
 import ClearButton from '../ClearButton/ClearButton';
+import useDefaultValue from '@/app/hooks/useDefaultValue';
 
 type RenderProps<TFieldValues extends FieldValues> = Parameters<
   ControllerProps<TFieldValues>['render']
@@ -34,6 +37,7 @@ const DEFAULT_SELECTED_OPTIONS: SelectOption['value'][] = [];
 const DropdownInput = <TFieldValues extends FieldValues>({
   name,
   label,
+  defaultValue,
   showLabel = false,
   options,
   placeholder,
@@ -49,16 +53,20 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     field,
     formState: { errors },
   } = renderProps;
-
-  const { disabled, onBlur, value } = field;
-
   const error = errors[name];
+  const { disabled, onBlur, value } = field;
 
   const inputRef = useRef<HTMLInputElement>();
   const nextFocusElemRef = useRef<HTMLElement>();
   const selectedOptions: SelectOption['value'][] =
     value || DEFAULT_SELECTED_OPTIONS;
   const [inputValue, setInputValue] = useState('');
+
+  useDefaultValue<TFieldValues>({
+    renderProps,
+    defaultValue,
+    setValue: methods.setValue,
+  });
 
   const setSelectedOptions = (val: SelectOption['value'][]) => {
     field.onChange(val.length ? val : '');

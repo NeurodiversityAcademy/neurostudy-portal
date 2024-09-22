@@ -17,24 +17,26 @@ const Radio = <TFieldValues extends FieldValues>(
     name,
     defaultValue,
     required = false,
-    disabled = false,
+    disabled,
     rules: _rules,
   } = rootProps;
-
-  const { control } = useFormContext<TFieldValues>();
-
+  const methods = useFormContext<TFieldValues>();
   const rules = { required, ..._rules };
 
   return (
     <Controller
-      control={control}
+      control={methods.control}
       name={name}
       defaultValue={defaultValue as PathValue<TFieldValues, Path<TFieldValues>>}
       rules={rules}
-      disabled={disabled}
+      // NOTE
+      // `react-hook-form@7.52.0` sets up `isDirty` status of
+      // the input in a weird way if `disabled` is set as a non-undefined value
+      disabled={disabled || undefined}
       render={(props) => (
         <RadioInput<TFieldValues>
           {...rootProps}
+          methods={methods}
           rules={rules}
           renderProps={props}
         />
