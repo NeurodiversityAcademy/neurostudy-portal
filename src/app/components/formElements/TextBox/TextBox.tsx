@@ -16,6 +16,7 @@ import Label from '../Label/Label';
 import ErrorBox from '../ErrorBox/ErrorBox';
 import { FORM_ELEMENT_COL_WIDTH } from '@/app/utilities/constants';
 import HelperText from '../HelperText/HelperText';
+import ClearButton from '../ClearButton/ClearButton';
 
 interface TextBoxProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>;
@@ -57,7 +58,7 @@ const TextBox = <TFieldValues extends FieldValues>({
   colWidth = FORM_ELEMENT_COL_WIDTH.FULL,
   rules: rootRules,
 }: TextBoxProps<TFieldValues>) => {
-  const { control } = useFormContext();
+  const methods = useFormContext<TFieldValues>();
 
   const rules = {
     required,
@@ -67,7 +68,7 @@ const TextBox = <TFieldValues extends FieldValues>({
 
   return (
     <Controller
-      control={control}
+      control={methods.control}
       name={name}
       defaultValue={defaultValue}
       rules={rules}
@@ -77,14 +78,8 @@ const TextBox = <TFieldValues extends FieldValues>({
           field,
           formState: { errors },
         } = props;
-
+        const { value } = field;
         const error = errors[name];
-
-        const inputClassName = classNames(
-          styles.input,
-          className,
-          error && styles.error
-        );
 
         return (
           <div
@@ -101,21 +96,31 @@ const TextBox = <TFieldValues extends FieldValues>({
                 required={required}
               />
             )}
-            <input
-              type={type}
-              placeholder={placeholder}
-              className={inputClassName}
-              autoComplete={autoComplete}
-              {...field}
-              onChange={function (this: HTMLInputElement, ...args) {
-                field.onChange.apply(this, args);
-                onChange?.apply(this, args);
-              }}
-              onBlur={function (this: HTMLInputElement) {
-                field.onBlur.apply(this);
-                onBlur?.apply(this);
-              }}
-            />
+            <div
+              className={classNames(styles.inputWrapper, error && styles.error)}
+            >
+              <input
+                type={type}
+                placeholder={placeholder}
+                className={classNames(styles.input, className)}
+                autoComplete={autoComplete}
+                {...field}
+                onChange={function (this: HTMLInputElement, ...args) {
+                  field.onChange.apply(this, args);
+                  onChange?.apply(this, args);
+                }}
+                onBlur={function (this: HTMLInputElement) {
+                  field.onBlur.apply(this);
+                  onBlur?.apply(this);
+                }}
+              />
+              <ClearButton<TFieldValues>
+                methods={methods}
+                name={name}
+                value={value}
+                disabled={disabled}
+              />
+            </div>
             <HelperText>{helperText}</HelperText>
             {error && (
               <ErrorBox message={error.message?.toString()} label={label} />

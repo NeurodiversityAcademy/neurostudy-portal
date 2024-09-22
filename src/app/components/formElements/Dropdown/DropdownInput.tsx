@@ -9,7 +9,7 @@ import {
 } from 'react';
 import styles from './dropdown.module.css';
 import classNames from 'classnames';
-import { ControllerProps, FieldValues } from 'react-hook-form';
+import { ControllerProps, FieldValues, UseFormReturn } from 'react-hook-form';
 import CheckBoxItem from '../CheckBoxItem/CheckBoxItem';
 import Label from '../Label/Label';
 import { PillFocusEventHandler } from '@/app/interfaces/Pill';
@@ -17,6 +17,7 @@ import { SelectOption, DropdownProps } from '@/app/interfaces/FormElements';
 import ErrorBox from '../ErrorBox/ErrorBox';
 import Pill from '../Pill/Pill';
 import HelperText from '../HelperText/HelperText';
+import ClearButton from '../ClearButton/ClearButton';
 
 type RenderProps<TFieldValues extends FieldValues> = Parameters<
   ControllerProps<TFieldValues>['render']
@@ -25,6 +26,7 @@ type RenderProps<TFieldValues extends FieldValues> = Parameters<
 interface PropType<TFieldValues extends FieldValues>
   extends DropdownProps<TFieldValues> {
   renderProps: RenderProps<TFieldValues>;
+  methods: UseFormReturn<TFieldValues>;
 }
 
 const DEFAULT_SELECTED_OPTIONS: SelectOption['value'][] = [];
@@ -41,26 +43,26 @@ const DropdownInput = <TFieldValues extends FieldValues>({
   renderProps,
   creatable,
   defaultErrorMessage,
+  methods,
 }: PropType<TFieldValues>) => {
   const {
     field,
     formState: { errors },
   } = renderProps;
 
-  const { disabled, onBlur } = field;
+  const { disabled, onBlur, value } = field;
 
   const error = errors[name];
 
   const inputRef = useRef<HTMLInputElement>();
   const nextFocusElemRef = useRef<HTMLElement>();
   const selectedOptions: SelectOption['value'][] =
-    field.value || DEFAULT_SELECTED_OPTIONS;
+    value || DEFAULT_SELECTED_OPTIONS;
   const [inputValue, setInputValue] = useState('');
 
-  const setSelectedOptions = (valueArr: SelectOption['value'][]) => {
-    const value = valueArr.length ? valueArr : '';
-    field.onChange(value);
-    onChange?.(valueArr);
+  const setSelectedOptions = (val: SelectOption['value'][]) => {
+    field.onChange(val.length ? val : '');
+    onChange?.(val);
   };
 
   const { getLabel, exists } = (() => {
@@ -70,9 +72,9 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     }
 
     return {
-      getLabel: (value: string): SelectOption['label'] =>
-        obj[value]?.label || String(value),
-      exists: (value: string): boolean => value in obj,
+      getLabel: (val: string): SelectOption['label'] =>
+        obj[val]?.label || String(val),
+      exists: (val: string): boolean => val in obj,
     };
   })();
 
@@ -82,18 +84,19 @@ const DropdownInput = <TFieldValues extends FieldValues>({
       obj[item.toString().toLowerCase()] = true;
     }
 
-    return (value: SelectOption['value']): boolean =>
-      value.toString().toLowerCase() in obj;
+    return (val: SelectOption['value']): boolean =>
+      val.toString().toLowerCase() in obj;
   })();
 
-  const createItem = (value: string) => {
+  const createItem = (val: string) => {
     if (!creatable) {
       return;
     }
-    const valueLC = value.toLowerCase();
+    const valLowerCase = val.toLowerCase();
     setInputValue('');
-    !selectedOptions.find((value) => String(value).toLowerCase() === valueLC) &&
-      setSelectedOptions([...selectedOptions, value]);
+    !selectedOptions.find(
+      (option) => String(option).toLowerCase() === valLowerCase
+    ) && setSelectedOptions([...selectedOptions, val]);
     inputRef.current?.focus();
   };
 
@@ -134,9 +137,8 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     key === 'Escape' && (document.activeElement as HTMLElement)?.blur();
   };
 
-  const onRemove = (value: SelectOption['value']) => {
-    const updatedOptions = selectedOptions.filter((item) => item !== value);
-    setSelectedOptions(updatedOptions);
+  const onRemove = (val: SelectOption['value']) => {
+    setSelectedOptions(selectedOptions.filter((item) => item !== val));
   };
 
   const onPillFocus: PillFocusEventHandler = ({ parent }) => {
@@ -183,16 +185,16 @@ const DropdownInput = <TFieldValues extends FieldValues>({
         />
       )}
       <div
-        className={styles.inputWrapper}
+        className={classNames(styles.inputWrapper, error && styles.error)}
         onBlurCapture={() => {
           nextFocusElemRef.current = undefined;
         }}
       >
-        {selectedOptions.map((value) => (
+        {selectedOptions.map((option) => (
           <Pill
-            key={value.toString()}
-            label={getLabel(value.toString())}
-            value={value}
+            key={option.toString()}
+            label={getLabel(option.toString())}
+            value={option}
             selected
             onClose={onRemove}
             onFocus={onPillFocus}
@@ -212,6 +214,12 @@ const DropdownInput = <TFieldValues extends FieldValues>({
             onKeyDown={onInputKeyDown}
           />
         )}
+        <ClearButton
+          name={name}
+          value={value}
+          methods={methods}
+          className={styles.clearBtn}
+        />
       </div>
       {!disabled && (
         <div className={styles.dropdownListContainer}>
@@ -253,12 +261,12 @@ const DropdownInput = <TFieldValues extends FieldValues>({
           label={label}
         />
       )}
-      {selectedOptions.map((value) => (
+      {selectedOptions.map((option) => (
         <input
-          key={value.toString()}
+          key={option.toString()}
           type='hidden'
           name={name}
-          value={typeof value === 'boolean' ? value.toString() : value}
+          value={typeof option === 'boolean' ? option.toString() : option}
         />
       ))}
     </div>

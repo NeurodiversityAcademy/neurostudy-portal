@@ -6,6 +6,7 @@
 }
 
 .inputWrapper {
+  position: relative;
   box-sizing: border-box;
   width: 100%;
   border: 1px solid var(--grey-500);
@@ -17,7 +18,7 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
-  padding: 4px 15px;
+  padding: 4px 30px 4px 15px;
 }
 
 .inputWrapper[aria-disabled='true'] {
@@ -32,6 +33,15 @@
   font-family: inherit;
   outline: none;
   padding: 4px 0px;
+  max-width: 100%;
+}
+
+.inputWrapper:focus-within {
+  border: 1px solid var(--cherryPieVariant);
+}
+
+.error {
+  border: 1px solid var(--errorRed);
 }
 
 .dropdownListContainer {
@@ -80,4 +90,10 @@
 .dropdownList > * {
   flex: 1;
   align-self: unset;
+}
+
+.clearBtn {
+  position: absolute;
+  right: 15px;
+  top: 5px;
 }

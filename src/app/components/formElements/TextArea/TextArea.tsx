@@ -14,18 +14,19 @@ import {
 import Label from '../Label/Label';
 import ErrorBox from '../ErrorBox/ErrorBox';
 import { FORM_ELEMENT_COL_WIDTH } from '@/app/utilities/constants';
+import ClearButton from '../ClearButton/ClearButton';
 
 interface TextAreaProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>;
   label: string;
   showLabel?: boolean;
-  defaultValue?: PathValue<TFieldValues, Path<TFieldValues>> | undefined;
+  defaultValue?: PathValue<TFieldValues, Path<TFieldValues>>;
   required?: boolean;
   placeholder?: string;
   className?: string;
   rows?: number;
   cols?: FORM_ELEMENT_COL_WIDTH;
-  onChange?: ((event: ChangeEvent<HTMLTextAreaElement>) => void) | undefined;
+  onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void;
   onBlur?: () => void;
   rules?: Pick<
     RegisterOptions<FieldValues>,
@@ -47,7 +48,7 @@ const TextArea = <TFieldValues extends FieldValues>({
   onBlur,
   rules: rootRules,
 }: TextAreaProps<TFieldValues>) => {
-  const { control } = useFormContext();
+  const methods = useFormContext<TFieldValues>();
 
   const rules = {
     required,
@@ -56,7 +57,7 @@ const TextArea = <TFieldValues extends FieldValues>({
 
   return (
     <Controller
-      control={control}
+      control={methods.control}
       name={name}
       defaultValue={defaultValue}
       rules={rules}
@@ -65,14 +66,8 @@ const TextArea = <TFieldValues extends FieldValues>({
           field,
           formState: { errors },
         } = props;
-
+        const { value } = field;
         const error = errors[name];
-
-        const inputClassName = classNames(
-          styles.input,
-          className,
-          error && styles.error
-        );
 
         return (
           <div
@@ -89,21 +84,31 @@ const TextArea = <TFieldValues extends FieldValues>({
                 required={required}
               />
             )}
-            <textarea
-              placeholder={placeholder}
-              className={inputClassName}
-              rows={rows}
-              cols={cols}
-              {...field}
-              onChange={function (this: HTMLTextAreaElement, ...args) {
-                field.onChange.apply(this, args);
-                onChange?.apply(this, args);
-              }}
-              onBlur={function (this: HTMLTextAreaElement) {
-                field.onBlur.apply(this);
-                onBlur?.apply(this);
-              }}
-            />
+            <div
+              className={classNames(styles.inputWrapper, error && styles.error)}
+            >
+              <textarea
+                placeholder={placeholder}
+                className={classNames(styles.input, className)}
+                rows={rows}
+                cols={cols}
+                {...field}
+                onChange={function (this: HTMLTextAreaElement, ...args) {
+                  field.onChange.apply(this, args);
+                  onChange?.apply(this, args);
+                }}
+                onBlur={function (this: HTMLTextAreaElement) {
+                  field.onBlur.apply(this);
+                  onBlur?.apply(this);
+                }}
+              />
+              <ClearButton<TFieldValues>
+                methods={methods}
+                name={name}
+                value={value}
+                className={styles.clearBtn}
+              />
+            </div>
             {error && (
               <ErrorBox message={error.message?.toString()} label={label} />
             )}
