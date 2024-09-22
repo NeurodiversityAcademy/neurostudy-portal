@@ -29,7 +29,7 @@ const ProfileGoalForm: ForwardRefExoticComponent<
   PropsWithoutRef<ProfileSectionFormProps> & RefAttributes<ProfileSectionRef>
 > = forwardRef<ProfileSectionRef, ProfileSectionFormProps>(
   ({ onSubmit, onCancel }, ref) => {
-    const { data, isLoading } = useProfileContext();
+    const { data } = useProfileContext();
 
     const methods: UseFormReturn<UserGoalProps> = useForm<UserGoalProps>({
       mode: 'onBlur',
@@ -45,45 +45,46 @@ const ProfileGoalForm: ForwardRefExoticComponent<
 
     return (
       <Form
-        initialized={!isLoading}
         methods={methods}
         onSubmit={onSubmit ? methods.handleSubmit(onSubmit) : emptyFunc}
       >
-        <Dropdown
+        <Dropdown<UserGoalProps>
           name='Goals'
           label='Choose any 3 Learning Goals from below'
           showLabel
           placeholder='E.G. Get a Job'
-          defaultValue={data?.Goals || []}
+          defaultValue={data?.Goals}
           options={PROFILE_FIELD_OPTIONS.Goals}
           rules={{
             validate: {
-              limit3: (value) => value.length <= 3 || 'Choose at most 3.',
+              limit3: (value) =>
+                (value?.length || 0) <= 3 || 'Choose at most 3.',
             },
           }}
         />
-        <Dropdown
+        <Dropdown<UserGoalProps>
           name='Interests'
           label='Choose or Add any 5 topics that interest you'
           showLabel
           placeholder='E.G. Carpentry'
           creatable
-          defaultValue={data?.Interests || []}
+          defaultValue={data?.Interests}
           options={PROFILE_FIELD_OPTIONS.Interests}
           rules={{
             validate: {
-              limit5: (value) => value.length <= 5 || 'Choose at most 5.',
+              limit5: (value) =>
+                (value?.length || 0) <= 5 || 'Choose at most 5.',
             },
           }}
         />
-        <Dropdown
+        <Dropdown<UserGoalProps>
           name='Contents'
           label='What kind of content would you find most engaging?'
           showLabel
           placeholder='E.G. AR/VR'
           helperText='This will help us create personalised experience for you'
           creatable
-          defaultValue={data?.Contents || []}
+          defaultValue={data?.Contents}
           options={PROFILE_FIELD_OPTIONS.Contents}
         />
         {onSubmit ? <ProfileFormFooter onCancel={onCancel} /> : null}

@@ -40,43 +40,42 @@ const ProfileInfoSection: ForwardRefExoticComponent<
   return (
     <ProfileCard title='Personal Information' isLoading={isLoading}>
       <Form
-        initialized={!isLoading}
         methods={methods}
         onSubmit={methods.handleSubmit(() => {
           notifyInProgress();
         })}
       >
-        <TextBox
+        <TextBox<UserProps>
           name='FirstName'
           label='First Name'
           required
           placeholder='First Name'
           pattern={NAME_REGEX}
           showLabel
-          defaultValue={data?.FirstName || ''}
-          colWidth={FORM_ELEMENT_COL_WIDTH.HALF}
+          defaultValue={data?.FirstName}
+          cols={FORM_ELEMENT_COL_WIDTH.HALF}
         />
-        <TextBox
+        <TextBox<UserProps>
           name='LastName'
           label='Last Name'
           required
           placeholder='Last Name'
           pattern={NAME_REGEX}
           showLabel
-          defaultValue={data?.LastName || ''}
-          colWidth={FORM_ELEMENT_COL_WIDTH.HALF}
+          defaultValue={data?.LastName}
+          cols={FORM_ELEMENT_COL_WIDTH.HALF}
         />
-        <TextBox
+        <TextBox<UserProps>
           type='number'
           name='Age'
           label='Age'
           required
           placeholder='Age'
           showLabel
-          defaultValue={data?.Age || ''}
+          defaultValue={data?.Age}
           rules={{
             validate: (_value) => {
-              const value = parseFloat(_value);
+              const value = parseFloat(_value?.toString() || '');
 
               if (isNaN(value)) {
                 return '"Number" type expected.';
@@ -86,10 +85,10 @@ const ProfileInfoSection: ForwardRefExoticComponent<
             },
           }}
         />
-        {/* // TODO */}
-        {/* 'Email' is not actually a part of the accepted field values. */}
-        {/* We need to apply strict typing and make sure no unacceptable field values */}
-        {/* passes the system. The applied strategy needs to be convenient. */}
+        {/* Note: 'Email' is not actually a part of the accepted field values. */}
+        {/* - 'Email' is not actually a part of the accepted field values. */}
+        {/* - Which is why we aren't enforcing `<TextBox<UserProps> />` */}
+        {/* - This will eventually be ignored during/before submission. */}
         <TextBox
           name='Email'
           label='Email Address'
@@ -97,7 +96,7 @@ const ProfileInfoSection: ForwardRefExoticComponent<
           placeholder='Email Address'
           pattern={EMAIL_REGEX}
           showLabel
-          defaultValue={data?.Email || ''}
+          defaultValue={data?.Email}
           disabled
         />
       </Form>
