@@ -33,6 +33,7 @@ interface PropType<TFieldValues extends FieldValues>
 }
 
 const DEFAULT_SELECTED_OPTIONS: SelectOption['value'][] = [];
+const BUTTON_ARIA_LABEL = 'Clear';
 
 const DropdownInput = <TFieldValues extends FieldValues>({
   name,
@@ -158,7 +159,9 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     if (nextSibling === inputRef.current) {
       nextFocusElemRef.current = nextSibling as HTMLInputElement;
     } else {
-      const elem = nextSibling.querySelector('*[aria-label="Close"]');
+      const elem = nextSibling.querySelector(
+        '*[aria-label="' + BUTTON_ARIA_LABEL + '"]'
+      );
       if (elem instanceof HTMLElement) {
         nextFocusElemRef.current = elem;
       }
@@ -194,6 +197,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
       )}
       <div
         className={classNames(styles.inputWrapper, error && styles.error)}
+        aria-disabled={disabled}
         onBlurCapture={() => {
           nextFocusElemRef.current = undefined;
         }}
@@ -206,6 +210,8 @@ const DropdownInput = <TFieldValues extends FieldValues>({
             selected
             onClose={onRemove}
             onFocus={onPillFocus}
+            disabled={disabled}
+            button-aria-label={BUTTON_ARIA_LABEL}
           />
         ))}
         {(!disabled || !selectedOptions.length) && (
@@ -215,6 +221,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
               field.ref(node);
             }}
             type='text'
+            disabled={disabled}
             placeholder={placeholder}
             className={styles.input}
             onChange={onInputChange}
@@ -227,13 +234,14 @@ const DropdownInput = <TFieldValues extends FieldValues>({
           value={value}
           methods={methods}
           className={styles.clearBtn}
+          disabled={disabled}
         />
       </div>
       {!disabled && (
         <div className={styles.dropdownListContainer}>
           <ul className={styles.dropdownList}>
             {creatable &&
-              inputValue &&
+              inputValue.trim() &&
               !exists(inputValue) &&
               !isSelected(inputValue) && (
                 <CheckBoxItem

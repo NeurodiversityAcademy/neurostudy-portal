@@ -22,9 +22,9 @@
 }
 
 .inputWrapper[aria-disabled='true'] {
-  cursor: not-allowed;
-  pointer-events: none;
-  opacity: 0.5;
+  background-color: rgba(239, 239, 239, 0.3);
+  color: var(--grey-300);
+  border-color: rgba(118, 118, 118, 0.3);
 }
 
 .input {
