@@ -7,3 +7,7 @@
   cursor: pointer;
   border-radius: 30px;
 }
+
+.closeBtn:disabled {
+  cursor: not-allowed;
+}
