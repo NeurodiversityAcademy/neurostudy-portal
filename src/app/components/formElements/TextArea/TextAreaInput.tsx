@@ -65,12 +65,16 @@ const TextAreaInput = <TFieldValues extends FieldValues>({
           required={required}
         />
       )}
-      <div className={classNames(styles.inputWrapper, error && styles.error)}>
+      <div
+        className={classNames(styles.inputWrapper, error && styles.error)}
+        aria-disabled={disabled}
+      >
         <textarea
           placeholder={placeholder}
           className={classNames(styles.input, className)}
           rows={rows}
           cols={cols}
+          disabled={disabled}
           {...field}
           onChange={function (this: HTMLTextAreaElement, ...args) {
             field.onChange.apply(this, args);

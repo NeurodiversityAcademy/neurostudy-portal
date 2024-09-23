@@ -30,6 +30,15 @@
   padding-right: 0px;
 }
 
+.input:disabled {
+  background-color: rgba(239, 239, 239, 0.3);
+  color: var(--grey-300);
+}
+
+.inputWrapper[aria-disabled='true'] {
+  border-color: rgba(118, 118, 118, 0.3);
+}
+
 .inputWrapper:focus-within {
   border: 1px solid var(--cherryPieVariant);
 }

@@ -66,7 +66,10 @@ const TextBoxInput = <TFieldValues extends FieldValues>({
           required={required}
         />
       )}
-      <div className={classNames(styles.inputWrapper, error && styles.error)}>
+      <div
+        className={classNames(styles.inputWrapper, error && styles.error)}
+        aria-disabled={disabled}
+      >
         <input
           type={type}
           placeholder={placeholder}
