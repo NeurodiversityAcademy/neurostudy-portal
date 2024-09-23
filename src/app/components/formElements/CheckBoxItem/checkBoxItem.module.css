@@ -1,5 +1,5 @@
 .item {
-  padding: 6px 8px;
+  padding: 5px 8px;
   transition: background-color 200ms ease;
   display: flex;
   align-items: center;
@@ -18,10 +18,15 @@
   background-color: #f0f0f0;
 }
 
+.item:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
 .input {
   position: relative;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border: 1px solid var(--grey-500);
   border-radius: 3px;
   display: flex;
@@ -33,7 +38,11 @@
   transition-duration: 200ms;
   transition-timing-function: linear;
   background-color: transparent;
-  outline: 0;
+  box-sizing: border-box;
+}
+
+.input:disabled {
+  cursor: not-allowed;
 }
 
 .radio {
@@ -50,8 +59,7 @@
   border-color: transparent;
 }
 
-.item:focus > .checkbox,
-.item:focus > .radio,
+.item:focus > .input,
 .item:focus.pill {
   outline: 1px solid var(--BondBlack);
 }
@@ -79,4 +87,9 @@
 
 .item > label {
   cursor: inherit;
+}
+
+.item:disabled > label {
+  cursor: default;
+  color: var(--grey-300);
 }
