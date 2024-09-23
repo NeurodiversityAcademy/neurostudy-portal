@@ -92,6 +92,7 @@ const CheckBoxInput = <TFieldValues extends FieldValues>({
           <CheckBoxItem
             key={value.toString()}
             label={label}
+            disabled={disabled}
             selected={isSelected(label)}
             onChange={(selected) => {
               setSelectedOptions(
