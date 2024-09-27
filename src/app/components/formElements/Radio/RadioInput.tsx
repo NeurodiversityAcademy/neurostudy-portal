@@ -1,23 +1,16 @@
 import React, { FocusEvent } from 'react';
 import styles from './radio.module.css';
 import {
-  RadioProps,
   SelectOption,
-  RenderProps,
+  RadioInputProps,
 } from '@/app/interfaces/FormElements';
 import CheckBoxItem from '../CheckBoxItem/CheckBoxItem';
-import { FieldValues, UseFormReturn } from 'react-hook-form';
+import { FieldValues } from 'react-hook-form';
 import Label from '../Label/Label';
 import HelperText from '../HelperText/HelperText';
 import ErrorBox from '../ErrorBox/ErrorBox';
 import classNames from 'classnames';
 import useDefaultValue from '@/app/hooks/useDefaultValue';
-
-interface PropType<TFieldValues extends FieldValues>
-  extends RadioProps<TFieldValues> {
-  renderProps: RenderProps<TFieldValues>;
-  methods: UseFormReturn<TFieldValues>;
-}
 
 const RadioInput = <TFieldValues extends FieldValues>({
   name,
@@ -32,7 +25,7 @@ const RadioInput = <TFieldValues extends FieldValues>({
   defaultErrorMessage,
   renderProps,
   methods,
-}: PropType<TFieldValues>) => {
+}: RadioInputProps<TFieldValues>) => {
   const {
     field,
     formState: { errors },

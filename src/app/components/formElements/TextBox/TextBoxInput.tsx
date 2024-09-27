@@ -2,23 +2,13 @@
 
 import styles from './textBox.module.css';
 import classNames from 'classnames';
-import { ControllerProps, FieldValues, UseFormReturn } from 'react-hook-form';
+import { FieldValues } from 'react-hook-form';
 import Label from '../Label/Label';
-import { TextBoxProps } from '@/app/interfaces/FormElements';
+import { TextBoxInputProps } from '@/app/interfaces/FormElements';
 import ErrorBox from '../ErrorBox/ErrorBox';
 import HelperText from '../HelperText/HelperText';
 import ClearButton from '../ClearButton/ClearButton';
 import useDefaultValue from '@/app/hooks/useDefaultValue';
-
-type RenderProps<TFieldValues extends FieldValues> = Parameters<
-  ControllerProps<TFieldValues>['render']
->[0];
-
-interface PropType<TFieldValues extends FieldValues>
-  extends TextBoxProps<TFieldValues> {
-  renderProps: RenderProps<TFieldValues>;
-  methods: UseFormReturn<TFieldValues>;
-}
 
 const TextBoxInput = <TFieldValues extends FieldValues>({
   type = 'text',
@@ -37,7 +27,7 @@ const TextBoxInput = <TFieldValues extends FieldValues>({
   cols,
   renderProps,
   methods,
-}: PropType<TFieldValues>) => {
+}: TextBoxInputProps<TFieldValues>) => {
   const {
     field,
     formState: { errors },

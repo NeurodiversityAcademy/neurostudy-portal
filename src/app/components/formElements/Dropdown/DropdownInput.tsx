@@ -11,26 +11,16 @@ import {
 } from 'react';
 import styles from './dropdown.module.css';
 import classNames from 'classnames';
-import { ControllerProps, FieldValues, UseFormReturn } from 'react-hook-form';
+import { FieldValues } from 'react-hook-form';
 import CheckBoxItem from '../CheckBoxItem/CheckBoxItem';
 import Label from '../Label/Label';
 import { PillFocusEventHandler } from '@/app/interfaces/Pill';
-import { SelectOption, DropdownProps } from '@/app/interfaces/FormElements';
+import { SelectOption, DropdownInputProps } from '@/app/interfaces/FormElements';
 import ErrorBox from '../ErrorBox/ErrorBox';
 import Pill from '../Pill/Pill';
 import HelperText from '../HelperText/HelperText';
 import ClearButton from '../ClearButton/ClearButton';
 import useDefaultValue from '@/app/hooks/useDefaultValue';
-
-type RenderProps<TFieldValues extends FieldValues> = Parameters<
-  ControllerProps<TFieldValues>['render']
->[0];
-
-interface PropType<TFieldValues extends FieldValues>
-  extends DropdownProps<TFieldValues> {
-  renderProps: RenderProps<TFieldValues>;
-  methods: UseFormReturn<TFieldValues>;
-}
 
 const DEFAULT_SELECTED_OPTIONS: SelectOption['value'][] = [];
 const BUTTON_ARIA_LABEL = 'Clear';
@@ -49,7 +39,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
   creatable,
   defaultErrorMessage,
   methods,
-}: PropType<TFieldValues>) => {
+}: DropdownInputProps<TFieldValues>) => {
   const {
     field,
     formState: { errors },
