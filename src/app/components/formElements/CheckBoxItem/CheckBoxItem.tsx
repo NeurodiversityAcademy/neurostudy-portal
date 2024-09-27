@@ -22,7 +22,7 @@ const CheckBoxItem: React.FC<PropType> = ({
   ...rest
 }) => {
   const isTypeRadio = type === 'radio';
-  const isypeCheckbox = type === 'checkbox';
+  const isTypeCheckbox = type === 'checkbox';
   const isTypePill = type === 'pill';
 
   const onClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -39,7 +39,7 @@ const CheckBoxItem: React.FC<PropType> = ({
       onClick={onClick}
       {...rest}
     >
-      {isypeCheckbox || isTypeRadio ? (
+      {isTypeCheckbox || isTypeRadio ? (
         <div
           role={type}
           aria-disabled={disabled}
@@ -51,7 +51,7 @@ const CheckBoxItem: React.FC<PropType> = ({
             selected && styles.checked
           )}
         >
-          {isypeCheckbox && selected && (
+          {isTypeCheckbox && selected && (
             <CheckIcon className={styles.checkmark} />
           )}
         </div>
