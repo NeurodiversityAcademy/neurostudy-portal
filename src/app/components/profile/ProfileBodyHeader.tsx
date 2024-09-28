@@ -21,8 +21,13 @@ type ProfileBodyHeaderPropType = {
 const ProfileBodyHeader: React.FC = () => {
   const { data, isLoading, isEditing } = useProfileContext();
   const router = useRouter();
-  
-  const { FirstName = '', LastName = '', Email = '', Age = 0 } = data as ProfileBodyHeaderPropType|| {};
+
+  const {
+    FirstName = '',
+    LastName = '',
+    Email = '',
+    Age = 0,
+  } = (data as ProfileBodyHeaderPropType) || {};
 
   return (
     <ProfileCard header={null} isLoading={isLoading}>

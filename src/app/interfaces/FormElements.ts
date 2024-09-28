@@ -26,10 +26,11 @@ export type DefaultRules<TFieldValues extends FieldValues> = Pick<
 
 export interface SelectOption {
   label: string;
+  label2?: string;
   value: string | number | boolean;
 }
 
-export interface BaseInputProps<TFieldValues extends FieldValues>{
+export interface BaseInputProps<TFieldValues extends FieldValues> {
   renderProps: RenderProps<TFieldValues>;
   methods: UseFormReturn<TFieldValues>;
 }
@@ -53,7 +54,9 @@ export interface TextBoxProps<TFieldValues extends FieldValues> {
   disabled?: boolean;
 }
 
-export interface TextBoxInputProps<TFieldValues extends FieldValues> extends BaseInputProps<TFieldValues>, TextBoxProps<TFieldValues>{}
+export interface TextBoxInputProps<TFieldValues extends FieldValues>
+  extends BaseInputProps<TFieldValues>,
+    TextBoxProps<TFieldValues> {}
 
 export type TextAreaProps<TFieldValues extends FieldValues> = Omit<
   TextBoxProps<TFieldValues>,
@@ -63,7 +66,9 @@ export type TextAreaProps<TFieldValues extends FieldValues> = Omit<
   onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void;
 };
 
-export interface TextAreaInputProps<TFieldValues extends FieldValues> extends BaseInputProps<TFieldValues>, TextAreaProps<TFieldValues>{}
+export interface TextAreaInputProps<TFieldValues extends FieldValues>
+  extends BaseInputProps<TFieldValues>,
+    TextAreaProps<TFieldValues> {}
 
 export interface DropdownProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>;
@@ -82,7 +87,9 @@ export interface DropdownProps<TFieldValues extends FieldValues> {
   onChange?: (selected: SelectOption['value'][]) => void;
 }
 
-export interface DropdownInputProps<TFieldValues extends FieldValues> extends BaseInputProps<TFieldValues>, DropdownProps<TFieldValues>{}
+export interface DropdownInputProps<TFieldValues extends FieldValues>
+  extends BaseInputProps<TFieldValues>,
+    DropdownProps<TFieldValues> {}
 
 export type CheckBoxProps<TFieldValues extends FieldValues> = Omit<
   DropdownProps<TFieldValues>,
@@ -91,7 +98,9 @@ export type CheckBoxProps<TFieldValues extends FieldValues> = Omit<
   orientation?: 'horizontal' | 'vertical';
 };
 
-export interface CheckBoxInputProps<TFieldValues extends FieldValues> extends BaseInputProps<TFieldValues>, CheckBoxProps<TFieldValues>{}
+export interface CheckBoxInputProps<TFieldValues extends FieldValues>
+  extends BaseInputProps<TFieldValues>,
+    CheckBoxProps<TFieldValues> {}
 
 export type RadioProps<TFieldValues extends FieldValues> = Omit<
   CheckBoxProps<TFieldValues>,
@@ -100,4 +109,13 @@ export type RadioProps<TFieldValues extends FieldValues> = Omit<
   onChange?: (selected: SelectOption['value']) => void;
 };
 
-export interface RadioInputProps<TFieldValues extends FieldValues> extends BaseInputProps<TFieldValues>, RadioProps<TFieldValues>{}
+export interface RadioInputProps<TFieldValues extends FieldValues>
+  extends BaseInputProps<TFieldValues>,
+    RadioProps<TFieldValues> {}
+
+export type ToggleProps<TFieldValues extends FieldValues> =
+  RadioProps<TFieldValues>;
+
+export interface ToggleInputProps<TFieldValues extends FieldValues>
+  extends BaseInputProps<TFieldValues>,
+    ToggleProps<TFieldValues> {}

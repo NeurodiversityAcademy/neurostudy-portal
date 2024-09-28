@@ -15,7 +15,10 @@ import { FieldValues } from 'react-hook-form';
 import CheckBoxItem from '../CheckBoxItem/CheckBoxItem';
 import Label from '../Label/Label';
 import { PillFocusEventHandler } from '@/app/interfaces/Pill';
-import { SelectOption, DropdownInputProps } from '@/app/interfaces/FormElements';
+import {
+  SelectOption,
+  DropdownInputProps,
+} from '@/app/interfaces/FormElements';
 import ErrorBox from '../ErrorBox/ErrorBox';
 import Pill from '../Pill/Pill';
 import HelperText from '../HelperText/HelperText';

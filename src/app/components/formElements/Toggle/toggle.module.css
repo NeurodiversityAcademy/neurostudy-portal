@@ -1,0 +1,86 @@
+.toggleRoot {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  position: relative;
+}
+
+.toggleContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.toggleContainer.vertical {
+  flex-direction: column;
+  gap: 5px;
+}
+
+.switchContainer {
+  display: flex;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--black-400);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: var(--slider-radius);
+  width: var(--slider-radius);
+  top: 3px;
+  left: 3px;
+  background-color: var(--pure-white);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: var(--cherryPieVariant);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--cherryPieVariant);
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(var(--slider-radius));
+  -ms-transform: translateX(var(--slider-radius));
+  transform: translateX(var(--slider-radius));
+}
+
+.slider.round {
+  border-radius: 14px;
+}
+
+.slider.round:before {
+  border-radius: 10px;
+}
+
+.label {
+  font-size: 14px;
+  line-height: 1em;
+  padding: 5px 15px 5px 8px;
+}

@@ -1,6 +1,6 @@
-import { DefaultValue } from "@/app/interfaces/FormElements";
-import { USER_DATA_KEY } from "../profile/constants";
-import { FieldValues } from "react-hook-form";
+import { DefaultValue } from '@/app/interfaces/FormElements';
+import { USER_DATA_KEY } from '../profile/constants';
+import { FieldValues } from 'react-hook-form';
 
 // NOTE
 // We're trying this variable to closely resemble AWS's `nextStep`

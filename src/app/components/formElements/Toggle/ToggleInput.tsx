@@ -1,7 +1,10 @@
 import React, { FocusEvent } from 'react';
-import styles from './radio.module.css';
-import { SelectOption, RadioInputProps } from '@/app/interfaces/FormElements';
-import CheckBoxItem from '../CheckBoxItem/CheckBoxItem';
+import styles from './toggle.module.css';
+import {
+  DefaultValue,
+  SelectOption,
+  ToggleInputProps,
+} from '@/app/interfaces/FormElements';
 import { FieldValues } from 'react-hook-form';
 import Label from '../Label/Label';
 import HelperText from '../HelperText/HelperText';
@@ -9,20 +12,20 @@ import ErrorBox from '../ErrorBox/ErrorBox';
 import classNames from 'classnames';
 import useDefaultValue from '@/app/hooks/useDefaultValue';
 
-const RadioInput = <TFieldValues extends FieldValues>({
+const ToggleInput = <TFieldValues extends FieldValues>({
   name,
   label,
   showLabel = false,
   options,
   helperText,
   required = false,
-  defaultValue,
+  defaultValue = false as DefaultValue<TFieldValues>,
   onChange,
   orientation = 'horizontal',
   defaultErrorMessage,
   renderProps,
   methods,
-}: RadioInputProps<TFieldValues>) => {
+}: ToggleInputProps<TFieldValues>) => {
   const {
     field,
     formState: { errors },
@@ -43,7 +46,7 @@ const RadioInput = <TFieldValues extends FieldValues>({
 
   return (
     <div
-      className={styles.radioRoot}
+      className={styles.toggleRoot}
       role='group'
       aria-disabled={disabled}
       onBlurCapture={(e: FocusEvent<HTMLDivElement, Element>) => {
@@ -59,18 +62,30 @@ const RadioInput = <TFieldValues extends FieldValues>({
           required={required}
         />
       )}
-      <div className={classNames(styles.radioContainer, styles[orientation])}>
-        {options.map(({ label, value: itemValue }) => (
-          <CheckBoxItem
+      <div className={classNames(styles.toggleContainer, styles[orientation])}>
+        {options.map(({ label, value: itemValue, label2 }) => (
+          <div
             key={itemValue.toString()}
-            label={label}
-            disabled={disabled}
-            type='radio'
-            selected={value === itemValue}
-            onChange={() => {
-              setValue(itemValue);
-            }}
-          />
+            role='checkbox'
+            aria-disabled={disabled}
+            aria-checked={value === itemValue}
+            aria-label={label}
+            className={styles.switchContainer}
+          >
+            <label className={styles.switch}>
+              <input
+                type='checkbox'
+                disabled={disabled}
+                onChange={() => {
+                  setValue(value === itemValue);
+                }}
+              />
+              <span className={classNames(styles.slider, styles.round)}></span>
+            </label>
+            <label className={styles.label}>
+              {value === itemValue ? label : label2}
+            </label>
+          </div>
         ))}
       </div>
       <HelperText>{helperText}</HelperText>
@@ -92,4 +107,4 @@ const RadioInput = <TFieldValues extends FieldValues>({
   );
 };
 
-export default RadioInput;
+export default ToggleInput;

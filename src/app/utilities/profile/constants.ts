@@ -1,7 +1,7 @@
 import { ProfileFieldsType } from '@/app/interfaces/Profile';
 import { UserProps } from '@/app/interfaces/User';
 
-export enum USER_DATA_KEY{
+export enum USER_DATA_KEY {
   FIRST_NAME = 'FirstName',
   LAST_NAME = 'LastName',
   DATE_OF_BIRTH = 'DOB',
@@ -35,7 +35,11 @@ export const PREFERENCE_FIELDS = [
   USER_DATA_KEY.LEARNING_STYLE,
 ] as const;
 
-export const GOAL_FIELDS = [USER_DATA_KEY.GOALS, USER_DATA_KEY.INTERESTS, USER_DATA_KEY.CONTENTS] as const;
+export const GOAL_FIELDS = [
+  USER_DATA_KEY.GOALS,
+  USER_DATA_KEY.INTERESTS,
+  USER_DATA_KEY.CONTENTS,
+] as const;
 
 export const CHALLENGE_FIELDS = [
   USER_DATA_KEY.COMFORTS,
@@ -58,9 +62,11 @@ export const PROFILE_LABEL_MAPPER: Partial<Record<keyof UserProps, string>> = {
   [USER_DATA_KEY.CONTENTS]: 'Most Engaging Content',
   [USER_DATA_KEY.COMFORTS]: 'Things you are comfortable with',
   [USER_DATA_KEY.STRUGGLES]: 'Things that you have struggled with in the past',
-  [USER_DATA_KEY.CHALLENGES]: 'Tell us about the challenges that you have faced in the past',
+  [USER_DATA_KEY.CHALLENGES]:
+    'Tell us about the challenges that you have faced in the past',
   [USER_DATA_KEY.STRATEGIES]: 'Time Management Strategies',
-  [USER_DATA_KEY.MANAGING_WAYS]: 'Sensory Overload Management in Learning Environments',
+  [USER_DATA_KEY.MANAGING_WAYS]:
+    'Sensory Overload Management in Learning Environments',
   [USER_DATA_KEY.EFFECTIVE_STRATEGY]: 'Effective Learning Strategy',
   [USER_DATA_KEY.LEARNING_STYLE]: 'Preferred Learning Style',
   [USER_DATA_KEY.ADJUSTMENTS]: 'Adjustments Needed',
@@ -68,7 +74,8 @@ export const PROFILE_LABEL_MAPPER: Partial<Record<keyof UserProps, string>> = {
   [USER_DATA_KEY.GOALS]: 'Learning Goals',
   [USER_DATA_KEY.INTERESTS]: 'Topics of Interest',
   [USER_DATA_KEY.FOCUS_AIDS]: 'Access to Focus Aids',
-  [USER_DATA_KEY.MEET_NDL_LEARNERS]: 'Interest in Meeting/Collaborating with Other ND Learners',
+  [USER_DATA_KEY.MEET_NDL_LEARNERS]:
+    'Interest in Meeting/Collaborating with Other ND Learners',
 };
 
 export const PROFILE_EMPTY_ATTRIBUTE_MAP = new Map<
