@@ -11,6 +11,10 @@ import { EMAIL_REGEX, FORM_ELEMENT_COL_WIDTH } from '../utilities/constants';
 import { FieldValues, useForm, UseFormReturn } from 'react-hook-form';
 import Form from '@/app/components/formElements/Form';
 import TextArea from '@/app/components/formElements/TextArea/TextArea';
+import Radio from './formElements/Radio/Radio';
+import CheckBox from './formElements/CheckBox/CheckBox';
+import Dropdown from './formElements/Dropdown/Dropdown';
+import Pill from './formElements/Pill/Pill';
 
 interface LoginFieldValues extends FieldValues {
   username: string;
@@ -98,6 +102,50 @@ export default function Components() {
               maxLength: 300,
             }}
           ></TextArea>
+          <CheckBox
+            name="test-checkbox-1"
+            label="Checkbox - Vertical"
+            showLabel
+            options={[{ label: 'Item 1', value: 'Item 1' },
+              { label: 'Item 2', value: 'Item 2' },{ label: 'Item 3', value: 'Item 3' },]}
+              orientation='vertical'
+          />
+          <CheckBox
+            name="test-checkbox-2"
+            label="Checkbox - Horizontal"
+            showLabel
+            options={[{ label: 'Item 1', value: 'Item 1' },
+              { label: 'Item 2', value: 'Item 2' },{ label: 'Item 3', value: 'Item 3' },]}
+          />
+          <Radio
+            name="test-radio-1"
+            label="Radio Button - Vertical"
+            showLabel
+            options={[{ label: 'Yes', value: true },
+              { label: 'No', value: false },]}
+              orientation='vertical'
+          />
+          <Radio
+            name="test-radio-2"
+            label="Radio Button - Horizontal"
+            showLabel
+            options={[{ label: 'Yes', value: true },
+              { label: 'No', value: false },]}
+          />
+          <Dropdown
+          name="test-pill-1"
+          label='Pills & Dropdown'
+          showLabel
+          placeholder='Choose any 3'
+          options={[{ label: 'Item 1', value: 'Item 1' },
+            { label: 'Item 2', value: 'Item 2' },{ label: 'Item 3', value: 'Item 3' },{ label: 'Item 4', value: 'Item 4' }, { label: 'Item 5', value: 'Item 5' }]}
+          rules={{
+            validate: {
+              limit3: (value: string[]) =>
+                (value?.length || 0) <= 3 || 'Choose at most 3.',
+            },
+          }}
+        />
         </Form>
       </div>
     </main>
