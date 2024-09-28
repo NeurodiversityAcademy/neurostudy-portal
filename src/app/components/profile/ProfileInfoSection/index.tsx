@@ -19,6 +19,7 @@ import {
   useImperativeHandle,
 } from 'react';
 import { ProfileSectionRef } from '@/app/interfaces/Profile';
+import { USER_DATA_KEY } from '@/app/utilities/profile/constants';
 
 const ProfileInfoSection: ForwardRefExoticComponent<
   RefAttributes<ProfileSectionRef>
@@ -46,7 +47,7 @@ const ProfileInfoSection: ForwardRefExoticComponent<
         })}
       >
         <TextBox<UserProps>
-          name='FirstName'
+          name={USER_DATA_KEY.FIRST_NAME}
           label='First Name'
           required
           placeholder='First Name'
@@ -56,7 +57,7 @@ const ProfileInfoSection: ForwardRefExoticComponent<
           cols={FORM_ELEMENT_COL_WIDTH.HALF}
         />
         <TextBox<UserProps>
-          name='LastName'
+          name={USER_DATA_KEY.LAST_NAME}
           label='Last Name'
           required
           placeholder='Last Name'
@@ -67,14 +68,14 @@ const ProfileInfoSection: ForwardRefExoticComponent<
         />
         <TextBox<UserProps>
           type='number'
-          name='Age'
+          name={USER_DATA_KEY.AGE}
           label='Age'
           required
           placeholder='Age'
           showLabel
           defaultValue={data?.Age}
           rules={{
-            validate: (_value) => {
+            validate: (_value: number) => {
               const value = parseFloat(_value?.toString() || '');
 
               if (isNaN(value)) {

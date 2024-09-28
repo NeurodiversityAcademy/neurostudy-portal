@@ -18,6 +18,7 @@ import { UserProps } from '@/app/interfaces/User';
 import {
   GOAL_FIELDS,
   PROFILE_FIELD_OPTIONS,
+  USER_DATA_KEY,
 } from '@/app/utilities/profile/constants';
 import ProfileFormFooter from '../ProfileFormFooter';
 import Dropdown from '../../formElements/Dropdown/Dropdown';
@@ -49,7 +50,7 @@ const ProfileGoalForm: ForwardRefExoticComponent<
         onSubmit={onSubmit ? methods.handleSubmit(onSubmit) : emptyFunc}
       >
         <Dropdown<UserGoalProps>
-          name='Goals'
+          name={USER_DATA_KEY.GOALS}
           label='Choose any 3 Learning Goals from below'
           showLabel
           placeholder='E.G. Get a Job'
@@ -57,13 +58,13 @@ const ProfileGoalForm: ForwardRefExoticComponent<
           options={PROFILE_FIELD_OPTIONS.Goals}
           rules={{
             validate: {
-              limit3: (value) =>
+              limit3: (value: string[]) =>
                 (value?.length || 0) <= 3 || 'Choose at most 3.',
             },
           }}
         />
         <Dropdown<UserGoalProps>
-          name='Interests'
+          name={USER_DATA_KEY.INTERESTS}
           label='Choose or Add any 5 topics that interest you'
           showLabel
           placeholder='E.G. Carpentry'
@@ -72,13 +73,13 @@ const ProfileGoalForm: ForwardRefExoticComponent<
           options={PROFILE_FIELD_OPTIONS.Interests}
           rules={{
             validate: {
-              limit5: (value) =>
+              limit5: (value: string[]) =>
                 (value?.length || 0) <= 5 || 'Choose at most 5.',
             },
           }}
         />
         <Dropdown<UserGoalProps>
-          name='Contents'
+          name={USER_DATA_KEY.CONTENTS}
           label='What kind of content would you find most engaging?'
           showLabel
           placeholder='E.G. AR/VR'

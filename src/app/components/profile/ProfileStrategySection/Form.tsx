@@ -18,6 +18,7 @@ import { UserProps } from '@/app/interfaces/User';
 import {
   PROFILE_FIELD_OPTIONS,
   STRATEGY_FIELDS,
+  USER_DATA_KEY,
 } from '@/app/utilities/profile/constants';
 import TextArea from '../../formElements/TextArea/TextArea';
 import ProfileFormFooter from '../ProfileFormFooter';
@@ -51,7 +52,7 @@ const ProfileStrategyForm: ForwardRefExoticComponent<
         onSubmit={onSubmit && methods.handleSubmit(onSubmit)}
       >
         <Dropdown<UserStrategyProps>
-          name='Strategies'
+          name={USER_DATA_KEY.STRATEGIES}
           label='What strategies do you use to manage your time effectively?'
           showLabel
           placeholder='E.G. Focused Learning'
@@ -60,7 +61,7 @@ const ProfileStrategyForm: ForwardRefExoticComponent<
           options={PROFILE_FIELD_OPTIONS.Strategies}
         />
         <Dropdown<UserStrategyProps>
-          name='ManagingWays'
+          name={USER_DATA_KEY.MANAGING_WAYS}
           label='How do you manage sensory overload in learning environments?'
           showLabel
           placeholder='E.G. Focus'
@@ -69,7 +70,7 @@ const ProfileStrategyForm: ForwardRefExoticComponent<
           options={PROFILE_FIELD_OPTIONS.ManagingWays}
         />
         <Radio<UserStrategyProps>
-          name='FocusAids'
+          name={USER_DATA_KEY.FOCUS_AIDS}
           label='Would access to fidget toys, noise-canceling headphones, or other focus aids be beneficial 
   for you?'
           showLabel
@@ -77,14 +78,14 @@ const ProfileStrategyForm: ForwardRefExoticComponent<
           options={PROFILE_FIELD_OPTIONS.FocusAids}
         />
         <Radio<UserStrategyProps>
-          name='MeetNDLearners'
+          name={USER_DATA_KEY.MEET_NDL_LEARNERS}
           label='Would you be interested in meeting/collaborating with other ND learners?*'
           showLabel
           defaultValue={data?.MeetNDLearners}
           options={PROFILE_FIELD_OPTIONS.MeetNDLearners}
         />
         <TextArea<UserStrategyProps>
-          name='EffectiveStrategy'
+          name={USER_DATA_KEY.EFFECTIVE_STRATEGY}
           label='What is one learning strategy that has been particularly helpful for you?*'
           showLabel
           placeholder={`Ex. - Having a good night's sleep, waking up early and start studying in a tranquil environment`}
