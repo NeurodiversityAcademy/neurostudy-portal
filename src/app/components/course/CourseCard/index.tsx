@@ -8,12 +8,14 @@ import locationSrc from '@/app/images/mapPin.svg';
 import clockSrc from '@/app/images/clock.svg';
 import CourseRating from './CourseRating';
 import CourseCriterion from './CourseCriterion';
+import { HTMLAttributes } from 'react';
+import classNames from 'classnames';
 
-interface PropType {
+interface PropType extends HTMLAttributes<HTMLDivElement> {
   course: CourseProps;
 }
 
-const CourseCard: React.FC<PropType> = ({ course }) => {
+const CourseCard: React.FC<PropType> = ({ course, className, ...rest }) => {
   const { InstitutionName, Title, Location, Duration, Rating, Criteria, Tier } =
     course;
 
@@ -22,7 +24,11 @@ const CourseCard: React.FC<PropType> = ({ course }) => {
     _years && (_years % 1 === 0 ? _years.toString() : _years.toFixed(1));
 
   return (
-    <div className={styles.container} role='group'>
+    <div
+      className={classNames(styles.container, className)}
+      role='listbox'
+      {...rest}
+    >
       <Image
         src={cardHeaderBackgroundSrc}
         alt='Course card header background'
