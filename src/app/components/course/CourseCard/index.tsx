@@ -8,22 +8,36 @@ import locationSrc from '@/app/images/mapPin.svg';
 import clockSrc from '@/app/images/clock.svg';
 import CourseRating from './CourseRating';
 import CourseCriterion from './CourseCriterion';
-import { HTMLAttributes } from 'react';
+import Link, { LinkProps } from 'next/link';
+import { MouseEvent } from 'react';
 
-interface PropType extends HTMLAttributes<HTMLDivElement> {
+interface PropType extends Omit<LinkProps, 'href'> {
   course: CourseProps;
 }
 
 const CourseCard: React.FC<PropType> = ({ course, ...rest }) => {
-  const { InstitutionName, Title, Location, Duration, Rating, Criteria, Tier } =
-    course;
+  const {
+    CourseId,
+    InstitutionName,
+    Title,
+    Location,
+    Duration,
+    Rating,
+    Criteria,
+    Tier,
+  } = course;
 
   const _years: number | undefined = Duration ? Duration / 12 : undefined;
   const years =
     _years && (_years % 1 === 0 ? _years.toString() : _years.toFixed(1));
 
   return (
-    <div className={styles.container} role='listbox' {...rest}>
+    <Link
+      href={CourseId ? `/courses/${CourseId}` : ''}
+      className={styles.cardLink}
+      role='listitem'
+      {...rest}
+    >
       <Image
         src={cardHeaderBackgroundSrc}
         alt='Course card header background'
@@ -46,7 +60,12 @@ const CourseCard: React.FC<PropType> = ({ course, ...rest }) => {
             {InstitutionName}
           </Typography>
 
-          <button className={styles.favouriteIcon}>
+          <button
+            className={styles.favouriteIcon}
+            onClick={(e: MouseEvent<HTMLButtonElement>) => {
+              e.preventDefault();
+            }}
+          >
             <FavouriteIcon />
           </button>
         </div>
@@ -75,7 +94,7 @@ const CourseCard: React.FC<PropType> = ({ course, ...rest }) => {
         <CourseRating Rating={Rating} Tier={Tier} />
         <CourseCriterion criterion={Criteria?.Faculty} label='Faculty' />
       </div>
-    </div>
+    </Link>
   );
 };
 
