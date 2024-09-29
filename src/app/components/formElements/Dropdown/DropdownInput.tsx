@@ -177,6 +177,16 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     return option.label.toLowerCase().includes(inputValueLC);
   });
 
+  const focusInput = (e: React.MouseEvent<HTMLElement>) => {
+    if (e.currentTarget === e.target) {
+      if (document.activeElement === inputRef.current) {
+        e.preventDefault();
+      } else {
+        setTimeout(() => inputRef.current?.focus());
+      }
+    }
+  };
+
   return (
     <div
       className={classNames(styles.container)}
@@ -201,12 +211,14 @@ const DropdownInput = <TFieldValues extends FieldValues>({
         onBlurCapture={() => {
           nextFocusElemRef.current = undefined;
         }}
+        onMouseDown={focusInput}
       >
         <div
           className={classNames(
             styles.pillAndInput,
             selectedOptions.length && styles.hasValue
           )}
+          onMouseDown={focusInput}
         >
           {selectedOptions.map((option) => (
             <Pill
