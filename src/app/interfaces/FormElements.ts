@@ -83,6 +83,7 @@ export interface DropdownProps<TFieldValues extends FieldValues> {
   helperText?: string;
   defaultErrorMessage?: string;
   creatable?: boolean;
+  multiple?: boolean;
   rules?: DefaultRules<TFieldValues>;
   onChange?: (selected: SelectOption['value'][]) => void;
 }

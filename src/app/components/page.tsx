@@ -151,7 +151,21 @@ export default function Components() {
           />
           <Slider name='test-slider-1' label='Slider' showLabel />
           <Dropdown
-            name='test-pill-1'
+            name='test-dropdown-no-pill-1'
+            label='Dropdown - No pill & Single selection'
+            showLabel
+            placeholder='Choose an item'
+            options={[
+              { label: 'Item 1', value: 'Item 1' },
+              { label: 'Item 2', value: 'Item 2' },
+              { label: 'Item 3', value: 'Item 3' },
+              { label: 'Item 4', value: 'Item 4' },
+              { label: 'Item 5', value: 'Item 5' },
+            ]}
+            multiple={false}
+          />
+          <Dropdown
+            name='test--dropdown-pill-1'
             label='Pills & Dropdown'
             showLabel
             placeholder='Choose any 3'
@@ -162,6 +176,7 @@ export default function Components() {
               { label: 'Item 4', value: 'Item 4' },
               { label: 'Item 5', value: 'Item 5' },
             ]}
+            multiple
             rules={{
               validate: {
                 limit3: (value: string[]) =>

@@ -40,6 +40,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
   onChange,
   renderProps,
   creatable,
+  multiple = false,
   defaultErrorMessage,
   methods,
 }: DropdownInputProps<TFieldValues>) => {
@@ -195,33 +196,40 @@ const DropdownInput = <TFieldValues extends FieldValues>({
           nextFocusElemRef.current = undefined;
         }}
       >
-        {selectedOptions.map((option) => (
-          <Pill
-            key={option.toString()}
-            label={getLabel(option.toString())}
-            value={option}
-            selected
-            onClose={onRemove}
-            onFocus={onPillFocus}
-            disabled={disabled}
-            button-aria-label={BUTTON_ARIA_LABEL}
-          />
-        ))}
-        {(!disabled || !selectedOptions.length) && (
-          <input
-            ref={(node) => {
-              inputRef.current = node || undefined;
-              field.ref(node);
-            }}
-            type='text'
-            disabled={disabled}
-            placeholder={placeholder}
-            className={styles.input}
-            onChange={onInputChange}
-            value={inputValue}
-            onKeyDown={onInputKeyDown}
-          />
-        )}
+        {multiple &&
+          selectedOptions.map((option) => (
+            <Pill
+              key={option.toString()}
+              label={getLabel(option.toString())}
+              value={option}
+              selected
+              onClose={onRemove}
+              onFocus={onPillFocus}
+              disabled={disabled}
+              button-aria-label={BUTTON_ARIA_LABEL}
+            />
+          ))}
+        <input
+          ref={(node) => {
+            inputRef.current = node || undefined;
+            field.ref(node);
+          }}
+          type='text'
+          disabled={disabled}
+          placeholder={
+            multiple || (!multiple && !selectedOptions.length)
+              ? placeholder
+              : ''
+          }
+          className={styles.input}
+          onChange={onInputChange}
+          value={
+            multiple || !selectedOptions.length
+              ? inputValue
+              : getLabel(selectedOptions[0].toString())
+          }
+          onKeyDown={onInputKeyDown}
+        />
         <ClearButton
           name={name}
           value={value}
@@ -230,39 +238,41 @@ const DropdownInput = <TFieldValues extends FieldValues>({
           disabled={disabled}
         />
       </div>
-      {!disabled && (
-        <div className={styles.dropdownListContainer}>
-          <ul className={styles.dropdownList}>
-            {creatable &&
-              inputValue.trim() &&
-              !exists(inputValue) &&
-              !isSelected(inputValue) && (
-                <CheckBoxItem
-                  label={'Add "' + inputValue + '"'}
-                  selected={false}
-                  onChange={() => createItem(inputValue)}
-                  type='pill'
-                  role='listitem'
-                />
-              )}
-            {filteredOptions.map(({ label, value }) => (
+      <div className={styles.dropdownListContainer}>
+        <ul className={styles.dropdownList}>
+          {creatable &&
+            inputValue.trim() &&
+            !exists(inputValue) &&
+            !isSelected(inputValue) && (
               <CheckBoxItem
-                key={value.toString()}
-                label={label}
-                selected={isSelected(value)}
-                onChange={(selected) => {
+                label={'Add "' + inputValue + '"'}
+                selected={false}
+                onChange={() => createItem(inputValue)}
+                type='pill'
+                role='listitem'
+              />
+            )}
+          {filteredOptions.map(({ label, value }) => (
+            <CheckBoxItem
+              key={value.toString()}
+              label={label}
+              selected={isSelected(value)}
+              onChange={(selected) => {
+                if (multiple) {
                   setSelectedOptions(
                     selected
                       ? [...selectedOptions, value]
                       : selectedOptions.filter((item) => item !== value)
                   );
-                }}
-                role='listitem'
-              />
-            ))}
-          </ul>
-        </div>
-      )}
+                } else {
+                  setSelectedOptions(selected ? [value] : []);
+                }
+              }}
+              role='listitem'
+            />
+          ))}
+        </ul>
+      </div>
       <HelperText>{helperText}</HelperText>
       {error && (
         <ErrorBox
