@@ -15,6 +15,7 @@ import Radio from './formElements/Radio/Radio';
 import CheckBox from './formElements/CheckBox/CheckBox';
 import Dropdown from './formElements/Dropdown/Dropdown';
 import Toggle from './formElements/Toggle/Toggle';
+import Slider from './formElements/Slider/Slider';
 
 interface LoginFieldValues extends FieldValues {
   username: string;
@@ -148,6 +149,7 @@ export default function Components() {
             showLabel
             options={[{ label: 'OFF', value: false, label2: 'ON' }]}
           />
+          <Slider name='test-slider-1' label='Slider' showLabel />
           <Dropdown
             name='test-pill-1'
             label='Pills & Dropdown'

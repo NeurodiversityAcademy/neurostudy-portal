@@ -119,3 +119,15 @@ export type ToggleProps<TFieldValues extends FieldValues> =
 export interface ToggleInputProps<TFieldValues extends FieldValues>
   extends BaseInputProps<TFieldValues>,
     ToggleProps<TFieldValues> {}
+
+export type SliderProps<TFieldValues extends FieldValues> = Omit<
+  TextBoxProps<TFieldValues>,
+  'type' | 'required' | 'placeholder' | 'autoComplete' | 'cols' | 'onChange'
+> & {
+  defaultErrorMessage?: string;
+  onChange?: (selected: number) => void;
+};
+
+export interface SliderInputProps<TFieldValues extends FieldValues>
+  extends BaseInputProps<TFieldValues>,
+    SliderProps<TFieldValues> {}
