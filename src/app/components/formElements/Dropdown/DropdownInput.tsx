@@ -202,33 +202,41 @@ const DropdownInput = <TFieldValues extends FieldValues>({
           nextFocusElemRef.current = undefined;
         }}
       >
-        {selectedOptions.map((option) => (
-          <Pill
-            key={option.toString()}
-            label={getLabel(option.toString())}
-            value={option}
-            selected
-            onClose={onRemove}
-            onFocus={onPillFocus}
-            disabled={disabled}
-            button-aria-label={BUTTON_ARIA_LABEL}
-          />
-        ))}
-        {(!disabled || !selectedOptions.length) && (
-          <input
-            ref={(node) => {
-              inputRef.current = node || undefined;
-              field.ref(node);
-            }}
-            type='text'
-            disabled={disabled}
-            placeholder={placeholder}
-            className={styles.input}
-            onChange={onInputChange}
-            value={inputValue}
-            onKeyDown={onInputKeyDown}
-          />
-        )}
+        <div
+          className={classNames(
+            styles.pillAndInput,
+            selectedOptions.length && styles.hasValue
+          )}
+        >
+          {selectedOptions.map((option) => (
+            <Pill
+              key={option.toString()}
+              label={getLabel(option.toString())}
+              value={option}
+              selected
+              onClose={onRemove}
+              onFocus={onPillFocus}
+              disabled={disabled}
+              button-aria-label={BUTTON_ARIA_LABEL}
+            />
+          ))}
+          {(!disabled || !selectedOptions.length) && (
+            <input
+              ref={(node) => {
+                inputRef.current = node || undefined;
+                field.ref(node);
+              }}
+              type='text'
+              role='searchbox'
+              disabled={disabled}
+              placeholder={placeholder}
+              className={styles.input}
+              onChange={onInputChange}
+              value={inputValue}
+              onKeyDown={onInputKeyDown}
+            />
+          )}
+        </div>
         <ClearButton
           name={name}
           value={value}
