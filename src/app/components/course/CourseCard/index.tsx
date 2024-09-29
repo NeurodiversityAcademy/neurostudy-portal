@@ -8,25 +8,34 @@ import locationSrc from '@/app/images/mapPin.svg';
 import clockSrc from '@/app/images/clock.svg';
 import CourseRating from './CourseRating';
 import CourseCriterion from './CourseCriterion';
-import { HTMLAttributes } from 'react';
-import classNames from 'classnames';
+import Link, { LinkProps } from 'next/link';
+import { MouseEvent } from 'react';
 
-interface PropType extends HTMLAttributes<HTMLDivElement> {
+interface PropType extends Omit<LinkProps, 'href'> {
   course: CourseProps;
 }
 
-const CourseCard: React.FC<PropType> = ({ course, className, ...rest }) => {
-  const { InstitutionName, Title, Location, Duration, Rating, Criteria, Tier } =
-    course;
+const CourseCard: React.FC<PropType> = ({ course, ...rest }) => {
+  const {
+    CourseId,
+    InstitutionName,
+    Title,
+    Location,
+    Duration,
+    Rating,
+    Criteria,
+    Tier,
+  } = course;
 
   const _years: number | undefined = Duration ? Duration / 12 : undefined;
   const years =
     _years && (_years % 1 === 0 ? _years.toString() : _years.toFixed(1));
 
   return (
-    <div
-      className={classNames(styles.container, className)}
-      role='listbox'
+    <Link
+      href={CourseId ? `/courses/${CourseId}` : ''}
+      className={styles.cardLink}
+      role='listitem'
       {...rest}
     >
       <Image
@@ -51,7 +60,12 @@ const CourseCard: React.FC<PropType> = ({ course, className, ...rest }) => {
             {InstitutionName}
           </Typography>
 
-          <button className={styles.favouriteIcon}>
+          <button
+            className={styles.favouriteIcon}
+            onClick={(e: MouseEvent<HTMLButtonElement>) => {
+              e.preventDefault();
+            }}
+          >
             <FavouriteIcon />
           </button>
         </div>
@@ -80,7 +94,7 @@ const CourseCard: React.FC<PropType> = ({ course, className, ...rest }) => {
         <CourseRating Rating={Rating} Tier={Tier} />
         <CourseCriterion criterion={Criteria?.Faculty} label='Faculty' />
       </div>
-    </div>
+    </Link>
   );
 };
 
