@@ -57,7 +57,7 @@ const CheckBoxInput = <TFieldValues extends FieldValues>({
     onChange?.(valueArr);
   };
 
-  const isSelected = (() => {
+  const isChecked = (() => {
     const obj: Record<string, true> = {};
     for (const item of selectedOptions) {
       obj[item.toString().toLowerCase()] = true;
@@ -93,7 +93,7 @@ const CheckBoxInput = <TFieldValues extends FieldValues>({
             key={value.toString()}
             label={label}
             disabled={disabled}
-            selected={isSelected(label)}
+            checked={isChecked(label)}
             onChange={(selected) => {
               setSelectedOptions(
                 selected
