@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes, MouseEvent } from 'react';
+import React, { ButtonHTMLAttributes, MouseEvent, useId } from 'react';
 import styles from './checkBoxItem.module.css';
 import classNames from 'classnames';
 import CheckIcon from '../../images/Check';
@@ -6,7 +6,8 @@ import CheckIcon from '../../images/Check';
 interface PropType
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'type'> {
   label: string;
-  selected: boolean;
+  selected?: boolean;
+  checked: boolean;
   onChange: (selected: boolean, e: MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   type?: 'checkbox' | 'radio' | 'pill';
@@ -15,19 +16,27 @@ interface PropType
 const CheckBoxItem: React.FC<PropType> = ({
   label,
   selected,
+  checked,
   type = 'checkbox',
   disabled,
   onChange,
+  className,
   onClick: _onClick,
+  role,
   ...rest
 }) => {
+  // NOTE: Temporary syncing
+  checked = selected === undefined ? checked : selected;
+
+  const labelId = useId();
+
   const isTypeRadio = type === 'radio';
   const isypeCheckbox = type === 'checkbox';
   const isTypePill = type === 'pill';
 
   const onClick = (e: MouseEvent<HTMLButtonElement>) => {
-    const newSelected = isTypeRadio ? true : !selected;
-    newSelected !== selected && onChange(newSelected, e);
+    const newSelected = isTypeRadio ? true : !checked;
+    newSelected !== checked && onChange(newSelected, e);
     _onClick?.(e);
   };
 
@@ -35,28 +44,34 @@ const CheckBoxItem: React.FC<PropType> = ({
     <button
       type='button'
       disabled={disabled}
-      className={classNames(styles.item, isTypePill && styles.pill)}
+      className={classNames(styles.item, isTypePill && styles.pill, className)}
       onClick={onClick}
+      role={role}
+      {...(role === 'option' && { 'aria-selected': checked })}
       {...rest}
     >
       {isypeCheckbox || isTypeRadio ? (
         <div
-          role={type}
           aria-disabled={disabled}
-          aria-checked={selected}
-          aria-label={label}
           className={classNames(
             styles.input,
             styles[type],
-            selected && styles.checked
+            checked && styles.checked
           )}
+          {...(role === 'option'
+            ? { 'aria-hidden': true }
+            : {
+                role: type,
+                'aria-checked': checked,
+                'aria-labelledby': labelId,
+              })}
         >
-          {isypeCheckbox && selected && (
+          {isypeCheckbox && checked && (
             <CheckIcon className={styles.checkmark} />
           )}
         </div>
       ) : null}
-      <label>{label}</label>
+      <label id={labelId}>{label}</label>
     </button>
   );
 };
