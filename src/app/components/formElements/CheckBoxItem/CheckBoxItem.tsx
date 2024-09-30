@@ -6,7 +6,6 @@ import CheckIcon from '../../images/Check';
 interface PropType
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'type'> {
   label: string;
-  selected?: boolean;
   checked: boolean;
   onChange: (selected: boolean, e: MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
@@ -15,7 +14,6 @@ interface PropType
 
 const CheckBoxItem: React.FC<PropType> = ({
   label,
-  selected,
   checked,
   type = 'checkbox',
   disabled,
@@ -25,9 +23,6 @@ const CheckBoxItem: React.FC<PropType> = ({
   role,
   ...rest
 }) => {
-  // NOTE: Temporary syncing
-  checked = selected === undefined ? checked : selected;
-
   const labelId = useId();
 
   const isTypeRadio = type === 'radio';
