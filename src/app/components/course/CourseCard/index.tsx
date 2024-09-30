@@ -1,3 +1,5 @@
+'use client';
+
 import { CourseProps } from '@/app/interfaces/Course';
 import styles from './courseCard.module.css';
 import cardHeaderBackgroundSrc from '@/app/images/cardHeaderBackground.jpg';
