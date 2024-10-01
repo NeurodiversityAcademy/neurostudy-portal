@@ -18,7 +18,6 @@ import { UserProps } from '@/app/interfaces/User';
 import {
   CHALLENGE_FIELDS,
   PROFILE_FIELD_OPTIONS,
-  USER_DATA_KEY,
 } from '@/app/utilities/profile/constants';
 import ProfileFormFooter from '../ProfileFormFooter';
 import Dropdown from '../../formElements/Dropdown/Dropdown';
@@ -50,7 +49,7 @@ const ProfileChallengeForm: ForwardRefExoticComponent<
         onSubmit={onSubmit && methods.handleSubmit(onSubmit)}
       >
         <Dropdown<UserChallengeProps>
-          name={USER_DATA_KEY.COMFORTS}
+          name='Comforts'
           label='Tell us about things you are comfortable with'
           showLabel
           placeholder='E.G. Online classes'
@@ -60,7 +59,7 @@ const ProfileChallengeForm: ForwardRefExoticComponent<
           options={PROFILE_FIELD_OPTIONS.Comforts}
         />
         <Dropdown<UserChallengeProps>
-          name={USER_DATA_KEY.STRUGGLES}
+          name='Struggles'
           label='Tell us about things that you have struggled with in the past'
           showLabel
           placeholder='E.G. Zoom Meetings'
@@ -70,7 +69,7 @@ const ProfileChallengeForm: ForwardRefExoticComponent<
           options={PROFILE_FIELD_OPTIONS.Struggles}
         />
         <Dropdown<UserChallengeProps>
-          name={USER_DATA_KEY.CHALLENGES}
+          name='Challenges'
           label='Tell us about the challenges that you have faced in the past'
           showLabel
           placeholder='E.G. Online Learning'

@@ -19,7 +19,6 @@ import { UserProps } from '@/app/interfaces/User';
 import {
   PREFERENCE_FIELDS,
   PROFILE_FIELD_OPTIONS,
-  USER_DATA_KEY,
 } from '@/app/utilities/profile/constants';
 import ProfileFormFooter from '../ProfileFormFooter';
 import Dropdown from '../../formElements/Dropdown/Dropdown';
@@ -52,7 +51,7 @@ const ProfilePreferenceForm: ForwardRefExoticComponent<
         onSubmit={onSubmit && methods.handleSubmit(onSubmit)}
       >
         <Dropdown<UserPreferenceProps>
-          name={USER_DATA_KEY.CONDITIONS}
+          name='Conditions'
           label='Tell us about your Neuro-Condition'
           showLabel
           placeholder='E.G. ADHD'
@@ -62,7 +61,7 @@ const ProfilePreferenceForm: ForwardRefExoticComponent<
           options={PROFILE_FIELD_OPTIONS.Conditions}
         />
         <Dropdown<UserPreferenceProps>
-          name={USER_DATA_KEY.INSTITUTIONS}
+          name='Institutions'
           label='Learning Institutions'
           showLabel
           placeholder='E.G. California University'
@@ -72,14 +71,14 @@ const ProfilePreferenceForm: ForwardRefExoticComponent<
           options={PROFILE_FIELD_OPTIONS.Institutions}
         />
         <CheckBox<UserPreferenceProps>
-          name={USER_DATA_KEY.LEARNING_STYLE}
+          name='LearningStyle'
           label='Select your preferred learning style'
           showLabel
           defaultValue={data?.LearningStyle}
           options={PROFILE_FIELD_OPTIONS.LearningStyle}
         />
         <Dropdown<UserPreferenceProps>
-          name={USER_DATA_KEY.ADJUSTMENTS}
+          name='Adjustments'
           label='If you need any adjustments, add them here'
           showLabel
           placeholder='E.G. Better Classroom'
@@ -89,7 +88,7 @@ const ProfilePreferenceForm: ForwardRefExoticComponent<
           options={PROFILE_FIELD_OPTIONS.Adjustments}
         />
         <Dropdown<UserPreferenceProps>
-          name={USER_DATA_KEY.USED_TOOLS}
+          name='UsedTools'
           label='Tell us about any accessibility tools you’ve used in the past'
           showLabel
           placeholder='E.G. Fidget'
@@ -99,7 +98,7 @@ const ProfilePreferenceForm: ForwardRefExoticComponent<
           options={PROFILE_FIELD_OPTIONS.UsedTools}
         />
         <TextArea<UserPreferenceProps>
-          name={USER_DATA_KEY.ENV_DESCRIPTION}
+          name='EnvDescription'
           label='Describe a learning environment that you find ideal*'
           showLabel
           placeholder='Ex. - I prefer a remote setup with an option to opt for hybrid system'

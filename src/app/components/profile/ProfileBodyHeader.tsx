@@ -11,23 +11,11 @@ import ActionButton from '../buttons/ActionButton';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 import { useRouter } from 'next/navigation';
 
-type ProfileBodyHeaderPropType = {
-  FirstName: string;
-  LastName: string;
-  Email: string;
-  Age: number;
-};
-
 const ProfileBodyHeader: React.FC = () => {
   const { data, isLoading, isEditing } = useProfileContext();
   const router = useRouter();
 
-  const {
-    FirstName = '',
-    LastName = '',
-    Email = '',
-    Age = 0,
-  } = (data as ProfileBodyHeaderPropType) || {};
+  const { FirstName = '', LastName = '', Email = '', Age = 0 } = data || {};
 
   return (
     <ProfileCard header={null} isLoading={isLoading}>
