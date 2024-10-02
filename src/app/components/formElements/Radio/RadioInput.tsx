@@ -6,15 +6,17 @@ import {
   RenderProps,
 } from '@/app/interfaces/FormElements';
 import CheckBoxItem from '../CheckBoxItem/CheckBoxItem';
-import { FieldValues } from 'react-hook-form';
+import { FieldValues, UseFormReturn } from 'react-hook-form';
 import Label from '../Label/Label';
 import HelperText from '../HelperText/HelperText';
 import ErrorBox from '../ErrorBox/ErrorBox';
 import classNames from 'classnames';
+import useDefaultValue from '@/app/hooks/useDefaultValue';
 
 interface PropType<TFieldValues extends FieldValues>
   extends RadioProps<TFieldValues> {
   renderProps: RenderProps<TFieldValues>;
+  methods: UseFormReturn<TFieldValues>;
 }
 
 const RadioInput = <TFieldValues extends FieldValues>({
@@ -24,19 +26,25 @@ const RadioInput = <TFieldValues extends FieldValues>({
   options,
   helperText,
   required = false,
+  defaultValue,
   onChange,
   orientation = 'horizontal',
-  renderProps,
   defaultErrorMessage,
+  renderProps,
+  methods,
 }: PropType<TFieldValues>) => {
   const {
     field,
     formState: { errors },
   } = renderProps;
-
+  const error = errors[name];
   const { disabled, onBlur, value } = field;
 
-  const error = errors[name];
+  useDefaultValue<TFieldValues>({
+    renderProps,
+    defaultValue,
+    setValue: methods.setValue,
+  });
 
   const setValue = (value: SelectOption['value']) => {
     field.onChange(value);
@@ -66,6 +74,7 @@ const RadioInput = <TFieldValues extends FieldValues>({
           <CheckBoxItem
             key={itemValue.toString()}
             label={label}
+            disabled={disabled}
             type='radio'
             selected={value === itemValue}
             onChange={() => {

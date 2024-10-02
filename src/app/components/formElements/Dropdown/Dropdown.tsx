@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  Controller,
-  FieldValues,
-  Path,
-  PathValue,
-  useFormContext,
-} from 'react-hook-form';
+import { Controller, FieldValues, useFormContext } from 'react-hook-form';
 import DropdownInput from './DropdownInput';
 import { DropdownProps } from '@/app/interfaces/FormElements';
 
@@ -15,28 +9,24 @@ const Dropdown = <TFieldValues extends FieldValues>(
 ) => {
   const {
     name,
-    defaultValue = [],
+    defaultValue,
     required = false,
-    disabled = false,
+    disabled,
     rules: _rules,
   } = rootProps;
-
   const methods = useFormContext<TFieldValues>();
-
   const rules = { required, ..._rules };
 
   return (
     <Controller
       control={methods.control}
       name={name}
-      defaultValue={
-        (defaultValue.length ? defaultValue : '') as PathValue<
-          TFieldValues,
-          Path<TFieldValues>
-        >
-      }
+      defaultValue={defaultValue}
       rules={rules}
-      disabled={disabled}
+      // NOTE
+      // `react-hook-form@7.52.0` sets up `isDirty` status of
+      // the input in a weird way if `disabled` is set as a non-undefined value
+      disabled={disabled || undefined}
       render={(props) => (
         <DropdownInput<TFieldValues>
           {...rootProps}

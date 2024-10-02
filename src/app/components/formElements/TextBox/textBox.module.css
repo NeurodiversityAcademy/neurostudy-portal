@@ -11,18 +11,32 @@
   position: relative;
   border: 1px solid var(--grey-500);
   border-radius: 8px;
-  padding: 0px 15px;
 }
 
 .input {
   width: 100%;
   color: var(--grey-500);
-  padding: 8px 0px;
+  padding: 8px 15px;
   border-radius: 8px;
   border: 0;
   font-family: inherit;
   outline: none;
   box-sizing: border-box;
+  background-color: transparent;
+}
+
+.input:not(:only-child) {
+  border-radius: 8px 0px 0px 8px;
+  padding-right: 0px;
+}
+
+.input:disabled {
+  background-color: rgba(239, 239, 239, 0.3);
+  color: var(--grey-300);
+}
+
+.inputWrapper[aria-disabled='true'] {
+  border-color: rgba(118, 118, 118, 0.3);
 }
 
 .inputWrapper:focus-within {

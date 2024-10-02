@@ -1,69 +1,27 @@
 'use client';
 
-import { ChangeEvent } from 'react';
-import styles from './textBox.module.css';
-import classNames from 'classnames';
-import {
-  Controller,
-  FieldValues,
-  Path,
-  PathValue,
-  RegisterOptions,
-  ValidationRule,
-  useFormContext,
-} from 'react-hook-form';
-import Label from '../Label/Label';
-import ErrorBox from '../ErrorBox/ErrorBox';
-import { FORM_ELEMENT_COL_WIDTH } from '@/app/utilities/constants';
-import HelperText from '../HelperText/HelperText';
-import ClearButton from '../ClearButton/ClearButton';
+import { Controller, FieldValues, useFormContext } from 'react-hook-form';
+import { DefaultValue, TextBoxProps } from '@/app/interfaces/FormElements';
+import TextBoxInput from './TextBoxInput';
 
-interface TextBoxProps<TFieldValues extends FieldValues> {
-  name: Path<TFieldValues>;
-  label: string;
-  showLabel?: boolean;
-  type?: string;
-  defaultValue?: PathValue<TFieldValues, Path<TFieldValues>> | undefined;
-  required?: boolean;
-  placeholder?: string;
-  className?: string;
-  helperText?: string;
-  pattern?: ValidationRule<RegExp>;
-  onChange?: ((event: ChangeEvent<HTMLInputElement>) => void) | undefined;
-  onBlur?: () => void;
-  autoComplete?: string;
-  colWidth?: FORM_ELEMENT_COL_WIDTH;
-  rules?: Pick<
-    RegisterOptions<FieldValues>,
-    'maxLength' | 'minLength' | 'validate' | 'required'
-  >;
-  disabled?: boolean;
-}
+const TextBox = <TFieldValues extends FieldValues>(
+  rootProps: TextBoxProps<TFieldValues>
+) => {
+  const {
+    name,
+    defaultValue = '' as DefaultValue<TFieldValues>,
+    required = false,
+    disabled,
+    pattern,
+    rules: _rules,
+  } = rootProps;
 
-const TextBox = <TFieldValues extends FieldValues>({
-  className,
-  name,
-  label,
-  showLabel = false,
-  type = 'text',
-  defaultValue = '' as PathValue<TFieldValues, Path<TFieldValues>>,
-  placeholder,
-  helperText,
-  required = false,
-  disabled = false,
-  pattern,
-  onChange,
-  onBlur,
-  autoComplete,
-  colWidth = FORM_ELEMENT_COL_WIDTH.FULL,
-  rules: rootRules,
-}: TextBoxProps<TFieldValues>) => {
   const methods = useFormContext<TFieldValues>();
 
   const rules = {
     required,
     pattern,
-    ...rootRules,
+    ..._rules,
   };
 
   return (
@@ -72,62 +30,18 @@ const TextBox = <TFieldValues extends FieldValues>({
       name={name}
       defaultValue={defaultValue}
       rules={rules}
-      disabled={disabled}
-      render={(props) => {
-        const {
-          field,
-          formState: { errors },
-        } = props;
-        const { value } = field;
-        const error = errors[name];
-
-        return (
-          <div
-            className={classNames(
-              'border-box-parent col-md-' + colWidth,
-              styles.container
-            )}
-          >
-            {showLabel && (
-              <Label
-                name={name}
-                color={error && 'red'}
-                label={label}
-                required={required}
-              />
-            )}
-            <div
-              className={classNames(styles.inputWrapper, error && styles.error)}
-            >
-              <input
-                type={type}
-                placeholder={placeholder}
-                className={classNames(styles.input, className)}
-                autoComplete={autoComplete}
-                {...field}
-                onChange={function (this: HTMLInputElement, ...args) {
-                  field.onChange.apply(this, args);
-                  onChange?.apply(this, args);
-                }}
-                onBlur={function (this: HTMLInputElement) {
-                  field.onBlur.apply(this);
-                  onBlur?.apply(this);
-                }}
-              />
-              <ClearButton<TFieldValues>
-                methods={methods}
-                name={name}
-                value={value}
-                disabled={disabled}
-              />
-            </div>
-            <HelperText>{helperText}</HelperText>
-            {error && (
-              <ErrorBox message={error.message?.toString()} label={label} />
-            )}
-          </div>
-        );
-      }}
+      // NOTE
+      // `react-hook-form@7.52.0` sets up `isDirty` status of
+      // the input in a weird way if `disabled` is set as a non-undefined value
+      disabled={disabled || undefined}
+      render={(props) => (
+        <TextBoxInput<TFieldValues>
+          {...rootProps}
+          methods={methods}
+          rules={rules}
+          renderProps={props}
+        />
+      )}
     />
   );
 };

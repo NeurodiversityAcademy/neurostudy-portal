@@ -30,7 +30,7 @@ const ProfilePreferenceForm: ForwardRefExoticComponent<
   PropsWithoutRef<ProfileSectionFormProps> & RefAttributes<ProfileSectionRef>
 > = forwardRef<ProfileSectionRef, ProfileSectionFormProps>(
   ({ onSubmit, onCancel }, ref) => {
-    const { data, isLoading } = useProfileContext();
+    const { data } = useProfileContext();
 
     const methods: UseFormReturn<UserPreferenceProps> =
       useForm<UserPreferenceProps>({
@@ -47,63 +47,62 @@ const ProfilePreferenceForm: ForwardRefExoticComponent<
 
     return (
       <Form
-        initialized={!isLoading}
         methods={methods}
         onSubmit={onSubmit && methods.handleSubmit(onSubmit)}
       >
-        <Dropdown
+        <Dropdown<UserPreferenceProps>
           name='Conditions'
           label='Tell us about your Neuro-Condition'
           showLabel
           placeholder='E.G. ADHD'
           helperText='This will help us create personalised experience for you'
           creatable
-          defaultValue={data?.Conditions || []}
+          defaultValue={data?.Conditions}
           options={PROFILE_FIELD_OPTIONS.Conditions}
         />
-        <Dropdown
+        <Dropdown<UserPreferenceProps>
           name='Institutions'
           label='Learning Institutions'
           showLabel
           placeholder='E.G. California University'
           helperText='This will help us create personalised experience for you'
           creatable
-          defaultValue={data?.Institutions || []}
+          defaultValue={data?.Institutions}
           options={PROFILE_FIELD_OPTIONS.Institutions}
         />
-        <CheckBox
+        <CheckBox<UserPreferenceProps>
           name='LearningStyle'
           label='Select your preferred learning style'
           showLabel
-          defaultValue={data?.LearningStyle || []}
+          defaultValue={data?.LearningStyle}
           options={PROFILE_FIELD_OPTIONS.LearningStyle}
         />
-        <Dropdown
+        <Dropdown<UserPreferenceProps>
           name='Adjustments'
           label='If you need any adjustments, add them here'
           showLabel
           placeholder='E.G. Better Classroom'
           helperText='This will help us create personalised experience for you'
           creatable
-          defaultValue={data?.Adjustments || []}
+          defaultValue={data?.Adjustments}
           options={PROFILE_FIELD_OPTIONS.Adjustments}
         />
-        <Dropdown
+        <Dropdown<UserPreferenceProps>
           name='UsedTools'
           label='Tell us about any accessibility tools you’ve used in the past'
           showLabel
           placeholder='E.G. Fidget'
           helperText='This will help us create personalised experience for you'
           creatable
-          defaultValue={data?.UsedTools || []}
+          defaultValue={data?.UsedTools}
           options={PROFILE_FIELD_OPTIONS.UsedTools}
         />
-        <TextArea
+        <TextArea<UserPreferenceProps>
           name='EnvDescription'
           label='Describe a learning environment that you find ideal*'
           showLabel
           placeholder='Ex. - I prefer a remote setup with an option to opt for hybrid system'
-          defaultValue={data?.EnvDescription || ''}
+          defaultValue={data?.EnvDescription}
         />
         {onSubmit ? <ProfileFormFooter onCancel={onCancel} /> : null}
       </Form>

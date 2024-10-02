@@ -1,15 +1,15 @@
 import Image from 'next/image';
 import Close from '../../../app/images/close.svg';
 import {
+  ButtonHTMLAttributes,
   ForwardedRef,
   forwardRef,
-  HTMLAttributes,
   ReactEventHandler,
 } from 'react';
 import classNames from 'classnames';
 import styles from './closeButton.module.css';
 
-interface CloseButtonProps extends HTMLAttributes<HTMLButtonElement> {
+interface CloseButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   onClick?: ReactEventHandler<HTMLButtonElement>;
   className?: string;
 }

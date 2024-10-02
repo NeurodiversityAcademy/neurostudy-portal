@@ -1,12 +1,14 @@
-import React, { HTMLAttributes, MouseEvent } from 'react';
+import React, { ButtonHTMLAttributes, MouseEvent } from 'react';
 import styles from './checkBoxItem.module.css';
 import classNames from 'classnames';
 import CheckIcon from '../../images/Check';
 
-interface PropType extends Omit<HTMLAttributes<HTMLButtonElement>, 'onChange'> {
+interface PropType
+  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'type'> {
   label: string;
   selected: boolean;
   onChange: (selected: boolean, e: MouseEvent<HTMLButtonElement>) => void;
+  disabled?: boolean;
   type?: 'checkbox' | 'radio' | 'pill';
 }
 
@@ -14,46 +16,46 @@ const CheckBoxItem: React.FC<PropType> = ({
   label,
   selected,
   type = 'checkbox',
+  disabled,
   onChange,
+  onClick: _onClick,
   ...rest
 }) => {
   const isTypeRadio = type === 'radio';
+  const isypeCheckbox = type === 'checkbox';
+  const isTypePill = type === 'pill';
+
+  const onClick = (e: MouseEvent<HTMLButtonElement>) => {
+    const newSelected = isTypeRadio ? true : !selected;
+    newSelected !== selected && onChange(newSelected, e);
+    _onClick?.(e);
+  };
 
   return (
     <button
       type='button'
-      className={classNames(styles.item, type === 'pill' && styles.pill)}
-      onClick={(e) => {
-        onChange(isTypeRadio ? true : !selected, e);
-      }}
+      disabled={disabled}
+      className={classNames(styles.item, isTypePill && styles.pill)}
+      onClick={onClick}
       {...rest}
     >
-      {type === 'checkbox' && (
+      {isypeCheckbox || isTypeRadio ? (
         <div
-          role='checkbox'
+          role={type}
+          aria-disabled={disabled}
           aria-checked={selected}
           aria-label={label}
           className={classNames(
             styles.input,
-            styles.checkbox,
+            styles[type],
             selected && styles.checked
           )}
         >
-          {selected && <CheckIcon className={styles.checkmark} />}
-        </div>
-      )}
-      {isTypeRadio && (
-        <div
-          role='radio'
-          aria-checked={selected}
-          aria-label={label}
-          className={classNames(
-            styles.input,
-            styles.radio,
-            selected && styles.checked
+          {isypeCheckbox && selected && (
+            <CheckIcon className={styles.checkmark} />
           )}
-        />
-      )}
+        </div>
+      ) : null}
       <label>{label}</label>
     </button>
   );

@@ -65,7 +65,7 @@ export default function Components() {
             required
             placeholder='Email address'
             pattern={EMAIL_REGEX}
-            colWidth={FORM_ELEMENT_COL_WIDTH.HALF}
+            cols={FORM_ELEMENT_COL_WIDTH.HALF}
           />
           <Typography variant={TypographyVariant.Body2}>Full Width</Typography>
           <TextBox

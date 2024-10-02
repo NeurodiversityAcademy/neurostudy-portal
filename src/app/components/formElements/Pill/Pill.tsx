@@ -16,21 +16,28 @@ type DefaultValue = string | number;
 interface PillProps<Value = DefaultValue>
   extends Omit<HTMLAttributes<HTMLDivElement>, 'onFocus'> {
   label: string;
-  value: Value;
+  value?: Value | DefaultValue;
   selected?: boolean;
   canClose?: boolean;
   onFocus?: PillFocusEventHandler;
-  onClose: (value: Value, e: SyntheticEvent<HTMLButtonElement>) => void;
+  disabled?: boolean;
+  onClose?: (
+    value: Value | DefaultValue,
+    e: SyntheticEvent<HTMLButtonElement>
+  ) => void;
+  'button-aria-label'?: string | null;
 }
 
 const Pill = <Value,>(
   {
     label,
-    value,
+    value = '',
     onClose,
     selected = false,
     canClose = true,
     onFocus: _onFocus,
+    disabled,
+    'button-aria-label': buttonAriaLabel = null,
     ...rest
   }: PillProps<Value>,
   ref: ForwardedRef<PillRef>
@@ -53,9 +60,10 @@ const Pill = <Value,>(
     <div
       ref={containerRef}
       className={styles.pill}
-      aria-label={label.toString()}
       role='option'
+      aria-label={label.toString()}
       aria-selected={selected}
+      aria-disabled={disabled}
       {...rest}
     >
       <label>{label}</label>
@@ -64,7 +72,11 @@ const Pill = <Value,>(
           ref={btnRef}
           className={styles.clear}
           onFocus={onFocus}
-          onClick={(e) => onClose(value, e)}
+          onClick={onClose && ((e) => onClose(value, e))}
+          disabled={disabled}
+          {...(buttonAriaLabel !== null && {
+            'aria-label': buttonAriaLabel,
+          })}
         />
       )}
     </div>

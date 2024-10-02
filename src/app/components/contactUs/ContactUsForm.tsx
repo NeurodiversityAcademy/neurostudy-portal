@@ -82,7 +82,7 @@ const ContactUsForm: React.FC = () => {
                 placeholder='Enter your first name'
                 pattern={NAME_REGEX}
                 showLabel
-                colWidth={FORM_ELEMENT_COL_WIDTH.HALF}
+                cols={FORM_ELEMENT_COL_WIDTH.HALF}
               />
               <TextBox
                 name='lastname'
@@ -91,7 +91,7 @@ const ContactUsForm: React.FC = () => {
                 placeholder='Enter your last name'
                 pattern={NAME_REGEX}
                 showLabel
-                colWidth={FORM_ELEMENT_COL_WIDTH.HALF}
+                cols={FORM_ELEMENT_COL_WIDTH.HALF}
               />
               <TextBox
                 name='phone'
@@ -99,7 +99,7 @@ const ContactUsForm: React.FC = () => {
                 placeholder='Enter your phone number'
                 pattern={PHONE_REGEX}
                 showLabel
-                colWidth={FORM_ELEMENT_COL_WIDTH.HALF}
+                cols={FORM_ELEMENT_COL_WIDTH.HALF}
               />
               <TextBox
                 name='secondphone'
@@ -107,7 +107,7 @@ const ContactUsForm: React.FC = () => {
                 placeholder='Enter your secondary phone number'
                 pattern={PHONE_REGEX}
                 showLabel
-                colWidth={FORM_ELEMENT_COL_WIDTH.HALF}
+                cols={FORM_ELEMENT_COL_WIDTH.HALF}
               />
               <TextBox
                 name='email'
@@ -116,7 +116,7 @@ const ContactUsForm: React.FC = () => {
                 placeholder='Enter your email address'
                 pattern={EMAIL_REGEX}
                 showLabel
-                colWidth={FORM_ELEMENT_COL_WIDTH.BIG}
+                cols={FORM_ELEMENT_COL_WIDTH.BIG}
               />
               <TextBox
                 name='jobtitle'
@@ -124,7 +124,7 @@ const ContactUsForm: React.FC = () => {
                 required
                 placeholder='Teacher, Student, Institute, Other'
                 showLabel
-                colWidth={FORM_ELEMENT_COL_WIDTH.BIG}
+                cols={FORM_ELEMENT_COL_WIDTH.BIG}
               />
               <TextArea
                 name='message'

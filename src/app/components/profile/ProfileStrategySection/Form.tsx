@@ -30,7 +30,7 @@ const ProfileStrategyForm: ForwardRefExoticComponent<
   PropsWithoutRef<ProfileSectionFormProps> & RefAttributes<ProfileSectionRef>
 > = forwardRef<ProfileSectionRef, ProfileSectionFormProps>(
   ({ onSubmit, onCancel }, ref) => {
-    const { data, isLoading } = useProfileContext();
+    const { data } = useProfileContext();
 
     const methods: UseFormReturn<UserStrategyProps> =
       useForm<UserStrategyProps>({
@@ -47,29 +47,28 @@ const ProfileStrategyForm: ForwardRefExoticComponent<
 
     return (
       <Form
-        initialized={!isLoading}
         methods={methods}
         onSubmit={onSubmit && methods.handleSubmit(onSubmit)}
       >
-        <Dropdown
+        <Dropdown<UserStrategyProps>
           name='Strategies'
           label='What strategies do you use to manage your time effectively?'
           showLabel
           placeholder='E.G. Focused Learning'
           creatable
-          defaultValue={data?.Strategies || []}
+          defaultValue={data?.Strategies}
           options={PROFILE_FIELD_OPTIONS.Strategies}
         />
-        <Dropdown
+        <Dropdown<UserStrategyProps>
           name='ManagingWays'
           label='How do you manage sensory overload in learning environments?'
           showLabel
           placeholder='E.G. Focus'
           creatable
-          defaultValue={data?.ManagingWays || []}
+          defaultValue={data?.ManagingWays}
           options={PROFILE_FIELD_OPTIONS.ManagingWays}
         />
-        <Radio
+        <Radio<UserStrategyProps>
           name='FocusAids'
           label='Would access to fidget toys, noise-canceling headphones, or other focus aids be beneficial 
   for you?'
@@ -77,19 +76,19 @@ const ProfileStrategyForm: ForwardRefExoticComponent<
           defaultValue={data?.FocusAids}
           options={PROFILE_FIELD_OPTIONS.FocusAids}
         />
-        <Radio
+        <Radio<UserStrategyProps>
           name='MeetNDLearners'
           label='Would you be interested in meeting/collaborating with other ND learners?*'
           showLabel
           defaultValue={data?.MeetNDLearners}
           options={PROFILE_FIELD_OPTIONS.MeetNDLearners}
         />
-        <TextArea
+        <TextArea<UserStrategyProps>
           name='EffectiveStrategy'
           label='What is one learning strategy that has been particularly helpful for you?*'
           showLabel
           placeholder={`Ex. - Having a good night's sleep, waking up early and start studying in a tranquil environment`}
-          defaultValue={data?.EffectiveStrategy || ''}
+          defaultValue={data?.EffectiveStrategy}
         />
         {onSubmit ? <ProfileFormFooter onCancel={onCancel} /> : null}
       </Form>

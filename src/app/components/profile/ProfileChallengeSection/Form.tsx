@@ -28,7 +28,7 @@ const ProfileChallengeForm: ForwardRefExoticComponent<
   PropsWithoutRef<ProfileSectionFormProps> & RefAttributes<ProfileSectionRef>
 > = forwardRef<ProfileSectionRef, ProfileSectionFormProps>(
   ({ onSubmit, onCancel }, ref) => {
-    const { data, isLoading } = useProfileContext();
+    const { data } = useProfileContext();
 
     const methods: UseFormReturn<UserChallengeProps> =
       useForm<UserChallengeProps>({
@@ -45,38 +45,37 @@ const ProfileChallengeForm: ForwardRefExoticComponent<
 
     return (
       <Form
-        initialized={!isLoading}
         methods={methods}
         onSubmit={onSubmit && methods.handleSubmit(onSubmit)}
       >
-        <Dropdown
+        <Dropdown<UserChallengeProps>
           name='Comforts'
           label='Tell us about things you are comfortable with'
           showLabel
           placeholder='E.G. Online classes'
           helperText='This will help us create personalised experience for you'
           creatable
-          defaultValue={data?.Comforts || []}
+          defaultValue={data?.Comforts}
           options={PROFILE_FIELD_OPTIONS.Comforts}
         />
-        <Dropdown
+        <Dropdown<UserChallengeProps>
           name='Struggles'
           label='Tell us about things that you have struggled with in the past'
           showLabel
           placeholder='E.G. Zoom Meetings'
           helperText='This will help us create personalised experience for you'
           creatable
-          defaultValue={data?.Struggles || []}
+          defaultValue={data?.Struggles}
           options={PROFILE_FIELD_OPTIONS.Struggles}
         />
-        <Dropdown
+        <Dropdown<UserChallengeProps>
           name='Challenges'
           label='Tell us about the challenges that you have faced in the past'
           showLabel
           placeholder='E.G. Online Learning'
           helperText='This will help us create personalised experience for you'
           creatable
-          defaultValue={data?.Challenges || []}
+          defaultValue={data?.Challenges}
           options={PROFILE_FIELD_OPTIONS.Challenges}
         />
         {onSubmit ? <ProfileFormFooter onCancel={onCancel} /> : null}
