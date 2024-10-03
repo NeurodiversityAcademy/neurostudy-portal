@@ -1,6 +1,6 @@
 import React, { FocusEvent, useEffect, useRef } from 'react';
 import styles from './slider.module.css';
-import { DefaultValue, SliderInputProps } from '@/app/interfaces/FormElements';
+import { SliderInputProps } from '@/app/interfaces/FormElements';
 import { FieldValues } from 'react-hook-form';
 import Label from '../Label/Label';
 import HelperText from '../HelperText/HelperText';
@@ -12,7 +12,7 @@ const SliderInput = <TFieldValues extends FieldValues>({
   label,
   showLabel = false,
   helperText,
-  defaultValue = 50 as DefaultValue<TFieldValues>,
+  defaultValue,
   onChange,
   defaultErrorMessage,
   renderProps,

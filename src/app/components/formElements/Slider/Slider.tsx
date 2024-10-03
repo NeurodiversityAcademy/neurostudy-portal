@@ -1,19 +1,18 @@
 'use client';
 
-import {
-  Controller,
-  FieldValues,
-  Path,
-  PathValue,
-  useFormContext,
-} from 'react-hook-form';
-import { SliderProps } from '@/app/interfaces/FormElements';
+import { Controller, FieldValues, useFormContext } from 'react-hook-form';
+import { DefaultValue, SliderProps } from '@/app/interfaces/FormElements';
 import SliderInput from './SliderInput';
 
 const Slider = <TFieldValues extends FieldValues>(
   rootProps: SliderProps<TFieldValues>
 ) => {
-  const { name, disabled, rules: _rules } = rootProps;
+  const {
+    name,
+    defaultValue = 0 as DefaultValue<TFieldValues>,
+    disabled,
+    rules: _rules,
+  } = rootProps;
   const methods = useFormContext<TFieldValues>();
   const rules = { ..._rules };
 
@@ -21,7 +20,7 @@ const Slider = <TFieldValues extends FieldValues>(
     <Controller
       control={methods.control}
       name={name}
-      defaultValue={0 as PathValue<TFieldValues, Path<TFieldValues>>}
+      defaultValue={defaultValue}
       rules={rules}
       // NOTE
       // `react-hook-form@7.52.0` sets up `isDirty` status of
