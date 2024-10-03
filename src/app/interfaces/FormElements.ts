@@ -26,8 +26,12 @@ export type DefaultRules<TFieldValues extends FieldValues> = Pick<
 
 export interface SelectOption {
   label: string;
-  label2?: string;
   value: string | number | boolean;
+}
+
+export interface ToggleOption {
+  offLabel?: string;
+  onLabel?: string;
 }
 
 export interface BaseInputProps<TFieldValues extends FieldValues> {
@@ -114,8 +118,11 @@ export interface RadioInputProps<TFieldValues extends FieldValues>
   extends BaseInputProps<TFieldValues>,
     RadioProps<TFieldValues> {}
 
-export type ToggleProps<TFieldValues extends FieldValues> =
-  RadioProps<TFieldValues>;
+export type ToggleProps<TFieldValues extends FieldValues> = Omit<
+  RadioProps<TFieldValues>,
+  'options'
+> &
+  ToggleOption;
 
 export interface ToggleInputProps<TFieldValues extends FieldValues>
   extends BaseInputProps<TFieldValues>,

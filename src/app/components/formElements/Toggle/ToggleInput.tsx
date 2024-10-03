@@ -1,10 +1,6 @@
 import React, { FocusEvent } from 'react';
 import styles from './toggle.module.css';
-import {
-  DefaultValue,
-  SelectOption,
-  ToggleInputProps,
-} from '@/app/interfaces/FormElements';
+import { DefaultValue, ToggleInputProps } from '@/app/interfaces/FormElements';
 import { FieldValues } from 'react-hook-form';
 import Label from '../Label/Label';
 import HelperText from '../HelperText/HelperText';
@@ -16,10 +12,11 @@ const ToggleInput = <TFieldValues extends FieldValues>({
   name,
   label,
   showLabel = false,
-  options,
+  offLabel = 'OFF',
+  onLabel = 'ON',
   helperText,
   required = false,
-  defaultValue = false as DefaultValue<TFieldValues>,
+  defaultValue = offLabel as DefaultValue<TFieldValues>,
   onChange,
   orientation = 'horizontal',
   defaultErrorMessage,
@@ -39,7 +36,7 @@ const ToggleInput = <TFieldValues extends FieldValues>({
     setValue: methods.setValue,
   });
 
-  const setValue = (value: SelectOption['value']) => {
+  const setValue = (value: string) => {
     field.onChange(value);
     onChange?.(value);
   };
@@ -63,30 +60,23 @@ const ToggleInput = <TFieldValues extends FieldValues>({
         />
       )}
       <div className={classNames(styles.toggleContainer, styles[orientation])}>
-        {options.map(({ label, value: itemValue, label2 }) => (
-          <div
-            key={itemValue.toString()}
-            role='checkbox'
-            aria-disabled={disabled}
-            aria-checked={value === itemValue}
-            aria-label={label}
-            className={styles.switchContainer}
-          >
-            <label className={styles.switch}>
-              <input
-                type='checkbox'
-                disabled={disabled}
-                onChange={() => {
-                  setValue(value === itemValue);
-                }}
-              />
-              <span className={classNames(styles.slider, styles.round)}></span>
-            </label>
-            <label className={styles.label}>
-              {value === itemValue ? label : label2}
-            </label>
+        <div className={styles.switchContainer}>
+          <label className={styles.switch}>
+            <input
+              type='checkbox'
+              disabled={disabled}
+              onChange={() => {
+                setValue(value === onLabel ? offLabel : onLabel);
+              }}
+            />
+            <span
+              className={classNames(styles.toggleSlider, styles.round)}
+            ></span>
+          </label>
+          <div className={styles.label}>
+            {value === offLabel ? offLabel : onLabel}
           </div>
-        ))}
+        </div>
       </div>
       <HelperText>{helperText}</HelperText>
       {error && (

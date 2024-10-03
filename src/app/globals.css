@@ -47,10 +47,8 @@
   /* Profile */
   --profile-x-gap: 20px;
   --profile-y-gap: 15px;
-  --toggle-slider-radius: 18px;
-  --slider-thumb-radius: 18px;
-  --slider-thumb-border-radius: 10px;
-  --slider-thumb-box-shadow: 0 1px 2px 1px #00000080;
+  --toggle-slider-size: 18px;
+  --slider-thumb-size: 18px;
 
   --GhostWhite: #f8f8ff;
   --GhostWhiteSub: #f8f8ff;

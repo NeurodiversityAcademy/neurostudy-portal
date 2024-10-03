@@ -143,12 +143,7 @@ export default function Components() {
               { label: 'No', value: false },
             ]}
           />
-          <Toggle
-            name='test-toggle-1'
-            label='Toggle'
-            showLabel
-            options={[{ label: 'OFF', value: false, label2: 'ON' }]}
-          />
+          <Toggle name='test-toggle-1' label='Toggle' showLabel />
           <Slider name='test-slider-1' label='Slider' showLabel />
           <Dropdown
             name='test-dropdown-no-pill-1'

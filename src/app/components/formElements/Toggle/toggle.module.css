@@ -33,7 +33,7 @@
   height: 0;
 }
 
-.slider {
+.toggleSlider {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -41,41 +41,37 @@
   right: 0;
   bottom: 0;
   background-color: var(--black-400);
-  -webkit-transition: .4s;
   transition: .4s;
 }
 
-.slider:before {
+.toggleSlider::before {
   position: absolute;
   content: "";
-  height: var(--toggle-slider-radius);
-  width: var(--toggle-slider-radius);
+  height: var(--toggle-slider-size);
+  width: var(--toggle-slider-size);
   top: 3px;
   left: 3px;
   background-color: var(--pure-white);
-  -webkit-transition: .4s;
   transition: .4s;
 }
 
-input:checked + .slider {
+input:checked + .toggleSlider {
   background-color: var(--cherryPieVariant);
 }
 
-input:focus + .slider {
+input:focus + .toggleSlider {
   box-shadow: 0 0 1px var(--cherryPieVariant);
 }
 
-input:checked + .slider:before {
-  -webkit-transform: translateX(var(--toggle-slider-radius));
-  -ms-transform: translateX(var(--toggle-slider-radius));
-  transform: translateX(var(--toggle-slider-radius));
+input:checked + .toggleSlider::before {
+  transform: translateX(var(--toggle-slider-size));
 }
 
-.slider.round {
+.toggleSlider.round {
   border-radius: 14px;
 }
 
-.slider.round:before {
+.toggleSlider.round::before {
   border-radius: 10px;
 }
 

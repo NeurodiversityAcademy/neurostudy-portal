@@ -36,16 +36,13 @@ const SliderInput = <TFieldValues extends FieldValues>({
   const setValue = (value: number) => {
     field.onChange(value);
     onChange?.(value);
-    if (sliderRef.current) {
-      sliderRef.current.style.setProperty('--slider-value', `${value}%`);
-    }
   };
 
   useEffect(() => {
     if (sliderRef.current) {
-      sliderRef.current.style.setProperty('--slider-value', `${defaultValue}%`);
+      sliderRef.current.style.setProperty('--slider-value', `${value}%`);
     }
-  }, [defaultValue]);
+  }, [value]);
 
   return (
     <div
@@ -75,14 +72,6 @@ const SliderInput = <TFieldValues extends FieldValues>({
         <ErrorBox
           message={error.message?.toString() || defaultErrorMessage}
           label={label}
-        />
-      )}
-      {value != undefined && (
-        <input
-          key={value.toString()}
-          type='hidden'
-          name={name}
-          value={typeof value === 'boolean' ? value.toString() : value}
         />
       )}
     </div>

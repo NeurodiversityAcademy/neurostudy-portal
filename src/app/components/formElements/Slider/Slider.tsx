@@ -13,7 +13,7 @@ import SliderInput from './SliderInput';
 const Slider = <TFieldValues extends FieldValues>(
   rootProps: SliderProps<TFieldValues>
 ) => {
-  const { name, defaultValue, disabled, rules: _rules } = rootProps;
+  const { name, disabled, rules: _rules } = rootProps;
   const methods = useFormContext<TFieldValues>();
   const rules = { ..._rules };
 
@@ -21,7 +21,7 @@ const Slider = <TFieldValues extends FieldValues>(
     <Controller
       control={methods.control}
       name={name}
-      defaultValue={defaultValue as PathValue<TFieldValues, Path<TFieldValues>>}
+      defaultValue={0 as PathValue<TFieldValues, Path<TFieldValues>>}
       rules={rules}
       // NOTE
       // `react-hook-form@7.52.0` sets up `isDirty` status of
