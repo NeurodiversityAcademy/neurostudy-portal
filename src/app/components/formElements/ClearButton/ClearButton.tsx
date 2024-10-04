@@ -13,6 +13,7 @@ interface ClearButtonProps<TFieldValues extends FieldValues>
   methods: UseFormReturn<TFieldValues>;
   value: PathValue<TFieldValues, Path<TFieldValues>>;
   disabled?: boolean;
+  onClick?: () => void;
 }
 
 const ClearButton = <TFieldValues extends FieldValues>({
@@ -21,6 +22,7 @@ const ClearButton = <TFieldValues extends FieldValues>({
   value,
   methods,
   disabled,
+  onClick,
   ...rest
 }: ClearButtonProps<TFieldValues>) => {
   return (
@@ -34,6 +36,7 @@ const ClearButton = <TFieldValues extends FieldValues>({
             shouldDirty: true,
           });
           methods.setFocus(name);
+          onClick?.();
         }}
         aria-label='Clear'
         {...rest}

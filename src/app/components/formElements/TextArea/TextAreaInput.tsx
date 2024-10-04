@@ -2,23 +2,13 @@
 
 import styles from './textarea.module.css';
 import classNames from 'classnames';
-import { ControllerProps, FieldValues, UseFormReturn } from 'react-hook-form';
+import { FieldValues } from 'react-hook-form';
 import Label from '../Label/Label';
-import { TextAreaProps } from '@/app/interfaces/FormElements';
+import { TextAreaInputProps } from '@/app/interfaces/FormElements';
 import ErrorBox from '../ErrorBox/ErrorBox';
 import ClearButton from '../ClearButton/ClearButton';
 import useDefaultValue from '@/app/hooks/useDefaultValue';
 import HelperText from '../HelperText/HelperText';
-
-type RenderProps<TFieldValues extends FieldValues> = Parameters<
-  ControllerProps<TFieldValues>['render']
->[0];
-
-interface PropType<TFieldValues extends FieldValues>
-  extends TextAreaProps<TFieldValues> {
-  renderProps: RenderProps<TFieldValues>;
-  methods: UseFormReturn<TFieldValues>;
-}
 
 const TextAreaInput = <TFieldValues extends FieldValues>({
   name,
@@ -36,7 +26,7 @@ const TextAreaInput = <TFieldValues extends FieldValues>({
   cols,
   renderProps,
   methods,
-}: PropType<TFieldValues>) => {
+}: TextAreaInputProps<TFieldValues>) => {
   const {
     field,
     formState: { errors },
