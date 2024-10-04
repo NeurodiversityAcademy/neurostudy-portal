@@ -11,6 +11,14 @@ import { EMAIL_REGEX, FORM_ELEMENT_COL_WIDTH } from '../utilities/constants';
 import { FieldValues, useForm, UseFormReturn } from 'react-hook-form';
 import Form from '@/app/components/formElements/Form';
 import TextArea from '@/app/components/formElements/TextArea/TextArea';
+import Radio from './formElements/Radio/Radio';
+import CheckBox from './formElements/CheckBox/CheckBox';
+import Dropdown from './formElements/Dropdown/Dropdown';
+import Toggle from './formElements/Toggle/Toggle';
+import Slider from './formElements/Slider/Slider';
+import CourseCard from './course/CourseCard';
+import { DEFAULT_COURSE } from '../utilities/db/constants';
+import CourseSecondaryFilter from './course/CourseSecondaryFilter';
 
 interface LoginFieldValues extends FieldValues {
   username: string;
@@ -45,6 +53,21 @@ export default function Components() {
           Cards/Articles/Blog posts
         </Typography>
         <CardList />
+      </div>
+      <div className={styles.courseComponentContainer}>
+        <Typography variant={TypographyVariant.H2}>Course</Typography>
+        <div className={styles.flexRow}>
+          <div>
+            <Typography variant={TypographyVariant.H3}>Card</Typography>
+            <CourseCard course={DEFAULT_COURSE} />
+          </div>
+          <div>
+            <Typography variant={TypographyVariant.H3}>
+              Secondary Filter
+            </Typography>
+            <CourseSecondaryFilter />
+          </div>
+        </div>
       </div>
       <div className={styles.border}>
         <Typography variant={TypographyVariant.H2}>Podcast embed</Typography>
@@ -98,6 +121,82 @@ export default function Components() {
               maxLength: 300,
             }}
           ></TextArea>
+          <CheckBox
+            name='test-checkbox-1'
+            label='Checkbox - Vertical'
+            showLabel
+            options={[
+              { label: 'Item 1', value: 'Item 1' },
+              { label: 'Item 2', value: 'Item 2' },
+              { label: 'Item 3', value: 'Item 3' },
+            ]}
+            orientation='vertical'
+          />
+          <CheckBox
+            name='test-checkbox-2'
+            label='Checkbox - Horizontal'
+            showLabel
+            options={[
+              { label: 'Item 1', value: 'Item 1' },
+              { label: 'Item 2', value: 'Item 2' },
+              { label: 'Item 3', value: 'Item 3' },
+            ]}
+          />
+          <Radio
+            name='test-radio-1'
+            label='Radio Button - Vertical'
+            showLabel
+            options={[
+              { label: 'Yes', value: true },
+              { label: 'No', value: false },
+            ]}
+            orientation='vertical'
+          />
+          <Radio
+            name='test-radio-2'
+            label='Radio Button - Horizontal'
+            showLabel
+            options={[
+              { label: 'Yes', value: true },
+              { label: 'No', value: false },
+            ]}
+          />
+          <Toggle name='test-toggle-1' label='Toggle' showLabel />
+          <Slider name='test-slider-1' label='Slider' showLabel cols={3} />
+          <Dropdown
+            name='test-dropdown-no-pill-1'
+            label='Dropdown - No pill & Single selection'
+            showLabel
+            placeholder='Choose an item'
+            options={[
+              { label: 'Item 1', value: 'Item 1' },
+              { label: 'Item 2', value: 'Item 2' },
+              { label: 'Item 3', value: 'Item 3' },
+              { label: 'Item 4', value: 'Item 4' },
+              { label: 'Item 5', value: 'Item 5' },
+            ]}
+            multiple={false}
+          />
+          <Dropdown
+            name='test--dropdown-pill-1'
+            label='Pills & Dropdown'
+            showLabel
+            placeholder='Choose any 3'
+            options={[
+              { label: 'Item 1', value: 'Item 1' },
+              { label: 'Item 2', value: 'Item 2' },
+              { label: 'Item 3', value: 'Item 3' },
+              { label: 'Item 4', value: 'Item 4' },
+              { label: 'Item 5', value: 'Item 5' },
+            ]}
+            multiple
+            rules={{
+              validate: {
+                limit3: (value: string[]) =>
+                  (value?.length || 0) <= 3 || 'Choose at most 3.',
+              },
+            }}
+          />
         </Form>
       </div>
     </main>
