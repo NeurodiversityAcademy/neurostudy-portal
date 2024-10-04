@@ -241,7 +241,6 @@ const DropdownInput = <TFieldValues extends FieldValues>({
           // NOTE: Exposing for CSS Selectors
           'dropdown-input-wrapper'
         )}
-        aria-disabled={disabled}
         onBlurCapture={() => {
           nextFocusElemRef.current = undefined;
         }}
