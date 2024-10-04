@@ -1,23 +1,16 @@
 import React, { FocusEvent } from 'react';
 import styles from './checkBox.module.css';
 import {
-  CheckBoxProps,
   SelectOption,
-  RenderProps,
+  CheckBoxInputProps,
 } from '@/app/interfaces/FormElements';
 import CheckBoxItem from '../CheckBoxItem/CheckBoxItem';
-import { FieldValues, UseFormReturn } from 'react-hook-form';
+import { FieldValues } from 'react-hook-form';
 import Label from '../Label/Label';
 import HelperText from '../HelperText/HelperText';
 import ErrorBox from '../ErrorBox/ErrorBox';
 import classNames from 'classnames';
 import useDefaultValue from '@/app/hooks/useDefaultValue';
-
-interface PropType<TFieldValues extends FieldValues>
-  extends CheckBoxProps<TFieldValues> {
-  renderProps: RenderProps<TFieldValues>;
-  methods: UseFormReturn<TFieldValues>;
-}
 
 const DEFAULT_SELECTED_OPTIONS: SelectOption['value'][] = [];
 
@@ -34,7 +27,7 @@ const CheckBoxInput = <TFieldValues extends FieldValues>({
   defaultErrorMessage,
   renderProps,
   methods,
-}: PropType<TFieldValues>) => {
+}: CheckBoxInputProps<TFieldValues>) => {
   const {
     field,
     formState: { errors },

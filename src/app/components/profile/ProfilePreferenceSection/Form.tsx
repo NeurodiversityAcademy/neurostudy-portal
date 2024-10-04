@@ -58,6 +58,7 @@ const ProfilePreferenceForm: ForwardRefExoticComponent<
           helperText='This will help us create personalised experience for you'
           creatable
           defaultValue={data?.Conditions}
+          multiple
           options={PROFILE_FIELD_OPTIONS.Conditions}
         />
         <Dropdown<UserPreferenceProps>
@@ -68,6 +69,7 @@ const ProfilePreferenceForm: ForwardRefExoticComponent<
           helperText='This will help us create personalised experience for you'
           creatable
           defaultValue={data?.Institutions}
+          multiple
           options={PROFILE_FIELD_OPTIONS.Institutions}
         />
         <CheckBox<UserPreferenceProps>
@@ -85,6 +87,7 @@ const ProfilePreferenceForm: ForwardRefExoticComponent<
           helperText='This will help us create personalised experience for you'
           creatable
           defaultValue={data?.Adjustments}
+          multiple
           options={PROFILE_FIELD_OPTIONS.Adjustments}
         />
         <Dropdown<UserPreferenceProps>
@@ -95,6 +98,7 @@ const ProfilePreferenceForm: ForwardRefExoticComponent<
           helperText='This will help us create personalised experience for you'
           creatable
           defaultValue={data?.UsedTools}
+          multiple
           options={PROFILE_FIELD_OPTIONS.UsedTools}
         />
         <TextArea<UserPreferenceProps>

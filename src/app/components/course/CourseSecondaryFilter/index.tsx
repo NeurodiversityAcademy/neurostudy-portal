@@ -39,6 +39,7 @@ const CourseSecondaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
         label='Study Level'
         showLabel
         placeholder='Search Study Level'
+        multiple
         options={COURSE_FIELD_OPTIONS.Level}
       />
       <Dropdown<CourseProps>
@@ -46,6 +47,7 @@ const CourseSecondaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
         label='Interest Area'
         showLabel
         placeholder='Search Interest Area'
+        multiple
         options={COURSE_FIELD_OPTIONS.InterestArea}
       />
       <Dropdown<CourseProps>
@@ -54,6 +56,7 @@ const CourseSecondaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
         showLabel
         placeholder='Search University'
         creatable
+        multiple
         options={[]}
       />
       {/* TODO: `Qualification` - Dropdown from figma, need elaboration */}
@@ -62,6 +65,7 @@ const CourseSecondaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
         label='Study Method'
         showLabel
         placeholder='Search Study Method'
+        multiple
         options={COURSE_FIELD_OPTIONS.Mode}
       />
       {/* TODO: `EntryOptions` - Dropdown from figma, need elaboration */}
