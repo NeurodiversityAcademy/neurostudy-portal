@@ -1,5 +1,4 @@
 .container {
-  padding: min(2rem, 5vh) min(64px, 10vw);
   width: 100%;
   background-color: var(--GhostWhiteVariant);
   display: flex;
