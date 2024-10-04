@@ -144,7 +144,7 @@ export default function Components() {
             ]}
           />
           <Toggle name='test-toggle-1' label='Toggle' showLabel />
-          <Slider name='test-slider-1' label='Slider' showLabel />
+          <Slider name='test-slider-1' label='Slider' showLabel cols={3} />
           <Dropdown
             name='test-dropdown-no-pill-1'
             label='Dropdown - No pill & Single selection'

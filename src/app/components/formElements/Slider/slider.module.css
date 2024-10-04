@@ -1,46 +1,64 @@
-.sliderRoot input[type="range"] {
+.sliderRoot {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  position: relative;
+}
+
+.input {
+  --slider-outline-hover: none;
   appearance: none;
-  width: 236px;
+  position: relative;
+  width: 100%;
   height: 4px;
-  border-radius: 5px;
-  /* background: var(--GhostWhiteVariant); */
-  background: linear-gradient(to right, var(--cherryPieVariant) var(--slider-value), var(--GhostWhiteVariant) var(--slider-value));
-  outline: none;
-  opacity: 0.8;
-  transition: opacity 0.2s;
-  
+  margin: calc(var(--slider-thumb-size) / 2) 0px;
+  border-radius: 4px;
+  background: linear-gradient(
+    to right,
+    var(--cherryPieVariant) var(--slider-value),
+    var(--GhostWhiteVariant) var(--slider-value)
+  );
+  outline-offset: 2px;
 }
 
-.sliderRoot input[type="range"]:hover {
-  opacity: 1;
+.input:hover {
+  --thumb-outline-hover: 2px solid var(--grey-300);
+  background: linear-gradient(
+    to right,
+    var(--cherryPieVariantSub) var(--slider-value),
+    var(--grey-100) var(--slider-value)
+  );
 }
 
-.sliderRoot input[type="range"]::-webkit-slider-thumb {
+.input::-webkit-slider-thumb {
   appearance: none;
   width: var(--slider-thumb-size);
   height: var(--slider-thumb-size);
-  border-radius: 50%; 
+  border-radius: 50%;
   background: var(--pure-white);
   cursor: pointer;
-  box-shadow: 0 1px 2px 1px #00000080; 
+  box-shadow: 0 1px 2px 1px #00000080;
+  outline: var(--thumb-outline-hover);
 }
 
-.sliderRoot input[type="range"]::-moz-range-thumb {
+.input::-moz-range-thumb {
   appearance: none;
   width: var(--slider-thumb-size);
   height: var(--slider-thumb-size);
-  border-radius: 50%; 
+  border-radius: 50%;
   background: var(--pure-white);
   cursor: pointer;
-  box-shadow: 0 1px 2px 1px #00000080; 
+  box-shadow: 0 1px 2px 1px #00000080;
+  outline: var(--thumb-outline-hover);
 }
 
-.sliderRoot input[type="range"]::-ms-thumb {
+.input::-ms-thumb {
   appearance: none;
   width: var(--slider-thumb-size);
   height: var(--slider-thumb-size);
-  border-radius: 50%; 
+  border-radius: 50%;
   background: var(--pure-white);
   cursor: pointer;
-  box-shadow: 0 1px 2px 1px #00000080; 
+  box-shadow: 0 1px 2px 1px #00000080;
+  outline: var(--thumb-outline-hover);
 }

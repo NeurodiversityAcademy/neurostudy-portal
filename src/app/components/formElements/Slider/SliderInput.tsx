@@ -1,4 +1,6 @@
-import React, { FocusEvent, useEffect, useRef } from 'react';
+'use client';
+
+import React, { CSSProperties } from 'react';
 import styles from './slider.module.css';
 import { SliderInputProps } from '@/app/interfaces/FormElements';
 import { FieldValues } from 'react-hook-form';
@@ -6,6 +8,7 @@ import Label from '../Label/Label';
 import HelperText from '../HelperText/HelperText';
 import ErrorBox from '../ErrorBox/ErrorBox';
 import useDefaultValue from '@/app/hooks/useDefaultValue';
+import classNames from 'classnames';
 
 const SliderInput = <TFieldValues extends FieldValues>({
   name,
@@ -13,7 +16,11 @@ const SliderInput = <TFieldValues extends FieldValues>({
   showLabel = false,
   helperText,
   defaultValue,
+  min,
+  max,
+  step,
   onChange,
+  cols,
   defaultErrorMessage,
   renderProps,
   methods,
@@ -23,9 +30,6 @@ const SliderInput = <TFieldValues extends FieldValues>({
     formState: { errors },
   } = renderProps;
   const error = errors[name];
-  const { disabled, onBlur, value } = field;
-
-  const sliderRef = useRef<HTMLInputElement>(null);
 
   useDefaultValue<TFieldValues>({
     renderProps,
@@ -38,35 +42,31 @@ const SliderInput = <TFieldValues extends FieldValues>({
     onChange?.(value);
   };
 
-  useEffect(() => {
-    if (sliderRef.current) {
-      sliderRef.current.style.setProperty('--slider-value', `${value}%`);
-    }
-  }, [value]);
-
   return (
     <div
-      className={styles.sliderRoot}
-      role='group'
-      aria-disabled={disabled}
-      onBlurCapture={(e: FocusEvent<HTMLDivElement, Element>) => {
-        !(e.currentTarget as Node)?.contains(e.relatedTarget as Node) &&
-          onBlur();
-      }}
+      className={classNames(
+        styles.sliderRoot,
+        'border-box-parent',
+        cols && 'col-md-' + cols
+      )}
     >
       {showLabel && <Label name={name} color={error && 'red'} label={label} />}
-      <div>
-        <input
-          type='range'
-          min={0}
-          max={100}
-          value={value}
-          ref={sliderRef}
-          onChange={(e) => {
-            setValue(Number(e.target.value));
-          }}
-        />
-      </div>
+      <input
+        type='range'
+        style={
+          {
+            '--slider-value': ((field.value - min) / (max - min)) * 100 + '%',
+          } as CSSProperties
+        }
+        className={styles.input}
+        min={min}
+        max={max}
+        step={step}
+        {...field}
+        onChange={(e) => {
+          setValue(Number(e.target.value));
+        }}
+      />
       <HelperText>{helperText}</HelperText>
       {error && (
         <ErrorBox
