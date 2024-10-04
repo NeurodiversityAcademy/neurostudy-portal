@@ -64,6 +64,22 @@
   width: var(--tertiary-button-width);
 }
 
+.fourth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px;
+  gap: 8px;
+  border: 1px solid var(--cherryPieVariant);
+  background: var(--cherryPie);
+  color: var(--GhostWhite);
+  font-family: var(--poppins-font);
+  font-weight: var(--body2-strong-font-weight);
+  font-size: var(--body2-strong-font-size);
+  width: var(--secondary-button-width);
+}
+
 .disabled {
   opacity: 60%;
   cursor: not-allowed;

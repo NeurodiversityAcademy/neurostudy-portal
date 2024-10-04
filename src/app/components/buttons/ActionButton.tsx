@@ -35,6 +35,7 @@ export default function ActionButton({
     [styles.primary]: style === BUTTON_STYLE.Primary,
     [styles.secondary]: style === BUTTON_STYLE.Secondary,
     [styles.tertiary]: style === BUTTON_STYLE.Tertiary,
+    [styles.fourth]: style === BUTTON_STYLE.Fourth,
     [styles.disabled]: disabled,
     [styles.fullWidth]: fullWidth,
   });

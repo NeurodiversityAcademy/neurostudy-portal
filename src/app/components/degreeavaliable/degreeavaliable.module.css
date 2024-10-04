@@ -1,0 +1,53 @@
+.textWrapper {
+  width: 50vh;
+  height: 30vh;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1vh;
+  margin: 5vw 1vw;
+  border-radius: 20px;
+  align-items: center; 
+  justify-content: center;
+}
+.badgegroup2 {
+  display: flex;
+  gap: 4vw;
+}
+
+.buttonWrapper {
+  display: flex;
+  gap: 4vw;
+}
+
+.buttonStyle {
+  display: flex;
+  gap: 4vw;
+}
+
+@media (max-width: 1000px) and (min-width: 481px) {
+  .badgeWrapper {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 0px;
+  } 
+  .badgegroup1 {
+    display: flex;
+    margin-right: 4vw;
+  }
+}
+@media (max-width: 480px) {
+  .badgeWrapper {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 0px;
+  }
+
+}
