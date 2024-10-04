@@ -52,6 +52,9 @@
   --course-x-gap: 12px;
   --course-y-gap: 16px;
 
+  --toggle-thumb-size: 18px;
+  --slider-thumb-size: 18px;
+
   --GhostWhite: #f8f8ff;
   --GhostWhiteSub: #f8f8ff;
   --GhostWhiteVariant: #efefff;
@@ -77,6 +80,7 @@
   --pure-white: #ffffff;
   --grey-4: #d1d1d6;
   --primary-100: #e4dcff;
+  --black-400: #17171726;
 }
 
 body {
