@@ -30,19 +30,20 @@
   align-items: center;
   flex: 1;
   column-gap: 10px;
+  max-width: calc(100% - 30px);
 }
 
 .pillAndInput.hasValue {
   padding-left: 15px;
 }
 
-.pillAndInput > [role='option'] {
+.pillAndInput > [role='button'] {
   margin: 5px 0px 0px;
   align-self: flex-start;
 }
 
-.pillAndInput > [role='option']:nth-last-of-type(1) {
-  margin-right: 10px;
+.pillAndInput > [role='button']:nth-last-of-type(1) {
+  margin-right: 5px;
 }
 
 .pillAndInput.hasValue > .input {
@@ -72,6 +73,7 @@
   position: relative;
   width: 100%;
   display: block;
+  margin-top: -5px;
 }
 
 .dropdownList {
@@ -93,27 +95,24 @@
   flex-direction: column;
   transition: all 200ms ease-in-out;
   transform-origin: top;
-}
-
-.dropdownListContainer:focus-within > .dropdownList,
-.inputWrapper:focus-within + .dropdownListContainer > .dropdownList {
-  transform: scaleY(1);
-  opacity: 1;
-}
-
-.dropdownListContainer > .dropdownList,
-.inputWrapper:focus-within + .dropdownListContainer > .dropdownList:empty {
   transform: scaleY(0);
   opacity: 0.5;
 }
 
-.inputWrapper:focus-within + .dropdownListContainer > .dropdownList:empty {
-  transition: none;
+.container[aria-expanded='true'] .dropdownList,
+.container:focus-within .dropdownList {
+  transform: scaleY(1);
+  opacity: 1;
 }
 
 .dropdownList > * {
   flex: 1;
   align-self: unset;
+}
+
+.noOptionItem {
+  justify-content: center;
+  flex: 1;
 }
 
 .clearBtn {

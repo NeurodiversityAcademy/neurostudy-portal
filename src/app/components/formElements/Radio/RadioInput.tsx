@@ -66,7 +66,7 @@ const RadioInput = <TFieldValues extends FieldValues>({
             label={label}
             disabled={disabled}
             type='radio'
-            selected={value === itemValue}
+            checked={value === itemValue}
             onChange={() => {
               setValue(itemValue);
             }}

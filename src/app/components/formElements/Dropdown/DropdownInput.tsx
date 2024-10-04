@@ -8,6 +8,7 @@ import {
   useLayoutEffect,
   FocusEvent,
   KeyboardEventHandler,
+  useId,
 } from 'react';
 import styles from './dropdown.module.css';
 import classNames from 'classnames';
@@ -24,6 +25,7 @@ import Pill from '../Pill/Pill';
 import HelperText from '../HelperText/HelperText';
 import ClearButton from '../ClearButton/ClearButton';
 import useDefaultValue from '@/app/hooks/useDefaultValue';
+import { emptyFunc } from '@/app/utilities/common';
 
 const DEFAULT_SELECTED_OPTIONS: SelectOption['value'][] = [];
 const BUTTON_ARIA_LABEL = 'Clear';
@@ -58,6 +60,8 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     value || DEFAULT_SELECTED_OPTIONS;
   const [inputValue, setInputValue] = useState('');
   const [searchable, setSearchable] = useState(!selectedOptions.length);
+  const listId = useId();
+  const [expanded, setExpanded] = useState(false);
 
   useDefaultValue<TFieldValues>({
     renderProps,
@@ -195,6 +199,13 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     }
   };
 
+  const hasCreateItem =
+    !disabled &&
+    creatable &&
+    inputValue.trim() &&
+    !exists(inputValue) &&
+    !isSelected(inputValue);
+
   return (
     <div
       className={classNames(
@@ -202,9 +213,16 @@ const DropdownInput = <TFieldValues extends FieldValues>({
         'border-box-parent',
         cols && 'col-md-' + cols
       )}
+      role='combobox'
+      aria-controls={listId}
+      aria-expanded={expanded}
+      aria-disabled={disabled}
+      onFocusCapture={() => !expanded && setExpanded(true)}
       onBlurCapture={(e: FocusEvent<HTMLDivElement, Element>) => {
-        !(e.currentTarget as Node)?.contains(e.relatedTarget as Node) &&
+        if (!(e.currentTarget as Node)?.contains(e.relatedTarget as Node)) {
           onBlur();
+          setExpanded(false);
+        }
       }}
       onKeyDown={onKeyDown}
     >
@@ -217,7 +235,12 @@ const DropdownInput = <TFieldValues extends FieldValues>({
         />
       )}
       <div
-        className={classNames(styles.inputWrapper, error && styles.error)}
+        className={classNames(
+          styles.inputWrapper,
+          error && styles.error,
+          // NOTE: Exposing for CSS Selectors
+          'dropdown-input-wrapper'
+        )}
         aria-disabled={disabled}
         onBlurCapture={() => {
           nextFocusElemRef.current = undefined;
@@ -274,43 +297,55 @@ const DropdownInput = <TFieldValues extends FieldValues>({
           onClick={onClear}
         />
       </div>
-      {!disabled && (
-        <div className={styles.dropdownListContainer}>
-          <ul className={styles.dropdownList}>
-            {creatable &&
-              inputValue.trim() &&
-              !exists(inputValue) &&
-              !isSelected(inputValue) && (
-                <CheckBoxItem
-                  label={'Add "' + inputValue + '"'}
-                  selected={false}
-                  onChange={() => createItem(inputValue)}
-                  type='pill'
-                  role='listitem'
-                />
-              )}
-            {filteredOptions.map(({ label, value }) => (
-              <CheckBoxItem
-                key={value.toString()}
-                label={label}
-                selected={isSelected(value)}
-                onChange={(selected) => {
-                  if (multiple) {
-                    setSelectedOptions(
-                      selected
-                        ? [...selectedOptions, value]
-                        : selectedOptions.filter((item) => item !== value)
-                    );
-                  } else {
-                    setSelectedOptions(selected ? [value] : []);
-                  }
-                }}
-                role='listitem'
-              />
-            ))}
-          </ul>
-        </div>
-      )}
+      <div className={styles.dropdownListContainer}>
+        <ul
+          className={styles.dropdownList}
+          id={listId}
+          role='listbox'
+          aria-multiselectable={multiple}
+        >
+          {hasCreateItem && (
+            <CheckBoxItem
+              label={'Add "' + inputValue + '"'}
+              checked={false}
+              onChange={() => createItem(inputValue)}
+              type='pill'
+              role='option'
+            />
+          )}
+          {filteredOptions.map(({ label, value }) => (
+            <CheckBoxItem
+              key={value.toString()}
+              label={label}
+              checked={isSelected(value)}
+              role='option'
+              onChange={(selected) => {
+                if (multiple) {
+                  setSelectedOptions(
+                    selected
+                      ? [...selectedOptions, value]
+                      : selectedOptions.filter((item) => item !== value)
+                  );
+                } else {
+                  setSelectedOptions(selected ? [value] : []);
+                }
+              }}
+            />
+          ))}
+          {!hasCreateItem && !filteredOptions.length && (
+            <CheckBoxItem
+              type='pill'
+              label='No options'
+              checked={false}
+              role='option'
+              aria-disabled
+              onChange={emptyFunc}
+              className={styles.noOptionItem}
+              tabIndex={-1}
+            />
+          )}
+        </ul>
+      </div>
       <HelperText>{helperText}</HelperText>
       {error && (
         <ErrorBox

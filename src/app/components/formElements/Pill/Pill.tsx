@@ -62,9 +62,9 @@ const Pill = <Value,>(
     <div
       ref={containerRef}
       className={styles.pill}
-      role='option'
+      role='button'
       aria-labelledby={labelId}
-      aria-selected={selected}
+      aria-pressed={selected}
       aria-disabled={disabled}
       {...rest}
     >
