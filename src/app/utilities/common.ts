@@ -72,7 +72,7 @@ export const createMetadata = (
       description,
       url: canonical,
       images,
-      type,
+
       siteName: SITE_NAME,
       locale: LOCALE,
     },
