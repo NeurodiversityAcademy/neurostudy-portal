@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  Controller,
-  FieldValues,
-  Path,
-  PathValue,
-  useFormContext,
-} from 'react-hook-form';
+import { Controller, FieldValues, useFormContext } from 'react-hook-form';
 import { ToggleProps } from '@/app/interfaces/FormElements';
 import ToggleInput from './ToggleInput';
 
@@ -27,7 +21,7 @@ const Toggle = <TFieldValues extends FieldValues>(
     <Controller
       control={methods.control}
       name={name}
-      defaultValue={defaultValue as PathValue<TFieldValues, Path<TFieldValues>>}
+      defaultValue={defaultValue}
       rules={rules}
       // NOTE
       // `react-hook-form@7.52.0` sets up `isDirty` status of

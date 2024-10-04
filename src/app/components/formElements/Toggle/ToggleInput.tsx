@@ -1,24 +1,25 @@
-import React, { FocusEvent } from 'react';
+import React, { useId } from 'react';
 import styles from './toggle.module.css';
-import { DefaultValue, ToggleInputProps } from '@/app/interfaces/FormElements';
+import { SelectOption, ToggleInputProps } from '@/app/interfaces/FormElements';
 import { FieldValues } from 'react-hook-form';
 import Label from '../Label/Label';
 import HelperText from '../HelperText/HelperText';
 import ErrorBox from '../ErrorBox/ErrorBox';
-import classNames from 'classnames';
 import useDefaultValue from '@/app/hooks/useDefaultValue';
+import { DEFAULT_TOGGLE_OPTIONS } from '@/app/utilities/constants';
+import classNames from 'classnames';
+import { getLabelOption } from '@/app/utilities/common';
 
 const ToggleInput = <TFieldValues extends FieldValues>({
   name,
   label,
   showLabel = false,
-  offLabel = 'OFF',
-  onLabel = 'ON',
+  options = DEFAULT_TOGGLE_OPTIONS,
   helperText,
   required = false,
-  defaultValue = offLabel as DefaultValue<TFieldValues>,
+  defaultValue,
   onChange,
-  orientation = 'horizontal',
+  cols,
   defaultErrorMessage,
   renderProps,
   methods,
@@ -28,7 +29,9 @@ const ToggleInput = <TFieldValues extends FieldValues>({
     formState: { errors },
   } = renderProps;
   const error = errors[name];
-  const { disabled, onBlur, value } = field;
+  const { value } = field;
+
+  const inputId = useId();
 
   useDefaultValue<TFieldValues>({
     renderProps,
@@ -36,20 +39,25 @@ const ToggleInput = <TFieldValues extends FieldValues>({
     setValue: methods.setValue,
   });
 
-  const setValue = (value: string) => {
+  const onOption = getLabelOption(options.on);
+  const offOption = getLabelOption(options.off);
+
+  const setValue = (value: SelectOption['value']) => {
     field.onChange(value);
     onChange?.(value);
   };
 
+  const toggle = () => {
+    setValue(value === onOption.value ? offOption.value : onOption.value);
+  };
+
   return (
     <div
-      className={styles.toggleRoot}
-      role='group'
-      aria-disabled={disabled}
-      onBlurCapture={(e: FocusEvent<HTMLDivElement, Element>) => {
-        !(e.currentTarget as Node)?.contains(e.relatedTarget as Node) &&
-          onBlur();
-      }}
+      className={classNames(
+        styles.toggleRoot,
+        'border-box-parent',
+        cols && 'col-md-' + cols
+      )}
     >
       {showLabel && (
         <Label
@@ -59,24 +67,23 @@ const ToggleInput = <TFieldValues extends FieldValues>({
           required={required}
         />
       )}
-      <div className={classNames(styles.toggleContainer, styles[orientation])}>
-        <div className={styles.switchContainer}>
-          <label className={styles.switch}>
-            <input
-              type='checkbox'
-              disabled={disabled}
-              onChange={() => {
-                setValue(value === onLabel ? offLabel : onLabel);
-              }}
-            />
-            <span
-              className={classNames(styles.toggleSlider, styles.round)}
-            ></span>
-          </label>
-          <div className={styles.label}>
-            {value === offLabel ? offLabel : onLabel}
-          </div>
-        </div>
+      <div
+        className={styles.switchContainer}
+        onClick={(e) => e.currentTarget === e.target && toggle()}
+      >
+        <input
+          id={inputId}
+          type='checkbox'
+          className={styles.input}
+          {...field}
+          checked={value === onOption.value}
+          name={undefined}
+          value={undefined}
+          onChange={toggle}
+        />
+        <label htmlFor={inputId} aria-hidden className={styles.label}>
+          {value === onOption.value ? onOption.label : offOption.label}
+        </label>
       </div>
       <HelperText>{helperText}</HelperText>
       {error && (
@@ -87,7 +94,6 @@ const ToggleInput = <TFieldValues extends FieldValues>({
       )}
       {value != undefined && (
         <input
-          key={value.toString()}
           type='hidden'
           name={name}
           value={typeof value === 'boolean' ? value.toString() : value}

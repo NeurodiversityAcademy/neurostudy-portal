@@ -29,11 +29,6 @@ export interface SelectOption {
   value: string | number | boolean;
 }
 
-export interface ToggleOption {
-  offLabel?: string;
-  onLabel?: string;
-}
-
 export interface BaseInputProps<TFieldValues extends FieldValues> {
   renderProps: RenderProps<TFieldValues>;
   methods: UseFormReturn<TFieldValues>;
@@ -87,6 +82,7 @@ export interface DropdownProps<TFieldValues extends FieldValues> {
   helperText?: string;
   defaultErrorMessage?: string;
   creatable?: boolean;
+  cols?: FORM_ELEMENT_COL_WIDTH;
   multiple?: boolean;
   rules?: DefaultRules<TFieldValues>;
   onChange?: (selected: SelectOption['value'][]) => void;
@@ -120,9 +116,13 @@ export interface RadioInputProps<TFieldValues extends FieldValues>
 
 export type ToggleProps<TFieldValues extends FieldValues> = Omit<
   RadioProps<TFieldValues>,
-  'options'
-> &
-  ToggleOption;
+  'options' | 'orientation'
+> & {
+  options?: {
+    on: string | SelectOption;
+    off: string | SelectOption;
+  };
+};
 
 export interface ToggleInputProps<TFieldValues extends FieldValues>
   extends BaseInputProps<TFieldValues>,
@@ -130,12 +130,19 @@ export interface ToggleInputProps<TFieldValues extends FieldValues>
 
 export type SliderProps<TFieldValues extends FieldValues> = Omit<
   TextBoxProps<TFieldValues>,
-  'type' | 'required' | 'placeholder' | 'autoComplete' | 'cols' | 'onChange'
+  'type' | 'required' | 'placeholder' | 'autoComplete' | 'onChange'
 > & {
+  min?: number;
+  max?: number;
+  step?: number;
   defaultErrorMessage?: string;
   onChange?: (selected: number) => void;
 };
 
 export interface SliderInputProps<TFieldValues extends FieldValues>
   extends BaseInputProps<TFieldValues>,
-    SliderProps<TFieldValues> {}
+    SliderProps<TFieldValues> {
+  min: number;
+  max: number;
+  step: number;
+}
