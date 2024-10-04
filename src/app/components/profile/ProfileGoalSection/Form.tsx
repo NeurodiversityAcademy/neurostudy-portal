@@ -54,6 +54,7 @@ const ProfileGoalForm: ForwardRefExoticComponent<
           showLabel
           placeholder='E.G. Get a Job'
           defaultValue={data?.Goals}
+          multiple
           options={PROFILE_FIELD_OPTIONS.Goals}
           rules={{
             validate: {
@@ -69,6 +70,7 @@ const ProfileGoalForm: ForwardRefExoticComponent<
           placeholder='E.G. Carpentry'
           creatable
           defaultValue={data?.Interests}
+          multiple
           options={PROFILE_FIELD_OPTIONS.Interests}
           rules={{
             validate: {
@@ -84,6 +86,7 @@ const ProfileGoalForm: ForwardRefExoticComponent<
           placeholder='E.G. AR/VR'
           helperText='This will help us create personalised experience for you'
           creatable
+          multiple
           defaultValue={data?.Contents}
           options={PROFILE_FIELD_OPTIONS.Contents}
         />

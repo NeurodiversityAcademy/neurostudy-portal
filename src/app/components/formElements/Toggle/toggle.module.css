@@ -1,0 +1,61 @@
+.toggleRoot {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  position: relative;
+}
+
+.switchContainer {
+  display: flex;
+  align-items: center;
+  padding: 5px 6px;
+  border-radius: 8px;
+  width: fit-content;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.switchContainer:hover {
+  background-color: #f0f0f0;
+}
+
+.input {
+  appearance: none;
+  position: relative;
+  display: inline-block;
+  width: calc((var(--toggle-thumb-size) + 2 * 2px) * 1.8);
+  height: calc(var(--toggle-thumb-size) + 2 * 2px);
+  margin: 0px;
+  background-color: var(--black-400);
+  border-radius: 14px;
+  transition-property: background-color;
+  transition-duration: 0.4s;
+}
+
+.input::after {
+  position: absolute;
+  content: '';
+  height: var(--toggle-thumb-size);
+  width: var(--toggle-thumb-size);
+  top: 2px;
+  left: 2px;
+  background-color: var(--pure-white);
+  border-radius: 50%;
+  transition: left 0.4s;
+}
+
+.input:checked {
+  background-color: var(--cherryPieVariant);
+}
+
+.input:checked::after {
+  left: calc(100% - var(--toggle-thumb-size) - 3px);
+}
+
+.input:focus {
+  box-shadow: 0 0 1px var(--cherryPieVariant);
+}
+
+.label {
+  font-size: 14px;
+}

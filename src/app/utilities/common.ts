@@ -11,6 +11,7 @@ import {
 } from './constants';
 import { AxiosError, AxiosRequestConfig } from 'axios';
 import toast from '../components/toaster';
+import { SelectOption } from '../interfaces/FormElements';
 
 type RegulatorPropFn = (...args: unknown[]) => unknown;
 
@@ -72,7 +73,7 @@ export const createMetadata = (
       description,
       url: canonical,
       images,
-      type,
+      ...(type && { type }),
       siteName: SITE_NAME,
       locale: LOCALE,
     },
@@ -138,3 +139,7 @@ export const isObjEmpty = (
 };
 
 export const emptyFunc = () => void 0;
+
+export const getLabelOption = (option: string | SelectOption): SelectOption => {
+  return typeof option === 'string' ? { label: option, value: option } : option;
+};

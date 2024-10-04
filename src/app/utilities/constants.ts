@@ -72,3 +72,12 @@ export enum FORM_ELEMENT_COL_WIDTH {
   BIG = 8,
   FULL = 12,
 }
+
+export const DEFAULT_SLIDER_MIN = 0;
+export const DEFAULT_SLIDER_MAX = 100;
+export const DEFAULT_SLIDER_STEP = 1;
+
+export const DEFAULT_TOGGLE_OPTIONS = {
+  on: { label: 'On', value: true },
+  off: { label: 'Off', value: false },
+};
