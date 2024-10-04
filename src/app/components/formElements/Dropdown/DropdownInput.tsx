@@ -137,6 +137,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
       }
     } else {
       if (key === 'Backspace') {
+        console.log('dada');
         const updatedOptions = selectedOptions.slice(0, -1);
         setSelectedOptions(updatedOptions);
       }

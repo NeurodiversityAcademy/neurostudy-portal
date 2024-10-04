@@ -13,6 +13,7 @@ interface ClearButtonProps<TFieldValues extends FieldValues>
   methods: UseFormReturn<TFieldValues>;
   value: PathValue<TFieldValues, Path<TFieldValues>>;
   disabled?: boolean;
+  onClick?: () => void;
 }
 
 const ClearButton = <TFieldValues extends FieldValues>({
