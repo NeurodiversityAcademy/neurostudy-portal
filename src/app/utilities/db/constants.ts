@@ -24,7 +24,7 @@ export const DEFAULT_COURSE_WITHOUT_ID = {
   Level: 'MASTERS',
   InterestArea: 'Cyber Security',
   Mode: 'Hybrid',
-  Neurotypes: [],
+  Neurotypes: [''],
 };
 export const DEFAULT_COURSE = {
   [COURSE_TABLE_PARTITION_KEY]: 'azAz1.!',

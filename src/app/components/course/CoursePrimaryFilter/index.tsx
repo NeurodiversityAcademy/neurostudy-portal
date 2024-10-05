@@ -6,16 +6,18 @@ import classNames from 'classnames';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import Form from '../../formElements/Form';
 import Dropdown from '../../formElements/Dropdown/Dropdown';
-import { CourseProps } from '@/app/interfaces/Course';
+import { FilterCourseProps } from '@/app/interfaces/Course';
 import { COURSE_FIELD_OPTIONS } from '@/app/utilities/course/constants';
 import ActionButton from '../../buttons/ActionButton';
 import searchSrc from '@/app/images/Search.svg';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
+import { useCourseContext } from '@/app/utilities/course/CourseProvider';
 
 interface PropType extends FormHTMLAttributes<HTMLFormElement> {}
 
 const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
-  const methods: UseFormReturn<CourseProps> = useForm<CourseProps>({
+  const { loadData } = useCourseContext();
+  const methods: UseFormReturn<FilterCourseProps> = useForm<FilterCourseProps>({
     mode: 'onBlur',
   });
 
@@ -24,15 +26,14 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
       methods={methods}
       className={classNames(styles.container, className)}
       onSubmit={methods.handleSubmit((data) => {
-        // TODO: Handle submission
-        console.log('filter data', data);
+        loadData(data);
       })}
       aria-label='Primary search criteria'
       role='search'
       {...rest}
     >
       <div className={styles.content}>
-        <Dropdown<CourseProps>
+        <Dropdown<FilterCourseProps>
           name='Neurotypes'
           label='What is your neurotype?'
           showLabel
@@ -40,7 +41,7 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
           multiple
           options={[]}
         />
-        <Dropdown<CourseProps>
+        <Dropdown<FilterCourseProps>
           name='InterestArea'
           label='What do you want to study?'
           showLabel
@@ -48,7 +49,7 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
           multiple
           options={COURSE_FIELD_OPTIONS.InterestArea}
         />
-        <Dropdown<CourseProps>
+        <Dropdown<FilterCourseProps>
           name='Location'
           label='Where do you want to study?'
           showLabel

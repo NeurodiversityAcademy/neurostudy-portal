@@ -11,3 +11,8 @@ export type CourseDetailsProps = Partial<typeof DEFAULT_COURSE_DETAILS>;
 export type CourseDetailsWithoutIdProps = Partial<
   typeof DEFAULT_COURSE_DETAILS_WITHOUT_ID
 >;
+export type FilterCourseProps = {
+  [K in keyof CourseProps]: CourseProps[K] extends unknown[]
+    ? CourseProps[K]
+    : CourseProps[K][];
+};

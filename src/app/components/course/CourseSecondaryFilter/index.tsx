@@ -7,7 +7,7 @@ import Typography, { TypographyVariant } from '../../typography/Typography';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import Form from '../../formElements/Form';
 import Dropdown from '../../formElements/Dropdown/Dropdown';
-import { CourseProps } from '@/app/interfaces/Course';
+import { FilterCourseProps } from '@/app/interfaces/Course';
 import { COURSE_FIELD_OPTIONS } from '@/app/utilities/course/constants';
 
 interface PropType extends FormHTMLAttributes<HTMLFormElement> {}
@@ -15,7 +15,7 @@ interface PropType extends FormHTMLAttributes<HTMLFormElement> {}
 const CourseSecondaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
   const labelId = useId();
 
-  const methods: UseFormReturn<CourseProps> = useForm<CourseProps>({
+  const methods: UseFormReturn<FilterCourseProps> = useForm<FilterCourseProps>({
     mode: 'onBlur',
   });
 
@@ -34,7 +34,7 @@ const CourseSecondaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
       <Typography variant={TypographyVariant.Body1} id={labelId}>
         Filters
       </Typography>
-      <Dropdown<CourseProps>
+      <Dropdown<FilterCourseProps>
         name='Level'
         label='Study Level'
         showLabel
@@ -42,7 +42,7 @@ const CourseSecondaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
         multiple
         options={COURSE_FIELD_OPTIONS.Level}
       />
-      <Dropdown<CourseProps>
+      <Dropdown<FilterCourseProps>
         name='InterestArea'
         label='Interest Area'
         showLabel
@@ -50,7 +50,7 @@ const CourseSecondaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
         multiple
         options={COURSE_FIELD_OPTIONS.InterestArea}
       />
-      <Dropdown<CourseProps>
+      <Dropdown<FilterCourseProps>
         name='InstitutionName'
         label='University'
         showLabel
@@ -60,7 +60,7 @@ const CourseSecondaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
         options={[]}
       />
       {/* TODO: `Qualification` - Dropdown from figma, need elaboration */}
-      <Dropdown<CourseProps>
+      <Dropdown<FilterCourseProps>
         name='Mode'
         label='Study Method'
         showLabel
