@@ -6,6 +6,7 @@
   top: 0;
   z-index: 100;
   box-shadow: 0px 2px 8px 0px #0000001F;
+  user-select: none;
 }
 
 .wrapper {
@@ -33,14 +34,16 @@
 }
 
 .li {
-  margin-right: 32px;
+  padding: 5px 16px;
 }
 
-.li:hover {
-  background-color: lightgray;
+.li:hover, .dropdownContent li:hover {
+  background-color: var(--navbar-hover-colour);
+  border-radius: 8px;
+  cursor: pointer;
 }
 
-.li .userOutlet {
+.userOutletWrapper .userOutlet {
   width: 124px;
 }
 
@@ -59,33 +62,38 @@
 
 .dropdown {
   position: relative;
-  display: inline-block;
-}
-
-.dropdown ul {
-  list-style: none;
-}
-
-.dropdown li {
-  padding-top: 5px;
 }
 
 .dropdownContent {
-  opacity: 0.9;
+  opacity: 0;
   background-color: var(--GhostWhite);
-  display: none;
   position: absolute;
-  margin-right: 5px;
+  top: 35px;
+  left: 0px;
   min-width: max-content;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  padding: 12px 10px;
   z-index: 1;
+  max-height: 0;
+  overflow: hidden;
+  transform: translateY(-20);
+  transition: max-height 0.6s ease, opacity 0.3s ease;
+  list-style: none;
+  border-radius: 8px;
+  padding-left: 0;
+  padding:3px;
 }
 
-.dropdown:hover .dropdownContent {
+.dropdown:hover .dropdownContent,
+.dropdown:focus-within .dropdownContent {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  max-height: 500px;
+  opacity: 0.9;
+  transform: translateY(0);
+}
+
+.dropdownContent li {
+  padding: 8px 16px;
 }
 
 .login {
