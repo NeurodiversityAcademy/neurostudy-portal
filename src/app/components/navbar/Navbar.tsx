@@ -8,6 +8,7 @@ import Logo from '../../images/Logo-navbar.svg';
 import Hamburger from '../../images/hamburgerMenu.svg';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import UserOutlet from './UserOutlet';
+import classNames from 'classnames';
 
 export default function Navbar() {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -54,8 +55,8 @@ export default function Navbar() {
                 </Typography>
               </Link>
             </li>
-            <li className={styles.li}>
-              <div className={styles.dropdown}>
+            <li className={classNames(styles.li, styles.dropdown)} tabIndex={0}>
+              <div>
                 <Typography variant={TypographyVariant.Body2}>
                   Services
                 </Typography>
