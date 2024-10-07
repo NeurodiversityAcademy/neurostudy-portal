@@ -6,9 +6,9 @@ import CourseProvider from '../utilities/course/CourseProvider';
 import assertCourseData from '../utilities/validation/assertCourseData';
 import { COURSE_FETCH_REVALIDATE_PERIOD } from '../utilities/course/constants';
 
-const CoursesPage: React.FC<{ searchParams: Record<string, string> }> = async ({
-  searchParams,
-}) => {
+const CoursesPage: React.FC<{
+  searchParams: Record<string, string | string[]>;
+}> = async ({ searchParams }) => {
   const query = getSearchQuery(searchParams, (value) => !Array.isArray(value));
 
   const data: CourseProps[] | undefined = await new Promise((resolve) => {

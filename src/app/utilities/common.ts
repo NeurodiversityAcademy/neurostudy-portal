@@ -144,9 +144,9 @@ export const getLabelOption = (option: string | SelectOption): SelectOption => {
   return typeof option === 'string' ? { label: option, value: option } : option;
 };
 
-export const getSearchQuery = (
-  params: Record<string, unknown>,
-  filter?: (value: unknown) => boolean
+export const getSearchQuery = <T>(
+  params: Record<string, T>,
+  filter?: (value: T) => boolean
 ): string => {
   return Object.entries(params)
     .filter(([, value]) => value !== undefined && (!filter || filter(value)))
