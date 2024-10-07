@@ -6,19 +6,37 @@ import classNames from 'classnames';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import Form from '../../formElements/Form';
 import Dropdown from '../../formElements/Dropdown/Dropdown';
-import { FilterCourseProps } from '@/app/interfaces/Course';
+import { CoursePrimaryFilterType } from '@/app/interfaces/Course';
 import { COURSE_FIELD_OPTIONS } from '@/app/utilities/course/constants';
 import ActionButton from '../../buttons/ActionButton';
 import searchSrc from '@/app/images/Search.svg';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 import { useCourseContext } from '@/app/utilities/course/CourseProvider';
+import useUpdatedValue from '@/app/hooks/useUpdatedValue';
+import { updateCourseDropdownFilter } from '@/app/utilities/course/helper';
 
 interface PropType extends FormHTMLAttributes<HTMLFormElement> {}
 
+const DROPDOWN_KEYS: (keyof CoursePrimaryFilterType)[] = [
+  'Neurotypes',
+  'InterestArea',
+  'Location',
+];
+
 const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
-  const { loadData } = useCourseContext();
-  const methods: UseFormReturn<FilterCourseProps> = useForm<FilterCourseProps>({
-    mode: 'onBlur',
+  const { loadData, isLoading, filter } = useCourseContext();
+  const methods: UseFormReturn<CoursePrimaryFilterType> =
+    useForm<CoursePrimaryFilterType>({
+      mode: 'onBlur',
+      defaultValues: Object.fromEntries(
+        DROPDOWN_KEYS.map((key) => [key, filter[key]])
+      ),
+    });
+
+  useUpdatedValue(filter, () => {
+    DROPDOWN_KEYS.forEach((name) => {
+      updateCourseDropdownFilter(name, filter[name], methods);
+    });
   });
 
   return (
@@ -33,7 +51,7 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
       {...rest}
     >
       <div className={styles.content}>
-        <Dropdown<FilterCourseProps>
+        <Dropdown<CoursePrimaryFilterType>
           name='Neurotypes'
           label='What is your neurotype?'
           showLabel
@@ -41,7 +59,7 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
           multiple
           options={[]}
         />
-        <Dropdown<FilterCourseProps>
+        <Dropdown<CoursePrimaryFilterType>
           name='InterestArea'
           label='What do you want to study?'
           showLabel
@@ -49,11 +67,12 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
           multiple
           options={COURSE_FIELD_OPTIONS.InterestArea}
         />
-        <Dropdown<FilterCourseProps>
+        <Dropdown<CoursePrimaryFilterType>
           name='Location'
           label='Where do you want to study?'
           showLabel
           placeholder='Anywhere'
+          creatable
           multiple
           options={[]}
         />
@@ -61,6 +80,7 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
           style={BUTTON_STYLE.Primary}
           label='Search'
           icon={searchSrc}
+          disabled={isLoading}
         />
       </div>
     </Form>
