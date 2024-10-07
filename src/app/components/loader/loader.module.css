@@ -2,10 +2,6 @@
   position: relative;
 }
 
-.loaderContainer>*:not(:last-child) {
-  opacity: .5;
-}
-
 .loader {
   display: flex;
   position: absolute;
@@ -19,9 +15,10 @@
   background-color: #4d4b520f;
   padding: 20px;
   border-radius: 8px;
+  z-index: 1;
 }
 
-.loaderAlignTop {
+.alignTop {
   align-items: flex-start;
 }
 
@@ -42,11 +39,19 @@
 }
 
 .circle:nth-child(3n + 1) {
-  animation-delay: .35ms;
+  animation-delay: 0.35ms;
 }
 
 .circle:nth-child(3n + 2) {
-  animation-delay: .7ms;
+  animation-delay: 0.7ms;
+}
+
+.loaderContainer > *:not(.loader) {
+  opacity: 0.5;
+}
+
+.loaderContainerRelative {
+  position: relative;
 }
 
 @keyframes spinner {
