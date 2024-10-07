@@ -1,9 +1,12 @@
 'use client';
 
-import { ReactNode, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { deviseContext } from '../deviseContext';
 import { CourseProps, FilterCourseProps } from '@/app/interfaces/Course';
 import useUpdatedValue from '@/app/hooks/useUpdatedValue';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { FILTER_KEYS } from './constants';
+import queryString from '../queryString';
 
 interface PropType {
   data: CourseProps[] | undefined;
@@ -12,7 +15,9 @@ interface PropType {
 
 export interface CourseContent {
   data: CourseProps[] | undefined;
-  loadData: (filter: FilterCourseProps) => Promise<void>;
+  filter: Partial<FilterCourseProps>;
+  isLoading: boolean;
+  loadData: (filter: Partial<FilterCourseProps>) => Promise<void>;
 }
 
 const [CourseContext, useCourseContext] = deviseContext<CourseContent>();
@@ -21,43 +26,93 @@ export { CourseContext };
 export { useCourseContext };
 
 export default function CourseProvider({ children, data }: PropType) {
-  const [filter, setFilter] = useState<Partial<FilterCourseProps>>();
-
-  const loadData = async (_filter: Partial<FilterCourseProps>) => {
-    setFilter((filter) => ({ ...filter, ..._filter }));
-  };
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const filterEntries: [keyof FilterCourseProps, string[]][] = useUpdatedValue(
+    searchParams,
+    () =>
+      FILTER_KEYS.map((key) => [
+        key,
+        searchParams.getAll(key).map((item) => decodeURIComponent(item)),
+      ])
+  );
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const filteredData: CourseContent['data'] = useUpdatedValue(
-    [filter, data],
+    [...filterEntries.map(([, value]) => value.join(',')), data],
     () => {
       if (!data) {
         return undefined;
       }
 
-      if (!filter || !Object.values(filter).some((item) => !!item)) {
+      if (!filterEntries.some(([, value]) => !!value.length)) {
         return [...data];
       }
 
-      return data.filter((item) => {
-        // TODO: Optimize
-        return Object.entries(filter).some(([key, filterValues]) => {
-          const itemValue = item[key as keyof CourseProps];
+      return data.filter((dataItem) => {
+        return filterEntries.every(([key, value]) => {
+          if (!value.length) {
+            return true;
+          }
+          const dataItemValue = dataItem[key];
 
-          // NOTE: Avoiding item values which are array for the time being,
-          // for instance, `Neurotypes` is an array
-          return (
-            itemValue &&
-            !Array.isArray(itemValue) &&
-            filterValues &&
-            (filterValues as unknown[]).includes(itemValue)
+          // TODO: Avoiding `dataItemValue`s which are array for the time being,
+          // for instance, `Neurotypes` is an array. Fix that.
+          if (!dataItemValue || Array.isArray(dataItemValue)) {
+            return true;
+          }
+
+          const dataItemValueLC = dataItemValue.toLowerCase();
+
+          return value.some(
+            (item: string) => item.toLowerCase() === dataItemValueLC
           );
         });
       });
     }
   );
 
+  const loadData = useCallback(
+    async (filter: Partial<FilterCourseProps>) => {
+      const oldFilter = Object.fromEntries(filterEntries);
+
+      const search =
+        queryString.stringify(
+          Object.fromEntries(
+            Object.entries({
+              ...oldFilter,
+              ...filter,
+            }).filter(([, value]) => value?.length)
+          )
+        ) || '?';
+
+      if ((window.location.search || '?') !== search) {
+        setIsLoading(true);
+        router.push(search);
+      }
+    },
+    [filterEntries, router]
+  );
+
+  useEffect(() => {
+    const onPopState = () => setIsLoading(true);
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [data]);
+
   return (
-    <CourseContext.Provider value={{ data: filteredData, loadData }}>
+    <CourseContext.Provider
+      value={{
+        data: filteredData,
+        filter: Object.fromEntries(filterEntries),
+        isLoading,
+        loadData,
+      }}
+    >
       {children}
     </CourseContext.Provider>
   );
