@@ -5,7 +5,7 @@ import { DEFAULT_COURSE } from '../db/constants';
 const throwError = throwAssertionError;
 
 export default function assertCourseData(
-  data: CourseProps[]
+  data: Record<string, unknown>[]
 ): asserts data is CourseProps[] {
   if (!Array.isArray(data)) {
     throwError(`Invalid request payload, expected a JSON array.`);
@@ -25,7 +25,6 @@ export default function assertCourseData(
         const expectedType: keyof typeof DEFAULT_COURSE =
           /* @ts-expect-error: Server will check this at run-time (along with FE) */
           typeof DEFAULT_COURSE[key];
-        /* @ts-expect-error: Server will check this at run-time (along with FE) */
         const providedType: unknown = typeof item[key];
         if (expectedType !== providedType) {
           throwError(
