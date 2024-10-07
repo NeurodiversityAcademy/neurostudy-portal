@@ -1,3 +1,5 @@
+import { FilterCourseProps } from '@/app/interfaces/Course';
+
 export const MAX_COURSE_RATING = 5;
 export const MAX_CRITERION_RATING = 5;
 
@@ -53,3 +55,14 @@ export const COURSE_FIELD_OPTIONS = {
     },
   ],
 };
+
+export const FILTER_KEYS: (keyof FilterCourseProps)[] = [
+  'Neurotypes',
+  'InterestArea',
+  'Location',
+  'Level',
+  'InstitutionName',
+  'Mode',
+];
+
+export const COURSE_FETCH_REVALIDATE_PERIOD = 60 * 30; // In seconds
