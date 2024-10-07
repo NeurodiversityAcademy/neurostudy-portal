@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.container > * {
+  padding: min(2rem, 5vh) min(64px, 10vw);
+}
+
+.body {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  gap: 80px;
+}
+
+@media (max-width: 768px) {
+  .body {
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .body,
+  .body > * {
+    justify-content: center;
+  }
+}
