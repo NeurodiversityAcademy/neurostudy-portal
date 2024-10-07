@@ -88,7 +88,7 @@ export default function CourseProvider({ children, data }: PropType) {
 
       if ((window.location.search || '?') !== search) {
         setIsLoading(true);
-        router.push(search);
+        router.push(search, { scroll: false });
       }
     },
     [filterEntries, router]
