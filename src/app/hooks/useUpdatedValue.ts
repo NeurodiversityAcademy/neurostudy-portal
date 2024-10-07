@@ -1,14 +1,20 @@
 import { useRef } from 'react';
-import usePrevious from './usePrevious';
+import { compare } from '../utilities/common';
 
-export default function useUpdatedValue<V = unknown, S = unknown>(
-  curState: S,
-  setter: (curState: S) => V
-): V {
-  const previousState = usePrevious<S>(curState);
-  const valueRef = useRef('' as V);
-  if (previousState !== curState) {
-    valueRef.current = setter(curState);
+const DEFAULT_VALUE = Symbol('default useUpdatedValue');
+
+export default function useUpdatedValue<Value = unknown, DS = unknown>(
+  dependentState: DS,
+  setter: (curState: DS) => Value
+): Value {
+  const previousStateRef = useRef<DS>();
+  // NOTE: DEFAULT_VALUE is not necessarily type Value, it is made
+  // sure to be unique
+  const valueRef = useRef(DEFAULT_VALUE as Value);
+  if (!compare(dependentState, previousStateRef.current)) {
+    previousStateRef.current = dependentState;
+    valueRef.current = setter(dependentState);
   }
+
   return valueRef.current;
 }

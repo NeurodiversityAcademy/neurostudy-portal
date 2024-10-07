@@ -143,3 +143,59 @@ export const emptyFunc = () => void 0;
 export const getLabelOption = (option: string | SelectOption): SelectOption => {
   return typeof option === 'string' ? { label: option, value: option } : option;
 };
+
+export const getSearchQuery = (
+  params: Record<string, unknown>,
+  filter?: (value: unknown) => boolean
+): string => {
+  return Object.entries(params)
+    .filter(([, value]) => value !== undefined && (!filter || filter(value)))
+    .map(([key, value]) => `${key}=${encodeURIComponent(String(value))}`)
+    .join('&');
+};
+
+export const compare = (fstValue: unknown, sndValue: unknown): boolean => {
+  if (fstValue === sndValue) {
+    return true;
+  }
+
+  if (!fstValue || !sndValue) {
+    return fstValue === sndValue;
+  }
+
+  const isFstValueArray = Array.isArray(fstValue);
+  const isSndValueArray = Array.isArray(sndValue);
+
+  if (isFstValueArray !== isSndValueArray) {
+    return false;
+  }
+
+  if (isFstValueArray) {
+    const val1 = fstValue as unknown[];
+    const val2 = sndValue as unknown[];
+
+    return (
+      val1.length === val2.length &&
+      !val1.some((item, index) => !compare(item, val2[index]))
+    );
+  } else if (typeof fstValue === 'object' && typeof sndValue === 'object') {
+    const val1 = fstValue as Record<string, unknown>;
+    const val2 = sndValue as Record<string, unknown>;
+    const keys1 = Object.keys(fstValue);
+    const keys2 = Object.keys(sndValue);
+
+    if (keys1.length !== keys2.length) {
+      return false;
+    }
+
+    for (const key of keys1) {
+      if (!(key in val2) || !compare(val1[key], val2[key])) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  return fstValue === sndValue;
+};
