@@ -1,15 +1,50 @@
 import CourseSearch from '../components/course/CourseSearch';
 import { CourseProps } from '../interfaces/Course';
-import { getSearchQuery } from '../utilities/common';
-import { HOST_URL } from '../utilities/constants';
+import { createMetadata, getSearchQuery } from '../utilities/common';
+import { HOST_URL, META_KEY } from '../utilities/constants';
 import CourseProvider from '../utilities/course/CourseProvider';
 import assertCourseData from '../utilities/validation/assertCourseData';
-import { COURSE_FETCH_REVALIDATE_PERIOD } from '../utilities/course/constants';
+import {
+  COURSE_FETCH_REVALIDATE_PERIOD,
+  COURSE_FILTER_KEYS,
+} from '../utilities/course/constants';
+import { MetadataProps } from '../interfaces/MetadataProps';
+import { Metadata } from 'next';
+import { META_COURSES_DEFAULT_CANONICAL_URL } from '../utilities/metadata/metadata';
+
+const isQueryComplex = (searchParams: MetadataProps['searchParams']) =>
+  getFetchQuery(searchParams) !== getPartialFetchQuery(searchParams);
+
+export async function generateMetadata({
+  searchParams,
+}: MetadataProps): Promise<Metadata> {
+  const shouldIndex = isQueryComplex(searchParams);
+
+  const query = getPartialFetchQuery(searchParams);
+
+  return createMetadata(META_KEY.COURSES, {
+    canonical: META_COURSES_DEFAULT_CANONICAL_URL + (query ? '?' + query : ''),
+    robots: { index: shouldIndex, follow: shouldIndex },
+  });
+}
+
+const getFetchQuery = (searchParams: MetadataProps['searchParams']) =>
+  getSearchQuery(searchParams, (key) =>
+    (COURSE_FILTER_KEYS as string[]).includes(key)
+  );
+
+const getPartialFetchQuery = (searchParams: MetadataProps['searchParams']) =>
+  getSearchQuery(
+    searchParams,
+    (key, value) =>
+      (COURSE_FILTER_KEYS as string[]).includes(key) && !Array.isArray(value)
+  );
 
 const CoursesPage: React.FC<{
   searchParams: Record<string, string | string[]>;
 }> = async ({ searchParams }) => {
-  const query = getSearchQuery(searchParams, (value) => !Array.isArray(value));
+  // NOTE: DynamoDB is not ideal for complex queries, hence partial extraction
+  const query = getPartialFetchQuery(searchParams);
 
   const data: CourseProps[] | undefined = await new Promise((resolve) => {
     fetch(HOST_URL + '/api/course' + (query ? '?' + query : ''), {

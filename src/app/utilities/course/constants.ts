@@ -56,7 +56,7 @@ export const COURSE_FIELD_OPTIONS = {
   ],
 };
 
-export const FILTER_KEYS: (keyof FilterCourseProps)[] = [
+export const COURSE_FILTER_KEYS: (keyof FilterCourseProps)[] = [
   'Neurotypes',
   'InterestArea',
   'Location',

@@ -41,3 +41,6 @@ export const KEYWORDS_FORGOT_PASSWORD =
 
 export const KEYWORDS_PROFILE =
   'profile, user profile, neurodiversity, neurodiversityacademy, neurodiversity academy, ';
+
+export const KEYWORDS_COURSES =
+  'course, courses, search, neurodiversity, neurodiversityacademy, neurodiversity academy';

@@ -5,7 +5,7 @@ import { deviseContext } from '../deviseContext';
 import { CourseProps, FilterCourseProps } from '@/app/interfaces/Course';
 import useUpdatedValue from '@/app/hooks/useUpdatedValue';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { FILTER_KEYS } from './constants';
+import { COURSE_FILTER_KEYS } from './constants';
 import queryString from '../queryString';
 
 interface PropType {
@@ -31,7 +31,7 @@ export default function CourseProvider({ children, data }: PropType) {
   const filterEntries: [keyof FilterCourseProps, string[]][] = useUpdatedValue(
     searchParams,
     () =>
-      FILTER_KEYS.map((key) => [
+      COURSE_FILTER_KEYS.map((key) => [
         key,
         searchParams.getAll(key).map((item) => decodeURIComponent(item)),
       ])
