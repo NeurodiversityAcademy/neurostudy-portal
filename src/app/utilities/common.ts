@@ -57,29 +57,27 @@ export const createMetadata = (
   key: META_KEY,
   customMetadata?: Partial<MetadataParams>
 ): Metadata => {
-  const config = { ...metadata[key], ...customMetadata };
-  const { title, description, keywords, canonical, type, images } = config;
+  const { canonical, type, images, ...rest } = {
+    ...metadata[key],
+    ...customMetadata,
+  };
 
-  const metadataObj: Metadata = {
-    title,
-    keywords,
-    description,
+  return {
     alternates: {
       canonical,
       languages: LANGUAGES,
     },
     openGraph: {
-      title,
-      description,
+      title: rest.title || undefined,
+      description: rest.description || undefined,
       url: canonical,
       images,
       ...(type && { type }),
       siteName: SITE_NAME,
       locale: LOCALE,
     },
+    ...rest,
   };
-
-  return metadataObj;
 };
 
 export const notifyError = (ex: object | string) => {
@@ -146,10 +144,12 @@ export const getLabelOption = (option: string | SelectOption): SelectOption => {
 
 export const getSearchQuery = <T>(
   params: Record<string, T>,
-  filter?: (value: T) => boolean
+  filter?: (key: string, value: T) => boolean
 ): string => {
   return Object.entries(params)
-    .filter(([, value]) => value !== undefined && (!filter || filter(value)))
+    .filter(
+      ([key, value]) => value !== undefined && (!filter || filter(key, value))
+    )
     .map(([key, value]) => `${key}=${encodeURIComponent(String(value))}`)
     .join('&');
 };
