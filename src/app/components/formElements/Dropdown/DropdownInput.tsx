@@ -26,6 +26,7 @@ import HelperText from '../HelperText/HelperText';
 import ClearButton from '../ClearButton/ClearButton';
 import useDefaultValue from '@/app/hooks/useDefaultValue';
 import { emptyFunc } from '@/app/utilities/common';
+import ArrowDownIcon from '../../images/ArrowDown';
 
 const DEFAULT_SELECTED_OPTIONS: SelectOption['value'][] = [];
 const BUTTON_ARIA_LABEL = 'Clear';
@@ -141,7 +142,6 @@ const DropdownInput = <TFieldValues extends FieldValues>({
       }
     } else {
       if (key === 'Backspace') {
-        console.log('dada');
         const updatedOptions = selectedOptions.slice(0, -1);
         setSelectedOptions(updatedOptions);
       }
@@ -294,6 +294,11 @@ const DropdownInput = <TFieldValues extends FieldValues>({
           className={styles.clearBtn}
           disabled={disabled}
           onClick={onClear}
+        />
+        <ArrowDownIcon
+          aria-hidden
+          className={styles.expandIcon}
+          onMouseDown={() => setExpanded(!expanded)}
         />
       </div>
       <div className={styles.dropdownListContainer}>

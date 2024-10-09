@@ -119,3 +119,19 @@
   margin-top: 5px;
   align-self: flex-start;
 }
+
+.expandIcon {
+  padding: 6px 3px;
+  transition: transform 150ms linear;
+  cursor: pointer;
+  color: var(--grey-300);
+}
+
+.expandIcon:hover {
+  color: var(--BondBlack);
+}
+
+.container[aria-expanded='true'] .expandIcon,
+.container:focus-within .expandIcon {
+  transform: rotate(180deg);
+}
