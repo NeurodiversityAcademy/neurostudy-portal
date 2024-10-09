@@ -24,13 +24,17 @@
   border-radius: 8px;
   border: 1px;
   gap: 8px;
-  border: 1px solid var(--cherryPieVariant);
   background: var(--cherryPie);
   color: var(--GhostWhite);
   font-family: var(--poppins-font);
   font-weight: var(--body2-strong-font-weight);
   font-size: var(--body2-strong-font-size);
   width: var(--primary-button-width);
+}
+
+.primary:hover {
+  background-color: var(--cherryPieVariant);
+  box-shadow: 0px 2px 8px 0px #0000001F;
 }
 
 .secondary {
