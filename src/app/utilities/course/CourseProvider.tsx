@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useCallback, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { deviseContext } from '../deviseContext';
 import { CourseProps, FilterCourseProps } from '@/app/interfaces/Course';
 import useUpdatedValue from '@/app/hooks/useUpdatedValue';
@@ -16,6 +16,7 @@ interface PropType {
 export interface CourseContent {
   data: CourseProps[] | undefined;
   filter: Partial<FilterCourseProps>;
+  updateFilter: (filter: Partial<FilterCourseProps>) => void;
   isLoading: boolean;
   loadData: (filter: Partial<FilterCourseProps>) => Promise<void>;
 }
@@ -36,6 +37,7 @@ export default function CourseProvider({ children, data }: PropType) {
         searchParams.getAll(key).map((item) => decodeURIComponent(item)),
       ])
   );
+  const pendingFilterRef = useRef<Partial<FilterCourseProps>>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const filteredData: CourseContent['data'] = useUpdatedValue(
@@ -72,6 +74,10 @@ export default function CourseProvider({ children, data }: PropType) {
     }
   );
 
+  const updateFilter = (filter: Partial<FilterCourseProps>) => {
+    Object.assign(pendingFilterRef.current, filter);
+  };
+
   const loadData = useCallback(
     async (filter: Partial<FilterCourseProps>) => {
       const oldFilter = Object.fromEntries(filterEntries);
@@ -81,6 +87,7 @@ export default function CourseProvider({ children, data }: PropType) {
           Object.fromEntries(
             Object.entries({
               ...oldFilter,
+              ...pendingFilterRef.current,
               ...filter,
             }).filter(([, value]) => value?.length)
           )
@@ -102,6 +109,7 @@ export default function CourseProvider({ children, data }: PropType) {
 
   useEffect(() => {
     setIsLoading(false);
+    pendingFilterRef.current = {};
   }, [data]);
 
   return (
@@ -109,6 +117,7 @@ export default function CourseProvider({ children, data }: PropType) {
       value={{
         data: filteredData,
         filter: Object.fromEntries(filterEntries),
+        updateFilter,
         isLoading,
         loadData,
       }}

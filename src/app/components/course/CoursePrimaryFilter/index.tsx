@@ -1,6 +1,6 @@
 'use client';
 
-import { FormHTMLAttributes } from 'react';
+import { FormHTMLAttributes, useEffect } from 'react';
 import styles from './coursePrimaryFilter.module.css';
 import classNames from 'classnames';
 import { useForm, UseFormReturn } from 'react-hook-form';
@@ -24,7 +24,7 @@ const DROPDOWN_KEYS: (keyof CoursePrimaryFilterType)[] = [
 ];
 
 const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
-  const { loadData, isLoading, filter } = useCourseContext();
+  const { loadData, isLoading, filter, updateFilter } = useCourseContext();
   const methods: UseFormReturn<CoursePrimaryFilterType> =
     useForm<CoursePrimaryFilterType>({
       mode: 'onBlur',
@@ -38,6 +38,14 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
       updateCourseDropdownFilter(name, filter[name], methods);
     });
   });
+
+  useEffect(() => {
+    const listener = methods.watch(() => {
+      updateFilter(methods.getValues());
+    });
+
+    return () => listener.unsubscribe();
+  }, [methods, updateFilter]);
 
   return (
     <Form
