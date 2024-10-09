@@ -18,7 +18,7 @@ export interface CourseContent {
   filter: Partial<FilterCourseProps>;
   updateFilter: (filter: Partial<FilterCourseProps>) => void;
   isLoading: boolean;
-  loadData: (filter: Partial<FilterCourseProps>) => Promise<void>;
+  loadData: (filter?: Partial<FilterCourseProps>) => Promise<void>;
 }
 
 const [CourseContext, useCourseContext] = deviseContext<CourseContent>();
@@ -79,7 +79,7 @@ export default function CourseProvider({ children, data }: PropType) {
   };
 
   const loadData = useCallback(
-    async (filter: Partial<FilterCourseProps>) => {
+    async (filter?: Partial<FilterCourseProps>) => {
       const oldFilter = Object.fromEntries(filterEntries);
 
       const search =
@@ -89,13 +89,17 @@ export default function CourseProvider({ children, data }: PropType) {
               ...oldFilter,
               ...pendingFilterRef.current,
               ...filter,
-            }).filter(([, value]) => value?.length)
-          )
+              _: undefined,
+            }).map(([key, value]) => [key, value?.length ? value : undefined])
+          ),
+          { useLocationSearch: true }
         ) || '?';
 
       if ((window.location.search || '?') !== search) {
         setIsLoading(true);
         router.push(search, { scroll: false });
+      } else if (!filter) {
+        router.replace(search + '&_=' + Math.random(), { scroll: false });
       }
     },
     [filterEntries, router]
