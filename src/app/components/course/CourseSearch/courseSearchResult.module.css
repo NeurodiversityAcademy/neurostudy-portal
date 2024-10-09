@@ -8,7 +8,7 @@
   align-content: flex-start;
 }
 
-.noResult {
+.alert {
   display: flex;
   flex-direction: column;
   flex: 1;
