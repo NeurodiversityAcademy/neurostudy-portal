@@ -40,15 +40,9 @@
   padding-left: 0px;
 }
 
-.content
-  > *[role='combobox']
-  :global(.dropdown-input-wrapper)
-  input[role='searchbox'] {
-  margin-left: 0px;
-}
-
-.content > *[role='combobox'] input {
+.content > *[role='combobox'] input[role='searchbox'] {
   padding-left: 0px;
+  margin-left: 0px;
 }
 
 .content > *[role='combobox'] label > * {
