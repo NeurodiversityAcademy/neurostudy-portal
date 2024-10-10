@@ -7,6 +7,7 @@ import { notifyError, notifySuccess } from '@/app/utilities/common';
 import LoaderWrapper from '../loader/LoaderWrapper';
 import { useState } from 'react';
 import { signOut, useSession } from 'next-auth/react';
+import classNames from 'classnames';
 
 const UserOutlet: React.FC = () => {
   const { data: session, status } = useSession();
@@ -29,7 +30,7 @@ const UserOutlet: React.FC = () => {
   const isSessionLoading = status === 'loading';
 
   return (
-    <li className={styles.li}>
+    <li className={classNames(styles.userOutletWrapper)}>
       <LoaderWrapper isLoading={isSigningOut || isSessionLoading}>
         {session ? (
           <ActionButton
