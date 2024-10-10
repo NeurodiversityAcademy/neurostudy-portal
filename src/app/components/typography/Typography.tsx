@@ -1,4 +1,4 @@
-import React, { createElement } from 'react';
+import React, { createElement, HTMLAttributes } from 'react';
 import styles from './typography.module.css';
 import classNames from 'classnames';
 
@@ -14,35 +14,25 @@ export enum TypographyVariant {
   LABELtext = 'labelText',
 }
 
-interface TypographyProps {
+interface TypographyElement
+  extends HTMLAttributes<HTMLHeadingElement | HTMLSpanElement> {}
+
+interface TypographyProps extends TypographyElement {
   variant: TypographyVariant;
   children: React.ReactNode;
-  ariaLabel?: string;
-  ariaLabelledBy?: string;
-  role?: string;
   color?: string;
-  className?: string;
 }
 
 const Typography: React.FC<TypographyProps> = ({
   variant,
   children,
-  ariaLabel,
-  ariaLabelledBy,
-  role,
   color,
-  className: rootClassName,
+  className,
+  ...rest
 }) => {
   const style = color ? { color } : {};
-  const props = {
-    'aria-label': ariaLabel,
-    'aria-labelledby': ariaLabelledBy,
-    role,
-    style,
-    className: '',
-  };
 
-  let tag = 'span';
+  let tag: 'span' | 'h1' | 'h2' | 'h3' = 'span';
   let variantClassName = styles.body1;
 
   switch (variant) {
@@ -78,7 +68,11 @@ const Typography: React.FC<TypographyProps> = ({
       break;
   }
 
-  props.className = classNames(styles.common, variantClassName, rootClassName);
+  const props: TypographyElement = {
+    style,
+    ...rest,
+    className: classNames(styles.common, variantClassName, className),
+  };
 
   return createElement(tag, props, children);
 };

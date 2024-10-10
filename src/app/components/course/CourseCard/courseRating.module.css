@@ -1,0 +1,38 @@
+.ratingContainer > * {
+  display: flex;
+  align-items: center;
+}
+
+.tier {
+  margin-left: auto;
+  padding: 1.5px 8px;
+  gap: 4px;
+  border-radius: 8px;
+}
+
+.tier.gold {
+  background: linear-gradient(97.99deg, #e6ac19 7.83%, #ddd869 90.71%);
+}
+
+.tier.silver {
+  background: linear-gradient(
+    96.63deg,
+    #a19cb4 6.35%,
+    #ffffff 38.41%,
+    #93a1d7 94.28%
+  );
+}
+
+.tier.bronze {
+  background: linear-gradient(
+    94.55deg,
+    #91601c 6.44%,
+    #d9a364 32.02%,
+    #e8c9ae 59.82%,
+    #99591e 95.41%
+  );
+}
+
+.tier > span {
+  font-size: 12px;
+}
