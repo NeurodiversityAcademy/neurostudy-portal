@@ -13,7 +13,7 @@ const CourseSearchResult: React.FC = () => {
   return (
     <section className={styles.container} aria-live='polite' role='list'>
       {data?.map((course) => (
-        <CourseCard key={course.InstitutionName} course={course} />
+        <CourseCard key={course.CourseId} course={course} />
       ))}
       {!isLoading &&
         (data === undefined ? (
