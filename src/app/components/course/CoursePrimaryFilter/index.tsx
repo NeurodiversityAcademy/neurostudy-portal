@@ -65,7 +65,7 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
           showLabel
           placeholder='ADHD'
           multiple
-          options={[]}
+          options={COURSE_FIELD_OPTIONS.Neurotypes}
         />
         <Dropdown<CoursePrimaryFilterType>
           name='InterestArea'

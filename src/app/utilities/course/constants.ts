@@ -4,6 +4,44 @@ export const MAX_COURSE_RATING = 5;
 export const MAX_CRITERION_RATING = 5;
 
 export const COURSE_FIELD_OPTIONS = {
+  Neurotypes: [
+    {
+      label: 'Autism',
+      value: 'Autism',
+    },
+    {
+      label: 'ADHD',
+      value: 'ADHD',
+    },
+    {
+      label: 'Dyslexia',
+      value: 'Dyslexia',
+    },
+    {
+      label: 'Dyspraxia',
+      value: 'Dyspraxia',
+    },
+    {
+      label: 'Tourette',
+      value: 'Tourette',
+    },
+    {
+      label: 'Obsessive-Compulsive Disorder',
+      value: 'OCD',
+    },
+    {
+      label: 'Schizophrenia',
+      value: 'Schizophrenia',
+    },
+    {
+      label: 'Dyscalculia',
+      value: 'Dyscalculia',
+    },
+    {
+      label: 'Bipolar Disorder',
+      value: 'Bipolar Disorder',
+    },
+  ],
   Level: [
     {
       label: 'Masters',
@@ -21,7 +59,7 @@ export const COURSE_FIELD_OPTIONS = {
   Mode: [
     {
       label: 'Online',
-      value: 'v',
+      value: 'Online',
     },
     {
       label: 'On-campus',
