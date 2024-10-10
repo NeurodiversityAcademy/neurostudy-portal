@@ -1,0 +1,56 @@
+.container {
+  width: 100%;
+  background-color: var(--GhostWhiteVariant);
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+
+.content {
+  width: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px 60px;
+  background-color: var(--GhostWhite);
+  flex-direction: row;
+  align-self: center;
+  border-radius: 8px;
+  box-shadow: 0px 8px 20px 0px #0000001f;
+  padding: 15px;
+}
+
+.content > * {
+  width: 260px;
+  flex: 1;
+  align-self: stretch;
+  justify-content: flex-start;
+}
+
+.content > button {
+  flex: 0 0 140px;
+  margin: auto;
+  align-self: center;
+}
+
+.content > *[role='combobox'] :global(.dropdown-input-wrapper) {
+  border-width: 0;
+}
+
+.content > *[role='combobox'] :global(.dropdown-input-wrapper) > *:first-child {
+  padding-left: 0px;
+}
+
+.content
+  > *[role='combobox']
+  :global(.dropdown-input-wrapper)
+  input[role='searchbox'] {
+  margin-left: 0px;
+}
+
+.content > *[role='combobox'] input {
+  padding-left: 0px;
+}
+
+.content > *[role='combobox'] label > * {
+  font-weight: 600;
+}

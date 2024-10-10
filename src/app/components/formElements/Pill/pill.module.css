@@ -10,7 +10,7 @@
   background: var(--pure-white);
 }
 
-.pill[aria-selected='true'] {
+.pill[aria-pressed='true'] {
   border: 1px solid var(--cherryPieVariant);
   background: #d2a4ff40;
   color: var(--cherryPieVariant);

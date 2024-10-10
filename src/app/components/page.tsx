@@ -19,6 +19,8 @@ import Slider from './formElements/Slider/Slider';
 import CourseCard from './course/CourseCard';
 import { DEFAULT_COURSE } from '../utilities/db/constants';
 import CourseSecondaryFilter from './course/CourseSecondaryFilter';
+import CoursePrimaryFilter from './course/CoursePrimaryFilter';
+import { useEffect, useRef } from 'react';
 
 interface LoginFieldValues extends FieldValues {
   username: string;
@@ -26,12 +28,34 @@ interface LoginFieldValues extends FieldValues {
 }
 
 export default function Components() {
+  const containerRef = useRef<HTMLElement>(null);
   const methods: UseFormReturn<LoginFieldValues> = useForm<LoginFieldValues>({
     mode: 'onBlur',
   });
 
+  useEffect(() => {
+    const invalidateSubmit = (e: SubmitEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+    };
+
+    const forms = containerRef.current?.querySelectorAll('form');
+
+    if (forms) {
+      forms.forEach((form: HTMLFormElement) => {
+        form.addEventListener('submit', invalidateSubmit);
+      });
+
+      return () => {
+        forms.forEach((form: HTMLFormElement) => {
+          form.removeEventListener('submit', invalidateSubmit);
+        });
+      };
+    }
+  }, []);
+
   return (
-    <main className={styles.main}>
+    <main ref={containerRef} className={styles.main}>
       <Typography variant={TypographyVariant.H1}>Components</Typography>
       <Typography variant={TypographyVariant.H2}>
         Background & Badges
@@ -56,6 +80,10 @@ export default function Components() {
       </div>
       <div className={styles.courseComponentContainer}>
         <Typography variant={TypographyVariant.H2}>Course</Typography>
+        <div>
+          <Typography variant={TypographyVariant.H3}>Primary Filter</Typography>
+          <CoursePrimaryFilter />
+        </div>
         <div className={styles.flexRow}>
           <div>
             <Typography variant={TypographyVariant.H3}>Card</Typography>
