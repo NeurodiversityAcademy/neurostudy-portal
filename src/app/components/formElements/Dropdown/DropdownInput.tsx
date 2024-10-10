@@ -9,6 +9,7 @@ import {
   FocusEvent,
   KeyboardEventHandler,
   useId,
+  useEffect,
 } from 'react';
 import styles from './dropdown.module.css';
 import classNames from 'classnames';
@@ -183,6 +184,10 @@ const DropdownInput = <TFieldValues extends FieldValues>({
   useLayoutEffect(() => {
     nextFocusElemRef.current?.focus();
   }, [selectedOptions]);
+
+  useEffect(() => {
+    disabled && setExpanded(false);
+  }, [disabled]);
 
   const filteredOptions = options.filter((option) => {
     const inputValueLC = inputValue.toLowerCase();
