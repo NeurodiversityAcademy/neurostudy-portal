@@ -1,12 +1,21 @@
 'use client';
 
-import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { deviseContext } from '../deviseContext';
 import { CourseProps, FilterCourseProps } from '@/app/interfaces/Course';
 import useUpdatedValue from '@/app/hooks/useUpdatedValue';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { COURSE_FILTER_KEYS } from './constants';
 import queryString from '../queryString';
+import { debounce } from '../common';
 
 interface PropType {
   data: CourseProps[] | undefined;
@@ -18,13 +27,56 @@ export interface CourseContent {
   filter: Partial<FilterCourseProps>;
   updateFilter: (filter: Partial<FilterCourseProps>) => void;
   isLoading: boolean;
-  loadData: (filter?: Partial<FilterCourseProps>) => Promise<void>;
+  loadData: (
+    filter?: Partial<FilterCourseProps>,
+    shouldDebounce?: boolean
+  ) => Promise<void>;
 }
 
 const [CourseContext, useCourseContext] = deviseContext<CourseContent>();
 
 export { CourseContext };
 export { useCourseContext };
+
+const matches = (value: string | string[], queries: string[]): boolean => {
+  if (!queries.length) {
+    return true;
+  }
+
+  if (typeof value === 'string') {
+    const valueLowerCase = value.toLowerCase();
+
+    return queries.some((query) => {
+      const parts = query.split(/\s+/).map((i) => i.toLowerCase());
+      return parts.every((part) => valueLowerCase.includes(part));
+    });
+  }
+
+  return value.some((item) => matches(item, queries));
+};
+
+const updateRoute = ({
+  search,
+  setIsLoading,
+  canReplace,
+  router,
+}: {
+  search: string;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+  canReplace: boolean;
+  router: ReturnType<typeof useRouter>;
+}) => {
+  if ((window.location.search || '?') !== search) {
+    setIsLoading(true);
+    router.push(search, { scroll: false });
+  } else if (canReplace) {
+    setIsLoading(true);
+    router.replace(search + '&_=' + Math.random(), { scroll: false });
+  } else {
+    setIsLoading(false);
+  }
+};
+const updateRouteWithDebounce = debounce(updateRoute, 500);
 
 export default function CourseProvider({ children, data }: PropType) {
   const router = useRouter();
@@ -51,24 +103,9 @@ export default function CourseProvider({ children, data }: PropType) {
         return [...data];
       }
 
-      return data.filter((dataItem) => {
-        return filterEntries.every(([key, value]) => {
-          if (!value.length) {
-            return true;
-          }
-          const dataItemValue = dataItem[key];
-
-          // TODO: Avoiding `dataItemValue`s which are array for the time being,
-          // for instance, `Neurotypes` is an array. Fix that.
-          if (!dataItemValue || Array.isArray(dataItemValue)) {
-            return true;
-          }
-
-          const dataItemValueLC = dataItemValue.toLowerCase();
-
-          return value.some(
-            (item: string) => item.toLowerCase() === dataItemValueLC
-          );
+      return data.filter((item) => {
+        return filterEntries.every(([key, query]) => {
+          return matches(item[key], query);
         });
       });
     }
@@ -79,7 +116,10 @@ export default function CourseProvider({ children, data }: PropType) {
   };
 
   const loadData = useCallback(
-    async (filter?: Partial<FilterCourseProps>) => {
+    async (
+      filter?: Partial<FilterCourseProps>,
+      shouldDebounce: boolean = false
+    ) => {
       const oldFilter = Object.fromEntries(filterEntries);
 
       const search =
@@ -95,12 +135,14 @@ export default function CourseProvider({ children, data }: PropType) {
           { useLocationSearch: true }
         ) || '?';
 
-      if ((window.location.search || '?') !== search) {
-        setIsLoading(true);
-        router.push(search, { scroll: false });
-      } else if (!filter) {
-        router.replace(search + '&_=' + Math.random(), { scroll: false });
-      }
+      const fn = shouldDebounce ? updateRouteWithDebounce : updateRoute;
+      shouldDebounce && setIsLoading(true);
+      fn({
+        search,
+        setIsLoading,
+        canReplace: !filter,
+        router,
+      });
     },
     [filterEntries, router]
   );
