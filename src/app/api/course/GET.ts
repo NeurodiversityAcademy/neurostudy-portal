@@ -19,10 +19,18 @@ import {
   ScanCommandOutput,
 } from '@aws-sdk/lib-dynamodb';
 import { NextRequest, NextResponse } from 'next/server';
+import sample from '@/app/utilities/course/sampleList.json';
 
 export default async function GET(req: NextRequest): Promise<Response> {
   try {
     await consumeRateWithIp(req);
+
+    // TEMP
+    console.log('Entered!');
+    if (process.env.NODE_ENV === 'development') {
+      assertCourseData(sample);
+      return NextResponse.json(sample);
+    }
 
     const { searchParams } = req.nextUrl;
 

@@ -13,15 +13,17 @@ import { AxiosError, AxiosRequestConfig } from 'axios';
 import toast from '../components/toaster';
 import { SelectOption } from '../interfaces/FormElements';
 
-type RegulatorPropFn = (...args: unknown[]) => unknown;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyFunction = (...args: any) => any;
 
-export const debounce = (
-  fn: RegulatorPropFn,
+export const debounce = <T extends AnyFunction>(
+  fn: T,
   threshold: number = 500,
   context: object | null = null
-) => {
+): ((...args: Parameters<T>) => void) => {
   let timer: ReturnType<typeof setTimeout>;
-  return function (...args: unknown[]) {
+
+  return function (...args: Parameters<T>): void {
     clearTimeout(timer);
     timer = setTimeout(function () {
       fn.apply(context, args);
@@ -29,15 +31,15 @@ export const debounce = (
   };
 };
 
-export const throttle = (
-  fn: RegulatorPropFn,
+export const throttle = <T extends AnyFunction>(
+  fn: T,
   threshold: number = 500,
   context: object | null = null
-) => {
+): ((...args: Parameters<T>) => void) => {
   let last: number = -1,
     timer: ReturnType<typeof setTimeout>;
 
-  return function (...args: unknown[]) {
+  return function (...args: Parameters<T>): void {
     const now = Date.now();
 
     if (last && now < last + threshold) {
