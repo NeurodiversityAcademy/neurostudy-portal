@@ -13,14 +13,16 @@
 }
 
 .container > *[role='combobox'] :global(.dropdown-input-wrapper) {
-  border-width: 0;
+  border: 0;
+  margin-left: -10px;
+  width: calc(100% + 10px);
 }
 
 .container
   > *[role='combobox']
   :global(.dropdown-input-wrapper)
   > *:first-child {
-  padding-left: 0px;
+  padding-left: 10px;
 }
 
 .container > *[role='combobox'] input[role='searchbox'] {

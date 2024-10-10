@@ -26,6 +26,10 @@
   justify-content: flex-start;
 }
 
+.content > *[role='combobox'] {
+  margin-left: 5px;
+}
+
 .content > button {
   flex: 0 0 116px;
   margin: auto;
@@ -33,11 +37,13 @@
 }
 
 .content > *[role='combobox'] :global(.dropdown-input-wrapper) {
-  border-width: 0;
+  border: 0;
+  margin-left: -10px;
+  width: calc(100% + 10px);
 }
 
 .content > *[role='combobox'] :global(.dropdown-input-wrapper) > *:first-child {
-  padding-left: 0px;
+  padding-left: 10px;
 }
 
 .content > *[role='combobox'] input[role='searchbox'] {
