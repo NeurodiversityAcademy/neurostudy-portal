@@ -56,6 +56,7 @@ const ProfileChallengeForm: ForwardRefExoticComponent<
           helperText='This will help us create personalised experience for you'
           creatable
           defaultValue={data?.Comforts}
+          multiple
           options={PROFILE_FIELD_OPTIONS.Comforts}
         />
         <Dropdown<UserChallengeProps>
@@ -66,6 +67,7 @@ const ProfileChallengeForm: ForwardRefExoticComponent<
           helperText='This will help us create personalised experience for you'
           creatable
           defaultValue={data?.Struggles}
+          multiple
           options={PROFILE_FIELD_OPTIONS.Struggles}
         />
         <Dropdown<UserChallengeProps>
@@ -76,6 +78,7 @@ const ProfileChallengeForm: ForwardRefExoticComponent<
           helperText='This will help us create personalised experience for you'
           creatable
           defaultValue={data?.Challenges}
+          multiple
           options={PROFILE_FIELD_OPTIONS.Challenges}
         />
         {onSubmit ? <ProfileFormFooter onCancel={onCancel} /> : null}

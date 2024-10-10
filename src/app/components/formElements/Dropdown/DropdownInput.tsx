@@ -41,6 +41,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
   renderProps,
   creatable,
   multiple = false,
+  cols,
   defaultErrorMessage,
   methods,
 }: DropdownInputProps<TFieldValues>) => {
@@ -184,10 +185,23 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     return option.label.toLowerCase().includes(inputValueLC);
   });
 
+  const focusInput = (e: React.MouseEvent<HTMLElement>) => {
+    if (e.currentTarget === e.target) {
+      if (document.activeElement === inputRef.current) {
+        e.preventDefault();
+      } else {
+        setTimeout(() => inputRef.current?.focus());
+      }
+    }
+  };
+
   return (
     <div
-      className={classNames(styles.container)}
-      aria-disabled={disabled}
+      className={classNames(
+        styles.container,
+        'border-box-parent',
+        cols && 'col-md-' + cols
+      )}
       onBlurCapture={(e: FocusEvent<HTMLDivElement, Element>) => {
         !(e.currentTarget as Node)?.contains(e.relatedTarget as Node) &&
           onBlur();
@@ -208,39 +222,49 @@ const DropdownInput = <TFieldValues extends FieldValues>({
         onBlurCapture={() => {
           nextFocusElemRef.current = undefined;
         }}
+        onMouseDown={focusInput}
       >
-        {multiple &&
-          selectedOptions.map((option) => (
-            <Pill
-              key={option.toString()}
-              label={getLabel(option.toString())}
-              value={option}
-              selected
-              onClose={onRemove}
-              onFocus={onPillFocus}
+        <div
+          className={classNames(
+            styles.pillAndInput,
+            selectedOptions.length && styles.hasValue
+          )}
+          onMouseDown={focusInput}
+        >
+          {multiple &&
+            selectedOptions.map((option) => (
+              <Pill
+                key={option.toString()}
+                label={getLabel(option.toString())}
+                value={option}
+                selected
+                onClose={onRemove}
+                onFocus={onPillFocus}
+                disabled={disabled}
+                button-aria-label={BUTTON_ARIA_LABEL}
+              />
+            ))}
+          {(!disabled || !selectedOptions.length) && (
+            <input
+              ref={(node) => {
+                inputRef.current = node || undefined;
+                field.ref(node);
+              }}
+              type='text'
+              role='searchbox'
               disabled={disabled}
-              button-aria-label={BUTTON_ARIA_LABEL}
+              placeholder={placeholder}
+              className={styles.input}
+              onChange={onInputChange}
+              value={
+                multiple || !selectedOptions.length
+                  ? inputValue
+                  : getLabel(selectedOptions[0].toString())
+              }
+              onKeyDown={onInputKeyDown}
             />
-          ))}
-        {(!disabled || !selectedOptions.length) && (
-          <input
-            ref={(node) => {
-              inputRef.current = node || undefined;
-              field.ref(node);
-            }}
-            type='text'
-            disabled={disabled}
-            placeholder={placeholder}
-            className={styles.input}
-            onChange={onInputChange}
-            value={
-              multiple || !selectedOptions.length
-                ? inputValue
-                : getLabel(selectedOptions[0].toString())
-            }
-            onKeyDown={onInputKeyDown}
-          />
-        )}
+          )}
+        </div>
         <ClearButton
           name={name}
           value={value}

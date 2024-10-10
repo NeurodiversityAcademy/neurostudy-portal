@@ -18,6 +18,7 @@ import Toggle from './formElements/Toggle/Toggle';
 import Slider from './formElements/Slider/Slider';
 import CourseCard from './course/CourseCard';
 import { DEFAULT_COURSE } from '../utilities/db/constants';
+import CourseSecondaryFilter from './course/CourseSecondaryFilter';
 
 interface LoginFieldValues extends FieldValues {
   username: string;
@@ -52,8 +53,21 @@ export default function Components() {
           Cards/Articles/Blog posts
         </Typography>
         <CardList />
-        <Typography variant={TypographyVariant.H2}>Course Card</Typography>
-        <CourseCard course={DEFAULT_COURSE} />
+      </div>
+      <div className={styles.courseComponentContainer}>
+        <Typography variant={TypographyVariant.H2}>Course</Typography>
+        <div className={styles.flexRow}>
+          <div>
+            <Typography variant={TypographyVariant.H3}>Card</Typography>
+            <CourseCard course={DEFAULT_COURSE} />
+          </div>
+          <div>
+            <Typography variant={TypographyVariant.H3}>
+              Secondary Filter
+            </Typography>
+            <CourseSecondaryFilter />
+          </div>
+        </div>
       </div>
       <div className={styles.border}>
         <Typography variant={TypographyVariant.H2}>Podcast embed</Typography>

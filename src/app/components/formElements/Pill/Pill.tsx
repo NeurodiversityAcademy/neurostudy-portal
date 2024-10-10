@@ -4,6 +4,7 @@ import {
   forwardRef,
   HTMLAttributes,
   SyntheticEvent,
+  useId,
   useImperativeHandle,
   useRef,
 } from 'react';
@@ -44,6 +45,7 @@ const Pill = <Value,>(
 ) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
+  const labelId = useId();
   useImperativeHandle(
     ref,
     () => ({ focus: () => btnRef.current?.focus() }),
@@ -61,12 +63,12 @@ const Pill = <Value,>(
       ref={containerRef}
       className={styles.pill}
       role='option'
-      aria-label={label.toString()}
+      aria-labelledby={labelId}
       aria-selected={selected}
       aria-disabled={disabled}
       {...rest}
     >
-      <label>{label}</label>
+      <label id={labelId}>{label}</label>
       {selected && canClose && (
         <CloseButton
           ref={btnRef}
