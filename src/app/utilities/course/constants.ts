@@ -1,4 +1,4 @@
-import { FilterCourseProps } from '@/app/interfaces/Course';
+import { FilterCourseProps, CourseSortConfig } from '@/app/interfaces/Course';
 
 export const MAX_COURSE_RATING = 5;
 export const MAX_CRITERION_RATING = 5;
@@ -102,5 +102,8 @@ export const COURSE_FILTER_KEYS: (keyof FilterCourseProps)[] = [
   'InstitutionName',
   'Mode',
 ];
+
+export const DEFAULT_COURSE_SORT_BY: CourseSortConfig['sortBy'] = 'Title';
+export const DEFAULT_COURSE_SORT_ORDER: CourseSortConfig['sortOrder'] = 1;
 
 export const COURSE_FETCH_REVALIDATE_PERIOD = 60 * 30; // In seconds
