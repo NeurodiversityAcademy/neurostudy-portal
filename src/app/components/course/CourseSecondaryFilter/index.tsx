@@ -41,7 +41,7 @@ const CourseSecondaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
 
   useEffect(() => {
     const listener = methods.watch(() => {
-      loadData(methods.getValues(), true);
+      loadData(methods.getValues(), { shouldDebounce: true });
     });
 
     return () => listener.unsubscribe();
