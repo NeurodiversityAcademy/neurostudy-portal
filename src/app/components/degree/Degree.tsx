@@ -11,7 +11,7 @@ export default function Degree() {
         <div className={styles.bannerTextAndBadge}>
           <div className={styles.textContainer}>
             <div className={styles.textHeader}>
-            <Typography
+              <Typography
                 variant={TypographyVariant.Body1}
                 color='var(--GhostWhite)'
               >
@@ -25,7 +25,7 @@ export default function Degree() {
               </Typography>
             </div>
             <div className={styles.textBody}>
-            <Typography
+              <Typography
                 variant={TypographyVariant.H2}
                 color='var(--GhostWhite)'
               >
@@ -41,11 +41,7 @@ export default function Degree() {
             </div>
           </div>
           <div>
-            <DegreeAvaliable>
-
-
-
-            </DegreeAvaliable>
+            <DegreeAvaliable></DegreeAvaliable>
           </div>
         </div>
         {/*<div className={styles.descktopSearchBar}>

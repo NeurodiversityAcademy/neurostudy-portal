@@ -17,7 +17,7 @@ export enum BUTTON_STYLE {
   Primary = 'primary',
   Secondary = 'secondary',
   Tertiary = 'tertiary',
-  Fourth = 'fourth'
+  Fourth = 'fourth',
 }
 
 export enum TEXTBOX_VARIANT {
