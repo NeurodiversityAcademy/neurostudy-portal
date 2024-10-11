@@ -136,6 +136,7 @@
   transition: transform 150ms linear;
   cursor: pointer;
   color: var(--grey-300);
+  flex-shrink: 0;
 }
 
 .expandIcon:hover {

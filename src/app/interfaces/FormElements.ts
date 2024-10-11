@@ -82,6 +82,10 @@ export interface DropdownProps<TFieldValues extends FieldValues> {
   helperText?: string;
   defaultErrorMessage?: string;
   creatable?: boolean;
+  searchable?: boolean;
+  clearable?: boolean;
+  radioMode?: boolean;
+  closeOnSelect?: boolean;
   cols?: FORM_ELEMENT_COL_WIDTH;
   multiple?: boolean;
   rules?: DefaultRules<TFieldValues>;
@@ -92,10 +96,21 @@ export interface DropdownInputProps<TFieldValues extends FieldValues>
   extends BaseInputProps<TFieldValues>,
     DropdownProps<TFieldValues> {}
 
-export type CheckBoxProps<TFieldValues extends FieldValues> = Omit<
-  DropdownProps<TFieldValues>,
-  'creatable' | 'placeholder'
-> & {
+export type CheckBoxProps<TFieldValues extends FieldValues> = {
+  name: Path<TFieldValues>;
+  label?: string;
+  showLabel?: boolean;
+  options: SelectOption[];
+  defaultValue?: DefaultValue<TFieldValues>;
+  required?: boolean;
+  disabled?: boolean;
+  className?: string;
+  helperText?: string;
+  defaultErrorMessage?: string;
+  cols?: FORM_ELEMENT_COL_WIDTH;
+  multiple?: boolean;
+  rules?: DefaultRules<TFieldValues>;
+  onChange?: (selected: SelectOption['value'][]) => void;
   orientation?: 'horizontal' | 'vertical';
 };
 

@@ -42,9 +42,14 @@ const DropdownInput = <TFieldValues extends FieldValues>({
   helperText,
   required = false,
   onChange,
+  className,
   renderProps,
   creatable,
+  searchable = true,
+  clearable = true,
+  radioMode = false,
   multiple = false,
+  closeOnSelect = false,
   cols,
   defaultErrorMessage,
   methods,
@@ -62,6 +67,8 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     value || DEFAULT_SELECTED_OPTIONS;
   const listId = useId();
   const [expanded, setExpanded] = useState(false);
+
+  radioMode = !multiple && radioMode;
 
   useDefaultValue<TFieldValues>({
     renderProps,
@@ -120,6 +127,9 @@ const DropdownInput = <TFieldValues extends FieldValues>({
   };
 
   const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!searchable) {
+      return;
+    }
     setInputValue(e.target.value);
     !multiple && selectedOptions.length && setSelectedOptions([]);
   };
@@ -180,6 +190,13 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     }
   };
 
+  const handleCloseOnSelect = () => {
+    if (closeOnSelect) {
+      setExpanded(false);
+      (document.activeElement as HTMLElement)?.blur();
+    }
+  };
+
   useLayoutEffect(() => {
     nextFocusElemRef.current?.focus();
   }, [selectedOptions]);
@@ -188,10 +205,12 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     disabled && setExpanded(false);
   }, [disabled]);
 
-  const filteredOptions = options.filter((option) => {
-    const inputValueLC = inputValue.toLowerCase();
-    return option.label.toLowerCase().includes(inputValueLC);
-  });
+  const filteredOptions = searchable
+    ? options.filter((option) => {
+        const inputValueLC = inputValue.toLowerCase();
+        return option.label.toLowerCase().includes(inputValueLC);
+      })
+    : options;
 
   const focusInput = (e: React.MouseEvent<HTMLElement>) => {
     if (e.currentTarget === e.target) {
@@ -215,7 +234,8 @@ const DropdownInput = <TFieldValues extends FieldValues>({
       className={classNames(
         styles.container,
         'border-box-parent',
-        cols && 'col-md-' + cols
+        cols && 'col-md-' + cols,
+        className
       )}
       role='combobox'
       aria-controls={listId}
@@ -284,17 +304,20 @@ const DropdownInput = <TFieldValues extends FieldValues>({
               onChange={onInputChange}
               value={inputValue}
               onKeyDown={onInputKeyDown}
+              readOnly={!searchable}
             />
           )}
         </div>
-        <ClearButton
-          name={name}
-          value={value}
-          methods={methods}
-          className={styles.clearBtn}
-          disabled={disabled}
-          onClick={() => !multiple && setInputValue('')}
-        />
+        {clearable && (
+          <ClearButton
+            name={name}
+            value={value}
+            methods={methods}
+            className={styles.clearBtn}
+            disabled={disabled}
+            onClick={() => !multiple && setInputValue('')}
+          />
+        )}
         <ArrowDownIcon
           aria-hidden
           className={styles.expandIcon}
@@ -318,7 +341,10 @@ const DropdownInput = <TFieldValues extends FieldValues>({
             <CheckBoxItem
               label={'Add "' + inputValue + '"'}
               checked={false}
-              onChange={() => createItem(inputValue)}
+              onChange={() => {
+                createItem(inputValue);
+                handleCloseOnSelect();
+              }}
               type='pill'
               role='option'
             />
@@ -329,6 +355,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
               label={label}
               checked={isSelected(value)}
               role='option'
+              type={radioMode ? 'radio' : undefined}
               onChange={(selected) => {
                 if (multiple) {
                   setSelectedOptions(
@@ -340,6 +367,8 @@ const DropdownInput = <TFieldValues extends FieldValues>({
                   setSelectedOptions(selected ? [value] : []);
                   setInputValue(getLabel(value.toString()));
                 }
+
+                handleCloseOnSelect();
               }}
             />
           ))}
