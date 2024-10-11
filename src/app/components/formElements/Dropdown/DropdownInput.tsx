@@ -60,8 +60,6 @@ const DropdownInput = <TFieldValues extends FieldValues>({
   const nextFocusElemRef = useRef<HTMLElement>();
   const selectedOptions: SelectOption['value'][] =
     value || DEFAULT_SELECTED_OPTIONS;
-  const [inputValue, setInputValue] = useState('');
-  const [searchable, setSearchable] = useState(!selectedOptions.length);
   const listId = useId();
   const [expanded, setExpanded] = useState(false);
 
@@ -89,6 +87,12 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     };
   })();
 
+  const [inputValue, setInputValue] = useState(() =>
+    !multiple && selectedOptions.length
+      ? getLabel(selectedOptions[0].toString())
+      : ''
+  );
+
   const isSelected = (() => {
     const obj: Record<string, true> = {};
     for (const item of selectedOptions) {
@@ -105,15 +109,19 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     }
     const valLowerCase = val.toLowerCase();
     setInputValue('');
-    !selectedOptions.find(
+    const option = selectedOptions.find(
       (option) => String(option).toLowerCase() === valLowerCase
-    ) && setSelectedOptions([...selectedOptions, val]);
+    );
+    !option && setSelectedOptions([...selectedOptions, val]);
+    setInputValue(
+      multiple || option === undefined ? '' : getLabel(option.toString())
+    );
     inputRef.current?.focus();
   };
 
   const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!searchable) return;
     setInputValue(e.target.value);
+    !multiple && selectedOptions.length && setSelectedOptions([]);
   };
 
   const onInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -122,10 +130,6 @@ const DropdownInput = <TFieldValues extends FieldValues>({
 
     if (inputValue) {
       if (key !== 'Enter') {
-        if (key === 'Backspace' && selectedOptions.length) {
-          onClear();
-        }
-
         return;
       }
 
@@ -133,11 +137,12 @@ const DropdownInput = <TFieldValues extends FieldValues>({
       const newOption = options.find(
         (option) => option.label.toLowerCase() === inputValueLC
       );
+
       if (newOption) {
-        setInputValue('');
         if (!isSelected(newOption.value)) {
           setSelectedOptions([...selectedOptions, newOption.value]);
         }
+        setInputValue(multiple ? '' : newOption.label);
       } else if (creatable) {
         createItem(inputValue);
       }
@@ -155,12 +160,6 @@ const DropdownInput = <TFieldValues extends FieldValues>({
 
   const onRemove = (val: SelectOption['value']) => {
     setSelectedOptions(selectedOptions.filter((item) => item !== val));
-  };
-
-  const onClear = () => {
-    setInputValue('');
-    setSelectedOptions([]);
-    setSearchable(true);
   };
 
   const onPillFocus: PillFocusEventHandler = ({ parent }) => {
@@ -283,11 +282,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
               placeholder={placeholder}
               className={styles.input}
               onChange={onInputChange}
-              value={
-                multiple || !selectedOptions.length
-                  ? inputValue
-                  : getLabel(selectedOptions[0].toString())
-              }
+              value={inputValue}
               onKeyDown={onInputKeyDown}
             />
           )}
@@ -298,7 +293,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
           methods={methods}
           className={styles.clearBtn}
           disabled={disabled}
-          onClick={onClear}
+          onClick={() => !multiple && setInputValue('')}
         />
         <ArrowDownIcon
           aria-hidden
@@ -312,6 +307,12 @@ const DropdownInput = <TFieldValues extends FieldValues>({
           id={listId}
           role='listbox'
           aria-multiselectable={multiple}
+          onTransitionEnd={(e) => {
+            e.target === e.currentTarget &&
+              !expanded &&
+              (multiple || !selectedOptions.length) &&
+              setInputValue('');
+          }}
         >
           {hasCreateItem && (
             <CheckBoxItem
@@ -337,6 +338,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
                   );
                 } else {
                   setSelectedOptions(selected ? [value] : []);
+                  setInputValue(getLabel(value.toString()));
                 }
               }}
             />
