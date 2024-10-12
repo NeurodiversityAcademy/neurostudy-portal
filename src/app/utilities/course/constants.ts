@@ -1,4 +1,8 @@
-import { FilterCourseProps, CourseSortConfig } from '@/app/interfaces/Course';
+import {
+  FilterCourseProps,
+  CourseSortConfig,
+  CourseProps,
+} from '@/app/interfaces/Course';
 
 export const MAX_COURSE_RATING = 5;
 export const MAX_CRITERION_RATING = 5;
@@ -102,6 +106,38 @@ export const COURSE_FILTER_KEYS: (keyof FilterCourseProps)[] = [
   'InstitutionName',
   'Mode',
 ];
+
+export const COURSE_SORT_OPTIONS: {
+  label: string;
+  value: keyof CourseProps;
+}[] = [
+  {
+    label: 'Title',
+    value: 'Title',
+  },
+  {
+    label: 'Institution Name',
+    value: 'InstitutionName',
+  },
+  {
+    label: 'Rating',
+    value: 'Rating',
+  },
+  {
+    label: 'Tier',
+    value: 'Tier',
+  },
+  {
+    label: 'Duration',
+    value: 'Duration',
+  },
+];
+
+export enum CourseTierValue {
+  GOLD = 3,
+  SILVER = 2,
+  BRONZE = 1,
+}
 
 export const DEFAULT_COURSE_SORT_BY: CourseSortConfig['sortBy'] = 'Title';
 export const DEFAULT_COURSE_SORT_ORDER: CourseSortConfig['sortOrder'] = 1;

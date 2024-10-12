@@ -25,6 +25,7 @@ import {
 import queryString from '../queryString';
 import { debounce } from '../common';
 import extractCourseSortConfig from './extractSortConfig';
+import { filterCourses, sortCourses } from './helper';
 
 interface PropType {
   data: CourseProps[] | undefined;
@@ -52,23 +53,6 @@ const [CourseContext, useCourseContext] = deviseContext<CourseContent>();
 
 export { CourseContext };
 export { useCourseContext };
-
-const matches = (value: string | string[], queries: string[]): boolean => {
-  if (!queries.length) {
-    return true;
-  }
-
-  if (typeof value === 'string') {
-    const valueLowerCase = value.toLowerCase();
-
-    return queries.some((query) => {
-      const parts = query.split(/\s+/).map((i) => i.toLowerCase());
-      return parts.every((part) => valueLowerCase.includes(part));
-    });
-  }
-
-  return value.some((item) => matches(item, queries));
-};
 
 const updateRoute = ({
   search,
@@ -124,27 +108,13 @@ export default function CourseProvider({ children, data }: PropType) {
       sortBy,
       sortOrder,
     ],
-    () => {
-      if (!data) {
-        return undefined;
-      }
-
-      const internalSortBy = sortBy || DEFAULT_COURSE_SORT_BY;
-      const internalSortOrder = sortOrder || DEFAULT_COURSE_SORT_ORDER;
-
-      return data
-        .filter((item) => {
-          return filterEntries.every(([key, query]) => {
-            return matches(item[key], query);
-          });
-        })
-        .sort((fst, snd) => {
-          return fst[internalSortBy].toString().toLowerCase() >
-            snd[internalSortBy].toString().toLowerCase()
-            ? internalSortOrder
-            : -internalSortOrder;
-        });
-    }
+    () =>
+      data
+        ? sortCourses(filterCourses(data, filterEntries), {
+            sortBy,
+            sortOrder,
+          })
+        : undefined
   );
 
   const updateFilter = (filter: Partial<FilterCourseProps>) => {
