@@ -50,10 +50,12 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
   return (
     <Form
       methods={methods}
-      className={classNames(styles.container, className)}
-      onSubmit={methods.handleSubmit((data) => {
-        loadData(data);
-      })}
+      className={classNames(
+        styles.container,
+        className,
+        isLoading && styles.disabled
+      )}
+      onSubmit={methods.handleSubmit(() => loadData())}
       aria-label='Primary search criteria'
       role='search'
       {...rest}
@@ -66,7 +68,6 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
           placeholder='ADHD'
           multiple
           options={COURSE_FIELD_OPTIONS.Neurotypes}
-          disabled={isLoading}
         />
         <Dropdown<CoursePrimaryFilterType>
           name='InterestArea'
@@ -75,7 +76,6 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
           placeholder='Anything'
           multiple
           options={COURSE_FIELD_OPTIONS.InterestArea}
-          disabled={isLoading}
         />
         <Dropdown<CoursePrimaryFilterType>
           name='Location'
@@ -85,7 +85,6 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
           creatable
           multiple
           options={[]}
-          disabled={isLoading}
         />
         <ActionButton
           style={BUTTON_STYLE.Primary}

@@ -2,23 +2,16 @@
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  gap: 48px;
+  gap: 24px 48px;
   max-width: 100%;
   flex: 1 1 auto;
   align-content: flex-start;
 }
 
-.alert {
+.header {
   display: flex;
-  flex-direction: column;
-  flex: 1;
-  align-items: center;
-}
-
-.noResultText {
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 30px;
-  text-align: center;
-  color: var(--bond-black-light);
+  justify-content: space-between;
+  flex-basis: 100%;
+  flex-wrap: wrap;
+  gap: 10px;
 }

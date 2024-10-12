@@ -36,21 +36,11 @@
   align-self: center;
 }
 
-.content > *[role='combobox'] :global(.dropdown-input-wrapper) {
-  border: 0;
-  margin-left: -10px;
-  width: calc(100% + 10px);
-}
-
-.content > *[role='combobox'] :global(.dropdown-input-wrapper) > *:first-child {
-  padding-left: 10px;
-}
-
-.content > *[role='combobox'] input[role='searchbox'] {
-  padding-left: 0px;
-  margin-left: 0px;
-}
-
 .content > *[role='combobox'] label > * {
   font-weight: 600;
+}
+
+.container.disabled :global(.dropdown-input-wrapper) {
+  pointer-events: none;
+  opacity: 0.6;
 }

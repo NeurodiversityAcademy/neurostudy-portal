@@ -11,21 +11,3 @@
   flex: 1 0 auto;
   align-self: flex-start;
 }
-
-.container > *[role='combobox'] :global(.dropdown-input-wrapper) {
-  border: 0;
-  margin-left: -10px;
-  width: calc(100% + 10px);
-}
-
-.container
-  > *[role='combobox']
-  :global(.dropdown-input-wrapper)
-  > *:first-child {
-  padding-left: 10px;
-}
-
-.container > *[role='combobox'] input[role='searchbox'] {
-  padding-left: 0px;
-  margin-left: 0px;
-}
