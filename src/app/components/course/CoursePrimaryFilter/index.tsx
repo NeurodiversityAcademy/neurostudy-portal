@@ -65,7 +65,7 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
           name='Neurotypes'
           label='What is your neurotype?'
           showLabel
-          placeholder='ADHD'
+          placeholder='Ex. ADHD'
           multiple
           options={COURSE_FIELD_OPTIONS.Neurotypes}
         />
@@ -73,7 +73,7 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
           name='InterestArea'
           label='What do you want to study?'
           showLabel
-          placeholder='Anything'
+          placeholder='Ex. Data Science'
           multiple
           options={COURSE_FIELD_OPTIONS.InterestArea}
         />
@@ -81,10 +81,10 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
           name='Location'
           label='Where do you want to study?'
           showLabel
-          placeholder='Anywhere'
+          placeholder='Ex. Sydney'
           creatable
           multiple
-          options={[]}
+          options={COURSE_FIELD_OPTIONS.Location}
         />
         <ActionButton
           style={BUTTON_STYLE.Primary}

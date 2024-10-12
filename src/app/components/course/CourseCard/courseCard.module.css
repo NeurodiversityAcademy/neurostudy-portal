@@ -104,3 +104,7 @@
   align-items: center;
   gap: calc(var(--course-x-gap) / 2);
 }
+
+.timeLocation > :last-child {
+  flex-shrink: 0;
+}

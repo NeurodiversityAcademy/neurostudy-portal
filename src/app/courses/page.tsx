@@ -7,6 +7,7 @@ import assertCourseData from '../utilities/validation/assertCourseData';
 import {
   COURSE_FETCH_REVALIDATE_PERIOD,
   COURSE_FILTER_KEYS,
+  COURSE_TEST_DATA_QUERY_KEY,
 } from '../utilities/course/constants';
 import { MetadataProps } from '../interfaces/MetadataProps';
 import { Metadata } from 'next';
@@ -30,14 +31,15 @@ export async function generateMetadata({
 
 const getFetchQuery = (searchParams: MetadataProps['searchParams']) =>
   getSearchQuery(searchParams, (key) =>
-    (COURSE_FILTER_KEYS as string[]).includes(key)
+    [...COURSE_FILTER_KEYS, COURSE_TEST_DATA_QUERY_KEY].includes(key)
   );
 
 const getPartialFetchQuery = (searchParams: MetadataProps['searchParams']) =>
   getSearchQuery(
     searchParams,
     (key, value) =>
-      (COURSE_FILTER_KEYS as string[]).includes(key) && !Array.isArray(value)
+      [...COURSE_FILTER_KEYS, COURSE_TEST_DATA_QUERY_KEY].includes(key) &&
+      !Array.isArray(value)
   );
 
 const CoursesPage: React.FC<{
@@ -48,7 +50,12 @@ const CoursesPage: React.FC<{
 
   const data: CourseProps[] | undefined = await new Promise((resolve) => {
     fetch(HOST_URL + '/api/course' + (query ? '?' + query : ''), {
-      next: { revalidate: COURSE_FETCH_REVALIDATE_PERIOD },
+      next: {
+        revalidate:
+          process.env.NODE_ENV === 'development'
+            ? 0
+            : COURSE_FETCH_REVALIDATE_PERIOD,
+      },
     })
       .then((res) => res.json())
       .then((res) => {
