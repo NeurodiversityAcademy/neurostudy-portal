@@ -47,7 +47,9 @@ const queryString = {
           obj[key] = [prevValue];
         }
 
-        Array.isArray(obj[key]) && obj[key].push(value);
+        const curValue = obj[key];
+
+        Array.isArray(curValue) && curValue.push(value);
       } else {
         obj[key] = value;
       }
