@@ -67,6 +67,12 @@
   background-color: transparent;
 }
 
+.inputAsText {
+  font-size: var(--body3-font-size);
+  white-space: pre;
+  flex: 1;
+}
+
 .container[aria-disabled='true'] .input,
 .input:disabled {
   color: var(--grey-300);

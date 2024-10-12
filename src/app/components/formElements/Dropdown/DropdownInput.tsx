@@ -50,6 +50,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
   radioMode = false,
   multiple = false,
   closeOnSelect = false,
+  showInputAsText = false,
   cols,
   defaultErrorMessage,
   methods,
@@ -61,7 +62,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
   const error = errors[name];
   const { disabled, onBlur, value } = field;
 
-  const inputRef = useRef<HTMLInputElement>();
+  const inputRef = useRef<HTMLInputElement | HTMLSpanElement>();
   const nextFocusElemRef = useRef<HTMLElement>();
   const selectedOptions: SelectOption['value'][] =
     value || DEFAULT_SELECTED_OPTIONS;
@@ -94,11 +95,11 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     };
   })();
 
-  const [inputValue, setInputValue] = useState(() =>
+  const [_inputValue, setInputValue] = useState('');
+  const inputValue =
     !multiple && selectedOptions.length
       ? getLabel(selectedOptions[0].toString())
-      : ''
-  );
+      : _inputValue;
 
   const isSelected = (() => {
     const obj: Record<string, true> = {};
@@ -120,9 +121,6 @@ const DropdownInput = <TFieldValues extends FieldValues>({
       (option) => String(option).toLowerCase() === valLowerCase
     );
     !option && setSelectedOptions([...selectedOptions, val]);
-    setInputValue(
-      multiple || option === undefined ? '' : getLabel(option.toString())
-    );
     inputRef.current?.focus();
   };
 
@@ -152,7 +150,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
         if (!isSelected(newOption.value)) {
           setSelectedOptions([...selectedOptions, newOption.value]);
         }
-        setInputValue(multiple ? '' : newOption.label);
+        setInputValue('');
       } else if (creatable) {
         createItem(inputValue);
       }
@@ -188,6 +186,11 @@ const DropdownInput = <TFieldValues extends FieldValues>({
         nextFocusElemRef.current = elem;
       }
     }
+  };
+
+  const attachInputRef = (node: HTMLInputElement | HTMLSpanElement | null) => {
+    inputRef.current = node || undefined;
+    field.ref(node);
   };
 
   const handleCloseOnSelect = () => {
@@ -290,23 +293,29 @@ const DropdownInput = <TFieldValues extends FieldValues>({
                 button-aria-label={BUTTON_ARIA_LABEL}
               />
             ))}
-          {(!disabled || !selectedOptions.length) && (
-            <input
-              ref={(node) => {
-                inputRef.current = node || undefined;
-                field.ref(node);
-              }}
-              type='text'
-              role='searchbox'
-              disabled={disabled}
-              placeholder={placeholder}
-              className={styles.input}
-              onChange={onInputChange}
-              value={inputValue}
-              onKeyDown={onInputKeyDown}
-              readOnly={!searchable}
-            />
-          )}
+          {(!disabled || !selectedOptions.length) &&
+            (showInputAsText ? (
+              <span
+                ref={attachInputRef}
+                className={styles.inputAsText}
+                tabIndex={0}
+              >
+                {inputValue}
+              </span>
+            ) : (
+              <input
+                ref={attachInputRef}
+                type='text'
+                role={searchable ? 'searchbox' : undefined}
+                disabled={disabled}
+                placeholder={placeholder}
+                className={styles.input}
+                onChange={onInputChange}
+                value={inputValue}
+                onKeyDown={onInputKeyDown}
+                readOnly={!searchable}
+              />
+            ))}
         </div>
         {clearable && (
           <ClearButton
@@ -321,7 +330,10 @@ const DropdownInput = <TFieldValues extends FieldValues>({
         <ArrowDownIcon
           aria-hidden
           className={styles.expandIcon}
-          onMouseDown={() => setExpanded(!expanded)}
+          onMouseDown={(e) => {
+            inputRef.current?.[expanded ? 'blur' : 'focus']();
+            e.preventDefault();
+          }}
         />
       </div>
       <div className={styles.dropdownListContainer}>
@@ -365,7 +377,6 @@ const DropdownInput = <TFieldValues extends FieldValues>({
                   );
                 } else {
                   setSelectedOptions(selected ? [value] : []);
-                  setInputValue(getLabel(value.toString()));
                 }
 
                 handleCloseOnSelect();

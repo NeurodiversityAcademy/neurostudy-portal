@@ -86,6 +86,7 @@ export interface DropdownProps<TFieldValues extends FieldValues> {
   clearable?: boolean;
   radioMode?: boolean;
   closeOnSelect?: boolean;
+  showInputAsText?: boolean;
   cols?: FORM_ELEMENT_COL_WIDTH;
   multiple?: boolean;
   rules?: DefaultRules<TFieldValues>;
