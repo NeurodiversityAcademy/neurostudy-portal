@@ -84,7 +84,7 @@ const CourseCard: React.FC<PropType> = ({ course, ...rest }) => {
         <div className={styles.timeLocation}>
           <Typography variant={TypographyVariant.Body2}>
             <Image src={locationSrc} alt='Location Icon' />
-            {Location}
+            {Location.split(/,|\s+/)[0]}
           </Typography>
           {years && (
             <Typography variant={TypographyVariant.Body2}>

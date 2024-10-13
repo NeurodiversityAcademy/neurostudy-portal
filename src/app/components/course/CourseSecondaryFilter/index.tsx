@@ -1,40 +1,71 @@
 'use client';
 
-import { FormHTMLAttributes, useId } from 'react';
+import { FormHTMLAttributes, useEffect, useId } from 'react';
 import styles from './courseSecondaryFilter.module.css';
 import classNames from 'classnames';
 import Typography, { TypographyVariant } from '../../typography/Typography';
 import { useForm, UseFormReturn } from 'react-hook-form';
 import Form from '../../formElements/Form';
 import Dropdown from '../../formElements/Dropdown/Dropdown';
-import { CourseProps } from '@/app/interfaces/Course';
+import { CourseSecondaryFilterType } from '@/app/interfaces/Course';
 import { COURSE_FIELD_OPTIONS } from '@/app/utilities/course/constants';
+import { useCourseContext } from '@/app/utilities/course/CourseProvider';
+import useUpdatedValue from '@/app/hooks/useUpdatedValue';
+import { updateCourseDropdownFilter } from '@/app/utilities/course/helper';
 
 interface PropType extends FormHTMLAttributes<HTMLFormElement> {}
 
+const DROPDOWN_KEYS: (keyof CourseSecondaryFilterType)[] = [
+  'Level',
+  'InstitutionName',
+  'Mode',
+];
+
 const CourseSecondaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
   const labelId = useId();
+  const { loadData, filter } = useCourseContext();
 
-  const methods: UseFormReturn<CourseProps> = useForm<CourseProps>({
-    mode: 'onBlur',
+  const methods: UseFormReturn<CourseSecondaryFilterType> =
+    useForm<CourseSecondaryFilterType>({
+      mode: 'onBlur',
+      defaultValues: Object.fromEntries(
+        DROPDOWN_KEYS.map((key) => [key, filter[key]])
+      ),
+    });
+
+  useUpdatedValue(filter, () => {
+    DROPDOWN_KEYS.forEach((name) => {
+      updateCourseDropdownFilter(name, filter[name], methods);
+    });
   });
+
+  useEffect(() => {
+    const listener = methods.watch(() => {
+      loadData(methods.getValues(), { shouldDebounce: true });
+    });
+
+    return () => listener.unsubscribe();
+  }, [methods, loadData]);
 
   return (
     <Form
       methods={methods}
       className={classNames(styles.container, className)}
       onSubmit={methods.handleSubmit((data) => {
-        // TODO: Handle submission
-        console.log('filter data', data);
+        loadData(data);
       })}
       aria-labelledby={labelId}
       role='search'
       {...rest}
     >
-      <Typography variant={TypographyVariant.Body1} id={labelId}>
+      <Typography
+        variant={TypographyVariant.Body1}
+        id={labelId}
+        color='var(--cherryPie)'
+      >
         Filters
       </Typography>
-      <Dropdown<CourseProps>
+      <Dropdown<CourseSecondaryFilterType>
         name='Level'
         label='Study Level'
         showLabel
@@ -42,15 +73,7 @@ const CourseSecondaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
         multiple
         options={COURSE_FIELD_OPTIONS.Level}
       />
-      <Dropdown<CourseProps>
-        name='InterestArea'
-        label='Interest Area'
-        showLabel
-        placeholder='Search Interest Area'
-        multiple
-        options={COURSE_FIELD_OPTIONS.InterestArea}
-      />
-      <Dropdown<CourseProps>
+      <Dropdown<CourseSecondaryFilterType>
         name='InstitutionName'
         label='University'
         showLabel
@@ -60,7 +83,7 @@ const CourseSecondaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
         options={[]}
       />
       {/* TODO: `Qualification` - Dropdown from figma, need elaboration */}
-      <Dropdown<CourseProps>
+      <Dropdown<CourseSecondaryFilterType>
         name='Mode'
         label='Study Method'
         showLabel

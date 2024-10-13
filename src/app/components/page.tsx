@@ -21,6 +21,7 @@ import { DEFAULT_COURSE } from '../utilities/db/constants';
 import CourseSecondaryFilter from './course/CourseSecondaryFilter';
 import CoursePrimaryFilter from './course/CoursePrimaryFilter';
 import { useEffect, useRef } from 'react';
+import CourseProvider from '../utilities/course/CourseProvider';
 
 interface LoginFieldValues extends FieldValues {
   username: string;
@@ -78,25 +79,29 @@ export default function Components() {
         </Typography>
         <CardList />
       </div>
-      <div className={styles.courseComponentContainer}>
-        <Typography variant={TypographyVariant.H2}>Course</Typography>
-        <div>
-          <Typography variant={TypographyVariant.H3}>Primary Filter</Typography>
-          <CoursePrimaryFilter />
-        </div>
-        <div className={styles.flexRow}>
-          <div>
-            <Typography variant={TypographyVariant.H3}>Card</Typography>
-            <CourseCard course={DEFAULT_COURSE} />
-          </div>
+      <CourseProvider data={[DEFAULT_COURSE]}>
+        <div className={styles.courseComponentContainer}>
+          <Typography variant={TypographyVariant.H2}>Course</Typography>
           <div>
             <Typography variant={TypographyVariant.H3}>
-              Secondary Filter
+              Primary Filter
             </Typography>
-            <CourseSecondaryFilter />
+            <CoursePrimaryFilter />
+          </div>
+          <div className={styles.flexRow}>
+            <div>
+              <Typography variant={TypographyVariant.H3}>
+                Secondary Filter
+              </Typography>
+              <CourseSecondaryFilter />
+            </div>
+            <div>
+              <Typography variant={TypographyVariant.H3}>Card</Typography>
+              <CourseCard course={DEFAULT_COURSE} />
+            </div>
           </div>
         </div>
-      </div>
+      </CourseProvider>
       <div className={styles.border}>
         <Typography variant={TypographyVariant.H2}>Podcast embed</Typography>
         <DisplayPodcast

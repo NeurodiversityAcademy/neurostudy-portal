@@ -2,17 +2,12 @@
 
 import { UserProps, UserWithEmailProps } from '@/app/interfaces/User';
 import getUserProfile from './getUser';
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import saveUserProfile from './saveUserProfile';
 import { notifyAxiosError, notifySuccess } from '../common';
 import processProfileFormData from './processProfileFormData';
 import { useSearchParams } from 'next/navigation';
+import { deviseContext } from '../deviseContext';
 
 interface PropType {
   children: ReactNode;
@@ -28,19 +23,10 @@ export interface ProfileContent {
   isEditing: boolean;
 }
 
-export const ProfileContext = createContext<ProfileContent | undefined>(
-  undefined
-);
+const [ProfileContext, useProfileContext] = deviseContext<ProfileContent>();
 
-export const useProfileContext = () => {
-  const context = useContext(
-    ProfileContext as React.Context<ProfileContent | undefined>
-  );
-  if (!context) {
-    throw new Error('useProfileContext does not have proper context.');
-  }
-  return context;
-};
+export { ProfileContext };
+export { useProfileContext };
 
 export default function ProfileProvider({ children }: PropType) {
   const searchParams = useSearchParams();

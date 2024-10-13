@@ -1,19 +1,14 @@
+import { Metadata } from 'next';
 import { META_TYPE } from '../utilities/constants';
+import { OpenGraph } from 'next/dist/lib/metadata/types/opengraph-types';
 
 export interface MetadataProps {
-  params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params?: Record<string, string | string[]>;
+  searchParams: Record<string, string | string[]>;
 }
 
-export interface MetadataParams {
-  title: string;
-  keywords: string;
-  description: string;
+export type MetadataParams = Metadata & {
   canonical: string;
-  type: META_TYPE;
-  images:
-    | {
-        url: string;
-      }[]
-    | [];
-}
+  type: META_TYPE | undefined;
+  images: OpenGraph['images'];
+};
