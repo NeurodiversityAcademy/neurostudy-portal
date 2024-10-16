@@ -1,48 +1,21 @@
 .badgeWrapper {
-  width: 20vw;
-  height: 30vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1vh;
-  margin: 5vw 1vw;
+  flex-direction: row;
+  align-self: flex-start;
+  justify-content: center;
+  gap: 1vh 4vw;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+  margin: 0px auto;
+  max-width: min(400px, 80vw);
 }
-.badgegroup2 {
+
+.badgeGroup2 {
   display: flex;
   gap: 4vw;
 }
 
-@media (max-width: 1000px) and (min-width: 481px) {
-  .badgeWrapper {
-    width: auto;
-    height: auto;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 0px;
-  } 
-  .badgegroup1 {
-    display: flex;
-    margin-right: 4vw;
-  }
-}
-@media (max-width: 480px) {
-  .badgeWrapper {
-    width: auto;
-    height: auto;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 0px;
-  }
-
-  .badgegroup1 {
-    display: flex;
-    margin-right: 4vw;
-  }
-  .badgegroup1 img,
-  .badgegroup2 img {
-    width: 90px;
-    height: 90px;
-  }
+.badgeWrapper img {
+  width: min(20vw, 152px);
+  height: auto;
 }

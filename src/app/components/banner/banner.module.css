@@ -1,5 +1,8 @@
 .bannerContainer {
+  box-sizing: border-box;
   width: 100%;
+  padding: 5vw;
+  gap: 2.5vw;
   background-image: url('../../images/bg.svg');
   background-repeat: no-repeat;
   background-size: cover;
@@ -11,51 +14,38 @@
 
 .bannerTextAndBadge {
   display: flex;
+  justify-content: space-between;
+  gap: 2.5vw;
+  flex-wrap: wrap;
+  max-width: 100%;
 }
 
 .textContainer {
-  width: 55vw;
-  padding: 20px;
-  color: var(--GhostWhite);
-  text-align: left;
-  margin: 1vw;
+  flex: 1;
 }
 
-.textBody {
-  width: 55vw;
+.form > :first-child {
+  flex: 1;
 }
 
-.form {
-  padding: 2.6vw 15px 5.2vw;
-}
-
-@media (max-width: 1000px) and (min-width: 480px) {
-  .bannerContainer {
-    flex-direction: column;
-    height: auto;
-  }
-
-  .bannerTextAndBadge {
-    flex-direction: column;
-  }
+.formMobile {
+  display: none !important;
 }
 
 @media (max-width: 480px) {
   .bannerContainer {
     flex-direction: column;
-    height: auto;
-  }
-
-  .textContainer {
-    width: fit-content;
-    padding: 20px;
-    color: var(--GhostWhite);
-    text-align: left;
-    margin: 1vw;
   }
 
   .bannerTextAndBadge {
     flex-direction: column;
-    justify-content: center;
+  }
+
+  .form {
+    display: none !important;
+  }
+
+  .formMobile {
+    display: flex !important;
   }
 }

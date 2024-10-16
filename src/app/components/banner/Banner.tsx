@@ -11,27 +11,22 @@ export default function Banner() {
       <div className={styles.bannerContainer}>
         <div className={styles.bannerTextAndBadge}>
           <div className={styles.textContainer}>
-            <div className={styles.textHeader}>
-              <Typography
-                variant={TypographyVariant.H1}
-                color='var(--GhostWhite)'
-              >
-                We endorse Neuro-inclusion in higher education
-              </Typography>
-            </div>
-            <div className={styles.textBody}>
-              <Typography
-                variant={TypographyVariant.H2}
-                color='var(--GhostWhite)'
-              >
-                Reach out to learn more about our endorsements and the impact we
-                are creating for Neurodivergent students.
-              </Typography>
-            </div>
+            <Typography
+              variant={TypographyVariant.H1}
+              className='m-0'
+              color='var(--GhostWhite)'
+            >
+              We endorse Neuro-inclusion in higher education
+            </Typography>
+            <Typography
+              variant={TypographyVariant.H2}
+              color='var(--GhostWhite)'
+            >
+              Reach out to learn more about our endorsements and the impact we
+              are creating for Neurodivergent students.
+            </Typography>
           </div>
-          <div>
-            <BadgeDisplay></BadgeDisplay>
-          </div>
+          <BadgeDisplay></BadgeDisplay>
         </div>
         {process.env.FEATURE_ENABLE_COURSE_SEARCH === '1' && (
           <CourseProvider redirectToSearchPage>
@@ -39,6 +34,11 @@ export default function Banner() {
           </CourseProvider>
         )}
       </div>
+      {process.env.FEATURE_ENABLE_COURSE_SEARCH === '1' && (
+        <CourseProvider redirectToSearchPage>
+          <CoursePrimaryFilter className={styles.formMobile} />
+        </CourseProvider>
+      )}
     </>
   );
 }

@@ -15,3 +15,7 @@
   flex-wrap: wrap;
   gap: 10px;
 }
+
+.header > [role='status'] {
+  align-self: center;
+}
