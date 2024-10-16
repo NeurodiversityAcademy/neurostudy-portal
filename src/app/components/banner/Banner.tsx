@@ -2,7 +2,8 @@ import React from 'react';
 import styles from './banner.module.css';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import BadgeDisplay from '../badges/BadgeDisplay';
-// import SearchBar from '../searchBar/SearchBar';
+import CoursePrimaryFilter from '../course/CoursePrimaryFilter';
+import CourseProvider from '@/app/utilities/course/CourseProvider';
 
 export default function Banner() {
   return (
@@ -32,13 +33,12 @@ export default function Banner() {
             <BadgeDisplay></BadgeDisplay>
           </div>
         </div>
-        {/*<div className={styles.descktopSearchBar}>
-           <SearchBar></SearchBar>
-        </div> */}
+        {process.env.FEATURE_ENABLE_COURSE_SEARCH === '1' && (
+          <CourseProvider redirectToSearchPage>
+            <CoursePrimaryFilter className={styles.form} />
+          </CourseProvider>
+        )}
       </div>
-      {/* <div className={styles.mobileSearchBar}>
-        <SearchBar></SearchBar> 
-      </div> */}
     </>
   );
 }
