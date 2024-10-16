@@ -1,6 +1,5 @@
 .container {
   width: 100%;
-  background-color: var(--GhostWhiteVariant);
   display: flex;
   justify-content: center;
   margin: 0;
@@ -43,4 +42,11 @@
 .container.disabled :global(.dropdown-input-wrapper) {
   pointer-events: none;
   opacity: 0.6;
+}
+
+@media (max-width: 480px) {
+  .content > * {
+    flex-basis: auto;
+    width: 100%;
+  }
 }

@@ -56,6 +56,9 @@ const CoursesPage: React.FC<{
             ? 0
             : COURSE_FETCH_REVALIDATE_PERIOD,
       },
+      // NOTE: Current next version 14.0.3 fails to revalidate cached data
+      // properly without this. Newer versions don't require this.
+      cache: 'no-store',
     })
       .then((res) => res.json())
       .then((res) => {
