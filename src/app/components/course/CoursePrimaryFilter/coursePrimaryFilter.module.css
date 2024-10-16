@@ -1,6 +1,5 @@
 .container {
   width: 100%;
-  background-color: var(--GhostWhiteVariant);
   display: flex;
   justify-content: center;
   margin: 0;
