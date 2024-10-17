@@ -19,7 +19,9 @@ const isQueryComplex = (searchParams: MetadataProps['searchParams']) =>
 export async function generateMetadata({
   searchParams,
 }: MetadataProps): Promise<Metadata> {
-  const shouldIndex = isQueryComplex(searchParams);
+  const shouldIndex = !(
+    COURSE_TEST_DATA_QUERY_KEY in searchParams || isQueryComplex(searchParams)
+  );
 
   const query = getPartialFetchQuery(searchParams);
 
