@@ -7,7 +7,7 @@ import {
 
 export type CourseProps = typeof DEFAULT_COURSE;
 export type CourseWithoutIdProps = typeof DEFAULT_COURSE_WITHOUT_ID;
-export type CourseDetailsProps = Partial<typeof DEFAULT_COURSE_DETAILS>;
+export type CourseDetailsProps = typeof DEFAULT_COURSE_DETAILS;
 export type CourseDetailsWithoutIdProps = Partial<
   typeof DEFAULT_COURSE_DETAILS_WITHOUT_ID
 >;

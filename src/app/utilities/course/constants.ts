@@ -1,4 +1,13 @@
 import { FilterCourseProps } from '@/app/interfaces/Course';
+import TrainedStaff from '@/app/images/people-repeat.png';
+import Feedback from '@/app/images/feedback.png';
+import FiveSenses from '@/app/images/five_senses.png';
+import LearningTools from '@/app/images/learning_tools.png';
+import AlternativeAssessmentMethods from '@/app/images/open_enrolment.png';
+import ReadingMode from '@/app/images/reading_mode.png';
+import UniversalDesignforLearning from '@/app/images/search_nearby.png';
+import TeachingPractice from '@/app/images/teaching_practice.png';
+import InclusivePolicies from '@/app/images/waitlist.png';
 
 export const MAX_COURSE_RATING = 5;
 export const MAX_CRITERION_RATING = 5;
@@ -66,3 +75,15 @@ export const FILTER_KEYS: (keyof FilterCourseProps)[] = [
 ];
 
 export const COURSE_FETCH_REVALIDATE_PERIOD = 60 * 30; // In seconds
+
+export const COURSE_BENEFIT_SUPPORT_AVAILABLE = {
+  'Trained Staff': TrainedStaff,
+  'Universal Design for Learning': UniversalDesignforLearning,
+  'Inclusive policies': InclusivePolicies,
+  'Alternative assessment methods': AlternativeAssessmentMethods,
+  'Regular feedback mechanisms': Feedback,
+  'Sensory breaks': FiveSenses,
+  'Specialized academic advising': LearningTools,
+  'Accessible textbooks': ReadingMode,
+  'Inclusive teaching practices': TeachingPractice,
+};
