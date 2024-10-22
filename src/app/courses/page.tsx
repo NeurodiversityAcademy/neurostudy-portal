@@ -19,7 +19,9 @@ const isQueryComplex = (searchParams: MetadataProps['searchParams']) =>
 export async function generateMetadata({
   searchParams,
 }: MetadataProps): Promise<Metadata> {
-  const shouldIndex = isQueryComplex(searchParams);
+  const shouldIndex = !(
+    COURSE_TEST_DATA_QUERY_KEY in searchParams || isQueryComplex(searchParams)
+  );
 
   const query = getPartialFetchQuery(searchParams);
 
@@ -56,6 +58,9 @@ const CoursesPage: React.FC<{
             ? 0
             : COURSE_FETCH_REVALIDATE_PERIOD,
       },
+      // NOTE: Current next version 14.0.3 fails to revalidate cached data
+      // properly without this. Newer versions don't require this.
+      cache: 'no-store',
     })
       .then((res) => res.json())
       .then((res) => {

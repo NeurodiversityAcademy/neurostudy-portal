@@ -14,6 +14,10 @@
   gap: 80px;
 }
 
+.form {
+  background-color: var(--GhostWhiteVariant);
+}
+
 .container *[role='combobox'] :global(.dropdown-input-wrapper) {
   border: 0;
   margin-left: -10px;
