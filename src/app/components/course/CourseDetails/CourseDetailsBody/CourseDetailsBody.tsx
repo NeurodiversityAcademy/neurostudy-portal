@@ -5,11 +5,9 @@ import CourseDetailsBodySideNav from './CourseDetailsBodySideNav';
 import styles from '../../CourseDetails/courseDetails.module.css';
 import { useCourseDetailsContext } from '@/app/utilities/course/CourseDetailsProvider';
 import CourseDetailsBodyText from './CourseDetailsBodyText';
-import useWindowWidth from '@/app/hooks/useWindowWidth';
 
 const CourseDetailsBody: React.FC = () => {
   const { data } = useCourseDetailsContext();
-  const windowWidth = useWindowWidth();
 
   const sections = [
     { id: 'courseOverview', title: 'Course Overview', data: data?.Overview },
@@ -27,7 +25,7 @@ const CourseDetailsBody: React.FC = () => {
     },
     {
       id: 'creditForPreviousStudy',
-      title: 'Career For Previous Study',
+      title: 'Credits For Previous Study',
       data: data?.PreviousCredits,
     },
     { id: 'keyCodes', title: 'Key Codes (Cricos)', data: data?.KeyCodes },
@@ -41,7 +39,7 @@ const CourseDetailsBody: React.FC = () => {
 
   return (
     <div className={styles.courseDetailsBodyContainer}>
-      {windowWidth > 800 && <CourseDetailsBodySideNav sections={sections} />}
+      <CourseDetailsBodySideNav sections={sections} />
       <div className={styles.courseDetailsBodyTextContainer}>
         {sections.map((section, index) => (
           <CourseDetailsBodyText

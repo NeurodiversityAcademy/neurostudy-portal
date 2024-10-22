@@ -21,15 +21,15 @@
             "Subjects": "24",
             "Fees": "$46,250",
             "SupportAvailable":[
-                "Trained Staff",
-                "Universal Design for Learning",
-                "Inclusive policies",
-                "Alternative assessment methods",
-                "Regular feedback mechanisms",
-                "Sensory breaks",
-                "Specialized academic advising",
-                "Accessible textbooks",
-                "Inclusive teaching practices"
+                "TrainedStaff",
+                "UniversalDesignForLearning",
+                "InclusivePolicies",
+                "AlternativeAssessmentMethods",
+                "RegularFeedbackMechanisms",
+                "SensoryBreaks",
+                "SpecializedAcademicAdvising",
+                "AccessibleTextbooks",
+                "InclusiveTeachingPractices"
             ],
             "Adjustments":[
                 "Extended time for exams",

@@ -10,6 +10,7 @@ import ActionButton from '../../../buttons/ActionButton';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 import { useCourseDetailsContext } from '@/app/utilities/course/CourseDetailsProvider';
 import useWindowWidth from '@/app/hooks/useWindowWidth';
+import CourseDetailsMiddleBanner from '../CourseDetailsMiddleBanner/CourseDetailsMiddleBanner';
 
 const CourseDetailsTopBanner: React.FC = () => {
   const { data } = useCourseDetailsContext();
@@ -19,8 +20,8 @@ const CourseDetailsTopBanner: React.FC = () => {
     <div className={classNames('row', styles.topBannerMainContainer)}>
       <div
         className={classNames(
-          { 'col-md-7': windowWidth > 768 },
-          { 'col-md-12': windowWidth <= 820 }
+          { 'col-md-7': windowWidth > 1000 },
+          { 'col-md-12': windowWidth <= 1000 }
         )}
       >
         <div
@@ -30,7 +31,9 @@ const CourseDetailsTopBanner: React.FC = () => {
             {/* replace the src */}
             <Image src={Logo} alt='logo' />
           </div>
-          <span className='mx-2'>{data?.InstitutionName}</span>
+          <Typography variant={TypographyVariant.Body1} className='mx-2'>
+            {data?.InstitutionName}
+          </Typography>
         </div>
         <div className={classNames('col-md-12', styles.topBannerCourseTitle)}>
           <Typography variant={TypographyVariant.H1}>{data?.Title}</Typography>
@@ -44,9 +47,8 @@ const CourseDetailsTopBanner: React.FC = () => {
       </div>
       <div
         className={classNames(
-          { 'col-md-5': windowWidth > 768 },
-          { 'col-md-10': windowWidth > 500 && windowWidth <= 820 },
-          { 'col-md-12': windowWidth <= 500 }
+          { 'col-md-5': windowWidth > 1000 },
+          { 'col-md-12': windowWidth <= 1000 }
         )}
       >
         <div className={classNames('row', styles.topBannerAdmissions)}>
@@ -59,7 +61,7 @@ const CourseDetailsTopBanner: React.FC = () => {
           >
             Get started today or request more info about the MADS degree.
           </Typography>
-          <div className={styles.topBannerAdmissionsBtnGroup}>
+          <div className={classNames(styles.topBannerAdmissionsBtnGroup)}>
             <ActionButton
               type='submit'
               label='Apply Now'
@@ -75,6 +77,7 @@ const CourseDetailsTopBanner: React.FC = () => {
           </div>
         </div>
       </div>
+      <CourseDetailsMiddleBanner />
     </div>
   );
 };

@@ -37,11 +37,7 @@ const CourseDetailsBodyText: React.FC<CourseDetailsBodyTextProps> = ({
     );
   });
 
-  return (
-    <div {...{ id }}>
-      <div>{paragraphs}</div>
-    </div>
-  );
+  return <div {...{ id }}>{paragraphs}</div>;
 };
 
 export default CourseDetailsBodyText;

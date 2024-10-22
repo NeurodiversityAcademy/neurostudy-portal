@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import styles from '../../CourseDetails/courseDetails.module.css';
 import Typography, { TypographyVariant } from '../../../typography/Typography';
 
@@ -9,34 +9,13 @@ type OverviewProps = {
 };
 
 const CourseDetailsBodySideNav: React.FC<OverviewProps> = ({ sections }) => {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
-  const handleOnClick = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <nav className={styles.courseDetailsOverviewContainer}>
       <ul>
-        {sections.map((section, index) => (
-          <li
-            key={section.id}
-            onClick={() => handleOnClick(section.id)}
-            onMouseEnter={() => setHoveredIndex(index)}
-            onMouseLeave={() => setHoveredIndex(null)}
-          >
-            <a>
-              <Typography
-                variant={TypographyVariant.Body2Strong}
-                color={
-                  hoveredIndex === index
-                    ? 'var(--cherryPie)'
-                    : 'var(--BondBlack)'
-                }
-              >
+        {sections.map((section) => (
+          <li key={section.id}>
+            <a href={`#${section.id}`}>
+              <Typography variant={TypographyVariant.Body2Strong}>
                 {section.title}
               </Typography>
             </a>

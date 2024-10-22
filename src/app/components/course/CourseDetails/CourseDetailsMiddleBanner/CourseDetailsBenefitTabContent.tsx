@@ -18,19 +18,20 @@ const CourseDetailsBenefitTabContent: React.FC<
     case 'support':
       return (
         <ul>
-          {data?.SupportAvailable.map((item, index) => (
-            <li key={index} className={styles.supportAvailableListItem}>
-              <Image
-                src={
-                  COURSE_BENEFIT_SUPPORT_AVAILABLE[
-                    item as keyof typeof COURSE_BENEFIT_SUPPORT_AVAILABLE
-                  ]
-                }
-                alt={item}
-              />
-              {item}
-            </li>
-          ))}
+          {data?.SupportAvailable.map((item, index) => {
+            const support =
+              COURSE_BENEFIT_SUPPORT_AVAILABLE[
+                item as keyof typeof COURSE_BENEFIT_SUPPORT_AVAILABLE
+              ];
+            return (
+              <li key={index} className={styles.supportAvailableListItem}>
+                {support?.icon && (
+                  <Image src={support?.icon} alt={support?.label} />
+                )}
+                <p>{support?.label}</p>
+              </li>
+            );
+          })}
         </ul>
       );
     case 'adjustment':
@@ -38,8 +39,10 @@ const CourseDetailsBenefitTabContent: React.FC<
         <ul>
           {data?.Adjustments.map((item, index) => (
             <li key={index} className={styles.adjustmentAvailableListItem}>
-              <Image src={CircleTick} alt={item} />
-              {item}
+              <p className={styles.test}>
+                <Image src={CircleTick} alt={item} />
+                {item}
+              </p>
             </li>
           ))}
         </ul>

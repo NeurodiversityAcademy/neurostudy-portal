@@ -23,7 +23,7 @@ const CourseDetailsMiddleBannerIcon: React.FC<
       </div>
       <Typography
         variant={
-          windowWidth > 800 ? TypographyVariant.Body1 : TypographyVariant.Body2
+          windowWidth > 800 ? TypographyVariant.Body2 : TypographyVariant.Body2
         }
       >
         {title}

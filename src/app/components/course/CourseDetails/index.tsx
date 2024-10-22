@@ -1,6 +1,5 @@
 import React from 'react';
 import CourseDetailsTopBanner from './CourseDetailsTopBanner/CourseDetailsTopBanner';
-import CourseDetailsMiddleBanner from './CourseDetailsMiddleBanner/CourseDetailsMiddleBanner';
 import CourseDetailsBenefitTab from './CourseDetailsMiddleBanner/CourseDetailsBenefitTab';
 import CourseDetailsBody from './CourseDetailsBody/CourseDetailsBody';
 import courseData from '../../../../app/courses/courseData.json';
@@ -17,7 +16,6 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
   return (
     <CourseDetailsProvider data={course}>
       <CourseDetailsTopBanner />
-      <CourseDetailsMiddleBanner />
       <CourseDetailsBenefitTab />
       <CourseDetailsBody />
     </CourseDetailsProvider>

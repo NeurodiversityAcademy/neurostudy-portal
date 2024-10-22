@@ -77,13 +77,40 @@ export const FILTER_KEYS: (keyof FilterCourseProps)[] = [
 export const COURSE_FETCH_REVALIDATE_PERIOD = 60 * 30; // In seconds
 
 export const COURSE_BENEFIT_SUPPORT_AVAILABLE = {
-  'Trained Staff': TrainedStaff,
-  'Universal Design for Learning': UniversalDesignforLearning,
-  'Inclusive policies': InclusivePolicies,
-  'Alternative assessment methods': AlternativeAssessmentMethods,
-  'Regular feedback mechanisms': Feedback,
-  'Sensory breaks': FiveSenses,
-  'Specialized academic advising': LearningTools,
-  'Accessible textbooks': ReadingMode,
-  'Inclusive teaching practices': TeachingPractice,
+  TrainedStaff: {
+    label: 'Trained Staff',
+    icon: TrainedStaff,
+  },
+  UniversalDesignForLearning: {
+    label: 'Universal Design for Learning',
+    icon: UniversalDesignforLearning,
+  },
+  InclusivePolicies: {
+    label: 'Inclusive policies',
+    icon: InclusivePolicies,
+  },
+  AlternativeAssessmentMethods: {
+    label: 'Alternative assessment methods',
+    icon: AlternativeAssessmentMethods,
+  },
+  RegularFeedbackMechanisms: {
+    label: 'Regular feedback mechanisms',
+    icon: Feedback,
+  },
+  SensoryBreaks: {
+    label: 'Sensory breaks',
+    icon: FiveSenses,
+  },
+  SpecializedAcademicAdvising: {
+    label: 'Specialized academic advising',
+    icon: LearningTools,
+  },
+  AccessibleTextbooks: {
+    label: 'Accessible textbooks',
+    icon: ReadingMode,
+  },
+  InclusiveTeachingPractices: {
+    label: 'Inclusive teaching practices',
+    icon: TeachingPractice,
+  },
 };
