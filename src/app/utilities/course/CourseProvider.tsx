@@ -28,7 +28,8 @@ import extractCourseSortConfig from './extractSortConfig';
 import { filterCourses, sortCourses } from './helper';
 
 interface PropType {
-  data: CourseProps[] | undefined;
+  redirectToSearchPage?: boolean;
+  data?: CourseProps[];
   children: ReactNode;
 }
 
@@ -36,6 +37,7 @@ interface LoadDataConfig {
   sortBy?: CourseSortConfig['sortBy'];
   sortOrder?: CourseSortConfig['sortOrder'];
   shouldDebounce?: boolean;
+  redirectToSearchPage?: boolean;
 }
 
 export interface CourseContent extends CourseSortConfig {
@@ -55,29 +57,42 @@ export { CourseContext };
 export { useCourseContext };
 
 const updateRoute = ({
+  redirectToSearchPage = false,
   search,
   setIsLoading,
   canReplace,
   router,
 }: {
+  redirectToSearchPage?: boolean;
   search: string;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   canReplace: boolean;
   router: ReturnType<typeof useRouter>;
 }) => {
-  if ((window.location.search || '?') !== search) {
+  const to = (redirectToSearchPage ? '/courses' : '') + search;
+
+  const urlMatches =
+    (redirectToSearchPage ? window.location.pathname : '') +
+      (window.location.search || '?') ===
+    to;
+
+  if (!urlMatches) {
     setIsLoading(true);
-    router.push(search, { scroll: false });
+    router.push(to, { scroll: false });
   } else if (canReplace) {
     setIsLoading(true);
-    router.replace(search + '&_=' + Math.random(), { scroll: false });
+    router.replace(to + '&_=' + Math.random(), { scroll: false });
   } else {
     setIsLoading(false);
   }
 };
 const updateRouteWithDebounce = debounce(updateRoute, 500);
 
-export default function CourseProvider({ children, data }: PropType) {
+export default function CourseProvider({
+  children,
+  data,
+  redirectToSearchPage = false,
+}: PropType) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const filterEntries: [keyof FilterCourseProps, string[]][] = useUpdatedValue(
@@ -158,13 +173,14 @@ export default function CourseProvider({ children, data }: PropType) {
       const fn = shouldDebounce ? updateRouteWithDebounce : updateRoute;
       shouldDebounce && setIsLoading(true);
       fn({
+        redirectToSearchPage,
         search,
         setIsLoading,
         canReplace: !filter,
         router,
       });
     },
-    [filterEntries, router, sortBy, sortOrder]
+    [filterEntries, router, sortBy, sortOrder, redirectToSearchPage]
   );
 
   useEffect(() => {
