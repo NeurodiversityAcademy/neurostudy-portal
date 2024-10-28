@@ -24,26 +24,27 @@
   padding: 0px;
   border-radius: 8px;
   border: 0;
-  box-shadow: -2px 2px 8px 0px #0000001F;
+  box-shadow: -2px 2px 8px 0px #0000001f;
   opacity: 0;
-  transform: scale(.2);
+  transform: scale(0.2);
+  max-width: 85vw;
   max-height: 95vh;
   overflow: auto;
 }
 
-.container.open>.content {
+.container.open > .content {
   animation: popup-open 300ms ease forwards;
 }
 
-.container.closed>.content {
+.container.closed > .content {
   animation: popup-close 300ms ease forwards;
 }
 
-.container.open>.backdrop {
+.container.open > .backdrop {
   animation: fade-in 300ms ease forwards;
 }
 
-.container.closed>.backdrop {
+.container.closed > .backdrop {
   animation: fade-out 300ms ease forwards;
 }
 
@@ -70,7 +71,7 @@
 @keyframes popup-open {
   from {
     opacity: 0;
-    transform: scale(.2);
+    transform: scale(0.2);
   }
 
   to {
@@ -87,6 +88,6 @@
 
   to {
     opacity: 0;
-    transform: scale(.2);
+    transform: scale(0.2);
   }
 }
