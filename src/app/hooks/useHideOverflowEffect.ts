@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 
-const useHideOverflowEffect = (elem: HTMLElement = document.body) => {
+const useHideOverflowEffect = (elem?: HTMLElement) => {
   return useCallback(() => {
-    const { style } = elem;
+    const { style } = elem || document.body;
     const oldOverflow = style.overflow;
     style.overflow = 'hidden';
 
