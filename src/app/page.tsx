@@ -11,6 +11,7 @@ import { Metadata } from 'next';
 import { createMetadata } from './utilities/common';
 import { META_KEY } from './utilities/constants';
 import Subscribe from './components/subscribe/subscribe';
+import CourseEnrolPopup from './components/course/CourseEnrolPopup';
 
 const getGoogleAnalyticsScript = () => {
   return (
@@ -39,20 +40,23 @@ export const metadata: Metadata = createMetadata(META_KEY.HOME, {
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <Banner />
-      {process.env.NODE_ENV === 'production' && getGoogleAnalyticsScript()}
-      <Teacher />
-      <Partner />
-      <Fact />
-      <HowItWorks></HowItWorks>
-      <DisplayPodcast
-        scriptSrc='https://www.buzzsprout.com/2132579.js?container_id=buzzsprout-large-player&player=large'
-        containerId='buzzsprout-large-player'
-        singleBlog={false}
-      />
-      <ArticleList />
-      <Subscribe />
-    </main>
+    <>
+      <main className={styles.main}>
+        <Banner />
+        {process.env.NODE_ENV === 'production' && getGoogleAnalyticsScript()}
+        <Teacher />
+        <Partner />
+        <Fact />
+        <HowItWorks></HowItWorks>
+        <DisplayPodcast
+          scriptSrc='https://www.buzzsprout.com/2132579.js?container_id=buzzsprout-large-player&player=large'
+          containerId='buzzsprout-large-player'
+          singleBlog={false}
+        />
+        <ArticleList />
+        <Subscribe />
+      </main>
+      <CourseEnrolPopup />
+    </>
   );
 }
