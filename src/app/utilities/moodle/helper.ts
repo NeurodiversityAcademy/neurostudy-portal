@@ -1,8 +1,9 @@
 import { MoodleUser, MoodleUserBasic } from '@/app/interfaces/Moodle';
 import { getSearchQuery, getUniqueID } from '../common';
-import { MOODLE_INTRO_COURSE_ID, MOODLE_STUDENT_ROLE_ID } from './constants';
+import { MOODLE_STUDENT_ROLE_ID } from './constants';
 
-const MOODLE_API_URL = process.env.MOODLE_API_URL || '';
+const MOODLE_API_URL =
+  (process.env.MOODLE_HOST_URL || '') + '/webservice/rest/server.php';
 const MOODLE_SECRET = process.env.MOODLE_SECRET || '';
 
 export async function getMoodleUserByEmail(
@@ -68,14 +69,20 @@ export async function createMoodleUser({
   return json[0];
 }
 
-export async function enrolMoodleUserInCourse({ userid }: { userid: number }) {
+export async function enrolMoodleUserInCourse({
+  userid,
+  courseid,
+}: {
+  userid: number;
+  courseid: number;
+}) {
   const formData = new FormData();
   formData.append('wstoken', MOODLE_SECRET);
   formData.append('wsfunction', 'enrol_manual_enrol_users');
   formData.append('moodlewsrestformat', 'json');
   formData.append('enrolments[0][roleid]', MOODLE_STUDENT_ROLE_ID.toString());
   formData.append('enrolments[0][userid]', userid.toString());
-  formData.append('enrolments[0][courseid]', MOODLE_INTRO_COURSE_ID.toString());
+  formData.append('enrolments[0][courseid]', courseid.toString());
 
   return await fetch(MOODLE_API_URL, {
     method: 'POST',

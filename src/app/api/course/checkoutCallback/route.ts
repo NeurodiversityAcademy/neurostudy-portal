@@ -10,8 +10,12 @@ import {
   getMoodleUserByEmail,
 } from '@/app/utilities/moodle/helper';
 import { MoodleUserBasic } from '@/app/interfaces/Moodle';
+import isAuthenticated from '@/app/utilities/auth/isAuthenticated';
+import { MOODLE_INTRO_COURSE_ID } from '@/app/utilities/moodle/constants';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET || '');
+
+const MOODLE_HOST_URL = process.env.MOODLE_HOST_URL || '';
 
 export async function GET(req: NextRequest): Promise<Response> {
   try {
@@ -25,7 +29,7 @@ export async function GET(req: NextRequest): Promise<Response> {
     }
 
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
-      expand: ['customer', 'payment_intent', 'line_items'],
+      expand: ['customer'],
     });
 
     if (session && session.payment_status === 'paid') {
@@ -61,11 +65,23 @@ export async function GET(req: NextRequest): Promise<Response> {
         });
       }
 
-      await enrolMoodleUserInCourse({ userid: moodleUser.id });
+      await enrolMoodleUserInCourse({
+        userid: moodleUser.id,
+        courseid: MOODLE_INTRO_COURSE_ID,
+      });
+
+      const authResponse = await isAuthenticated({ req });
+
+      if (!(authResponse instanceof Response) && email === authResponse.email) {
+        return NextResponse.redirect(
+          `${MOODLE_HOST_URL}/course/view.php?id=${MOODLE_INTRO_COURSE_ID}`
+        );
+      }
 
       return NextResponse.redirect(
         `${HOST_URL}?${getSearchQuery({
           checkout_status: 'success',
+          courseid: MOODLE_INTRO_COURSE_ID,
         })}`
       );
     } else {
