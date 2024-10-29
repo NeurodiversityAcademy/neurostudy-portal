@@ -1,30 +1,32 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Dialog from '../../dialog';
 import Image from 'next/image';
 import introCoursePopupSrc from '@/app/images/intro-course-popup.jpg';
 import ActionButton from '../../buttons/ActionButton';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
-import styles from './courseEnrolPopup.module.css';
+import styles from './courseEnrolPrompt.module.css';
 import createCheckoutUrl from '@/app/utilities/course/createCheckoutUrl';
 import { CourseCheckoutSession } from '@/app/interfaces/Course';
 import { COURSE_ENROL_POPUP_CLOSED_KEY } from '@/app/utilities/course/constants';
 import Loader from '../../loader/Loader';
 
-export default function CourseEnrolPopup() {
-  const [open, setOpen] = useState(
-    () => localStorage.getItem(COURSE_ENROL_POPUP_CLOSED_KEY) !== '1'
-  );
+export default function CourseEnrolPrompt() {
+  const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const onClose = () => {
     setOpen(false);
     localStorage.setItem(COURSE_ENROL_POPUP_CLOSED_KEY, '1');
   };
 
+  useEffect(() => {
+    setOpen(localStorage.getItem(COURSE_ENROL_POPUP_CLOSED_KEY) !== '1');
+  }, []);
+
   return (
     <>
-      <Dialog open={open} onClose={onClose} usePortal={false}>
+      <Dialog open={open} onClose={onClose}>
         <Image
           src={introCoursePopupSrc}
           alt='Introduction to Neurodiversity - Course Enrolment Popup'

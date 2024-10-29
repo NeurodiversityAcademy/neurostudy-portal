@@ -11,8 +11,8 @@
 .enrolBtnContainer {
   display: flex;
   justify-content: center;
-  width: 100%;
-  position: absolute;
+  width: 100vw;
+  position: fixed;
   text-align: center;
   bottom: 50px;
   z-index: 99999;
