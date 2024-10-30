@@ -21,6 +21,7 @@ const TextBoxInput = <TFieldValues extends FieldValues>({
   helperText,
   required = false,
   disabled,
+  readOnly = false,
   onChange,
   onBlur,
   autoComplete,
@@ -66,6 +67,7 @@ const TextBoxInput = <TFieldValues extends FieldValues>({
           className={classNames(styles.input, className)}
           autoComplete={autoComplete}
           {...field}
+          readOnly={readOnly}
           onChange={function (this: HTMLInputElement, ...args) {
             field.onChange.apply(this, args);
             onChange?.apply(this, args);
@@ -79,7 +81,7 @@ const TextBoxInput = <TFieldValues extends FieldValues>({
           methods={methods}
           name={name}
           value={value}
-          disabled={disabled}
+          disabled={disabled || readOnly}
         />
       </div>
       <HelperText>{helperText}</HelperText>

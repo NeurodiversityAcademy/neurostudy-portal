@@ -10,16 +10,14 @@ import TextBox from '@/app/components/formElements/TextBox/TextBox';
 import {
   BUTTON_STYLE,
   EMAIL_REGEX,
+  HOST_URL,
   TOAST_UNKNOWN_ERROR_MESSAGE,
 } from '@/app/utilities/constants';
 import classNames from 'classnames';
 import Form from '@/app/components/formElements/Form';
 import AuthFormHeader from './AuthFormHeader';
-import {
-  CALLBACK_URL_ON_LOGIN,
-  FORM_STATE,
-} from '@/app/utilities/auth/constants';
-import { useRouter } from 'next/navigation';
+import { FORM_STATE } from '@/app/utilities/auth/constants';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { notifyError, notifyInProgress } from '@/app/utilities/common';
 import LoaderWrapper from '../loader/LoaderWrapper';
 import { useState } from 'react';
@@ -27,6 +25,7 @@ import AuthVerifyForm from './AuthVerifyForm';
 import { signIn } from 'next-auth/react';
 import { SignInOutput } from 'aws-amplify/auth';
 import useAuthError from '@/app/hooks/useAuthError';
+import { getCallbackUrlOnSignIn } from '@/app/utilities/auth/helper';
 
 interface LoginFieldValues extends FieldValues {
   username: string;
@@ -34,13 +33,17 @@ interface LoginFieldValues extends FieldValues {
 }
 
 const Login = () => {
+  const searchParams = useSearchParams();
+  const readOnlyEmail = searchParams.get('email');
+  const isEmailReadOnly = !!readOnlyEmail;
+
   const router = useRouter();
   const methods: UseFormReturn<LoginFieldValues> = useForm<LoginFieldValues>({
     mode: 'onBlur',
   });
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [username, setUsername] = useState<string>('');
+  const [username, setUsername] = useState<string>(readOnlyEmail || '');
   const [password, setPassword] = useState<string>('');
   const [formState, setFormState] = useState<FORM_STATE>(
     FORM_STATE.INITIALIZED
@@ -77,7 +80,16 @@ const Login = () => {
       if (res.ok) {
         // TODO
         // https://trello.com/c/suoF46yg/131-infrastructure-key-constant-based-url-setup
-        router.replace(CALLBACK_URL_ON_LOGIN);
+        const callbackUrl = getCallbackUrlOnSignIn();
+        if (
+          callbackUrl === '' ||
+          callbackUrl.startsWith('/') ||
+          callbackUrl.startsWith(HOST_URL)
+        ) {
+          router.replace(callbackUrl);
+        } else {
+          window.location.href = callbackUrl;
+        }
       } else if (res?.error) {
         try {
           const signInOutput: SignInOutput = JSON.parse(res.error);
@@ -134,6 +146,8 @@ const Login = () => {
                 required
                 placeholder='Email address'
                 pattern={EMAIL_REGEX}
+                defaultValue={username}
+                readOnly={isEmailReadOnly}
               />
               <TextBox
                 name='password'

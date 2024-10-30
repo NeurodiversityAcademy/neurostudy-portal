@@ -15,6 +15,7 @@ import AuthResendOTPBtn from './AuthResendOTPBtn';
 import { signIn } from 'next-auth/react';
 import { INVALID_CREDENTIALS_MESSAGE } from '@/app/utilities/auth/constants';
 import classNames from 'classnames';
+import { getCallbackUrlOnSignIn } from '@/app/utilities/auth/helper';
 
 interface PropType {
   username: string;
@@ -50,7 +51,8 @@ const AuthVerifyForm: React.FC<PropType> = ({
           username,
           password,
           confirmationCode,
-          redirect: false,
+          redirect: true,
+          callbackUrl: getCallbackUrlOnSignIn(),
         },
         { method: 'confirmSignUp' }
       );

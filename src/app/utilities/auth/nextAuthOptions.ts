@@ -133,6 +133,16 @@ const nextAuthOptions: AuthOptions = {
       }
       return token;
     },
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith('/')) {
+        return `${baseUrl}${url}`;
+      } else if (
+        [baseUrl, process.env.MOODLE_HOST_URL].includes(new URL(url).origin)
+      ) {
+        return url;
+      }
+      return baseUrl;
+    },
   },
   events: {
     signIn: () => {
