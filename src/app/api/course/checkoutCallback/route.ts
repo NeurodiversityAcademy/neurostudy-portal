@@ -12,6 +12,7 @@ import {
 import { MoodleUserBasic } from '@/app/interfaces/Moodle';
 import isAuthenticated from '@/app/utilities/auth/isAuthenticated';
 import { MOODLE_INTRO_COURSE_ID } from '@/app/utilities/moodle/constants';
+import getUser from '@/app/utilities/auth/getUser';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET || '');
 
@@ -35,26 +36,21 @@ export async function GET(req: NextRequest): Promise<Response> {
     if (session && session.payment_status === 'paid') {
       const customer = session.customer_details;
       if (!customer) {
-        // TEMP
-        // TODO
-        // Probably need to use constant 'key' type values for frontend to
-        // deal with accordingly
+        // TODO: Error handling
+        // - Probably need to use constant 'key' type values for frontend to
+        //   deal with accordingly
         throw new APIError({ error: 'Invalid customer.' });
       }
 
       const { email, name } = customer;
 
       if (!email || !name) {
-        // TEMP
-        // TODO
-        // Probably need to use constant 'key' type values for frontend to
-        // deal with accordingly
+        // TODO: Error handling
+        // - Probably need to use constant 'key' type values for frontend to
+        //   deal with accordingly
         throw new APIError({ error: 'Invalid customer.' });
       }
 
-      // TEMP
-      // TODO
-      // Use interfaces/types
       let moodleUser: MoodleUserBasic | null =
         await getMoodleUserByEmail(email);
 
@@ -71,17 +67,25 @@ export async function GET(req: NextRequest): Promise<Response> {
       });
 
       const authResponse = await isAuthenticated({ req });
+      const callbackUrl = `${MOODLE_HOST_URL}/course/view.php?id=${MOODLE_INTRO_COURSE_ID}`;
 
       if (!(authResponse instanceof Response) && email === authResponse.email) {
-        return NextResponse.redirect(
-          `${MOODLE_HOST_URL}/course/view.php?id=${MOODLE_INTRO_COURSE_ID}`
-        );
+        return NextResponse.redirect(callbackUrl);
       }
 
+      // TODO: `getUser` fetches user from DynamoDB, we directly need to fetch from
+      // cognito to determine if the user exists.
+      // Use case:
+      //  User signs up using idP, the user is not directly inserted into
+      //  the DynamoDB, due to lack of convenient information from next-auth to
+      //  determine whether the user is new (needs to be addressed later)
+      const userExists: boolean = !!(await getUser(email));
+
       return NextResponse.redirect(
-        `${HOST_URL}?${getSearchQuery({
+        `${HOST_URL}/${userExists ? 'login' : 'signup'}?${getSearchQuery({
           checkout_status: 'success',
-          courseid: MOODLE_INTRO_COURSE_ID,
+          callbackUrl,
+          email,
         })}`
       );
     } else {

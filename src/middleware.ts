@@ -8,7 +8,7 @@ export async function middleware(req: NextRequest) {
     const { url } = req;
 
     const redirectUrl = new URL(
-      `/login?error=AuthRequired&redirectTo=${encodeURIComponent(url)}`,
+      `/login?error=AuthRequired&callbackUrl=${encodeURIComponent(url)}`,
       url
     );
 
