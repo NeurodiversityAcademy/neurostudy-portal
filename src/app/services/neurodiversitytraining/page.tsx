@@ -5,8 +5,6 @@ import Typography, {
 import { Metadata } from 'next';
 import { createMetadata } from '@/app/utilities/common';
 import { META_KEY } from '@/app/utilities/constants';
-import Subscribe from '@/app/components/subscribe/subscribe';
-import Contact from '@/app/components/contact/Contact';
 
 export const metadata: Metadata = createMetadata(
   META_KEY.NEURODIVERSITY_TRAINING
@@ -34,8 +32,6 @@ export default function Page() {
           </Typography>
         </p>
       </div>
-      <Contact />
-      <Subscribe />
     </div>
   );
 }

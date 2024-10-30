@@ -1,7 +1,7 @@
 import styles from './page.module.css';
 import DisplayPodcast from './components/podcast/DisplayPodcast';
 import Script from 'next/script';
-import Banner from './components/banner/Banner';
+import HomeBanner from './components/banner/HomeBanner';
 import ArticleList from './components/articleList/articleList';
 import Teacher from './components/teacherSection/Teacher';
 import Fact from './components/fact/Fact';
@@ -11,7 +11,7 @@ import { Metadata } from 'next';
 import { createMetadata } from './utilities/common';
 import { META_KEY } from './utilities/constants';
 import Subscribe from './components/subscribe/subscribe';
-import CourseEnrolPrompt from './components/course/CourseEnrolPrompt';
+import CourseEnrol from './components/course/CourseEnrol';
 
 const getGoogleAnalyticsScript = () => {
   return (
@@ -42,8 +42,8 @@ export default function Home() {
   return (
     <>
       <main className={styles.main}>
-        <CourseEnrolPrompt />
-        <Banner />
+        <CourseEnrol />
+        <HomeBanner />
         {process.env.NODE_ENV === 'production' && getGoogleAnalyticsScript()}
         <Teacher />
         <Partner />
