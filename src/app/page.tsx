@@ -1,7 +1,6 @@
 import styles from './page.module.css';
 import DisplayPodcast from './components/podcast/DisplayPodcast';
 import Script from 'next/script';
-import HomeBanner from './components/banner/HomeBanner';
 import ArticleList from './components/articleList/articleList';
 import Teacher from './components/teacherSection/Teacher';
 import Fact from './components/fact/Fact';
@@ -43,7 +42,6 @@ export default function Home() {
     <>
       <main className={styles.main}>
         <CourseEnrolPrompt />
-        <HomeBanner />
         {process.env.NODE_ENV === 'production' && getGoogleAnalyticsScript()}
         <Teacher />
         <Partner />

@@ -1,35 +1,40 @@
 .popupImg {
-  width: 100%;
-  height: auto;
+  width: auto;
+  height: 90vh;
 }
 
 .enrolBtn {
   border: 2px solid;
-  z-index: 1;
 }
 
 .enrolBtnContainer {
   display: flex;
   justify-content: center;
-  width: 100vw;
-  position: fixed;
+  position: absolute;
   text-align: center;
-  bottom: 50px;
+  bottom: 45px;
   z-index: 99999;
+  width: 100%;
 }
 
-.loader {
+.enrolBtnContainer > .loader {
   background-color: transparent;
 }
 
-.courseBanner {
-  max-width: 100%;
-  height: auto;
-  object-fit: contain;
+.enrolBtnContainer > button {
+  width: min(75vw, 200px);
 }
 
-.seeMoreBtnContainer {
-  margin-bottom: 2.5rem;
+.courseBanner {
+  width: 100%;
+  height: auto;
+  object-position: bottom;
+  object-fit: cover;
+  max-height: calc(100vh - 130px);
+}
+
+.seeMoreBtnContainer > button {
+  width: min(75vw, 200px);
 }
 
 .hide {
