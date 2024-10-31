@@ -5,7 +5,7 @@ import BadgeDisplay from '../badges/BadgeDisplay';
 import CoursePrimaryFilter from '../course/CoursePrimaryFilter';
 import CourseProvider from '@/app/utilities/course/CourseProvider';
 
-export default function Banner() {
+export default function HomeBanner() {
   return (
     <>
       <div className={styles.bannerContainer}>

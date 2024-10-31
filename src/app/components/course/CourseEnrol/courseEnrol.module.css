@@ -21,3 +21,13 @@
 .loader {
   background-color: transparent;
 }
+
+.courseBanner {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.seeMoreBtnContainer {
+  margin-bottom: 2.5rem;
+}
