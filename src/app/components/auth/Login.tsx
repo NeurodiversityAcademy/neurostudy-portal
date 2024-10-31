@@ -17,7 +17,7 @@ import classNames from 'classnames';
 import Form from '@/app/components/formElements/Form';
 import AuthFormHeader from './AuthFormHeader';
 import { FORM_STATE } from '@/app/utilities/auth/constants';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { notifyError, notifyInProgress } from '@/app/utilities/common';
 import LoaderWrapper from '../loader/LoaderWrapper';
 import { useState } from 'react';
@@ -33,17 +33,13 @@ interface LoginFieldValues extends FieldValues {
 }
 
 const Login = () => {
-  const searchParams = useSearchParams();
-  const readOnlyEmail = searchParams.get('email');
-  const isEmailReadOnly = !!readOnlyEmail;
-
   const router = useRouter();
   const methods: UseFormReturn<LoginFieldValues> = useForm<LoginFieldValues>({
     mode: 'onBlur',
   });
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [username, setUsername] = useState<string>(readOnlyEmail || '');
+  const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [formState, setFormState] = useState<FORM_STATE>(
     FORM_STATE.INITIALIZED
@@ -146,8 +142,6 @@ const Login = () => {
                 required
                 placeholder='Email address'
                 pattern={EMAIL_REGEX}
-                defaultValue={username}
-                readOnly={isEmailReadOnly}
               />
               <TextBox
                 name='password'

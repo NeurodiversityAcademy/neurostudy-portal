@@ -47,8 +47,6 @@ const AuthInitSignUp: React.FC = () => {
   const onSubmit = async (data: SignUpFieldValues) => {
     const { email, password } = data;
 
-    setUsername('');
-    setPassword('');
     setIsLoading(true);
 
     try {
