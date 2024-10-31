@@ -11,7 +11,7 @@ import { Metadata } from 'next';
 import { createMetadata } from './utilities/common';
 import { META_KEY } from './utilities/constants';
 import Subscribe from './components/subscribe/subscribe';
-import CourseEnrol from './components/course/CourseEnrol';
+import CourseEnrolPrompt from './components/course/CourseEnrolPrompt';
 
 const getGoogleAnalyticsScript = () => {
   return (
@@ -42,7 +42,7 @@ export default function Home() {
   return (
     <>
       <main className={styles.main}>
-        <CourseEnrol />
+        <CourseEnrolPrompt />
         <HomeBanner />
         {process.env.NODE_ENV === 'production' && getGoogleAnalyticsScript()}
         <Teacher />

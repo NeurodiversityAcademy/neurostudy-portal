@@ -20,6 +20,12 @@ const SignUp: React.FC = () => {
     (async () => {
       if (queryString.parse()['checkout_status'] === 'success') {
         await signOut({ redirect: false });
+        router.replace(
+          `${queryString.stringify(
+            { checkout_status: undefined },
+            { useLocationSearch: true }
+          )}${window.location.hash}`
+        );
         return;
       }
 

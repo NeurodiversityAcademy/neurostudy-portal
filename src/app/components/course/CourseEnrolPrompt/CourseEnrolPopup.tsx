@@ -6,22 +6,22 @@ import Image from 'next/image';
 import introCoursePopupSrc from '@/app/images/intro-course-popup.jpg';
 import ActionButton from '../../buttons/ActionButton';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
-import styles from './courseEnrol.module.css';
+import styles from './courseEnrolPrompt.module.css';
 import createCheckoutUrl from '@/app/utilities/course/createCheckoutUrl';
-import {
-  CourseBannerSection,
-  CourseCheckoutSession,
-} from '@/app/interfaces/Course';
+import { CourseCheckoutSession } from '@/app/interfaces/Course';
 import Loader from '../../loader/Loader';
 
-const CourseEnrolPrompt: React.FC<CourseBannerSection> = ({
+export default function CourseEnrolPopup({
   open,
-  toggleEnrolPrompt,
-}) => {
+  onClose,
+}: {
+  open: boolean;
+  onClose: () => void;
+}) {
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleOnClick = async () => {
-    toggleEnrolPrompt();
+  const onClick = async () => {
+    onClose();
     setIsLoading(true);
 
     const res: CourseCheckoutSession = await createCheckoutUrl();
@@ -35,7 +35,7 @@ const CourseEnrolPrompt: React.FC<CourseBannerSection> = ({
 
   return (
     <>
-      <Dialog {...{ open, toggleEnrolPrompt }}>
+      <Dialog open={open} onClose={onClose}>
         <Image
           src={introCoursePopupSrc}
           alt='Introduction to Neurodiversity - Course Enrolment Popup'
@@ -50,12 +50,10 @@ const CourseEnrolPrompt: React.FC<CourseBannerSection> = ({
             label='Enrol Now'
             className={styles.enrolBtn}
             disabled={isLoading}
-            onClick={handleOnClick}
+            onClick={onClick}
           />
         </div>
       )}
     </>
   );
-};
-
-export default CourseEnrolPrompt;
+}

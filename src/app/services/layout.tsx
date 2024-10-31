@@ -1,5 +1,5 @@
 import React from 'react';
-import CourseEnrol from '../components/course/CourseEnrol';
+import CourseEnrolPrompt from '../components/course/CourseEnrolPrompt';
 import Contact from '../components/contact/Contact';
 import Subscribe from '../components/subscribe/subscribe';
 import styles from './services.module.css';
@@ -11,7 +11,7 @@ interface ServicePageLayoutProp {
 const ServicePageLayout = ({ children }: ServicePageLayoutProp) => {
   return (
     <div className={styles.servicesPageContainer}>
-      <CourseEnrol />
+      <CourseEnrolPrompt />
       {children}
       <Contact />
       <Subscribe />

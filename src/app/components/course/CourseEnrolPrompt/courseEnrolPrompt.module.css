@@ -31,3 +31,7 @@
 .seeMoreBtnContainer {
   margin-bottom: 2.5rem;
 }
+
+.hide {
+  display: none;
+}

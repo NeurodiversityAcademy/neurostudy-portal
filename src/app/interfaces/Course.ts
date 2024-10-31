@@ -35,8 +35,3 @@ export interface CourseSortConfig {
 export interface CourseCheckoutSession {
   url: string | null;
 }
-
-export interface CourseBannerSection {
-  open: boolean;
-  toggleEnrolPrompt: () => void;
-}
