@@ -1,9 +1,16 @@
-import { MoodleUser, MoodleUserBasic } from '@/app/interfaces/Moodle';
+import {
+  MoodleCourse,
+  MoodleUser,
+  MoodleUserBasic,
+} from '@/app/interfaces/Moodle';
 import { getSearchQuery, getUniqueID } from '../common';
 import { MOODLE_STUDENT_ROLE_ID } from './constants';
+import isAuthenticated from '../auth/isAuthenticated';
+import { NextRequest } from 'next/server';
+import AuthErrorResponse from '@/app/interfaces/AuthErrorResponse';
 
-const MOODLE_API_URL =
-  (process.env.MOODLE_HOST_URL || '') + '/webservice/rest/server.php';
+const MOODLE_HOST_URL = process.env.MOODLE_HOST_URL || '';
+const MOODLE_API_URL = MOODLE_HOST_URL + '/webservice/rest/server.php';
 const MOODLE_SECRET = process.env.MOODLE_SECRET || '';
 
 export async function getMoodleUserByEmail(
@@ -88,4 +95,53 @@ export async function enrolMoodleUserInCourse({
     method: 'POST',
     body: formData,
   });
+}
+
+export async function getMoodleCoursesByUser(
+  userid: number
+): Promise<MoodleCourse[]> {
+  const formData = new FormData();
+  formData.append('wstoken', MOODLE_SECRET);
+  formData.append('wsfunction', 'core_enrol_get_users_courses');
+  formData.append('moodlewsrestformat', 'json');
+  formData.append('userid', userid.toString());
+
+  const res = await fetch(MOODLE_API_URL, {
+    method: 'POST',
+    body: formData,
+  });
+
+  return await res.json();
+}
+
+export function getMoodleCourseUrl(courseid: number) {
+  return `${MOODLE_HOST_URL}/course/view.php?id=${courseid}`;
+}
+
+type GetMoodleCourseUrl = {
+  courseid: number;
+  userid?: number;
+};
+
+export async function createMoodleCourseUrl(
+  req: NextRequest,
+  { courseid, userid }: GetMoodleCourseUrl
+): Promise<string | undefined> {
+  const authResponse = await isAuthenticated({ req });
+
+  if (authResponse instanceof AuthErrorResponse) {
+    return;
+  }
+
+  userid = userid || (await getMoodleUserByEmail(authResponse.email))?.id;
+
+  if (!userid) {
+    return;
+  }
+
+  const courses = await getMoodleCoursesByUser(userid);
+
+  return (
+    courses.find(({ id }) => id === courseid) && getMoodleCourseUrl(courseid)
+  );
 }

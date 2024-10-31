@@ -7,16 +7,16 @@ import { getSearchQuery } from '@/app/utilities/common';
 import {
   createMoodleUser,
   enrolMoodleUserInCourse,
+  getMoodleCourseUrl,
   getMoodleUserByEmail,
 } from '@/app/utilities/moodle/helper';
 import { MoodleUserBasic } from '@/app/interfaces/Moodle';
-import isAuthenticated from '@/app/utilities/auth/isAuthenticated';
 import { MOODLE_INTRO_COURSE_ID } from '@/app/utilities/moodle/constants';
 import getUser from '@/app/utilities/auth/getUser';
+import isAuthenticated from '@/app/utilities/auth/isAuthenticated';
+import AuthErrorResponse from '@/app/interfaces/AuthErrorResponse';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET || '');
-
-const MOODLE_HOST_URL = process.env.MOODLE_HOST_URL || '';
 
 export async function GET(req: NextRequest): Promise<Response> {
   try {
@@ -61,17 +61,14 @@ export async function GET(req: NextRequest): Promise<Response> {
         });
       }
 
+      const userid = moodleUser.id;
+
       await enrolMoodleUserInCourse({
-        userid: moodleUser.id,
+        userid,
         courseid: MOODLE_INTRO_COURSE_ID,
       });
 
       const authResponse = await isAuthenticated({ req });
-      const callbackUrl = `${MOODLE_HOST_URL}/course/view.php?id=${MOODLE_INTRO_COURSE_ID}`;
-
-      if (!(authResponse instanceof Response) && email === authResponse.email) {
-        return NextResponse.redirect(callbackUrl);
-      }
 
       // TODO: `getUser` fetches user from DynamoDB, we directly need to fetch from
       // cognito to determine if the user exists.
@@ -79,14 +76,26 @@ export async function GET(req: NextRequest): Promise<Response> {
       //  User signs up using idP, the user is not directly inserted into
       //  the DynamoDB, due to lack of convenient information from next-auth to
       //  determine whether the user is new (needs to be addressed later)
-      const userExists: boolean = !!(await getUser(email));
+      let userExists: boolean | undefined =
+        !(authResponse instanceof AuthErrorResponse) &&
+        authResponse.email === email
+          ? true
+          : undefined;
+      const getIfUserExists = async (): Promise<boolean> => {
+        if (userExists === undefined) {
+          userExists = !!(await getUser(email));
+        }
+        return userExists;
+      };
 
       return NextResponse.redirect(
-        `${HOST_URL}/${userExists ? 'login' : 'signup'}?${getSearchQuery({
-          checkout_status: 'success',
-          callbackUrl,
-          email,
-        })}`
+        (await getIfUserExists())
+          ? getMoodleCourseUrl(MOODLE_INTRO_COURSE_ID)
+          : `${HOST_URL}/signup?${getSearchQuery({
+              checkout_status: 'success',
+              callbackUrl: '/moodle/course/' + MOODLE_INTRO_COURSE_ID,
+              email,
+            })}`
       );
     } else {
       throw new Error('Payment not completed');
