@@ -46,3 +46,9 @@ export interface MoodleCourse {
   format?: string;
   courseimage?: string;
 }
+
+export interface MoodleException {
+  exception: string;
+  errorcode: string;
+  message: string;
+}
