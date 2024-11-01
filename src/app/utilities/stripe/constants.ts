@@ -1,3 +1,5 @@
+import { INFO_EMAIL_ADDRESS } from '../constants';
+
 const STRIPE_INTRO_PRODUCT_PRICE_ID: string =
   process.env.STRIPE_INTRO_PRODUCT_PRICE_ID ?? '';
 
@@ -11,3 +13,7 @@ if (
 }
 
 export { STRIPE_INTRO_PRODUCT_PRICE_ID, STRIPE_SECRET };
+
+export const DEFAULT_STRIPE_ERROR_MESSAGE = `An unexpected error occurred during the checkout 
+  process. For prompt assistance, please contact us at ${INFO_EMAIL_ADDRESS}.`;
+export const DEFAULT_STRIPE_CONCLUDING_ERROR_MESSAGE = `If you believe there is an error, please contact us at ${INFO_EMAIL_ADDRESS}.`;

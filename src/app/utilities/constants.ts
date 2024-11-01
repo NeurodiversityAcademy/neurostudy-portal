@@ -82,3 +82,5 @@ export const DEFAULT_TOGGLE_OPTIONS = {
   on: { label: 'On', value: true },
   off: { label: 'Off', value: false },
 };
+
+export const INFO_EMAIL_ADDRESS = 'info@neurodiversityacademy.com';

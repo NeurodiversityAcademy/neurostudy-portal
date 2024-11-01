@@ -34,18 +34,12 @@ export async function GET(req: NextRequest): Promise<Response> {
     if (session && session.payment_status === 'paid') {
       const customer = session.customer_details;
       if (!customer) {
-        // TODO: Error handling
-        // - Probably need to use constant 'key' type values for frontend to
-        //   deal with accordingly
         throw new APIError({ error: 'Invalid customer.' });
       }
 
       const { email, name } = customer;
 
       if (!email || !name) {
-        // TODO: Error handling
-        // - Probably need to use constant 'key' type values for frontend to
-        //   deal with accordingly
         throw new APIError({ error: 'Invalid customer.' });
       }
 
@@ -96,7 +90,7 @@ export async function GET(req: NextRequest): Promise<Response> {
             })}`
       );
     } else {
-      throw new Error('Payment not completed');
+      throw new Error('Payment not completed.');
     }
   } catch (ex) {
     const error = ex as object;
