@@ -1,4 +1,3 @@
-import Stripe from 'stripe';
 import { consumeRateWithIp } from '@/app/utilities/api/rateLimiter';
 import { NextRequest, NextResponse } from 'next/server';
 import { HOST_URL } from '@/app/utilities/constants';
@@ -15,8 +14,7 @@ import { MOODLE_INTRO_COURSE_ID } from '@/app/utilities/moodle/constants';
 import getUser from '@/app/utilities/auth/getUser';
 import isAuthenticated from '@/app/utilities/auth/isAuthenticated';
 import AuthErrorResponse from '@/app/interfaces/AuthErrorResponse';
-
-const stripe = new Stripe(process.env.STRIPE_SECRET || '');
+import stripe from '@/app/utilities/stripe';
 
 export async function GET(req: NextRequest): Promise<Response> {
   try {

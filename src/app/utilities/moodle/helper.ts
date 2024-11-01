@@ -4,14 +4,15 @@ import {
   MoodleUserBasic,
 } from '@/app/interfaces/Moodle';
 import { getSearchQuery, getUniqueID } from '../common';
-import { MOODLE_STUDENT_ROLE_ID } from './constants';
+import {
+  MOODLE_API_URL,
+  MOODLE_HOST_URL,
+  MOODLE_SECRET,
+  MOODLE_STUDENT_ROLE_ID,
+} from './constants';
 import isAuthenticated from '../auth/isAuthenticated';
 import { NextRequest } from 'next/server';
 import AuthErrorResponse from '@/app/interfaces/AuthErrorResponse';
-
-const MOODLE_HOST_URL = process.env.MOODLE_HOST_URL || '';
-const MOODLE_API_URL = MOODLE_HOST_URL + '/webservice/rest/server.php';
-const MOODLE_SECRET = process.env.MOODLE_SECRET || '';
 
 export async function getMoodleUserByEmail(
   email: string

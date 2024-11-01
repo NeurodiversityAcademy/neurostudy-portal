@@ -1,12 +1,11 @@
-import Stripe from 'stripe';
 import { consumeRateWithIp } from '@/app/utilities/api/rateLimiter';
 import { NextRequest, NextResponse } from 'next/server';
 import processCourseAPIError from '@/app/utilities/db/processCourseAPIError';
 import { CourseCheckoutSession } from '@/app/interfaces/Course';
 import { COURSE_CHECKOUT_CALLBACK_URL } from '@/app/utilities/course/constants';
 import isAuthenticated from '@/app/utilities/auth/isAuthenticated';
-
-const stripe = new Stripe(process.env.STRIPE_SECRET || '');
+import stripe from '@/app/utilities/stripe';
+import { STRIPE_INTRO_PRODUCT_PRICE_ID } from '@/app/utilities/stripe/constants';
 
 export async function POST(req: NextRequest): Promise<Response> {
   try {
@@ -23,7 +22,7 @@ export async function POST(req: NextRequest): Promise<Response> {
       payment_method_types: ['card'],
       line_items: [
         {
-          price: 'price_1QEjKiHtB9Msoek2Uzs9wE3e',
+          price: STRIPE_INTRO_PRODUCT_PRICE_ID,
           quantity: 1,
         },
       ],

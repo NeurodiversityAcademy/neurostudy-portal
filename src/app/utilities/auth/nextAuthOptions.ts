@@ -21,6 +21,7 @@ import {
   COGNITO_CONFIDENTIAL_CLIENT_SECRET,
   COGNITO_ISSUER,
 } from '../amplify/constants';
+import { MOODLE_HOST_URL } from '../moodle/constants';
 
 const getUser = async () => {
   const user: GetCurrentUserOutput = await getCurrentUser();
@@ -136,9 +137,7 @@ const nextAuthOptions: AuthOptions = {
     async redirect({ url, baseUrl }) {
       if (url.startsWith('/')) {
         return `${baseUrl}${url}`;
-      } else if (
-        [baseUrl, process.env.MOODLE_HOST_URL].includes(new URL(url).origin)
-      ) {
+      } else if ([baseUrl, MOODLE_HOST_URL].includes(new URL(url).origin)) {
         return url;
       }
       return baseUrl;
