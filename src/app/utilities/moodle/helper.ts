@@ -53,11 +53,7 @@ export async function createMoodleUser({
     const splitName = name.split(/\s+/);
     const firstname = splitName.slice(0, -1).join(' ');
     const lastname = splitName.slice(-1).join('');
-    const username = (
-      splitName.join('') +
-      '_' +
-      getUniqueID().slice(4, 9)
-    ).toLowerCase();
+    const username = email;
 
     const password = 'TestPass123!' + getUniqueID();
 
@@ -70,6 +66,7 @@ export async function createMoodleUser({
     formData.append('users[0][lastname]', lastname);
     formData.append('users[0][password]', password);
     formData.append('users[0][username]', username);
+    formData.append('users[0][auth]', 'oidc');
 
     const res = await fetch(MOODLE_API_URL, {
       method: 'POST',
