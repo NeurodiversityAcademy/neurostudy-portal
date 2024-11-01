@@ -15,12 +15,14 @@ import getUser from '@/app/utilities/auth/getUser';
 import isAuthenticated from '@/app/utilities/auth/isAuthenticated';
 import AuthErrorResponse from '@/app/interfaces/AuthErrorResponse';
 import stripe from '@/app/utilities/stripe';
+import { COURSE_TEST_ENROL_KEY } from '@/app/utilities/course/constants';
 
 export async function GET(req: NextRequest): Promise<Response> {
+  const { searchParams } = req.nextUrl;
+
   try {
     await consumeRateWithIp(req);
 
-    const { searchParams } = req.nextUrl;
     const sessionId = searchParams.get('session_id');
 
     if (!sessionId) {
@@ -97,6 +99,9 @@ export async function GET(req: NextRequest): Promise<Response> {
 
     return NextResponse.redirect(
       `${HOST_URL}?${getSearchQuery({
+        [COURSE_TEST_ENROL_KEY]: searchParams.has(COURSE_TEST_ENROL_KEY)
+          ? ''
+          : undefined,
         checkout_status: 'failure',
         error: error && 'message' in error ? error.message : undefined,
       })}`

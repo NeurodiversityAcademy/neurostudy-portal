@@ -2,7 +2,10 @@ import { consumeRateWithIp } from '@/app/utilities/api/rateLimiter';
 import { NextRequest, NextResponse } from 'next/server';
 import processCourseAPIError from '@/app/utilities/db/processCourseAPIError';
 import { CourseCheckoutSession } from '@/app/interfaces/Course';
-import { COURSE_CHECKOUT_CALLBACK_URL } from '@/app/utilities/course/constants';
+import {
+  COURSE_CHECKOUT_CALLBACK_URL,
+  COURSE_TEST_ENROL_KEY,
+} from '@/app/utilities/course/constants';
 import isAuthenticated from '@/app/utilities/auth/isAuthenticated';
 import stripe from '@/app/utilities/stripe';
 import { STRIPE_INTRO_PRODUCT_PRICE_ID } from '@/app/utilities/stripe/constants';
@@ -18,6 +21,10 @@ export async function POST(req: NextRequest): Promise<Response> {
       customer_email = authResponse.email;
     }
 
+    const testParam = req.nextUrl.searchParams.has(COURSE_TEST_ENROL_KEY)
+      ? `&${COURSE_TEST_ENROL_KEY}`
+      : '';
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
@@ -28,8 +35,8 @@ export async function POST(req: NextRequest): Promise<Response> {
       ],
       mode: 'payment',
       ...(customer_email && { customer_email }),
-      success_url: `${COURSE_CHECKOUT_CALLBACK_URL}?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${COURSE_CHECKOUT_CALLBACK_URL}?status=canceled&session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${COURSE_CHECKOUT_CALLBACK_URL}?session_id={CHECKOUT_SESSION_ID}${testParam}`,
+      cancel_url: `${COURSE_CHECKOUT_CALLBACK_URL}?status=canceled&session_id={CHECKOUT_SESSION_ID}${testParam}`,
     });
 
     const data: CourseCheckoutSession = {

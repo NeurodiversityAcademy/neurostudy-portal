@@ -33,7 +33,9 @@ const CourseEnrolPrompt: React.FC = () => {
       return;
     }
 
-    if (searchObj['checkout_status'] === 'failure') {
+    if (
+      ['failure', 'canceled'].includes(searchObj['checkout_status']?.toString())
+    ) {
       setTimeout(() => {
         const { error } = searchObj;
         notifyError(
