@@ -45,6 +45,8 @@ export interface MoodleCourse {
   summary?: string;
   format?: string;
   courseimage?: string;
+  startdate: number;
+  enddate: number;
 }
 
 export interface MoodleException {
