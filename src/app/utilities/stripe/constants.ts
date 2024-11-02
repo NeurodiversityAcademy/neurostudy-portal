@@ -7,6 +7,7 @@ const STRIPE_SECRET: string = process.env.STRIPE_SECRET ?? '';
 
 if (
   process.env.NODE_ENV !== 'development' &&
+  typeof window === 'undefined' &&
   (!STRIPE_INTRO_PRODUCT_PRICE_ID || !STRIPE_SECRET)
 ) {
   throw new Error('Stripe variables have not been properly initialized.');
