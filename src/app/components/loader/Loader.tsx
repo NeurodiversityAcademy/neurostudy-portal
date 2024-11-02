@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { HTMLAttributes, useEffect, useRef } from 'react';
 import styles from './loader.module.css';
 import classNames from 'classnames';
 
-interface LoaderProps {
+interface LoaderProps extends HTMLAttributes<HTMLDivElement> {
   isLoading: boolean;
   target?: HTMLElement;
   expand?: boolean;
@@ -16,6 +16,8 @@ export default function Loader({
   target,
   expand = false,
   alignTop = false,
+  className,
+  ...rest
 }: LoaderProps) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -42,10 +44,13 @@ export default function Loader({
       <div
         ref={ref}
         className={classNames(
+          className,
           styles.loader,
           expand && styles.expand,
           alignTop && styles.alignTop
         )}
+        aria-hidden
+        {...rest}
       >
         <span className={styles.circle} />
         <span className={styles.circle} />

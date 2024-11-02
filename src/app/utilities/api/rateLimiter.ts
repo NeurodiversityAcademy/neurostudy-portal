@@ -21,8 +21,10 @@ export const consumeRateWithIp = async (
     req.headers.get('x-real-ip') ||
     'unknown';
 
+  const pathname = new URL(req.url).pathname;
+
   try {
-    const res = await rateLimiter.consume(ip, pointsToConsume);
+    const res = await rateLimiter.consume(ip + '-' + pathname, pointsToConsume);
 
     return { ip, data: res };
   } catch (ex) {

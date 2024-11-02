@@ -1,0 +1,42 @@
+.popupImg {
+  width: auto;
+  height: 90vh;
+}
+
+.enrolBtn {
+  border: 2px solid;
+}
+
+.enrolBtnContainer {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  text-align: center;
+  bottom: 45px;
+  z-index: 99999;
+  width: 100%;
+}
+
+.enrolBtnContainer > .loader {
+  background-color: transparent;
+}
+
+.enrolBtnContainer > button {
+  width: min(75vw, 200px);
+}
+
+.courseBanner {
+  width: 100%;
+  height: auto;
+  object-position: bottom;
+  object-fit: cover;
+  max-height: calc(100vh - 130px);
+}
+
+.seeMoreBtnContainer > button {
+  width: min(75vw, 200px);
+}
+
+.hide {
+  display: none;
+}

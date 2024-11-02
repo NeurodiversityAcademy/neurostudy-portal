@@ -41,6 +41,7 @@ const queryString = {
     const obj: Record<string, string | string[]> = {};
 
     searchParams.forEach((value, key) => {
+      value = decodeURIComponent(value);
       if (key in obj) {
         const prevValue = obj[key];
         if (!Array.isArray(prevValue)) {

@@ -20,6 +20,7 @@ import LoaderWrapper from '../loader/LoaderWrapper';
 import { notifyAxiosError, notifyInProgress } from '@/app/utilities/common';
 import AuthVerifyForm from './AuthVerifyForm';
 import signUp from '@/app/utilities/auth/signUp';
+import { useSearchParams } from 'next/navigation';
 
 interface SignUpFieldValues extends FieldValues {
   email: string;
@@ -28,6 +29,10 @@ interface SignUpFieldValues extends FieldValues {
 }
 
 const AuthInitSignUp: React.FC = () => {
+  const searchParams = useSearchParams();
+  const readOnlyEmail = searchParams.get('email');
+  const isEmailReadOnly = !!readOnlyEmail;
+
   const methods: UseFormReturn<SignUpFieldValues> = useForm<SignUpFieldValues>({
     mode: 'onBlur',
   });
@@ -36,14 +41,12 @@ const AuthInitSignUp: React.FC = () => {
   const [formState, setFormState] = useState<FORM_STATE>(
     FORM_STATE.INITIALIZED
   );
-  const [username, setUsername] = useState<string>('');
+  const [username, setUsername] = useState<string>(readOnlyEmail || '');
   const [password, setPassword] = useState<string>('');
 
   const onSubmit = async (data: SignUpFieldValues) => {
     const { email, password } = data;
 
-    setUsername('');
-    setPassword('');
     setIsLoading(true);
 
     try {
@@ -101,6 +104,8 @@ const AuthInitSignUp: React.FC = () => {
           required
           placeholder='Email address'
           pattern={EMAIL_REGEX}
+          defaultValue={username}
+          readOnly={isEmailReadOnly}
         />
         <TextBox
           name='password'

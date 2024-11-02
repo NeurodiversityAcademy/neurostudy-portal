@@ -8,6 +8,7 @@ import facebookIcon from '../../images/facebook.svg';
 import linkedinIcon from '../../images/linkedin.svg';
 import instagramicon from '../../images/instagram.svg';
 import twitterIcon from '../../images/twitter.svg';
+import { INFO_EMAIL_ADDRESS } from '@/app/utilities/constants';
 
 export default function Footer() {
   return (
@@ -147,9 +148,7 @@ export default function Footer() {
               <a href='tel:+123456789'>+61123456</a>
             </li> */}
             <li>
-              <a href='mailto:info@neurodiversityacademy.com'>
-                info@neurodiversityacademy.com
-              </a>
+              <a href={`mailto:${INFO_EMAIL_ADDRESS}`}>{INFO_EMAIL_ADDRESS}</a>
             </li>
             {/* <li>
               <a

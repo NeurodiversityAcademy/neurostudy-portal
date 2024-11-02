@@ -51,6 +51,7 @@ export interface TextBoxProps<TFieldValues extends FieldValues> {
   cols?: FORM_ELEMENT_COL_WIDTH;
   rules?: DefaultRules<TFieldValues>;
   disabled?: boolean;
+  readOnly?: boolean;
 }
 
 export interface TextBoxInputProps<TFieldValues extends FieldValues>

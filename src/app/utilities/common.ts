@@ -12,6 +12,7 @@ import {
 import { AxiosError, AxiosRequestConfig } from 'axios';
 import toast from '../components/toaster';
 import { SelectOption } from '../interfaces/FormElements';
+import { ToastOptions } from './toaster/constants';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyFunction = (...args: any) => any;
@@ -82,12 +83,12 @@ export const createMetadata = (
   };
 };
 
-export const notifyError = (ex: object | string) => {
+export const notifyError = (ex: object | string, options?: ToastOptions) => {
   const message =
     (typeof ex === 'string' ? ex : ex instanceof Error && ex.message) ||
     TOAST_UNKNOWN_ERROR_MESSAGE;
 
-  toast.error(message);
+  toast.error(message, options);
 };
 
 export const notifySuccess = (message: string) => {

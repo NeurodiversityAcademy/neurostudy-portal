@@ -10,23 +10,33 @@ import {
 } from 'react';
 import styles from './dialog.module.css';
 import { createPortal } from 'react-dom';
+import useHideOverflowEffect from '@/app/hooks/useHideOverflowEffect';
 
 interface Props {
   open: boolean;
   children?: ReactNode;
   onClose?: MouseEventHandler;
+  usePortal?: boolean;
 }
 
-const Dialog: React.FC<Props> = ({ open, onClose, children }) => {
+const Dialog: React.FC<Props> = ({
+  open,
+  onClose,
+  children,
+  usePortal = true,
+}) => {
   const childrenRef = useRef<ReactNode>();
   const [isRendered, setIsRendered] = useState<boolean>(open);
   if (children) {
     childrenRef.current = children;
   }
 
+  const hideOverflow = useHideOverflowEffect();
+
   useEffect(() => {
     if (open) {
       setIsRendered(true);
+      return hideOverflow();
     } else {
       // TODO
       // The value `300` should be used as a constant that matches
@@ -34,13 +44,13 @@ const Dialog: React.FC<Props> = ({ open, onClose, children }) => {
       const timer = setTimeout(() => setIsRendered(false), 300);
       return () => clearTimeout(timer);
     }
-  }, [open]);
+  }, [open, hideOverflow]);
 
   if (!isRendered) {
     return null;
   }
 
-  return createPortal(
+  const element = (
     <div
       className={classNames(
         styles.container,
@@ -51,9 +61,10 @@ const Dialog: React.FC<Props> = ({ open, onClose, children }) => {
       <dialog open className={styles.content}>
         {childrenRef.current}
       </dialog>
-    </div>,
-    document.body
+    </div>
   );
+
+  return usePortal ? createPortal(element, document.body) : element;
 };
 
 export default Dialog;

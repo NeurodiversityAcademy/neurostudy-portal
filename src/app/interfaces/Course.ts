@@ -31,3 +31,7 @@ export interface CourseSortConfig {
   sortBy: keyof CourseProps;
   sortOrder: 1 | -1;
 }
+
+export interface CourseCheckoutSession {
+  url: string | null;
+}
