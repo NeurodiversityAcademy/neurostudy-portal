@@ -17,7 +17,7 @@ interface PropType extends Omit<LinkProps, 'href'> {
 }
 
 const MoodleCourseCard: React.FC<PropType> = ({ course, ...rest }) => {
-  const { id, fullname, startdate, enddate } = course;
+  const { href, fullname, startdate, enddate } = course;
 
   const institution = 'Neurodiversity Academy';
   const location = 'Online';
@@ -28,12 +28,7 @@ const MoodleCourseCard: React.FC<PropType> = ({ course, ...rest }) => {
   const rating = 4.5;
 
   return (
-    <Link
-      href={`/moodle/course/${id}`}
-      className={styles.cardLink}
-      role='listitem'
-      {...rest}
-    >
+    <Link href={href} className={styles.cardLink} role='listitem' {...rest}>
       <Image
         src={cardHeaderBackgroundSrc}
         alt='Moodle Course card header background'

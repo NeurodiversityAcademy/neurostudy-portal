@@ -10,6 +10,8 @@ import { useSearchParams } from 'next/navigation';
 import { deviseContext } from '../deviseContext';
 import { MoodleCourse } from '@/app/interfaces/Moodle';
 import getMoodleCourses from '../moodle/getMoodleCourses';
+import { COURSE_TEST_ENROL_KEY } from '../course/constants';
+import queryString from '../queryString';
 
 interface PropType {
   children: ReactNode;
@@ -76,6 +78,9 @@ export default function ProfileProvider({ children }: PropType) {
     getData();
 
     (async () => {
+      if (!(COURSE_TEST_ENROL_KEY in queryString.parse())) {
+        return;
+      }
       const courses: MoodleCourse[] = await getMoodleCourses();
       setCourses(courses);
     })();

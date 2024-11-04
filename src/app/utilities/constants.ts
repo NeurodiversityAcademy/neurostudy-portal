@@ -84,3 +84,8 @@ export const DEFAULT_TOGGLE_OPTIONS = {
 };
 
 export const INFO_EMAIL_ADDRESS = 'info@neurodiversityacademy.com';
+
+export enum INTERNAL_MODE {
+  PROD = 'PROD',
+  DEV = 'DEV',
+}
