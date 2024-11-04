@@ -7,29 +7,31 @@ import styles from './courseEnrolPrompt.module.css';
 import ActionButton from '../../buttons/ActionButton';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 import classNames from 'classnames';
+import Loader from '../../loader/Loader';
+import { CourseBannerProps } from '@/app/interfaces/Course';
 
 export default function CourseBanner({
-  hide,
-  onOpen,
-}: {
-  hide: boolean;
-  onOpen: () => void;
-}) {
+  open,
+  isLoading,
+  onRequestCheckout,
+}: CourseBannerProps) {
   return (
     <>
       <Image
         src={IntroCourseBanner}
         alt='Neurodiversity Academy Course'
-        className={classNames(styles.courseBanner, hide && styles.hide)}
+        className={classNames(styles.courseBanner, !open && styles.hide)}
       />
       <div
-        className={classNames(styles.seeMoreBtnContainer, hide && styles.hide)}
+        className={classNames(styles.seeMoreBtnContainer, !open && styles.hide)}
       >
+        <Loader isLoading={isLoading} className={styles.loader} />
         <ActionButton
           style={BUTTON_STYLE.Primary}
-          label='See More'
+          disabled={isLoading}
+          label='Enrol'
           className={styles.seeMoreBtn}
-          onClick={onOpen}
+          onClick={onRequestCheckout}
         />
       </div>
     </>

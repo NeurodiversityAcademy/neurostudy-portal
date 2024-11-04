@@ -17,8 +17,9 @@ export async function createMoodleUser(
     const { src, secret } = getMoodleAPIInfo(mode);
 
     const splitName = name.split(/\s+/);
-    const firstname = splitName.slice(0, -1).join(' ');
-    const lastname = splitName.slice(-1).join('');
+    const firstname =
+      splitName.length > 1 ? splitName.slice(0, -1).join(' ') : name;
+    const lastname = splitName.slice(-1).join('') || firstname;
     const username = email;
 
     const password = '!' + getUniqueID();
