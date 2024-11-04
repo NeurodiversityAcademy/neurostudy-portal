@@ -39,19 +39,17 @@ export const metadata: Metadata = createMetadata(META_KEY.HOME, {
   ],
 });
 
-export default function Home({
+export default async function Home({
   searchParams,
 }: {
-  searchParams: Record<string, string | string[]>;
+  searchParams: Promise<Record<string, string | string[]>>;
 }) {
+  const showEnrolPrompt = COURSE_TEST_ENROL_KEY in (await searchParams);
+
   return (
     <>
       <main className={styles.main}>
-        {COURSE_TEST_ENROL_KEY in searchParams ? (
-          <CourseEnrolPrompt />
-        ) : (
-          <HomeBanner />
-        )}
+        {showEnrolPrompt ? <CourseEnrolPrompt /> : <HomeBanner />}
         {process.env.NODE_ENV === 'production' && getGoogleAnalyticsScript()}
         <Teacher />
         <Partner />
