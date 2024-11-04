@@ -1,6 +1,7 @@
 import { MoodleCourse, MoodleException } from '@/app/interfaces/Moodle';
 import { INTERNAL_MODE } from '../constants';
 import { getMoodleAPIInfo } from './helper';
+import { COURSE_TEST_ENROL_KEY } from '../course/constants';
 
 export async function getMoodleCoursesByUser(
   userid: number,
@@ -19,13 +20,23 @@ export async function getMoodleCoursesByUser(
       method: 'POST',
       body: formData,
     });
-    const json: MoodleCourse[] | MoodleException = await res.json();
+    const json: Omit<MoodleCourse, 'href'>[] | MoodleException =
+      await res.json();
 
     if ('exception' in json) {
       throw new Error(json.message);
     }
 
-    return json;
+    const data: MoodleCourse[] = json.map((course) => {
+      return {
+        ...course,
+        href: `/moodle/course/${course.id}${
+          mode === INTERNAL_MODE.DEV ? `?${COURSE_TEST_ENROL_KEY}` : ''
+        }`,
+      };
+    });
+
+    return data;
   } catch (_) {
     throw new Error(`Failed to fetch the user's enrolled courses.`);
   }

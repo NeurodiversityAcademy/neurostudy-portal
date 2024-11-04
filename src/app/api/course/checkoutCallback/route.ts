@@ -55,22 +55,13 @@ export async function GET(req: NextRequest): Promise<Response> {
       );
 
       if (!moodleUser) {
-        moodleUser = await createMoodleUser(
-          {
-            email,
-            name,
-          },
-          mode
-        );
+        moodleUser = await createMoodleUser({ email, name }, mode);
       }
 
       const userid = moodleUser.id;
 
       await enrolMoodleUserInCourse(
-        {
-          userid,
-          courseid: MOODLE_INTRO_COURSE_ID,
-        },
+        { userid, courseid: MOODLE_INTRO_COURSE_ID },
         mode
       );
 
@@ -99,9 +90,16 @@ export async function GET(req: NextRequest): Promise<Response> {
           return getMoodleCourseUrl(MOODLE_INTRO_COURSE_ID, mode);
         }
 
+        const callbackUrl = `/moodle/course/${MOODLE_INTRO_COURSE_ID}?${getSearchQuery(
+          {
+            [COURSE_TEST_ENROL_KEY]:
+              mode === INTERNAL_MODE.DEV ? '' : undefined,
+          }
+        )}`;
+
         return `${HOST_URL}/signup?${getSearchQuery({
           checkout_status: 'success',
-          callbackUrl: '/moodle/course/' + MOODLE_INTRO_COURSE_ID,
+          callbackUrl,
           email,
         })}`;
       })();

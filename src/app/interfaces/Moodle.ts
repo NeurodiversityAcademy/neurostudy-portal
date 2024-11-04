@@ -36,6 +36,7 @@ export interface MoodleUser {
 
 export interface MoodleCourse {
   id: number;
+  href: string;
   shortname: string;
   fullname: string;
   displayname?: string;
