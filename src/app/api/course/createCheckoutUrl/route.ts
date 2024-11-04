@@ -7,12 +7,18 @@ import {
   COURSE_TEST_ENROL_KEY,
 } from '@/app/utilities/course/constants';
 import isAuthenticated from '@/app/utilities/auth/isAuthenticated';
-import stripe from '@/app/utilities/stripe';
-import { STRIPE_INTRO_PRODUCT_PRICE_ID } from '@/app/utilities/stripe/constants';
+import getStripe from '@/app/utilities/stripe/getStripe';
+import { INTERNAL_MODE } from '@/app/utilities/constants';
+import { getStripeIntroProductPriceId } from '@/app/utilities/stripe/helper';
 
 export async function POST(req: NextRequest): Promise<Response> {
   try {
     await consumeRateWithIp(req);
+
+    const { searchParams } = req.nextUrl;
+    const mode = searchParams.has(COURSE_TEST_ENROL_KEY)
+      ? INTERNAL_MODE.DEV
+      : INTERNAL_MODE.PROD;
 
     const authResponse = await isAuthenticated({ req });
 
@@ -21,15 +27,17 @@ export async function POST(req: NextRequest): Promise<Response> {
       customer_email = authResponse.email;
     }
 
-    const testParam = req.nextUrl.searchParams.has(COURSE_TEST_ENROL_KEY)
-      ? `&${COURSE_TEST_ENROL_KEY}`
-      : '';
+    const testParam =
+      mode === INTERNAL_MODE.DEV ? `&${COURSE_TEST_ENROL_KEY}` : '';
+
+    const stripe = getStripe(mode);
+    const price = getStripeIntroProductPriceId(mode);
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
         {
-          price: STRIPE_INTRO_PRODUCT_PRICE_ID,
+          price,
           quantity: 1,
         },
       ],

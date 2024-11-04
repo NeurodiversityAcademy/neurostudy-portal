@@ -9,11 +9,12 @@ import { MOODLE_INTRO_COURSE_ID } from '@/app/utilities/moodle/constants';
 import getUser from '@/app/utilities/auth/getUser';
 import isAuthenticated from '@/app/utilities/auth/isAuthenticated';
 import AuthErrorResponse from '@/app/interfaces/AuthErrorResponse';
-import stripe from '@/app/utilities/stripe';
 import { COURSE_TEST_ENROL_KEY } from '@/app/utilities/course/constants';
 import { getMoodleUserByEmail } from '@/app/utilities/moodle/getMoodleUserByEmail';
 import { createMoodleUser } from '@/app/utilities/moodle/createMoodleUser';
 import { enrolMoodleUserInCourse } from '@/app/utilities/moodle/enrolMoodleUserInCourse';
+import getStripe from '@/app/utilities/stripe/getStripe';
+import { STRIPE_SESSION_ID_KEY } from '@/app/utilities/stripe/constants';
 
 export async function GET(req: NextRequest): Promise<Response> {
   const { searchParams } = req.nextUrl;
@@ -24,11 +25,13 @@ export async function GET(req: NextRequest): Promise<Response> {
   try {
     await consumeRateWithIp(req);
 
-    const sessionId = searchParams.get('session_id');
+    const sessionId = searchParams.get(STRIPE_SESSION_ID_KEY);
 
     if (!sessionId) {
       throw new APIError({ error: 'Invalid session.' });
     }
+
+    const stripe = getStripe(mode);
 
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
       expand: ['customer'],
