@@ -1,38 +1,21 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Dialog from '../../dialog';
 import Image from 'next/image';
 import introCoursePopupSrc from '@/app/images/intro-course-popup.jpg';
 import ActionButton from '../../buttons/ActionButton';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
-import createCheckoutUrl from '@/app/utilities/course/createCheckoutUrl';
-import { CourseCheckoutSession } from '@/app/interfaces/Course';
 import Loader from '../../loader/Loader';
 import styles from './courseEnrolPrompt.module.css';
+import { CourseEnrolPopupProps } from '@/app/interfaces/Course';
 
 export default function CourseEnrolPopup({
   open,
+  isLoading,
   onClose,
-}: {
-  open: boolean;
-  onClose: () => void;
-}) {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const onClick = async () => {
-    setIsLoading(true);
-
-    const res: CourseCheckoutSession = await createCheckoutUrl();
-    const { url } = res;
-    if (url) {
-      onClose();
-      window.location.href = url;
-    } else {
-      setIsLoading(false);
-    }
-  };
-
+  onRequestCheckout,
+}: CourseEnrolPopupProps) {
   return (
     <>
       <Dialog open={open} onClose={onClose}>
@@ -49,7 +32,7 @@ export default function CourseEnrolPopup({
               label='Enrol Now'
               className={styles.enrolBtn}
               disabled={isLoading}
-              onClick={onClick}
+              onClick={onRequestCheckout}
             />
           </div>
         )}

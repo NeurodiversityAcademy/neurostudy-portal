@@ -35,3 +35,13 @@ export interface CourseSortConfig {
 export interface CourseCheckoutSession {
   url: string | null;
 }
+
+export interface CourseBannerProps {
+  open: boolean;
+  isLoading: boolean;
+  onRequestCheckout: () => Promise<void>;
+}
+
+export interface CourseEnrolPopupProps extends CourseBannerProps {
+  onClose: () => void;
+}

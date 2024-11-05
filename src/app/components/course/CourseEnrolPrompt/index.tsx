@@ -13,18 +13,17 @@ import {
   DEFAULT_STRIPE_CONCLUDING_ERROR_MESSAGE,
   DEFAULT_STRIPE_ERROR_MESSAGE,
 } from '@/app/utilities/stripe/constants';
+import createCheckoutUrl from '@/app/utilities/course/createCheckoutUrl';
+import { CourseCheckoutSession } from '@/app/interfaces/Course';
 
 const CourseEnrolPrompt: React.FC = () => {
   const [popupOpen, setPopupOpen] = useState(false);
   const [bannerOpen, setBannerOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const onPopupClose = () => {
     setPopupOpen(false);
     setBannerOpen(true);
     localStorage.setItem(COURSE_ENROL_POPUP_CLOSED_KEY, '1');
-  };
-
-  const onPopupOpen = () => {
-    setPopupOpen(true);
   };
 
   useEffect(() => {
@@ -56,10 +55,31 @@ const CourseEnrolPrompt: React.FC = () => {
     setBannerOpen(!open);
   }, []);
 
+  const onRequestCheckout = async () => {
+    setIsLoading(true);
+    const res: CourseCheckoutSession = await createCheckoutUrl();
+    const { url } = res;
+    if (url) {
+      onPopupClose();
+      window.location.href = url;
+    } else {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
-      <CourseEnrolPopup open={popupOpen} onClose={onPopupClose} />
-      <CourseBanner hide={!bannerOpen} onOpen={onPopupOpen} />
+      <CourseEnrolPopup
+        open={popupOpen}
+        isLoading={isLoading}
+        onClose={onPopupClose}
+        onRequestCheckout={onRequestCheckout}
+      />
+      <CourseBanner
+        open={bannerOpen}
+        isLoading={isLoading}
+        onRequestCheckout={onRequestCheckout}
+      />
     </>
   );
 };

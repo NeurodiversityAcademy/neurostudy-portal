@@ -33,6 +33,10 @@
   max-height: calc(100vh - 130px);
 }
 
+.seeMoreBtnContainer {
+  position: relative;
+}
+
 .seeMoreBtnContainer > button {
   width: min(75vw, 200px);
 }
