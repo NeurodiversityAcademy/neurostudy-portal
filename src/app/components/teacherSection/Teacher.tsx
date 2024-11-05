@@ -37,7 +37,7 @@ export default function Teacher() {
         </Typography>
       </div>
       <ActionButton
-        label='Subscribe Us'
+        label='Subscribe'
         style={BUTTON_STYLE.Primary}
         onClick={toggleModal}
         className={'mt-4'}
