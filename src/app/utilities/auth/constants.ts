@@ -55,18 +55,18 @@ export const OPTIONS_DATE = Array.from({ length: 31 }, (_, i) => ({
 }));
 
 export const OPTIONS_MONTH = [
-  { label: 'Jan', value: 1 },
-  { label: 'Feb', value: 2 },
-  { label: 'Mar', value: 3 },
-  { label: 'Apr', value: 4 },
-  { label: 'May', value: 5 },
-  { label: 'Jun', value: 6 },
-  { label: 'Jul', value: 7 },
-  { label: 'Aug', value: 8 },
-  { label: 'Sep', value: 9 },
-  { label: 'Oct', value: 10 },
-  { label: 'Nov', value: 11 },
-  { label: 'Dec', value: 12 },
+  { label: 'Jan', value: 0 },
+  { label: 'Feb', value: 1 },
+  { label: 'Mar', value: 2 },
+  { label: 'Apr', value: 3 },
+  { label: 'May', value: 4 },
+  { label: 'Jun', value: 5 },
+  { label: 'Jul', value: 6 },
+  { label: 'Aug', value: 7 },
+  { label: 'Sep', value: 8 },
+  { label: 'Oct', value: 9 },
+  { label: 'Nov', value: 10 },
+  { label: 'Dec', value: 11 },
 ];
 
 export const OPTIONS_YEAR = Array.from({ length: 100 }, (_, i) => ({
