@@ -115,7 +115,7 @@ const AuthInitSignUp: React.FC = () => {
       <Form
         methods={methods}
         onSubmit={methods.handleSubmit(onSubmit)}
-        className={classNames('row', { hide: isConfirming })}
+        className={classNames({ hide: isConfirming })}
       >
         <TextBox
           name='firstName'
@@ -177,6 +177,7 @@ const AuthInitSignUp: React.FC = () => {
           placeholder='Date'
           cols={FORM_ELEMENT_COL_WIDTH.SMALL}
           options={OPTIONS_DATE}
+          radioMode
         />
         <Dropdown
           name='month'
@@ -184,6 +185,7 @@ const AuthInitSignUp: React.FC = () => {
           placeholder='Month'
           cols={FORM_ELEMENT_COL_WIDTH.SMALL}
           options={OPTIONS_MONTH}
+          radioMode
         />
         <Dropdown
           name='year'
@@ -191,6 +193,7 @@ const AuthInitSignUp: React.FC = () => {
           placeholder='Year'
           cols={FORM_ELEMENT_COL_WIDTH.SMALL}
           options={OPTIONS_YEAR}
+          radioMode
         />
         <Typography
           variant={TypographyVariant.Body2}
