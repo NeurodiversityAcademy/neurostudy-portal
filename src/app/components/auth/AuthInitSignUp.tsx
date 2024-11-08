@@ -178,6 +178,7 @@ const AuthInitSignUp: React.FC = () => {
           cols={FORM_ELEMENT_COL_WIDTH.SMALL}
           options={OPTIONS_DATE}
           radioMode
+          required
         />
         <Dropdown
           name='month'
@@ -186,6 +187,7 @@ const AuthInitSignUp: React.FC = () => {
           cols={FORM_ELEMENT_COL_WIDTH.SMALL}
           options={OPTIONS_MONTH}
           radioMode
+          required
         />
         <Dropdown
           name='year'
@@ -194,6 +196,7 @@ const AuthInitSignUp: React.FC = () => {
           cols={FORM_ELEMENT_COL_WIDTH.SMALL}
           options={OPTIONS_YEAR}
           radioMode
+          required
         />
         <Typography
           variant={TypographyVariant.Body2}
