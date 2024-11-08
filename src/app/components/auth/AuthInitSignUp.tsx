@@ -18,17 +18,17 @@ import ActionButton from '@/app/components/buttons/ActionButton';
 import AuthFormHeader from './AuthFormHeader';
 import AuthFormFooter from './AuthFormFooter';
 import { SignUpOutput } from 'aws-amplify/auth';
-import { FORM_STATE } from '@/app/utilities/auth/constants';
+import {
+  FORM_STATE,
+  OPTIONS_DATE,
+  OPTIONS_MONTH,
+  OPTIONS_YEAR,
+} from '@/app/utilities/auth/constants';
 import { useState } from 'react';
 import LoaderWrapper from '../loader/LoaderWrapper';
 import { notifyAxiosError, notifyInProgress } from '@/app/utilities/common';
 import AuthVerifyForm from './AuthVerifyForm';
-import {
-  signUp,
-  OPTIONS_DATE,
-  OPTIONS_MONTH,
-  OPTIONS_YEAR,
-} from '@/app/utilities/auth/signUp';
+import signUp from '@/app/utilities/auth/signUp';
 import { useSearchParams } from 'next/navigation';
 import Dropdown from '../formElements/Dropdown/Dropdown';
 
