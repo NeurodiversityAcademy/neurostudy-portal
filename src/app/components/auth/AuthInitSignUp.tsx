@@ -23,8 +23,14 @@ import { useState } from 'react';
 import LoaderWrapper from '../loader/LoaderWrapper';
 import { notifyAxiosError, notifyInProgress } from '@/app/utilities/common';
 import AuthVerifyForm from './AuthVerifyForm';
-import signUp from '@/app/utilities/auth/signUp';
+import {
+  signUp,
+  OPTIONS_DATE,
+  OPTIONS_MONTH,
+  OPTIONS_YEAR,
+} from '@/app/utilities/auth/signUp';
 import { useSearchParams } from 'next/navigation';
+import Dropdown from '../formElements/Dropdown/Dropdown';
 
 interface SignUpFieldValues extends FieldValues {
   firstName: string;
@@ -165,29 +171,26 @@ const AuthInitSignUp: React.FC = () => {
         >
           Date of Birth
         </Typography>
-        <TextBox
+        <Dropdown
           name='date'
-          type='number'
           label='Date'
-          required
           placeholder='Date'
           cols={FORM_ELEMENT_COL_WIDTH.SMALL}
+          options={OPTIONS_DATE}
         />
-        <TextBox
+        <Dropdown
           name='month'
-          type='number'
           label='Month'
-          required
           placeholder='Month'
           cols={FORM_ELEMENT_COL_WIDTH.SMALL}
+          options={OPTIONS_MONTH}
         />
-        <TextBox
+        <Dropdown
           name='year'
-          type='number'
           label='Year'
-          required
           placeholder='Year'
           cols={FORM_ELEMENT_COL_WIDTH.SMALL}
+          options={OPTIONS_YEAR}
         />
         <Typography
           variant={TypographyVariant.Body2}
