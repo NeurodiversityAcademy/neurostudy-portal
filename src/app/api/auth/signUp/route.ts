@@ -7,7 +7,6 @@ export async function POST(request: Request) {
   try {
     const data: SignUpInput = await request.json();
     const { username: email } = data;
-
     // NOTE
     // We will manually sign-in regardless of `autoSignIn`,
     // so wouldn't want providing `autoSignIn: true` messing
