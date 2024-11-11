@@ -1,11 +1,9 @@
 import { INTERNAL_MODE } from '../constants';
 import {
   DEV_MOODLE_HOST_URL,
-  DEV_MOODLE_INTRO_COURSE_ID,
   DEV_MOODLE_SECRET,
   MOODLE_API_PATH,
   MOODLE_HOST_URL,
-  MOODLE_INTRO_COURSE_ID,
   MOODLE_SECRET,
 } from './constants';
 
@@ -23,14 +21,6 @@ export function getMoodleSecret(mode: INTERNAL_MODE): string {
   }
 
   return MOODLE_SECRET;
-}
-
-export function getMoodleIntroCourseId(mode: INTERNAL_MODE): number {
-  if (mode === INTERNAL_MODE.DEV) {
-    return DEV_MOODLE_INTRO_COURSE_ID;
-  }
-
-  return MOODLE_INTRO_COURSE_ID;
 }
 
 export function getMoodleAPIUrl(mode: INTERNAL_MODE): string {

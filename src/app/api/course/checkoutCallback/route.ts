@@ -5,7 +5,6 @@ import APIError from '@/app/interfaces/APIError';
 import { getSearchQuery } from '@/app/utilities/common';
 import { getMoodleCourseUrl } from '@/app/utilities/moodle/helper';
 import { MoodleUserBasic } from '@/app/interfaces/Moodle';
-import { MOODLE_INTRO_COURSE_ID } from '@/app/utilities/moodle/constants';
 import getUser from '@/app/utilities/auth/getUser';
 import isAuthenticated from '@/app/utilities/auth/isAuthenticated';
 import AuthErrorResponse from '@/app/interfaces/AuthErrorResponse';
@@ -14,7 +13,12 @@ import { getMoodleUserByEmail } from '@/app/utilities/moodle/getMoodleUserByEmai
 import { createMoodleUser } from '@/app/utilities/moodle/createMoodleUser';
 import { enrolMoodleUserInCourse } from '@/app/utilities/moodle/enrolMoodleUserInCourse';
 import getStripe from '@/app/utilities/stripe/getStripe';
-import { STRIPE_SESSION_ID_KEY } from '@/app/utilities/stripe/constants';
+import {
+  STRIPE_PRICE_META_MOODLE_COURSE_ID_KEY,
+  STRIPE_SESSION_EXPANDABLE_ITEMS,
+  STRIPE_SESSION_ID_KEY,
+  STRIPE_SESSION_PAYMENT_STATUS,
+} from '@/app/utilities/stripe/constants';
 
 export async function GET(req: NextRequest): Promise<Response> {
   const { searchParams } = req.nextUrl;
@@ -34,10 +38,16 @@ export async function GET(req: NextRequest): Promise<Response> {
     const stripe = getStripe(mode);
 
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
-      expand: ['customer'],
+      expand: [
+        STRIPE_SESSION_EXPANDABLE_ITEMS.CUSTOMER,
+        STRIPE_SESSION_EXPANDABLE_ITEMS.LINE_ITEMS,
+      ],
     });
 
-    if (session && session.payment_status === 'paid') {
+    if (
+      session &&
+      session.payment_status === STRIPE_SESSION_PAYMENT_STATUS.PAID
+    ) {
       const customer = session.customer_details;
       if (!customer) {
         throw new APIError({ error: 'Invalid customer.' });
@@ -47,6 +57,18 @@ export async function GET(req: NextRequest): Promise<Response> {
 
       if (!email || !name) {
         throw new APIError({ error: 'Invalid customer.' });
+      }
+
+      const courseid: number = +(
+        session.line_items?.data[0].price?.metadata?.[
+          STRIPE_PRICE_META_MOODLE_COURSE_ID_KEY
+        ] || 'null'
+      );
+
+      if (isNaN(courseid)) {
+        throw new APIError({
+          error: 'Product is not connected to any moodle course.',
+        });
       }
 
       let moodleUser: MoodleUserBasic | null = await getMoodleUserByEmail(
@@ -60,10 +82,7 @@ export async function GET(req: NextRequest): Promise<Response> {
 
       const userid = moodleUser.id;
 
-      await enrolMoodleUserInCourse(
-        { userid, courseid: MOODLE_INTRO_COURSE_ID },
-        mode
-      );
+      await enrolMoodleUserInCourse({ userid, courseid }, mode);
 
       const authResponse = await isAuthenticated({ req });
 
@@ -79,7 +98,7 @@ export async function GET(req: NextRequest): Promise<Response> {
         // TODO: `getUser` fetches user from DynamoDB, we directly need to fetch from
         // cognito to determine if the user exists.
         // Use case:
-        //  User signs up using idP, the user is not directly inserted into
+        //  User signs up using Google SSO, the user is not directly inserted into
         //  the DynamoDB, due to lack of convenient information from next-auth to
         //  determine whether the user is new (needs to be addressed later)
         return !!(await getUser(email));
@@ -87,15 +106,12 @@ export async function GET(req: NextRequest): Promise<Response> {
 
       const url = (() => {
         if (userExists) {
-          return getMoodleCourseUrl(MOODLE_INTRO_COURSE_ID, mode);
+          return getMoodleCourseUrl(courseid, mode);
         }
 
-        const callbackUrl = `/moodle/course/${MOODLE_INTRO_COURSE_ID}?${getSearchQuery(
-          {
-            [COURSE_TEST_ENROL_KEY]:
-              mode === INTERNAL_MODE.DEV ? '' : undefined,
-          }
-        )}`;
+        const callbackUrl = `/moodle/course/${courseid}?${getSearchQuery({
+          [COURSE_TEST_ENROL_KEY]: mode === INTERNAL_MODE.DEV ? '' : undefined,
+        })}`;
 
         return `${HOST_URL}/signup?${getSearchQuery({
           checkout_status: 'success',
@@ -106,7 +122,7 @@ export async function GET(req: NextRequest): Promise<Response> {
 
       return NextResponse.redirect(url);
     } else {
-      throw new Error('Payment not completed.');
+      throw new APIError({ error: 'Payment not completed.' });
     }
   } catch (ex) {
     const error = ex as object;
