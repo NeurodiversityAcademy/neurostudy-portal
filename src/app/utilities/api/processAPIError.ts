@@ -24,6 +24,8 @@ export default function processAPIError(
 
   const statusText = res?.name || DEFAULT_SERVER_ERROR_NAME;
 
+  console.error(res);
+
   return new Response(JSON.stringify({ ...res, status: undefined }), {
     status,
     statusText,
