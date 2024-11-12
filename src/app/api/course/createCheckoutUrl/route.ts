@@ -9,7 +9,11 @@ import {
 import isAuthenticated from '@/app/utilities/auth/isAuthenticated';
 import getStripe from '@/app/utilities/stripe/getStripe';
 import { INTERNAL_MODE } from '@/app/utilities/constants';
-import { getStripeIntroProductPriceId } from '@/app/utilities/stripe/helper';
+import {
+  STRIPE_INTRO_PRODUCT_PRICE_LOOKUP_KEY,
+  STRIPE_PRICE_META_MOODLE_COURSE_ID_KEY,
+} from '@/app/utilities/stripe/constants';
+import APIError from '@/app/interfaces/APIError';
 
 export async function POST(req: NextRequest): Promise<Response> {
   try {
@@ -31,13 +35,24 @@ export async function POST(req: NextRequest): Promise<Response> {
       mode === INTERNAL_MODE.DEV ? `&${COURSE_TEST_ENROL_KEY}` : '';
 
     const stripe = getStripe(mode);
-    const price = getStripeIntroProductPriceId(mode);
+    const priceResponse = await stripe.prices.list({
+      lookup_keys: [STRIPE_INTRO_PRODUCT_PRICE_LOOKUP_KEY],
+    });
+    const price = priceResponse.data[0];
+
+    if (!price) {
+      throw new APIError({ error: 'Invalid price encountered.' });
+    }
+
+    if (!price.metadata[STRIPE_PRICE_META_MOODLE_COURSE_ID_KEY]) {
+      throw new APIError({ error: 'Invalid moodle product encountered.' });
+    }
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
         {
-          price,
+          price: price.id,
           quantity: 1,
         },
       ],

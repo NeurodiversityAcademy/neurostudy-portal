@@ -8,7 +8,7 @@ import {
 import CourseBanner from './CourseBanner';
 import CourseEnrolPopup from './CourseEnrolPopup';
 import queryString from '@/app/utilities/queryString';
-import { notifyError } from '@/app/utilities/common';
+import { notifyAxiosError, notifyError } from '@/app/utilities/common';
 import {
   DEFAULT_STRIPE_CONCLUDING_ERROR_MESSAGE,
   DEFAULT_STRIPE_ERROR_MESSAGE,
@@ -57,12 +57,16 @@ const CourseEnrolPrompt: React.FC = () => {
 
   const onRequestCheckout = async () => {
     setIsLoading(true);
-    const res: CourseCheckoutSession = await createCheckoutUrl();
-    const { url } = res;
-    if (url) {
-      onPopupClose();
-      window.location.href = url;
-    } else {
+    try {
+      const res: CourseCheckoutSession = await createCheckoutUrl();
+      const { url } = res;
+      if (url) {
+        onPopupClose();
+        window.location.href = url;
+      }
+    } catch (err) {
+      notifyAxiosError(err);
+    } finally {
       setIsLoading(false);
     }
   };
