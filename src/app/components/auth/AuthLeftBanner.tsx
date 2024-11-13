@@ -14,7 +14,7 @@ const AuthLeftBanner: React.FC = () => {
       >
         Signup/Login to Neurodiversity Academy
       </Typography>
-      <div className={styles.bannerDesc}>
+      {/* <div className={styles.bannerDesc}>
         <Typography
           variant={TypographyVariant.H3}
           color='var(--GhostWhite)'
@@ -27,7 +27,7 @@ const AuthLeftBanner: React.FC = () => {
           laboriosam delectus tenetur perspiciatis qui labore eius sint cumque
           sunt.
         </Typography>
-      </div>
+      </div> */}
     </div>
   );
 };
