@@ -45,6 +45,7 @@ export async function POST(req: NextRequest): Promise<Response> {
         },
       ],
       mode: 'payment',
+      allow_promotion_codes: true,
       ...(customer_email && { customer_email }),
       success_url: `${COURSE_CHECKOUT_CALLBACK_URL}?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${COURSE_CHECKOUT_CALLBACK_URL}?status=canceled&session_id={CHECKOUT_SESSION_ID}`,
