@@ -51,7 +51,7 @@ export async function GET(req: NextRequest): Promise<Response> {
 
       const { email, name } = customer;
 
-      if (!email || !name) {
+      if (!email) {
         throw new APIError({ error: 'Invalid customer.' });
       }
 
@@ -71,7 +71,10 @@ export async function GET(req: NextRequest): Promise<Response> {
         await getMoodleUserByEmail(email);
 
       if (!moodleUser) {
-        moodleUser = await createMoodleUser({ email, name });
+        moodleUser = await createMoodleUser({
+          email,
+          name: name || email.split('@')[0],
+        });
       }
 
       const userid = moodleUser.id;
