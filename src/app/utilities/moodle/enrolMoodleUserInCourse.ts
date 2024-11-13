@@ -1,20 +1,16 @@
 import { MoodleException } from '@/app/interfaces/Moodle';
-import { INTERNAL_MODE } from '../constants';
 import { MOODLE_STUDENT_ROLE_ID } from './constants';
 import { getMoodleAPIInfo } from './helper';
 
-export async function enrolMoodleUserInCourse(
-  {
-    userid,
-    courseid,
-  }: {
-    userid: number;
-    courseid: number;
-  },
-  mode: INTERNAL_MODE
-): Promise<void> {
+export async function enrolMoodleUserInCourse({
+  userid,
+  courseid,
+}: {
+  userid: number;
+  courseid: number;
+}): Promise<void> {
   try {
-    const { src, secret } = getMoodleAPIInfo(mode);
+    const { src, secret } = getMoodleAPIInfo();
 
     const formData = new FormData();
     formData.append('wstoken', secret);

@@ -1,6 +1,6 @@
 import { consumeRateWithIp } from '@/app/utilities/api/rateLimiter';
 import { NextRequest, NextResponse } from 'next/server';
-import { HOST_URL, INTERNAL_MODE } from '@/app/utilities/constants';
+import { HOST_URL } from '@/app/utilities/constants';
 import APIError from '@/app/interfaces/APIError';
 import { getSearchQuery } from '@/app/utilities/common';
 import { getMoodleCourseUrl } from '@/app/utilities/moodle/helper';
@@ -8,7 +8,6 @@ import { MoodleUserBasic } from '@/app/interfaces/Moodle';
 import getUser from '@/app/utilities/auth/getUser';
 import isAuthenticated from '@/app/utilities/auth/isAuthenticated';
 import AuthErrorResponse from '@/app/interfaces/AuthErrorResponse';
-import { COURSE_TEST_ENROL_KEY } from '@/app/utilities/course/constants';
 import { getMoodleUserByEmail } from '@/app/utilities/moodle/getMoodleUserByEmail';
 import { createMoodleUser } from '@/app/utilities/moodle/createMoodleUser';
 import { enrolMoodleUserInCourse } from '@/app/utilities/moodle/enrolMoodleUserInCourse';
@@ -22,9 +21,6 @@ import {
 
 export async function GET(req: NextRequest): Promise<Response> {
   const { searchParams } = req.nextUrl;
-  const mode = searchParams.has(COURSE_TEST_ENROL_KEY)
-    ? INTERNAL_MODE.DEV
-    : INTERNAL_MODE.PROD;
 
   try {
     await consumeRateWithIp(req);
@@ -35,7 +31,7 @@ export async function GET(req: NextRequest): Promise<Response> {
       throw new APIError({ error: 'Invalid session.' });
     }
 
-    const stripe = getStripe(mode);
+    const stripe = getStripe();
 
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
       expand: [
@@ -71,18 +67,16 @@ export async function GET(req: NextRequest): Promise<Response> {
         });
       }
 
-      let moodleUser: MoodleUserBasic | null = await getMoodleUserByEmail(
-        email,
-        mode
-      );
+      let moodleUser: MoodleUserBasic | null =
+        await getMoodleUserByEmail(email);
 
       if (!moodleUser) {
-        moodleUser = await createMoodleUser({ email, name }, mode);
+        moodleUser = await createMoodleUser({ email, name });
       }
 
       const userid = moodleUser.id;
 
-      await enrolMoodleUserInCourse({ userid, courseid }, mode);
+      await enrolMoodleUserInCourse({ userid, courseid });
 
       const authResponse = await isAuthenticated({ req });
 
@@ -106,12 +100,10 @@ export async function GET(req: NextRequest): Promise<Response> {
 
       const url = (() => {
         if (userExists) {
-          return getMoodleCourseUrl(courseid, mode);
+          return getMoodleCourseUrl(courseid);
         }
 
-        const callbackUrl = `/moodle/course/${courseid}?${getSearchQuery({
-          [COURSE_TEST_ENROL_KEY]: mode === INTERNAL_MODE.DEV ? '' : undefined,
-        })}`;
+        const callbackUrl = `/moodle/course/${courseid}`;
 
         return `${HOST_URL}/signup?${getSearchQuery({
           checkout_status: 'success',
@@ -129,7 +121,6 @@ export async function GET(req: NextRequest): Promise<Response> {
 
     return NextResponse.redirect(
       `${HOST_URL}?${getSearchQuery({
-        [COURSE_TEST_ENROL_KEY]: mode === INTERNAL_MODE.DEV ? '' : undefined,
         checkout_status: 'failure',
         error: error && 'message' in error ? error.message : undefined,
       })}`

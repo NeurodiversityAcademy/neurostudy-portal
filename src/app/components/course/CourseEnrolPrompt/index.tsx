@@ -1,10 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import {
-  COURSE_ENROL_POPUP_CLOSED_KEY,
-  COURSE_TEST_ENROL_KEY,
-} from '@/app/utilities/course/constants';
+import { COURSE_ENROL_POPUP_CLOSED_KEY } from '@/app/utilities/course/constants';
 import CourseBanner from './CourseBanner';
 import CourseEnrolPopup from './CourseEnrolPopup';
 import queryString from '@/app/utilities/queryString';
@@ -28,9 +25,6 @@ const CourseEnrolPrompt: React.FC = () => {
 
   useEffect(() => {
     const searchObj = queryString.parse();
-    if (!(COURSE_TEST_ENROL_KEY in searchObj)) {
-      return;
-    }
 
     if (
       ['failure', 'canceled'].includes(searchObj['checkout_status']?.toString())

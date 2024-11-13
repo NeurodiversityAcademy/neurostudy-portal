@@ -1,20 +1,16 @@
 import { MoodleException, MoodleUser } from '@/app/interfaces/Moodle';
 import { getUniqueID } from '../common';
-import { INTERNAL_MODE } from '../constants';
 import { getMoodleAPIInfo } from './helper';
 
-export async function createMoodleUser(
-  {
-    email,
-    name,
-  }: {
-    email: string;
-    name: string;
-  },
-  mode: INTERNAL_MODE
-): Promise<MoodleUser> {
+export async function createMoodleUser({
+  email,
+  name,
+}: {
+  email: string;
+  name: string;
+}): Promise<MoodleUser> {
   try {
-    const { src, secret } = getMoodleAPIInfo(mode);
+    const { src, secret } = getMoodleAPIInfo();
 
     const splitName = name.split(/\s+/);
     const firstname =
