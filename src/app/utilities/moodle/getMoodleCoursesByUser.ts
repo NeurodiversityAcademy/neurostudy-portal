@@ -1,14 +1,11 @@
 import { MoodleCourse, MoodleException } from '@/app/interfaces/Moodle';
-import { INTERNAL_MODE } from '../constants';
 import { getMoodleAPIInfo } from './helper';
-import { COURSE_TEST_ENROL_KEY } from '../course/constants';
 
 export async function getMoodleCoursesByUser(
-  userid: number,
-  mode: INTERNAL_MODE
+  userid: number
 ): Promise<MoodleCourse[]> {
   try {
-    const { src, secret } = getMoodleAPIInfo(mode);
+    const { src, secret } = getMoodleAPIInfo();
 
     const formData = new FormData();
     formData.append('wstoken', secret);
@@ -30,9 +27,7 @@ export async function getMoodleCoursesByUser(
     const data: MoodleCourse[] = json.map((course) => {
       return {
         ...course,
-        href: `/moodle/course/${course.id}${
-          mode === INTERNAL_MODE.DEV ? `?${COURSE_TEST_ENROL_KEY}` : ''
-        }`,
+        href: `/moodle/course/${course.id}`,
       };
     });
 

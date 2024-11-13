@@ -1,43 +1,28 @@
-import { INTERNAL_MODE } from '../constants';
-import {
-  DEV_MOODLE_HOST_URL,
-  DEV_MOODLE_SECRET,
-  MOODLE_API_PATH,
-  MOODLE_HOST_URL,
-  MOODLE_SECRET,
-} from './constants';
+import { MOODLE_API_PATH, MOODLE_HOST_URL, MOODLE_SECRET } from './constants';
 
-export function getMoodleHostUrl(mode: INTERNAL_MODE): string {
-  if (mode === INTERNAL_MODE.DEV) {
-    return DEV_MOODLE_HOST_URL;
-  }
-
+export function getMoodleHostUrl(): string {
   return MOODLE_HOST_URL;
 }
 
-export function getMoodleSecret(mode: INTERNAL_MODE): string {
-  if (mode === INTERNAL_MODE.DEV) {
-    return DEV_MOODLE_SECRET;
-  }
-
+export function getMoodleSecret(): string {
   return MOODLE_SECRET;
 }
 
-export function getMoodleAPIUrl(mode: INTERNAL_MODE): string {
-  return getMoodleHostUrl(mode) + MOODLE_API_PATH;
+export function getMoodleAPIUrl(): string {
+  return getMoodleHostUrl() + MOODLE_API_PATH;
 }
 
-export function getMoodleAPIInfo(mode: INTERNAL_MODE): {
+export function getMoodleAPIInfo(): {
   src: string;
   secret: string;
 } {
   return {
-    src: getMoodleAPIUrl(mode),
-    secret: getMoodleSecret(mode),
+    src: getMoodleAPIUrl(),
+    secret: getMoodleSecret(),
   };
 }
 
-export function getMoodleCourseUrl(courseid: number, mode: INTERNAL_MODE) {
-  const moodleHostUrl = getMoodleHostUrl(mode);
+export function getMoodleCourseUrl(courseid: number) {
+  const moodleHostUrl = getMoodleHostUrl();
   return `${moodleHostUrl}/course/view.php?id=${courseid}`;
 }

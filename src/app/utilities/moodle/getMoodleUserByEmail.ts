@@ -1,14 +1,12 @@
 import { MoodleException, MoodleUserBasic } from '@/app/interfaces/Moodle';
-import { INTERNAL_MODE } from '../constants';
 import { getMoodleAPIInfo } from './helper';
 import { getSearchQuery } from '../common';
 
 export async function getMoodleUserByEmail(
-  email: string,
-  mode: INTERNAL_MODE
+  email: string
 ): Promise<MoodleUserBasic | null> {
   try {
-    const { src, secret } = getMoodleAPIInfo(mode);
+    const { src, secret } = getMoodleAPIInfo();
 
     const url = `${src}?
         ${getSearchQuery({

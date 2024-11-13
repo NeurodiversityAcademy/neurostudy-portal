@@ -1,9 +1,8 @@
 import { consumeRateWithIp } from '@/app/utilities/api/rateLimiter';
 import { NextRequest, NextResponse } from 'next/server';
-import { HOST_URL, INTERNAL_MODE } from '@/app/utilities/constants';
+import { HOST_URL } from '@/app/utilities/constants';
 import { getSearchQuery } from '@/app/utilities/common';
 import { createMoodleCourseUrl } from '@/app/utilities/moodle/createMoodleCourseUrl';
-import { COURSE_TEST_ENROL_KEY } from '@/app/utilities/course/constants';
 
 export async function GET(
   req: NextRequest,
@@ -12,14 +11,9 @@ export async function GET(
   try {
     await consumeRateWithIp(req);
 
-    const { searchParams } = req.nextUrl;
-    const mode = searchParams.has(COURSE_TEST_ENROL_KEY)
-      ? INTERNAL_MODE.DEV
-      : INTERNAL_MODE.PROD;
-
     const courseid = +params.courseid;
 
-    const callbackUrl = await createMoodleCourseUrl(req, { courseid }, mode);
+    const callbackUrl = await createMoodleCourseUrl(req, { courseid });
 
     if (callbackUrl) {
       return NextResponse.redirect(callbackUrl);

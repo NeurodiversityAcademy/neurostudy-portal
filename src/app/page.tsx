@@ -11,8 +11,6 @@ import { createMetadata } from './utilities/common';
 import { META_KEY } from './utilities/constants';
 import Subscribe from './components/subscribe/subscribe';
 import CourseEnrolPrompt from './components/course/CourseEnrolPrompt';
-import HomeBanner from './components/banner/HomeBanner';
-import { COURSE_TEST_ENROL_KEY } from './utilities/course/constants';
 
 const getGoogleAnalyticsScript = () => {
   return (
@@ -39,17 +37,11 @@ export const metadata: Metadata = createMetadata(META_KEY.HOME, {
   ],
 });
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: Promise<Record<string, string | string[]>>;
-}) {
-  const showEnrolPrompt = COURSE_TEST_ENROL_KEY in (await searchParams);
-
+export default async function Home() {
   return (
     <>
       <main className={styles.main}>
-        {showEnrolPrompt ? <CourseEnrolPrompt /> : <HomeBanner />}
+        <CourseEnrolPrompt />
         {process.env.NODE_ENV === 'production' && getGoogleAnalyticsScript()}
         <Teacher />
         <Partner />

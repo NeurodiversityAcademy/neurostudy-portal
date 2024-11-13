@@ -4,7 +4,6 @@ import AuthErrorResponse from '@/app/interfaces/AuthErrorResponse';
 import { getMoodleUserByEmail } from './getMoodleUserByEmail';
 import { getMoodleCoursesByUser } from './getMoodleCoursesByUser';
 import { getMoodleCourseUrl } from './helper';
-import { INTERNAL_MODE } from '../constants';
 
 type GetMoodleCourseUrl = {
   courseid: number;
@@ -13,8 +12,7 @@ type GetMoodleCourseUrl = {
 
 export async function createMoodleCourseUrl(
   req: NextRequest,
-  { courseid, userid }: GetMoodleCourseUrl,
-  mode: INTERNAL_MODE
+  { courseid, userid }: GetMoodleCourseUrl
 ): Promise<string | undefined> {
   const authResponse = await isAuthenticated({ req });
 
@@ -22,14 +20,14 @@ export async function createMoodleCourseUrl(
     return;
   }
 
-  userid = userid || (await getMoodleUserByEmail(authResponse.email, mode))?.id;
+  userid = userid || (await getMoodleUserByEmail(authResponse.email))?.id;
 
   if (!userid) {
     return;
   }
 
-  const courses = await getMoodleCoursesByUser(userid, mode);
+  const courses = await getMoodleCoursesByUser(userid);
   const courseIdExists = courses.find(({ id }) => id === courseid);
 
-  return courseIdExists ? getMoodleCourseUrl(courseid, mode) : undefined;
+  return courseIdExists ? getMoodleCourseUrl(courseid) : undefined;
 }
