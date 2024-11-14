@@ -40,7 +40,7 @@ export async function POST(req: NextRequest): Promise<Response> {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       invoice_creation: {
-        enabled: true
+        enabled: true,
       },
       line_items: [
         {
