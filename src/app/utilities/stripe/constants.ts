@@ -42,3 +42,11 @@ export enum STRIPE_SESSION_PAYMENT_STATUS {
   UNPAID = 'unpaid',
   NO_PAYMENT_REQUIRED = 'no_payment_required',
 }
+
+export enum STRIPE_SHIPPING_ALLOWED_COUNTRIES {
+  AUSTRALIA = 'AU',
+  USA = 'US',
+  UNITED_KINGDOM = 'GB',
+  CANADA = 'CA',
+  NEW_ZEALAND = 'NZ',
+}

@@ -8,6 +8,7 @@ import getStripe from '@/app/utilities/stripe/getStripe';
 import {
   STRIPE_INTRO_PRODUCT_PRICE_LOOKUP_KEY,
   STRIPE_PRICE_META_MOODLE_COURSE_ID_KEY,
+  STRIPE_SHIPPING_ALLOWED_COUNTRIES,
 } from '@/app/utilities/stripe/constants';
 import APIError from '@/app/interfaces/APIError';
 
@@ -47,6 +48,15 @@ export async function POST(req: NextRequest): Promise<Response> {
       mode: 'payment',
       allow_promotion_codes: true,
       ...(customer_email && { customer_email }),
+      shipping_address_collection: {
+        allowed_countries: [
+          STRIPE_SHIPPING_ALLOWED_COUNTRIES.AUSTRALIA,
+          STRIPE_SHIPPING_ALLOWED_COUNTRIES.USA,
+          STRIPE_SHIPPING_ALLOWED_COUNTRIES.UNITED_KINGDOM,
+          STRIPE_SHIPPING_ALLOWED_COUNTRIES.CANADA,
+          STRIPE_SHIPPING_ALLOWED_COUNTRIES.NEW_ZEALAND,
+        ],
+      },
       success_url: `${COURSE_CHECKOUT_CALLBACK_URL}?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${COURSE_CHECKOUT_CALLBACK_URL}?status=canceled&session_id={CHECKOUT_SESSION_ID}`,
     });

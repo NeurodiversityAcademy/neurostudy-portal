@@ -8,14 +8,13 @@ export async function getMoodleUserByEmail(
   try {
     const { src, secret } = getMoodleAPIInfo();
 
-    const url = `${src}?
-        ${getSearchQuery({
-          wstoken: secret,
-          wsfunction: 'core_user_get_users_by_field',
-          field: 'email',
-          'values[]': email,
-          moodlewsrestformat: 'json',
-        })}`;
+    const url = `${src}?${getSearchQuery({
+      wstoken: secret,
+      wsfunction: 'core_user_get_users_by_field',
+      field: 'email',
+      'values[]': email,
+      moodlewsrestformat: 'json',
+    })}`;
 
     const res = await fetch(url);
     const json: MoodleUserBasic[] | MoodleException = await res.json();
