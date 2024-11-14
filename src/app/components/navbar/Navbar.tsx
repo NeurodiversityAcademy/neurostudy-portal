@@ -134,6 +134,13 @@ export default function Navbar() {
           {isDropdownVisible && (
             <ul className={`${styles.dropdownMenu}`}>
               <li className={styles.li}>
+                <Link href='/profile' onClick={toggleDropdown}>
+                  <Typography variant={TypographyVariant.Body2}>
+                    Profile
+                  </Typography>
+                </Link>
+              </li>
+              <li className={styles.li}>
                 <Link href='/neurodivergentmates' onClick={toggleDropdown}>
                   <Typography variant={TypographyVariant.Body2}>
                     Neurodivergent Mates
