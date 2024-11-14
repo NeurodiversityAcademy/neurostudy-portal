@@ -43,14 +43,6 @@ export async function POST(req: NextRequest): Promise<Response> {
         {
           price: price.id,
           quantity: 1,
-          price_data: {
-            currency: 'aud',
-            product_data: {
-              name: 'Introduction to Neurodiversity in VET',
-              tax_code: 'txcd_20060044',
-            },
-            tax_behavior: 'exclusive',
-          },
         },
       ],
       mode: 'payment',
