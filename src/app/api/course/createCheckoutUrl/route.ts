@@ -43,7 +43,6 @@ export async function POST(req: NextRequest): Promise<Response> {
         {
           price: price.id,
           quantity: 1,
-            tax_behavior: 'exclusive',
         },
       ],
       mode: 'payment',
