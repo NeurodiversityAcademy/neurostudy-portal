@@ -10,7 +10,6 @@ import TextBox from '@/app/components/formElements/TextBox/TextBox';
 import {
   BUTTON_STYLE,
   EMAIL_REGEX,
-  HOST_URL,
   TOAST_UNKNOWN_ERROR_MESSAGE,
 } from '@/app/utilities/constants';
 import classNames from 'classnames';
