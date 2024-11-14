@@ -26,10 +26,7 @@ const AuthFormFooter: React.FC<AuthFormFooterProps> = ({
     try {
       await signIn(
         'cognito',
-        {
-          redirect: true,
-          callbackUrl: getCallbackUrlOnSignIn(),
-        },
+        { redirect: false, callbackUrl: getCallbackUrlOnSignIn() },
         { identity_provider: 'Google' }
       );
     } catch (ex) {

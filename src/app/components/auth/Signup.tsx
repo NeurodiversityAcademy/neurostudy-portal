@@ -10,6 +10,7 @@ import useAuthError from '@/app/hooks/useAuthError';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import queryString from '@/app/utilities/queryString';
+import { getCallbackUrlOnSignIn } from '@/app/utilities/auth/helper';
 
 const SignUp: React.FC = () => {
   const router = useRouter();
@@ -29,7 +30,7 @@ const SignUp: React.FC = () => {
         return;
       }
 
-      session && router.push('/profile');
+      session && router.push(getCallbackUrlOnSignIn());
     })();
   }, [session, router]);
 

@@ -76,16 +76,7 @@ const Login = () => {
       if (res.ok) {
         // TODO
         // https://trello.com/c/suoF46yg/131-infrastructure-key-constant-based-url-setup
-        const callbackUrl = getCallbackUrlOnSignIn();
-        if (
-          callbackUrl === '' ||
-          callbackUrl.startsWith('/') ||
-          callbackUrl.startsWith(HOST_URL)
-        ) {
-          router.replace(callbackUrl);
-        } else {
-          window.location.href = callbackUrl;
-        }
+        router.replace(getCallbackUrlOnSignIn());
       } else if (res?.error) {
         try {
           const signInOutput: SignInOutput = JSON.parse(res.error);
@@ -124,7 +115,7 @@ const Login = () => {
                 username={username}
                 password={password}
                 setIsLoading={setIsLoading}
-                onSuccess={() => router.replace('/signup')}
+                onSuccess={() => router.replace(getCallbackUrlOnSignIn())}
                 onIncorrectCredentials={() =>
                   setFormState(FORM_STATE.INITIALIZED)
                 }

@@ -51,7 +51,7 @@ const AuthVerifyForm: React.FC<PropType> = ({
           username,
           password,
           confirmationCode,
-          redirect: true,
+          redirect: false,
           callbackUrl: getCallbackUrlOnSignIn(),
         },
         { method: 'confirmSignUp' }
