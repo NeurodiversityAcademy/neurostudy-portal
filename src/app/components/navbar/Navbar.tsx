@@ -49,6 +49,13 @@ export default function Navbar() {
         <div className={styles.innerWrapper}>
           <ul className={styles.ul}>
             <li className={styles.li}>
+              <Link href='/profile'>
+                <Typography variant={TypographyVariant.Body2}>
+                  Profile
+                </Typography>
+              </Link>
+            </li>
+            <li className={styles.li}>
               <Link href='/neurodivergentmates'>
                 <Typography variant={TypographyVariant.Body2}>
                   Neurodivergent Mates
@@ -126,6 +133,13 @@ export default function Navbar() {
         <div className={styles.dropdownContainer} ref={dropdownRef}>
           {isDropdownVisible && (
             <ul className={`${styles.dropdownMenu}`}>
+              <li className={styles.li}>
+                <Link href='/profile' onClick={toggleDropdown}>
+                  <Typography variant={TypographyVariant.Body2}>
+                    Profile
+                  </Typography>
+                </Link>
+              </li>
               <li className={styles.li}>
                 <Link href='/neurodivergentmates' onClick={toggleDropdown}>
                   <Typography variant={TypographyVariant.Body2}>
