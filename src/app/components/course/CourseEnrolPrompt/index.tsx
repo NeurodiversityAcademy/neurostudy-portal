@@ -15,8 +15,11 @@ import {
 } from '@/app/utilities/stripe/constants';
 import createCheckoutUrl from '@/app/utilities/course/createCheckoutUrl';
 import { CourseCheckoutSession } from '@/app/interfaces/Course';
+import { useSession } from 'next-auth/react';
 
 const CourseEnrolPrompt: React.FC = () => {
+  const { data: session, status } = useSession();
+  const isSessionLoading = status === 'loading';
   const [popupOpen, setPopupOpen] = useState(false);
   const [bannerOpen, setBannerOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -46,7 +49,12 @@ const CourseEnrolPrompt: React.FC = () => {
           }
         );
       });
-      setBannerOpen(true);
+      return;
+    }
+
+    setBannerOpen(true);
+
+    if (isSessionLoading || !!session) {
       return;
     }
 
@@ -55,8 +63,7 @@ const CourseEnrolPrompt: React.FC = () => {
         COURSE_ENROL_POPUP_CLOSED_KEY
       ) !== '1';
     setPopupOpen(open);
-    setBannerOpen(!open);
-  }, []);
+  }, [session, isSessionLoading]);
 
   const onRequestCheckout = async () => {
     setIsLoading(true);
