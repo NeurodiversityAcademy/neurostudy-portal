@@ -1,7 +1,10 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { COURSE_ENROL_POPUP_CLOSED_KEY } from '@/app/utilities/course/constants';
+import {
+  COURSE_ENROL_CACHE_STORAGE,
+  COURSE_ENROL_POPUP_CLOSED_KEY,
+} from '@/app/utilities/course/constants';
 import CourseBanner from './CourseBanner';
 import CourseEnrolPopup from './CourseEnrolPopup';
 import queryString from '@/app/utilities/queryString';
@@ -20,7 +23,10 @@ const CourseEnrolPrompt: React.FC = () => {
   const onPopupClose = () => {
     setPopupOpen(false);
     setBannerOpen(true);
-    localStorage.setItem(COURSE_ENROL_POPUP_CLOSED_KEY, '1');
+    window[COURSE_ENROL_CACHE_STORAGE].setItem(
+      COURSE_ENROL_POPUP_CLOSED_KEY,
+      '1'
+    );
   };
 
   useEffect(() => {
@@ -44,7 +50,10 @@ const CourseEnrolPrompt: React.FC = () => {
       return;
     }
 
-    const open = localStorage.getItem(COURSE_ENROL_POPUP_CLOSED_KEY) !== '1';
+    const open =
+      window[COURSE_ENROL_CACHE_STORAGE].getItem(
+        COURSE_ENROL_POPUP_CLOSED_KEY
+      ) !== '1';
     setPopupOpen(open);
     setBannerOpen(!open);
   }, []);
