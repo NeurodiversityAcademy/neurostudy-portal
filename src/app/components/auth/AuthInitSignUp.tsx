@@ -179,6 +179,18 @@ const AuthInitSignUp: React.FC = () => {
           options={OPTIONS_DATE}
           radioMode
           required
+          rules={{
+            validate: () => {
+              const date = methods.getValues('date');
+              const month = methods.getValues('month') || -1;
+              const year = methods.getValues('year') || -1;
+              if (month === -1 || year === -1) {
+                return 'Please select Month/Year first';
+              } else {
+                return date <= new Date(year[0], month[0] + 1, 0).getDate();
+              }
+            },
+          }}
         />
         <Dropdown
           name='month'
