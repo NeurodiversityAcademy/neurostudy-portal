@@ -187,7 +187,7 @@ const AuthInitSignUp: React.FC = () => {
               if (month === -1 || year === -1) {
                 return 'Please select Month/Year first';
               } else {
-                return date <= new Date(year[0], month[0] + 1, 0).getDate();
+                return date <= new Date(year, month + 1, 0).getDate();
               }
             },
           }}
