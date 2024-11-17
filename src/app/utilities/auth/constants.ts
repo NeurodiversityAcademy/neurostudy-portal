@@ -43,6 +43,7 @@ export const DEFAULT_USER = {
   UsedTools: [''],
   Goals: [''],
   Interests: [''],
+  Subscribed: 0,
 };
 
 export const USER_TABLE_NAME = process.env.USER_TABLE_NAME || 'NDAUsers';

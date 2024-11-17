@@ -76,6 +76,7 @@ const AuthInitSignUp: React.FC = () => {
             given_name: firstName,
             family_name: lastName,
             birthdate: dob,
+            'custom:Subscribed': '0',
           },
         },
       });

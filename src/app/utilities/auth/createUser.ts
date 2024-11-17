@@ -8,7 +8,12 @@ import { marshall } from '@aws-sdk/util-dynamodb';
 import { dbDocumentClient } from '../db/configure';
 import { UserWithEmailProps } from '@/app/interfaces/User';
 
-const createUser = async (email: string): Promise<UserWithEmailProps> => {
+const createUser = async (
+  email: string,
+  firstName?: string,
+  lastName?: string,
+  dob?: string
+): Promise<UserWithEmailProps> => {
   const defaultUser: Partial<UserWithEmailProps> = { ...DEFAULT_USER };
   let key: keyof UserWithEmailProps;
   for (key in defaultUser) {
@@ -25,6 +30,10 @@ const createUser = async (email: string): Promise<UserWithEmailProps> => {
   const user: UserWithEmailProps = {
     ...defaultUser,
     [USER_TABLE_PARTITION_ID]: email,
+    FirstName: firstName,
+    LastName: lastName,
+    DOB: dob,
+    Subscribed: 0,
   };
 
   const commandParams: PutItemCommandInput = {
