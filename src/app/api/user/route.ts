@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
     if (!user) {
       // NOTE
       // This is possible when idP user signs up
-      user = await createUser(email, firstName, lastName, dob);
+      user = await createUser(email, firstName, lastName, dob, 0);
     }
 
     return new Response(JSON.stringify(user), {

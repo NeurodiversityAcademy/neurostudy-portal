@@ -12,7 +12,8 @@ const createUser = async (
   email: string,
   firstName?: string,
   lastName?: string,
-  dob?: string
+  dob?: string,
+  subscribedNewsletter?: number
 ): Promise<UserWithEmailProps> => {
   const defaultUser: Partial<UserWithEmailProps> = { ...DEFAULT_USER };
   let key: keyof UserWithEmailProps;
@@ -33,7 +34,7 @@ const createUser = async (
     FirstName: firstName,
     LastName: lastName,
     DOB: dob,
-    Subscribed: 0,
+    Subscribed: subscribedNewsletter,
   };
 
   const commandParams: PutItemCommandInput = {

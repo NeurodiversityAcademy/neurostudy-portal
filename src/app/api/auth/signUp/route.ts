@@ -15,11 +15,21 @@ export async function POST(request: Request) {
       options.autoSignIn = false;
     }
 
-    const { given_name, family_name, birthdate } =
-      options?.userAttributes || {};
+    const {
+      given_name,
+      family_name,
+      birthdate,
+      'custom:Subscribed': subscribeNewsletter,
+    } = options?.userAttributes || {};
 
     const res = await signUp(data);
-    await createUser(email, given_name, family_name, birthdate);
+    await createUser(
+      email,
+      given_name,
+      family_name,
+      birthdate,
+      Number(subscribeNewsletter)
+    );
 
     return new Response(JSON.stringify(res));
   } catch (ex) {
