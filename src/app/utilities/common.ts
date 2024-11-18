@@ -11,16 +11,20 @@ import {
 } from './constants';
 import { AxiosError, AxiosRequestConfig } from 'axios';
 import toast from '../components/toaster';
+import { SelectOption } from '../interfaces/FormElements';
+import { ToastOptions } from './toaster/constants';
 
-type RegulatorPropFn = (...args: unknown[]) => unknown;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyFunction = (...args: any) => any;
 
-export const debounce = (
-  fn: RegulatorPropFn,
+export const debounce = <T extends AnyFunction>(
+  fn: T,
   threshold: number = 500,
   context: object | null = null
-) => {
+): ((...args: Parameters<T>) => void) => {
   let timer: ReturnType<typeof setTimeout>;
-  return function (...args: unknown[]) {
+
+  return function (...args: Parameters<T>): void {
     clearTimeout(timer);
     timer = setTimeout(function () {
       fn.apply(context, args);
@@ -28,15 +32,15 @@ export const debounce = (
   };
 };
 
-export const throttle = (
-  fn: RegulatorPropFn,
+export const throttle = <T extends AnyFunction>(
+  fn: T,
   threshold: number = 500,
   context: object | null = null
-) => {
+): ((...args: Parameters<T>) => void) => {
   let last: number = -1,
     timer: ReturnType<typeof setTimeout>;
 
-  return function (...args: unknown[]) {
+  return function (...args: Parameters<T>): void {
     const now = Date.now();
 
     if (last && now < last + threshold) {
@@ -56,37 +60,35 @@ export const createMetadata = (
   key: META_KEY,
   customMetadata?: Partial<MetadataParams>
 ): Metadata => {
-  const config = { ...metadata[key], ...customMetadata };
-  const { title, description, keywords, canonical, type, images } = config;
+  const { canonical, type, images, ...rest } = {
+    ...metadata[key],
+    ...customMetadata,
+  };
 
-  const metadataObj: Metadata = {
-    title,
-    keywords,
-    description,
+  return {
     alternates: {
       canonical,
       languages: LANGUAGES,
     },
     openGraph: {
-      title,
-      description,
+      title: rest.title || undefined,
+      description: rest.description || undefined,
       url: canonical,
       images,
-      type,
+      ...(type && { type }),
       siteName: SITE_NAME,
       locale: LOCALE,
     },
+    ...rest,
   };
-
-  return metadataObj;
 };
 
-export const notifyError = (ex: object | string) => {
+export const notifyError = (ex: object | string, options?: ToastOptions) => {
   const message =
     (typeof ex === 'string' ? ex : ex instanceof Error && ex.message) ||
     TOAST_UNKNOWN_ERROR_MESSAGE;
 
-  toast.error(message);
+  toast.error(message, options);
 };
 
 export const notifySuccess = (message: string) => {
@@ -138,3 +140,65 @@ export const isObjEmpty = (
 };
 
 export const emptyFunc = () => void 0;
+
+export const getLabelOption = (option: string | SelectOption): SelectOption => {
+  return typeof option === 'string' ? { label: option, value: option } : option;
+};
+
+export const getSearchQuery = <T>(
+  params: Record<string, T>,
+  filter?: (key: string, value: T) => boolean
+): string => {
+  return Object.entries(params)
+    .filter(
+      ([key, value]) => value !== undefined && (!filter || filter(key, value))
+    )
+    .map(([key, value]) => `${key}=${encodeURIComponent(String(value))}`)
+    .join('&');
+};
+
+export const compare = (fstValue: unknown, sndValue: unknown): boolean => {
+  if (fstValue === sndValue) {
+    return true;
+  }
+
+  if (!fstValue || !sndValue) {
+    return fstValue === sndValue;
+  }
+
+  const isFstValueArray = Array.isArray(fstValue);
+  const isSndValueArray = Array.isArray(sndValue);
+
+  if (isFstValueArray !== isSndValueArray) {
+    return false;
+  }
+
+  if (isFstValueArray) {
+    const val1 = fstValue as unknown[];
+    const val2 = sndValue as unknown[];
+
+    return (
+      val1.length === val2.length &&
+      !val1.some((item, index) => !compare(item, val2[index]))
+    );
+  } else if (typeof fstValue === 'object' && typeof sndValue === 'object') {
+    const val1 = fstValue as Record<string, unknown>;
+    const val2 = sndValue as Record<string, unknown>;
+    const keys1 = Object.keys(fstValue);
+    const keys2 = Object.keys(sndValue);
+
+    if (keys1.length !== keys2.length) {
+      return false;
+    }
+
+    for (const key of keys1) {
+      if (!(key in val2) || !compare(val1[key], val2[key])) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  return fstValue === sndValue;
+};

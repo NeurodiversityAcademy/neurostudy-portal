@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation';
 import Dialog from '../dialog';
 import ProfileFormFooter from './ProfileFormFooter';
 import { UserProps } from '@/app/interfaces/User';
+import ProfileCourses from './ProfileCourses';
 
 const POPUP_SECTION_MAPPER = {
   preference: ProfilePreferenceSection,
@@ -85,6 +86,7 @@ const ProfileBody: React.FC = () => {
   return (
     <div className={styles.container}>
       <ProfileBodyHeader />
+      <ProfileCourses />
       {isEditing && <ProfileInfoSection ref={getRefUpdater('info')} />}
       <ProfilePreferenceSection
         ref={getRefUpdater('preference')}

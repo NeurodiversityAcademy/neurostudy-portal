@@ -4,6 +4,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { notifyError } from '../utilities/common';
 import { TOAST_UNKNOWN_ERROR_MESSAGE } from '../utilities/constants';
+import queryString from '../utilities/queryString';
 
 const useAuthError = () => {
   const router = useRouter();
@@ -34,18 +35,12 @@ const useAuthError = () => {
           notifyError(TOAST_UNKNOWN_ERROR_MESSAGE);
       }
 
-      const params = new URLSearchParams(searchParams.toString());
-      params.delete('error');
-      params.delete('callbackUrl');
+      const newSearch = queryString.stringify(
+        { error: undefined },
+        { useLocationSearch: true }
+      );
 
-      const newSearchParams = params.toString();
-
-      const newUrl =
-        window.location.pathname +
-        (newSearchParams ? '?' + newSearchParams : '') +
-        window.location.hash;
-
-      router.replace(newUrl);
+      router.replace(newSearch + window.location.hash);
     });
   }, [error, router, searchParams]);
 };

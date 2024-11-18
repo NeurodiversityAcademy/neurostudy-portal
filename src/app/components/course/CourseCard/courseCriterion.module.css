@@ -1,0 +1,25 @@
+.criterionContainer > * {
+  display: flex;
+  align-items: center;
+}
+
+.meter {
+  overflow: hidden;
+  border-radius: 20px;
+  display: flex;
+  gap: 2px;
+}
+
+.meter > * {
+  width: 20px;
+  height: 10px;
+  background-color: var(--GhostWhiteVariant);
+}
+
+.meter > .active::after {
+  content: '';
+  display: block;
+  background-color: var(--cherryPieSub);
+  width: var(--inner-percentage, '100%');
+  height: 100%;
+}

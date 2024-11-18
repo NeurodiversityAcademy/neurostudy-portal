@@ -9,22 +9,51 @@
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  border: 1px solid var(--grey-500);
   color: var(--grey-500);
-  border-radius: 8px;
   font-family: inherit;
   height: auto;
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 4px 30px 4px 15px;
+  border-radius: 8px;
+  border: 1px solid var(--grey-500);
 }
 
-.inputWrapper[aria-disabled='true'] {
+.container[aria-disabled='true'] > .inputWrapper {
   background-color: rgba(239, 239, 239, 0.3);
   color: var(--grey-300);
   border-color: rgba(118, 118, 118, 0.3);
+}
+
+.pillAndInput {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  flex: 1;
+  column-gap: 10px;
+  max-width: calc(100% - 30px);
+}
+
+.pillAndInput.hasValue {
+  padding-left: 15px;
+}
+
+.pillAndInput > [role='button'] {
+  margin: 5px 0px 0px;
+  align-self: flex-start;
+}
+
+.pillAndInput > [role='button']:nth-last-of-type(1) {
+  margin-right: 5px;
+}
+
+.container[aria-disabled='true']
+  .pillAndInput
+  > [role='button']:nth-last-of-type(1) {
+  margin-bottom: 5px;
+}
+
+.pillAndInput.hasValue > .input {
+  margin-left: -15px;
 }
 
 .input {
@@ -32,8 +61,22 @@
   flex: 1;
   font-family: inherit;
   outline: none;
-  padding: 4px 0px;
+  padding: 8px 15px;
+  width: 100%;
   max-width: 100%;
+  border-radius: 8px;
+  background-color: transparent;
+}
+
+.inputAsText {
+  font-size: var(--body3-font-size);
+  white-space: pre;
+  flex: 1;
+}
+
+.container[aria-disabled='true'] .input,
+.input:disabled {
+  color: var(--grey-300);
 }
 
 .inputWrapper:focus-within {
@@ -48,6 +91,7 @@
   position: relative;
   width: 100%;
   display: block;
+  margin-top: -5px;
 }
 
 .dropdownList {
@@ -69,22 +113,14 @@
   flex-direction: column;
   transition: all 200ms ease-in-out;
   transform-origin: top;
-}
-
-.dropdownListContainer:focus-within > .dropdownList,
-.inputWrapper:focus-within + .dropdownListContainer > .dropdownList {
-  transform: scaleY(1);
-  opacity: 1;
-}
-
-.dropdownListContainer > .dropdownList,
-.inputWrapper:focus-within + .dropdownListContainer > .dropdownList:empty {
   transform: scaleY(0);
   opacity: 0.5;
 }
 
-.inputWrapper:focus-within + .dropdownListContainer > .dropdownList:empty {
-  transition: none;
+.container[aria-expanded='true'] .dropdownList,
+.container:focus-within .dropdownList {
+  transform: scaleY(1);
+  opacity: 1;
 }
 
 .dropdownList > * {
@@ -92,8 +128,33 @@
   align-self: unset;
 }
 
+.noOptionItem {
+  justify-content: center;
+  flex: 1;
+}
+
 .clearBtn {
-  position: absolute;
-  right: 0px;
-  top: 5px;
+  margin-top: 5px;
+  align-self: flex-start;
+}
+
+.expandIcon {
+  padding: 6px 5px;
+  transition: transform 150ms linear;
+  cursor: pointer;
+  color: var(--grey-300);
+  flex-shrink: 0;
+}
+
+.expandIcon:hover {
+  color: var(--BondBlack);
+}
+
+.container[aria-disabled='true'] .expandIcon {
+  pointer-events: none;
+}
+
+.container[aria-expanded='true'] .expandIcon,
+.container:focus-within .expandIcon {
+  transform: rotate(180deg);
 }

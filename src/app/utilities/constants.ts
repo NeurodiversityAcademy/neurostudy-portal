@@ -58,6 +58,7 @@ export enum META_KEY {
   LOGIN = 'login',
   FORGOT_PASSWORD = 'forgotpassword',
   PROFILE = 'profile',
+  COURSES = 'courses',
 }
 
 export const TOAST_UNKNOWN_ERROR_MESSAGE =
@@ -72,4 +73,20 @@ export enum FORM_ELEMENT_COL_WIDTH {
   HALF = 6,
   BIG = 8,
   FULL = 12,
+}
+
+export const DEFAULT_SLIDER_MIN = 0;
+export const DEFAULT_SLIDER_MAX = 100;
+export const DEFAULT_SLIDER_STEP = 1;
+
+export const DEFAULT_TOGGLE_OPTIONS = {
+  on: { label: 'On', value: true },
+  off: { label: 'Off', value: false },
+};
+
+export const INFO_EMAIL_ADDRESS = 'info@neurodiversityacademy.com';
+
+export enum INTERNAL_MODE {
+  PROD = 'PROD',
+  DEV = 'DEV',
 }

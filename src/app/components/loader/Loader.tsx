@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { HTMLAttributes, useEffect, useRef } from 'react';
 import styles from './loader.module.css';
 import classNames from 'classnames';
 
-interface LoaderProps {
+interface LoaderProps extends HTMLAttributes<HTMLDivElement> {
   isLoading: boolean;
   target?: HTMLElement;
   expand?: boolean;
@@ -16,8 +16,10 @@ export default function Loader({
   target,
   expand = false,
   alignTop = false,
+  className,
+  ...rest
 }: LoaderProps) {
-  const ref = useRef<HTMLSpanElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isLoading) {
@@ -26,26 +28,29 @@ export default function Loader({
         return;
       }
 
-      if (getComputedStyle(parentNode).position === 'static') {
-        if (!parentNode.classList.contains('position-relative')) {
-          parentNode.classList.add('position-relative');
+      parentNode.classList.add(styles.loaderContainer);
+      getComputedStyle(parentNode).position === 'static' &&
+        parentNode.classList.add(styles.loaderContainerRelative);
 
-          return () => {
-            parentNode.classList.remove('position-relative');
-          };
-        }
-      }
+      return () => {
+        parentNode.classList.remove(styles.loaderContainerRelative);
+        parentNode.classList.remove(styles.loaderContainer);
+      };
     }
   }, [isLoading, target]);
 
   return (
     isLoading && (
       <div
+        ref={ref}
         className={classNames(
+          className,
           styles.loader,
           expand && styles.expand,
-          alignTop && styles.loaderAlignTop
+          alignTop && styles.alignTop
         )}
+        aria-hidden
+        {...rest}
       >
         <span className={styles.circle} />
         <span className={styles.circle} />

@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 24px 48px;
+  max-width: 100%;
+  flex: 1 1 auto;
+  align-content: flex-start;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  flex-basis: 100%;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.header > [role='status'] {
+  align-self: center;
+}

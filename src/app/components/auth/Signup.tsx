@@ -5,10 +5,12 @@ import AuthLeftBanner from './AuthLeftBanner';
 import classNames from 'classnames';
 import AuthInitSignUp from './AuthInitSignUp';
 import LoaderWrapper from '../loader/LoaderWrapper';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import useAuthError from '@/app/hooks/useAuthError';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import queryString from '@/app/utilities/queryString';
+import { getCallbackUrlOnSignIn } from '@/app/utilities/auth/helper';
 
 const SignUp: React.FC = () => {
   const router = useRouter();
@@ -16,7 +18,20 @@ const SignUp: React.FC = () => {
   const isLoading = status === 'loading';
 
   useEffect(() => {
-    session && router.push('/profile');
+    (async () => {
+      if (queryString.parse()['checkout_status'] === 'success') {
+        await signOut({ redirect: false });
+        router.replace(
+          `${queryString.stringify(
+            { checkout_status: undefined },
+            { useLocationSearch: true }
+          )}${window.location.hash}`
+        );
+        return;
+      }
+
+      session && router.push(getCallbackUrlOnSignIn());
+    })();
   }, [session, router]);
 
   useAuthError();

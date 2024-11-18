@@ -2,17 +2,14 @@
 
 import { UserProps, UserWithEmailProps } from '@/app/interfaces/User';
 import getUserProfile from './getUser';
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import saveUserProfile from './saveUserProfile';
 import { notifyAxiosError, notifySuccess } from '../common';
 import processProfileFormData from './processProfileFormData';
 import { useSearchParams } from 'next/navigation';
+import { deviseContext } from '../deviseContext';
+import { MoodleCourse } from '@/app/interfaces/Moodle';
+import getMoodleCourses from '../moodle/getMoodleCourses';
 
 interface PropType {
   children: ReactNode;
@@ -20,6 +17,7 @@ interface PropType {
 
 export interface ProfileContent {
   data: UserWithEmailProps | undefined;
+  courses: MoodleCourse[];
   isLoading: boolean;
   saveData: (
     data: Record<string, unknown>,
@@ -28,25 +26,17 @@ export interface ProfileContent {
   isEditing: boolean;
 }
 
-export const ProfileContext = createContext<ProfileContent | undefined>(
-  undefined
-);
+const [ProfileContext, useProfileContext] = deviseContext<ProfileContent>();
 
-export const useProfileContext = () => {
-  const context = useContext(
-    ProfileContext as React.Context<ProfileContent | undefined>
-  );
-  if (!context) {
-    throw new Error('useProfileContext does not have proper context.');
-  }
-  return context;
-};
+export { ProfileContext };
+export { useProfileContext };
 
 export default function ProfileProvider({ children }: PropType) {
   const searchParams = useSearchParams();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [data, setData] = useState<UserWithEmailProps>();
+  const [courses, setCourses] = useState<MoodleCourse[]>([]);
 
   const [isEditing, setIsEditing] = useState<boolean>(
     () => searchParams.get('edit') === '1'
@@ -84,6 +74,11 @@ export default function ProfileProvider({ children }: PropType) {
     setIsLoading(true);
 
     getData();
+
+    (async () => {
+      const courses: MoodleCourse[] = await getMoodleCourses();
+      setCourses(courses);
+    })();
   }, []);
 
   useEffect(() => {
@@ -92,7 +87,9 @@ export default function ProfileProvider({ children }: PropType) {
   }, [isEditing, searchParams]);
 
   return (
-    <ProfileContext.Provider value={{ data, isLoading, saveData, isEditing }}>
+    <ProfileContext.Provider
+      value={{ data, courses, isLoading, saveData, isEditing }}
+    >
       {children}
     </ProfileContext.Provider>
   );

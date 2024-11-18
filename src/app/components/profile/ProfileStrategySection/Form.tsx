@@ -57,6 +57,7 @@ const ProfileStrategyForm: ForwardRefExoticComponent<
           placeholder='E.G. Focused Learning'
           creatable
           defaultValue={data?.Strategies}
+          multiple
           options={PROFILE_FIELD_OPTIONS.Strategies}
         />
         <Dropdown<UserStrategyProps>
@@ -66,6 +67,7 @@ const ProfileStrategyForm: ForwardRefExoticComponent<
           placeholder='E.G. Focus'
           creatable
           defaultValue={data?.ManagingWays}
+          multiple
           options={PROFILE_FIELD_OPTIONS.ManagingWays}
         />
         <Radio<UserStrategyProps>

@@ -11,6 +11,8 @@ interface LoaderWrapperProps {
   loaderAlignTop?: boolean;
 }
 
+// TODO: Remove all use of <LoaderWrapper />, integrating the <Loader />
+// to a parent should suffice
 export default function LoaderWrapper({
   isLoading,
   children,

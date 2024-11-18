@@ -35,6 +35,10 @@
   color: var(--cherryPieVariant);
 }
 
+.dobLabel {
+  color: var(--grey-500);
+}
+
 .breakLineWrapper {
   display: flex;
   align-items: center;
