@@ -5,9 +5,6 @@ import cardHeaderBackgroundSrc from '@/app/images/cardHeaderBackground.jpg';
 import Typography, { TypographyVariant } from '../../typography/Typography';
 import Image from 'next/image';
 import FavouriteIcon from '@/app/components/images/Favourite';
-import locationSrc from '@/app/images/mapPin.svg';
-import clockSrc from '@/app/images/clock.svg';
-import CourseRating from './CourseRating';
 import Link, { LinkProps } from 'next/link';
 import { MouseEvent } from 'react';
 import { MoodleCourse } from '@/app/interfaces/Moodle';
@@ -17,15 +14,9 @@ interface PropType extends Omit<LinkProps, 'href'> {
 }
 
 const MoodleCourseCard: React.FC<PropType> = ({ course, ...rest }) => {
-  const { href, fullname, startdate, enddate } = course;
+  const { href, fullname } = course;
 
   const institution = 'Neurodiversity Academy';
-  const location = 'Online';
-  const _years = (enddate - startdate) / 60 / 60 / 24 / 365;
-  const years =
-    _years && (_years % 1 === 0 ? _years.toString() : _years.toFixed(1));
-  const tier = 'GOLD';
-  const rating = 4.5;
 
   return (
     <Link href={href} className={styles.cardLink} role='listitem' {...rest}>
@@ -69,20 +60,6 @@ const MoodleCourseCard: React.FC<PropType> = ({ course, ...rest }) => {
         >
           {fullname}
         </Typography>
-
-        <div className={styles.timeLocation}>
-          <Typography variant={TypographyVariant.Body2}>
-            <Image src={locationSrc} alt='Location Icon' />
-            {location.split(/,|\s+/)[0]}
-          </Typography>
-          {years && (
-            <Typography variant={TypographyVariant.Body2}>
-              <Image src={clockSrc} alt='Clock Icon' />
-              {years} Year{_years > 1 && 's'}
-            </Typography>
-          )}
-        </div>
-        <CourseRating Rating={rating} Tier={tier} />
       </div>
     </Link>
   );

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import IntroCourseBanner from '@/app/images/intro-course-banner.jpg';
+import introCourseBannerSrc from '@/app/images/intro-course-banner.jpg';
 import styles from './courseEnrolPrompt.module.css';
 import ActionButton from '../../buttons/ActionButton';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
@@ -16,24 +16,26 @@ export default function CourseBanner({
   onRequestCheckout,
 }: CourseBannerProps) {
   return (
-    <>
+    <div className={styles.courseBannerContainer}>
       <Image
-        src={IntroCourseBanner}
+        src={introCourseBannerSrc}
         alt='Neurodiversity Academy Course'
         className={classNames(styles.courseBanner, !open && styles.hide)}
       />
       <div
-        className={classNames(styles.seeMoreBtnContainer, !open && styles.hide)}
+        className={classNames(
+          styles.bannerEnrolBtnContainer,
+          !open && styles.hide
+        )}
       >
         <Loader isLoading={isLoading} className={styles.loader} />
         <ActionButton
           style={BUTTON_STYLE.Primary}
           disabled={isLoading}
           label='Enrol'
-          className={styles.seeMoreBtn}
           onClick={onRequestCheckout}
         />
       </div>
-    </>
+    </div>
   );
 }

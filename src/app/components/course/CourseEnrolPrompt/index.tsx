@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import {
+  COURSE_ENROL_CACHE_STORAGE,
   COURSE_ENROL_POPUP_CLOSED_KEY,
-  COURSE_TEST_ENROL_KEY,
 } from '@/app/utilities/course/constants';
 import CourseBanner from './CourseBanner';
 import CourseEnrolPopup from './CourseEnrolPopup';
@@ -15,22 +15,25 @@ import {
 } from '@/app/utilities/stripe/constants';
 import createCheckoutUrl from '@/app/utilities/course/createCheckoutUrl';
 import { CourseCheckoutSession } from '@/app/interfaces/Course';
+import { useSession } from 'next-auth/react';
 
 const CourseEnrolPrompt: React.FC = () => {
+  const { data: session, status } = useSession();
+  const isSessionLoading = status === 'loading';
   const [popupOpen, setPopupOpen] = useState(false);
   const [bannerOpen, setBannerOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const onPopupClose = () => {
     setPopupOpen(false);
     setBannerOpen(true);
-    localStorage.setItem(COURSE_ENROL_POPUP_CLOSED_KEY, '1');
+    window[COURSE_ENROL_CACHE_STORAGE].setItem(
+      COURSE_ENROL_POPUP_CLOSED_KEY,
+      '1'
+    );
   };
 
   useEffect(() => {
     const searchObj = queryString.parse();
-    if (!(COURSE_TEST_ENROL_KEY in searchObj)) {
-      return;
-    }
 
     if (
       ['failure', 'canceled'].includes(searchObj['checkout_status']?.toString())
@@ -46,14 +49,21 @@ const CourseEnrolPrompt: React.FC = () => {
           }
         );
       });
-      setBannerOpen(true);
       return;
     }
 
-    const open = localStorage.getItem(COURSE_ENROL_POPUP_CLOSED_KEY) !== '1';
+    setBannerOpen(true);
+
+    if (isSessionLoading || !!session) {
+      return;
+    }
+
+    const open =
+      window[COURSE_ENROL_CACHE_STORAGE].getItem(
+        COURSE_ENROL_POPUP_CLOSED_KEY
+      ) !== '1';
     setPopupOpen(open);
-    setBannerOpen(!open);
-  }, []);
+  }, [session, isSessionLoading]);
 
   const onRequestCheckout = async () => {
     setIsLoading(true);

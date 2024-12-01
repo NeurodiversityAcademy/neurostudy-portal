@@ -2,27 +2,19 @@ import { consumeRateWithIp } from '@/app/utilities/api/rateLimiter';
 import { NextRequest, NextResponse } from 'next/server';
 import processCourseAPIError from '@/app/utilities/db/processCourseAPIError';
 import { CourseCheckoutSession } from '@/app/interfaces/Course';
-import {
-  COURSE_CHECKOUT_CALLBACK_URL,
-  COURSE_TEST_ENROL_KEY,
-} from '@/app/utilities/course/constants';
+import { COURSE_CHECKOUT_CALLBACK_URL } from '@/app/utilities/course/constants';
 import isAuthenticated from '@/app/utilities/auth/isAuthenticated';
 import getStripe from '@/app/utilities/stripe/getStripe';
-import { INTERNAL_MODE } from '@/app/utilities/constants';
 import {
   STRIPE_INTRO_PRODUCT_PRICE_LOOKUP_KEY,
   STRIPE_PRICE_META_MOODLE_COURSE_ID_KEY,
+  STRIPE_SHIPPING_ALLOWED_COUNTRIES,
 } from '@/app/utilities/stripe/constants';
 import APIError from '@/app/interfaces/APIError';
 
 export async function POST(req: NextRequest): Promise<Response> {
   try {
     await consumeRateWithIp(req);
-
-    const { searchParams } = req.nextUrl;
-    const mode = searchParams.has(COURSE_TEST_ENROL_KEY)
-      ? INTERNAL_MODE.DEV
-      : INTERNAL_MODE.PROD;
 
     const authResponse = await isAuthenticated({ req });
 
@@ -31,10 +23,7 @@ export async function POST(req: NextRequest): Promise<Response> {
       customer_email = authResponse.email;
     }
 
-    const testParam =
-      mode === INTERNAL_MODE.DEV ? `&${COURSE_TEST_ENROL_KEY}` : '';
-
-    const stripe = getStripe(mode);
+    const stripe = getStripe();
     const priceResponse = await stripe.prices.list({
       lookup_keys: [STRIPE_INTRO_PRODUCT_PRICE_LOOKUP_KEY],
     });
@@ -50,6 +39,9 @@ export async function POST(req: NextRequest): Promise<Response> {
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
+      invoice_creation: {
+        enabled: true,
+      },
       line_items: [
         {
           price: price.id,
@@ -57,9 +49,20 @@ export async function POST(req: NextRequest): Promise<Response> {
         },
       ],
       mode: 'payment',
+      allow_promotion_codes: true,
+      automatic_tax: { enabled: true },
       ...(customer_email && { customer_email }),
-      success_url: `${COURSE_CHECKOUT_CALLBACK_URL}?session_id={CHECKOUT_SESSION_ID}${testParam}`,
-      cancel_url: `${COURSE_CHECKOUT_CALLBACK_URL}?status=canceled&session_id={CHECKOUT_SESSION_ID}${testParam}`,
+      shipping_address_collection: {
+        allowed_countries: [
+          STRIPE_SHIPPING_ALLOWED_COUNTRIES.AUSTRALIA,
+          STRIPE_SHIPPING_ALLOWED_COUNTRIES.USA,
+          STRIPE_SHIPPING_ALLOWED_COUNTRIES.UNITED_KINGDOM,
+          STRIPE_SHIPPING_ALLOWED_COUNTRIES.CANADA,
+          STRIPE_SHIPPING_ALLOWED_COUNTRIES.NEW_ZEALAND,
+        ],
+      },
+      success_url: `${COURSE_CHECKOUT_CALLBACK_URL}?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${COURSE_CHECKOUT_CALLBACK_URL}?status=canceled&session_id={CHECKOUT_SESSION_ID}`,
     });
 
     const data: CourseCheckoutSession = {

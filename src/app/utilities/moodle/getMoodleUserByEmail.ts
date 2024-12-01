@@ -1,23 +1,20 @@
 import { MoodleException, MoodleUserBasic } from '@/app/interfaces/Moodle';
-import { INTERNAL_MODE } from '../constants';
 import { getMoodleAPIInfo } from './helper';
 import { getSearchQuery } from '../common';
 
 export async function getMoodleUserByEmail(
-  email: string,
-  mode: INTERNAL_MODE
+  email: string
 ): Promise<MoodleUserBasic | null> {
   try {
-    const { src, secret } = getMoodleAPIInfo(mode);
+    const { src, secret } = getMoodleAPIInfo();
 
-    const url = `${src}?
-        ${getSearchQuery({
-          wstoken: secret,
-          wsfunction: 'core_user_get_users_by_field',
-          field: 'email',
-          'values[]': email,
-          moodlewsrestformat: 'json',
-        })}`;
+    const url = `${src}?${getSearchQuery({
+      wstoken: secret,
+      wsfunction: 'core_user_get_users_by_field',
+      field: 'email',
+      'values[]': email,
+      moodlewsrestformat: 'json',
+    })}`;
 
     const res = await fetch(url);
     const json: MoodleUserBasic[] | MoodleException = await res.json();

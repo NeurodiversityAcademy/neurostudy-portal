@@ -25,6 +25,11 @@
   width: min(75vw, 200px);
 }
 
+.courseBannerContainer {
+  position: relative;
+  width: 100%;
+}
+
 .courseBanner {
   width: 100%;
   height: auto;
@@ -33,14 +38,29 @@
   max-height: calc(100vh - 130px);
 }
 
-.seeMoreBtnContainer {
+.bannerEnrolBtnContainer {
   position: relative;
+  display: flex;
+  justify-content: center;
 }
 
-.seeMoreBtnContainer > button {
-  width: min(75vw, 200px);
+.bannerEnrolBtnContainer > button {
+  width: min(75vw, 250px);
 }
 
 .hide {
   display: none;
+}
+
+@media (min-width: 768px) {
+  .bannerEnrolBtnContainer {
+    position: absolute;
+    bottom: 20%;
+    left: 58%;
+  }
+
+  .bannerEnrolBtnContainer > button {
+    width: 30vw;
+    font-size: var(--heading2-font-size);
+  }
 }
