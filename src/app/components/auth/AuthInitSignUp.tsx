@@ -26,7 +26,11 @@ import {
 } from '@/app/utilities/auth/constants';
 import { useState } from 'react';
 import LoaderWrapper from '../loader/LoaderWrapper';
-import { notifyAxiosError, notifyInProgress } from '@/app/utilities/common';
+import {
+  formatDate,
+  notifyAxiosError,
+  notifyInProgress,
+} from '@/app/utilities/common';
 import AuthVerifyForm from './AuthVerifyForm';
 import signUp from '@/app/utilities/auth/signUp';
 import { useSearchParams } from 'next/navigation';
@@ -38,9 +42,9 @@ interface SignUpFieldValues extends FieldValues {
   email: string;
   password: string;
   repeatPassword: string;
-  date: number;
-  month: number;
-  year: number;
+  date: number[];
+  month: number[];
+  year: number[];
 }
 
 const AuthInitSignUp: React.FC = () => {
@@ -62,7 +66,7 @@ const AuthInitSignUp: React.FC = () => {
   const onSubmit = async (data: SignUpFieldValues) => {
     const { firstName, lastName, email, password, date, month, year } = data;
 
-    const dob = new Date(year, month, date).toISOString().split('T')[0];
+    const birthdate = formatDate(year[0], month[0] + 1, date[0]);
 
     setIsLoading(true);
 
@@ -75,8 +79,7 @@ const AuthInitSignUp: React.FC = () => {
             email,
             given_name: firstName,
             family_name: lastName,
-            birthdate: dob,
-            'custom:Subscribed': '0',
+            birthdate,
           },
         },
       });
@@ -180,18 +183,6 @@ const AuthInitSignUp: React.FC = () => {
           options={OPTIONS_DATE}
           radioMode
           required
-          rules={{
-            validate: () => {
-              const date = methods.getValues('date');
-              const month = methods.getValues('month') || -1;
-              const year = methods.getValues('year') || -1;
-              if (month === -1 || year === -1) {
-                return 'Please select Month/Year first';
-              } else {
-                return date <= new Date(year, month + 1, 0).getDate();
-              }
-            },
-          }}
         />
         <Dropdown
           name='month'
