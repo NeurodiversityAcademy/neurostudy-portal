@@ -6,13 +6,11 @@ const STRIPE_PRICE_META_MOODLE_COURSE_ID_KEY =
   process.env.STRIPE_PRICE_META_MOODLE_COURSE_ID_KEY ?? '';
 
 const STRIPE_SECRET: string = process.env.STRIPE_SECRET ?? '';
-const DEV_STRIPE_SECRET: string = process.env.DEV_STRIPE_SECRET ?? '';
 
 if (
   process.env.NODE_ENV !== 'development' &&
   typeof window === 'undefined' &&
   (!STRIPE_SECRET ||
-    !DEV_STRIPE_SECRET ||
     !STRIPE_INTRO_PRODUCT_PRICE_LOOKUP_KEY ||
     !STRIPE_PRICE_META_MOODLE_COURSE_ID_KEY)
 ) {
@@ -23,7 +21,6 @@ export {
   STRIPE_INTRO_PRODUCT_PRICE_LOOKUP_KEY,
   STRIPE_SECRET,
   STRIPE_PRICE_META_MOODLE_COURSE_ID_KEY,
-  DEV_STRIPE_SECRET,
 };
 
 export const DEFAULT_STRIPE_ERROR_MESSAGE = `An unexpected error occurred during the checkout 
