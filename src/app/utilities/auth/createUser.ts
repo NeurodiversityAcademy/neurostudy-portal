@@ -6,13 +6,15 @@ import {
 } from './constants';
 import { marshall } from '@aws-sdk/util-dynamodb';
 import { dbDocumentClient } from '../db/configure';
-import { UserWithEmailProps } from '@/app/interfaces/User';
+import {
+  PrimaryUserAttributes,
+  SecondaryUserAttributes,
+  UserWithEmailProps,
+} from '@/app/interfaces/User';
 
 const createUser = async (
-  email: string,
-  firstName?: string,
-  lastName?: string,
-  dob?: string
+  { email, family_name, given_name }: PrimaryUserAttributes,
+  { birthdate, subscribed }: SecondaryUserAttributes = {}
 ): Promise<UserWithEmailProps> => {
   const defaultUser: Partial<UserWithEmailProps> = { ...DEFAULT_USER };
   let key: keyof UserWithEmailProps;
@@ -30,11 +32,18 @@ const createUser = async (
   const user: UserWithEmailProps = {
     ...defaultUser,
     [USER_TABLE_PARTITION_ID]: email,
-    FirstName: firstName,
-    LastName: lastName,
-    DOB: dob,
-    Subscribed: 0,
+    FirstName: given_name,
+    LastName: family_name,
+    DOB: birthdate,
+    Subscribed: subscribed,
   };
+
+  for (key in user) {
+    const value: unknown = user[key];
+    if (value === undefined) {
+      delete user[key];
+    }
+  }
 
   const commandParams: PutItemCommandInput = {
     TableName: USER_TABLE_NAME,
