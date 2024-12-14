@@ -14,7 +14,7 @@ import { getCallbackUrlOnSignIn } from '@/app/utilities/auth/helper';
 
 const SignUp: React.FC = () => {
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const isLoading = status === 'loading';
 
   useEffect(() => {
@@ -30,9 +30,9 @@ const SignUp: React.FC = () => {
         return;
       }
 
-      session && router.push(getCallbackUrlOnSignIn());
+      status === 'authenticated' && router.push(getCallbackUrlOnSignIn());
     })();
-  }, [session, router]);
+  }, [status, router]);
 
   useAuthError();
 

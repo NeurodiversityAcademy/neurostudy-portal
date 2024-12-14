@@ -1,4 +1,5 @@
 import APIError from '@/app/interfaces/APIError';
+import AuthErrorResponse from '@/app/interfaces/AuthErrorResponse';
 import { CourseProps, CourseWithoutIdProps } from '@/app/interfaces/Course';
 import { UserToken } from '@/app/interfaces/User';
 import { ADMIN_EMAILS } from '@/app/utilities/api/constants';
@@ -13,13 +14,15 @@ import { v4 } from 'uuid';
 
 export default async function PUT(req: NextRequest): Promise<Response> {
   try {
-    const userResponse: UserToken | Response = await isAuthenticated({ req });
+    const userResponse: UserToken | AuthErrorResponse = await isAuthenticated({
+      req,
+    });
 
-    if (userResponse instanceof Response) {
+    if (userResponse instanceof AuthErrorResponse) {
       return userResponse;
     }
 
-    const user = userResponse as UserToken;
+    const user: UserToken = userResponse;
     const { email } = user;
 
     if (!ADMIN_EMAILS.includes(email)) {

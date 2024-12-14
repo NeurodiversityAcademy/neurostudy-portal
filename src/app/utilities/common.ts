@@ -202,3 +202,12 @@ export const compare = (fstValue: unknown, sndValue: unknown): boolean => {
 
   return fstValue === sndValue;
 };
+
+export function formatDate(year: number, month: number, day: number) {
+  const date = new Date(year, month - 1, day);
+  const normalizedYear = date.getFullYear();
+  const normalizedMonth = String(date.getMonth() + 1).padStart(2, '0');
+  const normalizedDay = String(date.getDate()).padStart(2, '0');
+
+  return `${normalizedYear}-${normalizedMonth}-${normalizedDay}`;
+}

@@ -126,10 +126,19 @@ const nextAuthOptions: AuthOptions = {
   },
   callbacks: {
     async jwt(props) {
-      const { token, user } = props;
+      const { token, user, profile } = props;
       if (user) {
         token.id = user.id;
         token.email = user.email;
+      }
+
+      if (profile) {
+        if ('given_name' in profile) {
+          token.given_name = profile.given_name;
+        }
+        if ('family_name' in profile) {
+          token.family_name = profile.family_name;
+        }
       }
       return token;
     },

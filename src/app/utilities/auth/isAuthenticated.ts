@@ -17,5 +17,7 @@ export default async function isAuthenticated({
   return {
     id: token.id,
     email: token.email,
+    family_name: token.family_name,
+    given_name: token.given_name,
   };
 }

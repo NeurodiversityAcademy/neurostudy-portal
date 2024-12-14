@@ -86,7 +86,7 @@ const CheckBoxInput = <TFieldValues extends FieldValues>({
             key={value.toString()}
             label={label}
             disabled={disabled}
-            checked={isChecked(label)}
+            checked={isChecked(value)}
             onChange={(selected) => {
               setSelectedOptions(
                 selected
