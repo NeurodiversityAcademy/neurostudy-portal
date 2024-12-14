@@ -70,7 +70,9 @@ export const OPTIONS_MONTH = [
   { label: 'Dec', value: 11 },
 ];
 
+const curYear = new Date().getFullYear();
+
 export const OPTIONS_YEAR = Array.from({ length: 100 }, (_, i) => ({
-  label: (1915 + i).toString(),
-  value: 1915 + i,
+  label: (curYear - 10 - i).toString(),
+  value: curYear - 10 - i,
 }));
