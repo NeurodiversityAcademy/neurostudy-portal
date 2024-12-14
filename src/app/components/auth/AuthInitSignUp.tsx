@@ -35,6 +35,7 @@ import AuthVerifyForm from './AuthVerifyForm';
 import signUp from '@/app/utilities/auth/signUp';
 import { useSearchParams } from 'next/navigation';
 import Dropdown from '../formElements/Dropdown/Dropdown';
+import CheckBox from '../formElements/CheckBox/CheckBox';
 
 interface SignUpFieldValues extends FieldValues {
   firstName: string;
@@ -45,6 +46,7 @@ interface SignUpFieldValues extends FieldValues {
   date: number[];
   month: number[];
   year: number[];
+  subscribed: string;
 }
 
 const AuthInitSignUp: React.FC = () => {
@@ -64,7 +66,16 @@ const AuthInitSignUp: React.FC = () => {
   const [password, setPassword] = useState<string>('');
 
   const onSubmit = async (data: SignUpFieldValues) => {
-    const { firstName, lastName, email, password, date, month, year } = data;
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      date,
+      month,
+      year,
+      subscribed,
+    } = data;
 
     const birthdate = formatDate(year[0], month[0] + 1, date[0]);
 
@@ -80,6 +91,7 @@ const AuthInitSignUp: React.FC = () => {
             given_name: firstName,
             family_name: lastName,
             birthdate,
+            subscribed: subscribed ? '1' : '0',
           },
         },
       });
@@ -209,6 +221,17 @@ const AuthInitSignUp: React.FC = () => {
           By signing up, you agree to our{' '}
           <Link href='#'>Terms and Conditions</Link>
         </Typography>
+        <CheckBox
+          name='subscribed'
+          label='subscribed'
+          options={[
+            {
+              label:
+                'Subscribe to our newsletter and get exclusive offers, free beta courses, and valuable insights!',
+              value: '1',
+            },
+          ]}
+        />
         <div className='mt-2 mb-3'>
           <ActionButton
             type='submit'
