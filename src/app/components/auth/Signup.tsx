@@ -30,13 +30,7 @@ const SignUp: React.FC = () => {
         return;
       }
 
-      status === 'authenticated' &&
-        setTimeout(() => {
-          router.push(getCallbackUrlOnSignIn());
-          // NOTE
-          // Instant redirecting somehow fails to identify that the user is already
-          // logged in. Attempting with a 1s delay.
-        }, 1000);
+      status === 'authenticated' && router.push(getCallbackUrlOnSignIn());
     })();
   }, [status, router]);
 
