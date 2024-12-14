@@ -13,7 +13,7 @@ export default async function GET(req: NextRequest): Promise<Response> {
       req,
     });
 
-    if (userResponse instanceof Response) {
+    if (userResponse instanceof AuthErrorResponse) {
       return userResponse;
     }
 
