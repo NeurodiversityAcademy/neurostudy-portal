@@ -15,7 +15,7 @@ export default async function PUT(req: NextRequest): Promise<Response> {
       req,
     });
 
-    if (userResponse instanceof Response) {
+    if (userResponse instanceof AuthErrorResponse) {
       return userResponse;
     }
 
