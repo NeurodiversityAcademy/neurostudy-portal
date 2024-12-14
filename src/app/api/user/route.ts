@@ -16,13 +16,13 @@ export async function GET(req: NextRequest) {
       return userResponse;
     }
 
-    const { email, firstName, lastName, dob } = userResponse;
+    const { email, family_name = '', given_name = '' } = userResponse;
     let user = await getUser(email);
 
     if (!user) {
       // NOTE
       // This is possible when idP user signs up
-      user = await createUser(email, firstName, lastName, dob, 0);
+      user = await createUser({ email, family_name, given_name });
     }
 
     return new Response(JSON.stringify(user), {

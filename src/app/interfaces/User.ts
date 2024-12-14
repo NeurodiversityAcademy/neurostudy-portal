@@ -15,7 +15,17 @@ export type UserWithEmailProps = Partial<RootUserProps> & {
 
 export type UserToken = Partial<Omit<JWT, 'email'>> & {
   email: string;
-  firstName: string;
-  lastName: string;
-  dob: string;
+  family_name?: string;
+  given_name?: string;
 };
+
+export interface PrimaryUserAttributes {
+  email: string;
+  family_name: string;
+  given_name: string;
+}
+
+export interface SecondaryUserAttributes {
+  birthdate?: string;
+  subscribed?: boolean;
+}
