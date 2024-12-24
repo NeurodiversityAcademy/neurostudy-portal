@@ -18,20 +18,30 @@ const Handbook: React.FC = () => {
           alt='Handbook Sample Graph'
           className={styles.graph}
         />
-        <Typography variant={TypographyVariant.H3} className={styles.header}>
-          Neuro-Inclusion in Vocational Education
-        </Typography>
-        <div className={styles.subtext}>
-          Explore key strategies for building neuro-inclusive vocational
-          education organizations in our <b>free</b> handbook.
+        <div className={styles.textContent}>
+          <div className={styles.innerTextContent}>
+            <Typography
+              variant={TypographyVariant.H3}
+              className={styles.header}
+            >
+              Neuro-Inclusion in Vocational Education
+            </Typography>
+            <Typography
+              variant={TypographyVariant.Body3}
+              className={styles.subtext}
+            >
+              Explore key strategies for building neuro-inclusive vocational
+              education organizations in our <b>free</b> handbook.
+            </Typography>
+          </div>
+          <ActionButton
+            label='Free Download'
+            style={BUTTON_STYLE.Primary}
+            disabled
+          />
         </div>
-        <ActionButton
-          label='Free Download'
-          style={BUTTON_STYLE.Primary}
-          disabled
-        />
       </div>
-      <div>
+      <div className={styles.mobileContainer}>
         <Image
           src={handbookMobileSrc}
           alt='Handbook Mobile Screenshot'
