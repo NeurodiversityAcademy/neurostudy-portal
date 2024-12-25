@@ -54,11 +54,7 @@ const Handbook: React.FC = () => {
           className={styles.mobile}
         />
       </div>
-      <HandbookPopup
-        open={popupOpen}
-        isLoading={false}
-        onClose={onPopupClose}
-      />
+      <HandbookPopup open={popupOpen} onClose={onPopupClose} />
     </div>
   );
 };

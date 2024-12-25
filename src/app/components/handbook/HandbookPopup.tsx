@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { BUTTON_STYLE, EMAIL_REGEX } from '@/app/utilities/constants';
 import styles from './handbookPopup.module.css';
@@ -12,10 +12,11 @@ import TextBox from '../formElements/TextBox/TextBox';
 import Loader from '../loader/Loader';
 import mailBoxLadySrc from '@/app/images/mailboxLady.png';
 import Typography, { TypographyVariant } from '../typography/Typography';
+import { registerSubscriptionData } from '@/app/utilities/register/registerSubscriptionData';
+import { notifyError } from '@/app/utilities/common';
 
 interface HandbookPopupProps {
   open: boolean;
-  isLoading: boolean;
   onClose: () => void;
 }
 
@@ -23,16 +24,24 @@ interface HandbookSubscribeFieldValues extends FieldValues {
   email: string;
 }
 
-export default function HandbookPopup({
-  open,
-  isLoading,
-  onClose,
-}: HandbookPopupProps) {
+export default function HandbookPopup({ open, onClose }: HandbookPopupProps) {
   const methods: UseFormReturn<HandbookSubscribeFieldValues> =
     useForm<HandbookSubscribeFieldValues>({ mode: 'onBlur' });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onSubmit = async (data: HandbookSubscribeFieldValues) => {
-    console.log('data', data);
+    setIsLoading(true);
+
+    try {
+      await registerSubscriptionData({
+        email: data.email,
+        getHandbook: true,
+      });
+    } catch (ex) {
+      notifyError(ex as object);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

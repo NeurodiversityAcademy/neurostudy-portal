@@ -1,9 +1,12 @@
 import axios from 'axios';
-import { UserSubscriptionType } from '../../interfaces/UserSubscriptionType';
+import {
+  UserSubscriptionHandbookType,
+  UserSubscriptionType,
+} from '../../interfaces/UserSubscriptionType';
 import CRMCreateResponseInterface from '../../interfaces/CRMCreateResponseInterface';
 
 export const registerSubscriptionData = async (
-  userSubscriptionData: UserSubscriptionType
+  userSubscriptionData: UserSubscriptionType | UserSubscriptionHandbookType
 ): Promise<CRMCreateResponseInterface> => {
   const data = JSON.stringify(userSubscriptionData);
 
