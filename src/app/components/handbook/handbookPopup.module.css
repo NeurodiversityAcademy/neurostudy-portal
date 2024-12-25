@@ -15,3 +15,8 @@
   width: 350px;
   height: auto;
 }
+
+.fileReadyText {
+  align-self: center;
+  padding: 15px;
+}

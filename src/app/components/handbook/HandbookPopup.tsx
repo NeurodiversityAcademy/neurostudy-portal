@@ -28,8 +28,13 @@ export default function HandbookPopup({ open, onClose }: HandbookPopupProps) {
   const methods: UseFormReturn<HandbookSubscribeFieldValues> =
     useForm<HandbookSubscribeFieldValues>({ mode: 'onBlur' });
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isDownloadComplete, setIsDownloadComplete] = useState<boolean>(false);
 
   const onSubmit = async (data: HandbookSubscribeFieldValues) => {
+    if (isDownloadComplete) {
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -37,6 +42,8 @@ export default function HandbookPopup({ open, onClose }: HandbookPopupProps) {
         email: data.email,
         getHandbook: true,
       });
+
+      setIsDownloadComplete(true);
     } catch (ex) {
       notifyError(ex as object);
     } finally {
@@ -53,6 +60,7 @@ export default function HandbookPopup({ open, onClose }: HandbookPopupProps) {
           className={styles.mailBoxImg}
           quality={100}
         />
+
         <Form
           methods={methods}
           onSubmit={methods.handleSubmit(onSubmit)}
@@ -78,8 +86,17 @@ export default function HandbookPopup({ open, onClose }: HandbookPopupProps) {
               label='Free Download'
               style={BUTTON_STYLE.Primary}
               fullWidth
+              disabled={isDownloadComplete}
             />
           </div>
+          {isDownloadComplete && (
+            <Typography
+              variant={TypographyVariant.Body2}
+              className={styles.fileReadyText}
+            >
+              Your file is ready to be downloaded...
+            </Typography>
+          )}
           <Loader isLoading={isLoading} />
         </Form>
       </div>
