@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  max-width: 460px;
+  margin: 0px;
+  justify-content: center;
+  padding: 15px;
+}
+
+.mailBoxImg {
+  width: 350px;
+  height: auto;
+}

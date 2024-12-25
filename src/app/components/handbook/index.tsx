@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './handbook.module.css';
 import handbookGraphSrc from '@/app/images/handbook-graph.png';
 import handbookMobileSrc from '@/app/images/handbook-mobile.png';
@@ -8,8 +8,14 @@ import Image from 'next/image';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import ActionButton from '../buttons/ActionButton';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
+import HandbookPopup from './HandbookPopup';
 
 const Handbook: React.FC = () => {
+  const [popupOpen, setPopupOpen] = useState(false);
+  const onPopupClose = () => {
+    setPopupOpen(false);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.textContainer}>
@@ -37,7 +43,7 @@ const Handbook: React.FC = () => {
           <ActionButton
             label='Free Download'
             style={BUTTON_STYLE.Primary}
-            disabled
+            onClick={() => setPopupOpen(true)}
           />
         </div>
       </div>
@@ -48,6 +54,11 @@ const Handbook: React.FC = () => {
           className={styles.mobile}
         />
       </div>
+      <HandbookPopup
+        open={popupOpen}
+        isLoading={false}
+        onClose={onPopupClose}
+      />
     </div>
   );
 };
