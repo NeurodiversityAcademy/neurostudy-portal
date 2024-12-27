@@ -7,22 +7,25 @@ import updateUser from '@/app/utilities/auth/updateUser';
 import createUser from '@/app/utilities/auth/createUser';
 import { returnAuthError } from '@/app/utilities/auth/responses';
 import getUser from '@/app/utilities/auth/getUser';
+import AuthErrorResponse from '@/app/interfaces/AuthErrorResponse';
 
 export async function GET(req: NextRequest) {
   try {
-    const userResponse: UserToken | Response = await isAuthenticated({ req });
+    const userResponse: UserToken | AuthErrorResponse = await isAuthenticated({
+      req,
+    });
 
-    if (userResponse instanceof Response) {
+    if (userResponse instanceof AuthErrorResponse) {
       return userResponse;
     }
 
-    const { email } = userResponse;
+    const { email, family_name = '', given_name = '' } = userResponse;
     let user = await getUser(email);
 
     if (!user) {
       // NOTE
       // This is possible when idP user signs up
-      user = await createUser(email);
+      user = await createUser({ email, family_name, given_name });
     }
 
     return new Response(JSON.stringify(user), {
@@ -38,9 +41,11 @@ export async function GET(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   try {
-    const userResponse: UserToken | Response = await isAuthenticated({ req });
+    const userResponse: UserToken | AuthErrorResponse = await isAuthenticated({
+      req,
+    });
 
-    if (userResponse instanceof Response) {
+    if (userResponse instanceof AuthErrorResponse) {
       return userResponse;
     }
 
