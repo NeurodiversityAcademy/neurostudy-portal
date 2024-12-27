@@ -211,3 +211,14 @@ export function formatDate(year: number, month: number, day: number) {
 
   return `${normalizedYear}-${normalizedMonth}-${normalizedDay}`;
 }
+
+export function downloadContent(blob: Blob, filename?: string) {
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename || 'nda-download-content';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.URL.revokeObjectURL(url);
+}

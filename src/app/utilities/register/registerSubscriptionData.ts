@@ -1,9 +1,13 @@
 import axios from 'axios';
-import { UserSubscriptionType } from '../../interfaces/UserSubscriptionType';
+import {
+  UserSubscriptionHandbookType,
+  UserSubscriptionType,
+} from '../../interfaces/UserSubscriptionType';
 import CRMCreateResponseInterface from '../../interfaces/CRMCreateResponseInterface';
+import { downloadContent } from '../common';
 
 export const registerSubscriptionData = async (
-  userSubscriptionData: UserSubscriptionType
+  userSubscriptionData: UserSubscriptionType | UserSubscriptionHandbookType
 ): Promise<CRMCreateResponseInterface> => {
   const data = JSON.stringify(userSubscriptionData);
 
@@ -13,13 +17,21 @@ export const registerSubscriptionData = async (
     headers: {
       'Content-Type': 'application/json',
     },
-    data: data,
+    data,
+    ...('getHandbook' in userSubscriptionData && {
+      responseType: 'blob' as const,
+    }),
   };
 
   return await axios
     .request(config)
     .then((response) => {
-      return response.data;
+      const { data } = response;
+      if (data instanceof Blob) {
+        downloadContent(data, 'NDA Handbook.pdf');
+      }
+
+      return data;
     })
     .catch((error) => {
       console.log(error);
