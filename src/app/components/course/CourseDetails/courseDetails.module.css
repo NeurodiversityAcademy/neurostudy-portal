@@ -283,4 +283,9 @@
     .courseDetailsBodyContainer {
         padding: 1.7em;
     }
+
+    .benefitTabText {
+        font-size: var(--body3-strong-font-size);
+        font-weight: var(--body3-strong-font-weight);
+    }
 }

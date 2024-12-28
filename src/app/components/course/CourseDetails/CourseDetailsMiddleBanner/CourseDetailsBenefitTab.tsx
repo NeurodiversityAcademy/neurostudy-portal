@@ -4,11 +4,9 @@ import React, { useState } from 'react';
 import styles from '../../CourseDetails/courseDetails.module.css';
 import CourseDetailsBenefitTabContent from './CourseDetailsBenefitTabContent';
 import Typography, { TypographyVariant } from '../../../typography/Typography';
-import useWindowWidth from '@/app/hooks/useWindowWidth';
 
 const CourseDetailsBenefitTab: React.FC = () => {
   const [activeTab, setActiveTab] = useState('support');
-  const windowWidth = useWindowWidth();
 
   const handleOnClick = (tab: string) => {
     setActiveTab(tab);
@@ -30,11 +28,8 @@ const CourseDetailsBenefitTab: React.FC = () => {
             onClick={() => handleOnClick('support')}
           >
             <Typography
-              variant={
-                windowWidth > 800
-                  ? TypographyVariant.Body2Strong
-                  : TypographyVariant.Body3Strong
-              }
+              variant={TypographyVariant.Body2Strong}
+              className={styles.benefitTabText}
             >
               Support Available
             </Typography>
@@ -44,11 +39,8 @@ const CourseDetailsBenefitTab: React.FC = () => {
             onClick={() => handleOnClick('adjustment')}
           >
             <Typography
-              variant={
-                windowWidth > 800
-                  ? TypographyVariant.Body2Strong
-                  : TypographyVariant.Body3Strong
-              }
+              variant={TypographyVariant.Body2Strong}
+              className={styles.benefitTabText}
             >
               Adjustment Available
             </Typography>
@@ -58,11 +50,8 @@ const CourseDetailsBenefitTab: React.FC = () => {
             onClick={() => handleOnClick('jobs')}
           >
             <Typography
-              variant={
-                windowWidth > 800
-                  ? TypographyVariant.Body2Strong
-                  : TypographyVariant.Body3Strong
-              }
+              variant={TypographyVariant.Body2Strong}
+              className={styles.benefitTabText}
             >
               Possible Job Requirements
             </Typography>

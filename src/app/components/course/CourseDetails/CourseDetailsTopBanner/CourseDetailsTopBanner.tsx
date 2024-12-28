@@ -9,21 +9,14 @@ import Logo from '@/app/images/Logo-navbar.svg';
 import ActionButton from '../../../buttons/ActionButton';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 import { useCourseDetailsContext } from '@/app/utilities/course/CourseDetailsProvider';
-import useWindowWidth from '@/app/hooks/useWindowWidth';
 import CourseDetailsMiddleBanner from '../CourseDetailsMiddleBanner/CourseDetailsMiddleBanner';
 
 const CourseDetailsTopBanner: React.FC = () => {
   const { data } = useCourseDetailsContext();
-  const windowWidth = useWindowWidth();
 
   return (
     <div className={classNames('row', styles.topBannerMainContainer)}>
-      <div
-        className={classNames(
-          { 'col-md-7': windowWidth > 1000 },
-          { 'col-md-12': windowWidth <= 1000 }
-        )}
-      >
+      <div className={classNames('col-md-7')}>
         <div
           className={classNames('col-md-12', styles.topBannerInstituteTitle)}
         >
@@ -45,12 +38,7 @@ const CourseDetailsTopBanner: React.FC = () => {
           </Typography>
         </div>
       </div>
-      <div
-        className={classNames(
-          { 'col-md-5': windowWidth > 1000 },
-          { 'col-md-12': windowWidth <= 1000 }
-        )}
-      >
+      <div className={classNames('col-md-5')}>
         <div className={classNames('row', styles.topBannerAdmissions)}>
           <Typography variant={TypographyVariant.Body1}>
             2024 Admissions are open now
