@@ -18,7 +18,7 @@ const CourseDetailsBodyText: React.FC<CourseDetailsBodyTextProps> = ({
     const sanitizedHTML = DOMPurify.sanitize?.(paragraph);
     return (
       <div key={index} className={styles.courseDetailsBodyText}>
-        <Typography key={index} variant={TypographyVariant.Body2}>
+        <Typography variant={TypographyVariant.Body2}>
           <div
             className={styles.paragraph}
             dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
@@ -37,7 +37,7 @@ const CourseDetailsBodyText: React.FC<CourseDetailsBodyTextProps> = ({
     );
   });
 
-  return <div {...{ id }}>{paragraphs}</div>;
+  return <div id={id}>{paragraphs}</div>;
 };
 
 export default CourseDetailsBodyText;

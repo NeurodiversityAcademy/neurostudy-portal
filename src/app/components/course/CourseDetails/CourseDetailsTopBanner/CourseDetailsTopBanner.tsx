@@ -16,7 +16,7 @@ const CourseDetailsTopBanner: React.FC = () => {
 
   return (
     <div className={classNames('row', styles.topBannerMainContainer)}>
-      <div className={classNames('col-md-7')}>
+      <div className='col-md-7'>
         <div
           className={classNames('col-md-12', styles.topBannerInstituteTitle)}
         >
@@ -38,7 +38,7 @@ const CourseDetailsTopBanner: React.FC = () => {
           </Typography>
         </div>
       </div>
-      <div className={classNames('col-md-5')}>
+      <div className='col-md-5'>
         <div className={classNames('row', styles.topBannerAdmissions)}>
           <Typography variant={TypographyVariant.Body1}>
             2024 Admissions are open now
