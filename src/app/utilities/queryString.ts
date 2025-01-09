@@ -49,7 +49,6 @@ const queryString = {
         }
 
         Array.isArray(obj[key]) && (obj[key] as string[]).push(value);
-
       } else {
         obj[key] = value;
       }

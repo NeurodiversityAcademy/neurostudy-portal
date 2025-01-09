@@ -1,5 +1,8 @@
-
-import { FilterCourseProps } from '@/app/interfaces/Course';
+import {
+  FilterCourseProps,
+  CourseProps,
+  CourseSortConfig,
+} from '@/app/interfaces/Course';
 import TrainedStaff from '@/app/images/people-repeat.png';
 import Feedback from '@/app/images/feedback.png';
 import FiveSenses from '@/app/images/five_senses.png';
