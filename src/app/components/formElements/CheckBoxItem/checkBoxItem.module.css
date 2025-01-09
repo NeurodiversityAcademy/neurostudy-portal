@@ -89,6 +89,7 @@
 
 .item > label {
   cursor: inherit;
+  text-align: left;
 }
 
 .item:disabled > label {

@@ -1,23 +1,54 @@
 'use client';
 
-import { ReactNode, useCallback, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { deviseContext } from '../deviseContext';
-import { CourseProps, FilterCourseProps } from '@/app/interfaces/Course';
+import {
+  CourseProps,
+  FilterCourseProps,
+  CourseSortConfig,
+} from '@/app/interfaces/Course';
 import useUpdatedValue from '@/app/hooks/useUpdatedValue';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { FILTER_KEYS } from './constants';
+import {
+  COURSE_FILTER_KEYS,
+  DEFAULT_COURSE_SORT_BY,
+  DEFAULT_COURSE_SORT_ORDER,
+} from './constants';
 import queryString from '../queryString';
+import { debounce } from '../common';
+import extractCourseSortConfig from './extractSortConfig';
+import { filterCourses, sortCourses } from './helper';
 
 interface PropType {
-  data: CourseProps[] | undefined;
+  redirectToSearchPage?: boolean;
+  data?: CourseProps[];
   children: ReactNode;
 }
 
-export interface CourseContent {
+interface LoadDataConfig {
+  sortBy?: CourseSortConfig['sortBy'];
+  sortOrder?: CourseSortConfig['sortOrder'];
+  shouldDebounce?: boolean;
+  redirectToSearchPage?: boolean;
+}
+
+export interface CourseContent extends CourseSortConfig {
   data: CourseProps[] | undefined;
   filter: Partial<FilterCourseProps>;
+  updateFilter: (filter: Partial<FilterCourseProps>) => void;
   isLoading: boolean;
-  loadData: (filter: Partial<FilterCourseProps>) => Promise<void>;
+  loadData: (
+    filter?: Partial<FilterCourseProps>,
+    config?: LoadDataConfig
+  ) => Promise<void>;
 }
 
 const [CourseContext, useCourseContext] = deviseContext<CourseContent>();
@@ -25,73 +56,131 @@ const [CourseContext, useCourseContext] = deviseContext<CourseContent>();
 export { CourseContext };
 export { useCourseContext };
 
-export default function CourseProvider({ children, data }: PropType) {
+const updateRoute = ({
+  redirectToSearchPage = false,
+  search,
+  setIsLoading,
+  canReplace,
+  router,
+}: {
+  redirectToSearchPage?: boolean;
+  search: string;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+  canReplace: boolean;
+  router: ReturnType<typeof useRouter>;
+}) => {
+  const to = (redirectToSearchPage ? '/courses' : '') + search;
+
+  const urlMatches =
+    (redirectToSearchPage ? window.location.pathname : '') +
+      (window.location.search || '?') ===
+    to;
+
+  if (!urlMatches) {
+    setIsLoading(true);
+    router.push(to, { scroll: false });
+  } else if (canReplace) {
+    setIsLoading(true);
+    router.replace(to + '&_=' + Math.random(), { scroll: false });
+  } else {
+    setIsLoading(false);
+  }
+};
+const updateRouteWithDebounce = debounce(updateRoute, 500);
+
+export default function CourseProvider({
+  children,
+  data,
+  redirectToSearchPage = false,
+}: PropType) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const filterEntries: [keyof FilterCourseProps, string[]][] = useUpdatedValue(
     searchParams,
     () =>
-      FILTER_KEYS.map((key) => [
+      COURSE_FILTER_KEYS.map((key) => [
         key,
         searchParams.getAll(key).map((item) => decodeURIComponent(item)),
       ])
   );
+
+  const { sortBy, sortOrder } = useUpdatedValue<CourseSortConfig>(
+    searchParams,
+    () =>
+      extractCourseSortConfig({
+        sortBy: searchParams.get('sortBy'),
+        sortOrder: searchParams.get('sortOrder'),
+      })
+  );
+
+  const pendingFilterRef = useRef<Partial<FilterCourseProps>>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const filteredData: CourseContent['data'] = useUpdatedValue(
-    [...filterEntries.map(([, value]) => value.join(',')), data],
-    () => {
-      if (!data) {
-        return undefined;
-      }
-
-      if (!filterEntries.some(([, value]) => !!value.length)) {
-        return [...data];
-      }
-
-      return data.filter((dataItem) => {
-        return filterEntries.every(([key, value]) => {
-          if (!value.length) {
-            return true;
-          }
-          const dataItemValue = dataItem[key];
-
-          // TODO: Avoiding `dataItemValue`s which are array for the time being,
-          // for instance, `Neurotypes` is an array. Fix that.
-          if (!dataItemValue || Array.isArray(dataItemValue)) {
-            return true;
-          }
-
-          const dataItemValueLC = dataItemValue.toLowerCase();
-
-          return value.some(
-            (item: string) => item.toLowerCase() === dataItemValueLC
-          );
-        });
-      });
-    }
+    [
+      ...filterEntries.map(([, value]) => value.join(',')),
+      data,
+      sortBy,
+      sortOrder,
+    ],
+    () =>
+      data
+        ? sortCourses(filterCourses(data, filterEntries), {
+            sortBy,
+            sortOrder,
+          })
+        : undefined
   );
 
+  const updateFilter = (filter: Partial<FilterCourseProps>) => {
+    Object.assign(pendingFilterRef.current, filter);
+  };
+
   const loadData = useCallback(
-    async (filter: Partial<FilterCourseProps>) => {
+    async (
+      filter?: Partial<FilterCourseProps>,
+      config: LoadDataConfig = {}
+    ) => {
       const oldFilter = Object.fromEntries(filterEntries);
+      const { shouldDebounce = false } = config;
+
+      let { sortBy: _sortBy, sortOrder: _sortOrder } = config;
+      if (!('sortBy' in config)) _sortBy = sortBy;
+      if (!('sortOrder' in config)) _sortOrder = sortOrder;
+
+      const newSortBy =
+        _sortBy === DEFAULT_COURSE_SORT_BY ? undefined : _sortBy;
+      const newSortOrder =
+        _sortOrder === DEFAULT_COURSE_SORT_ORDER ? undefined : _sortOrder;
+
+      const searchObj = Object.fromEntries(
+        Object.entries({
+          ...oldFilter,
+          ...pendingFilterRef.current,
+          ...filter,
+        }).map(([key, value]) => [key, value?.length ? value : undefined])
+      );
+
+      Object.assign(searchObj, {
+        sortBy: newSortBy,
+        sortOrder: newSortOrder,
+        _: undefined,
+      });
 
       const search =
-        queryString.stringify(
-          Object.fromEntries(
-            Object.entries({
-              ...oldFilter,
-              ...filter,
-            }).filter(([, value]) => value?.length)
-          )
-        ) || '?';
+        queryString.stringify(searchObj, { useLocationSearch: true }) || '?';
 
-      if ((window.location.search || '?') !== search) {
-        setIsLoading(true);
-        router.push(search, { scroll: false });
-      }
+      const fn = shouldDebounce ? updateRouteWithDebounce : updateRoute;
+      shouldDebounce && setIsLoading(true);
+      fn({
+        redirectToSearchPage,
+        search,
+        setIsLoading,
+        canReplace: !filter,
+        router,
+      });
     },
-    [filterEntries, router]
+    [filterEntries, router, sortBy, sortOrder, redirectToSearchPage]
   );
 
   useEffect(() => {
@@ -102,6 +191,7 @@ export default function CourseProvider({ children, data }: PropType) {
 
   useEffect(() => {
     setIsLoading(false);
+    pendingFilterRef.current = {};
   }, [data]);
 
   return (
@@ -109,6 +199,9 @@ export default function CourseProvider({ children, data }: PropType) {
       value={{
         data: filteredData,
         filter: Object.fromEntries(filterEntries),
+        sortBy,
+        sortOrder,
+        updateFilter,
         isLoading,
         loadData,
       }}

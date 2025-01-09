@@ -1,5 +1,6 @@
 import { consumeRateWithIp } from '@/app/utilities/api/rateLimiter';
 import { isObjEmpty } from '@/app/utilities/common';
+import { COURSE_TEST_DATA_QUERY_KEY } from '@/app/utilities/course/constants';
 import { getIndexName } from '@/app/utilities/db/common';
 import { dbDocumentClient } from '@/app/utilities/db/configure';
 import {
@@ -25,6 +26,15 @@ export default async function GET(req: NextRequest): Promise<Response> {
     await consumeRateWithIp(req);
 
     const { searchParams } = req.nextUrl;
+
+    if (searchParams.has(COURSE_TEST_DATA_QUERY_KEY)) {
+      const res = await fetch(
+        'https://nda-test-2.s3.us-west-1.amazonaws.com/temp/good-sample.json.gz'
+      );
+      const data = await res.json();
+      assertCourseData(data);
+      return NextResponse.json(data);
+    }
 
     const partitionKeyValue = searchParams.get(COURSE_TABLE_PARTITION_KEY);
     const indexKeyValueObj: Record<string, string> = {};

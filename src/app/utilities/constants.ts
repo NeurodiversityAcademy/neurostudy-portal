@@ -57,6 +57,7 @@ export enum META_KEY {
   LOGIN = 'login',
   FORGOT_PASSWORD = 'forgotpassword',
   PROFILE = 'profile',
+  COURSES = 'courses',
 }
 
 export const TOAST_UNKNOWN_ERROR_MESSAGE =
@@ -81,3 +82,10 @@ export const DEFAULT_TOGGLE_OPTIONS = {
   on: { label: 'On', value: true },
   off: { label: 'Off', value: false },
 };
+
+export const INFO_EMAIL_ADDRESS = 'info@neurodiversityacademy.com';
+
+export enum INTERNAL_MODE {
+  PROD = 'PROD',
+  DEV = 'DEV',
+}

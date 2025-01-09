@@ -9,13 +9,12 @@ const queryString = {
     config: Partial<{
       useLocationSearch: boolean;
       addDelimiter: boolean;
-    }> = {
-      useLocationSearch: false,
-      addDelimiter: true,
-    }
+    }> = {}
   ) => {
+    const { useLocationSearch = false, addDelimiter = true } = config;
+
     const searchParams = new URLSearchParams(
-      config.useLocationSearch ? location.search : ''
+      useLocationSearch ? location.search : ''
     );
 
     for (const key in record) {
@@ -34,7 +33,7 @@ const queryString = {
 
     const newSearch = searchParams.toString();
 
-    return newSearch && config.addDelimiter ? '?' + newSearch : newSearch;
+    return newSearch && addDelimiter ? '?' + newSearch : newSearch;
   },
   parse: (value: string = window.location.search) => {
     const searchParams = new URLSearchParams(value);
@@ -42,6 +41,7 @@ const queryString = {
     const obj: Record<string, string | string[]> = {};
 
     searchParams.forEach((value, key) => {
+      value = decodeURIComponent(value);
       if (key in obj) {
         const prevValue = obj[key];
         if (!Array.isArray(prevValue)) {
@@ -49,6 +49,7 @@ const queryString = {
         }
 
         Array.isArray(obj[key]) && (obj[key] as string[]).push(value);
+
       } else {
         obj[key] = value;
       }

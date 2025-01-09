@@ -8,6 +8,8 @@ import { notifyAxiosError, notifySuccess } from '../common';
 import processProfileFormData from './processProfileFormData';
 import { useSearchParams } from 'next/navigation';
 import { deviseContext } from '../deviseContext';
+import { MoodleCourse } from '@/app/interfaces/Moodle';
+import getMoodleCourses from '../moodle/getMoodleCourses';
 
 interface PropType {
   children: ReactNode;
@@ -15,6 +17,7 @@ interface PropType {
 
 export interface ProfileContent {
   data: UserWithEmailProps | undefined;
+  courses: MoodleCourse[];
   isLoading: boolean;
   saveData: (
     data: Record<string, unknown>,
@@ -33,6 +36,7 @@ export default function ProfileProvider({ children }: PropType) {
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [data, setData] = useState<UserWithEmailProps>();
+  const [courses, setCourses] = useState<MoodleCourse[]>([]);
 
   const [isEditing, setIsEditing] = useState<boolean>(
     () => searchParams.get('edit') === '1'
@@ -70,6 +74,11 @@ export default function ProfileProvider({ children }: PropType) {
     setIsLoading(true);
 
     getData();
+
+    (async () => {
+      const courses: MoodleCourse[] = await getMoodleCourses();
+      setCourses(courses);
+    })();
   }, []);
 
   useEffect(() => {
@@ -78,7 +87,9 @@ export default function ProfileProvider({ children }: PropType) {
   }, [isEditing, searchParams]);
 
   return (
-    <ProfileContext.Provider value={{ data, isLoading, saveData, isEditing }}>
+    <ProfileContext.Provider
+      value={{ data, courses, isLoading, saveData, isEditing }}
+    >
       {children}
     </ProfileContext.Provider>
   );

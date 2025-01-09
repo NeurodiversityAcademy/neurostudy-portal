@@ -15,8 +15,11 @@ import {
   KEYWORDS_SIGNUP,
   KEYWORDS_FORGOT_PASSWORD,
   KEYWORDS_PROFILE,
+  KEYWORDS_COURSES,
 } from './keywords';
 import { MetadataParams } from '@/app/interfaces/MetadataProps';
+
+export const META_COURSES_DEFAULT_CANONICAL_URL = `${HOST_URL}/courses`;
 
 export const metadata: Record<string, Partial<MetadataParams>> = {
   [META_KEY.HOME]: {
@@ -150,6 +153,13 @@ export const metadata: Record<string, Partial<MetadataParams>> = {
     description: 'Profile page of a user',
     keywords: KEYWORDS_PROFILE,
     canonical: `${HOST_URL}/profile`,
+    type: META_TYPE.WEBSITE,
+  },
+  [META_KEY.COURSES]: {
+    title: 'Courses - Neurodiversity Academy',
+    description: 'Search courses associated with Neurodiversity Academy',
+    keywords: KEYWORDS_COURSES,
+    canonical: META_COURSES_DEFAULT_CANONICAL_URL,
     type: META_TYPE.WEBSITE,
   },
 };

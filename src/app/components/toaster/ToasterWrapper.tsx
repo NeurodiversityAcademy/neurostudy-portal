@@ -72,9 +72,10 @@ const ToasterWrapper: React.FC = () => {
 
       addToastItem(newToast);
 
-      setTimeout(() => {
-        hideToastItem(id);
-      }, duration);
+      duration !== -1 &&
+        setTimeout(() => {
+          hideToastItem(id);
+        }, duration);
     };
 
     constructToast({
@@ -118,6 +119,13 @@ const ToasterWrapper: React.FC = () => {
             >
               {iconClassName && <div className={iconClassName} />}
               <div>{item.message}</div>
+              <button
+                className={styles.closeBtn}
+                onClick={() => hideToastItem(id)}
+                aria-label='Close'
+              >
+                &times;
+              </button>
             </div>
           </div>
         );

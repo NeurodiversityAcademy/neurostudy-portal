@@ -15,10 +15,7 @@ import {
 import classNames from 'classnames';
 import Form from '@/app/components/formElements/Form';
 import AuthFormHeader from './AuthFormHeader';
-import {
-  CALLBACK_URL_ON_LOGIN,
-  FORM_STATE,
-} from '@/app/utilities/auth/constants';
+import { FORM_STATE } from '@/app/utilities/auth/constants';
 import { useRouter } from 'next/navigation';
 import { notifyError, notifyInProgress } from '@/app/utilities/common';
 import LoaderWrapper from '../loader/LoaderWrapper';
@@ -27,6 +24,7 @@ import AuthVerifyForm from './AuthVerifyForm';
 import { signIn } from 'next-auth/react';
 import { SignInOutput } from 'aws-amplify/auth';
 import useAuthError from '@/app/hooks/useAuthError';
+import { getCallbackUrlOnSignIn } from '@/app/utilities/auth/helper';
 
 interface LoginFieldValues extends FieldValues {
   username: string;
@@ -77,7 +75,7 @@ const Login = () => {
       if (res.ok) {
         // TODO
         // https://trello.com/c/suoF46yg/131-infrastructure-key-constant-based-url-setup
-        router.replace(CALLBACK_URL_ON_LOGIN);
+        router.replace(getCallbackUrlOnSignIn());
       } else if (res?.error) {
         try {
           const signInOutput: SignInOutput = JSON.parse(res.error);
@@ -116,7 +114,7 @@ const Login = () => {
                 username={username}
                 password={password}
                 setIsLoading={setIsLoading}
-                onSuccess={() => router.replace('/signup')}
+                onSuccess={() => router.replace(getCallbackUrlOnSignIn())}
                 onIncorrectCredentials={() =>
                   setFormState(FORM_STATE.INITIALIZED)
                 }

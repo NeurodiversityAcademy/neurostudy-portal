@@ -41,7 +41,7 @@ const CourseSecondaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
 
   useEffect(() => {
     const listener = methods.watch(() => {
-      loadData(methods.getValues());
+      loadData(methods.getValues(), { shouldDebounce: true });
     });
 
     return () => listener.unsubscribe();
@@ -58,7 +58,11 @@ const CourseSecondaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
       role='search'
       {...rest}
     >
-      <Typography variant={TypographyVariant.Body1} id={labelId}>
+      <Typography
+        variant={TypographyVariant.Body1}
+        id={labelId}
+        color='var(--cherryPie)'
+      >
         Filters
       </Typography>
       <Dropdown<CourseSecondaryFilterType>

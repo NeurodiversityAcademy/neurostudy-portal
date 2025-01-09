@@ -17,7 +17,7 @@
   border: 1px solid var(--grey-500);
 }
 
-.inputWrapper[aria-disabled='true'] {
+.container[aria-disabled='true'] > .inputWrapper {
   background-color: rgba(239, 239, 239, 0.3);
   color: var(--grey-300);
   border-color: rgba(118, 118, 118, 0.3);
@@ -46,6 +46,12 @@
   margin-right: 5px;
 }
 
+.container[aria-disabled='true']
+  .pillAndInput
+  > [role='button']:nth-last-of-type(1) {
+  margin-bottom: 5px;
+}
+
 .pillAndInput.hasValue > .input {
   margin-left: -15px;
 }
@@ -56,9 +62,21 @@
   font-family: inherit;
   outline: none;
   padding: 8px 15px;
+  width: 100%;
   max-width: 100%;
   border-radius: 8px;
   background-color: transparent;
+}
+
+.inputAsText {
+  font-size: var(--body3-font-size);
+  white-space: pre;
+  flex: 1;
+}
+
+.container[aria-disabled='true'] .input,
+.input:disabled {
+  color: var(--grey-300);
 }
 
 .inputWrapper:focus-within {
@@ -118,4 +136,25 @@
 .clearBtn {
   margin-top: 5px;
   align-self: flex-start;
+}
+
+.expandIcon {
+  padding: 6px 5px;
+  transition: transform 150ms linear;
+  cursor: pointer;
+  color: var(--grey-300);
+  flex-shrink: 0;
+}
+
+.expandIcon:hover {
+  color: var(--BondBlack);
+}
+
+.container[aria-disabled='true'] .expandIcon {
+  pointer-events: none;
+}
+
+.container[aria-expanded='true'] .expandIcon,
+.container:focus-within .expandIcon {
+  transform: rotate(180deg);
 }

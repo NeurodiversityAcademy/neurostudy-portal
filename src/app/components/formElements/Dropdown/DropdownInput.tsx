@@ -9,6 +9,7 @@ import {
   FocusEvent,
   KeyboardEventHandler,
   useId,
+  useEffect,
 } from 'react';
 import styles from './dropdown.module.css';
 import classNames from 'classnames';
@@ -26,6 +27,7 @@ import HelperText from '../HelperText/HelperText';
 import ClearButton from '../ClearButton/ClearButton';
 import useDefaultValue from '@/app/hooks/useDefaultValue';
 import { emptyFunc } from '@/app/utilities/common';
+import ArrowDownIcon from '../../images/ArrowDown';
 
 const DEFAULT_SELECTED_OPTIONS: SelectOption['value'][] = [];
 const BUTTON_ARIA_LABEL = 'Clear';
@@ -40,9 +42,15 @@ const DropdownInput = <TFieldValues extends FieldValues>({
   helperText,
   required = false,
   onChange,
+  className,
   renderProps,
   creatable,
+  searchable = true,
+  clearable = true,
+  radioMode = false,
   multiple = false,
+  closeOnSelect = false,
+  showInputAsText = false,
   cols,
   defaultErrorMessage,
   methods,
@@ -54,14 +62,14 @@ const DropdownInput = <TFieldValues extends FieldValues>({
   const error = errors[name];
   const { disabled, onBlur, value } = field;
 
-  const inputRef = useRef<HTMLInputElement>();
+  const inputRef = useRef<HTMLInputElement | HTMLSpanElement>();
   const nextFocusElemRef = useRef<HTMLElement>();
   const selectedOptions: SelectOption['value'][] =
     value || DEFAULT_SELECTED_OPTIONS;
-  const [inputValue, setInputValue] = useState('');
-  const [searchable, setSearchable] = useState(!selectedOptions.length);
   const listId = useId();
   const [expanded, setExpanded] = useState(false);
+
+  radioMode = !multiple && radioMode;
 
   useDefaultValue<TFieldValues>({
     renderProps,
@@ -87,6 +95,12 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     };
   })();
 
+  const [_inputValue, setInputValue] = useState('');
+  const inputValue =
+    !multiple && selectedOptions.length
+      ? getLabel(selectedOptions[0].toString())
+      : _inputValue;
+
   const isSelected = (() => {
     const obj: Record<string, true> = {};
     for (const item of selectedOptions) {
@@ -103,15 +117,19 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     }
     const valLowerCase = val.toLowerCase();
     setInputValue('');
-    !selectedOptions.find(
+    const option = selectedOptions.find(
       (option) => String(option).toLowerCase() === valLowerCase
-    ) && setSelectedOptions([...selectedOptions, val]);
+    );
+    !option && setSelectedOptions([...selectedOptions, val]);
     inputRef.current?.focus();
   };
 
   const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!searchable) return;
+    if (!searchable) {
+      return;
+    }
     setInputValue(e.target.value);
+    !multiple && selectedOptions.length && setSelectedOptions([]);
   };
 
   const onInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -120,10 +138,6 @@ const DropdownInput = <TFieldValues extends FieldValues>({
 
     if (inputValue) {
       if (key !== 'Enter') {
-        if (key === 'Backspace' && selectedOptions.length) {
-          onClear();
-        }
-
         return;
       }
 
@@ -131,17 +145,17 @@ const DropdownInput = <TFieldValues extends FieldValues>({
       const newOption = options.find(
         (option) => option.label.toLowerCase() === inputValueLC
       );
+
       if (newOption) {
-        setInputValue('');
         if (!isSelected(newOption.value)) {
           setSelectedOptions([...selectedOptions, newOption.value]);
         }
+        setInputValue('');
       } else if (creatable) {
         createItem(inputValue);
       }
     } else {
       if (key === 'Backspace') {
-        console.log('dada');
         const updatedOptions = selectedOptions.slice(0, -1);
         setSelectedOptions(updatedOptions);
       }
@@ -154,12 +168,6 @@ const DropdownInput = <TFieldValues extends FieldValues>({
 
   const onRemove = (val: SelectOption['value']) => {
     setSelectedOptions(selectedOptions.filter((item) => item !== val));
-  };
-
-  const onClear = () => {
-    setInputValue('');
-    setSelectedOptions([]);
-    setSearchable(true);
   };
 
   const onPillFocus: PillFocusEventHandler = ({ parent }) => {
@@ -180,14 +188,32 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     }
   };
 
+  const attachInputRef = (node: HTMLInputElement | HTMLSpanElement | null) => {
+    inputRef.current = node || undefined;
+    field.ref(node);
+  };
+
+  const handleCloseOnSelect = () => {
+    if (closeOnSelect) {
+      setExpanded(false);
+      (document.activeElement as HTMLElement)?.blur();
+    }
+  };
+
   useLayoutEffect(() => {
     nextFocusElemRef.current?.focus();
   }, [selectedOptions]);
 
-  const filteredOptions = options.filter((option) => {
-    const inputValueLC = inputValue.toLowerCase();
-    return option.label.toLowerCase().includes(inputValueLC);
-  });
+  useEffect(() => {
+    disabled && setExpanded(false);
+  }, [disabled]);
+
+  const filteredOptions = searchable
+    ? options.filter((option) => {
+        const inputValueLC = inputValue.toLowerCase();
+        return option.label.toLowerCase().includes(inputValueLC);
+      })
+    : options;
 
   const focusInput = (e: React.MouseEvent<HTMLElement>) => {
     if (e.currentTarget === e.target) {
@@ -211,7 +237,8 @@ const DropdownInput = <TFieldValues extends FieldValues>({
       className={classNames(
         styles.container,
         'border-box-parent',
-        cols && 'col-md-' + cols
+        cols && 'col-md-' + cols,
+        className
       )}
       role='combobox'
       aria-controls={listId}
@@ -266,34 +293,47 @@ const DropdownInput = <TFieldValues extends FieldValues>({
                 button-aria-label={BUTTON_ARIA_LABEL}
               />
             ))}
-          {(!disabled || !selectedOptions.length) && (
-            <input
-              ref={(node) => {
-                inputRef.current = node || undefined;
-                field.ref(node);
-              }}
-              type='text'
-              role='searchbox'
-              disabled={disabled}
-              placeholder={placeholder}
-              className={styles.input}
-              onChange={onInputChange}
-              value={
-                multiple || !selectedOptions.length
-                  ? inputValue
-                  : getLabel(selectedOptions[0].toString())
-              }
-              onKeyDown={onInputKeyDown}
-            />
-          )}
+          {(!disabled || !selectedOptions.length) &&
+            (showInputAsText ? (
+              <span
+                ref={attachInputRef}
+                className={styles.inputAsText}
+                tabIndex={0}
+              >
+                {inputValue}
+              </span>
+            ) : (
+              <input
+                ref={attachInputRef}
+                type='text'
+                role={searchable ? 'searchbox' : undefined}
+                disabled={disabled}
+                placeholder={placeholder}
+                className={styles.input}
+                onChange={onInputChange}
+                value={inputValue}
+                onKeyDown={onInputKeyDown}
+                readOnly={!searchable}
+              />
+            ))}
         </div>
-        <ClearButton
-          name={name}
-          value={value}
-          methods={methods}
-          className={styles.clearBtn}
-          disabled={disabled}
-          onClick={onClear}
+        {clearable && (
+          <ClearButton
+            name={name}
+            value={value}
+            methods={methods}
+            className={styles.clearBtn}
+            disabled={disabled}
+            onClick={() => !multiple && setInputValue('')}
+          />
+        )}
+        <ArrowDownIcon
+          aria-hidden
+          className={styles.expandIcon}
+          onMouseDown={(e) => {
+            inputRef.current?.[expanded ? 'blur' : 'focus']();
+            e.preventDefault();
+          }}
         />
       </div>
       <div className={styles.dropdownListContainer}>
@@ -302,12 +342,21 @@ const DropdownInput = <TFieldValues extends FieldValues>({
           id={listId}
           role='listbox'
           aria-multiselectable={multiple}
+          onTransitionEnd={(e) => {
+            e.target === e.currentTarget &&
+              !expanded &&
+              (multiple || !selectedOptions.length) &&
+              setInputValue('');
+          }}
         >
           {hasCreateItem && (
             <CheckBoxItem
               label={'Add "' + inputValue + '"'}
               checked={false}
-              onChange={() => createItem(inputValue)}
+              onChange={() => {
+                createItem(inputValue);
+                handleCloseOnSelect();
+              }}
               type='pill'
               role='option'
             />
@@ -318,6 +367,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
               label={label}
               checked={isSelected(value)}
               role='option'
+              type={radioMode ? 'radio' : undefined}
               onChange={(selected) => {
                 if (multiple) {
                   setSelectedOptions(
@@ -328,6 +378,8 @@ const DropdownInput = <TFieldValues extends FieldValues>({
                 } else {
                   setSelectedOptions(selected ? [value] : []);
                 }
+
+                handleCloseOnSelect();
               }}
             />
           ))}

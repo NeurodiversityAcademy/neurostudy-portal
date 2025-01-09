@@ -26,3 +26,22 @@ export type CourseSecondaryFilterType = {
 
 export type FilterCourseProps = CoursePrimaryFilterType &
   CourseSecondaryFilterType;
+
+export interface CourseSortConfig {
+  sortBy: keyof CourseProps;
+  sortOrder: 1 | -1;
+}
+
+export interface CourseCheckoutSession {
+  url: string | null;
+}
+
+export interface CourseBannerProps {
+  open: boolean;
+  isLoading: boolean;
+  onRequestCheckout: () => Promise<void>;
+}
+
+export interface CourseEnrolPopupProps extends CourseBannerProps {
+  onClose: () => void;
+}

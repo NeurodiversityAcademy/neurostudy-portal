@@ -5,6 +5,7 @@ import Typography, { TypographyVariant } from '../typography/Typography';
 import ActionButton from '../buttons/ActionButton';
 import DialogPopUp from '../popupSubscribe/DialogComponent';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
+import useHideOverflowEffect from '@/app/hooks/useHideOverflowEffect';
 
 export default function Teacher() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,9 +14,13 @@ export default function Teacher() {
     setIsModalOpen(!isModalOpen);
   }, [isModalOpen]);
 
+  const hideOverflow = useHideOverflowEffect();
+
   useEffect(() => {
-    document.body.style.overflow = isModalOpen ? 'hidden' : 'auto';
-  }, [isModalOpen]);
+    if (isModalOpen) {
+      return hideOverflow();
+    }
+  }, [isModalOpen, hideOverflow]);
 
   return (
     <div className={styles.teacherContainer}>
@@ -32,7 +37,7 @@ export default function Teacher() {
         </Typography>
       </div>
       <ActionButton
-        label='Subscribe Us'
+        label='Subscribe'
         style={BUTTON_STYLE.Primary}
         onClick={toggleModal}
         className={'mt-4'}

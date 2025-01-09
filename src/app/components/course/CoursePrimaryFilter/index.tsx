@@ -1,6 +1,6 @@
 'use client';
 
-import { FormHTMLAttributes } from 'react';
+import { FormHTMLAttributes, useEffect } from 'react';
 import styles from './coursePrimaryFilter.module.css';
 import classNames from 'classnames';
 import { useForm, UseFormReturn } from 'react-hook-form';
@@ -24,7 +24,7 @@ const DROPDOWN_KEYS: (keyof CoursePrimaryFilterType)[] = [
 ];
 
 const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
-  const { loadData, isLoading, filter } = useCourseContext();
+  const { loadData, isLoading, filter, updateFilter } = useCourseContext();
   const methods: UseFormReturn<CoursePrimaryFilterType> =
     useForm<CoursePrimaryFilterType>({
       mode: 'onBlur',
@@ -39,13 +39,23 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
     });
   });
 
+  useEffect(() => {
+    const listener = methods.watch(() => {
+      updateFilter(methods.getValues());
+    });
+
+    return () => listener.unsubscribe();
+  }, [methods, updateFilter]);
+
   return (
     <Form
       methods={methods}
-      className={classNames(styles.container, className)}
-      onSubmit={methods.handleSubmit((data) => {
-        loadData(data);
-      })}
+      className={classNames(
+        styles.container,
+        className,
+        isLoading && styles.disabled
+      )}
+      onSubmit={methods.handleSubmit(() => loadData())}
       aria-label='Primary search criteria'
       role='search'
       {...rest}
@@ -55,15 +65,15 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
           name='Neurotypes'
           label='What is your neurotype?'
           showLabel
-          placeholder='ADHD'
+          placeholder='Ex. ADHD'
           multiple
-          options={[]}
+          options={COURSE_FIELD_OPTIONS.Neurotypes}
         />
         <Dropdown<CoursePrimaryFilterType>
           name='InterestArea'
           label='What do you want to study?'
           showLabel
-          placeholder='Anything'
+          placeholder='Ex. Data Science'
           multiple
           options={COURSE_FIELD_OPTIONS.InterestArea}
         />
@@ -71,10 +81,10 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
           name='Location'
           label='Where do you want to study?'
           showLabel
-          placeholder='Anywhere'
+          placeholder='Ex. Sydney'
           creatable
           multiple
-          options={[]}
+          options={COURSE_FIELD_OPTIONS.Location}
         />
         <ActionButton
           style={BUTTON_STYLE.Primary}

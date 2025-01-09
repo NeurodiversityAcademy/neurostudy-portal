@@ -7,27 +7,53 @@ import styles from './auth.module.css';
 import Form from '@/app/components/formElements/Form';
 import { FieldValues, UseFormReturn, useForm } from 'react-hook-form';
 import TextBox from '@/app/components/formElements/TextBox/TextBox';
-import { BUTTON_STYLE, EMAIL_REGEX } from '@/app/utilities/constants';
+import {
+  BUTTON_STYLE,
+  EMAIL_REGEX,
+  FORM_ELEMENT_COL_WIDTH,
+} from '@/app/utilities/constants';
 import classNames from 'classnames';
 import Link from 'next/link';
 import ActionButton from '@/app/components/buttons/ActionButton';
 import AuthFormHeader from './AuthFormHeader';
 import AuthFormFooter from './AuthFormFooter';
 import { SignUpOutput } from 'aws-amplify/auth';
-import { FORM_STATE } from '@/app/utilities/auth/constants';
+import {
+  FORM_STATE,
+  OPTIONS_DATE,
+  OPTIONS_MONTH,
+  OPTIONS_YEAR,
+} from '@/app/utilities/auth/constants';
 import { useState } from 'react';
 import LoaderWrapper from '../loader/LoaderWrapper';
-import { notifyAxiosError, notifyInProgress } from '@/app/utilities/common';
+import {
+  formatDate,
+  notifyAxiosError,
+  notifyInProgress,
+} from '@/app/utilities/common';
 import AuthVerifyForm from './AuthVerifyForm';
 import signUp from '@/app/utilities/auth/signUp';
+import { useSearchParams } from 'next/navigation';
+import Dropdown from '../formElements/Dropdown/Dropdown';
+import CheckBox from '../formElements/CheckBox/CheckBox';
 
 interface SignUpFieldValues extends FieldValues {
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   repeatPassword: string;
+  date: number[];
+  month: number[];
+  year: number[];
+  subscribed: string;
 }
 
 const AuthInitSignUp: React.FC = () => {
+  const searchParams = useSearchParams();
+  const readOnlyEmail = searchParams.get('email');
+  const isEmailReadOnly = !!readOnlyEmail;
+
   const methods: UseFormReturn<SignUpFieldValues> = useForm<SignUpFieldValues>({
     mode: 'onBlur',
   });
@@ -36,14 +62,23 @@ const AuthInitSignUp: React.FC = () => {
   const [formState, setFormState] = useState<FORM_STATE>(
     FORM_STATE.INITIALIZED
   );
-  const [username, setUsername] = useState<string>('');
+  const [username, setUsername] = useState<string>(readOnlyEmail || '');
   const [password, setPassword] = useState<string>('');
 
   const onSubmit = async (data: SignUpFieldValues) => {
-    const { email, password } = data;
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      date,
+      month,
+      year,
+      subscribed,
+    } = data;
 
-    setUsername('');
-    setPassword('');
+    const birthdate = formatDate(year[0], month[0] + 1, date[0]);
+
     setIsLoading(true);
 
     try {
@@ -53,6 +88,10 @@ const AuthInitSignUp: React.FC = () => {
         options: {
           userAttributes: {
             email,
+            given_name: firstName,
+            family_name: lastName,
+            birthdate,
+            subscribed: subscribed ? '1' : '0',
           },
         },
       });
@@ -92,8 +131,22 @@ const AuthInitSignUp: React.FC = () => {
       <Form
         methods={methods}
         onSubmit={methods.handleSubmit(onSubmit)}
-        className={classNames(isConfirming && 'hide')}
+        className={classNames({ hide: isConfirming })}
       >
+        <TextBox
+          name='firstName'
+          label='First Name'
+          required
+          placeholder='First Name'
+          cols={FORM_ELEMENT_COL_WIDTH.HALF}
+        />
+        <TextBox
+          name='lastName'
+          label='Last Name'
+          required
+          placeholder='Last Name'
+          cols={FORM_ELEMENT_COL_WIDTH.HALF}
+        />
         <TextBox
           name='email'
           type='email'
@@ -101,6 +154,8 @@ const AuthInitSignUp: React.FC = () => {
           required
           placeholder='Email address'
           pattern={EMAIL_REGEX}
+          defaultValue={username}
+          readOnly={isEmailReadOnly}
         />
         <TextBox
           name='password'
@@ -127,12 +182,56 @@ const AuthInitSignUp: React.FC = () => {
           }}
         />
         <Typography
+          variant={TypographyVariant.Body3}
+          className={classNames(styles.dobLabel, 'col-md-12', 'pt-2')}
+        >
+          Date of Birth
+        </Typography>
+        <Dropdown
+          name='date'
+          label='Date'
+          placeholder='Date'
+          cols={FORM_ELEMENT_COL_WIDTH.SMALL}
+          options={OPTIONS_DATE}
+          radioMode
+          required
+        />
+        <Dropdown
+          name='month'
+          label='Month'
+          placeholder='Month'
+          cols={FORM_ELEMENT_COL_WIDTH.SMALL}
+          options={OPTIONS_MONTH}
+          radioMode
+          required
+        />
+        <Dropdown
+          name='year'
+          label='Year'
+          placeholder='Year'
+          cols={FORM_ELEMENT_COL_WIDTH.SMALL}
+          options={OPTIONS_YEAR}
+          radioMode
+          required
+        />
+        <Typography
           variant={TypographyVariant.Body2}
           className='pt-2 text-center'
         >
           By signing up, you agree to our{' '}
           <Link href='#'>Terms and Conditions</Link>
         </Typography>
+        <CheckBox
+          name='subscribed'
+          label='subscribed'
+          options={[
+            {
+              label:
+                'Subscribe to our newsletter and get exclusive offers, free beta courses, and valuable insights!',
+              value: '1',
+            },
+          ]}
+        />
         <div className='mt-2 mb-3'>
           <ActionButton
             type='submit'

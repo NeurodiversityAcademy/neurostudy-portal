@@ -11,6 +11,10 @@
   flex-wrap: wrap;
 }
 
+.checkBoxContainer button {
+  line-height: 1.1rem;
+}
+
 .checkBoxContainer.vertical {
   flex-direction: column;
 }
