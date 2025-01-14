@@ -12,6 +12,7 @@ import ReadingMode from '@/app/images/reading_mode.png';
 import UniversalDesignforLearning from '@/app/images/search_nearby.png';
 import TeachingPractice from '@/app/images/teaching_practice.png';
 import InclusivePolicies from '@/app/images/waitlist.png';
+import { HOST_URL } from '../constants';
 
 export const MAX_COURSE_RATING = 5;
 export const MAX_CRITERION_RATING = 5;
@@ -233,3 +234,10 @@ export const COURSE_BENEFIT_SUPPORT_AVAILABLE = {
     icon: TeachingPractice,
   },
 };
+
+export const COURSE_TEST_DATA_QUERY_KEY = 'test';
+
+export const COURSE_CHECKOUT_CALLBACK_URL =
+  HOST_URL + '/api/course/checkoutCallback';
+export const COURSE_ENROL_POPUP_CLOSED_KEY = 'cepck-';
+export const COURSE_ENROL_CACHE_STORAGE = 'sessionStorage';
