@@ -146,6 +146,11 @@ export default async function GET(req: NextRequest): Promise<Response> {
 
     return NextResponse.json(Items);
   } catch (ex) {
+    // TODO
+    // TEMP
+    // Remove later on
+    console.error('GET course error', ex);
+
     return processCourseAPIError(ex);
   }
 }
