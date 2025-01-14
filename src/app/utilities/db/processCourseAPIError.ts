@@ -4,6 +4,7 @@ import processAPIError from '../api/processAPIError';
 
 export default function processCourseAPIError(ex: unknown): Response {
   if (ex instanceof DynamoDBServiceException) {
+    console.error(ex);
     return returnDBError(ex);
   }
 
