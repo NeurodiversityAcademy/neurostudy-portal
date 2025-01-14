@@ -5,7 +5,7 @@ import { DEFAULT_COURSE_DETAILS } from '../db/constants';
 const throwError = throwAssertionError;
 
 export default function assertCourseDetails(
-  data: CourseDetailsProps
+  data: unknown
 ): asserts data is CourseDetailsProps {
   if (!data || typeof data !== 'object') {
     throwError(
@@ -13,8 +13,9 @@ export default function assertCourseDetails(
     );
   }
 
-  let key: string;
-  for (key in data) {
+  const dataObj = data as Record<string, unknown>;
+
+  for (const key in dataObj) {
     if (key in DEFAULT_COURSE_DETAILS) {
       /* @ts-expect-error: Server will check this at run-time (along with FE) */
       const expectedType: keyof typeof DEFAULT_COURSE_DETAILS =
