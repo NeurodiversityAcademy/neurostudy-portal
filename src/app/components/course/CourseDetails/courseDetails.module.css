@@ -1,0 +1,291 @@
+.topBannerMainContainer {
+    background: linear-gradient(135deg, rgba(102, 0, 204, 0.5) 0%, rgba(74, 74, 255, 0.5) 100%), #E4DCFF;
+    padding: 2rem;
+    height: auto;
+    max-width: 100%;
+    margin: auto auto;
+    margin-bottom: 8rem;
+}
+
+.topBannerInstituteTitle {
+    display: flex;
+    align-items: center;
+    padding-left: 0;
+}
+
+.topBannerInstituteLogo {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: contain;
+    overflow: hidden;
+}
+
+.topBannerCourseTitle {
+    padding-left: 0;
+}
+
+.topBannerAdmissions {
+    background: var(--GhostWhiteSub);
+    height: auto;
+    border-radius: 8px;
+    margin: 5rem auto 0 auto;
+    padding: 16px;
+    text-align: center;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 80%;
+}
+
+.topBannerAdmissionsBtnGroup {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.topBannerAdmissionsApplyNowBtn {
+    width: 135px;
+}
+
+.topBannerAdmissionsShortlistBtn {
+    width: 165px;
+}
+
+.middleBannerMainContainer {
+    background: var(--GhostWhiteSub);
+    max-width: 1000px;
+    border-radius: 16px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.12);
+    margin: -6rem auto 2rem auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    position: relative;
+    top: 9rem;
+    gap: 1rem;
+}
+
+.middleBannerIconContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: 500;
+    font-size: 22px;
+    gap: 0.6rem;
+    padding: 1rem;
+}
+
+.middleBannerIconImageWrapper {
+    height: 48px;
+    background: var(--GhostWhiteVariant);
+    border-radius: 50%;
+    padding-bottom: 1.8rem;
+}
+
+.middleBannerIconImageWrapper img {
+    scale: 0.4;
+}
+
+.benefitTabContainer {
+    display: flex;
+    flex-direction: column;
+    width: 93%;
+    border-radius: 16px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.12);
+    margin: 0 auto;
+    background: var(--GhostWhiteSub);
+}
+
+.benefitTabContainerTitle {
+    height: 74px;
+    display: flex;
+    align-items: center;
+    padding-left: 24px;
+    background-color: var(--cherryPie);
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.benefitTabTitleGroup {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+    height: 60px;
+    border-bottom: 1px solid var(--GhostWhiteVariant);
+}
+
+.benefitTabTitleGroup button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    border-bottom: none;
+}
+
+.benefitTabTitleGroup button.activeTab {
+    border-bottom: 3px solid var(--cherryPie);
+    background: var(--GhostWhiteVariant);
+}
+
+.activeTab span {
+    color: var(--cherryPie);
+}
+
+.benefitTabContentContainer {
+    border: none;
+}
+
+.benefitTabContentContainer ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0 40px;
+    gap: 1rem;
+}
+
+.benefitTabContentContainer ul>li {
+    flex: 1 1 calc(33.33% - 32px);
+    margin-bottom: 10px;
+    padding: inherit;
+    flex-wrap: wrap;
+    min-width: 150px;
+    max-width: 300px;
+}
+
+.benefitTabContentContainer ul>li p {
+    margin-top: 0;
+    text-wrap: wrap;
+    max-width: inherit;
+}
+
+.supportAvailableListItem {
+    display: flex;
+    flex-direction: column;
+}
+
+.adjustmentAvailableListItem p {
+    display: flex;
+    align-items: center;
+}
+
+.supportAvailableListItem img,
+.adjustmentAvailableListItem img {
+    scale: 0.5;
+    margin-left: -1rem;
+}
+
+.possibleJobRequirementListItem {
+    display: flex;
+}
+
+.possibleJobRequirementListItem span:first-child {
+    flex: 1;
+}
+
+.courseDetailsBodyContainer {
+    padding: 3rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.courseDetailsOverviewContainer {
+    background: var(--GhostWhite);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.12);
+    min-width: 289px;
+    height: 651px;
+    border-radius: 8px;
+}
+
+.courseDetailsOverviewContainer ul {
+    list-style: none;
+    padding: 32px 16px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.courseDetailsOverviewContainer ul>li {
+    height: 40px;
+    cursor: pointer;
+    position: relative;
+    padding: 5.5px 32px;
+}
+
+.courseDetailsOverviewContainer ul>li:hover {
+    background: var(--GhostWhiteVariant);
+    border-radius: 8px;
+}
+
+.courseDetailsOverviewContainer ul>li:hover span {
+    color: var(--cherryPie);
+}
+
+.courseDetailsOverviewContainer ul>li a {
+    text-decoration: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.courseDetailsOverviewContainer a span {
+    padding: 5.5px 32px;
+}
+
+.courseDetailsBodyTextContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 64px;
+}
+
+.courseDetailsBodyText {
+    background: var(--GhostWhite);
+    border: 1px solid var(--GhostWhiteVariant);
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.12);
+    border-radius: 16px;
+    padding: 32px;
+}
+
+.paragraph h3 {
+    margin-top: 0;
+    font-size: var(--body1-font-size);
+}
+
+.paragraph p {
+    color: var(--BondBlackVariant);
+}
+
+.paragraph > p:last-child {
+    margin-bottom: 0;
+}
+
+@media(max-width :800px) {
+    .courseDetailsOverviewContainer {
+        display: none;
+    }
+
+    .courseDetailsBodyContainer {
+        padding: 1.7em;
+    }
+
+    .benefitTabText {
+        font-size: var(--body3-strong-font-size);
+        font-weight: var(--body3-strong-font-weight);
+    }
+}

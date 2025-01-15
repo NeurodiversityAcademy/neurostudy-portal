@@ -12,6 +12,7 @@ export enum TypographyVariant {
   Body3Strong = 'body3-strong',
   Body3 = 'body3',
   LABELtext = 'labelText',
+  BenefitTabText = 'benefitTabText',
 }
 
 interface TypographyElement
@@ -65,6 +66,9 @@ const Typography: React.FC<TypographyProps> = ({
       break;
     case TypographyVariant.LABELtext:
       variantClassName = styles.labelText;
+      break;
+    case TypographyVariant.BenefitTabText:
+      variantClassName = styles.benefitTabText;
       break;
   }
 

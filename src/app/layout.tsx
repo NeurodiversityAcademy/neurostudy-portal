@@ -15,6 +15,7 @@ const poppins = Poppins({
   subsets: ['latin'],
   weight: ['900', '800', '700', '600', '500', '400', '100'],
   style: ['normal'],
+  variable: '--poppins-font',
 });
 
 export const metadata: Metadata = {
@@ -31,7 +32,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en'>
+    <html lang='en' className={poppins.variable}>
       <head>
         <link rel='icon' href='/favicon.ico' sizes='any' />
       </head>

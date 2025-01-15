@@ -1,8 +1,17 @@
 import {
   FilterCourseProps,
-  CourseSortConfig,
   CourseProps,
+  CourseSortConfig,
 } from '@/app/interfaces/Course';
+import TrainedStaff from '@/app/images/people-repeat.png';
+import Feedback from '@/app/images/feedback.png';
+import FiveSenses from '@/app/images/five_senses.png';
+import LearningTools from '@/app/images/learning_tools.png';
+import AlternativeAssessmentMethods from '@/app/images/open_enrolment.png';
+import ReadingMode from '@/app/images/reading_mode.png';
+import UniversalDesignforLearning from '@/app/images/search_nearby.png';
+import TeachingPractice from '@/app/images/teaching_practice.png';
+import InclusivePolicies from '@/app/images/waitlist.png';
 import { HOST_URL } from '../constants';
 
 export const MAX_COURSE_RATING = 5;
@@ -186,6 +195,45 @@ export const DEFAULT_COURSE_SORT_BY: CourseSortConfig['sortBy'] = 'Title';
 export const DEFAULT_COURSE_SORT_ORDER: CourseSortConfig['sortOrder'] = 1;
 
 export const COURSE_FETCH_REVALIDATE_PERIOD = 60 * 30; // In seconds
+
+export const COURSE_BENEFIT_SUPPORT_AVAILABLE = {
+  TrainedStaff: {
+    label: 'Trained Staff',
+    icon: TrainedStaff,
+  },
+  UniversalDesignForLearning: {
+    label: 'Universal Design for Learning',
+    icon: UniversalDesignforLearning,
+  },
+  InclusivePolicies: {
+    label: 'Inclusive policies',
+    icon: InclusivePolicies,
+  },
+  AlternativeAssessmentMethods: {
+    label: 'Alternative assessment methods',
+    icon: AlternativeAssessmentMethods,
+  },
+  RegularFeedbackMechanisms: {
+    label: 'Regular feedback mechanisms',
+    icon: Feedback,
+  },
+  SensoryBreaks: {
+    label: 'Sensory breaks',
+    icon: FiveSenses,
+  },
+  SpecializedAcademicAdvising: {
+    label: 'Specialized academic advising',
+    icon: LearningTools,
+  },
+  AccessibleTextbooks: {
+    label: 'Accessible textbooks',
+    icon: ReadingMode,
+  },
+  InclusiveTeachingPractices: {
+    label: 'Inclusive teaching practices',
+    icon: TeachingPractice,
+  },
+};
 
 export const COURSE_TEST_DATA_QUERY_KEY = 'test';
 
