@@ -3,23 +3,15 @@
 import React, { useEffect } from 'react';
 import Script from 'next/script';
 import { FB_PIXEL_ID, pageview } from '../../utilities/metapixel/fpixel';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 
 export default function MetaPixel(): JSX.Element {
-  const router = useRouter();
+  const pathname = usePathname();
   useEffect(() => {
-    // This pageview only triggers the first time (it's important for Pixel to have real information)
+    // Trigger a pageview when the pathname changes
     pageview();
+  }, [pathname]);
 
-    const handleRouteChange = () => {
-      pageview();
-    };
-
-    router.events.on('routeChangeComplete', handleRouteChange);
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChange);
-    };
-  }, [router.events]);
   return (
     <Script
       id='fb-pixel'
