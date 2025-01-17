@@ -10,6 +10,7 @@ import { HOST_URL } from './utilities/constants';
 import { Metadata } from 'next';
 import ToasterWrapper from './components/toaster/ToasterWrapper';
 import NextAuthProvider from './utilities/auth/NextAuthProvider';
+import MetaPixel from './components/article/MetaPixel';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -37,6 +38,7 @@ export default async function RootLayout({
         <link rel='icon' href='/favicon.ico' sizes='any' />
       </head>
       <body className={poppins.className}>
+        {process.env.NODE_ENV === 'production' && <MetaPixel />}
         <NextAuthProvider>
           <Navbar />
           {children}
