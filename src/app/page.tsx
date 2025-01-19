@@ -12,10 +12,6 @@ import { META_KEY } from './utilities/constants';
 import Subscribe from './components/subscribe/subscribe';
 import CourseEnrolPrompt from './components/course/CourseEnrolPrompt';
 import Handbook from './components/handbook';
-import dynamic from 'next/dynamic';
-const MetaPixel = dynamic(() => import('./components/article/MetaPixel'), {
-  ssr: false,
-});
 
 const getGoogleAnalyticsScript = () => {
   return (
@@ -47,7 +43,6 @@ export default async function Home() {
     <>
       <main className={styles.main}>
         {process.env.NODE_ENV === 'production' && getGoogleAnalyticsScript()}
-        {process.env.NODE_ENV === 'production' && <MetaPixel />}
         <CourseEnrolPrompt />
         <Handbook />
         <Teacher />
