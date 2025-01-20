@@ -48,7 +48,7 @@ export default async function Home() {
         <Teacher />
         <Partner />
         <Fact />
-        <HowItWorks></HowItWorks>
+        <HowItWorks />
         <DisplayPodcast
           scriptSrc='https://www.buzzsprout.com/2132579.js?container_id=buzzsprout-large-player&player=large'
           containerId='buzzsprout-large-player'

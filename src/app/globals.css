@@ -1,5 +1,7 @@
 :root {
-  font-family: var(--poppins-font);
+
+  scroll-behavior: smooth;
+  scroll-padding-top: 71px;
 
   /* Desktop */
   --heading1-font-weight: 700;
