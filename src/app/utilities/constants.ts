@@ -89,3 +89,8 @@ export enum INTERNAL_MODE {
   PROD = 'PROD',
   DEV = 'DEV',
 }
+
+export const PODCAST_LINK =
+  'https://www.buzzsprout.com/2132579.js?container_id=buzzsprout-large-player&player=large';
+
+export const BUZZSPROUT_CONTAINER_ID = 'buzzsprout-large-player';

@@ -10,7 +10,12 @@ import DisplayPodcast from '@/app/components/podcast/DisplayPodcast';
 import Subscribe from '@/app/components/subscribe/subscribe';
 import { MetadataProps } from '@/app/interfaces/MetadataProps';
 import { Metadata } from 'next';
-import { HOST_URL, META_KEY } from '@/app/utilities/constants';
+import {
+  BUZZSPROUT_CONTAINER_ID,
+  HOST_URL,
+  META_KEY,
+  PODCAST_LINK,
+} from '@/app/utilities/constants';
 import { createMetadata } from '@/app/utilities/common';
 
 export async function generateMetadata({
@@ -73,8 +78,8 @@ export default function OneBlog({ searchParams }: MetadataProps) {
       />{' '}
       {scriptSrc != '' && containerId != '' && (
         <DisplayPodcast
-          scriptSrc='https://www.buzzsprout.com/2132579.js?container_id=buzzsprout-large-player&player=large'
-          containerId='buzzsprout-large-player'
+          scriptSrc={PODCAST_LINK}
+          containerId={BUZZSPROUT_CONTAINER_ID}
           singleBlog={false}
         />
       )}

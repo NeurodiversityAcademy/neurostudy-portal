@@ -8,7 +8,11 @@ import HowItWorks from './components/howItWorks/HowItWorks';
 import Partner from './components/partnerSection/Partner';
 import { Metadata } from 'next';
 import { createMetadata } from './utilities/common';
-import { META_KEY } from './utilities/constants';
+import {
+  BUZZSPROUT_CONTAINER_ID,
+  META_KEY,
+  PODCAST_LINK,
+} from './utilities/constants';
 import Subscribe from './components/subscribe/subscribe';
 import CourseEnrolPrompt from './components/course/CourseEnrolPrompt';
 import Handbook from './components/handbook';
@@ -50,8 +54,8 @@ export default async function Home() {
         <Fact />
         <HowItWorks />
         <DisplayPodcast
-          scriptSrc='https://www.buzzsprout.com/2132579.js?container_id=buzzsprout-large-player&player=large'
-          containerId='buzzsprout-large-player'
+          scriptSrc={PODCAST_LINK}
+          containerId={BUZZSPROUT_CONTAINER_ID}
           singleBlog={false}
         />
         <ArticleList />
