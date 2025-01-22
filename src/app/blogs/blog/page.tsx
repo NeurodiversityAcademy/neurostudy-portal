@@ -50,7 +50,15 @@ export default function OneBlog({ searchParams }: MetadataProps) {
     );
   }
 
-  const { id, imageUrl, header, bodyText, scriptSrc, containerId } = blog;
+  const {
+    id,
+    imageUrl,
+    header,
+    bodyText,
+    scriptSrc,
+    containerId,
+    podcastLink,
+  } = blog;
 
   return (
     <div className={styles.container}>
@@ -59,12 +67,15 @@ export default function OneBlog({ searchParams }: MetadataProps) {
         header={header}
         imageUrl={imageUrl}
         bodyText={bodyText}
+        scriptSrc={scriptSrc}
+        containerId={containerId}
+        podcastLink={podcastLink}
       />{' '}
       {scriptSrc != '' && containerId != '' && (
         <DisplayPodcast
-          scriptSrc={scriptSrc}
-          containerId={containerId}
-          singleBlog={true}
+          scriptSrc='https://www.buzzsprout.com/2132579.js?container_id=buzzsprout-large-player&player=large'
+          containerId='buzzsprout-large-player'
+          singleBlog={false}
         />
       )}
       <BlogList />

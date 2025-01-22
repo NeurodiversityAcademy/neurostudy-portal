@@ -3,4 +3,7 @@ export interface TextHeavyInterface {
   header: string;
   imageUrl: string;
   bodyText: string;
+  scriptSrc?: string;
+  containerId?: string;
+  podcastLink?: string;
 }
