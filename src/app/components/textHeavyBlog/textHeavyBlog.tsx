@@ -7,16 +7,22 @@ import Link from 'next/link';
 import styles from './textHeavyBlog.module.css';
 import DOMPurify from 'isomorphic-dompurify';
 import useWindowWidth from '@/app/hooks/useWindowWidth';
+import DisplayPodcast from '../podcast/DisplayPodcast';
+import Vlog from '../vlogEmbed/Vlog';
 
 export default function TextHeavyBlog({
   header,
   imageUrl,
   bodyText,
+  scriptSrc,
+  containerId,
+  podcastLink,
 }: TextHeavyInterface): JSX.Element {
   const windowWidth = useWindowWidth();
 
-  const paragraphs = bodyText.split('\n').map((paragraph, index) => {
+  const paragraphs = bodyText.split('</p>').map((paragraph, index) => {
     const sanitizedHTML = DOMPurify.sanitize?.(paragraph);
+
     return (
       <div key={index}>
         <Typography key={index} variant={TypographyVariant.Body2}>
@@ -25,7 +31,19 @@ export default function TextHeavyBlog({
             dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
           />
         </Typography>
-        <br></br>
+        <br />
+        {index === 4 && containerId && scriptSrc && (
+          <DisplayPodcast
+            scriptSrc={scriptSrc}
+            containerId={containerId}
+            singleBlog={true}
+          />
+        )}
+        {index === 2 && containerId && scriptSrc && podcastLink && (
+          <center>
+            <Vlog podcastLink={podcastLink} />
+          </center>
+        )}
       </div>
     );
   });

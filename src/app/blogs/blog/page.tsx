@@ -10,7 +10,12 @@ import DisplayPodcast from '@/app/components/podcast/DisplayPodcast';
 import Subscribe from '@/app/components/subscribe/subscribe';
 import { MetadataProps } from '@/app/interfaces/MetadataProps';
 import { Metadata } from 'next';
-import { HOST_URL, META_KEY } from '@/app/utilities/constants';
+import {
+  BUZZSPROUT_CONTAINER_ID,
+  HOST_URL,
+  META_KEY,
+  PODCAST_LINK,
+} from '@/app/utilities/constants';
 import { createMetadata } from '@/app/utilities/common';
 
 export async function generateMetadata({
@@ -50,7 +55,15 @@ export default function OneBlog({ searchParams }: MetadataProps) {
     );
   }
 
-  const { id, imageUrl, header, bodyText, scriptSrc, containerId } = blog;
+  const {
+    id,
+    imageUrl,
+    header,
+    bodyText,
+    scriptSrc,
+    containerId,
+    podcastLink,
+  } = blog;
 
   return (
     <div className={styles.container}>
@@ -59,12 +72,15 @@ export default function OneBlog({ searchParams }: MetadataProps) {
         header={header}
         imageUrl={imageUrl}
         bodyText={bodyText}
+        scriptSrc={scriptSrc}
+        containerId={containerId}
+        podcastLink={podcastLink}
       />{' '}
       {scriptSrc != '' && containerId != '' && (
         <DisplayPodcast
-          scriptSrc={scriptSrc}
-          containerId={containerId}
-          singleBlog={true}
+          scriptSrc={PODCAST_LINK}
+          containerId={BUZZSPROUT_CONTAINER_ID}
+          singleBlog={false}
         />
       )}
       <BlogList />

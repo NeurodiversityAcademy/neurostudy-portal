@@ -7,7 +7,12 @@ import styles from '../page.module.css';
 import BadgeDisplay from './badges/BadgeDisplay';
 import Typography, { TypographyVariant } from './typography/Typography';
 import TextBox from '@/app/components/formElements/TextBox/TextBox';
-import { EMAIL_REGEX, FORM_ELEMENT_COL_WIDTH } from '../utilities/constants';
+import {
+  BUZZSPROUT_CONTAINER_ID,
+  EMAIL_REGEX,
+  FORM_ELEMENT_COL_WIDTH,
+  PODCAST_LINK,
+} from '../utilities/constants';
 import { FieldValues, useForm, UseFormReturn } from 'react-hook-form';
 import Form from '@/app/components/formElements/Form';
 import TextArea from '@/app/components/formElements/TextArea/TextArea';
@@ -105,8 +110,8 @@ export default function Components() {
       <div className={styles.border}>
         <Typography variant={TypographyVariant.H2}>Podcast embed</Typography>
         <DisplayPodcast
-          scriptSrc='https://www.buzzsprout.com/2132579.js?container_id=buzzsprout-large-player&player=large'
-          containerId='buzzsprout-large-player'
+          scriptSrc={PODCAST_LINK}
+          containerId={BUZZSPROUT_CONTAINER_ID}
           singleBlog={false}
         />
       </div>
