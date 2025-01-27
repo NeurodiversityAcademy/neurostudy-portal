@@ -52,7 +52,7 @@ const styles = {
     borderRadius: '25px',
     borderStyle: 'round',
     //borderWidth: '50px',
-    width: '1200px',
+    //width: '1200px',
   },
   title: {
     fontSize: '17px',
