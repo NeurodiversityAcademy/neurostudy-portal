@@ -6,7 +6,9 @@ module.exports = {
       {
         protocol: 'https',
         hostname: 'neurostudyportal.s3.ap-southeast-2.amazonaws.com',
+        
       },
     ],
   },
+  
 };
