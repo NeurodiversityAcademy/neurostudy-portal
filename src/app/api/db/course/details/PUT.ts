@@ -32,6 +32,10 @@ export default async function PUT(req: NextRequest): Promise<Response> {
     await insertCourseDetails(data);
     return NextResponse.json(null);
   } catch (ex) {
+    // TODO: Remove it after debugging
+    // TEMP
+    console.log('ex', { ex });
+
     return processCourseAPIError(ex);
   }
 }
