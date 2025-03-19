@@ -85,7 +85,7 @@ export default function Values() {
                 variant={TypographyVariant.Body2}
                 color='var( --GhostWhiteVariant)'
               >
-                Everyone should feel safe in the environment they are and the
+                Everyone should feel safe in the environment they are in and the
                 people they interact with.
               </Typography>
             </div>
