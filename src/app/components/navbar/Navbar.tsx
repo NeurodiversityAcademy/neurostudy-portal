@@ -8,7 +8,6 @@ import Logo from '../../images/Logo-navbar.svg';
 import Hamburger from '../../images/hamburgerMenu.svg';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import UserOutlet from './UserOutlet';
-import classNames from 'classnames';
 
 export default function Navbar() {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -61,50 +60,6 @@ export default function Navbar() {
                   Neurodivergent Mates
                 </Typography>
               </Link>
-            </li>
-            <li className={classNames(styles.li, styles.dropdown)} tabIndex={0}>
-              <div>
-                <Typography variant={TypographyVariant.Body2}>
-                  Services
-                </Typography>
-                <ul className={styles.dropdownContent}>
-                  <li>
-                    <Link href='/services/neurodiversitytraining'>
-                      <Typography variant={TypographyVariant.Body2}>
-                        Neurodiversity Training
-                      </Typography>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href='/services/advisoryconsulting'>
-                      <Typography variant={TypographyVariant.Body2}>
-                        Advisory Consulting
-                      </Typography>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href='/services/networking'>
-                      <Typography variant={TypographyVariant.Body2}>
-                        Networking & Workshops
-                      </Typography>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href='/services/coaching'>
-                      <Typography variant={TypographyVariant.Body2}>
-                        Career coaching
-                      </Typography>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href='/services/placements'>
-                      <Typography variant={TypographyVariant.Body2}>
-                        Placements
-                      </Typography>
-                    </Link>
-                  </li>
-                </ul>
-              </div>
             </li>
             <li className={styles.li}>
               <Link href='/about'>
