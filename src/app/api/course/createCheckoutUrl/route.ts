@@ -13,6 +13,7 @@ import {
   STRIPE_SHIPPING_ALLOWED_COUNTRIES,
 } from '@/app/utilities/stripe/constants';
 import APIError from '@/app/interfaces/APIError';
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: NextRequest): Promise<Response> {
   try {
