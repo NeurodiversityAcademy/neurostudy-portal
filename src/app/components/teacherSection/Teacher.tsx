@@ -119,11 +119,6 @@ export default function Teacher() {
         onClick={onRequestCheckout}
         className={'mt-4'}
       />
-      {/* <CourseBanner
-        open={bannerOpen}
-        isLoading={isLoading}
-        onRequestCheckout={onRequestCheckout}
-      /> */}
     </div>
   );
 }

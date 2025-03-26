@@ -1,5 +1,3 @@
-'use client';
-
 import { NextRequest, NextResponse } from 'next/server';
 import processCourseAPIError from '@/app/utilities/db/processCourseAPIError';
 import isAuthenticated from '@/app/utilities/auth/isAuthenticated';
