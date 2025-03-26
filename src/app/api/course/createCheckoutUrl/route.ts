@@ -1,3 +1,5 @@
+'use client';
+
 import { consumeRateWithIp } from '@/app/utilities/api/rateLimiter';
 import { NextRequest, NextResponse } from 'next/server';
 import processCourseAPIError from '@/app/utilities/db/processCourseAPIError';
