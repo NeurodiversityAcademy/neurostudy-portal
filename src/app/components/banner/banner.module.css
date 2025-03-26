@@ -3,6 +3,7 @@
   width: 100%;
   padding: 5vw;
   gap: 2.5vw;
+  height: 70vh;
   background-image: url('../../images/bg.svg');
   background-repeat: no-repeat;
   background-size: cover;

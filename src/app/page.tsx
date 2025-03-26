@@ -10,8 +10,9 @@ import { Metadata } from 'next';
 import { createMetadata } from './utilities/common';
 import { META_KEY } from './utilities/constants';
 import Subscribe from './components/subscribe/subscribe';
-import CourseEnrolPrompt from './components/course/CourseEnrolPrompt';
+// import CourseEnrolPrompt from './components/course/CourseEnrolPrompt';
 import Handbook from './components/handbook';
+import HomeBanner from './components/banner/HomeBanner';
 
 const getGoogleAnalyticsScript = () => {
   return (
@@ -42,10 +43,11 @@ export default async function Home() {
   return (
     <>
       <main className={styles.main}>
+        <HomeBanner />
         {process.env.NODE_ENV === 'production' && getGoogleAnalyticsScript()}
-        <CourseEnrolPrompt />
-        <Handbook />
+        {/* <CourseEnrolPrompt /> */}
         <Teacher />
+        <Handbook />
         <Partner />
         <Fact />
         <HowItWorks />
