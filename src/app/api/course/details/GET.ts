@@ -1,3 +1,5 @@
+'use client';
+
 import APIError from '@/app/interfaces/APIError';
 import { consumeRateWithIp } from '@/app/utilities/api/rateLimiter';
 import { dbDocumentClient } from '@/app/utilities/db/configure';
@@ -15,6 +17,7 @@ import {
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
 import { NextRequest, NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
 export default async function GET(req: NextRequest): Promise<Response> {
   try {
     await consumeRateWithIp(req);
