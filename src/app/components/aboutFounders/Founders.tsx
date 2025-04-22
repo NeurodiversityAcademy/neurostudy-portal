@@ -19,7 +19,11 @@ export default function Founders() {
       <div className={styles.grid}>
         <div className={styles.gridItem}>
           <div>
-            <Image src={Will} alt={'Will photo'} className={styles.image}></Image>
+            <Image
+              src={Will}
+              alt={'Will photo'}
+              className={styles.image}
+            ></Image>
           </div>
           <div className={styles.textBox}>
             {' '}
@@ -53,7 +57,11 @@ export default function Founders() {
         </div>
         <div className={styles.gridItem}>
           <div>
-            <Image src={Pratik} alt={'Pratik photo'} className={styles.image}></Image>
+            <Image
+              src={Pratik}
+              alt={'Pratik photo'}
+              className={styles.image}
+            ></Image>
           </div>
           <div className={styles.textBox}>
             <div>

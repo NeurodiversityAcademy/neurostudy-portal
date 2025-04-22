@@ -78,13 +78,16 @@ export default function Advisors() {
   ];
 
   // Group advisors by their type
-  const groupedAdvisors = advisors.reduce((acc, advisor) => {
-    if (!acc[advisor.type]) {
-      acc[advisor.type] = [];
-    }
-    acc[advisor.type].push(advisor);
-    return acc;
-  }, {} as Record<string, typeof advisors>);
+  const groupedAdvisors = advisors.reduce(
+    (acc, advisor) => {
+      if (!acc[advisor.type]) {
+        acc[advisor.type] = [];
+      }
+      acc[advisor.type].push(advisor);
+      return acc;
+    },
+    {} as Record<string, typeof advisors>
+  );
 
   return (
     <div className={styles.container}>
@@ -92,7 +95,7 @@ export default function Advisors() {
         <div key={type} className={styles.section}>
           <Typography
             variant={TypographyVariant.H2}
-            color="var(--GhostWhite)"
+            color='var(--GhostWhite)'
             className={styles.title}
           >
             Meet Our {type}s
@@ -108,7 +111,7 @@ export default function Advisors() {
                 <div>
                   <Typography
                     variant={TypographyVariant.Body1}
-                    color="var(--GhostWhite)"
+                    color='var(--GhostWhite)'
                   >
                     {advisor.name}
                   </Typography>
@@ -116,7 +119,7 @@ export default function Advisors() {
                 <div>
                   <Typography
                     variant={TypographyVariant.Body2}
-                    color="var(--GhostWhite)"
+                    color='var(--GhostWhite)'
                     className={styles.company}
                   >
                     {advisor.company}
@@ -125,7 +128,7 @@ export default function Advisors() {
                 <div>
                   <Image
                     src={advisor.logo}
-                    alt="LinkedIn icon"
+                    alt='LinkedIn icon'
                     className={styles.logo}
                     onClick={() => {
                       if (advisor.linkedin) {

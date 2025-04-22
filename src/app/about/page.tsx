@@ -7,7 +7,6 @@ import Journey from '../components/aboutJourney/Journey';
 import Values from '../components/aboutValues/Values';
 import Mission from '../components/aboutMission/Mission';
 import Vision from '../components/aboutVision/Vision';
-// import Founders from '../components/aboutFounders/Founders';
 import { Metadata } from 'next';
 import { META_KEY } from '../utilities/constants';
 import { createMetadata } from '../utilities/common';
@@ -34,22 +33,22 @@ export default function Page() {
         </div>
         <div className={styles.subContainer}></div>
       </div>
-      <div id="journey">
+      <div id='journey'>
         <Journey />
       </div>
-      <div id="values">
+      <div id='values'>
         <Values />
       </div>
-      <div id="vision">
+      <div id='vision'>
         <Vision />
       </div>
-      <div id="mission">
+      <div id='mission'>
         <Mission />
       </div>
-      <div id="founders">
+      <div id='founders'>
         <Founders />
       </div>
-      <div id="advisors">
+      <div id='advisors'>
         <Advisors />
       </div>
     </div>
