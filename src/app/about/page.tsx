@@ -7,10 +7,12 @@ import Journey from '../components/aboutJourney/Journey';
 import Values from '../components/aboutValues/Values';
 import Mission from '../components/aboutMission/Mission';
 import Vision from '../components/aboutVision/Vision';
-import Founders from '../components/aboutFounders/Founders';
+// import Founders from '../components/aboutFounders/Founders';
 import { Metadata } from 'next';
 import { META_KEY } from '../utilities/constants';
 import { createMetadata } from '../utilities/common';
+import Advisors from '../components/aboutAdvisors/Advisors';
+import Founders from '../components/aboutFounders/Founders';
 
 export const metadata: Metadata = createMetadata(META_KEY.ABOUT, {
   images: [
@@ -32,11 +34,24 @@ export default function Page() {
         </div>
         <div className={styles.subContainer}></div>
       </div>
-      <Journey />
-      <Values />
-      <Vision />
-      <Mission />
-      <Founders />
+      <div id="journey">
+        <Journey />
+      </div>
+      <div id="values">
+        <Values />
+      </div>
+      <div id="vision">
+        <Vision />
+      </div>
+      <div id="mission">
+        <Mission />
+      </div>
+      <div id="founders">
+        <Founders />
+      </div>
+      <div id="advisors">
+        <Advisors />
+      </div>
     </div>
   );
 }
