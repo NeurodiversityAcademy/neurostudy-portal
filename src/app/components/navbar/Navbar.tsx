@@ -103,47 +103,6 @@ export default function Navbar() {
                 </Link>
               </li>
               <li className={styles.li}>
-                <Link
-                  href='/services/neurodiversitytraining'
-                  onClick={toggleDropdown}
-                >
-                  <Typography variant={TypographyVariant.Body2}>
-                    Neurodiversity Training
-                  </Typography>
-                </Link>
-              </li>
-              <li className={styles.li}>
-                <Link
-                  href='/services/advisoryconsulting'
-                  onClick={toggleDropdown}
-                >
-                  <Typography variant={TypographyVariant.Body2}>
-                    Advisory Consulting
-                  </Typography>
-                </Link>
-              </li>
-              <li className={styles.li}>
-                <Link href='/services/networking' onClick={toggleDropdown}>
-                  <Typography variant={TypographyVariant.Body2}>
-                    Networking & Workshops
-                  </Typography>
-                </Link>
-              </li>
-              <li className={styles.li}>
-                <Link href='/services/coaching' onClick={toggleDropdown}>
-                  <Typography variant={TypographyVariant.Body2}>
-                    Career coaching
-                  </Typography>
-                </Link>
-              </li>
-              <li className={styles.li}>
-                <Link href='/services/placements' onClick={toggleDropdown}>
-                  <Typography variant={TypographyVariant.Body2}>
-                    Placements
-                  </Typography>
-                </Link>
-              </li>
-              <li className={styles.li}>
                 <Link href='/about' onClick={toggleDropdown}>
                   <Typography variant={TypographyVariant.Body2}>
                     About Us

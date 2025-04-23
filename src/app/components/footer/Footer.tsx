@@ -73,27 +73,6 @@ export default function Footer() {
           >
             Services
           </Typography>
-          <ul>
-            <li>
-              <Link href='/services/neurodiversitytraining'>
-                Neurodiversity Training
-              </Link>
-            </li>
-            <li>
-              <Link href='/services/advisoryconsulting'>
-                Advisory Consulting
-              </Link>
-            </li>
-            <li>
-              <Link href='/services/networking'>Networking & Workshops</Link>
-            </li>
-            <li>
-              <Link href='/services/coaching'>Career coaching</Link>
-            </li>
-            <li>
-              <Link href='/services/placements'>Placements</Link>
-            </li>
-          </ul>
         </div>
         <div className={styles.topFoot}>
           <Typography
