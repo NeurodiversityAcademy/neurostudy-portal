@@ -58,6 +58,7 @@ export default function Advisors() {
       logo: linkedin,
       linkedin: 'https://www.linkedin.com/in/katie-fleet-a02003a4',
       type: 'Academic Advisor',
+      company: 'Autism Spectrum Australia (Aspect)',
     },
     {
       ProfilePic: MatthewImage,
