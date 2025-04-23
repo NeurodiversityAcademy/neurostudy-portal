@@ -14,7 +14,12 @@ export default function Blog({
   return (
     <div className={styles.card}>
       <div className={styles.cardImage}>
-        <Image src={imageUrl} alt={`Thumbnail for ${title}`} fill={true} unoptimized={true}/>
+        <Image
+          src={imageUrl}
+          alt={`Thumbnail for ${title}`}
+          fill={true}
+          unoptimized={true}
+        />
       </div>
       <div className={styles.descriptionContainer}>
         <div className={styles.description}>
