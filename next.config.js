@@ -11,6 +11,11 @@ module.exports = {
         protocol: 'https',
         hostname: 'res.cloudinary.com', // Add Cloudinary's hostname
       },
+      {
+        protocol: 'https',
+        hostname: 'asset.cloudinary.com', // Add Cloudinary's hostname
+      }
     ],
   },
 };
+

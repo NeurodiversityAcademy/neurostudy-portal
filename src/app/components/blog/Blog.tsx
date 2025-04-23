@@ -18,7 +18,6 @@ export default function Blog({
           src={imageUrl}
           alt={`Thumbnail for ${title}`}
           fill={true}
-          unoptimized={true}
         />
       </div>
       <div className={styles.descriptionContainer}>
