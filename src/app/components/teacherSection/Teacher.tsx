@@ -7,7 +7,11 @@ import { BUTTON_STYLE } from '@/app/utilities/constants';
 
 export default function Teacher() {
   const onRequestCheckout = async () => {
-    window.open('https://www.vetr.com.au/visitor_catalog_class/show/1730848', '_blank', 'noopener,noreferrer');
+    window.open(
+      'https://www.vetr.com.au/visitor_catalog_class/show/1730848',
+      '_blank',
+      'noopener,noreferrer'
+    );
   };
 
   return (
