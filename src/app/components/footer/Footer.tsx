@@ -71,15 +71,6 @@ export default function Footer() {
             variant={TypographyVariant.Body1}
             color='var(--GhostWhite)'
           >
-            Services
-          </Typography>
-        </div>
-        <div className={styles.topFoot}>
-          <Typography
-            className={styles.footerText}
-            variant={TypographyVariant.Body1}
-            color='var(--GhostWhite)'
-          >
             Navigate
           </Typography>
           <ul>
