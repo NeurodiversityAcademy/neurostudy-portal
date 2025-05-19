@@ -11,6 +11,7 @@ const CardList: React.FC = () => {
 
   const articles: ArticleInterface[] = articleData.articles
     .filter((article) => article.id != blogId)
+    .reverse()
     .slice(0, 3);
 
   return (
