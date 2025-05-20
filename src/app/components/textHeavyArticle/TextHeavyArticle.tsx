@@ -16,7 +16,9 @@ export default function TextHeavyArticle({
   const windowWidth = useWindowWidth();
 
   const paragraphs = bodyText.split('\n').map((paragraph, index) => {
-    const sanitizedHTML = DOMPurify.sanitize?.(paragraph);
+    const sanitizedHTML = DOMPurify.sanitize?.(paragraph, {
+      ADD_ATTR: ['target'],
+    });
     return (
       <div key={index}>
         <Typography key={index} variant={TypographyVariant.Body2}>
