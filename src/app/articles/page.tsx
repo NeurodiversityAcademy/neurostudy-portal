@@ -13,7 +13,7 @@ import { createMetadata } from '../utilities/common';
 export const metadata: Metadata = createMetadata(META_KEY.ARTICLES);
 
 const CardList: React.FC = () => {
-  const articles: ArticleInterface[] = articleData.articles;
+  const articles: ArticleInterface[] = articleData.articles.slice().reverse();
 
   return (
     <div className={styles.container}>
