@@ -12,6 +12,7 @@ const BlogCardList: React.FC = () => {
   //filter out the blog if user already inside that blog
   const blogs: BlogInterface[] = blogData.blogs
     .filter((blog) => blog.id != blogId)
+    .reverse()
     .slice(0, 3);
 
   return (
