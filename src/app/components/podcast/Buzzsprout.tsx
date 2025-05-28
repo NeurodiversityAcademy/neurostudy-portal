@@ -34,7 +34,7 @@ const BuzzsproutEmbed: React.FC<BuzzsproutEmbedProps> = ({
           </Typography>
         ) : (
           <Typography variant={TypographyVariant.H2}>
-            Listen to Our Podcast
+            Listen to our Podcast
           </Typography>
         )}
       </div>

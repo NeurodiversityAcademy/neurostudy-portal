@@ -79,7 +79,7 @@ export default function Footer() {
                 href='/blogs'
                 rel='noopener noreferrer'
                 aria-label='Blogs'
-                title='visit Blogs page'
+                title='Visit Blogs page'
               >
                 Blogs
               </Link>
@@ -89,7 +89,7 @@ export default function Footer() {
                 href='/about'
                 rel='noopener noreferrer'
                 aria-label='About Us'
-                title='visit About Us page'
+                title='Visit About Us page'
               >
                 About Us
               </Link>
@@ -99,7 +99,7 @@ export default function Footer() {
                 href='/contact'
                 rel='noopener noreferrer'
                 aria-label='Partner with Us'
-                title='visit Partner with Us page'
+                title='Visit Partner with Us page'
               >
                 Partner with Us
               </Link>
@@ -154,7 +154,7 @@ export default function Footer() {
             href='https://neurodiversityacademy927-my.sharepoint.com/:b:/g/personal/pratik_neurodiversityacademy_com/EXNxXkIM999Ot5uVj79jds0Bw4Q7b_rHPqA4bBDS3Q1acg?e=4Tnsi0'
             target='_blank'
             aria-label='Privacy policy (opens in new tab)'
-            title='visit Privacy policy page'
+            title='Visit Privacy policy page'
           >
             <Typography
               variant={TypographyVariant.Body2}
