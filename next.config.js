@@ -14,8 +14,7 @@ module.exports = {
       {
         protocol: 'https',
         hostname: 'asset.cloudinary.com', // Add Cloudinary's hostname
-      }
+      },
     ],
   },
 };
-
