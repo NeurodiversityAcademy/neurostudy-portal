@@ -76,16 +76,6 @@ export default function Footer() {
           <ul>
             <li>
               <Link
-                href='/articles'
-                rel='noopener noreferrer'
-                aria-label='Articles'
-                title='visit Articles page'
-              >
-                Articles
-              </Link>
-            </li>
-            <li>
-              <Link
                 href='/blogs'
                 rel='noopener noreferrer'
                 aria-label='Blogs'
