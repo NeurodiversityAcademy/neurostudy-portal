@@ -47,7 +47,8 @@ export default function OneArticle({ searchParams }: MetadataProps) {
     );
   }
 
-  const { id, header, imageUrl, bodyText } = article;
+  const { id, header, imageUrl, bodyText, authorName, authorImageUrl } =
+    article;
 
   return (
     <div className={styles.container}>
@@ -56,6 +57,8 @@ export default function OneArticle({ searchParams }: MetadataProps) {
         header={header}
         imageUrl={imageUrl}
         bodyText={bodyText}
+        authorName={authorName}
+        authorImageUrl={authorImageUrl}
       />{' '}
       <ArticleList />
       <Subscribe />
