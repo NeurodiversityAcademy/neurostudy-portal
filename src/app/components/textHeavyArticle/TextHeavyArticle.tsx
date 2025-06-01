@@ -12,6 +12,8 @@ export default function TextHeavyArticle({
   header,
   imageUrl,
   bodyText,
+  authorName,
+  authorImageUrl,
 }: TextHeavyInterface): JSX.Element {
   const windowWidth = useWindowWidth();
 
@@ -51,6 +53,20 @@ export default function TextHeavyArticle({
         <Image src={imageUrl} alt={`image for ${header}`} fill={true} />
       </div>
       <div className={styles.articleText}>{paragraphs}</div>
+      {authorName && authorImageUrl && (
+        <div className={styles.authorBlock}>
+          <Typography variant={TypographyVariant.Body2Strong}>
+            {authorName}
+          </Typography>
+          <Image
+            src={authorImageUrl}
+            alt={`Author Image: ${authorName}`}
+            width={200}
+            height={200}
+            className={styles.authorImage}
+          />
+        </div>
+      )}
     </div>
   );
 }

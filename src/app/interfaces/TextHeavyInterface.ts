@@ -3,4 +3,6 @@ export interface TextHeavyInterface {
   header: string;
   imageUrl: string;
   bodyText: string;
+  authorName?: string;
+  authorImageUrl?: string;
 }
