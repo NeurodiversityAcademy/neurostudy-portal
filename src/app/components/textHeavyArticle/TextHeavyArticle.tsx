@@ -19,6 +19,7 @@ export default function TextHeavyArticle({
 
   const paragraphs = bodyText.split('\n').map((paragraph, index) => {
     const sanitizedHTML = DOMPurify.sanitize?.(paragraph, {
+      ADD_TAGS: ['iframe'],
       ADD_ATTR: ['target'],
     });
     return (
