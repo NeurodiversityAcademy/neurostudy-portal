@@ -28,17 +28,13 @@ export default function HomeBanner() {
           </div>
           <BadgeDisplay></BadgeDisplay>
         </div>
-        {process.env.FEATURE_ENABLE_COURSE_SEARCH === '1' && (
-          <CourseProvider redirectToSearchPage>
-            <CoursePrimaryFilter className={styles.form} />
-          </CourseProvider>
-        )}
-      </div>
-      {process.env.FEATURE_ENABLE_COURSE_SEARCH === '1' && (
         <CourseProvider redirectToSearchPage>
-          <CoursePrimaryFilter className={styles.formMobile} />
+          <CoursePrimaryFilter className={styles.form} />
         </CourseProvider>
-      )}
+      </div>
+      <CourseProvider redirectToSearchPage>
+        <CoursePrimaryFilter className={styles.formMobile} />
+      </CourseProvider>
     </>
   );
 }
