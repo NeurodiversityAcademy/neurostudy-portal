@@ -16,7 +16,7 @@ export default function HomeBanner() {
               className='m-0'
               color='var(--GhostWhite)'
             >
-              We endorse Neuro-inclusion in higher education
+              We endorse Neuro-inclusion in tertiary education
             </Typography>
             <Typography
               variant={TypographyVariant.H2}
