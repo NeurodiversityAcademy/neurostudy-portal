@@ -6,7 +6,7 @@ import JanImage from '../../images/JanCroeni.jpeg';
 import JasonImage from '../../images/JasonWong.jpeg';
 import LesleyImage from '../../images/LesleyGordon.jpeg';
 import KatieImage from '../../images/KatieFleet.jpeg';
-import MatthewImage from '../../images/MatthewWillis.jpeg';
+import CarlyImage from '../../images/Carly.jpg';
 import NatashaImage from '../../images/NatashaArthars.jpeg';
 import linkedin from '../../images/linkedin.svg';
 
@@ -50,7 +50,14 @@ export default function Advisors() {
       company: 'TAFE NSW',
       type: 'Event Advisor',
     },
-
+    {
+      ProfilePic: CarlyImage,
+      name: 'Carly Vidal-Wallace',
+      logo: linkedin,
+      linkedin: 'https://www.linkedin.com/in/carlyvidalwallace',
+      company: 'Celestial Events Australia',
+      type: 'Event Advisor',
+    },
     // Academic Advisory Board
     {
       ProfilePic: KatieImage,
@@ -59,14 +66,6 @@ export default function Advisors() {
       linkedin: 'https://www.linkedin.com/in/katie-fleet-a02003a4',
       type: 'Academic Advisor',
       company: 'Autism Spectrum Australia (Aspect)',
-    },
-    {
-      ProfilePic: MatthewImage,
-      name: 'Matthew Willis',
-      logo: linkedin,
-      linkedin: 'https://www.linkedin.com/in/matthewjohnwillis',
-      company: 'Learnt Group',
-      type: 'Academic Advisor',
     },
     {
       ProfilePic: NatashaImage,
