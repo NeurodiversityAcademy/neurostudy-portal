@@ -6,7 +6,7 @@ import JanImage from '../../images/JanCroeni.jpeg';
 import JasonImage from '../../images/JasonWong.jpeg';
 import LesleyImage from '../../images/LesleyGordon.jpeg';
 import KatieImage from '../../images/KatieFleet.jpeg';
-import CarlyImage from '../../images/Carly.jpg';
+import CarlyImage from '../../images/Carly.png';
 import NatashaImage from '../../images/NatashaArthars.jpeg';
 import linkedin from '../../images/linkedin.svg';
 
