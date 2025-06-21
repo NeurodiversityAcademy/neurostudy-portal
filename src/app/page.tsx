@@ -10,7 +10,6 @@ import { Metadata } from 'next';
 import { createMetadata } from './utilities/common';
 import { META_KEY } from './utilities/constants';
 import Subscribe from './components/subscribe/subscribe';
-// import CourseEnrolPrompt from './components/course/CourseEnrolPrompt';
 import Handbook from './components/handbook';
 import HomeBanner from './components/banner/HomeBanner';
 
@@ -47,9 +46,9 @@ export default async function Home() {
         <HomeBanner />
         <Teacher />
         <Handbook />
-        <Partner />
         <Fact />
         <HowItWorks />
+        <Partner />
         <DisplayPodcast
           scriptSrc='https://www.buzzsprout.com/2132579.js?container_id=buzzsprout-large-player&player=large'
           containerId='buzzsprout-large-player'
