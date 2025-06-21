@@ -17,7 +17,7 @@ import Unify360 from '../images/logo_unify360.svg';
 export default function Page() {
   return (
     <div className={styles.container}>
-      <HomeBanner displayBadges={false}/>
+      <HomeBanner displayBadges={false} />
       <div className={styles.teacherContainer}>
         <div>
           <Typography variant={TypographyVariant.H2} color='var(--BondBlack)'>
@@ -26,7 +26,11 @@ export default function Page() {
         </div>
         <div className={styles.teacherBodyText}>
           <div className={styles.level}>
-            <Image src={bronzeBadge} alt='Bronze Badge' className={styles.badge} />
+            <Image
+              src={bronzeBadge}
+              alt='Bronze Badge'
+              className={styles.badge}
+            />
           </div>
           <div>
             <Typography
@@ -39,26 +43,52 @@ export default function Page() {
             </Typography>
             <div>
               <a href='https://unify360.com.au/' target='_blank'>
-                <Image src={Unify360} alt='Unify 360' title='Unify 360' className={styles.instituteLogo} />
+                <Image
+                  src={Unify360}
+                  alt='Unify 360'
+                  title='Unify 360'
+                  className={styles.instituteLogo}
+                />
               </a>
               <a href='https://unify360.com.au/' target='_blank'>
-                <Image src={Unify360} alt='Unify 360' title='Unify 360' className={styles.instituteLogo} />
+                <Image
+                  src={Unify360}
+                  alt='Unify 360'
+                  title='Unify 360'
+                  className={styles.instituteLogo}
+                />
               </a>
               <a href='https://unify360.com.au/' target='_blank'>
-
-                <Image src={Unify360} alt='Unify 360' title='Unify 360' className={styles.instituteLogo} />
+                <Image
+                  src={Unify360}
+                  alt='Unify 360'
+                  title='Unify 360'
+                  className={styles.instituteLogo}
+                />
               </a>
               <a href='https://unify360.com.au/' target='_blank'>
-
-                <Image src={Unify360} alt='Unify 360' title='Unify 360' className={styles.instituteLogo} />
+                <Image
+                  src={Unify360}
+                  alt='Unify 360'
+                  title='Unify 360'
+                  className={styles.instituteLogo}
+                />
               </a>
               <a href='https://unify360.com.au/' target='_blank'>
-
-                <Image src={Unify360} alt='Unify 360' title='Unify 360' className={styles.instituteLogo} />
+                <Image
+                  src={Unify360}
+                  alt='Unify 360'
+                  title='Unify 360'
+                  className={styles.instituteLogo}
+                />
               </a>
               <a href='https://unify360.com.au/' target='_blank'>
-
-                <Image src={Unify360} alt='Unify 360' title='Unify 360' className={styles.instituteLogo} />
+                <Image
+                  src={Unify360}
+                  alt='Unify 360'
+                  title='Unify 360'
+                  className={styles.instituteLogo}
+                />
               </a>
             </div>
           </div>

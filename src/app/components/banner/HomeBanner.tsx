@@ -10,7 +10,6 @@ interface PropType {
 }
 
 export default function HomeBanner({ displayBadges }: PropType) {
-
   return (
     <>
       <div className={styles.bannerContainer}>
