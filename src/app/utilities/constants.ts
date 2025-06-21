@@ -58,6 +58,7 @@ export enum META_KEY {
   FORGOT_PASSWORD = 'forgotpassword',
   PROFILE = 'profile',
   COURSES = 'courses',
+  ENDORSEMENTS = 'endorsements',
 }
 
 export const TOAST_UNKNOWN_ERROR_MESSAGE =

@@ -1,0 +1,38 @@
+@media (min-width: 480px) {
+  .teacherContainer {
+    text-align: center;
+    margin: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .level {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    padding: 20px;
+    gap: 20px;
+  }
+  .instituteLogo{
+    width: 300px;
+    height: 300px;
+    /* margin: 2px; */
+  }
+  .badge{
+    width: 100px;
+    height: 100px;
+    margin: 2px;
+  }
+}
+@media (max-width: 480px) {
+  .teacherContainer {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
