@@ -5,7 +5,12 @@ import BadgeDisplay from '../badges/BadgeDisplay';
 import CoursePrimaryFilter from '../course/CoursePrimaryFilter';
 import CourseProvider from '@/app/utilities/course/CourseProvider';
 
-export default function HomeBanner() {
+interface PropType {
+  displayBadges?: boolean;
+}
+
+export default function HomeBanner({ displayBadges }: PropType) {
+
   return (
     <>
       <div className={styles.bannerContainer}>
@@ -26,7 +31,7 @@ export default function HomeBanner() {
               are creating for Neurodivergent students.
             </Typography>
           </div>
-          <BadgeDisplay></BadgeDisplay>
+          {displayBadges && <BadgeDisplay />}
         </div>
         {process.env.FEATURE_ENABLE_COURSE_SEARCH === '1' && (
           <CourseProvider redirectToSearchPage>

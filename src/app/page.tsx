@@ -43,7 +43,7 @@ export default async function Home() {
     <>
       <main className={styles.main}>
         {process.env.NODE_ENV === 'production' && getGoogleAnalyticsScript()}
-        <HomeBanner />
+        <HomeBanner displayBadges={true}/>
         <Teacher />
         <Handbook />
         <Fact />
