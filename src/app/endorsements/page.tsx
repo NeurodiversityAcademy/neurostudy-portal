@@ -257,8 +257,8 @@ export default function Page() {
             students to thrive.
           </Typography>
           <Typography variant={TypographyVariant.H2} color='var(--BondBlack)'>
-            What does a student gain from studying at a Bronze, Silver, or
-            Gold-endorsed institute?
+            What does a student gain from studying at a Bronze, Silver, or Gold
+            endorsed institute?
           </Typography>
           <div className={styles.flexRow}>
             <div className={styles.side}></div>
