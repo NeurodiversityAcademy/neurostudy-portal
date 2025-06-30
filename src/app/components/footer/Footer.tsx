@@ -86,6 +86,16 @@ export default function Footer() {
             </li>
             <li>
               <Link
+                href='/endorsements'
+                rel='noopener noreferrer'
+                aria-label='Endorsements'
+                title='Visit endorsements page'
+              >
+                Endorsements
+              </Link>
+            </li>
+            <li>
+              <Link
                 href='/blogs'
                 rel='noopener noreferrer'
                 aria-label='Blogs'
