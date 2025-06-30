@@ -28,7 +28,7 @@ export default function Partner() {
     <div className={styles.main}>
       <div className={styles.title}>
         <Typography variant={TypographyVariant.H2} color='var(--BondBlack)'>
-          Leading organisations supported by us
+          Leading organisations supporting us
         </Typography>
       </div>
       <div className={styles.embla}>
