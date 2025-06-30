@@ -103,6 +103,13 @@ export default function Navbar() {
                 </Link>
               </li>
               <li className={styles.li}>
+                <Link href='/endorsements' onClick={toggleDropdown}>
+                  <Typography variant={TypographyVariant.Body2}>
+                    Our Endorsements
+                  </Typography>
+                </Link>
+              </li>
+              <li className={styles.li}>
                 <Link href='/about' onClick={toggleDropdown}>
                   <Typography variant={TypographyVariant.Body2}>
                     About Us
