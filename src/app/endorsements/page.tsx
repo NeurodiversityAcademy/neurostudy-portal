@@ -110,7 +110,8 @@ export default function Page() {
             Neurodiversity Academy to assess and recognise inclusive practices
             within learning organisations. These standards focus on inclusive
             curriculum design, staff awareness and training, accessible learning
-            environments, effective use of
+            environments, effective use of assistive technology, and continuous
+            improvement through feedback from neurodivergent students.
           </Typography>
           <Typography variant={TypographyVariant.H2} color='var(--BondBlack)'>
             What outcomes can a learning institute expect from being endorsed?
@@ -243,7 +244,7 @@ export default function Page() {
             <div className={styles.side}></div>
           </div>
           <Typography variant={TypographyVariant.H2} color='var(--BondBlack)'>
-            What does NDA not expect from endorsement?
+            What does NDA <i>not</i> expect from endorsement?
           </Typography>
           <Typography
             variant={TypographyVariant.Body1}
