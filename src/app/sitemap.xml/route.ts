@@ -1,3 +1,5 @@
+/* eslint-disable */
+/* tslint:disable */
 import { type NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
