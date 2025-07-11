@@ -13,28 +13,28 @@ import { MetadataProps } from '../interfaces/MetadataProps';
 import { Metadata } from 'next';
 import { META_COURSES_DEFAULT_CANONICAL_URL } from '../utilities/metadata/metadata';
 
-const isQueryComplex = (searchParams: MetadataProps['searchParams']) =>
-  getFetchQuery(searchParams) !== getPartialFetchQuery(searchParams);
+// const isQueryComplex = (searchParams: MetadataProps['searchParams']) =>
+//   getFetchQuery(searchParams) !== getPartialFetchQuery(searchParams);
 
 export async function generateMetadata({
   searchParams,
 }: MetadataProps): Promise<Metadata> {
-  const shouldIndex = !(
-    COURSE_TEST_DATA_QUERY_KEY in searchParams || isQueryComplex(searchParams)
-  );
+  // const shouldIndex = !(
+  //   COURSE_TEST_DATA_QUERY_KEY in searchParams || isQueryComplex(searchParams)
+  // );
 
   const query = getPartialFetchQuery(searchParams);
 
   return createMetadata(META_KEY.COURSES, {
     canonical: META_COURSES_DEFAULT_CANONICAL_URL + (query ? '?' + query : ''),
-    robots: { index: shouldIndex, follow: shouldIndex },
+    robots: { index: true, follow: true },
   });
 }
 
-const getFetchQuery = (searchParams: MetadataProps['searchParams']) =>
-  getSearchQuery(searchParams, (key) =>
-    [...COURSE_FILTER_KEYS, COURSE_TEST_DATA_QUERY_KEY].includes(key)
-  );
+// const getFetchQuery = (searchParams: MetadataProps['searchParams']) =>
+//   getSearchQuery(searchParams, (key) =>
+//     [...COURSE_FILTER_KEYS, COURSE_TEST_DATA_QUERY_KEY].includes(key)
+//   );
 
 const getPartialFetchQuery = (searchParams: MetadataProps['searchParams']) =>
   getSearchQuery(
