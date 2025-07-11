@@ -35,6 +35,10 @@ export default async function RootLayout({
   return (
     <html lang='en' className={poppins.variable}>
       <head>
+        <meta
+          name='google-site-verification'
+          content='djfPTzD9D2f3d1fmQBIqJqV_H7SQFbPHimsnYKBI66s'
+        />
         <link rel='icon' href='/favicon.ico' sizes='any' />
       </head>
       <body className={poppins.className}>
