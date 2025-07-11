@@ -3,8 +3,8 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Neurodiversity Components',
   robots: {
-    index: false,
-    follow: false,
+    index: true,
+    follow: true,
   },
 };
 
