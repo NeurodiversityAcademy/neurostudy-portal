@@ -22,6 +22,14 @@ export const metadata: Metadata = createMetadata(META_KEY.ABOUT, {
       url: 'https://neurostudyportal.s3.ap-southeast-2.amazonaws.com/images/Will.jpg',
     },
   ],
+  robots: {
+    index: true,
+    follow: true,
+  },
+  title: 'About Us - Neurodiversity Academy',
+  description:
+    'Learn about Neurodiversity Academy, our mission, vision, values, and the team behind it. We are dedicated to supporting neurodiverse individuals through education and community engagement.',
+  keywords: ['Neurodiversity Academy', 'About Us', 'Neurodiversity'],
 });
 
 export default function Page() {

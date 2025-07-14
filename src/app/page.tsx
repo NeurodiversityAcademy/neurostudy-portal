@@ -36,6 +36,12 @@ export const metadata: Metadata = createMetadata(META_KEY.HOME, {
       url: 'https://neurostudyportal.s3.ap-southeast-2.amazonaws.com/images/cover.jpg',
     },
   ],
+  robots: {
+    index: true,
+    follow: true,
+  },
+  title: 'Neurodiversity Academy Homepage',
+  description: 'Neurodiversity Academy Homepage',
 });
 
 export default async function Home() {
