@@ -17,6 +17,22 @@ export const metadata: Metadata = createMetadata(
         url: 'https://neurostudyportal.s3.ap-southeast-2.amazonaws.com/images/podcast-banner.jpg',
       },
     ],
+    robots: {
+      index: true,
+      follow: true,
+    },
+    title: 'Neurodivergent Mates Podcast - Neurodiversity Academy',
+    description:
+      'Explore the Neurodivergent Mates podcast, where we discuss neurodiversity, education, and the experiences of neurodiverse individuals. Join us for insightful conversations and stories.',
+    keywords: [
+      'Neurodiversity Academy',
+      'Neurodivergent Mates',
+      'Podcast',
+      'Neurodiversity',
+      'Education',
+      'Neurodiverse Individuals',
+      'Neurodiversity in vocational education',
+    ],
   }
 );
 

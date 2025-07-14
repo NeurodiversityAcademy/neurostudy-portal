@@ -22,7 +22,6 @@ export async function generateMetadata({
   // const shouldIndex = !(
   //   COURSE_TEST_DATA_QUERY_KEY in searchParams || isQueryComplex(searchParams)
   // );
-
   const query = getPartialFetchQuery(searchParams);
 
   return createMetadata(META_KEY.COURSES, {

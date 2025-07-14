@@ -25,6 +25,12 @@ export const metadata: Metadata = {
       ? 'https://neurodiversityacademy.com'
       : HOST_URL
   ),
+  robots: {
+    index: true,
+    follow: true,
+  },
+  title: 'Neurodiversity Academy',
+  description: 'Neurodiversity in vet',
 };
 
 export default async function RootLayout({

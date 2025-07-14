@@ -10,7 +10,24 @@ import { Metadata } from 'next';
 import { META_KEY } from '../utilities/constants';
 import { createMetadata } from '../utilities/common';
 
-export const metadata: Metadata = createMetadata(META_KEY.BLOGS);
+export const metadata: Metadata = {
+  ...createMetadata(META_KEY.BLOGS),
+  robots: {
+    index: true,
+    follow: true,
+  },
+  title: 'Articles - Neurodiversity Academy',
+  description: 'Explore articles on neurodiversity, education',
+  keywords: [
+    'Neurodiversity Academy',
+    'Blogs',
+    'Neurodiversity',
+    'Education',
+    'Neurodiverse Individuals',
+    'Neurodivergent Mates',
+    'Neurodiversity in vocational education',
+  ],
+};
 
 const CardList: React.FC = () => {
   const blogs: BlogInterface[] = blogData.blogs.slice().reverse();
