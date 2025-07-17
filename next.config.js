@@ -17,4 +17,18 @@ module.exports = {
       },
     ],
   },
+  robotsHeaders: true,
+  headers: async () => {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'X-Robots-Tag',
+            value: 'index, follow',
+          },
+        ],
+      },
+    ];
+  },
 };
