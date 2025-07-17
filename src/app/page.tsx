@@ -12,6 +12,7 @@ import { META_KEY } from './utilities/constants';
 import Subscribe from './components/subscribe/subscribe';
 import Handbook from './components/handbook';
 import HomeBanner from './components/banner/HomeBanner';
+import { Suspense } from 'react';
 
 const getGoogleAnalyticsScript = () => {
   return (
@@ -34,6 +35,9 @@ export const metadata: Metadata = createMetadata(META_KEY.HOME, {
   images: [
     {
       url: 'https://neurostudyportal.s3.ap-southeast-2.amazonaws.com/images/cover.jpg',
+      width: 1200,
+      height: 630,
+      alt: 'Neurodiversity Academy Homepage',
     },
   ],
   robots: {
@@ -44,13 +48,21 @@ export const metadata: Metadata = createMetadata(META_KEY.HOME, {
       follow: true,
     },
   },
-  title: 'Neurodiversity Academy Homepage',
-  description: 'Neurodiversity Academy Homepage',
+  title: 'Neurodiversity Academy - Inclusive Education Platform',
+  description:
+    'Leading platform for neurodiversity education in veterinary studies. Access courses, resources, and support for neurodiverse students.',
+  openGraph: {
+    title: 'Neurodiversity Academy - Inclusive Education Platform',
+    description:
+      'Leading platform for neurodiversity education in veterinary studies.',
+    type: 'website',
+    url: 'https://neurodiversityacademy.com',
+  },
 });
 
 export default async function Home() {
   return (
-    <>
+    <Suspense fallback={<h1>Loading...</h1>}>
       <main className={styles.main}>
         {process.env.NODE_ENV === 'production' && getGoogleAnalyticsScript()}
         <HomeBanner displayBadges={true} showButton={true} />
@@ -67,6 +79,6 @@ export default async function Home() {
         <ArticleList />
         <Subscribe />
       </main>
-    </>
+    </Suspense>
   );
 }

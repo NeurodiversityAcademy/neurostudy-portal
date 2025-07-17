@@ -21,7 +21,7 @@ module.exports = {
   headers: async () => {
     return [
       {
-        source: '/:path*',
+        source: '/',
         headers: [
           {
             key: 'X-Robots-Tag',
@@ -30,9 +30,13 @@ module.exports = {
           {
             key: 'Cache-Control',
             value: 'public, max-age=3600, must-revalidate',
+          },
+          {
+            key: 'Status',
+            value: '200'
           }
         ],
-      },
+      }
     ];
   },
 };
