@@ -42,7 +42,7 @@ export const metadata: Metadata = createMetadata(META_KEY.HOME, {
     googleBot: {
       index: true,
       follow: true,
-    }
+    },
   },
   title: 'Neurodiversity Academy Homepage',
   description: 'Neurodiversity Academy Homepage',
