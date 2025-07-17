@@ -39,6 +39,10 @@ export const metadata: Metadata = createMetadata(META_KEY.HOME, {
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    }
   },
   title: 'Neurodiversity Academy Homepage',
   description: 'Neurodiversity Academy Homepage',
