@@ -42,6 +42,10 @@ export default async function RootLayout({
     <html lang='en' className={poppins.variable}>
       <head>
         <meta
+          name='viewport'
+          content='width=device-width, initial-scale=1.0, viewport-fit=cover'
+        />
+        <meta
           name='google-site-verification'
           content='djfPTzD9D2f3d1fmQBIqJqV_H7SQFbPHimsnYKBI66s'
         />
