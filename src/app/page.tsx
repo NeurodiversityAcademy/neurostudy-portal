@@ -37,7 +37,7 @@ export const metadata: Metadata = createMetadata(META_KEY.HOME, {
       url: 'https://neurostudyportal.s3.ap-southeast-2.amazonaws.com/images/cover.jpg',
       width: 1200,
       height: 630,
-      alt: 'Neurodiversity Academy Homepage',
+      alt: 'Neurodiversity Academy - Neurodiversity in Vocational Education',
     },
   ],
   robots: {
@@ -46,20 +46,30 @@ export const metadata: Metadata = createMetadata(META_KEY.HOME, {
     googleBot: {
       index: true,
       follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
     },
   },
-  title: 'Neurodiversity Academy - Inclusive Education Platform',
+  title: 'Neurodiversity Academy - Neurodiversity in Vocational Education',
   description:
-    'Leading platform for neurodiversity education in veterinary studies. Access courses, resources, and support for neurodiverse students.',
+    'Leading platform for neurodiversity in vocational education. Learn what neurodivergent means, access endorsements, and connect with neurodivergent mates.',
   openGraph: {
-    title: 'Neurodiversity Academy - Inclusive Education Platform',
+    title: 'Neurodiversity Academy - Neurodiversity in Vocational Education',
     description:
-      'Leading platform for neurodiversity education in veterinary studies.',
+      'Explore neurodiversity meaning, access endorsements, articles.',
     type: 'website',
     url: 'https://neurodiversityacademy.com',
+    siteName: 'Neurodiversity Academy',
+    images: [
+      {
+        url: 'https://neurostudyportal.s3.ap-southeast-2.amazonaws.com/images/cover.jpg',
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
 });
-
 export default async function Home() {
   return (
     <Suspense fallback={<h1>Loading...</h1>}>
