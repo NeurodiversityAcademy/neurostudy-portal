@@ -4,13 +4,15 @@ import styles from './blog.module.css';
 import Image from 'next/image';
 import { BlogInterface } from '@/app/interfaces/BlogInterface';
 import LearnMore from '../LearnMore/LearnMore';
+import { slugify } from '@/app/utilities/common';
 
 export default function Blog({
-  id,
+  //id,
   title,
   imageUrl,
   description,
 }: BlogInterface): JSX.Element {
+  const blogSlug = slugify(title);
   return (
     <div className={styles.card}>
       <div className={styles.cardImage}>
@@ -22,7 +24,7 @@ export default function Blog({
             {description}
           </Typography>
         </div>
-        <LearnMore dest={`/blogs/blog/?blogId=${id}`} />
+        <LearnMore dest={`/blogs/blog/?title=${blogSlug}`} />
       </div>
     </div>
   );

@@ -12,13 +12,14 @@ import { MetadataProps } from '@/app/interfaces/MetadataProps';
 import { Metadata } from 'next';
 import { HOST_URL, META_KEY } from '@/app/utilities/constants';
 import { createMetadata } from '@/app/utilities/common';
+import { slugify } from '@/app/utilities/common';
 
 export async function generateMetadata({
   searchParams,
 }: MetadataProps): Promise<Metadata> {
-  const blogId = searchParams.blogId;
+  const titleSlug = searchParams?.title;
   const { blogs } = blogData;
-  const blog = blogs.find(({ id }) => id === blogId);
+  const blog = blogs.find(({ title }) => slugify(title) === titleSlug);
 
   if (!blog) {
     return {};
@@ -27,7 +28,7 @@ export async function generateMetadata({
   const { title, keywords, imageUrl, description } = blog;
   // NOTE
   // Previous `type` was 'blog', which the `openGraph` attribute doesn't accept as `type`
-  const canonical = `${HOST_URL}/blogs/blog?blogId=${blogId}`;
+  const canonical = `${HOST_URL}/blogs/blog?blogId=${titleSlug}`;
   const images = [{ url: imageUrl }];
 
   return createMetadata(META_KEY.BLOG, {
@@ -40,9 +41,9 @@ export async function generateMetadata({
 }
 
 export default function OneBlog({ searchParams }: MetadataProps) {
-  const blogId = searchParams.blogId;
+  const titleSlug = searchParams?.title;
   const { blogs } = blogData;
-  const blog = blogs.find(({ id }) => id === blogId);
+  const blog = blogs.find((blog) => slugify(blog.title) === titleSlug);
 
   if (!blog) {
     return (
