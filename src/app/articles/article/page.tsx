@@ -10,21 +10,21 @@ import Typography, {
 import Subscribe from '@/app/components/subscribe/subscribe';
 import { MetadataProps } from '@/app/interfaces/MetadataProps';
 import { HOST_URL, META_KEY } from '@/app/utilities/constants';
-import { createMetadata } from '@/app/utilities/common';
+import { createMetadata, slugify } from '@/app/utilities/common';
 
 export async function generateMetadata({
   searchParams,
 }: MetadataProps): Promise<Metadata> {
-  const articleId = searchParams?.articleId;
+  const titleSlug = searchParams?.title;
   const { articles } = articleData;
-  const article = articles.find(({ id }) => id === articleId);
+  const article = articles.find(({ title }) => slugify(title) === titleSlug);
 
   if (!article) {
     return {};
   }
 
   const { title, keywords, imageUrl, description } = article;
-  const canonical = `${HOST_URL}/articles/article?articleId=${articleId}`;
+  const canonical = `${HOST_URL}/articles/article?articleId=${titleSlug}`;
   const images = [{ url: imageUrl }];
 
   return createMetadata(META_KEY.ARTICLE, {
@@ -37,9 +37,11 @@ export async function generateMetadata({
 }
 
 export default function OneArticle({ searchParams }: MetadataProps) {
-  const articleId = searchParams?.articleId;
+  const titleSlug = searchParams?.title;
   const { articles } = articleData;
-  const article = articles.find((article) => article.id === articleId);
+  const article = articles.find(
+    (article) => slugify(article.title) === titleSlug
+  );
 
   if (!article) {
     return (

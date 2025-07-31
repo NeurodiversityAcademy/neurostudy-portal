@@ -4,13 +4,14 @@ import articleData from '../../articles/articleData.json';
 import styles from './article.module.css';
 import { ArticleInterface } from '@/app/interfaces/ArticleInterface';
 import { useSearchParams } from 'next/navigation';
+import { slugify } from '@/app/utilities/common';
 
 const CardList: React.FC = () => {
   const searchParams = useSearchParams();
-  const blogId = searchParams.get('articleId');
+  const titleSlug = searchParams.get('title');
 
   const articles: ArticleInterface[] = articleData.articles
-    .filter((article) => article.id != blogId)
+    .filter((article) => slugify(article.title) != titleSlug)
     .reverse()
     .slice(0, 3);
 
