@@ -4,6 +4,7 @@ import blogData from '../../blogs/blogData.json';
 import styles from './blog.module.css';
 import { BlogInterface } from '@/app/interfaces/BlogInterface';
 import { slugify } from '@/app/utilities/common';
+import { useVisitedItems } from '@/app/hooks/useVisitedItems';
 
 interface BlogCardListProps {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -11,8 +12,11 @@ interface BlogCardListProps {
 
 const BlogCardList = ({ searchParams }: BlogCardListProps) => {
   const titleSlug = searchParams.title as string;
+  const visitedBlogIds = useVisitedItems('blog');
+
   const blogs: BlogInterface[] = blogData.blogs
-    .filter((blog) => slugify(blog.title) != titleSlug)
+    .filter((blog) => slugify(blog.title) !== titleSlug) // Filter out current blog
+    .filter((blog) => !visitedBlogIds.includes(blog.id)) // Filter out visited blogs
     .reverse()
     .slice(0, 3);
 
