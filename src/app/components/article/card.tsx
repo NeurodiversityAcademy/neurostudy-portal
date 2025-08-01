@@ -5,13 +5,16 @@ import styles from './article.module.css';
 import { ArticleInterface } from '@/app/interfaces/ArticleInterface';
 import { useSearchParams } from 'next/navigation';
 import { slugify } from '@/app/utilities/common';
+import { useVisitedItems } from '@/app/hooks/useVisitedItems';
 
 const CardList: React.FC = () => {
   const searchParams = useSearchParams();
   const titleSlug = searchParams.get('title');
+  const visitedArticleIds = useVisitedItems('article');
 
   const articles: ArticleInterface[] = articleData.articles
-    .filter((article) => slugify(article.title) != titleSlug)
+    .filter((article) => slugify(article.title) !== titleSlug) // Filter out current article
+    .filter((article) => !visitedArticleIds.includes(article.id)) // Filter out visited articles
     .reverse()
     .slice(0, 3);
 
