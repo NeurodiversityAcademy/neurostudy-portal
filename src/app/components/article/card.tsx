@@ -22,10 +22,11 @@ const CardList: React.FC = () => {
     const needed = 3 - articles.length;
     const articleIdsToShow = articles.map((article) => article.id);
 
-    const fallbackArticles = articleData.articles
-      .filter((article) => slugify(article.title) !== titleSlug) // Exclude current
-      .filter((article) => !articleIdsToShow.includes(article.id)) // Exclude already selected
-      .sort(() => 0.5 - Math.random()) // Shuffle to get random articles
+    const fallbackArticles = shuffleArray(
+      articleData.articles
+        .filter((article) => slugify(article.title) !== titleSlug) // Exclude current
+        .filter((article) => !articleIdsToShow.includes(article.id)) // Exclude already selected
+    ).slice(0, needed);
       .slice(0, needed);
 
     articles.push(...fallbackArticles);
