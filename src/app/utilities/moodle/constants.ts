@@ -7,7 +7,7 @@ if (
   process.env.NODE_ENV !== 'development' &&
   (!MOODLE_SECRET || !MOODLE_HOST_URL)
 ) {
-  throw new Error('Moodle variables have not been properly initialized.');
+  // throw new Error('Moodle variables have not been properly initialized.');
 }
 
 export { MOODLE_SECRET, MOODLE_HOST_URL };
