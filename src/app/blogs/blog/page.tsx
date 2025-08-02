@@ -11,8 +11,8 @@ import Subscribe from '@/app/components/subscribe/subscribe';
 import { MetadataProps } from '@/app/interfaces/MetadataProps';
 import { Metadata } from 'next';
 import { HOST_URL, META_KEY } from '@/app/utilities/constants';
-import { createMetadata } from '@/app/utilities/common';
-import { slugify } from '@/app/utilities/common';
+import { createMetadata, slugify } from '@/app/utilities/common';
+import VisitTrackerWrapper from '@/app/components/wrapper/VisitTrackerWrapper';
 
 export async function generateMetadata({
   searchParams,
@@ -55,6 +55,7 @@ export default function OneBlog({ searchParams }: MetadataProps) {
 
   return (
     <div className={styles.container}>
+      <VisitTrackerWrapper id={id} type='blog' />
       <TextHeavyBlog
         id={id}
         header={header}

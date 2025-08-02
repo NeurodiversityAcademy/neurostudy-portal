@@ -11,6 +11,7 @@ import Subscribe from '@/app/components/subscribe/subscribe';
 import { MetadataProps } from '@/app/interfaces/MetadataProps';
 import { HOST_URL, META_KEY } from '@/app/utilities/constants';
 import { createMetadata, slugify } from '@/app/utilities/common';
+import VisitTrackerWrapper from '@/app/components/wrapper/VisitTrackerWrapper';
 
 export async function generateMetadata({
   searchParams,
@@ -54,6 +55,7 @@ export default function OneArticle({ searchParams }: MetadataProps) {
 
   return (
     <div className={styles.container}>
+      <VisitTrackerWrapper id={id} type='article' />
       <TextHeavyArticle
         id={id}
         header={header}
