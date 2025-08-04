@@ -1,4 +1,3 @@
-'use client';
 import React from 'react';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import styles from './mission.module.css';

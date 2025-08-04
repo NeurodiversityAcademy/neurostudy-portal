@@ -26,9 +26,7 @@ export async function generateMetadata({
   }
 
   const { title, keywords, imageUrl, description } = blog;
-  // NOTE
-  // Previous `type` was 'blog', which the `openGraph` attribute doesn't accept as `type`
-  const canonical = `${HOST_URL}/blogs/blog?blogId=${titleSlug}`;
+  const canonical = `${HOST_URL}/blogs/blog?title=${titleSlug}`;
   const images = [{ url: imageUrl }];
 
   return createMetadata(META_KEY.BLOG, {
@@ -40,8 +38,12 @@ export async function generateMetadata({
   });
 }
 
-export default function OneBlog({ searchParams }: MetadataProps) {
-  const titleSlug = searchParams?.title;
+export default function OneBlog({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const titleSlug = searchParams?.title as string;
   const { blogs } = blogData;
   const blog = blogs.find((blog) => slugify(blog.title) === titleSlug);
 
@@ -51,24 +53,17 @@ export default function OneBlog({ searchParams }: MetadataProps) {
     );
   }
 
-  const { id, imageUrl, header, bodyText, scriptSrc, containerId } = blog;
-
   return (
     <div className={styles.container}>
-      <TextHeavyBlog
-        id={id}
-        header={header}
-        imageUrl={imageUrl}
-        bodyText={bodyText}
-      />{' '}
-      {scriptSrc != '' && containerId != '' && (
+      <TextHeavyBlog {...blog} />
+      {blog.scriptSrc && blog.containerId && (
         <DisplayPodcast
-          scriptSrc={scriptSrc}
-          containerId={containerId}
+          scriptSrc={blog.scriptSrc}
+          containerId={blog.containerId}
           singleBlog={true}
         />
       )}
-      <BlogList />
+      <BlogList searchParams={searchParams} />
       <Subscribe />
     </div>
   );
