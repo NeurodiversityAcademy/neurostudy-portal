@@ -36,7 +36,11 @@ export const metadata: Metadata = createMetadata(
   }
 );
 
-export default function Home() {
+export default function Home({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   return (
     <main className={styles.main}>
       <PodcastBanner />
@@ -46,7 +50,7 @@ export default function Home() {
         containerId='buzzsprout-large-player'
         singleBlog={false}
       />
-      <BlogList />
+      <BlogList searchParams={searchParams} />
       <Subscribe />
     </main>
   );

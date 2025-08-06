@@ -12,6 +12,10 @@ import {
 } from '@/app/utilities/stripe/constants';
 import APIError from '@/app/interfaces/APIError';
 
+export const dynamic = 'force-dynamic';
+export const runtime = 'edge';
+export const revalidate = 0;
+
 export async function POST(req: NextRequest): Promise<Response> {
   try {
     await consumeRateWithIp(req);

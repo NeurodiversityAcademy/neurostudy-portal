@@ -1,4 +1,3 @@
-'use client';
 import React from 'react';
 import styles from './endorsements.module.css';
 import HomeBanner from '../components/banner/HomeBanner';
@@ -12,11 +11,9 @@ import goldBadge from '../images/goldBadge.svg';
 // import Unify360 from '../images/logo_unify360.svg';
 import ActionButton from '../components/buttons/ActionButton';
 import { BUTTON_STYLE } from '../utilities/constants';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function Page() {
-  const router = useRouter();
-
   return (
     <div className={styles.container}>
       <HomeBanner displayBadges={false} />
@@ -338,12 +335,13 @@ export default function Page() {
             for learning and growth.
           </Typography>
         </div>
-        <ActionButton
-          style={BUTTON_STYLE.Primary}
-          label='Contact us for endorsement'
-          className={styles.enrolBtn}
-          onClick={() => router.push('/contact')}
-        />
+        <Link href='/contact'>
+          <ActionButton
+            style={BUTTON_STYLE.Primary}
+            label='Contact us for endorsement'
+            className={styles.enrolBtn}
+          />
+        </Link>
       </div>
     </div>
   );
