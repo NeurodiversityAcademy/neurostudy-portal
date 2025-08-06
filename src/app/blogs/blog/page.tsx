@@ -55,19 +55,9 @@ export default function OneBlog({
 
   return (
     <div className={styles.container}>
-<<<<<<< HEAD
-      <VisitTrackerWrapper id={id} type='blog' />
-      <TextHeavyBlog
-        id={id}
-        header={header}
-        imageUrl={imageUrl}
-        bodyText={bodyText}
-      />{' '}
-      {scriptSrc != '' && containerId != '' && (
-=======
+      <VisitTrackerWrapper id={blog.id} type='blog' />
       <TextHeavyBlog {...blog} />
       {blog.scriptSrc && blog.containerId && (
->>>>>>> main
         <DisplayPodcast
           scriptSrc={blog.scriptSrc}
           containerId={blog.containerId}
