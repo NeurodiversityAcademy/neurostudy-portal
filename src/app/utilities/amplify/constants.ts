@@ -17,7 +17,7 @@ if (
     !COGNITO_CONFIDENTIAL_CLIENT_SECRET ||
     !COGNITO_ISSUER)
 ) {
-  throw new Error('Cognito variables have not been properly initialized.');
+  // throw new Error('Cognito variables have not been properly initialized.');
 }
 
 export { COGNITO_USER_POOL_ID };
