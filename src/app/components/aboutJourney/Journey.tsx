@@ -40,7 +40,8 @@ export default function Journey() {
             find an environment that nurtures their unique strengths and
             talents. Through their advocacy and technological solutions, the
             academy endeavors to empower neurodistinct students to thrive in
-            their educational journeys and achieve their professional dreams.{' '}
+            their educational journeys and achieve their professional
+            dreams. {' '}
           </Typography>
         </div>
       </div>
