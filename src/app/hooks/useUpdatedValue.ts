@@ -7,7 +7,7 @@ export default function useUpdatedValue<Value = unknown, DS = unknown>(
   dependentState: DS,
   setter: (curState: DS) => Value
 ): Value {
-  const previousStateRef = useRef<DS>();
+  const previousStateRef = useRef<DS>(undefined);
   // NOTE: DEFAULT_VALUE is not necessarily type Value, it is made
   // sure to be unique
   const valueRef = useRef(DEFAULT_VALUE as Value);

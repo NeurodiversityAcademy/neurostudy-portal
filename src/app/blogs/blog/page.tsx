@@ -14,9 +14,10 @@ import { HOST_URL, META_KEY } from '@/app/utilities/constants';
 import { createMetadata } from '@/app/utilities/common';
 import { slugify } from '@/app/utilities/common';
 
-export async function generateMetadata({
-  searchParams,
-}: MetadataProps): Promise<Metadata> {
+export async function generateMetadata(
+  props: MetadataProps
+): Promise<Metadata> {
+  const searchParams = await props.searchParams;
   const titleSlug = searchParams?.title;
   const { blogs } = blogData;
   const blog = blogs.find(({ title }) => slugify(title) === titleSlug);
@@ -38,11 +39,10 @@ export async function generateMetadata({
   });
 }
 
-export default function OneBlog({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
+export default async function OneBlog(props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  const searchParams = await props.searchParams;
   const titleSlug = searchParams?.title as string;
   const { blogs } = blogData;
   const blog = blogs.find((blog) => slugify(blog.title) === titleSlug);

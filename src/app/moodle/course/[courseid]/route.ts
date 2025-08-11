@@ -6,8 +6,9 @@ import { createMoodleCourseUrl } from '@/app/utilities/moodle/createMoodleCourse
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { courseid: string } }
+  props: { params: Promise<{ courseid: string }> }
 ): Promise<Response> {
+  const params = await props.params;
   try {
     await consumeRateWithIp(req);
 

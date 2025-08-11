@@ -16,9 +16,10 @@ import { META_COURSES_DEFAULT_CANONICAL_URL } from '../utilities/metadata/metada
 // const isQueryComplex = (searchParams: MetadataProps['searchParams']) =>
 //   getFetchQuery(searchParams) !== getPartialFetchQuery(searchParams);
 
-export async function generateMetadata({
-  searchParams,
-}: MetadataProps): Promise<Metadata> {
+export async function generateMetadata(
+  props: MetadataProps
+): Promise<Metadata> {
+  const searchParams = await props.searchParams;
   // const shouldIndex = !(
   //   COURSE_TEST_DATA_QUERY_KEY in searchParams || isQueryComplex(searchParams)
   // );
@@ -45,7 +46,8 @@ const getPartialFetchQuery = (searchParams: MetadataProps['searchParams']) =>
 
 const CoursesPage: React.FC<{
   searchParams: Record<string, string | string[]>;
-}> = async ({ searchParams }) => {
+}> = async (props) => {
+  const searchParams = await props.searchParams;
   // NOTE: DynamoDB is not ideal for complex queries, hence partial extraction
   const query = getPartialFetchQuery(searchParams);
 
