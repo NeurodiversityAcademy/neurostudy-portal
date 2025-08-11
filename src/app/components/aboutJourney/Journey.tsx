@@ -41,7 +41,7 @@ export default function Journey() {
             talents. Through their advocacy and technological solutions, the
             academy endeavors to empower neurodistinct students to thrive in
             their educational journeys and achieve their professional
-            dreams. {' '}
+            dreams.{' '}
           </Typography>
         </div>
       </div>
