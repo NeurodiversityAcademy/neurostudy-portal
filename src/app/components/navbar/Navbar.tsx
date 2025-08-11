@@ -50,7 +50,7 @@ export default function Navbar() {
             <li className={styles.li}>
               <Link href='/endorsements'>
                 <Typography variant={TypographyVariant.Body2}>
-                  Our Endorsements
+                  Endorsements
                 </Typography>
               </Link>
             </li>
@@ -112,7 +112,7 @@ export default function Navbar() {
               <li className={styles.li}>
                 <Link href='/endorsements' onClick={toggleDropdown}>
                   <Typography variant={TypographyVariant.Body2}>
-                    Our Endorsements
+                    Endorsements
                   </Typography>
                 </Link>
               </li>
