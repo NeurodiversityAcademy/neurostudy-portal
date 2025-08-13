@@ -3,7 +3,7 @@ import DisplayPodcast from '../components/podcast/DisplayPodcast';
 import PodcastBanner from '../components/podcastBanner/PodcastBanner';
 
 import PodcastText from '../components/podcastTextSection/podcastText';
-import BlogList from '../components/blogList/blogList';
+import BlogCardListWrapper from '../components/wrapper/BlogCardListWrapper';
 import { Metadata } from 'next';
 import { META_KEY } from '../utilities/constants';
 import { createMetadata } from '../utilities/common';
@@ -36,11 +36,7 @@ export const metadata: Metadata = createMetadata(
   }
 );
 
-export default function Home({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
+export default function Home() {
   return (
     <main className={styles.main}>
       <PodcastBanner />
@@ -50,7 +46,7 @@ export default function Home({
         containerId='buzzsprout-large-player'
         singleBlog={false}
       />
-      <BlogList searchParams={searchParams} />
+      <BlogCardListWrapper />
       <Subscribe />
     </main>
   );
