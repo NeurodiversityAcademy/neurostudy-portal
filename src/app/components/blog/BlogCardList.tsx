@@ -4,19 +4,15 @@ import blogData from '../../blogs/blogData.json';
 import styles from './blog.module.css';
 import { BlogInterface } from '@/app/interfaces/BlogInterface';
 import { slugify } from '@/app/utilities/common';
-import { useVisitedItems } from '@/app/hooks/useVisitedItems';
 import { ReadonlyURLSearchParams } from 'next/navigation';
 
 interface BlogCardListProps {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: ReadonlyURLSearchParams;
+  visitedBlogIds: (number | string)[];
 }
 
-const BlogCardList = ({ searchParams }: BlogCardListProps) => {
-  const titleSlug = searchParams.title as string;
-  const visitedBlogIds = useVisitedItems(
-    'blog',
-    searchParams as unknown as ReadonlyURLSearchParams
-  );
+const BlogCardList = ({ searchParams, visitedBlogIds }: BlogCardListProps) => {
+  const titleSlug = searchParams.get('title');
 
   const blogs: BlogInterface[] = blogData.blogs
     .filter((blog) => slugify(blog.title) !== titleSlug) // Filter out current blog

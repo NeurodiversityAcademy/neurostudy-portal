@@ -5,7 +5,6 @@ import Typography, {
   TypographyVariant,
 } from '../../components/typography/Typography';
 import TextHeavyBlog from '../../components/textHeavyBlog/textHeavyBlog';
-import BlogList from '@/app/components/blogList/blogList';
 import DisplayPodcast from '@/app/components/podcast/DisplayPodcast';
 import Subscribe from '@/app/components/subscribe/subscribe';
 import { MetadataProps } from '@/app/interfaces/MetadataProps';
@@ -13,6 +12,7 @@ import { Metadata } from 'next';
 import { HOST_URL, META_KEY } from '@/app/utilities/constants';
 import { createMetadata, slugify } from '@/app/utilities/common';
 import VisitTrackerWrapper from '@/app/components/wrapper/VisitTrackerWrapper';
+import BlogCardListWrapper from '@/app/components/wrapper/BlogCardListWrapper';
 
 export async function generateMetadata({
   searchParams,
@@ -69,7 +69,7 @@ export default function OneBlog({
           singleBlog={true}
         />
       )}
-      <BlogList searchParams={searchParams} />
+      <BlogCardListWrapper />
       <Subscribe />
     </div>
   );
