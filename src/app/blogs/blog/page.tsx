@@ -12,7 +12,7 @@ import { Metadata } from 'next';
 import { HOST_URL, META_KEY } from '@/app/utilities/constants';
 import { createMetadata, slugify } from '@/app/utilities/common';
 import VisitTrackerWrapper from '@/app/components/wrapper/VisitTrackerWrapper';
-import BlogCardListWrapper from '@/app/components/wrapper/BlogCardListWrapper';
+import BlogList from '@/app/components/blogList/blogList';
 
 export async function generateMetadata({
   searchParams,
@@ -69,7 +69,7 @@ export default function OneBlog({
           singleBlog={true}
         />
       )}
-      <BlogCardListWrapper />
+      <BlogList />
       <Subscribe />
     </div>
   );
