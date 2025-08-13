@@ -1,18 +1,36 @@
 /* eslint-disable */
 /* tslint:disable */
 import { type NextRequest } from 'next/server';
+import { slugify } from '@/app/utilities/common';
+import blogData from '@/app/blogs/blogData.json';
+import articleData from '@/app/articles/articleData.json';
 
 export async function GET(request: NextRequest) {
-  const urls = [
-    'https://neurodiversityacademy.com/',
-    'https://neurodiversityacademy.com/endorsements',
-    'https://neurodiversityacademy.com/contact',
-    'https://neurodiversityacademy.com/about',
-    'https://neurodiversityacademy.com/neurodivergentmates',
-    'https://neurodiversityacademy.com/login',
-    'https://neurodiversityacademy.com/signup',
-    // Add more URLs as needed
+  const baseUrl = 'https://neurodiversityacademy.com';
+  
+  const staticPages = [
+    '/',
+    '/endorsements',
+    '/contact',
+    '/about',
+    '/neurodivergentmates',
+    '/login',
+    '/signup',
+    '/articles',
+    '/blogs',
   ];
+
+  const staticUrls = staticPages.map(page => `${baseUrl}${page}`);
+
+  const articleUrls = articleData.articles.map(article => {
+    return `${baseUrl}/articles/article?title=${slugify(article.title)}`;
+  });
+
+  const blogUrls = blogData.blogs.map(blog => {
+    return `${baseUrl}/blogs/blog?title=${slugify(blog.title)}`;
+  });
+
+  const urls = [...staticUrls, ...articleUrls, ...blogUrls];
 
   const lastmod = new Date().toISOString();
 
