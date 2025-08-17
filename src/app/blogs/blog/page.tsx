@@ -62,7 +62,7 @@ export default function OneBlog({
         imageUrl={imageUrl}
         bodyText={bodyText}
       />{' '}
-      {scriptSrc != '' && containerId != '' && (
+      {scriptSrc !== '' && containerId !== '' && (
         <DisplayPodcast
           scriptSrc={blog.scriptSrc}
           containerId={blog.containerId}
