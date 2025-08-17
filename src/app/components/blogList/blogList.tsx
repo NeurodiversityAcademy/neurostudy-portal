@@ -1,13 +1,9 @@
-import BlogCardList from '../blog/BlogCardList';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import styles from './blogList.module.css';
 import ExploreMore from '../exploreMore/ExploreMore';
+import BlogCardListWrapper from '../wrapper/BlogCardListWrapper';
 
-export default function BlogList({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
+export default function BlogList() {
   return (
     <div className={styles.blogsContainer}>
       <div>
@@ -15,7 +11,7 @@ export default function BlogList({
           Explore Neurodivergent Mates
         </Typography>
       </div>
-      <BlogCardList searchParams={searchParams} />
+      <BlogCardListWrapper />
       <ExploreMore dest={'/blogs'} />
     </div>
   );

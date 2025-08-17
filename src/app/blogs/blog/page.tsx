@@ -5,14 +5,14 @@ import Typography, {
   TypographyVariant,
 } from '../../components/typography/Typography';
 import TextHeavyBlog from '../../components/textHeavyBlog/textHeavyBlog';
-import BlogList from '@/app/components/blogList/blogList';
 import DisplayPodcast from '@/app/components/podcast/DisplayPodcast';
 import Subscribe from '@/app/components/subscribe/subscribe';
 import { MetadataProps } from '@/app/interfaces/MetadataProps';
 import { Metadata } from 'next';
 import { HOST_URL, META_KEY } from '@/app/utilities/constants';
-import { createMetadata } from '@/app/utilities/common';
-import { slugify } from '@/app/utilities/common';
+import { createMetadata, slugify } from '@/app/utilities/common';
+import VisitTrackerWrapper from '@/app/components/wrapper/VisitTrackerWrapper';
+import BlogList from '@/app/components/blogList/blogList';
 
 export async function generateMetadata({
   searchParams,
@@ -52,18 +52,24 @@ export default function OneBlog({
       <Typography variant={TypographyVariant.H1}>Blog not found</Typography>
     );
   }
-
+  const { id, header, imageUrl, bodyText, scriptSrc, containerId } = blog;
   return (
     <div className={styles.container}>
-      <TextHeavyBlog {...blog} />
-      {blog.scriptSrc && blog.containerId && (
+      <VisitTrackerWrapper id={id} type='blog' />
+      <TextHeavyBlog
+        id={id}
+        header={header}
+        imageUrl={imageUrl}
+        bodyText={bodyText}
+      />{' '}
+      {scriptSrc !== '' && containerId !== '' && (
         <DisplayPodcast
           scriptSrc={blog.scriptSrc}
           containerId={blog.containerId}
           singleBlog={true}
         />
       )}
-      <BlogList searchParams={searchParams} />
+      <BlogList />
       <Subscribe />
     </div>
   );
