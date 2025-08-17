@@ -6,7 +6,7 @@
     --accordion-header-bg: #cdcdcd; /* Header background color */
     --accordion-header-bg-hover: #e3e3e3; /* Header background color on hover */
     --accordion-header-text-color: #000000; /* Header text color */
-    --accordion-icon-color: #ffffff; /* Header arrow icon color */
+    --accordion-icon-color: #000000; /* Header arrow icon color */
     --accordion-content-bg: #ffffff; /* Content area background color */
     --accordion-border-color: #e2e8f0; /* Border color for the container and separator */
   
