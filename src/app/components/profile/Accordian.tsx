@@ -42,11 +42,7 @@ const Accordion: React.FC<Props> = ({
           }
         }}
       >
-        <Typography
-          variant={TypographyVariant.H3}
-          className={styles.title}
-          color='var(--BondBlack)'
-        >
+        <Typography variant={TypographyVariant.H3} className={styles.title}>
           {title}
         </Typography>
         <button
