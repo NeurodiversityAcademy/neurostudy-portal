@@ -14,7 +14,7 @@ if (
     !STRIPE_INTRO_PRODUCT_PRICE_LOOKUP_KEY ||
     !STRIPE_PRICE_META_MOODLE_COURSE_ID_KEY)
 ) {
-  // throw new Error('Stripe variables have not been properly initialized.');
+  throw new Error('Stripe variables have not been properly initialized.');
 }
 
 export {
