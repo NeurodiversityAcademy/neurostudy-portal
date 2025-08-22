@@ -1,14 +1,14 @@
 .container {
   /* 
       Accordion Color Variables
-      Modify these values to customize the accordion's appearance.
+      Modified to match profile section styles.
     */
-  --accordion-header-bg: #ffffff; /* Header background color */
-  --accordion-header-bg-hover: #fafafa; /* Header background color on hover */
-  --accordion-header-text-color: #070707; /* Header text color */
-  --accordion-icon-color: #171717; /* Header arrow icon color */
-  --accordion-content-bg: #ffffff; /* Content area background color */
-  --accordion-border-color: #D2A4FF; /* Border color for the accordion */
+  --accordion-header-bg: var(--pure-white, #ffffff); /* Header background color */
+  --accordion-header-bg-hover: var(--grey-50, #fafafa); /* Header background color on hover */
+  --accordion-header-text-color: var(--BondBlack, #070707); /* Header text color */
+  --accordion-icon-color: var(--BondBlack, #171717); /* Header arrow icon color */
+  --accordion-content-bg: var(--pure-white, #ffffff); /* Content area background color */
+  --accordion-border-color: var(--cherryPieSub, #D2A4FF); /* Border color for the accordion */
 
   background-color: var(--accordion-content-bg);
   border-radius: 8px;
@@ -43,7 +43,7 @@
   padding-right: 24px; /* space for the icon */
   color: inherit;
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 400; /* Adjusted to match profile title */
 }
 
 .collapsibleIcon {
