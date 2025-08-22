@@ -3,21 +3,21 @@
       Accordion Color Variables
       Modify these values to customize the accordion's appearance.
     */
-  --accordion-header-bg: #cdcdcd; /* Header background color */
-  --accordion-header-bg-hover: #e3e3e3; /* Header background color on hover */
-  --accordion-header-text-color: #000000; /* Header text color */
-  --accordion-icon-color: #000000; /* Header arrow icon color */
+  --accordion-header-bg: #ffffff; /* Header background color */
+  --accordion-header-bg-hover: #fafafa; /* Header background color on hover */
+  --accordion-header-text-color: #070707; /* Header text color */
+  --accordion-icon-color: #171717; /* Header arrow icon color */
   --accordion-content-bg: #ffffff; /* Content area background color */
-  --accordion-border-color: #e2e8f0; /* Border color for the container and separator */
+  --accordion-border-color: #D2A4FF; /* Border color for the accordion */
 
-  border: 1px solid var(--accordion-border-color);
-  border-radius: 8px;
   background-color: var(--accordion-content-bg);
+  border-radius: 8px;
+  border: 1px solid var(--accordion-border-color);
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+  animation-name: appear;
+  animation-duration: 400ms;
   overflow: hidden;
-  transition: all 0.3s ease-in-out;
-  box-shadow:
-    0 1px 3px 0 rgba(0, 0, 0, 0.07),
-    0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .header {
@@ -29,6 +29,8 @@
   background-color: var(--accordion-header-bg);
   color: var(--accordion-header-text-color);
   transition: background-color 0.2s ease-in-out;
+  border-bottom: 1px solid var(--accordion-border-color);
+  margin-bottom: 0;
 }
 
 .header:hover {
@@ -40,6 +42,8 @@
   margin: 0;
   padding-right: 24px; /* space for the icon */
   color: inherit;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .collapsibleIcon {
@@ -52,13 +56,13 @@
   position: absolute;
   right: 24px;
   top: 50%;
-  transform: translateY(-50%) rotate(180deg); /* Points up when expanded */
+  transform: translateY(-50%) rotate(0deg);
   transition: transform 0.3s ease-in-out;
   color: var(--accordion-icon-color);
 }
 
 .collapsed .collapsibleIcon {
-  transform: translateY(-50%) rotate(0deg); /* Points down when collapsed */
+  transform: translateY(-50%) rotate(-180deg);
 }
 
 .content {
@@ -66,21 +70,36 @@
   overflow: hidden;
   transition:
     max-height 0.5s ease-in-out,
-    visibility 0s linear 0s;
-  visibility: visible;
+    padding 0.3s ease-in-out,
+    border-width 0.3s ease-in-out;
   background-color: var(--accordion-content-bg);
-  border-top: 1px solid var(--accordion-border-color);
+  padding: 24px;
+  border-top: 0;
 }
 
 .contentPadding {
-  padding: 24px;
+  padding: 0;
+}
+
+.collapsed .header {
+  border-bottom-color: transparent;
 }
 
 .collapsed .content {
   max-height: 0;
-  visibility: hidden;
-  transition:
-    max-height 0.5s ease-in-out,
-    visibility 0s linear 0.5s;
-  border-top-color: transparent;
+  padding-top: 0;
+  padding-bottom: 0;
+  border-top-width: 0;
+}
+
+@keyframes appear {
+  from {
+    transform: translateY(-10px);
+    opacity: 0.2;
+  }
+
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
 }
