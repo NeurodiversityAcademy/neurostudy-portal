@@ -61,35 +61,35 @@
   color: var(--accordion-icon-color);
 }
 
-.collapsed .collapsibleIcon {
+.header[aria-expanded='true'] .collapsibleIcon {
   transform: translateY(-50%) rotate(-180deg);
 }
 
 .content {
-  max-height: 1000px; /* Set a large max-height for transition */
-  overflow: hidden;
-  transition:
-    max-height 0.5s ease-in-out,
-    padding 0.3s ease-in-out,
-    border-width 0.3s ease-in-out;
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 0.3s ease-in-out;
   background-color: var(--accordion-content-bg);
-  padding: 24px;
-  border-top: 0;
 }
 
 .contentPadding {
-  padding: 0;
+  overflow: hidden;
+  padding: 24px;
+  transition: padding 0.3s ease-in-out;
 }
 
 .collapsed .header {
   border-bottom-color: transparent;
+  transition-delay: 0.2s;
 }
 
 .collapsed .content {
-  max-height: 0;
+  grid-template-rows: 0fr;
+}
+
+.collapsed .contentPadding {
   padding-top: 0;
   padding-bottom: 0;
-  border-top-width: 0;
 }
 
 @keyframes appear {
