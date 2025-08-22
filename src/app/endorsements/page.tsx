@@ -4,7 +4,7 @@ import HomeBanner from '../components/banner/HomeBanner';
 import Typography, {
   TypographyVariant,
 } from '../components/typography/Typography';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import bronzeBadge from '../images/bronzeBadge.svg';
 import silverBadge from '../images/silverBadge.svg';
 import goldBadge from '../images/goldBadge.svg';
@@ -13,25 +13,44 @@ import ActionButton from '../components/buttons/ActionButton';
 import { BUTTON_STYLE } from '../utilities/constants';
 import Link from 'next/link';
 import Accordion from '../components/profile/Accordian';
+import endorsedInstitutesData from './endorsedInstitutesData.json';
+
+import BlueprintCD from '../images/logo_blueprint_cd.jpeg';
+import AccessInstitute from '../images/logo_access_institute.jpeg';
+
+const instituteLogos: { [key: string]: StaticImageData } = {
+  'logo_blueprint_cd.jpeg': BlueprintCD,
+  'logo_access_institute.jpeg': AccessInstitute,
+};
 
 export default function Page() {
   return (
     <div className={styles.container}>
       <HomeBanner displayBadges={false} />
       <div className={styles.endorsementContainer}>
-        {/* <div>
-          <Typography variant={TypographyVariant.H2} color='var(--BondBlack)'>
-            Our endorsed insitutes
-          </Typography>
-        </div> */}
         <div className={styles.endorsementBodyText}>
-          {/* <div className={styles.level}>
-            <Image
-              src={bronzeBadge}
-              alt='Bronze Badge'
-              className={styles.badge}
-            />
-          </div> */}
+          <div className={styles.accordionWrapper}>
+            <Accordion title='Our endorsed institutes' startExpanded={true}>
+              <div className={styles.instituteList}>
+                {endorsedInstitutesData.institutes.map((institute) => (
+                  <a
+                    key={institute.id}
+                    href={institute.url}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className={styles.instituteCard}
+                  >
+                    <Image
+                      src={instituteLogos[institute.logo]}
+                      alt={`${institute.name} logo`}
+                      title={institute.name}
+                      className={styles.instituteLogo}
+                    />
+                  </a>
+                ))}
+              </div>
+            </Accordion>
+          </div>
           <div className={styles.accordionWrapper}>
             <Accordion title='Why is endorsement necessary?'>
               <Typography
@@ -193,7 +212,10 @@ export default function Page() {
                 mindset for neurodivergent students to thrive.
               </Typography>
             </Accordion>
-            <Accordion title='What does a student gain from studying at a Bronze, Silver, or Gold endorsed institute?'>
+            <Accordion
+              title='What does a student gain from studying at a Bronze, Silver, or Gold
+            endorsed institute?'
+            >
               <ul className={`${styles.centerList} ${styles.noBullets}`}>
                 <li>
                   <div className={styles.level}>
