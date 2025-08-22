@@ -1,19 +1,15 @@
 .container {
-  /* 
-      Accordion Color Variables
-      Modified to match profile section styles.
-    */
-  --accordion-header-bg: var(--pure-white, #ffffff); /* Header background color */
-  --accordion-header-bg-hover: var(--grey-50, #fafafa); /* Header background color on hover */
-  --accordion-header-text-color: var(--BondBlack, #070707); /* Header text color */
-  --accordion-icon-color: var(--BondBlack, #171717); /* Header arrow icon color */
-  --accordion-content-bg: var(--pure-white, #ffffff); /* Content area background color */
-  --accordion-border-color: var(--cherryPieSub, #D2A4FF); /* Border color for the accordion */
+  --accordion-header-bg: var(--pure-white);
+  --accordion-header-bg-hover: var(--GhostWhite);
+  --accordion-header-text-color: var(--BondBlack);
+  --accordion-icon-color: var(--BondBlack);
+  --accordion-content-bg: var(--pure-white);
+  --accordion-border-color: var(--cherryPieSub);
 
   background-color: var(--accordion-content-bg);
   border-radius: 8px;
   border: 1px solid var(--accordion-border-color);
-  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+  box-shadow: 0px 2px 4px 0px var(--black-400);
   box-sizing: border-box;
   animation-name: appear;
   animation-duration: 400ms;
@@ -29,7 +25,7 @@
   background-color: var(--accordion-header-bg);
   color: var(--accordion-header-text-color);
   transition: background-color 0.2s ease-in-out;
-  border-bottom: 1px solid var(--accordion-border-color);
+  border-bottom: 1px solid var(--grey-100); /* Using global grey variable */
   margin-bottom: 0;
 }
 
@@ -42,8 +38,8 @@
   margin: 0;
   padding-right: 24px; /* space for the icon */
   color: inherit;
-  font-size: 18px;
-  font-weight: 400; /* Adjusted to match profile title */
+  font-size: var(--mobile-heading3-font-size); /* Using global font size variable */
+  font-weight: var(--body2-font-weight); /* Using global font weight variable */
 }
 
 .collapsibleIcon {
