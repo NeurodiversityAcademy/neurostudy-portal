@@ -12,13 +12,23 @@
     width: 100%;
     max-width: 960px;
     margin: 0 auto;
+    text-align: left;
   }
 
   .accordionWrapper {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    margin-bottom: 16px; /* Added for spacing between accordions */
+    margin-bottom: 16px;
+  }
+
+  .instituteSection {
+    margin-bottom: 32px;
+  }
+
+  .instituteTitle {
+    margin-bottom: 24px;
+    text-align: center;
   }
 
   .instituteList {
@@ -123,20 +133,30 @@
 
   .endorsementBodyText {
     width: 100%;
+    text-align: left;
   }
 
   .accordionWrapper {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    margin-bottom: 16px; /* Added for spacing */
+    margin-bottom: 16px;
+  }
+
+  .instituteSection {
+    margin-bottom: 24px;
+  }
+
+  .instituteTitle {
+    margin-bottom: 16px;
+    text-align: center;
   }
 
   .instituteList {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; /* Centered for better mobile view */
+    justify-content: center;
     gap: 15px;
     margin: 20px auto;
   }
@@ -180,7 +200,7 @@
 
   .level {
     display: flex;
-    flex-direction: column; /* Stack on mobile */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     margin: 10px;

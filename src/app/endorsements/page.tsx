@@ -30,7 +30,13 @@ export default function Page() {
       <div className={styles.endorsementContainer}>
         <div className={styles.endorsementBodyText}>
           <div className={styles.accordionWrapper}>
-            <Accordion title='Our endorsed institutes' startExpanded={true}>
+            <div className={styles.instituteSection}>
+              <Typography
+                variant={TypographyVariant.H3}
+                className={styles.instituteTitle}
+              >
+                Our endorsed institutes
+              </Typography>
               <div className={styles.instituteList}>
                 {endorsedInstitutesData.institutes.map((institute) => (
                   <a
@@ -49,7 +55,7 @@ export default function Page() {
                   </a>
                 ))}
               </div>
-            </Accordion>
+            </div>
           </div>
           <div className={styles.accordionWrapper}>
             <Accordion title='Why is endorsement necessary?'>

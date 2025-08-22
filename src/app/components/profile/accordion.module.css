@@ -38,8 +38,9 @@
   margin: 0;
   padding-right: 24px; /* space for the icon */
   color: inherit;
-  font-size: var(--mobile-heading3-font-size); /* Using global font size variable */
-  font-weight: var(--body2-font-weight); /* Using global font weight variable */
+  font-size: var(--heading3-font-size); /* Using global font size variable */
+  font-weight: var(--heading3-font-weight); /* Using global font weight variable */
+  text-align: left;
 }
 
 .collapsibleIcon {
@@ -66,6 +67,9 @@
   grid-template-rows: 1fr;
   transition: grid-template-rows 0.3s ease-in-out;
   background-color: var(--accordion-content-bg);
+  color: var(--BondBlack);
+  font-size: var(--body2-font-size);
+  font-weight: var(--body2-font-weight);
 }
 
 .contentPadding {
@@ -86,6 +90,12 @@
 .collapsed .contentPadding {
   padding-top: 0;
   padding-bottom: 0;
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: var(--mobile-heading3-font-size);
+  }
 }
 
 @keyframes appear {
