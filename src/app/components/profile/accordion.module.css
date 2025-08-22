@@ -1,0 +1,105 @@
+.container {
+  /* 
+      Accordion Color Variables
+      Modify these values to customize the accordion's appearance.
+    */
+  --accordion-header-bg: #ffffff; /* Header background color */
+  --accordion-header-bg-hover: #fafafa; /* Header background color on hover */
+  --accordion-header-text-color: #070707; /* Header text color */
+  --accordion-icon-color: #171717; /* Header arrow icon color */
+  --accordion-content-bg: #ffffff; /* Content area background color */
+  --accordion-border-color: #D2A4FF; /* Border color for the accordion */
+
+  background-color: var(--accordion-content-bg);
+  border-radius: 8px;
+  border: 1px solid var(--accordion-border-color);
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+  animation-name: appear;
+  animation-duration: 400ms;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+  cursor: pointer;
+  position: relative;
+  background-color: var(--accordion-header-bg);
+  color: var(--accordion-header-text-color);
+  transition: background-color 0.2s ease-in-out;
+  border-bottom: 1px solid var(--accordion-border-color);
+  margin-bottom: 0;
+}
+
+.header:hover {
+  background-color: var(--accordion-header-bg-hover);
+}
+
+.title {
+  flex-grow: 1;
+  margin: 0;
+  padding-right: 24px; /* space for the icon */
+  color: inherit;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.collapsibleIcon {
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%) rotate(0deg);
+  transition: transform 0.3s ease-in-out;
+  color: var(--accordion-icon-color);
+}
+
+.header[aria-expanded='true'] .collapsibleIcon {
+  transform: translateY(-50%) rotate(-180deg);
+}
+
+.content {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 0.3s ease-in-out;
+  background-color: var(--accordion-content-bg);
+}
+
+.contentPadding {
+  overflow: hidden;
+  padding: 24px;
+  transition: padding 0.3s ease-in-out;
+}
+
+.collapsed .header {
+  border-bottom-color: transparent;
+  transition-delay: 0.2s;
+}
+
+.collapsed .content {
+  grid-template-rows: 0fr;
+}
+
+.collapsed .contentPadding {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+@keyframes appear {
+  from {
+    transform: translateY(-10px);
+    opacity: 0.2;
+  }
+
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
