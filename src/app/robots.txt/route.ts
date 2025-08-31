@@ -14,12 +14,6 @@ export function GET() {
     .map((path) => `Disallow: ${path}`)
     .join('\n');
   const content = `
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
 User-agent: *
 Allow: /
 ${disallowRules}
