@@ -1,14 +1,36 @@
 export function GET() {
-  return new Response(
-    `User-agent: *
-Disallow:
+  const disallowedPaths = [
+    '/api/',
+    '/hooks/',
+    '/utilities/',
+    '/components/',
+    '/profile/',
+    '/styles/',
+    '/moodle/',
+    '/interfaces/',
+  ];
+
+  const disallowRules = disallowedPaths
+    .map((path) => `Disallow: ${path}`)
+    .join('\n');
+  const content = `
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: *
+Allow: /
+${disallowRules}
+
 
 Sitemap: https://neurodiversityacademy.com/sitemap.xml
-`,
-    {
-      headers: {
-        'Content-Type': 'text/plain',
-      },
-    }
-  );
+`.trim();
+
+  return new Response(content, {
+    headers: {
+      'Content-Type': 'text/plain',
+    },
+  });
 }
