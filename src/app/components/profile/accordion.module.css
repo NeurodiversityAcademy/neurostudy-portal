@@ -24,7 +24,8 @@
   position: relative;
   background-color: var(--accordion-header-bg);
   color: var(--accordion-header-text-color);
-  transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, margin-bottom 150ms linear,
+    border-color 150ms linear;
   border-bottom: 1px solid var(--grey-100); /* Using global grey variable */
   margin-bottom: 0;
 }
@@ -38,8 +39,8 @@
   margin: 0;
   padding-right: 24px; /* space for the icon */
   color: inherit;
-  font-size: var(--heading3-font-size); /* Using global font size variable */
-  font-weight: var(--heading3-font-weight); /* Using global font weight variable */
+  font-size: 18px;
+  font-weight: var(--body2-strong-font-weight);
   text-align: left;
 }
 
@@ -54,7 +55,7 @@
   right: 24px;
   top: 50%;
   transform: translateY(-50%) rotate(0deg);
-  transition: transform 0.3s ease-in-out;
+  transition: transform 150ms linear;
   color: var(--accordion-icon-color);
 }
 
@@ -63,28 +64,32 @@
 }
 
 .content {
-  display: grid;
-  grid-template-rows: 1fr;
-  transition: grid-template-rows 0.3s ease-in-out;
+  display: block;
   background-color: var(--accordion-content-bg);
-  color: var(--BondBlack);
-  font-size: var(--body2-font-size);
-  font-weight: var(--body2-font-weight);
 }
 
 .contentPadding {
   overflow: hidden;
   padding: 24px;
-  transition: padding 0.3s ease-in-out;
+  color: var(--BondBlack);
+  font-size: var(--body2-font-size);
+  font-weight: var(--body2-font-weight);
 }
 
-.collapsed .header {
-  border-bottom-color: transparent;
-  transition-delay: 0.2s;
+/* This will override the font size of Typography components used inside the accordion -- SEE Accordion.tsx*/ 
+.contentPadding > * {
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+}
+
+.collapsed > .header {
+  margin-bottom: 0px;
+  border-color: transparent;
 }
 
 .collapsed .content {
-  grid-template-rows: 0fr;
+  display: none;
 }
 
 .collapsed .contentPadding {
