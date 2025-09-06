@@ -4,7 +4,8 @@ import HomeBanner from '../components/banner/HomeBanner';
 import Typography, {
   TypographyVariant,
 } from '../components/typography/Typography';
-import Image, { StaticImageData } from 'next/image';
+// import Image, { StaticImageData } from 'next/image';
+import Image from 'next/image';
 import bronzeBadge from '../images/bronzeBadge.svg';
 import silverBadge from '../images/silverBadge.svg';
 import goldBadge from '../images/goldBadge.svg';
@@ -15,8 +16,8 @@ import Link from 'next/link';
 import Accordion from '../components/profile/Accordian';
 // import endorsedInstitutesData from './endorsedInstitutesData.json';
 
-import BlueprintCD from '../images/logo_blueprint_cd.jpeg';
-import AccessInstitute from '../images/logo_access_institute.jpeg';
+// import BlueprintCD from '../images/logo_blueprint_cd.jpeg';
+// import AccessInstitute from '../images/logo_access_institute.jpeg';
 
 // const instituteLogos: { [key: string]: StaticImageData } = {
 //   'logo_blueprint_cd.jpeg': BlueprintCD,
