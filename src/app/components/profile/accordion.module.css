@@ -78,9 +78,9 @@
 
 /* This will override the font size of Typography components used inside the accordion -- SEE Accordion.tsx*/ 
 .contentPadding > * {
-  font-size: inherit !important;
-  font-weight: inherit !important;
-  line-height: inherit !important;
+  font-size: inherit;
+  font-weight: inherit; 
+  line-height: inherit ;
 }
 
 .collapsed > .header {

@@ -29,7 +29,7 @@ export default function Page() {
       <HomeBanner displayBadges={false} />
       <div className={styles.endorsementContainer}>
         <div className={styles.endorsementBodyText}>
-          <div className={styles.accordionWrapper}>
+          {/* <div className={styles.accordionWrapper}>
             <div className={styles.instituteSection}>
               <Typography
                 variant={TypographyVariant.H3}
@@ -56,7 +56,7 @@ export default function Page() {
                 ))}
               </div>
             </div>
-          </div>
+          </div> */} {/* Temporarily hiding endorsed institutes section bring back when endorsement is complete*/}
           <div className={styles.accordionWrapper}>
             <Accordion title='Why is endorsement necessary?'>
               <Typography
@@ -85,125 +85,64 @@ export default function Page() {
               </Typography>
             </Accordion>
             <Accordion title='What outcomes can a learning institute expect from being endorsed?'>
-              <ul className={styles.centerList}>
-                <li>
-                  <Typography
-                    variant={TypographyVariant.Body1}
-                    color='var(--BondBlack)'
-                  >
-                    Differentiation from non-inclusive providers
-                  </Typography>
-                </li>
-                <li>
-                  <Typography
-                    variant={TypographyVariant.Body1}
-                    color='var(--BondBlack)'
-                  >
-                    Access to new or alternative funding opportunities
-                  </Typography>
-                </li>
-                <li>
-                  <Typography
-                    variant={TypographyVariant.Body1}
-                    color='var(--BondBlack)'
-                  >
+              <Typography
+                variant={TypographyVariant.Body1}
+                color='var(--BondBlack)'
+              >
+                <ul className={styles.centerList}>
+                  <li>Differentiation from non-inclusive providers</li>
+                  <li>Access to new or alternative funding opportunities</li>
+                  <li>
                     Increased enrolments from neurodivergent students and their
                     networks
-                  </Typography>
-                </li>
-                <li>
-                  <Typography
-                    variant={TypographyVariant.Body1}
-                    color='var(--BondBlack)'
-                  >
+                  </li>
+                  <li>
                     Enhanced reputation and publicity as a neuro-inclusive
                     provider
-                  </Typography>
-                </li>
-                <li>
-                  <Typography
-                    variant={TypographyVariant.Body1}
-                    color='var(--BondBlack)'
-                  >
+                  </li>
+                  <li>
                     Potential for improved student retention and course
                     completion rates due to better support structures
-                  </Typography>
-                </li>
-              </ul>
+                  </li>
+                </ul>
+              </Typography>
             </Accordion>
             <Accordion title='What does NDA expect from endorsed organisations?'>
-              <ul className={styles.centerList}>
-                <li>
-                  <Typography
-                    variant={TypographyVariant.Body1}
-                    color='var(--BondBlack)'
-                  >
+              <Typography
+                variant={TypographyVariant.Body1}
+                color='var(--BondBlack)'
+              >
+                <ul className={styles.centerList}>
+                  <li>
                     Alignment with and ongoing maintenance of neuro-inclusion
                     standards
-                  </Typography>
-                </li>
-                <li>
-                  <Typography
-                    variant={TypographyVariant.Body1}
-                    color='var(--BondBlack)'
-                  >
+                  </li>
+                  <li>
                     Clear policies and procedures to support neurodivergent
                     learners
-                  </Typography>
-                </li>
-                <li>
-                  <Typography
-                    variant={TypographyVariant.Body1}
-                    color='var(--BondBlack)'
-                  >
+                  </li>
+                  <li>
                     Participation in regular feedback and review processes
-                  </Typography>
-                </li>
-                <li>
-                  <Typography
-                    variant={TypographyVariant.Body1}
-                    color='var(--BondBlack)'
-                  >
-                    Engagement in continuous improvement initiatives
-                  </Typography>
-                </li>
-                <li>
-                  <Typography
-                    variant={TypographyVariant.Body1}
-                    color='var(--BondBlack)'
-                  >
+                  </li>
+                  <li>Engagement in continuous improvement initiatives</li>
+                  <li>
                     Contribution to broader awareness and adoption of inclusive
                     practices in the sector
-                  </Typography>
-                </li>
-                <li>
-                  <Typography
-                    variant={TypographyVariant.Body1}
-                    color='var(--BondBlack)'
-                  >
+                  </li>
+                  <li>
                     Additional revenue stream to sustain and grow NDA
                     initiatives
-                  </Typography>
-                </li>
-                <li>
-                  <Typography
-                    variant={TypographyVariant.Body1}
-                    color='var(--BondBlack)'
-                  >
+                  </li>
+                  <li>
                     Informed student decision-making, leading to higher
                     satisfaction and improved outcomes
-                  </Typography>
-                </li>
-                <li>
-                  <Typography
-                    variant={TypographyVariant.Body1}
-                    color='var(--BondBlack)'
-                  >
+                  </li>
+                  <li>
                     A sector-wide shift as non-endorsed organisations recognise
                     the benefits of becoming inclusive
-                  </Typography>
-                </li>
-              </ul>
+                  </li>
+                </ul>
+              </Typography>
             </Accordion>
             <Accordion title='What does NDA not expect from endorsement?'>
               <Typography
@@ -222,64 +161,54 @@ export default function Page() {
               title='What does a student gain from studying at a Bronze, Silver, or Gold
             endorsed institute?'
             >
-              <ul className={`${styles.centerList} ${styles.noBullets}`}>
-                <li>
-                  <div className={styles.level}>
-                    <Image
-                      src={bronzeBadge}
-                      alt='Bronze Badge'
-                      className={styles.badge}
-                    />
-                  </div>
-                  <Typography
-                    variant={TypographyVariant.Body1}
-                    color='var(--BondBlack)'
-                  >
+              <Typography
+                variant={TypographyVariant.Body1}
+                color='var(--BondBlack)'
+              >
+                <ul className={`${styles.centerList} ${styles.noBullets}`}>
+                  <li>
+                    <div className={styles.level}>
+                      <Image
+                        src={bronzeBadge}
+                        alt='Bronze Badge'
+                        className={styles.badge}
+                      />
+                    </div>
                     Entry-level endorsement indicating that foundational
                     practices are in place. Staff are undergoing training, and
                     inclusive policies have been implemented. A solid starting
                     point for students seeking support, with a commitment to
                     improving further.
-                  </Typography>
-                </li>
-                <li>
-                  <div className={styles.level}>
-                    <Image
-                      src={silverBadge}
-                      alt='Silver Badge'
-                      className={styles.badge}
-                    />
-                  </div>
-                  <Typography
-                    variant={TypographyVariant.Body1}
-                    color='var(--BondBlack)'
-                  >
+                  </li>
+                  <li>
+                    <div className={styles.level}>
+                      <Image
+                        src={silverBadge}
+                        alt='Silver Badge'
+                        className={styles.badge}
+                      />
+                    </div>
                     Demonstrates consistent implementation of neuro-inclusive
                     practices across multiple areas. Students can expect a more
                     mature support system, increased staff capability, and
                     access to more embedded inclusive tools and services.
-                  </Typography>
-                </li>
-                <li>
-                  <div className={styles.level}>
-                    <Image
-                      src={goldBadge}
-                      alt='Gold Badge'
-                      className={styles.badge}
-                    />
-                  </div>
-                  <Typography
-                    variant={TypographyVariant.Body1}
-                    color='var(--BondBlack)'
-                  >
+                  </li>
+                  <li>
+                    <div className={styles.level}>
+                      <Image
+                        src={goldBadge}
+                        alt='Gold Badge'
+                        className={styles.badge}
+                      />
+                    </div>
                     Indicates strong, embedded practices with a culture of
                     inclusion across the entire organisation. Students can
                     expect a high level of support, well-trained staff, adaptive
                     learning technologies, and a strong track record of
                     neurodivergent student success.
-                  </Typography>
-                </li>
-              </ul>
+                  </li>
+                </ul>
+              </Typography>
             </Accordion>
             <Accordion title='What are students expecting from endorsed providers?'>
               <Typography

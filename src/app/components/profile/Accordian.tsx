@@ -42,10 +42,7 @@ const Accordion: React.FC<Props> = ({
           }
         }}
       >
-        <Typography
-          variant={TypographyVariant.Body2Strong}
-          className={styles.title}
-        >
+        <Typography variant={TypographyVariant.Body2} className={styles.title}>
           {title}
         </Typography>
         <button
