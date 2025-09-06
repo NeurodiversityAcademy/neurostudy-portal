@@ -62,8 +62,8 @@ const DropdownInput = <TFieldValues extends FieldValues>({
   const error = errors[name];
   const { disabled, onBlur, value } = field;
 
-  const inputRef = useRef<HTMLInputElement | HTMLSpanElement>();
-  const nextFocusElemRef = useRef<HTMLElement>();
+  const inputRef = useRef<HTMLInputElement | HTMLSpanElement>(undefined);
+  const nextFocusElemRef = useRef<HTMLElement>(undefined);
   const selectedOptions: SelectOption['value'][] =
     value || DEFAULT_SELECTED_OPTIONS;
   const listId = useId();

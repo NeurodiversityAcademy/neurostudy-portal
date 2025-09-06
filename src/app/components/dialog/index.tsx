@@ -25,7 +25,7 @@ const Dialog: React.FC<Props> = ({
   children,
   usePortal = true,
 }) => {
-  const childrenRef = useRef<ReactNode>();
+  const childrenRef = useRef<ReactNode>(undefined);
   const [isRendered, setIsRendered] = useState<boolean>(open);
   if (children) {
     childrenRef.current = children;
