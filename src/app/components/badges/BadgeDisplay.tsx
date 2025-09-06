@@ -8,6 +8,7 @@ import bronzeBadge from '../../images/bronzeBadge.svg';
 export default function BadgeDisplay() {
   return (
     <div className={styles.badgeWrapper}>
+      <Image src={goldBadge} alt='Common Badge' />
       <div className={styles.badgeGroup1}>
         <Image src={goldBadge} alt='Gold Badge' />
       </div>

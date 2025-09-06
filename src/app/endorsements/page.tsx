@@ -13,15 +13,15 @@ import ActionButton from '../components/buttons/ActionButton';
 import { BUTTON_STYLE } from '../utilities/constants';
 import Link from 'next/link';
 import Accordion from '../components/profile/Accordian';
-import endorsedInstitutesData from './endorsedInstitutesData.json';
+// import endorsedInstitutesData from './endorsedInstitutesData.json';
 
 import BlueprintCD from '../images/logo_blueprint_cd.jpeg';
 import AccessInstitute from '../images/logo_access_institute.jpeg';
 
-const instituteLogos: { [key: string]: StaticImageData } = {
-  'logo_blueprint_cd.jpeg': BlueprintCD,
-  'logo_access_institute.jpeg': AccessInstitute,
-};
+// const instituteLogos: { [key: string]: StaticImageData } = {
+//   'logo_blueprint_cd.jpeg': BlueprintCD,
+//   'logo_access_institute.jpeg': AccessInstitute,
+// };
 
 export default function Page() {
   return (
@@ -56,7 +56,8 @@ export default function Page() {
                 ))}
               </div>
             </div>
-          </div> */} {/* Temporarily hiding endorsed institutes section bring back when endorsement is complete*/}
+          </div> */}{' '}
+          {/* Temporarily hiding endorsed institutes section bring back when endorsement is complete*/}
           <div className={styles.accordionWrapper}>
             <Accordion title='Why is endorsement necessary?'>
               <Typography
