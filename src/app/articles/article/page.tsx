@@ -13,9 +13,10 @@ import { HOST_URL, META_KEY } from '@/app/utilities/constants';
 import { createMetadata, slugify } from '@/app/utilities/common';
 import VisitTrackerWrapper from '@/app/components/wrapper/VisitTrackerWrapper';
 
-export async function generateMetadata({
-  searchParams,
-}: MetadataProps): Promise<Metadata> {
+export async function generateMetadata(
+  props: MetadataProps
+): Promise<Metadata> {
+  const searchParams = await props.searchParams;
   const titleSlug = searchParams?.title;
   const { articles } = articleData;
   const article = articles.find(({ title }) => slugify(title) === titleSlug);
@@ -37,7 +38,8 @@ export async function generateMetadata({
   });
 }
 
-export default function OneArticle({ searchParams }: MetadataProps) {
+export default async function OneArticle(props: MetadataProps) {
+  const searchParams = await props.searchParams;
   const titleSlug = searchParams?.title;
   const { articles } = articleData;
   const article = articles.find(

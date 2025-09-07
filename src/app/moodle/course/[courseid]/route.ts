@@ -4,10 +4,8 @@ import { HOST_URL } from '@/app/utilities/constants';
 import { getSearchQuery } from '@/app/utilities/common';
 import { createMoodleCourseUrl } from '@/app/utilities/moodle/createMoodleCourseUrl';
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { courseid: string } }
-): Promise<Response> {
+export async function GET(req: NextRequest, props: { params: Promise<{ courseid: string }> }): Promise<Response> {
+  const params = await props.params;
   try {
     await consumeRateWithIp(req);
 

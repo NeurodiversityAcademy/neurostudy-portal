@@ -1,0 +1,116 @@
+.container {
+  --accordion-header-bg: var(--pure-white);
+  --accordion-header-bg-hover: var(--GhostWhite);
+  --accordion-header-text-color: var(--BondBlack);
+  --accordion-icon-color: var(--BondBlack);
+  --accordion-content-bg: var(--pure-white);
+  --accordion-border-color: var(--cherryPieSub);
+
+  background-color: var(--accordion-content-bg);
+  border-radius: 8px;
+  border: 1px solid var(--accordion-border-color);
+  box-shadow: 0px 2px 4px 0px var(--black-400);
+  box-sizing: border-box;
+  animation-name: appear;
+  animation-duration: 400ms;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+  cursor: pointer;
+  position: relative;
+  background-color: var(--accordion-header-bg);
+  color: var(--accordion-header-text-color);
+  transition: background-color 0.2s ease-in-out, margin-bottom 150ms linear,
+    border-color 150ms linear;
+  border-bottom: 1px solid var(--grey-100); /* Using global grey variable */
+  margin-bottom: 0;
+}
+
+.header:hover {
+  background-color: var(--accordion-header-bg-hover);
+}
+
+.title {
+  flex-grow: 1;
+  margin: 0;
+  padding-right: 24px; /* space for the icon */
+  color: inherit;
+  font-size: 18px;
+  font-weight: var(--body2-strong-font-weight);
+  text-align: left;
+}
+
+.collapsibleIcon {
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%) rotate(0deg);
+  transition: transform 150ms linear;
+  color: var(--accordion-icon-color);
+}
+
+.header[aria-expanded='true'] .collapsibleIcon {
+  transform: translateY(-50%) rotate(-180deg);
+}
+
+.content {
+  display: block;
+  background-color: var(--accordion-content-bg);
+}
+
+.contentPadding {
+  overflow: hidden;
+  padding: 24px;
+  color: var(--BondBlack);
+  font-size: var(--body2-font-size);
+  font-weight: var(--body2-font-weight);
+}
+
+/* This will override the font size of Typography components used inside the accordion -- SEE Accordion.tsx*/ 
+.contentPadding > * {
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+}
+
+.collapsed > .header {
+  margin-bottom: 0px;
+  border-color: transparent;
+}
+
+.collapsed .content {
+  display: none;
+}
+
+.collapsed .contentPadding {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: var(--mobile-heading3-font-size);
+  }
+}
+
+@keyframes appear {
+  from {
+    transform: translateY(-10px);
+    opacity: 0.2;
+  }
+
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}

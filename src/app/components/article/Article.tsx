@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type JSX } from 'react';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import styles from './article.module.css';
 import { ArticleInterface } from '@/app/interfaces/ArticleInterface';

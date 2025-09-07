@@ -6,7 +6,8 @@ interface CoursePageProps {
   };
 }
 
-const CoursePage: React.FC<CoursePageProps> = ({ params }) => {
+const CoursePage: React.FC<CoursePageProps> = async props => {
+  const params = await props.params;
   const { id } = params;
 
   return <CourseDetails {...{ id }} />;

@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, type JSX } from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let ReactPixel: undefined | Record<string, any>;

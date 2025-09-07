@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type JSX } from 'react';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import styles from './blog.module.css';
 import Image from 'next/image';

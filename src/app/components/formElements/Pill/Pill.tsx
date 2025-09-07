@@ -87,4 +87,4 @@ const Pill = <Value,>(
 
 export default forwardRef(Pill) as <Value = DefaultValue>(
   props: PillProps<Value> & { ref?: ForwardedRef<PillRef> }
-) => React.ReactElement;
+) => React.ReactElement<any>;

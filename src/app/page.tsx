@@ -13,6 +13,7 @@ import Subscribe from './components/subscribe/subscribe';
 import Handbook from './components/handbook';
 import HomeBanner from './components/banner/HomeBanner';
 import { Suspense } from 'react';
+import EndorsedInstitutes from './components/endorsedInstitutesSection/EndorsedInstitutes';
 
 const getGoogleAnalyticsScript = () => {
   return (
@@ -76,6 +77,7 @@ export default async function Home() {
       <main className={styles.main}>
         {process.env.NODE_ENV === 'production' && getGoogleAnalyticsScript()}
         <HomeBanner displayBadges={true} showButton={true} />
+        <EndorsedInstitutes />
         <Teacher />
         <Handbook />
         <Fact />

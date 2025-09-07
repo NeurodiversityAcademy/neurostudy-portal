@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { type JSX } from 'react';
 import { TextHeavyInterface } from '@/app/interfaces/TextHeavyInterface';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import Image from 'next/image';
