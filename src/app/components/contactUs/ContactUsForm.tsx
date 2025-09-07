@@ -28,7 +28,7 @@ interface ContactFieldValues extends FieldValues {
   phone: string;
   jobtitle: string;
   message: string;
-  persona: 
+  persona:
     | 'student'
     | 'educationProvider'
     | 'educationProfessionals'
