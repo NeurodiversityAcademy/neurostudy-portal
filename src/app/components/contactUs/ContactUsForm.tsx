@@ -28,6 +28,13 @@ interface ContactFieldValues extends FieldValues {
   phone: string;
   jobtitle: string;
   message: string;
+  persona: 
+    | 'student'
+    | 'educationProvider'
+    | 'educationProfessionals'
+    | 'parent'
+    | 'ally'
+    | 'other';
 }
 
 const ContactUsForm: React.FC = () => {
@@ -38,7 +45,7 @@ const ContactUsForm: React.FC = () => {
 
   const onSubmit = async (data: ContactFieldValues) => {
     const { firstname, lastname, email, phone, jobtitle, message } = data;
-
+    const persona = 'student';
     const userRegistrationData: UserFormSubmissionType = {
       firstname,
       lastname,
@@ -46,6 +53,7 @@ const ContactUsForm: React.FC = () => {
       phone,
       jobtitle,
       message,
+      persona,
     };
 
     setIsLoading(true);
@@ -54,6 +62,7 @@ const ContactUsForm: React.FC = () => {
       const outcome = (await registerContactData(
         userRegistrationData
       )) as CRMCreateResponseInterface;
+      console.log('failed', outcome);
       if (outcome.id) {
         notifySuccess('Successfully sent');
       }
