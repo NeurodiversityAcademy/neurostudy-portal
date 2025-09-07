@@ -28,12 +28,13 @@ interface ContactFieldValues extends FieldValues {
   phone: string;
   jobtitle: string;
   message: string;
-  persona:
+  hs_persona:
     | 'student'
     | 'educationProvider'
     | 'educationProfessionals'
     | 'parent'
     | 'ally'
+    | 'persona_1'
     | 'other';
 }
 
@@ -45,7 +46,7 @@ const ContactUsForm: React.FC = () => {
 
   const onSubmit = async (data: ContactFieldValues) => {
     const { firstname, lastname, email, phone, jobtitle, message } = data;
-    const persona = 'student';
+    const hs_persona = 'persona_1';
     const userRegistrationData: UserFormSubmissionType = {
       firstname,
       lastname,
@@ -53,7 +54,7 @@ const ContactUsForm: React.FC = () => {
       phone,
       jobtitle,
       message,
-      persona,
+      hs_persona,
     };
 
     setIsLoading(true);
