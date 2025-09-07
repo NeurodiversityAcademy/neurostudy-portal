@@ -38,6 +38,14 @@ interface ContactFieldValues extends FieldValues {
     | 'other';
 }
 
+// Persona mapping to HubSpot values
+// Students  persona_1
+// Education Providers  persona_2
+// Education Professionals  persona_3
+// Parent/Carers  persona_4
+// Ally/Advocate  persona_5
+
+
 const ContactUsForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
