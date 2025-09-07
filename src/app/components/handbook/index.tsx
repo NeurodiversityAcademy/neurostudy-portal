@@ -17,7 +17,7 @@ const Handbook: React.FC = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} id='handbook-container'>
       <div className={styles.textContainer}>
         <Image
           src={handbookGraphSrc}
