@@ -1,0 +1,16 @@
+{
+    "institutes": [
+      {
+        "id": "1",
+        "name": "Blueprint Career Development",
+        "logo": "logo_blueprint_cd.jpeg",
+        "url": "https://www.blueprintcd.com.au/"
+      },
+      {
+        "id": "2",
+        "name": "Access Institute",
+        "logo": "logo_access_institute.jpeg",
+        "url": "https://accessinstitute.com.au"
+      }
+    ]
+  }
