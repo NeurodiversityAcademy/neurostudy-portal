@@ -11,6 +11,7 @@ import {
   EMAIL_REGEX,
   FORM_ELEMENT_COL_WIDTH,
   NAME_REGEX,
+  PERSONA_OPTIONS,
   PHONE_REGEX,
 } from '@/app/utilities/constants';
 import { registerContactData } from '@/app/utilities/register/registerContactData';
@@ -20,6 +21,7 @@ import { notifyError, notifySuccess } from '@/app/utilities/common';
 import LoaderWrapper from '../loader/LoaderWrapper';
 import ContactUsLeftBanner from './ContactUsLeftBanner';
 import classNames from 'classnames';
+import Dropdown from '../formElements/Dropdown/Dropdown';
 
 interface ContactFieldValues extends FieldValues {
   firstname: string;
@@ -28,14 +30,15 @@ interface ContactFieldValues extends FieldValues {
   phone: string;
   jobtitle: string;
   message: string;
-  hs_persona:
+  hs_persona: (
     | 'student'
     | 'educationProvider'
     | 'educationProfessionals'
     | 'parent'
     | 'ally'
     | 'persona_1'
-    | 'other';
+    | 'other'
+  )[];
 }
 
 // Persona mapping to HubSpot values
@@ -52,8 +55,8 @@ const ContactUsForm: React.FC = () => {
     useForm<ContactFieldValues>({ mode: 'onBlur' });
 
   const onSubmit = async (data: ContactFieldValues) => {
-    const { firstname, lastname, email, phone, jobtitle, message } = data;
-    const hs_persona = 'persona_1';
+    const { firstname, lastname, email, phone, jobtitle, message, hs_persona } =
+      data;
     const userRegistrationData: UserFormSubmissionType = {
       firstname,
       lastname,
@@ -61,7 +64,7 @@ const ContactUsForm: React.FC = () => {
       phone,
       jobtitle,
       message,
-      hs_persona,
+      hs_persona: hs_persona[0],
     };
 
     setIsLoading(true);
@@ -140,6 +143,15 @@ const ContactUsForm: React.FC = () => {
                 label='Designation'
                 required
                 placeholder='Teacher, Student, Institute, Other'
+                showLabel
+                cols={FORM_ELEMENT_COL_WIDTH.BIG}
+              />
+              <Dropdown
+                name='hs_persona'
+                label='I am a...'
+                required
+                placeholder='Select your role'
+                options={PERSONA_OPTIONS}
                 showLabel
                 cols={FORM_ELEMENT_COL_WIDTH.BIG}
               />

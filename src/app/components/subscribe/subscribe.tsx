@@ -5,7 +5,11 @@ import ActionButton from '../buttons/ActionButton';
 import CRMCreateResponseInterface from '@/app/interfaces/CRMCreateResponseInterface';
 import { UserSubscriptionType } from '@/app/interfaces/UserSubscriptionType';
 import { registerSubscriptionData } from '@/app/utilities/register/registerSubscriptionData';
-import { BUTTON_STYLE, EMAIL_REGEX } from '@/app/utilities/constants';
+import {
+  BUTTON_STYLE,
+  EMAIL_REGEX,
+  PERSONA_OPTIONS,
+} from '@/app/utilities/constants';
 import Image from 'next/image';
 import styles from './subscribe.module.css';
 import MailboxLady from '../../images/mailboxLady.png';
@@ -16,9 +20,11 @@ import { FieldValues, UseFormReturn, useForm } from 'react-hook-form';
 import Form from '@/app/components/formElements/Form';
 import { notifyError } from '@/app/utilities/common';
 import LoaderWrapper from '../loader/LoaderWrapper';
+import Dropdown from '../formElements/Dropdown/Dropdown';
 
 interface SubscribeFieldValues extends FieldValues {
   email: string;
+  hs_persona: string[];
 }
 
 export default function Subscribe() {
@@ -31,6 +37,7 @@ export default function Subscribe() {
   const onSubmit = async (data: SubscribeFieldValues) => {
     const userSubscriptionData: UserSubscriptionType = {
       email: data.email,
+      hs_persona: data.hs_persona[0],
     };
 
     setIsLoading(true);
@@ -80,6 +87,13 @@ export default function Subscribe() {
                   required
                   placeholder='Email address'
                   pattern={EMAIL_REGEX}
+                />
+                <Dropdown
+                  name='hs_persona'
+                  label='I am a...'
+                  required
+                  placeholder='Select your role'
+                  options={PERSONA_OPTIONS}
                 />
                 <div className='mt-2'>
                   <ActionButton
