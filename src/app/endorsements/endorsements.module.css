@@ -8,10 +8,69 @@
     justify-content: center;
   }
 
-  .endorsementBodyText>.MuiTypography-body1,
-  .endorsementBodyText ul,
-  .endorsementBodyText ol {
+  .endorsementBodyText {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
     text-align: left;
+  }
+
+  .accordionWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .instituteSection {
+    margin-bottom: 32px;
+  }
+
+  .instituteTitle {
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .instituteList {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px auto;
+  }
+
+  .instituteCard {
+    flex: 1 1 calc(33.333% - 20px);
+    max-width: calc(33.333% - 20px);
+    min-width: 150px;
+    height: 150px;
+    text-align: center;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: none;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .instituteCard:hover {
+    transform: translateY(-2px);
+  }
+
+  .instituteLogo {
+    width: 100%;
+    max-width: 120px;
+    height: auto;
+    object-fit: contain;
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+  }
+
+  .instituteCard:hover .instituteLogo {
+    opacity: 1;
   }
 
   .enrolBtn {
@@ -26,12 +85,6 @@
     margin: 10px;
     padding: 20px;
     gap: 20px;
-  }
-
-  .instituteLogo {
-    width: 300px;
-    height: 300px;
-    /* margin: 2px; */
   }
 
   .badge {
@@ -68,20 +121,6 @@
 }
 
 @media (max-width: 480px) {
-  .enrolBtn {
-    margin: 50px;
-  }
-
-  .noBullets {
-    list-style-type: none;
-  }
-
-  .endorsementBodyText>.MuiTypography-body1,
-  .endorsementBodyText ul,
-  .endorsementBodyText ol {
-    text-align: left;
-  }
-
   .endorsementContainer {
     text-align: center;
     display: flex;
@@ -89,17 +128,91 @@
     align-items: center;
     justify-content: center;
     text-align: left;
-    margin: 0px 20px 0px 20px;
+    margin: 40px 20px;
   }
+
+  .endorsementBodyText {
+    width: 100%;
+    text-align: left;
+  }
+
+  .accordionWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .instituteSection {
+    margin-bottom: 24px;
+  }
+
+  .instituteTitle {
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .instituteList {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px auto;
+  }
+
+  .instituteCard {
+    flex: 1 1 calc(50% - 15px);
+    max-width: calc(50% - 15px);
+    min-width: 120px;
+    height: 120px;
+    text-align: center;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: none;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .instituteCard:hover {
+    transform: translateY(-2px);
+  }
+
+  .instituteLogo {
+    width: 100%;
+    max-width: 100px;
+    height: auto;
+    object-fit: contain;
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+  }
+
+  .instituteCard:hover .instituteLogo {
+    opacity: 1;
+  }
+
+  .enrolBtn {
+    margin: 50px;
+  }
+
   .level {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     margin: 10px;
-    padding: 20px;
-    gap: 20px;
+    padding: 10px 0;
+    gap: 10px;
   }
+
+  .badge {
+    width: 80px;
+    height: 80px;
+  }
+
   .centerList {
     flex: 0 1 100%;
     text-align: left;
@@ -107,6 +220,11 @@
     padding-left: 0;
     margin: 0;
   }
+
+  .noBullets {
+    list-style-type: none;
+  }
+
   .centerList li {
     margin-bottom: 1em;
   }

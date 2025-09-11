@@ -57,6 +57,12 @@
     object-fit: contain;
 }
 
+.exploreButton{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
 @media (max-width: 480px) {
 
     .button_container button {
