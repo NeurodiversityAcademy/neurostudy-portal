@@ -15,6 +15,10 @@ module.exports = {
         protocol: 'https',
         hostname: 'asset.cloudinary.com', // Add Cloudinary's hostname
       },
+      {
+        protocol: 'https',
+        hostname: 'i.imgur.com', // Add Imgur
+      },
     ],
   },
   robotsHeaders: true,
@@ -25,7 +29,8 @@ module.exports = {
         headers: [
           {
             key: 'X-Robots-Tag',
-            value: 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
+            value:
+              'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
           },
           {
             key: 'Cache-Control',
@@ -33,10 +38,10 @@ module.exports = {
           },
           {
             key: 'Status',
-            value: '200'
-          }
+            value: '200',
+          },
         ],
-      }
+      },
     ];
   },
 };
