@@ -2,7 +2,11 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { BUTTON_STYLE, EMAIL_REGEX } from '@/app/utilities/constants';
+import {
+  BUTTON_STYLE,
+  EMAIL_REGEX,
+  PERSONA_OPTIONS,
+} from '@/app/utilities/constants';
 import styles from './handbookPopup.module.css';
 import Dialog from '../dialog';
 import ActionButton from '../buttons/ActionButton';
@@ -14,6 +18,7 @@ import mailBoxLadySrc from '@/app/images/mailboxLady.png';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import { registerSubscriptionData } from '@/app/utilities/register/registerSubscriptionData';
 import { notifyError } from '@/app/utilities/common';
+import Dropdown from '../formElements/Dropdown/Dropdown';
 
 interface HandbookPopupProps {
   open: boolean;
@@ -22,6 +27,13 @@ interface HandbookPopupProps {
 
 interface HandbookSubscribeFieldValues extends FieldValues {
   email: string;
+  hs_persona: (
+    | 'student'
+    | 'educationProvider'
+    | 'educationProfessionals'
+    | 'parent'
+    | 'ally'
+  )[];
 }
 
 export default function HandbookPopup({ open, onClose }: HandbookPopupProps) {
@@ -39,6 +51,7 @@ export default function HandbookPopup({ open, onClose }: HandbookPopupProps) {
 
     try {
       await registerSubscriptionData({
+        hs_persona: data.hs_persona[0],
         email: data.email,
         getHandbook: true,
       });
@@ -79,6 +92,13 @@ export default function HandbookPopup({ open, onClose }: HandbookPopupProps) {
             required
             placeholder='Email address'
             pattern={EMAIL_REGEX}
+          />
+          <Dropdown
+            name='hs_persona'
+            label='I am a...'
+            required
+            placeholder='Select your role'
+            options={PERSONA_OPTIONS}
           />
           <div>
             <ActionButton

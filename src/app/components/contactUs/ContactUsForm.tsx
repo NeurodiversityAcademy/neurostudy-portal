@@ -36,8 +36,6 @@ interface ContactFieldValues extends FieldValues {
     | 'educationProfessionals'
     | 'parent'
     | 'ally'
-    | 'persona_1'
-    | 'other'
   )[];
 }
 
@@ -55,14 +53,12 @@ const ContactUsForm: React.FC = () => {
     useForm<ContactFieldValues>({ mode: 'onBlur' });
 
   const onSubmit = async (data: ContactFieldValues) => {
-    const { firstname, lastname, email, phone, jobtitle, message, hs_persona } =
-      data;
+    const { firstname, lastname, email, phone, message, hs_persona } = data;
     const userRegistrationData: UserFormSubmissionType = {
       firstname,
       lastname,
       email,
       phone,
-      jobtitle,
       message,
       hs_persona: hs_persona[0],
     };
@@ -135,14 +131,6 @@ const ContactUsForm: React.FC = () => {
                 required
                 placeholder='Enter your email address'
                 pattern={EMAIL_REGEX}
-                showLabel
-                cols={FORM_ELEMENT_COL_WIDTH.BIG}
-              />
-              <TextBox
-                name='jobtitle'
-                label='Designation'
-                required
-                placeholder='Teacher, Student, Institute, Other'
                 showLabel
                 cols={FORM_ELEMENT_COL_WIDTH.BIG}
               />

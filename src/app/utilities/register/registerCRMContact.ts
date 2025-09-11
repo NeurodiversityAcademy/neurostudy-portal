@@ -14,7 +14,6 @@ export const registerCRMContact = async (
   const data = JSON.stringify({
     properties: {
       ...contact,
-      hs_persona: contact.hs_persona,
     },
   });
 

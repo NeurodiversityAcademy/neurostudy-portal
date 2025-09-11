@@ -1,7 +1,6 @@
 import { TeacherRegistrationType } from './TeacherRegistrationType';
 
 export type UserFormSubmissionType = TeacherRegistrationType & {
-  jobtitle: string;
   message?: string;
   hs_persona:
     | 'student'

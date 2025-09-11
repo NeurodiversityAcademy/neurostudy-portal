@@ -25,7 +25,15 @@ import Dropdown from '../formElements/Dropdown/Dropdown';
 
 interface SubscribeFieldValues extends FieldValues {
   email: string;
-  hs_persona: string[];
+  hs_persona: (
+    | 'student'
+    | 'educationProvider'
+    | 'educationProfessionals'
+    | 'parent'
+    | 'ally'
+    | 'persona_1'
+    | 'other'
+  )[];
 }
 
 const DialogPopUp: React.FC<{ onClose: () => void }> = ({ onClose }) => {

@@ -9,7 +9,7 @@ export function isValidContactUsFormData(
     'firstname',
     'lastname',
     'email',
-    'jobtitle',
+    'hs_persona',
   ];
   const keys = Object.keys(obj) as (keyof UserFormSubmissionType)[];
   return (

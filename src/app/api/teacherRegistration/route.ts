@@ -11,6 +11,7 @@ export async function POST(request: Request) {
       ...data,
       industry: INDUSTRY.TEACHER,
       company: COMPANY.INDIVIDUAL,
+      hs_persona: 'persona_3',
     };
     const response = await registerCRMContact(teacherCRMContact);
     return new Response(JSON.stringify(response));
