@@ -94,6 +94,7 @@ export default function HandbookPopup({ open, onClose }: HandbookPopupProps) {
             required
             placeholder='Select your role'
             options={PERSONA_OPTIONS}
+            multiple={false}
           />
           <div>
             <ActionButton

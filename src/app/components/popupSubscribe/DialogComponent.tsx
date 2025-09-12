@@ -2,7 +2,10 @@ import React, { useRef, useState } from 'react';
 import TextBox from '@/app/components/formElements/TextBox/TextBox';
 import ActionButton from '../buttons/ActionButton';
 import CRMCreateResponseInterface from '@/app/interfaces/CRMCreateResponseInterface';
-import { UserSubscriptionType } from '@/app/interfaces/UserSubscriptionType';
+import {
+  HSPersona,
+  UserSubscriptionType,
+} from '@/app/interfaces/UserSubscriptionType';
 import { registerSubscriptionData } from '@/app/utilities/register/registerSubscriptionData';
 import {
   BUTTON_STYLE,
@@ -25,15 +28,7 @@ import Dropdown from '../formElements/Dropdown/Dropdown';
 
 interface SubscribeFieldValues extends FieldValues {
   email: string;
-  hs_persona: (
-    | 'student'
-    | 'educationProvider'
-    | 'educationProfessionals'
-    | 'parent'
-    | 'ally'
-    | 'persona_1'
-    | 'other'
-  )[];
+  hs_persona: HSPersona;
 }
 
 const DialogPopUp: React.FC<{ onClose: () => void }> = ({ onClose }) => {
@@ -50,7 +45,7 @@ const DialogPopUp: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const onSubmit = async (data: SubscribeFieldValues) => {
     const userSubscriptionData: UserSubscriptionType = {
       email: data.email,
-      hs_persona: data.hs_persona[0],
+      hs_persona: data.hs_persona,
     };
 
     setIsLoading(true);
@@ -118,6 +113,7 @@ const DialogPopUp: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                     required
                     placeholder='Select your role'
                     options={PERSONA_OPTIONS}
+                    multiple={false}
                   />
                   <div className='mt-2'>
                     <ActionButton

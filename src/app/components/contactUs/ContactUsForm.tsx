@@ -137,6 +137,7 @@ const ContactUsForm: React.FC = () => {
                 options={PERSONA_OPTIONS}
                 showLabel
                 cols={FORM_ELEMENT_COL_WIDTH.BIG}
+                multiple={false}
               />
               <TextArea
                 name='message'
