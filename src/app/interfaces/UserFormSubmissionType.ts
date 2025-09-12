@@ -1,13 +1,10 @@
-import { TeacherRegistrationType } from './TeacherRegistrationType';
+import { HSPersona } from './UserSubscriptionType';
 
-export type UserFormSubmissionType = TeacherRegistrationType & {
-  message?: string;
-  hs_persona:
-    | 'student'
-    | 'educationProvider'
-    | 'educationProfessionals'
-    | 'parent'
-    | 'ally'
-    | 'persona_1'
-    | 'other';
-};
+export interface UserFormSubmissionType {
+  firstname: string;
+  lastname: string;
+  email: string;
+  phone: string;
+  message: string;
+  hs_persona: HSPersona;
+}

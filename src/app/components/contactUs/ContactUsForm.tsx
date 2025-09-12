@@ -22,6 +22,7 @@ import LoaderWrapper from '../loader/LoaderWrapper';
 import ContactUsLeftBanner from './ContactUsLeftBanner';
 import classNames from 'classnames';
 import Dropdown from '../formElements/Dropdown/Dropdown';
+import { HSPersona } from '@/app/interfaces/UserSubscriptionType';
 
 interface ContactFieldValues extends FieldValues {
   firstname: string;
@@ -30,13 +31,7 @@ interface ContactFieldValues extends FieldValues {
   phone: string;
   jobtitle: string;
   message: string;
-  hs_persona: (
-    | 'student'
-    | 'educationProvider'
-    | 'educationProfessionals'
-    | 'parent'
-    | 'ally'
-  )[];
+  hs_persona: HSPersona;
 }
 
 // Persona mapping to HubSpot values
@@ -60,7 +55,7 @@ const ContactUsForm: React.FC = () => {
       email,
       phone,
       message,
-      hs_persona: hs_persona[0],
+      hs_persona,
     };
 
     setIsLoading(true);

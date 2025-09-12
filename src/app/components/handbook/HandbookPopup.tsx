@@ -19,6 +19,7 @@ import Typography, { TypographyVariant } from '../typography/Typography';
 import { registerSubscriptionData } from '@/app/utilities/register/registerSubscriptionData';
 import { notifyError } from '@/app/utilities/common';
 import Dropdown from '../formElements/Dropdown/Dropdown';
+import { HSPersona } from '@/app/interfaces/UserSubscriptionType';
 
 interface HandbookPopupProps {
   open: boolean;
@@ -27,13 +28,7 @@ interface HandbookPopupProps {
 
 interface HandbookSubscribeFieldValues extends FieldValues {
   email: string;
-  hs_persona: (
-    | 'student'
-    | 'educationProvider'
-    | 'educationProfessionals'
-    | 'parent'
-    | 'ally'
-  )[];
+  hs_persona: HSPersona;
 }
 
 export default function HandbookPopup({ open, onClose }: HandbookPopupProps) {
@@ -51,7 +46,7 @@ export default function HandbookPopup({ open, onClose }: HandbookPopupProps) {
 
     try {
       await registerSubscriptionData({
-        hs_persona: data.hs_persona[0],
+        hs_persona: data.hs_persona,
         email: data.email,
         getHandbook: true,
       });
