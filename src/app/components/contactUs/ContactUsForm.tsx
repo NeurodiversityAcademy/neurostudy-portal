@@ -11,6 +11,7 @@ import {
   EMAIL_REGEX,
   FORM_ELEMENT_COL_WIDTH,
   NAME_REGEX,
+  PERSONA_OPTIONS,
   PHONE_REGEX,
 } from '@/app/utilities/constants';
 import { registerContactData } from '@/app/utilities/register/registerContactData';
@@ -20,6 +21,8 @@ import { notifyError, notifySuccess } from '@/app/utilities/common';
 import LoaderWrapper from '../loader/LoaderWrapper';
 import ContactUsLeftBanner from './ContactUsLeftBanner';
 import classNames from 'classnames';
+import Dropdown from '../formElements/Dropdown/Dropdown';
+import { HSPersona } from '@/app/interfaces/UserSubscriptionType';
 
 interface ContactFieldValues extends FieldValues {
   firstname: string;
@@ -28,7 +31,15 @@ interface ContactFieldValues extends FieldValues {
   phone: string;
   jobtitle: string;
   message: string;
+  hs_persona: HSPersona;
 }
+
+// Persona mapping to HubSpot values
+// Students  persona_1
+// Education Providers  persona_2
+// Education Professionals  persona_3
+// Parent/Carers  persona_4
+// Ally/Advocate  persona_5
 
 const ContactUsForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -37,15 +48,14 @@ const ContactUsForm: React.FC = () => {
     useForm<ContactFieldValues>({ mode: 'onBlur' });
 
   const onSubmit = async (data: ContactFieldValues) => {
-    const { firstname, lastname, email, phone, jobtitle, message } = data;
-
+    const { firstname, lastname, email, phone, message, hs_persona } = data;
     const userRegistrationData: UserFormSubmissionType = {
       firstname,
       lastname,
       email,
       phone,
-      jobtitle,
       message,
+      hs_persona,
     };
 
     setIsLoading(true);
@@ -54,6 +64,7 @@ const ContactUsForm: React.FC = () => {
       const outcome = (await registerContactData(
         userRegistrationData
       )) as CRMCreateResponseInterface;
+      console.log('failed', outcome);
       if (outcome.id) {
         notifySuccess('Successfully sent');
       }
@@ -118,13 +129,15 @@ const ContactUsForm: React.FC = () => {
                 showLabel
                 cols={FORM_ELEMENT_COL_WIDTH.BIG}
               />
-              <TextBox
-                name='jobtitle'
-                label='Designation'
+              <Dropdown
+                name='hs_persona'
+                label='I am a...'
                 required
-                placeholder='Teacher, Student, Institute, Other'
+                placeholder='Select your role'
+                options={PERSONA_OPTIONS}
                 showLabel
                 cols={FORM_ELEMENT_COL_WIDTH.BIG}
+                multiple={false}
               />
               <TextArea
                 name='message'

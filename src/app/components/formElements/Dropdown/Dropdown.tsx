@@ -15,7 +15,10 @@ const Dropdown = <TFieldValues extends FieldValues>(
     rules: _rules,
   } = rootProps;
   const methods = useFormContext<TFieldValues>();
-  const rules = { required, ..._rules };
+  const rules = {
+    required: required ? 'Please make a selection' : false,
+    ..._rules,
+  };
 
   return (
     <Controller

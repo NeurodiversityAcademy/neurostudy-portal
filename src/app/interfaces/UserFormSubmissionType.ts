@@ -1,6 +1,10 @@
-import { TeacherRegistrationType } from './TeacherRegistrationType';
+import { HSPersona } from './UserSubscriptionType';
 
-export type UserFormSubmissionType = TeacherRegistrationType & {
-  jobtitle: string;
-  message?: string;
-};
+export interface UserFormSubmissionType {
+  firstname: string;
+  lastname: string;
+  email: string;
+  phone: string;
+  message: string;
+  hs_persona: HSPersona;
+}
