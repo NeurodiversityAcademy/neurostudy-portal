@@ -1,8 +1,5 @@
 import { returnBadResponse } from '@/app/utilities/responses';
-import {
-  UserSubscriptionHandbookType,
-  UserSubscriptionType,
-} from '@/app/interfaces/UserSubscriptionType';
+import { UserSubscriptionHandbookType } from '@/app/interfaces/UserSubscriptionType';
 import { registerCRMContact } from '@/app/utilities/register/registerCRMContact';
 import { isValidUserSubscriptionData } from '@/app/utilities/validation/validateUserSubscriptionData';
 import CRMCreateResponseInterface from '@/app/interfaces/CRMCreateResponseInterface';
@@ -15,17 +12,13 @@ export async function POST(request: NextRequest) {
     await consumeRateWithIp(request);
 
     const data: UserSubscriptionHandbookType = await request.json();
-    const subscriptionData: UserSubscriptionType = (() => {
-      const newData = { ...data };
-      delete newData.getHandbook;
-      return newData;
-    })();
+    const { getHandbook, ...subscriptionData } = data;
 
     if (isValidUserSubscriptionData(subscriptionData)) {
       const response: CRMCreateResponseInterface | boolean =
         await registerCRMContact(subscriptionData);
 
-      if (data.getHandbook === true) {
+      if (getHandbook === true) {
         // NOTE
         // We send the document regardless of failure
 

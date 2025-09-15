@@ -90,3 +90,11 @@ export enum INTERNAL_MODE {
   PROD = 'PROD',
   DEV = 'DEV',
 }
+
+export const PERSONA_OPTIONS = [
+  { label: 'Student', value: 'persona_1' },
+  { label: 'Education Provider', value: 'persona_2' },
+  { label: 'Education Professional', value: 'persona_3' },
+  { label: 'Parent/Carer', value: 'persona_4' },
+  { label: 'Ally/Advocate', value: 'persona_5' },
+];

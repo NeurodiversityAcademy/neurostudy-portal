@@ -2,9 +2,16 @@ import React, { useRef, useState } from 'react';
 import TextBox from '@/app/components/formElements/TextBox/TextBox';
 import ActionButton from '../buttons/ActionButton';
 import CRMCreateResponseInterface from '@/app/interfaces/CRMCreateResponseInterface';
-import { UserSubscriptionType } from '@/app/interfaces/UserSubscriptionType';
+import {
+  HSPersona,
+  UserSubscriptionType,
+} from '@/app/interfaces/UserSubscriptionType';
 import { registerSubscriptionData } from '@/app/utilities/register/registerSubscriptionData';
-import { BUTTON_STYLE, EMAIL_REGEX } from '@/app/utilities/constants';
+import {
+  BUTTON_STYLE,
+  EMAIL_REGEX,
+  PERSONA_OPTIONS,
+} from '@/app/utilities/constants';
 import styles from './dialog.module.css';
 import Image from 'next/image';
 import CloseButton from '../../images/close.png';
@@ -17,9 +24,11 @@ import Form from '@/app/components/formElements/Form';
 import { FieldValues, UseFormReturn, useForm } from 'react-hook-form';
 import { notifyError } from '@/app/utilities/common';
 import LoaderWrapper from '../loader/LoaderWrapper';
+import Dropdown from '../formElements/Dropdown/Dropdown';
 
 interface SubscribeFieldValues extends FieldValues {
   email: string;
+  hs_persona: HSPersona;
 }
 
 const DialogPopUp: React.FC<{ onClose: () => void }> = ({ onClose }) => {
@@ -36,6 +45,7 @@ const DialogPopUp: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const onSubmit = async (data: SubscribeFieldValues) => {
     const userSubscriptionData: UserSubscriptionType = {
       email: data.email,
+      hs_persona: data.hs_persona,
     };
 
     setIsLoading(true);
@@ -96,6 +106,14 @@ const DialogPopUp: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                     required
                     placeholder='Email address'
                     pattern={EMAIL_REGEX}
+                  />
+                  <Dropdown
+                    name='hs_persona'
+                    label='I am a...'
+                    required
+                    placeholder='Select your role'
+                    options={PERSONA_OPTIONS}
+                    multiple={false}
                   />
                   <div className='mt-2'>
                     <ActionButton
