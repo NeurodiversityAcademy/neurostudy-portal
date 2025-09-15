@@ -59,6 +59,15 @@ const CourseDetailsBenefitTab: React.FC = () => {
         </div>
         <div className={styles.benefitTabContentContainer}>
           <CourseDetailsBenefitTabContent activeTab={activeTab} />
+          <p className={styles.adjustmenDisclaimer}>
+            <Typography variant={TypographyVariant.Body3}>
+              {' '}
+              *These are possible reasonable adjustments that the learning
+              organisation may be able to provide. They are not automatic and
+              will be discussed and agreed upon with the organisation before you
+              begin, as part of your individual support plan.
+            </Typography>
+          </p>
         </div>
       </div>
     </section>
