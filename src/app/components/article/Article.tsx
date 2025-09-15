@@ -9,7 +9,6 @@ import { slugify } from '@/app/utilities/common';
 export default function Article({
   title,
   imageUrl,
-  description,
 }: ArticleInterface): JSX.Element {
   const articleSlug = slugify(title);
   return (
@@ -19,9 +18,7 @@ export default function Article({
       </div>
       <div className={styles.descriptionContainer}>
         <div className={styles.description}>
-          <Typography variant={TypographyVariant.Body2}>
-            {description}
-          </Typography>
+          <Typography variant={TypographyVariant.Body2}>{title}</Typography>
         </div>
         <LearnMore dest={`/articles/article/?title=${articleSlug}`} />
       </div>
