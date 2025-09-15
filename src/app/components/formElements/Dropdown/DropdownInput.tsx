@@ -10,6 +10,7 @@ import {
   KeyboardEventHandler,
   useId,
   useEffect,
+  useMemo,
 } from 'react';
 import styles from './dropdown.module.css';
 import classNames from 'classnames';
@@ -29,8 +30,9 @@ import useDefaultValue from '@/app/hooks/useDefaultValue';
 import { emptyFunc } from '@/app/utilities/common';
 import ArrowDownIcon from '../../images/ArrowDown';
 
-const DEFAULT_SELECTED_OPTIONS: SelectOption['value'][] = [];
 const BUTTON_ARIA_LABEL = 'Clear';
+
+type SelectValue = SelectOption['value'];
 
 const DropdownInput = <TFieldValues extends FieldValues>({
   name,
@@ -64,8 +66,10 @@ const DropdownInput = <TFieldValues extends FieldValues>({
 
   const inputRef = useRef<HTMLInputElement | HTMLSpanElement>();
   const nextFocusElemRef = useRef<HTMLElement>();
-  const selectedOptions: SelectOption['value'][] =
-    value || DEFAULT_SELECTED_OPTIONS;
+  const selectedOptions = useMemo(
+    () => (value != null ? (Array.isArray(value) ? value : [value]) : []),
+    [value]
+  );
   const listId = useId();
   const [expanded, setExpanded] = useState(false);
 
@@ -77,38 +81,44 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     setValue: methods.setValue,
   });
 
-  const setSelectedOptions = (val: SelectOption['value'][]) => {
-    field.onChange(val.length ? val : '');
+  const setSelectedOptions = (val: SelectValue[]) => {
+    if (multiple) {
+      const newValue = val.length ? val : '';
+      field.onChange(newValue);
+    } else {
+      const newValue = val.length ? val[0] : '';
+      field.onChange(newValue);
+    }
+    // The external onChange prop might expect an array, so we pass the array `val`
     onChange?.(val);
   };
 
   const { getLabel, exists } = (() => {
     const obj: Record<string, SelectOption> = {};
     for (const item of options) {
-      obj[item.value.toString()] = item;
+      obj[String(item.value)] = item;
     }
 
     return {
-      getLabel: (val: string): SelectOption['label'] =>
-        obj[val]?.label || String(val),
-      exists: (val: string): boolean => val in obj,
+      getLabel: (val: SelectValue): SelectOption['label'] =>
+        obj[String(val)]?.label || String(val),
+      exists: (val: SelectValue): boolean => String(val) in obj,
     };
   })();
 
   const [_inputValue, setInputValue] = useState('');
   const inputValue =
     !multiple && selectedOptions.length
-      ? getLabel(selectedOptions[0].toString())
+      ? getLabel(selectedOptions[0])
       : _inputValue;
 
   const isSelected = (() => {
     const obj: Record<string, true> = {};
     for (const item of selectedOptions) {
-      obj[item.toString().toLowerCase()] = true;
+      obj[String(item).toLowerCase()] = true;
     }
 
-    return (val: SelectOption['value']): boolean =>
-      val.toString().toLowerCase() in obj;
+    return (val: SelectValue): boolean => String(val).toLowerCase() in obj;
   })();
 
   const createItem = (val: string) => {
@@ -133,58 +143,25 @@ const DropdownInput = <TFieldValues extends FieldValues>({
   };
 
   const onInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    const { key } = e;
-    key === 'Enter' && e.preventDefault();
-
-    if (inputValue) {
-      if (key !== 'Enter') {
-        return;
-      }
-
-      const inputValueLC = inputValue.toLowerCase();
-      const newOption = options.find(
-        (option) => option.label.toLowerCase() === inputValueLC
-      );
-
-      if (newOption) {
-        if (!isSelected(newOption.value)) {
-          setSelectedOptions([...selectedOptions, newOption.value]);
-        }
-        setInputValue('');
-      } else if (creatable) {
-        createItem(inputValue);
-      }
-    } else {
-      if (key === 'Backspace') {
-        const updatedOptions = selectedOptions.slice(0, -1);
-        setSelectedOptions(updatedOptions);
-      }
+    if (e.key === 'Enter' && hasCreateItem) {
+      createItem(inputValue);
     }
   };
 
   const onKeyDown: KeyboardEventHandler<HTMLDivElement> = ({ key }) => {
-    key === 'Escape' && (document.activeElement as HTMLElement)?.blur();
+    if (key === 'Escape') {
+      setExpanded(false);
+      inputRef.current?.focus();
+    }
   };
 
-  const onRemove = (val: SelectOption['value']) => {
+  const onRemove = (val: SelectValue) => {
     setSelectedOptions(selectedOptions.filter((item) => item !== val));
   };
 
   const onPillFocus: PillFocusEventHandler = ({ parent }) => {
-    const nextSibling = parent?.nextElementSibling;
-    if (!nextSibling) {
-      return;
-    }
-
-    if (nextSibling === inputRef.current) {
-      nextFocusElemRef.current = nextSibling as HTMLInputElement;
-    } else {
-      const elem = nextSibling.querySelector(
-        '*[aria-label="' + BUTTON_ARIA_LABEL + '"]'
-      );
-      if (elem instanceof HTMLElement) {
-        nextFocusElemRef.current = elem;
-      }
+    if (parent) {
+      nextFocusElemRef.current = parent.nextElementSibling as HTMLElement;
     }
   };
 
@@ -283,8 +260,8 @@ const DropdownInput = <TFieldValues extends FieldValues>({
           {multiple &&
             selectedOptions.map((option) => (
               <Pill
-                key={option.toString()}
-                label={getLabel(option.toString())}
+                key={String(option)}
+                label={getLabel(option)}
                 value={option}
                 selected
                 onClose={onRemove}
@@ -363,7 +340,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
           )}
           {filteredOptions.map(({ label, value }) => (
             <CheckBoxItem
-              key={value.toString()}
+              key={String(value)}
               label={label}
               checked={isSelected(value)}
               role='option'
@@ -404,14 +381,18 @@ const DropdownInput = <TFieldValues extends FieldValues>({
           label={label}
         />
       )}
-      {selectedOptions.map((option) => (
-        <input
-          key={option.toString()}
-          type='hidden'
-          name={name}
-          value={typeof option === 'boolean' ? option.toString() : option}
-        />
-      ))}
+      {multiple &&
+        selectedOptions.map((option) => (
+          <input
+            key={String(option)}
+            type='hidden'
+            name={name}
+            value={option}
+          />
+        ))}
+      {!multiple && selectedOptions.length > 0 && (
+        <input type='hidden' name={name} value={selectedOptions[0]} />
+      )}
     </div>
   );
 };

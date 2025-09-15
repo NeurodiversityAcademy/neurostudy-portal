@@ -12,7 +12,9 @@ export const registerCRMContact = async (
     | UserSubscriptionType
 ): Promise<CRMCreateResponseInterface | boolean> => {
   const data = JSON.stringify({
-    properties: contact,
+    properties: {
+      ...contact,
+    },
   });
 
   const config = {
