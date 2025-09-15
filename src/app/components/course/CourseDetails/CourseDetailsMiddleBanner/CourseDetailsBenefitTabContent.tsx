@@ -3,6 +3,9 @@ import { useCourseDetailsContext } from '@/app/utilities/course/CourseDetailsPro
 import Image from 'next/image';
 import CircleTick from '@/app/images/circle-tick.png';
 import styles from '../../CourseDetails/courseDetails.module.css';
+import Typography, {
+  TypographyVariant,
+} from '@/app/components/typography/Typography';
 
 interface CourseDetailBenefitTabContentProps {
   activeTab: string;
@@ -36,16 +39,27 @@ const CourseDetailsBenefitTabContent: React.FC<
       );
     case 'adjustment':
       return (
-        <ul>
-          {data?.Adjustments.map((item, index) => (
-            <li key={index} className={styles.adjustmentAvailableListItem}>
-              <p className={styles.test}>
-                <Image src={CircleTick} alt={item} />
-                {item}
-              </p>
-            </li>
-          ))}
-        </ul>
+        <>
+          <ul>
+            {data?.Adjustments.map((item, index) => (
+              <li key={index} className={styles.adjustmentAvailableListItem}>
+                <p className={styles.test}>
+                  <Image src={CircleTick} alt={item} />
+                  {item}
+                </p>
+              </li>
+            ))}
+          </ul>
+          <p className={styles.adjustmenDisclaimer}>
+            <Typography variant={TypographyVariant.Body3}>
+              {' '}
+              *These are possible reasonable adjustments that the learning
+              organisation may be able to provide. They are not automatic and
+              will be discussed and agreed upon with the organisation before you
+              begin, as part of your individual support plan.
+            </Typography>
+          </p>
+        </>
       );
     case 'jobs':
       return (

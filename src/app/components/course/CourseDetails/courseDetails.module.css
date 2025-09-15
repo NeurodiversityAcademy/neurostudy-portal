@@ -7,6 +7,10 @@
     margin-bottom: 8rem;
 }
 
+.adjustmenDisclaimer {
+    padding: 20px;
+}
+
 .topBannerInstituteTitle {
     display: flex;
     align-items: center;

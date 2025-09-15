@@ -42,7 +42,7 @@ const CourseDetailsBenefitTab: React.FC = () => {
               variant={TypographyVariant.Body2Strong}
               className={styles.benefitTabText}
             >
-              Adjustment Available
+              Adjustment Available*
             </Typography>
           </button>
           <button
