@@ -89,6 +89,16 @@ export const createMetadata = (
       siteName: SITE_NAME,
       locale: LOCALE,
     },
+    other: {
+      'title': `${rest.title}`,
+      'og:title': `${rest.title}`,
+      'description': `${rest.description}`,
+      'og:description': `${rest.description}`,
+      'url': `${canonical}`,
+      'og:url': `${canonical}`,
+      'image': "https://i.imgur.com/0hAMOnR.png",
+      'og:image': "https://i.imgur.com/0hAMOnR.png"
+    },
     ...rest,
   };
 };
