@@ -90,14 +90,14 @@ export const createMetadata = (
       locale: LOCALE,
     },
     other: {
-      'title': `${rest.title}`,
+      title: `${rest.title}`,
       'og:title': `${rest.title}`,
-      'description': `${rest.description}`,
+      description: `${rest.description}`,
       'og:description': `${rest.description}`,
-      'url': `${canonical}`,
+      url: `${canonical}`,
       'og:url': `${canonical}`,
-      'image': "https://i.imgur.com/0hAMOnR.png",
-      'og:image': "https://i.imgur.com/0hAMOnR.png"
+      image: 'https://i.imgur.com/0hAMOnR.png',
+      'og:image': 'https://i.imgur.com/0hAMOnR.png',
     },
     ...rest,
   };
