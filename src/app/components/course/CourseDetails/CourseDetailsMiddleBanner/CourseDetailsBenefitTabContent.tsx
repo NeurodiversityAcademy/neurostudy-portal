@@ -3,6 +3,8 @@ import { useCourseDetailsContext } from '@/app/utilities/course/CourseDetailsPro
 import Image from 'next/image';
 import CircleTick from '@/app/images/circle-tick.png';
 import styles from '../../CourseDetails/courseDetails.module.css';
+import Typography, { TypographyVariant } from '@/app/components/typography/Typography';
+import Accordion from '@/app/components/accordion/Accordian';
 
 interface CourseDetailBenefitTabContentProps {
   activeTab: string;
@@ -17,34 +19,45 @@ const CourseDetailsBenefitTabContent: React.FC<
   switch (activeTab) {
     case 'support':
       return (
-        <ul>
-          {data?.SupportAvailable.map((item, index) => {
-            const support =
-              COURSE_BENEFIT_SUPPORT_AVAILABLE[
-                item as keyof typeof COURSE_BENEFIT_SUPPORT_AVAILABLE
-              ];
-            return (
-              <li key={index} className={styles.supportAvailableListItem}>
-                {support?.icon && (
-                  <Image src={support?.icon} alt={support?.label} />
-                )}
-                <p>{support?.label}</p>
-              </li>
-            );
-          })}
-        </ul>
+        <div className={styles.supportAccordionContainer}>
+          {data?.SupportAvailable && Object.entries(data.SupportAvailable as unknown as Record<string, string[]>).map(([category, items]) => (
+            <div className={styles.supportContainer} key={category}>
+            <Accordion 
+              key={category} 
+              title={category.replace(/([A-Z])/g, ' $1').trim()}
+            >
+              
+                <div className={styles.supportCategory}>
+                  <ul>
+                    {items.map((item: string, index: number) => {
+                      const support = COURSE_BENEFIT_SUPPORT_AVAILABLE[
+                        item as keyof typeof COURSE_BENEFIT_SUPPORT_AVAILABLE
+                      ];
+                      return (
+                        <div key={index} className={styles.supportAvailableListItem}>
+                          <div key={index}>{support?.icon && (
+                            <Image src={support?.icon} alt={support?.label} className={styles.supportIcon}/>
+                          )}</div>
+                          <div>{support?.label}</div>
+                        </div>
+                      );
+                    })}
+                  </ul>
+                </div>
+            </Accordion>
+            </div>
+          ))}
+        </div>
       );
     case 'adjustment':
       return (
         <>
-          <ul>
+          <ul className={styles.adjustmentAvailableList}>
             {data?.Adjustments.map((item, index) => (
-              <li key={index} className={styles.adjustmentAvailableListItem}>
-                <p className={styles.test}>
-                  <Image src={CircleTick} alt={item} />
-                  {item}
-                </p>
-              </li>
+                <div key={index}  className={styles.adjustmentAvailableListItem}>
+                  <div><Image src={CircleTick} alt={item} /></div>
+                  <div>{item}</div>
+                </div>
             ))}
           </ul>
         </>

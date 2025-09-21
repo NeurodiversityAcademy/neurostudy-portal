@@ -20,18 +20,32 @@
             "ApplicationEnd": "30/03/24",
             "Subjects": "24",
             "Fees": "$46,250",
-            "SupportAvailable":[
-                "TrainedStaff",
-                "UniversalDesignForLearning",
-                "InclusivePolicies",
-                "AlternativeAssessmentMethods",
-                "RegularFeedbackMechanisms",
-                "SensoryBreaks",
-                "SpecializedAcademicAdvising",
-                "AccessibleTextbooks",
-                "InclusiveTeachingPractices"
-            ],
+            "SupportAvailable": {
+                "AssessmentAdjustments": [
+                    "ExtendedTime",
+                    "AlternativeAssessmentMethods",
+                    "RegularFeedbackMechanisms"
+                ],
+                "LearningDeliveryAdjustments": [
+                    "UniversalDesignForLearning",
+                    "AccessibleTextbooks",
+                    "InclusiveTeachingPractices"
+                ],
+                "EnvironmentalAdjustments": [
+                    "TrainedStaff",
+                    "InclusivePolicies",
+                    "SensoryBreaks",
+                    "SpecializedAcademicAdvising"
+                ]
+            },
             "Adjustments":[
+                "Extended time for exams",
+                "Quiet study areas",
+                "Accessible materials",
+                "Note-taking assistance",
+                "Flexible deadlines",
+                "Assistive technology",
+                "Alternative assessment methods",
                 "Extended time for exams",
                 "Quiet study areas",
                 "Accessible materials",

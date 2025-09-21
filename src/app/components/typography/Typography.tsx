@@ -6,6 +6,7 @@ export enum TypographyVariant {
   H1 = 'h1',
   H2 = 'h2', // Subheading
   H3 = 'h3', // Minor Subheading
+  H4 = 'h4', // Minor Subheading
   Body1 = 'body1',
   Body2Strong = 'body2-strong',
   Body2 = 'body2',
@@ -33,7 +34,7 @@ const Typography: React.FC<TypographyProps> = ({
 }) => {
   const style = color ? { color } : {};
 
-  let tag: 'span' | 'h1' | 'h2' | 'h3' = 'span';
+  let tag: 'span' | 'h1' | 'h2' | 'h3' | 'h4' = 'span';
   let variantClassName = styles.body1;
 
   switch (variant) {
@@ -48,6 +49,10 @@ const Typography: React.FC<TypographyProps> = ({
     case TypographyVariant.H3:
       tag = 'h3';
       variantClassName = styles.heading3;
+      break;
+    case TypographyVariant.H4:
+      tag = 'h4';
+      variantClassName = styles.heading4;
       break;
     case TypographyVariant.Body1:
       variantClassName = styles.body1;

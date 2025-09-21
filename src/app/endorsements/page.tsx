@@ -13,7 +13,7 @@ import goldBadge from '../images/goldBadge.svg';
 import ActionButton from '../components/buttons/ActionButton';
 import { BUTTON_STYLE } from '../utilities/constants';
 import Link from 'next/link';
-import Accordion from '../components/profile/Accordian';
+import Accordion from '../components/accordion/Accordian';
 // import endorsedInstitutesData from './endorsedInstitutesData.json';
 
 // import BlueprintCD from '../images/logo_blueprint_cd.jpeg';

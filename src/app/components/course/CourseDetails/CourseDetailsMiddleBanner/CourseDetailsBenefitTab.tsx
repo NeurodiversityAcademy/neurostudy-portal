@@ -57,9 +57,9 @@ const CourseDetailsBenefitTab: React.FC = () => {
             </Typography>
           </button>
         </div>
-        <div className={styles.benefitTabContentContainer}>
+        <div>
           <CourseDetailsBenefitTabContent activeTab={activeTab} />
-          <p className={styles.adjustmenDisclaimer}>
+          <div className={styles.adjustmenDisclaimer}>
             <Typography variant={TypographyVariant.Body3}>
               {' '}
               *These are possible reasonable adjustments that the learning
@@ -67,7 +67,7 @@ const CourseDetailsBenefitTab: React.FC = () => {
               will be discussed and agreed upon with the organisation before you
               begin, as part of your individual support plan.
             </Typography>
-          </p>
+          </div>
         </div>
       </div>
     </section>
