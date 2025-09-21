@@ -13,25 +13,39 @@
             "InstitutionName": "University of Michigan",
             "InstitutionLogoUrl": "",
             "Title": "Applied Data Science",
-            "Subtitle": "Bachelor Degree (honors)" ,
+            "Subtitle": "Bachelor Degree (honors)",
             "Description": "Information about the institute or university in 2-3 lines or a paragraph a very short description this is optional.",
             "Mode": "On Campus",
             "Duration": 36,
             "ApplicationEnd": "30/03/24",
             "Subjects": "24",
             "Fees": "$46,250",
-            "SupportAvailable":[
-                "TrainedStaff",
-                "UniversalDesignForLearning",
-                "InclusivePolicies",
-                "AlternativeAssessmentMethods",
-                "RegularFeedbackMechanisms",
-                "SensoryBreaks",
-                "SpecializedAcademicAdvising",
-                "AccessibleTextbooks",
-                "InclusiveTeachingPractices"
-            ],
-            "Adjustments":[
+            "SupportAvailable": {
+                "AssessmentAdjustments": [
+                    "ExtendedTime",
+                    "AlternativeAssessmentMethods",
+                    "RegularFeedbackMechanisms"
+                ],
+                "LearningDeliveryAdjustments": [
+                    "UniversalDesignForLearning",
+                    "AccessibleTextbooks",
+                    "InclusiveTeachingPractices"
+                ],
+                "EnvironmentalAdjustments": [
+                    "TrainedStaff",
+                    "InclusivePolicies",
+                    "SensoryBreaks",
+                    "SpecializedAcademicAdvising"
+                ]
+            },
+            "Adjustments": [
+                "Extended time for exams",
+                "Quiet study areas",
+                "Accessible materials",
+                "Note-taking assistance",
+                "Flexible deadlines",
+                "Assistive technology",
+                "Alternative assessment methods",
                 "Extended time for exams",
                 "Quiet study areas",
                 "Accessible materials",
@@ -40,15 +54,52 @@
                 "Assistive technology",
                 "Alternative assessment methods"
             ],
-            "PossibleJobRequirement":[
-                "Hybrid work:High",
-                "Time management:High",
-                "Attending events:Medium",
-                "Dealing with people:Low",
-                "Good communication:Medium",
-                "Work in a busy environment:Low",
-                "Public speaking:Low"
-            ],
+            "PossibleJobRequirement": {
+                "Data Scientist": {
+                    "requirements": {
+                        "junior": {
+                            "Hybrid work": "Medium",
+                            "Time management": "High",
+                            "Dealing with people": "Low",
+                            "Communication": "Medium"
+                        },
+                        "senior": {
+                            "Hybrid work": "High",
+                            "Team leadership": "High",
+                            "Dealing with people": "Medium",
+                            "Project management": "High"
+                        },
+                        "lead": {
+                            "Strategic thinking": "High",
+                            "Team management": "High",
+                            "Stakeholder management": "High",
+                            "Decision making": "High"
+                        }
+                    }
+                },
+                "Data Engineer": {
+                    "requirements": {
+                        "junior": {
+                            "Hybrid work": "Medium",
+                            "Time management": "High",
+                            "Dealing with people": "Low",
+                            "Communication": "Medium"
+                        },
+                        "senior": {
+                            "Hybrid work": "High",
+                            "Team leadership": "High",
+                            "Dealing with people": "Medium",
+                            "Project management": "High"
+                        },
+                        "lead": {
+                            "Strategic thinking": "High",
+                            "Team management": "High",
+                            "Stakeholder management": "High",
+                            "Decision making": "High"
+                        }
+                    }
+                }
+            },
             "CourseId": "1"
         }
     ]

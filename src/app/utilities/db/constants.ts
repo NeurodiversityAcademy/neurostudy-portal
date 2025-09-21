@@ -7,6 +7,20 @@ export const COURSE_TABLE_INDEX_KEY_DEFINITIONS: AttributeDefinition[] = [
   { AttributeName: 'InterestArea', AttributeType: 'S' },
 ];
 
+interface JobRequirements {
+  junior: Record<string, string>;
+  senior: Record<string, string>;
+  lead: Record<string, string>;
+}
+
+interface JobRequirement {
+  requirements: JobRequirements;
+}
+
+interface PossibleJobRequirements {
+  [jobTitle: string]: JobRequirement;
+}
+
 // NOTE
 // These will be here until we utilize `zod` or similar validation library
 // This helps us to generate a type based on the given attribute values
@@ -70,9 +84,13 @@ export const DEFAULT_COURSE_DETAILS_WITHOUT_ID = {
   Duration: 24,
   ApplicationEnd: 'HTML or string',
   Subjects: 'HTML or string',
-  SupportAvailable: ['HTML or string'],
+  SupportAvailable: {
+    AssessmentAdjustments: ['HTML or string'],
+    LearningDeliveryAdjustments: ['HTML or string'],
+    EnvironmentalAdjustments: ['HTML or string'],
+  },
   Adjustments: ['HTML or string'],
-  PossibleJobRequirement: ['HTML or string'],
+  PossibleJobRequirement: {} as PossibleJobRequirements,
   Fees: 'HTML or string',
 };
 export const DEFAULT_COURSE_DETAILS = {

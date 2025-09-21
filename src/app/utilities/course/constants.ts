@@ -205,6 +205,10 @@ export const COURSE_BENEFIT_SUPPORT_AVAILABLE = {
     label: 'Universal Design for Learning',
     icon: UniversalDesignforLearning,
   },
+  ExtendedTime: {
+    label: 'Extended time for assessments/exams',
+    icon: UniversalDesignforLearning,
+  },
   InclusivePolicies: {
     label: 'Inclusive policies',
     icon: InclusivePolicies,
