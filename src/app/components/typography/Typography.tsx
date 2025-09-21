@@ -33,7 +33,7 @@ const Typography: React.FC<TypographyProps> = ({
 }) => {
   const style = color ? { color } : {};
 
-  let tag: 'span' | 'h1' | 'h2' | 'h3' | 'h4' = 'span';
+  let tag: 'span' | 'h1' | 'h2' | 'h3' = 'span';
   let variantClassName = styles.body1;
 
   switch (variant) {
