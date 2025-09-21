@@ -20,11 +20,6 @@
   font-weight: var(--heading3-font-weight);
 }
 
-.heading4 {
-  font-size: var(--heading4-font-size);
-  font-weight: var(--heading4-font-weight);
-}
-
 .body1 {
   font-size: var(--body1-font-size);
   font-weight: var(--body1-font-weight);
@@ -68,10 +63,6 @@
 
   .heading3 {
     font-size: var(--mobile-heading3-font-size);
-  }
-
-  .heading3 {
-    font-size: var(--mobile-heading4-font-size);
   }
 
   .body1 {
