@@ -212,7 +212,6 @@
     align-items: center;
     padding: 20px;
     width: 300px;
-    /* gap: 0.5rem; */
 }
 
 .supportAvailableListItem img,
@@ -325,12 +324,36 @@
         font-size: var(--body3-strong-font-size);
         font-weight: var(--body3-strong-font-weight);
     }
-    .supportContainer {
+
+    .supportAccordionContainer{
+        display: flex;
         flex-direction: column;
-        align-items: stretch;
     }
 
-    .supportCategory {
-        width: 100%;
+    .adjustmentAvailableListItem {
+        display: flex;
+        flex-direction: row;
+        width: 100px;
     }
-}
+
+    .adjustmentAvailableListItem {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 20px;
+        width: 300px;
+    }
+
+    .supportContainer{
+        display: flex;
+        flex-direction: column;
+        /* gap: 1rem; */
+        width: 90%;
+        padding: 20px;
+    }
+
+    .supportAvailableList{
+        padding: 0px;
+        margin: 0px;
+    }
+}   
