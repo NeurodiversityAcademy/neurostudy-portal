@@ -4,6 +4,7 @@ import Image from 'next/image';
 import CircleTick from '@/app/images/circle-tick.png';
 import styles from '../../CourseDetails/courseDetails.module.css';
 import Accordion from '@/app/components/accordion/Accordian';
+import { useState } from 'react';
 
 interface CourseDetailBenefitTabContentProps {
   activeTab: string;
@@ -13,8 +14,11 @@ const CourseDetailsBenefitTabContent: React.FC<
   CourseDetailBenefitTabContentProps
 > = ({ activeTab }) => {
   const course = useCourseDetailsContext();
+  const [selectedLevel, setSelectedLevel] = useState<string | null>(null);
   const { data } = course;
-
+  console.log('PossibleJobRequirement', data?.PossibleJobRequirement)
+  Object.entries(data?.PossibleJobRequirement as unknown as Record<string, Record<string, Record<string, string>>>)
+    .map(([jobTitle, jobData]) => (console.log('jobTitle', jobTitle, 'jobData', jobData)))
   switch (activeTab) {
     case 'support':
       return (
@@ -33,7 +37,7 @@ const CourseDetailsBenefitTabContent: React.FC<
                       {items.map((item: string, index: number) => {
                         const support =
                           COURSE_BENEFIT_SUPPORT_AVAILABLE[
-                            item as keyof typeof COURSE_BENEFIT_SUPPORT_AVAILABLE
+                          item as keyof typeof COURSE_BENEFIT_SUPPORT_AVAILABLE
                           ];
                         return (
                           <div
@@ -76,21 +80,76 @@ const CourseDetailsBenefitTabContent: React.FC<
       );
     case 'jobs':
       return (
-        <ul>
-          {data?.PossibleJobRequirement.map((item, index) => {
-            const [key, value] = item.split(':');
-            return (
-              <li className={styles.possibleJobRequirementListItem} key={index}>
-                <span>{key}</span>
-                <span>{value}</span>
-              </li>
-            );
-          })}
-        </ul>
+        <div className={styles.jobRequirementsContainer}>
+          {Object.entries(data?.PossibleJobRequirement as unknown as Record<string, Record<string, Record<string, string>>>)
+            .map(([jobTitle, jobData]) => (
+              <div className={styles.jobContainer} key={jobTitle}>
+              <Accordion
+                key={jobTitle}
+                title={jobTitle.replace(/([A-Z])/g, ' $1').trim()}
+              >
+                <div key={jobTitle} className={styles.jobCard}>
+                  <h3 className={styles.jobTitle}>{jobTitle}</h3>
+                  <div className={styles.levelChips}>
+                    {Object.keys(jobData?.requirements).map(level => (
+                      <button
+                        key={level}
+                        className={`${styles.levelChip} ${selectedLevel === level ? styles.selected : ''}`}
+                        onClick={() => setSelectedLevel(level)}
+                      >
+                        {level.charAt(0).toUpperCase() + level.slice(1)}
+                      </button>
+                    ))}
+                  </div>
+                  {selectedLevel && (
+                    <div className={styles.requirementsList}>
+                      {Object.entries(jobData?.requirements[selectedLevel]).map(([req, level]) => (
+                        <div key={req} className={styles.requirementItem}>
+                          <div className={styles.requirement}>{req}</div>
+                          <div className={styles[`level${level}`]}>{level}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </Accordion>
+              </div>
+            ))}
+        </div>
       );
     default:
       return null;
   }
 };
+
+{/* <Accordion
+                  key={category}
+                  title={category.replace(/([A-Z])/g, ' $1').trim()}
+                >
+<div key={jobTitle} className={styles.jobCard}>
+              <h3 className={styles.jobTitle}>{jobTitle}</h3>
+              <div className={styles.levelChips}>
+                {Object.keys(jobData?.requirements).map(level => (
+                  <button
+                    key={level}
+                    className={`${styles.levelChip} ${selectedLevel === level ? styles.selected : ''}`}
+                    onClick={() => setSelectedLevel(level)}
+                  >
+                    {level.charAt(0).toUpperCase() + level.slice(1)}
+                  </button>
+                ))}
+              </div>
+              {selectedLevel && (
+                <div className={styles.requirementsList}>
+                  {Object.entries(jobData?.requirements[selectedLevel]).map(([req, level]) => (
+                    <div key={req} className={styles.requirementItem}>
+                      <div className={styles.requirement}>{req}</div>
+                      <div className={styles[`level${level}`]}>{level}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+                </Accordion> */}
 
 export default CourseDetailsBenefitTabContent;
