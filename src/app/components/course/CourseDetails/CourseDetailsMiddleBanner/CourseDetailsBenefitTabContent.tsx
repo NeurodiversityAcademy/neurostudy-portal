@@ -1,7 +1,6 @@
 import { COURSE_BENEFIT_SUPPORT_AVAILABLE } from '@/app/utilities/course/constants';
 import { useCourseDetailsContext } from '@/app/utilities/course/CourseDetailsProvider';
 import Image from 'next/image';
-//import CircleTick from '@/app/images/circle-tick.png';
 import styles from '../../CourseDetails/courseDetails.module.css';
 import Accordion from '@/app/components/accordion/Accordian';
 import { useState } from 'react';
