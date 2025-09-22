@@ -28,38 +28,12 @@ export async function generateMetadata({
       title,
       description,
       url: canonical,
-      images: [
-        {
-          url: imageUrl,
-          width: 1200,
-          height: 630,
-          alt: title,
-          type: imageUrl.endsWith('.jpg') ? 'image/jpeg' : 'image/png',
-        },
-      ],
       type: 'article',
       siteName: 'Neurodiversity Academy',
       locale: 'en_US',
     },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: [imageUrl],
-    },
     alternates: {
       canonical,
-    },
-    other: {
-      image: imageUrl,
-      'og:image': imageUrl,
-      'og:image:width': '1200',
-      'og:image:height': '630',
-      'og:image:alt': title,
-      'og:image:type': imageUrl.endsWith('.jpg') ? 'image/jpeg' : 'image/png',
-      'og:type': 'article',
-      'article:author': 'Neurodiversity Academy',
-      'article:section': 'Education',
     },
   };
 }
