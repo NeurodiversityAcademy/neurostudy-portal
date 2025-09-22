@@ -84,12 +84,12 @@ export const DEFAULT_COURSE_DETAILS_WITHOUT_ID = {
   Duration: 24,
   ApplicationEnd: 'HTML or string',
   Subjects: 'HTML or string',
-  SupportAvailable: {
+  SupportAvailable: ['HTML or string'],
+  AdjustmentsAvailable: {
     AssessmentAdjustments: ['HTML or string'],
     LearningDeliveryAdjustments: ['HTML or string'],
     EnvironmentalAdjustments: ['HTML or string'],
   },
-  Adjustments: ['HTML or string'],
   PossibleJobRequirement: {} as PossibleJobRequirements,
   Fees: 'HTML or string',
 };

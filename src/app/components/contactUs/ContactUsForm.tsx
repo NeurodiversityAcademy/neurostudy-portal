@@ -64,7 +64,6 @@ const ContactUsForm: React.FC = () => {
       const outcome = (await registerContactData(
         userRegistrationData
       )) as CRMCreateResponseInterface;
-      console.log('failed', outcome);
       if (outcome.id) {
         notifySuccess('Successfully sent');
       }
