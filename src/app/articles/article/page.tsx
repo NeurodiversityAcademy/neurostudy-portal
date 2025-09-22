@@ -27,14 +27,27 @@ export async function generateMetadata({
   const { title, keywords, imageUrl, description } = article;
   const canonical = `${HOST_URL}/articles/article?articleId=${titleSlug}`;
   const images = [{ url: imageUrl }];
-
-  return createMetadata(META_KEY.ARTICLE, {
+  let metaData = createMetadata(META_KEY.ARTICLE, {
     title,
     keywords,
     description,
     canonical,
     images,
   });
+
+  const linkedInMetadata = {
+    ...metaData,
+    other: {
+      ...metaData,
+      'image': imageUrl,
+      'author': 'Pratik Bhumkar',
+      'og:image:width': '1200',
+      'og:image:height': '630',
+      'og:image:type': 'image/png',
+    }
+  };
+
+  return linkedInMetadata as any as Metadata; 
 }
 
 export default function OneArticle({ searchParams }: MetadataProps) {
