@@ -58,7 +58,7 @@ const CourseDetailsBenefitTab: React.FC = () => {
           </button>
         </div>
         <CourseDetailsBenefitTabContent activeTab={activeTab} />
-        <div className={styles.adjustmenDisclaimer}>
+        <div className={styles.adjustmentDisclaimer}>
           <Typography variant={TypographyVariant.Body3}>
             {' '}
             *These are possible reasonable adjustments that the learning
