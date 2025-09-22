@@ -27,7 +27,7 @@ export async function generateMetadata({
   const { title, keywords, imageUrl, description } = article;
   const canonical = `${HOST_URL}/articles/article?articleId=${titleSlug}`;
   const images = [{ url: imageUrl }];
-  let metaData = createMetadata(META_KEY.ARTICLE, {
+  const metaData = createMetadata(META_KEY.ARTICLE, {
     title,
     keywords,
     description,
@@ -39,15 +39,15 @@ export async function generateMetadata({
     ...metaData,
     other: {
       ...metaData,
-      'image': imageUrl,
-      'author': 'Pratik Bhumkar',
+      image: imageUrl,
+      author: 'Pratik Bhumkar',
       'og:image:width': '1200',
       'og:image:height': '630',
       'og:image:type': 'image/png',
-    }
+    },
   };
-
-  return linkedInMetadata as any as Metadata; 
+  /* eslint-disable  @typescript-eslint/no-explicit-any */
+  return linkedInMetadata as any as Metadata;
 }
 
 export default function OneArticle({ searchParams }: MetadataProps) {
