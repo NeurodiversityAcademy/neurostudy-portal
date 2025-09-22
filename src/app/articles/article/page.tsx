@@ -17,7 +17,7 @@ export async function generateMetadata({
     return {};
   }
 
-  const { title, keywords, description, imageUrl } = article;
+  const { title, keywords, description } = article;
   const canonical = `${HOST_URL}/articles/article?articleId=${titleSlug}`;
 
   return {
