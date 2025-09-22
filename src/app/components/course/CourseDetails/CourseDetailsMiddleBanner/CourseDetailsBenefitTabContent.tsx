@@ -1,7 +1,6 @@
 import { COURSE_BENEFIT_SUPPORT_AVAILABLE } from '@/app/utilities/course/constants';
 import { useCourseDetailsContext } from '@/app/utilities/course/CourseDetailsProvider';
 import Image from 'next/image';
-import CircleTick from '@/app/images/circle-tick.png';
 import styles from '../../CourseDetails/courseDetails.module.css';
 import Accordion from '@/app/components/accordion/Accordian';
 import { useState } from 'react';
@@ -26,7 +25,7 @@ interface PossibleJobRequirements {
   [jobTitle: string]: JobData;
 }
 
-interface SupportAvailable {
+interface AdjustmentsAvailable {
   AssessmentAdjustments: string[];
   LearningDeliveryAdjustments: string[];
   EnvironmentalAdjustments: string[];
@@ -35,7 +34,7 @@ interface SupportAvailable {
 
 interface CourseData {
   PossibleJobRequirement: PossibleJobRequirements;
-  SupportAvailable: SupportAvailable;
+  AdjustmentsAvailable: AdjustmentsAvailable;
   Adjustments: string[];
   // Add other properties as needed
 }
@@ -54,27 +53,41 @@ const CourseDetailsBenefitTabContent: React.FC<
   // Type-safe data access
   const courseData = data as unknown as CourseData;
 
-  // Debug log with proper typing
-  Object.entries(courseData?.PossibleJobRequirement || {}).forEach(
-    ([jobTitle, jobData]) => {
-      console.log('jobTitle', jobTitle, 'jobData', jobData);
-    }
-  );
-
   switch (activeTab) {
     case 'support':
       return (
-        <div className={styles.supportAccordionContainer}>
-          {courseData?.SupportAvailable &&
-            Object.entries(courseData.SupportAvailable).map(
+        <ul className={styles.supportAvailableList}>
+          {data?.SupportAvailable &&
+            data.SupportAvailable.map((item, index) => {
+              const support =
+                COURSE_BENEFIT_SUPPORT_AVAILABLE[
+                  item as keyof typeof COURSE_BENEFIT_SUPPORT_AVAILABLE
+                ];
+              return (
+                <li key={index} className={styles.supportAvailableListItem}>
+                  {support?.icon && (
+                    <Image src={support?.icon} alt={support?.label} />
+                  )}
+                  <p>{support?.label}</p>
+                </li>
+              );
+            })}
+        </ul>
+      );
+
+    case 'adjustment':
+      return (
+        <div className={styles.adjustmentAccordionContainer}>
+          {courseData?.AdjustmentsAvailable &&
+            Object.entries(courseData.AdjustmentsAvailable).map(
               ([category, items]) => (
                 <div className={styles.supportContainer} key={category}>
                   <Accordion
                     key={category}
                     title={category.replace(/([A-Z])/g, ' $1').trim()}
                   >
-                    <div className={styles.supportCategory}>
-                      <ul className={styles.supportAvailableList}>
+                    <div className={styles.adjustmentCategory}>
+                      <ul className={styles.adjustmentAvailableList}>
                         {items.map((item: string, index: number) => {
                           const support =
                             COURSE_BENEFIT_SUPPORT_AVAILABLE[
@@ -83,13 +96,13 @@ const CourseDetailsBenefitTabContent: React.FC<
                           return (
                             <div
                               key={index}
-                              className={styles.supportAvailableListItem}
+                              className={styles.adjustmentAvailableListItem}
                             >
                               {support?.icon && (
                                 <Image
                                   src={support.icon}
                                   alt={support.label}
-                                  className={styles.supportIcon}
+                                  className={styles.adjustmentIcon}
                                   key={index}
                                 />
                               )}
@@ -104,22 +117,6 @@ const CourseDetailsBenefitTabContent: React.FC<
               )
             )}
         </div>
-      );
-
-    case 'adjustment':
-      return (
-        <>
-          <ul className={styles.adjustmentAvailableList}>
-            {courseData?.Adjustments?.map((item, index) => (
-              <div key={index} className={styles.adjustmentAvailableListItem}>
-                <div>
-                  <Image src={CircleTick} alt={item} />
-                </div>
-                <div>{item}</div>
-              </div>
-            ))}
-          </ul>
-        </>
       );
 
     case 'jobs':

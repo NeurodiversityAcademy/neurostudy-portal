@@ -1,3 +1,23 @@
+.supportAvailableListItem {
+    display: flex;
+    flex-direction: row;
+    width: max-content;
+    align-items: center;
+    padding: 20px;
+    max-width: 300px;
+}
+
+.supportAvailableListItem img {
+    height: 30px;
+    width: 30px;
+    padding-right: 5px;
+}
+
+.supportAvailableList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
 .jobRequirementsContainer {
     display: flex;
     flex-direction: column;
@@ -87,7 +107,7 @@
     margin-bottom: 8rem;
 }
 
-.supportAccordionContainer {
+.adjustmentAccordionContainer {
     display: flex;
 }
 
@@ -104,12 +124,12 @@
     padding: 20px;
 }
 
-.supportIcon {
+.adjustmentIcon {
     width: 50px;
     height: 50px;
 }
 
-.supportAvailableListItem {
+.adjustmentAvailableListItem {
     display: flex;
     flex-direction: column-reverse;
 }
@@ -279,7 +299,7 @@
     max-width: inherit;
 }
 
-.supportAvailableListItem {
+.adjustmentAvailableListItem {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -299,7 +319,7 @@
     width: 300px;
 }
 
-.supportAvailableListItem img,
+.adjustmentAvailableListItem img,
 .adjustmentAvailableListItem img {
     scale: 0.5;
     margin-left: -1rem;
@@ -410,7 +430,7 @@
         font-weight: var(--body3-strong-font-weight);
     }
 
-    .supportAccordionContainer {
+    .adjustmentAccordionContainer {
         display: flex;
         flex-direction: column;
     }
@@ -436,7 +456,7 @@
         padding: 20px;
     }
 
-    .supportAvailableList {
+    .adjustmentAvailableList {
         padding: 0px;
         margin: 0px;
     }
@@ -479,7 +499,7 @@
         width: fit-content;
     }
 
-    .levelChip{
+    .levelChip {
         margin: 10px;
     }
 }
