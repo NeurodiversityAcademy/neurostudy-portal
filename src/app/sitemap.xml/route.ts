@@ -18,6 +18,7 @@ export async function GET(request: NextRequest) {
     '/signup',
     '/articles',
     '/blogs',
+    '/courses',
   ];
 
   const staticUrls = staticPages.map(page => `${baseUrl}${page}`);
