@@ -28,7 +28,7 @@ export default function EndorsedInstitutes() {
     <div className={styles.main}>
       <div className={styles.title}>
         <Typography variant={TypographyVariant.H2} color='var(--BondBlack)'>
-          Leading institues endorsed by Neurodiversity Academy
+          Leading Institutes endorsed by Neurodiversity Academy
         </Typography>
       </div>
       <div className={styles.embla}>
