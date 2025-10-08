@@ -6,6 +6,7 @@ import JanImage from '../../images/JanCroeni.jpeg';
 import JasonImage from '../../images/JasonWong.jpeg';
 import LesleyImage from '../../images/LesleyGordon.jpeg';
 import KatieImage from '../../images/KatieFleet.jpeg';
+import RachelMorley from '../../images/RachelMorley.jpeg';
 import CarlyImage from '../../images/Carly.png';
 import NatashaImage from '../../images/NatashaArthars.jpeg';
 import linkedin from '../../images/linkedin.svg';
@@ -73,6 +74,14 @@ export default function Advisors() {
       logo: linkedin,
       linkedin: 'https://www.linkedin.com/in/natasha-arthars-08599736',
       company: 'Queensland University of Technology',
+      type: 'Academic Advisor',
+    },
+    {
+      ProfilePic: RachelMorley,
+      name: 'Dr Rachel Morley (PhD)',
+      logo: linkedin,
+      linkedin: 'https://www.linkedin.com/in/drrachelmorley',
+      company: 'Liverpool Powerhouse',
       type: 'Academic Advisor',
     },
   ];
