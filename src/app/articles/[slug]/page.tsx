@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {};
   }
 
-  const { title, keywords, imageUrl, description } = article;
+  const { title, keywords, imageUrl, description, authorName } = article;
   const canonical = `${HOST_URL}/articles/${slug}`;
   const images = [{ url: imageUrl }];
 
@@ -37,6 +37,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description,
     canonical,
     images,
+    authors: [{ name: authorName }],
+    openGraph: {
+      title,
+      description,
+      images: [{ url: imageUrl }],
+      authors: [authorName!],
+    },
   });
 }
 
