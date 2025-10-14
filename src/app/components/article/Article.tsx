@@ -20,7 +20,7 @@ export default function Article({
         <div className={styles.description}>
           <Typography variant={TypographyVariant.Body2}>{title}</Typography>
         </div>
-        <LearnMore dest={`/articles/article/?title=${articleSlug}`} />
+        <LearnMore dest={`/articles/${articleSlug}`} />
       </div>
     </div>
   );
