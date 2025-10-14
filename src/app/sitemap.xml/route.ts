@@ -23,11 +23,11 @@ export async function GET(request: NextRequest) {
   const staticUrls = staticPages.map(page => `${baseUrl}${page}`);
 
   const articleUrls = articleData.articles.map(article => {
-    return `${baseUrl}/articles/article?title=${slugify(article.title)}`;
+    return `${baseUrl}/articles/${slugify(article.title)}`;
   });
 
   const blogUrls = blogData.blogs.map(blog => {
-    return `${baseUrl}/blogs/blog?title=${slugify(blog.title)}`;
+    return `${baseUrl}/blogs/${slugify(blog.title)}`;
   });
 
   const urls = [...staticUrls, ...articleUrls, ...blogUrls];

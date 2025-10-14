@@ -1,31 +1,34 @@
 import type { Metadata } from 'next';
 import React from 'react';
 import TextHeavyArticle from '../../components/textHeavyArticle/TextHeavyArticle';
-import styles from './article.module.css';
+import styles from '../article.module.css';
 import articleData from '../articleData.json';
 import ArticleList from '@/app/components/articleList/articleList';
 import Typography, {
   TypographyVariant,
 } from '../../components/typography/Typography';
 import Subscribe from '@/app/components/subscribe/subscribe';
-import { MetadataProps } from '@/app/interfaces/MetadataProps';
 import { HOST_URL, META_KEY } from '@/app/utilities/constants';
 import { createMetadata, slugify } from '@/app/utilities/common';
 import VisitTrackerWrapper from '@/app/components/wrapper/VisitTrackerWrapper';
 
-export async function generateMetadata({
-  searchParams,
-}: MetadataProps): Promise<Metadata> {
-  const titleSlug = searchParams?.title;
+interface Props {
+  params: {
+    slug: string;
+  };
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = params;
   const { articles } = articleData;
-  const article = articles.find(({ title }) => slugify(title) === titleSlug);
+  const article = articles.find(({ title }) => slugify(title) === slug);
 
   if (!article) {
     return {};
   }
 
   const { title, keywords, imageUrl, description } = article;
-  const canonical = `${HOST_URL}/articles/article?articleId=${titleSlug}`;
+  const canonical = `${HOST_URL}/articles/${slug}`;
   const images = [{ url: imageUrl }];
 
   return createMetadata(META_KEY.ARTICLE, {
@@ -37,12 +40,10 @@ export async function generateMetadata({
   });
 }
 
-export default function OneArticle({ searchParams }: MetadataProps) {
-  const titleSlug = searchParams?.title;
+export default function OneArticle({ params }: Props) {
+  const { slug } = params;
   const { articles } = articleData;
-  const article = articles.find(
-    (article) => slugify(article.title) === titleSlug
-  );
+  const article = articles.find((article) => slugify(article.title) === slug);
 
   if (!article) {
     return (
