@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { UserFormSubmissionType } from '@/app/interfaces/UserFormSubmissionType';
 import { registerCRMContact } from '@/app/utilities/register/registerCRMContact';
 import { isValidContactUsFormData } from '@/app/utilities/validation/validateContactUsFormData';
