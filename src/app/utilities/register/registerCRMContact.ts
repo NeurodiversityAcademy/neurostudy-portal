@@ -1,4 +1,4 @@
-import { AxiosResponse, AxiosError } from 'axios';
+import { AxiosResponse } from 'axios';
 import TeacherCRMContactInterface from '../../interfaces/TeacherCRMContactInterface';
 import CRMCreateResponseInterface from '../../interfaces/CRMCreateResponseInterface';
 import axios from 'axios';
