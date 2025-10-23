@@ -6,7 +6,7 @@ export const returnBadResponse = (
 
   return new Response(JSON.stringify({ error: 'Bad Request', ...info }), {
     status,
-    statusText: 'Bad Request',
+    statusText: 'Bad Request custom',
     headers: new Headers({
       'Content-Type': 'application/json',
     }),
