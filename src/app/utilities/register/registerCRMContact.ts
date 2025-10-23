@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios';
+import { AxiosResponse, AxiosError } from 'axios';
 import TeacherCRMContactInterface from '../../interfaces/TeacherCRMContactInterface';
 import CRMCreateResponseInterface from '../../interfaces/CRMCreateResponseInterface';
 import axios from 'axios';
@@ -11,6 +11,8 @@ export const registerCRMContact = async (
     | UserFormSubmissionType
     | UserSubscriptionType
 ): Promise<CRMCreateResponseInterface | boolean> => {
+  console.log('Sending to HubSpot:', contact);
+  
   const data = JSON.stringify({
     properties: {
       ...contact,
@@ -33,9 +35,14 @@ export const registerCRMContact = async (
       const { id, updatedAt, createdAt } = response.data;
       return { id, updatedAt, createdAt } as CRMCreateResponseInterface;
     })
-
-    .catch((error: Error) => {
-      console.log(error);
-      return false;
+    .catch((error: AxiosError) => {
+      console.error('HubSpot API Error:', {
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+        error: error.message,
+        fullError: JSON.stringify(error.response?.data, null, 2)
+      });
+      throw error; // Propagate error to see it in the frontend
     });
 };

@@ -5,7 +5,12 @@ import { isValidContactUsFormData } from '@/app/utilities/validation/validateCon
 
 export async function POST(request: Request) {
   const data = await request.json();
-  if (isValidContactUsFormData(data)) {
+  console.log('Incoming contact form data:', data);
+  
+  const isValid = isValidContactUsFormData(data);
+  console.log('Validation result:', isValid);
+  
+  if (isValid) {
     const userContactForm: UserFormSubmissionType = {
       ...data,
     };
