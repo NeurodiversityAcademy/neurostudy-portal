@@ -1,7 +1,7 @@
-import { returnBadResponse } from '@/app/utilities/responses';
 import { UserFormSubmissionType } from '@/app/interfaces/UserFormSubmissionType';
 import { registerCRMContact } from '@/app/utilities/register/registerCRMContact';
 import { isValidContactUsFormData } from '@/app/utilities/validation/validateContactUsFormData';
+import { returnBadResponse } from '@/app/utilities/responses';
 
 export async function POST(request: Request) {
   const data = await request.json();

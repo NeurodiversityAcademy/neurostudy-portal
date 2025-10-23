@@ -28,7 +28,7 @@ interface ContactFieldValues extends FieldValues {
   firstname: string;
   lastname: string;
   email: string;
-  phone: string;
+  phone?: string;
   jobtitle: string;
   message: string;
   hs_persona: HSPersona;
@@ -53,7 +53,7 @@ const ContactUsForm: React.FC = () => {
       firstname,
       lastname,
       email,
-      phone,
+      phone: phone || undefined, // Convert empty string to undefined
       message,
       hs_persona,
     };

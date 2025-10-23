@@ -13,7 +13,7 @@ export function isValidContactUsFormData(
   ];
   const keys = Object.keys(obj) as (keyof UserFormSubmissionType)[];
   return (
-    PHONE_REGEX.test(obj.phone) &&
+    (!obj.phone || PHONE_REGEX.test(obj.phone)) &&
     EMAIL_REGEX.test(obj.email) &&
     requiredKeys.every((key) => keys.includes(key))
   );

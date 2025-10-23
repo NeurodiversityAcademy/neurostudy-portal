@@ -33,7 +33,6 @@ export const registerCRMContact = async (
       const { id, updatedAt, createdAt } = response.data;
       return { id, updatedAt, createdAt } as CRMCreateResponseInterface;
     })
-
     .catch((error: Error) => {
       console.log(error);
       return false;
