@@ -12,7 +12,7 @@ export const registerCRMContact = async (
     | UserSubscriptionType
 ): Promise<CRMCreateResponseInterface | boolean> => {
   console.log('Sending to HubSpot:', contact);
-  
+
   const data = JSON.stringify({
     properties: {
       ...contact,
@@ -41,7 +41,7 @@ export const registerCRMContact = async (
         statusText: error.response?.statusText,
         data: error.response?.data,
         error: error.message,
-        fullError: JSON.stringify(error.response?.data, null, 2)
+        fullError: JSON.stringify(error.response?.data, null, 2),
       });
       throw error; // Propagate error to see it in the frontend
     });
