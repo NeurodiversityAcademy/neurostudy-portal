@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AxiosResponse, AxiosError } from 'axios';
 import TeacherCRMContactInterface from '../../interfaces/TeacherCRMContactInterface';
 import CRMCreateResponseInterface from '../../interfaces/CRMCreateResponseInterface';
@@ -12,16 +11,11 @@ export const registerCRMContact = async (
     | UserFormSubmissionType
     | UserSubscriptionType
 ): Promise<CRMCreateResponseInterface | boolean> => {
-  console.log('Sending to HubSpot:', contact);
-
-  // Transform data to match HubSpot expectations
-  const properties = {
-    ...contact,
-    hs_lead_status: 'NEW', // Add required HubSpot property
-    lifecyclestage: 'lead', // Add required HubSpot property
-  };
-
-  const data = JSON.stringify({ properties });
+  const data = JSON.stringify({
+    properties: {
+      ...contact,
+    },
+  });
 
   const config = {
     method: 'post',
@@ -36,18 +30,10 @@ export const registerCRMContact = async (
   return await axios
     .request(config)
     .then((response: AxiosResponse) => {
-      console.log('HubSpot success response:', response.data);
       const { id, updatedAt, createdAt } = response.data;
       return { id, updatedAt, createdAt } as CRMCreateResponseInterface;
     })
     .catch((error: AxiosError) => {
-      const hubspotError = error.response?.data as unknown as any;
-      console.error('HubSpot API Error:', {
-        status: error.response?.status,
-        message: hubspotError?.message,
-        validationResults: hubspotError?.validationResults,
-        requestData: properties,
-      });
       throw error;
     });
 };
