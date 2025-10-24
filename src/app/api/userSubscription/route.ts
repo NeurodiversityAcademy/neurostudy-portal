@@ -1,8 +1,8 @@
 import { returnBadResponse } from '@/app/utilities/responses';
 import { UserSubscriptionHandbookType } from '@/app/interfaces/UserSubscriptionType';
 import { registerCRMContact } from '@/app/utilities/register/registerCRMContact';
+import { registerSenderContact } from '@/app/utilities/register/registerSenderContact';
 import { isValidUserSubscriptionData } from '@/app/utilities/validation/validateUserSubscriptionData';
-import CRMCreateResponseInterface from '@/app/interfaces/CRMCreateResponseInterface';
 import { consumeRateWithIp } from '@/app/utilities/api/rateLimiter';
 import processAPIError from '@/app/utilities/api/processAPIError';
 import { NextRequest } from 'next/server';
@@ -12,11 +12,22 @@ export async function POST(request: NextRequest) {
     await consumeRateWithIp(request);
 
     const data: UserSubscriptionHandbookType = await request.json();
-    const { getHandbook, ...subscriptionData } = data;
+    const { getHandbook, hs_persona, ...subscriptionData } = data;
 
     if (isValidUserSubscriptionData(subscriptionData)) {
-      const response: CRMCreateResponseInterface | boolean =
-        await registerCRMContact(subscriptionData);
+      const crmResponse = await registerCRMContact(subscriptionData);
+      const senderResponse = await registerSenderContact(
+        {
+          email: subscriptionData.email,
+          ...(subscriptionData.firstName && {
+            firstname: subscriptionData.firstName,
+          }),
+          ...(subscriptionData.lastName && {
+            lastname: subscriptionData.lastName,
+          }),
+        },
+        hs_persona
+      );
 
       if (getHandbook === true) {
         // NOTE
@@ -39,7 +50,9 @@ export async function POST(request: NextRequest) {
         });
       }
 
-      return new Response(JSON.stringify(response));
+      return new Response(
+        JSON.stringify({ crm: crmResponse, sender: senderResponse })
+      );
     }
 
     return returnBadResponse();

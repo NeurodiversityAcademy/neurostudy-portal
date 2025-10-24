@@ -23,8 +23,8 @@ const PERSONA_TO_GROUP_MAP: Record<string, SenderGroupType> = {
 
 export interface SenderContactParams {
   email: string;
-  firstname: string;
-  lastname: string;
+  firstname?: string;
+  lastname?: string;
   phone?: string;
   fields?: Record<string, string | number>;
   trigger_automation?: boolean;
@@ -33,45 +33,55 @@ export interface SenderContactParams {
 export interface SenderContactResponse {
   id: string;
   email: string;
-  firstname: string;
-  lastname: string;
+  firstname?: string;
+  lastname?: string;
   phone?: string;
   groups: string[];
   fields?: Record<string, string | number>;
   trigger_automation?: boolean;
-  // Add other fields returned by Sender API if needed
 }
 
 export async function registerSenderContact(
   contact: SenderContactParams,
   personaValue: string
-): Promise<SenderContactResponse> {
-  const url = `${process.env.sender_base_url}/subscribers`;
-  const token = process.env.SENDER_ACCESS_TOKEN;
+): Promise<SenderContactResponse | null> {
+  try {
+    const url = `${process.env.SENDER_BASE_URL}/subscribers`;
+    const token = process.env.SENDER_ACCESS_TOKEN;
 
-  const groupType = PERSONA_TO_GROUP_MAP[personaValue];
-  if (!groupType) throw new Error('Invalid persona value');
+    const groupType = PERSONA_TO_GROUP_MAP[personaValue];
+    if (!groupType) throw new Error('Invalid persona value');
 
-  const payload = {
-    ...contact,
-    groups: [GROUP_ID_MAP[groupType]],
-  };
+    const payload = {
+      ...contact,
+      groups: [GROUP_ID_MAP[groupType]],
+      trigger_automation: false,
+    };
 
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify(payload),
-    redirect: 'follow',
-  });
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(payload),
+      redirect: 'follow',
+    });
 
-  if (!response.ok) {
-    throw new Error(
-      `Sender contact registration failed: ${response.statusText}`
-    );
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      console.error('Sender API Error:', {
+        status: response.status,
+        statusText: response.statusText,
+        response: responseData,
+      });
+      return null;
+    }
+
+    return responseData;
+  } catch (error) {
+    return null;
   }
-  return await response.json();
 }
