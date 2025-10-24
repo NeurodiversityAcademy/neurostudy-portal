@@ -31,7 +31,6 @@ export async function POST(request: Request) {
       { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
   } catch (error) {
-    console.error('Teacher registration error:', error);
     return returnBadResponse();
   }
 }
