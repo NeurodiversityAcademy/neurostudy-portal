@@ -7,18 +7,14 @@ const DisplayPodcast: React.FC<BuzzsproutEmbedProps> = ({
   containerId,
   singleBlog,
 }) => {
-  // const scriptSrc =
-  //   'https://www.buzzsprout.com/2132579.js?container_id=buzzsprout-large-player&player=large';
-  // const containerId = 'buzzsprout-large-player';
-
   return (
-    <>
+    <div id='buzzsproutembed'>
       <BuzzsproutEmbed
         scriptSrc={scriptSrc}
         containerId={containerId}
         singleBlog={singleBlog}
       />
-    </>
+    </div>
   );
 };
 
