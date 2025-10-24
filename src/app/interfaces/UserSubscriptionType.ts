@@ -9,6 +9,8 @@ export type HSPersona =
 export interface UserSubscriptionType {
   email: string;
   hs_persona: HSPersona;
+  firstName?: string;
+  lastName?: string;
 }
 
 export type UserSubscriptionHandbookType = {
