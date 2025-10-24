@@ -8,13 +8,13 @@ const DisplayPodcast: React.FC<BuzzsproutEmbedProps> = ({
   singleBlog,
 }) => {
   return (
-    <div id='buzzsproutembed'>
+    <>
       <BuzzsproutEmbed
         scriptSrc={scriptSrc}
         containerId={containerId}
         singleBlog={singleBlog}
       />
-    </div>
+    </>
   );
 };
 
