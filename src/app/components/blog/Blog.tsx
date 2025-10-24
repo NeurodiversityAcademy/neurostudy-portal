@@ -21,7 +21,7 @@ export default function Blog({
         <div className={styles.title}>
           <Typography variant={TypographyVariant.Body2}>{title}</Typography>
         </div>
-        <LearnMore dest={`/blogs/blog/?title=${blogSlug}`} />
+        <LearnMore dest={`/blogs/${blogSlug}`} />
       </div>
     </div>
   );
