@@ -23,6 +23,7 @@ import ContactUsLeftBanner from './ContactUsLeftBanner';
 import classNames from 'classnames';
 import Dropdown from '../formElements/Dropdown/Dropdown';
 import { HSPersona } from '@/app/interfaces/UserSubscriptionType';
+import CheckBox from '../formElements/CheckBox/CheckBox';
 
 interface ContactFieldValues extends FieldValues {
   firstname: string;
@@ -32,6 +33,7 @@ interface ContactFieldValues extends FieldValues {
   jobtitle: string;
   message: string;
   hs_persona: HSPersona;
+  subscribe: boolean[];
 }
 
 // Persona mapping to HubSpot values
@@ -45,10 +47,13 @@ const ContactUsForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const methods: UseFormReturn<ContactFieldValues> =
-    useForm<ContactFieldValues>({ mode: 'onBlur' });
+    useForm<ContactFieldValues>({
+      mode: 'onBlur',
+    });
 
   const onSubmit = async (data: ContactFieldValues) => {
     const { firstname, lastname, email, phone, message, hs_persona } = data;
+
     const userRegistrationData: UserFormSubmissionType = {
       firstname,
       lastname,
@@ -56,7 +61,9 @@ const ContactUsForm: React.FC = () => {
       phone: phone || undefined, // Convert empty string to undefined
       message,
       hs_persona,
+      subscribe: !!data.subscribe?.[0],
     };
+    console.log('Submitting data:', userRegistrationData);
 
     setIsLoading(true);
 
@@ -137,6 +144,19 @@ const ContactUsForm: React.FC = () => {
                 showLabel
                 cols={FORM_ELEMENT_COL_WIDTH.BIG}
                 multiple={false}
+              />
+              <CheckBox
+                name='subscribe'
+                label="I'm in for positive, growth-focused updates."
+                showLabel={false}
+                options={[
+                  {
+                    label: "I'm in for positive, growth-focused updates.",
+                    value: true,
+                  },
+                ]}
+                defaultValue={[true]}
+                orientation='horizontal'
               />
               <TextArea
                 name='message'
