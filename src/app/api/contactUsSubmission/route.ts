@@ -10,12 +10,13 @@ export async function POST(request: Request) {
       return returnBadResponse();
     }
 
-    const { email, firstname, lastname, phone, hs_persona, subscribe } = data;
+    const { email, firstname, lastname, phone, hs_persona, subscription } =
+      data;
 
     const crmResponse = await registerCRMContact({ ...data });
 
     const senderResponse = await registerSenderContact(
-      { email, firstname, lastname, phone, subscribe },
+      { email, firstname, lastname, phone, subscription },
       hs_persona || 'persona_1'
     );
 

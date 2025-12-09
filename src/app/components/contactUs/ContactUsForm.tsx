@@ -61,9 +61,8 @@ const ContactUsForm: React.FC = () => {
       phone: phone || undefined, // Convert empty string to undefined
       message,
       hs_persona,
-      subscribe: !!data.subscribe?.[0],
+      subscription: !!data.subscribe?.[0],
     };
-    console.log('Submitting data:', userRegistrationData);
 
     setIsLoading(true);
 
