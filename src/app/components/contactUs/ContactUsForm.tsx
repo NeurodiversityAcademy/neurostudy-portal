@@ -33,7 +33,7 @@ interface ContactFieldValues extends FieldValues {
   jobtitle: string;
   message: string;
   hs_persona: HSPersona;
-  subscribe: boolean[];
+  subscription: boolean[];
 }
 
 // Persona mapping to HubSpot values
@@ -145,7 +145,7 @@ const ContactUsForm: React.FC = () => {
                 multiple={false}
               />
               <CheckBox
-                name='subscribe'
+                name='subscription'
                 label="I'm in for positive, growth-focused updates."
                 showLabel={false}
                 options={[
