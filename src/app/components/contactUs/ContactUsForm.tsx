@@ -33,7 +33,7 @@ interface ContactFieldValues extends FieldValues {
   jobtitle: string;
   message: string;
   hs_persona: HSPersona;
-  subscription: boolean[];
+  subscription: boolean;
 }
 
 // Persona mapping to HubSpot values
@@ -52,7 +52,15 @@ const ContactUsForm: React.FC = () => {
     });
 
   const onSubmit = async (data: ContactFieldValues) => {
-    const { firstname, lastname, email, phone, message, hs_persona } = data;
+    const {
+      firstname,
+      lastname,
+      email,
+      phone,
+      message,
+      hs_persona,
+      subscription,
+    } = data;
 
     const userRegistrationData: UserFormSubmissionType = {
       firstname,
@@ -61,7 +69,7 @@ const ContactUsForm: React.FC = () => {
       phone: phone || undefined, // Convert empty string to undefined
       message,
       hs_persona,
-      subscription: !!data.subscribe?.[0],
+      subscription,
     };
 
     setIsLoading(true);
@@ -154,7 +162,7 @@ const ContactUsForm: React.FC = () => {
                     value: true,
                   },
                 ]}
-                defaultValue={[true]}
+                defaultValue={true}
                 orientation='horizontal'
               />
               <TextArea

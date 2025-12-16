@@ -29,7 +29,7 @@ import CheckBox from '../formElements/CheckBox/CheckBox';
 interface SubscribeFieldValues extends FieldValues {
   email: string;
   hs_persona: HSPersona;
-  subscribe: boolean[];
+  subscribe: boolean;
 }
 
 export default function Subscribe() {
@@ -43,7 +43,7 @@ export default function Subscribe() {
     const userSubscriptionData: UserSubscriptionType = {
       email: data.email,
       hs_persona: data.hs_persona,
-      subscribe: !!data.subscribe?.[0], // converts to boolean
+      subscribe: data.subscribe,
     };
 
     setIsLoading(true);
@@ -112,7 +112,7 @@ export default function Subscribe() {
                       value: true,
                     },
                   ]}
-                  defaultValue={[true]}
+                  defaultValue={true}
                   orientation='horizontal'
                 />
                 <div className='mt-2'>
