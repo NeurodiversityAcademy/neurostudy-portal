@@ -338,14 +338,144 @@
     display: flex;
     justify-content: center;
     gap: 2rem;
+    align-items: flex-start;
+}
+
+.courseDetailsBodyContainer {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+}
+
+/* Main content column */
+.courseDetailsBodyTextContainer {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+/* Sidebar (nav) defaults and layout
+   Consolidated: keep a single clean set of rules for the sidebar and its list items.
+*/
+.courseDetailsOverviewContainer {
+    position: static;
+    background: var(--GhostWhite);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.12);
+    width: 280px;
+    border-radius: 8px;
+    position: static;
+}
+
+/* list reset and compact spacing */
+.courseDetailsOverviewContainer ul {
+    list-style: none;
+    padding: 20px 12px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* smaller gap to reduce overall height */
+}
+
+.courseDetailsOverviewContainer ul>li {
+    cursor: pointer;
+    position: relative;
+    padding: 6px 12px; /* compact padding */
+}
+
+.courseDetailsOverviewContainer ul>li:hover {
+    background: var(--GhostWhiteVariant);
+    border-radius: 8px;
+}
+
+.courseDetailsOverviewContainer ul>li a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.courseDetailsOverviewContainer a span {
+    padding: 4px 8px; /* compact text padding */
+}
+
+/* ensure the sidebar sits beside main content on wide screens */
+@media (min-width: 1024px) {
+    .courseDetailsOverviewContainer {
+        position: sticky;
+        top: 1rem;
+        align-self: start;
+        flex: 0 0 320px;
+        width: 320px;
+        max-width: 320px;
+        /* intentionally not constraining height/overflow so it scrolls with page */
+        z-index: 10;
+    }
+
+    .courseDetailsBodyTextContainer {
+        padding-right: 1rem;
+    }
+}
+
+/* Improve text wrapping inside the main content to avoid overflow */
+.courseDetailsBodyTextContainer,
+.courseDetailsBodyTextContainer p,
+.courseDetailsBodyTextContainer li,
+.courseDetailsBodyTextContainer h2,
+.courseDetailsBodyTextContainer h3 {
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+/* Actions area for the sidebar (e.g., Shortlist / Apply) */
+.courseDetailsOverviewActions {
+    margin-top: 0.5rem;
+    padding: 0 0 0.75rem 0; /* compact spacing above buttons */
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: stretch;
+}
+
+.courseDetailsOverviewActionsLi {
+    list-style: none;
+    padding-top: 8px;
+}
+
+.courseDetailsSidebarButton {
+    width: 100%;
+    max-width: 100%;
+    padding: 8px 12px;
+    font-size: 15px;
+}
+
+@media (max-width: 1023px) {
+    .courseDetailsOverviewActions {
+        margin-top: 1rem;
+    }
+    .courseDetailsSidebarButton {
+        max-width: 100%;
+    }
 }
 
 .courseDetailsOverviewContainer {
     background: var(--GhostWhite);
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.12);
-    min-width: 289px;
+    width: 280px;
     height: 651px;
     border-radius: 8px;
+    position: static;
+}
+
+/* Large screens: make sidebar sticky */
+@media (min-width: 1024px) {
+    .courseDetailsOverviewContainer {
+        position: sticky;
+        top: 3rem;
+        align-self: start;
+        max-height: calc(100vh - 2rem);
+        overflow: auto;
+        z-index: 10;
+    }
 }
 
 .courseDetailsOverviewContainer ul {
@@ -358,10 +488,10 @@
 }
 
 .courseDetailsOverviewContainer ul>li {
-    height: 40px;
+    height: 25px;
     cursor: pointer;
     position: relative;
-    padding: 5.5px 32px;
+    padding: 5px 20px;
 }
 
 .courseDetailsOverviewContainer ul>li:hover {
