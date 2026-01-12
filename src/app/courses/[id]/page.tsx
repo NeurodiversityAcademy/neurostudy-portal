@@ -1,5 +1,4 @@
 import CourseDetails from '@/app/components/course/CourseDetails';
-import '@/styles/course-sidebar.css';
 
 interface CoursePageProps {
   params: {
@@ -15,10 +14,6 @@ const CoursePage: React.FC<CoursePageProps> = ({ params }) => {
       <main className='course-main'>
         <CourseDetails {...{ id }} />
       </main>
-
-      <aside className='course-sidebar'>
-        {/* Sidebar content (anchors, quick links, FAQ etc.) */}
-      </aside>
     </div>
   );
 };

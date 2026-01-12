@@ -41,7 +41,7 @@ const CourseDetailsTopBanner: React.FC = () => {
       <div className='col-md-5'>
         <div className={classNames('row', styles.topBannerAdmissions)}>
           <Typography variant={TypographyVariant.Body1}>
-            2024 Admissions are open now
+            2026 Admissions are open now
           </Typography>
           <Typography
             variant={TypographyVariant.Body3}
