@@ -357,11 +357,16 @@
    Consolidated: keep a single clean set of rules for the sidebar and its list items.
 */
 .courseDetailsOverviewContainer {
+    position: sticky;
+    top: 1rem;
+    align-self: start;
+    flex: 0 0 320px;
+    width: 320px;
+    max-width: 320px;
+    /* intentionally not constraining height/overflow so it scrolls with page */
+    z-index: 10;
     background: var(--GhostWhite);
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.12);
-    width: 280px;
-    border-radius: 8px;
-    position: sticky;
 }
 
 /* list reset and compact spacing */
@@ -396,23 +401,6 @@
     padding: 4px 8px; /* compact text padding */
 }
 
-/* ensure the sidebar sits beside main content on wide screens */
-@media (min-width: 1024px) {
-    .courseDetailsOverviewContainer {
-        position: sticky;
-        top: 1rem;
-        align-self: start;
-        flex: 0 0 320px;
-        width: 320px;
-        max-width: 320px;
-        /* intentionally not constraining height/overflow so it scrolls with page */
-        z-index: 10;
-    }
-
-    .courseDetailsBodyTextContainer {
-        padding-right: 1rem;
-    }
-}
 /* Actions area for the sidebar (e.g., Shortlist / Apply) */
 .courseDetailsOverviewActions {
     margin-top: 0.5rem;
