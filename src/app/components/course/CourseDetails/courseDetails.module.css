@@ -448,15 +448,6 @@
     font-size: 15px;
 }
 
-@media (max-width: 1023px) {
-    .courseDetailsOverviewActions {
-        margin-top: 1rem;
-    }
-    .courseDetailsSidebarButton {
-        max-width: 100%;
-    }
-}
-
 .courseDetailsOverviewContainer {
     background: var(--GhostWhite);
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.12);
