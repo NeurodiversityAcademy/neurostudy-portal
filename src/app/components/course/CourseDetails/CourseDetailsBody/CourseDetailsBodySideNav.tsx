@@ -34,14 +34,14 @@ const CourseDetailsBodySideNav: React.FC<OverviewProps> = ({ sections }) => {
               className={styles.courseDetailsSidebarButton}
               fullWidth={true}
             />
-
+{/* 
             <ActionButton
               label='Shortlist'
               style={BUTTON_STYLE.Secondary}
               type='button'
               className={styles.courseDetailsSidebarButton}
               fullWidth={true}
-            />
+            /> */}
           </div>
         </li>
       </ul>

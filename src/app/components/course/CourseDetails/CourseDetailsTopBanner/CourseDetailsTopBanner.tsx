@@ -56,12 +56,12 @@ const CourseDetailsTopBanner: React.FC = () => {
               style={BUTTON_STYLE.Primary}
               className={styles.topBannerAdmissionsApplyNowBtn}
             />
-            <ActionButton
+            {/* <ActionButton
               type='submit'
               label='Shortlist'
               style={BUTTON_STYLE.Secondary}
               className={styles.topBannerAdmissionsShortlistBtn}
-            />
+            /> */}
           </div>
         </div>
       </div>
