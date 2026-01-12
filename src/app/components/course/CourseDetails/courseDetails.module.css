@@ -341,17 +341,6 @@
     align-items: flex-start;
 }
 
-.courseDetailsBodyContainer {
-    display: flex;
-    align-items: flex-start;
-    gap: 1.5rem;
-}
-
-/* Main content column */
-.courseDetailsBodyTextContainer {
-    flex: 1 1 auto;
-    min-width: 0;
-}
 
 /* Sidebar (nav) defaults and layout
    Consolidated: keep a single clean set of rules for the sidebar and its list items.
