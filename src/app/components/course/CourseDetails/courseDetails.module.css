@@ -390,16 +390,6 @@
     padding: 4px 8px; /* compact text padding */
 }
 
-/* Actions area for the sidebar (e.g., Shortlist / Apply) */
-.courseDetailsOverviewActions {
-    margin-top: 0.5rem;
-    padding: 0 0 0.75rem 0; /* compact spacing above buttons */
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    align-items: stretch;
-}
-
 .courseDetailsOverviewActionsLi {
     list-style: none;
     padding-top: 8px;
@@ -410,6 +400,7 @@
     max-width: 100%;
     padding: 8px 12px;
     font-size: 15px;
+    margin-bottom: 10px;
 }
 
 
