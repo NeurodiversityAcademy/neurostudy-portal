@@ -357,12 +357,11 @@
    Consolidated: keep a single clean set of rules for the sidebar and its list items.
 */
 .courseDetailsOverviewContainer {
-    position: static;
     background: var(--GhostWhite);
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.12);
     width: 280px;
     border-radius: 8px;
-    position: static;
+    position: sticky;
 }
 
 /* list reset and compact spacing */
@@ -414,18 +413,6 @@
         padding-right: 1rem;
     }
 }
-
-/* Improve text wrapping inside the main content to avoid overflow */
-.courseDetailsBodyTextContainer,
-.courseDetailsBodyTextContainer p,
-.courseDetailsBodyTextContainer li,
-.courseDetailsBodyTextContainer h2,
-.courseDetailsBodyTextContainer h3 {
-    word-wrap: break-word;
-    overflow-wrap: anywhere;
-    white-space: normal;
-}
-
 /* Actions area for the sidebar (e.g., Shortlist / Apply) */
 .courseDetailsOverviewActions {
     margin-top: 0.5rem;
@@ -448,66 +435,6 @@
     font-size: 15px;
 }
 
-.courseDetailsOverviewContainer {
-    background: var(--GhostWhite);
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.12);
-    width: 280px;
-    height: 651px;
-    border-radius: 8px;
-    position: static;
-}
-
-/* Large screens: make sidebar sticky */
-@media (min-width: 1024px) {
-    .courseDetailsOverviewContainer {
-        position: sticky;
-        top: 3rem;
-        align-self: start;
-        max-height: calc(100vh - 2rem);
-        overflow: auto;
-        z-index: 10;
-    }
-}
-
-.courseDetailsOverviewContainer ul {
-    list-style: none;
-    padding: 32px 16px;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.courseDetailsOverviewContainer ul>li {
-    height: 25px;
-    cursor: pointer;
-    position: relative;
-    padding: 5px 20px;
-}
-
-.courseDetailsOverviewContainer ul>li:hover {
-    background: var(--GhostWhiteVariant);
-    border-radius: 8px;
-}
-
-.courseDetailsOverviewContainer ul>li:hover span {
-    color: var(--cherryPie);
-}
-
-.courseDetailsOverviewContainer ul>li a {
-    text-decoration: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-}
-
-.courseDetailsOverviewContainer a span {
-    padding: 5.5px 32px;
-}
 
 .courseDetailsBodyTextContainer {
     display: flex;
