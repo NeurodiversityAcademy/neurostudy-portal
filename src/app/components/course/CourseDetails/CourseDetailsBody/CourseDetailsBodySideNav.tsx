@@ -25,7 +25,7 @@ const CourseDetailsBodySideNav: React.FC<OverviewProps> = ({ sections }) => {
         ))}
 
         {/* Actions placed as the last list item so they are part of the section (not a separate scrollable area) */}
-        <li className={styles.courseDetailsOverviewActionsLi}>
+        <li>
           <div className={styles.courseDetailsOverviewActions}>
             <ActionButton
               label='Apply Now'

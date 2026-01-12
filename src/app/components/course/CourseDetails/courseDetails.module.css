@@ -390,11 +390,6 @@
     padding: 4px 8px; /* compact text padding */
 }
 
-.courseDetailsOverviewActionsLi {
-    list-style: none;
-    padding-top: 8px;
-}
-
 .courseDetailsSidebarButton {
     width: 100%;
     max-width: 100%;
