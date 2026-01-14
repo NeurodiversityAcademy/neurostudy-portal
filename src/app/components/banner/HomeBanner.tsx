@@ -13,7 +13,11 @@ interface PropType {
   displayFilter?: boolean;
 }
 
-export default function HomeBanner({ displayBadges, displayFilter, showButton }: PropType) {
+export default function HomeBanner({
+  displayBadges,
+  displayFilter,
+  showButton,
+}: PropType) {
   return (
     <>
       <div className={styles.bannerContainer}>
@@ -34,21 +38,23 @@ export default function HomeBanner({ displayBadges, displayFilter, showButton }:
               are creating for Neurodivergent students.
             </Typography>
             {showButton && (
-          <div className={styles.buttonContainer}>
-            <ActionButton
-              type='button'
-              label='Learn More'
-              style={BUTTON_STYLE.Tertiary}
-              to='/endorsements'
-            />
-          </div>
-        )}
+              <div className={styles.buttonContainer}>
+                <ActionButton
+                  type='button'
+                  label='Learn More'
+                  style={BUTTON_STYLE.Tertiary}
+                  to='/endorsements'
+                />
+              </div>
+            )}
           </div>
           {displayBadges && <BadgeDisplay />}
         </div>
-       {displayFilter && <CourseProvider redirectToSearchPage>
-          <CoursePrimaryFilter className={styles.form} />
-        </CourseProvider>}
+        {displayFilter && (
+          <CourseProvider redirectToSearchPage>
+            <CoursePrimaryFilter className={styles.form} />
+          </CourseProvider>
+        )}
       </div>
       <CourseProvider redirectToSearchPage>
         <CoursePrimaryFilter className={styles.formMobile} />
