@@ -76,7 +76,7 @@ export default async function Home() {
     <Suspense fallback={<h1>Loading...</h1>}>
       <main className={styles.main}>
         {process.env.NODE_ENV === 'production' && getGoogleAnalyticsScript()}
-        <HomeBanner displayBadges={true} showButton={true} />
+        <HomeBanner displayBadges={true} showButton={true} displayFilter={true} />
         <EndorsedInstitutes />
         <Teacher />
         <Handbook />

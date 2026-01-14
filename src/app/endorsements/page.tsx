@@ -27,7 +27,7 @@ import Accordion from '../components/accordion/Accordian';
 export default function Page() {
   return (
     <div className={styles.container}>
-      <HomeBanner displayBadges={false} />
+      <HomeBanner displayBadges={false} displayFilter={false} />
       <div className={styles.endorsementContainer}>
         <div className={styles.endorsementBodyText}>
           {/* <div className={styles.accordionWrapper}>
