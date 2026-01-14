@@ -4,6 +4,7 @@ import { createMetadata, getSearchQuery } from '../utilities/common';
 import { HOST_URL, META_KEY } from '../utilities/constants';
 import CourseProvider from '../utilities/course/CourseProvider';
 import assertCourseData from '../utilities/validation/assertCourseData';
+import localCourseData from './courseData.json';
 import {
   COURSE_FETCH_REVALIDATE_PERIOD,
   COURSE_FILTER_KEYS,
@@ -69,8 +70,22 @@ const CoursesPage: React.FC<{
       .catch(() => resolve(undefined));
   });
 
+  // Fallback: if API didn't return any courses, use local courseData.json
+  // This ensures the listing shows local test data even when the API is empty or unavailable.
+  let finalData: CourseProps[] | undefined = data;
+  try {
+    if (!finalData || finalData.length === 0) {
+      // localCourseData has shape: { courses: [...] }
+      // cast to CourseProps[] safely for dev/listing purposes
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      finalData = (localCourseData as any).courses as CourseProps[];
+    }
+  } catch (err) {
+    // If something unexpected happens, keep finalData as the fetched value (possibly undefined)
+  }
+
   return (
-    <CourseProvider data={data}>
+    <CourseProvider data={finalData}>
       <CourseSearch />
     </CourseProvider>
   );

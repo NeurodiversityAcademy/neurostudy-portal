@@ -45,11 +45,9 @@ export default function HomeBanner({ displayBadges, showButton }: PropType) {
             />
           </div>
         )}
-        {process.env.FEATURE_ENABLE_COURSE_SEARCH === '1' && (
-          <CourseProvider redirectToSearchPage>
-            <CoursePrimaryFilter className={styles.form} />
-          </CourseProvider>
-        )}
+        <CourseProvider redirectToSearchPage>
+          <CoursePrimaryFilter className={styles.form} />
+        </CourseProvider>
       </div>
       {process.env.FEATURE_ENABLE_COURSE_SEARCH === '1' && (
         <CourseProvider redirectToSearchPage>

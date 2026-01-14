@@ -4,6 +4,7 @@ import { FormHTMLAttributes, useEffect } from 'react';
 import styles from './coursePrimaryFilter.module.css';
 import classNames from 'classnames';
 import { useForm, UseFormReturn } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import Form from '../../formElements/Form';
 import Dropdown from '../../formElements/Dropdown/Dropdown';
 import { CoursePrimaryFilterType } from '@/app/interfaces/Course';
@@ -25,6 +26,9 @@ const DROPDOWN_KEYS: (keyof CoursePrimaryFilterType)[] = [
 
 const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
   const { loadData, isLoading, filter, updateFilter } = useCourseContext();
+  console.log(loadData);
+
+  const router = useRouter();
   const methods: UseFormReturn<CoursePrimaryFilterType> =
     useForm<CoursePrimaryFilterType>({
       mode: 'onBlur',
@@ -55,7 +59,11 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
         className,
         isLoading && styles.disabled
       )}
-      onSubmit={methods.handleSubmit(() => loadData())}
+      // onSubmit={methods.handleSubmit(() => loadData())}
+      onSubmit={methods.handleSubmit(() => {
+        // Redirect to the courses listing regardless of selected filters
+        router.push('/courses');
+      })}
       aria-label='Primary search criteria'
       role='search'
       {...rest}

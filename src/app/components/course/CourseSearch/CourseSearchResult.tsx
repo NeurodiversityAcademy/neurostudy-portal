@@ -11,6 +11,7 @@ import CourseSearchSort from './CourseSearchSort';
 
 const CourseSearchResult: React.FC = () => {
   const { data, isLoading, loadData } = useCourseContext();
+  console.log('courseData', data);
 
   return (
     <section className={styles.container} aria-live='polite' role='list'>
