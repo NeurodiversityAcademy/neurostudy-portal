@@ -94,12 +94,14 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
           multiple
           options={COURSE_FIELD_OPTIONS.Location}
         />
-        <ActionButton
-          style={BUTTON_STYLE.Primary}
-          label='Search'
-          icon={searchSrc}
-          disabled={isLoading}
-        />
+        <div className={styles.buttonContainer}>
+          <ActionButton
+            style={BUTTON_STYLE.Primary}
+            label='Search'
+            icon={searchSrc}
+            disabled={isLoading}
+          />
+        </div>
       </div>
     </Form>
   );

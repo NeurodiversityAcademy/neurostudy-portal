@@ -75,9 +75,9 @@ const CourseSecondaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
       />
       <Dropdown<CourseSecondaryFilterType>
         name='InstitutionName'
-        label='University'
+        label='Institution'
         showLabel
-        placeholder='Search University'
+        placeholder='Search Institution'
         creatable
         multiple
         options={[]}
