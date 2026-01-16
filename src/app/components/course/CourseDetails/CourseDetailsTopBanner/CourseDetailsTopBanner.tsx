@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import styles from '../../CourseDetails/courseDetails.module.css';
 import Typography, { TypographyVariant } from '../../../typography/Typography';
 import classNames from 'classnames';
@@ -10,9 +10,11 @@ import ActionButton from '../../../buttons/ActionButton';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 import { useCourseDetailsContext } from '@/app/utilities/course/CourseDetailsProvider';
 import CourseDetailsMiddleBanner from '../CourseDetailsMiddleBanner/CourseDetailsMiddleBanner';
+import ApplyNowPopup from '../../ApplyNowPopup/ApplyNowPopup';
 
 const CourseDetailsTopBanner: React.FC = () => {
   const { data } = useCourseDetailsContext();
+  const [isHandbookOpen, setIsHandbookOpen] = useState(false);
 
   return (
     <div className={classNames('row', styles.topBannerMainContainer)}>
@@ -52,6 +54,7 @@ const CourseDetailsTopBanner: React.FC = () => {
           <div className={classNames(styles.topBannerAdmissionsBtnGroup)}>
             <ActionButton
               type='submit'
+              onClick={() => setIsHandbookOpen(true)}
               label='Apply Now'
               style={BUTTON_STYLE.Primary}
               className={styles.topBannerAdmissionsApplyNowBtn}
@@ -66,6 +69,10 @@ const CourseDetailsTopBanner: React.FC = () => {
         </div>
       </div>
       <CourseDetailsMiddleBanner />
+      <ApplyNowPopup
+        open={isHandbookOpen}
+        onClose={() => setIsHandbookOpen(false)}
+      />
     </div>
   );
 };
