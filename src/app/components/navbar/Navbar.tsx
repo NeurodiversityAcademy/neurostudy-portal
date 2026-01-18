@@ -48,6 +48,13 @@ export default function Navbar() {
         <div className={styles.innerWrapper}>
           <ul className={styles.ul}>
             <li className={styles.li}>
+              <Link href='/students'>
+                <Typography variant={TypographyVariant.Body2}>
+                  For Students
+                </Typography>
+              </Link>
+            </li>
+            <li className={styles.li}>
               <Link href='/endorsements'>
                 <Typography variant={TypographyVariant.Body2}>
                   Endorsements

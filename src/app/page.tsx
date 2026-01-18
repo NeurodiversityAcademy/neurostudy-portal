@@ -4,7 +4,7 @@ import Script from 'next/script';
 import ArticleList from './components/articleList/articleList';
 import Teacher from './components/teacherSection/Teacher';
 import Fact from './components/fact/Fact';
-import HowItWorks from './components/howItWorks/HowItWorks';
+import HowItWorks from './components/howItWorksInstitutions/HowItWorksNew';
 import Partner from './components/partnerSection/Partner';
 import { Metadata } from 'next';
 import { createMetadata } from './utilities/common';
@@ -79,7 +79,7 @@ export default async function Home() {
         <HomeBanner
           displayBadges={true}
           showButton={true}
-          displayFilter={true}
+          displayFilter={false}
         />
         <EndorsedInstitutes />
         <Teacher />

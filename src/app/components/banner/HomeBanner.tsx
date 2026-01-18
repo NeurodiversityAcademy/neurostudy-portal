@@ -11,12 +11,16 @@ interface PropType {
   displayBadges?: boolean;
   showButton?: boolean;
   displayFilter?: boolean;
+  title?: string;
+  subtitle?: string;
 }
 
 export default function HomeBanner({
   displayBadges,
   displayFilter,
   showButton,
+  title,
+  subtitle,
 }: PropType) {
   return (
     <>
@@ -28,14 +32,15 @@ export default function HomeBanner({
               className='m-0'
               color='var(--GhostWhite)'
             >
-              We endorse Neuro-inclusion in tertiary education
+              {title || 'We endorse Neuro-inclusion in tertiary education'}
             </Typography>
             <Typography
               variant={TypographyVariant.H2}
               color='var(--GhostWhite)'
             >
-              Reach out to learn more about our endorsements and the impact we
-              are creating for Neurodivergent students.
+              {subtitle ||
+                'Reach out to learn more about our endorsements and the \
+              impact we are creating for Neurodivergent students.'}
             </Typography>
             {showButton && (
               <div className={styles.buttonContainer}>
