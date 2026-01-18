@@ -11,12 +11,14 @@ interface PropType {
   displayBadges?: boolean;
   showButton?: boolean;
   displayFilter?: boolean;
+  showSearchBar?: boolean;
 }
 
 export default function HomeBanner({
   displayBadges,
   displayFilter,
   showButton,
+  showSearchBar = false,
 }: PropType) {
   return (
     <>
@@ -50,7 +52,7 @@ export default function HomeBanner({
           </div>
           {displayBadges && <BadgeDisplay />}
         </div>
-        {displayFilter && (
+        {showSearchBar && displayFilter && (
           <CourseProvider redirectToSearchPage>
             <CoursePrimaryFilter className={styles.form} />
           </CourseProvider>

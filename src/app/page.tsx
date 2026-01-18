@@ -71,7 +71,17 @@ export const metadata: Metadata = createMetadata(META_KEY.HOME, {
     ],
   },
 });
-export default async function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
+  // normalize searchParams.searchBar and only treat the string 'true' as enabled
+  const rawSearchBar = Array.isArray(searchParams?.searchBar)
+    ? searchParams?.searchBar[0]
+    : searchParams?.searchBar;
+  const showSearchBar = rawSearchBar === 'true';
+
   return (
     <Suspense fallback={<h1>Loading...</h1>}>
       <main className={styles.main}>
@@ -80,6 +90,7 @@ export default async function Home() {
           displayBadges={true}
           showButton={true}
           displayFilter={true}
+          showSearchBar={showSearchBar}
         />
         <EndorsedInstitutes />
         <Teacher />
