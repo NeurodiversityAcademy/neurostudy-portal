@@ -8,6 +8,7 @@ import HowItWorks from './components/howItWorks/HowItWorks';
 import Partner from './components/partnerSection/Partner';
 import { Metadata } from 'next';
 import { createMetadata } from './utilities/common';
+import { isFeatureEnabled } from './utilities/featureToggle';
 import { META_KEY } from './utilities/constants';
 import Subscribe from './components/subscribe/subscribe';
 import Handbook from './components/handbook';
@@ -76,11 +77,7 @@ export default async function Home({
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  // normalize searchParams.searchBar and only treat the string 'true' as enabled
-  const rawSearchBar = Array.isArray(searchParams?.searchBar)
-    ? searchParams?.searchBar[0]
-    : searchParams?.searchBar;
-  const showSearchBar = rawSearchBar === 'true';
+  const showSearchBar = isFeatureEnabled(searchParams, 'searchBar');
 
   return (
     <Suspense fallback={<h1>Loading...</h1>}>
