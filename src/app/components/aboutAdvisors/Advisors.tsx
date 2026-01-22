@@ -4,6 +4,7 @@ import Image from 'next/image';
 import PeterImage from '../../images/PeterHaasz.jpeg';
 import JanImage from '../../images/JanCroeni.jpeg';
 import JasonImage from '../../images/JasonWong.jpeg';
+import TimWeirImage from '../../images/timWeirImage.jpg';
 import LesleyImage from '../../images/LesleyGordon.jpeg';
 import KatieImage from '../../images/KatieFleet.jpeg';
 import RachelMorley from '../../images/RachelMorley.jpeg';
@@ -31,6 +32,14 @@ export default function Advisors() {
       logo: linkedin,
       linkedin: 'https://www.linkedin.com/in/jancroeni',
       company: 'Jan Croeni',
+      type: 'Business Advisor',
+    },
+    {
+      ProfilePic: TimWeirImage,
+      name: 'Dr Tim Weir',
+      logo: linkedin,
+      linkedin: 'https://www.linkedin.com/in/drtimweir',
+      company: 'Teton Advisory Group',
       type: 'Business Advisor',
     },
 
