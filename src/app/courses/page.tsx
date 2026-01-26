@@ -72,36 +72,19 @@ const CoursesPage: React.FC<{
 
   // Fallback: if API didn't return any courses, use local courseData.json
   // This ensures the listing shows local test data even when the API is empty or unavailable.
-  console.log('=== PAGE.TSX: API Response ===');
-  console.log('Data from API:', data);
-  console.log('API Data length:', data?.length);
-  console.log(
-    'API Data first item keys:',
-    data?.[0] ? Object.keys(data[0]) : 'no data'
-  );
-  console.log('API Data first item:', JSON.stringify(data?.[0], null, 2));
 
   let finalData: CourseProps[] | undefined = data;
   try {
     if (!finalData || finalData.length === 0) {
-      console.log('=== PAGE.TSX: Using fallback local data ===');
       // localCourseData has shape: { courses: [...] }
       // cast to CourseProps[] safely for dev/listing purposes
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       finalData = (localCourseData as any).courses as CourseProps[];
-      console.log('Fallback data loaded, length:', finalData?.length);
     }
   } catch (err) {
     // If something unexpected happens, keep finalData as the fetched value (possibly undefined)
     console.log('Error loading fallback data:', err);
   }
-
-  console.log('=== PAGE.TSX: Final Data before CourseProvider ===');
-  console.log('Final data length:', finalData?.length);
-  console.log(
-    'Final data first item:',
-    JSON.stringify(finalData?.[0], null, 2)
-  );
 
   return (
     <CourseProvider data={finalData}>
