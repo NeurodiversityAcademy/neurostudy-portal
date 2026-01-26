@@ -71,7 +71,7 @@ const CoursesPage: React.FC<{
   });
 
   // Fallback: if API didn't return any courses, use local courseData.json
-  // This ensures the listing shows local test data even when the API is empty or unavailable.  
+  // This ensures the listing shows local test data even when the API is empty or unavailable.
   let finalData: CourseProps[] | undefined = data;
   try {
     if (!finalData || finalData.length === 0) {
@@ -85,7 +85,7 @@ const CoursesPage: React.FC<{
   }
 
   console.log('courseFinalData', finalData);
-  
+
   return (
     <CourseProvider data={finalData}>
       <CourseSearch />
