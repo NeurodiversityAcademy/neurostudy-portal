@@ -338,30 +338,40 @@
     display: flex;
     justify-content: center;
     gap: 2rem;
+    align-items: flex-start;
 }
 
+
+/* Sidebar (nav) defaults and layout
+   Consolidated: keep a single clean set of rules for the sidebar and its list items.
+*/
 .courseDetailsOverviewContainer {
+    position: sticky;
+    top: 1rem;
+    align-self: start;
+    flex: 0 0 320px;
+    width: 320px;
+    max-width: 320px;
+    /* intentionally not constraining height/overflow so it scrolls with page */
+    z-index: 10;
     background: var(--GhostWhite);
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.12);
-    min-width: 289px;
-    height: 651px;
-    border-radius: 8px;
 }
 
+/* list reset and compact spacing */
 .courseDetailsOverviewContainer ul {
     list-style: none;
-    padding: 32px 16px;
+    padding: 20px 12px;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 8px; /* smaller gap to reduce overall height */
 }
 
 .courseDetailsOverviewContainer ul>li {
-    height: 40px;
     cursor: pointer;
     position: relative;
-    padding: 5.5px 32px;
+    padding: 6px 12px; /* compact padding */
 }
 
 .courseDetailsOverviewContainer ul>li:hover {
@@ -369,24 +379,25 @@
     border-radius: 8px;
 }
 
-.courseDetailsOverviewContainer ul>li:hover span {
-    color: var(--cherryPie);
-}
-
 .courseDetailsOverviewContainer ul>li a {
     text-decoration: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
     display: flex;
     align-items: center;
+    width: 100%;
 }
 
 .courseDetailsOverviewContainer a span {
-    padding: 5.5px 32px;
+    padding: 4px 8px; /* compact text padding */
 }
+
+.courseDetailsSidebarButton {
+    width: 100%;
+    max-width: 100%;
+    padding: 8px 12px;
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
 
 .courseDetailsBodyTextContainer {
     display: flex;

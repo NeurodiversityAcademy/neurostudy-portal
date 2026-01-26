@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import styles from '../../CourseDetails/courseDetails.module.css';
 import Typography, { TypographyVariant } from '../../../typography/Typography';
 import classNames from 'classnames';
@@ -10,9 +10,11 @@ import ActionButton from '../../../buttons/ActionButton';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 import { useCourseDetailsContext } from '@/app/utilities/course/CourseDetailsProvider';
 import CourseDetailsMiddleBanner from '../CourseDetailsMiddleBanner/CourseDetailsMiddleBanner';
+import ApplyNowPopup from '../../ApplyNowPopup/ApplyNowPopup';
 
 const CourseDetailsTopBanner: React.FC = () => {
   const { data } = useCourseDetailsContext();
+  const [isApplyNowOpen, setIsApplyNowOpen] = useState(false);
 
   return (
     <div className={classNames('row', styles.topBannerMainContainer)}>
@@ -41,7 +43,7 @@ const CourseDetailsTopBanner: React.FC = () => {
       <div className='col-md-5'>
         <div className={classNames('row', styles.topBannerAdmissions)}>
           <Typography variant={TypographyVariant.Body1}>
-            2024 Admissions are open now
+            2026 Admissions are open now
           </Typography>
           <Typography
             variant={TypographyVariant.Body3}
@@ -52,20 +54,25 @@ const CourseDetailsTopBanner: React.FC = () => {
           <div className={classNames(styles.topBannerAdmissionsBtnGroup)}>
             <ActionButton
               type='submit'
+              onClick={() => setIsApplyNowOpen(true)}
               label='Apply Now'
               style={BUTTON_STYLE.Primary}
               className={styles.topBannerAdmissionsApplyNowBtn}
             />
-            <ActionButton
+            {/* <ActionButton
               type='submit'
               label='Shortlist'
               style={BUTTON_STYLE.Secondary}
               className={styles.topBannerAdmissionsShortlistBtn}
-            />
+            /> */}
           </div>
         </div>
       </div>
       <CourseDetailsMiddleBanner />
+      <ApplyNowPopup
+        open={isApplyNowOpen}
+        onClose={() => setIsApplyNowOpen(false)}
+      />
     </div>
   );
 };

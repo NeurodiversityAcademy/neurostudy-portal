@@ -5,6 +5,11 @@
   margin: 0;
 }
 
+.buttonContainer{
+  display: flex;
+  align-items: flex-end;
+}
+
 .content {
   width: auto;
   display: flex;

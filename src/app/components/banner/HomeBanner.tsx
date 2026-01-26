@@ -10,9 +10,16 @@ import ActionButton from '../buttons/ActionButton';
 interface PropType {
   displayBadges?: boolean;
   showButton?: boolean;
+  displayFilter?: boolean;
+  showSearchBar?: boolean;
 }
 
-export default function HomeBanner({ displayBadges, showButton }: PropType) {
+export default function HomeBanner({
+  displayBadges,
+  displayFilter,
+  showButton,
+  showSearchBar = false,
+}: PropType) {
   return (
     <>
       <div className={styles.bannerContainer}>
@@ -32,30 +39,28 @@ export default function HomeBanner({ displayBadges, showButton }: PropType) {
               Reach out to learn more about our endorsements and the impact we
               are creating for Neurodivergent students.
             </Typography>
+            {showButton && (
+              <div className={styles.buttonContainer}>
+                <ActionButton
+                  type='button'
+                  label='Learn More'
+                  style={BUTTON_STYLE.Tertiary}
+                  to='/endorsements'
+                />
+              </div>
+            )}
           </div>
           {displayBadges && <BadgeDisplay />}
         </div>
-        {showButton && (
-          <div className={styles.buttonContainer}>
-            <ActionButton
-              type='button'
-              label='Learn More'
-              style={BUTTON_STYLE.Tertiary}
-              to='/endorsements'
-            />
-          </div>
-        )}
-        {process.env.FEATURE_ENABLE_COURSE_SEARCH === '1' && (
+        {showSearchBar && displayFilter && (
           <CourseProvider redirectToSearchPage>
             <CoursePrimaryFilter className={styles.form} />
           </CourseProvider>
         )}
       </div>
-      {process.env.FEATURE_ENABLE_COURSE_SEARCH === '1' && (
-        <CourseProvider redirectToSearchPage>
-          <CoursePrimaryFilter className={styles.formMobile} />
-        </CourseProvider>
-      )}
+      <CourseProvider redirectToSearchPage>
+        <CoursePrimaryFilter className={styles.formMobile} />
+      </CourseProvider>
     </>
   );
 }

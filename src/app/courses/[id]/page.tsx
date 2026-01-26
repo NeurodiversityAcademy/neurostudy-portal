@@ -9,7 +9,13 @@ interface CoursePageProps {
 const CoursePage: React.FC<CoursePageProps> = ({ params }) => {
   const { id } = params;
 
-  return <CourseDetails {...{ id }} />;
+  return (
+    <div className='course-layout'>
+      <main className='course-main'>
+        <CourseDetails {...{ id }} />
+      </main>
+    </div>
+  );
 };
 
 export default CoursePage;

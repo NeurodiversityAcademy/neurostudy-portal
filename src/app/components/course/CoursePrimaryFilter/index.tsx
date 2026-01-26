@@ -4,6 +4,7 @@ import { FormHTMLAttributes, useEffect } from 'react';
 import styles from './coursePrimaryFilter.module.css';
 import classNames from 'classnames';
 import { useForm, UseFormReturn } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import Form from '../../formElements/Form';
 import Dropdown from '../../formElements/Dropdown/Dropdown';
 import { CoursePrimaryFilterType } from '@/app/interfaces/Course';
@@ -24,7 +25,8 @@ const DROPDOWN_KEYS: (keyof CoursePrimaryFilterType)[] = [
 ];
 
 const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
-  const { loadData, isLoading, filter, updateFilter } = useCourseContext();
+  const { isLoading, filter, updateFilter } = useCourseContext();
+  const router = useRouter();
   const methods: UseFormReturn<CoursePrimaryFilterType> =
     useForm<CoursePrimaryFilterType>({
       mode: 'onBlur',
@@ -55,7 +57,9 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
         className,
         isLoading && styles.disabled
       )}
-      onSubmit={methods.handleSubmit(() => loadData())}
+      onSubmit={methods.handleSubmit(() => {
+        router.push('/courses');
+      })}
       aria-label='Primary search criteria'
       role='search'
       {...rest}
@@ -86,12 +90,14 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
           multiple
           options={COURSE_FIELD_OPTIONS.Location}
         />
-        <ActionButton
-          style={BUTTON_STYLE.Primary}
-          label='Search'
-          icon={searchSrc}
-          disabled={isLoading}
-        />
+        <div className={styles.buttonContainer}>
+          <ActionButton
+            style={BUTTON_STYLE.Primary}
+            label='Search'
+            icon={searchSrc}
+            disabled={isLoading}
+          />
+        </div>
       </div>
     </Form>
   );
