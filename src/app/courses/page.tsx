@@ -76,10 +76,7 @@ const CoursesPage: React.FC<{
   let finalData: CourseProps[] | undefined = data;
   try {
     if (!finalData || finalData.length === 0) {
-      // localCourseData has shape: { courses: [...] }
-      // cast to CourseProps[] safely for dev/listing purposes
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      finalData = (localCourseData as any).courses as CourseProps[];
+      finalData = localCourseData?.courses as unknown as CourseProps[];
     }
   } catch (err) {
     // If something unexpected happens, keep finalData as the fetched value (possibly undefined)

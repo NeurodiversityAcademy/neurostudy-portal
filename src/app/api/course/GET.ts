@@ -135,11 +135,6 @@ export default async function GET(req: NextRequest): Promise<Response> {
     }
 
     let data: QueryCommandOutput | ScanCommandOutput;
-    console.log('=== DynamoDB Query Params ===');
-    console.log('Table Name:', params.TableName);
-    console.log('Index Name:', params.IndexName || 'none');
-    console.log('Is Query?', applyQuery);
-    console.log('Full params:', JSON.stringify(params, null, 2));
     if (applyQuery) {
       data = await dbDocumentClient.send(new QueryCommand(params));
     } else {
@@ -147,13 +142,6 @@ export default async function GET(req: NextRequest): Promise<Response> {
     }
 
     const Items = data.Items || [];
-    console.log('courseData from table:', COURSE_TABLE_NAME);
-    console.log('Raw DynamoDB Items count:', Items.length);
-    console.log(
-      'First item keys:',
-      Items[0] ? Object.keys(Items[0]) : 'no items'
-    );
-    console.log('Full first item:', JSON.stringify(Items[0], null, 2));
     assertCourseData(Items);
 
     return NextResponse.json(Items);

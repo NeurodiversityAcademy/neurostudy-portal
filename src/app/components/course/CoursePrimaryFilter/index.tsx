@@ -25,9 +25,7 @@ const DROPDOWN_KEYS: (keyof CoursePrimaryFilterType)[] = [
 ];
 
 const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
-  const { loadData, isLoading, filter, updateFilter } = useCourseContext();
-  console.log(loadData);
-
+  const { isLoading, filter, updateFilter } = useCourseContext();
   const router = useRouter();
   const methods: UseFormReturn<CoursePrimaryFilterType> =
     useForm<CoursePrimaryFilterType>({
