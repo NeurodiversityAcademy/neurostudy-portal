@@ -142,6 +142,13 @@ export default async function GET(req: NextRequest): Promise<Response> {
     }
 
     const Items = data.Items || [];
+    console.log('courseData from table:', COURSE_TABLE_NAME);
+    console.log('Raw DynamoDB Items count:', Items.length);
+    console.log(
+      'First item keys:',
+      Items[0] ? Object.keys(Items[0]) : 'no items'
+    );
+    console.log('Full first item:', JSON.stringify(Items[0], null, 2));
     assertCourseData(Items);
 
     return NextResponse.json(Items);

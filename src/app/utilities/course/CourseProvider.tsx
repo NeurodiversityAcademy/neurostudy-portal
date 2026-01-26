@@ -190,6 +190,12 @@ export default function CourseProvider({
   }, []);
 
   useEffect(() => {
+    console.log('=== CourseProvider: Data changed ===');
+    console.log('Received data length:', data?.length);
+    console.log(
+      'Received data first item:',
+      JSON.stringify(data?.[0], null, 2)
+    );
     setIsLoading(false);
     pendingFilterRef.current = {};
   }, [data]);
