@@ -57,9 +57,7 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
         className,
         isLoading && styles.disabled
       )}
-      // onSubmit={methods.handleSubmit(() => loadData())}
       onSubmit={methods.handleSubmit(() => {
-        // Redirect to the courses listing regardless of selected filters
         router.push('/courses');
       })}
       aria-label='Primary search criteria'
