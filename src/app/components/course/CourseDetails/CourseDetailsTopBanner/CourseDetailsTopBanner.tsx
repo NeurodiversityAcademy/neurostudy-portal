@@ -14,7 +14,7 @@ import ApplyNowPopup from '../../ApplyNowPopup/ApplyNowPopup';
 
 const CourseDetailsTopBanner: React.FC = () => {
   const { data } = useCourseDetailsContext();
-  const [isHandbookOpen, setIsHandbookOpen] = useState(false);
+  const [isApplyNowOpen, setIsApplyNowOpen] = useState(false);
 
   return (
     <div className={classNames('row', styles.topBannerMainContainer)}>
@@ -54,7 +54,7 @@ const CourseDetailsTopBanner: React.FC = () => {
           <div className={classNames(styles.topBannerAdmissionsBtnGroup)}>
             <ActionButton
               type='submit'
-              onClick={() => setIsHandbookOpen(true)}
+              onClick={() => setIsApplyNowOpen(true)}
               label='Apply Now'
               style={BUTTON_STYLE.Primary}
               className={styles.topBannerAdmissionsApplyNowBtn}
@@ -70,8 +70,8 @@ const CourseDetailsTopBanner: React.FC = () => {
       </div>
       <CourseDetailsMiddleBanner />
       <ApplyNowPopup
-        open={isHandbookOpen}
-        onClose={() => setIsHandbookOpen(false)}
+        open={isApplyNowOpen}
+        onClose={() => setIsApplyNowOpen(false)}
       />
     </div>
   );
