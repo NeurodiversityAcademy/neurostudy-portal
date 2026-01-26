@@ -135,6 +135,11 @@ export default async function GET(req: NextRequest): Promise<Response> {
     }
 
     let data: QueryCommandOutput | ScanCommandOutput;
+    console.log('=== DynamoDB Query Params ===');
+    console.log('Table Name:', params.TableName);
+    console.log('Index Name:', params.IndexName || 'none');
+    console.log('Is Query?', applyQuery);
+    console.log('Full params:', JSON.stringify(params, null, 2));
     if (applyQuery) {
       data = await dbDocumentClient.send(new QueryCommand(params));
     } else {
