@@ -53,8 +53,13 @@ const CourseCard: React.FC<PropType> = ({ course, ...rest }) => {
             aria-level={4}
             className={styles.institutionTitle}
           >
-           {InstitutionLogoUrl ? (
-              <Image src={InstitutionLogoUrl} alt='logo' width={80} height={80} />
+            {InstitutionLogoUrl ? (
+              <Image
+                src={InstitutionLogoUrl}
+                alt='logo'
+                width={80}
+                height={80}
+              />
             ) : (
               <Image src={cardHeaderBackgroundSrc} alt='logo' />
             )}
