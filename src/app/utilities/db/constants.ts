@@ -32,6 +32,7 @@ export const DEFAULT_COURSE_WITHOUT_ID = {
   Duration: 24,
   Rating: 3.9,
   Tier: 'GOLD',
+  institutionLogoUrl: 'https://example.com/logo.png',
   Criteria: {
     Faculty: 4,
   },
