@@ -9,6 +9,10 @@ module.exports = {
       },
       {
         protocol: 'https',
+        hostname: 'neurostudyportal-assets.s3.ap-southeast-2.amazonaws.com',
+      },
+      {
+        protocol: 'https',
         hostname: 'res.cloudinary.com', // Add Cloudinary's hostname
       },
       {

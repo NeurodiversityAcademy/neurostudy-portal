@@ -23,8 +23,16 @@ const CourseDetailsTopBanner: React.FC = () => {
           className={classNames('col-md-12', styles.topBannerInstituteTitle)}
         >
           <div className={styles.topBannerInstituteLogo}>
-            {/*TODO: replace the src */}
-            <Image src={Logo} alt='logo' />
+            {data?.InstitutionLogoUrl ? (
+              <Image
+                src={data.InstitutionLogoUrl}
+                alt='logo'
+                width={80}
+                height={80}
+              />
+            ) : (
+              <Image src={Logo} alt='logo' />
+            )}
           </div>
           <Typography variant={TypographyVariant.Body1} className='mx-2'>
             {data?.InstitutionName}
