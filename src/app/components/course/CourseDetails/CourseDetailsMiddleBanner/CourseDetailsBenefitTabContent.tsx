@@ -1,4 +1,3 @@
-import { COURSE_BENEFIT_SUPPORT_AVAILABLE } from '@/app/utilities/course/constants';
 import { useCourseDetailsContext } from '@/app/utilities/course/CourseDetailsProvider';
 import Image from 'next/image';
 import styles from '../../CourseDetails/courseDetails.module.css';
