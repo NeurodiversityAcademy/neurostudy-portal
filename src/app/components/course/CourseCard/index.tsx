@@ -27,12 +27,12 @@ const CourseCard: React.FC<PropType> = ({ course, ...rest }) => {
     Rating,
     Criteria,
     Tier,
+    InstitutionLogoUrl,
   } = course;
 
   const _years: number | undefined = Duration ? Duration / 12 : undefined;
   const years =
     _years && (_years % 1 === 0 ? _years.toString() : _years.toFixed(1));
-
   return (
     <Link
       href={CourseId ? `/courses/${CourseId}` : ''}
@@ -53,12 +53,11 @@ const CourseCard: React.FC<PropType> = ({ course, ...rest }) => {
             aria-level={4}
             className={styles.institutionTitle}
           >
-            <Image
-              // TODO: Insert Appropriate Src / Filler
-              src={cardHeaderBackgroundSrc}
-              alt={`Logo of ${InstitutionName}`}
-            />
-
+           {InstitutionLogoUrl ? (
+              <Image src={InstitutionLogoUrl} alt='logo' width={80} height={80} />
+            ) : (
+              <Image src={cardHeaderBackgroundSrc} alt='logo' />
+            )}
             {InstitutionName}
           </Typography>
 
