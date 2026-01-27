@@ -4,6 +4,7 @@ import Image from 'next/image';
 import styles from '../../CourseDetails/courseDetails.module.css';
 import Accordion from '@/app/components/accordion/Accordian';
 import { useState } from 'react';
+import CheckIcon from '@/app/images/circle-tick.png';
 
 // Define concrete interfaces
 interface JobRequirements {
@@ -59,16 +60,11 @@ const CourseDetailsBenefitTabContent: React.FC<
         <ul className={styles.supportAvailableList}>
           {data?.SupportAvailable &&
             data.SupportAvailable.map((item, index) => {
-              const support =
-                COURSE_BENEFIT_SUPPORT_AVAILABLE[
-                  item as keyof typeof COURSE_BENEFIT_SUPPORT_AVAILABLE
-                ];
+              const label = item.replace(/([A-Z])/g, ' $1').trim();
               return (
                 <li key={index} className={styles.supportAvailableListItem}>
-                  {support?.icon && (
-                    <Image src={support?.icon} alt={support?.label} />
-                  )}
-                  <p>{support?.label}</p>
+                  <Image src={CheckIcon} alt={label} />
+                  <p>{label}</p>
                 </li>
               );
             })}
@@ -89,24 +85,18 @@ const CourseDetailsBenefitTabContent: React.FC<
                     <div className={styles.adjustmentCategory}>
                       <ul className={styles.adjustmentAvailableList}>
                         {items.map((item: string, index: number) => {
-                          const support =
-                            COURSE_BENEFIT_SUPPORT_AVAILABLE[
-                              item as keyof typeof COURSE_BENEFIT_SUPPORT_AVAILABLE
-                            ];
+                          const label = item.replace(/([A-Z])/g, ' $1').trim();
                           return (
                             <div
                               key={index}
                               className={styles.adjustmentAvailableListItem}
                             >
-                              {support?.icon && (
-                                <Image
-                                  src={support.icon}
-                                  alt={support.label}
-                                  className={styles.adjustmentIcon}
-                                  key={index}
-                                />
-                              )}
-                              <div>{support?.label}</div>
+                              <Image
+                                src={CheckIcon}
+                                alt={label}
+                                className={styles.adjustmentIcon}
+                              />
+                              <div>{label}</div>
                             </div>
                           );
                         })}

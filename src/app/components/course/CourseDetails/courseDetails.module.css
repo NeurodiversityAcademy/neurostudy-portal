@@ -145,9 +145,9 @@
 }
 
 .topBannerInstituteLogo {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
     object-fit: contain;
     overflow: hidden;
 }
