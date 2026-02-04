@@ -14,7 +14,7 @@ import ApplyNowPopup from '../../ApplyNowPopup/ApplyNowPopup';
 
 const CourseDetailsTopBanner: React.FC = () => {
   const { data } = useCourseDetailsContext();
-  const [isHandbookOpen, setIsHandbookOpen] = useState(false);
+  const [isApplyNowOpen, setIsApplyNowOpen] = useState(false);
 
   return (
     <div className={classNames('row', styles.topBannerMainContainer)}>
@@ -23,8 +23,16 @@ const CourseDetailsTopBanner: React.FC = () => {
           className={classNames('col-md-12', styles.topBannerInstituteTitle)}
         >
           <div className={styles.topBannerInstituteLogo}>
-            {/*TODO: replace the src */}
-            <Image src={Logo} alt='logo' />
+            {data?.InstitutionLogoUrl ? (
+              <Image
+                src={data.InstitutionLogoUrl}
+                alt='logo'
+                width={80}
+                height={80}
+              />
+            ) : (
+              <Image src={Logo} alt='logo' />
+            )}
           </div>
           <Typography variant={TypographyVariant.Body1} className='mx-2'>
             {data?.InstitutionName}
@@ -54,7 +62,7 @@ const CourseDetailsTopBanner: React.FC = () => {
           <div className={classNames(styles.topBannerAdmissionsBtnGroup)}>
             <ActionButton
               type='submit'
-              onClick={() => setIsHandbookOpen(true)}
+              onClick={() => setIsApplyNowOpen(true)}
               label='Apply Now'
               style={BUTTON_STYLE.Primary}
               className={styles.topBannerAdmissionsApplyNowBtn}
@@ -70,8 +78,8 @@ const CourseDetailsTopBanner: React.FC = () => {
       </div>
       <CourseDetailsMiddleBanner />
       <ApplyNowPopup
-        open={isHandbookOpen}
-        onClose={() => setIsHandbookOpen(false)}
+        open={isApplyNowOpen}
+        onClose={() => setIsApplyNowOpen(false)}
       />
     </div>
   );

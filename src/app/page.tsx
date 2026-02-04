@@ -8,6 +8,7 @@ import HowItWorks from './components/howItWorksInstitutions/HowItWorksNew';
 import Partner from './components/partnerSection/Partner';
 import { Metadata } from 'next';
 import { createMetadata } from './utilities/common';
+import { isFeatureEnabled } from './utilities/featureToggle';
 import { META_KEY } from './utilities/constants';
 import Subscribe from './components/subscribe/subscribe';
 import Handbook from './components/handbook';
@@ -71,7 +72,13 @@ export const metadata: Metadata = createMetadata(META_KEY.HOME, {
     ],
   },
 });
-export default async function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
+  const showSearchBar = isFeatureEnabled(searchParams, 'searchBar');
+
   return (
     <Suspense fallback={<h1>Loading...</h1>}>
       <main className={styles.main}>
@@ -79,7 +86,8 @@ export default async function Home() {
         <HomeBanner
           displayBadges={true}
           showButton={true}
-          displayFilter={false}
+          displayFilter={true}
+          showSearchBar={showSearchBar}
         />
         <EndorsedInstitutes />
         <Teacher />

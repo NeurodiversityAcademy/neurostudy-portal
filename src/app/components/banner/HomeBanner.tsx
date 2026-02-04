@@ -13,6 +13,7 @@ interface PropType {
   displayFilter?: boolean;
   title?: string;
   subtitle?: string;
+  showSearchBar?: boolean;
 }
 
 export default function HomeBanner({
@@ -21,6 +22,7 @@ export default function HomeBanner({
   showButton,
   title,
   subtitle,
+  showSearchBar = false,
 }: PropType) {
   return (
     <>
@@ -55,7 +57,7 @@ export default function HomeBanner({
           </div>
           {displayBadges && <BadgeDisplay />}
         </div>
-        {displayFilter && (
+        {showSearchBar && displayFilter && (
           <CourseProvider redirectToSearchPage>
             <CoursePrimaryFilter className={styles.form} />
           </CourseProvider>

@@ -13,7 +13,7 @@ type OverviewProps = {
 };
 
 const CourseDetailsBodySideNav: React.FC<OverviewProps> = ({ sections }) => {
-  const [isHandbookOpen, setIsHandbookOpen] = useState(false);
+  const [isApplyNowOpen, setIsApplyNowOpen] = useState(false);
 
   return (
     <nav className={styles.courseDetailsOverviewContainer}>
@@ -35,7 +35,7 @@ const CourseDetailsBodySideNav: React.FC<OverviewProps> = ({ sections }) => {
               label='Apply Now'
               style={BUTTON_STYLE.Primary}
               type='button'
-              onClick={() => setIsHandbookOpen(true)}
+              onClick={() => setIsApplyNowOpen(true)}
               className={styles.courseDetailsSidebarButton}
               fullWidth={true}
             />
@@ -53,8 +53,8 @@ const CourseDetailsBodySideNav: React.FC<OverviewProps> = ({ sections }) => {
       </ul>
 
       <ApplyNowPopup
-        open={isHandbookOpen}
-        onClose={() => setIsHandbookOpen(false)}
+        open={isApplyNowOpen}
+        onClose={() => setIsApplyNowOpen(false)}
       />
     </nav>
   );

@@ -25,9 +25,7 @@ const DROPDOWN_KEYS: (keyof CoursePrimaryFilterType)[] = [
 ];
 
 const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
-  const { loadData, isLoading, filter, updateFilter } = useCourseContext();
-  console.log(loadData);
-
+  const { isLoading, filter, updateFilter } = useCourseContext();
   const router = useRouter();
   const methods: UseFormReturn<CoursePrimaryFilterType> =
     useForm<CoursePrimaryFilterType>({
@@ -59,9 +57,7 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
         className,
         isLoading && styles.disabled
       )}
-      // onSubmit={methods.handleSubmit(() => loadData())}
       onSubmit={methods.handleSubmit(() => {
-        // Redirect to the courses listing regardless of selected filters
         router.push('/courses');
       })}
       aria-label='Primary search criteria'
