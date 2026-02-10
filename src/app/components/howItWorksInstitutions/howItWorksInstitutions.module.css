@@ -19,14 +19,6 @@
     display: flex;
     justify-content: center;
     margin: 8vh;
-    gap: 4rem;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
-  .stepWrapper {
-    display: flex;
-    align-items: center;
   }
 
   .gridItem {
@@ -35,7 +27,27 @@
     justify-content: center;
     align-items: center;
     color: var(--bondBlack);
-    padding: 0 0.5rem;
+    gap: auto;
+    background-image: url('../../images/stepsLineHorizontal.svg');
+  }
+  .gridItem1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--bondBlack);
+    gap: auto;
+    background-image: url('../../images/stepsLine.svg');
+  }
+  .gridItem5 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--bondBlack);
+    gap: auto;
+    background-image: url('../../images/stepsLine5.svg');
+    margin: 0px;
   }
   .gridItem span {
     padding-bottom: 2vh;
@@ -45,18 +57,6 @@
   }
   .gridItem5 span {
     padding-bottom: 2vh;
-  }
-  .connector {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 1.5rem;
-  }
-  .connectorImg {
-    display: block;
-  }
-  .connectorImgMobile {
-    display: none;
   }
 }
 @media (max-width: 480px) {
@@ -93,20 +93,6 @@
     padding-bottom: 1vh;
   }
   .stepsGrid {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .connector {
-    margin: 1rem 0;
-    justify-content: center;
-  }
-  .connectorImg {
-    display: none;
-  }
-  .connectorImgMobile {
-    display: block;
-    width: 100%;
-    max-width: 320px;
+    background-image: url('../../images/stepsline1Mobile.svg');
   }
 }

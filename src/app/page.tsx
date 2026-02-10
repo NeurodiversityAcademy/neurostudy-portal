@@ -4,17 +4,15 @@ import Script from 'next/script';
 import ArticleList from './components/articleList/articleList';
 import Teacher from './components/teacherSection/Teacher';
 import Fact from './components/fact/Fact';
-import HowItWorks from './components/howItWorksInstitutions/HowItWorksNew';
+import HowItWorksInstitutions from './components/howItWorksInstitutions/howItWorksInstitutions';
 import Partner from './components/partnerSection/Partner';
 import { Metadata } from 'next';
 import { createMetadata } from './utilities/common';
-import { isFeatureEnabled } from './utilities/featureToggle';
 import { META_KEY } from './utilities/constants';
 import Subscribe from './components/subscribe/subscribe';
 import Handbook from './components/handbook';
 import HomeBanner from './components/banner/HomeBanner';
 import { Suspense } from 'react';
-import EndorsedInstitutes from './components/endorsedInstitutesSection/EndorsedInstitutes';
 
 const getGoogleAnalyticsScript = () => {
   return (
@@ -72,13 +70,7 @@ export const metadata: Metadata = createMetadata(META_KEY.HOME, {
     ],
   },
 });
-export default async function Home({
-  searchParams,
-}: {
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
-  const showSearchBar = isFeatureEnabled(searchParams, 'searchBar');
-
+export default async function Home() {
   return (
     <Suspense fallback={<h1>Loading...</h1>}>
       <main className={styles.main}>
@@ -87,13 +79,11 @@ export default async function Home({
           displayBadges={true}
           showButton={true}
           displayFilter={true}
-          showSearchBar={showSearchBar}
         />
-        <EndorsedInstitutes />
         <Teacher />
         <Handbook />
         <Fact />
-        <HowItWorks />
+        <HowItWorksInstitutions />
         <Partner />
         <DisplayPodcast
           scriptSrc='https://www.buzzsprout.com/2132579.js?container_id=buzzsprout-large-player&player=large'

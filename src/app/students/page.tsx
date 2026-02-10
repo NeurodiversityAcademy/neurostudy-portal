@@ -8,22 +8,23 @@ import ArticleList from '../components/articleList/articleList';
 import HomeBanner from '../components/banner/HomeBanner';
 import Fact from '../components/fact/Fact';
 import HowItWorks from '../components/howItWorks/HowItWorks';
+import isFeatureEnabled from '../utilities/featureToggle';
 
 export const metadata: Metadata = createMetadata(
   META_KEY.NEURODIVERGENT_MATES,
   {
     images: [
       {
-        url: 'https://neurostudyportal.s3.ap-southeast-2.amazonaws.com/images/podcast-banner.jpg',
+        url: 'https://neurostudyportal.s3.ap-southeast-2.amazonaws.com/images/cover.jpg',
       },
     ],
     robots: {
       index: true,
       follow: true,
     },
-    title: 'Neurodivergent Mates Podcast - Neurodiversity Academy',
+    title: 'Neurodiversity Academy - Neurodiversity in Vocational Education',
     description:
-      'Explore the Neurodivergent Mates podcast, where we discuss neurodiversity, education, and the experiences of neurodiverse individuals. Join us for insightful conversations and stories.',
+      'Leading platform for neurodiversity in vocational education. Learn what neurodivergent means, access endorsements, and connect with neurodivergent mates.',
     keywords: [
       'Neurodiversity Academy',
       'Neurodivergent Mates',
@@ -36,7 +37,13 @@ export const metadata: Metadata = createMetadata(
   }
 );
 
-export default function Home() {
+export default function Home({
+  searchParams,
+}:{
+    searchParams?: { [key: string]: string | string[] | undefined };
+}) {
+    const showSearchBar = isFeatureEnabled(searchParams, 'searchBar');
+
   return (
     <main className={styles.main}>
       <HomeBanner
@@ -45,6 +52,7 @@ export default function Home() {
         displayBadges={false}
         showButton={false}
         displayFilter={true}
+        showSearchBar={showSearchBar}
       />
       <Fact />
       <HowItWorks />

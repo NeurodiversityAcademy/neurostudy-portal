@@ -1,13 +1,14 @@
 import React from 'react';
-import styles from './howItWorks.module.css';
+import styles from './howItWorksInstitutions.module.css';
 import Image from 'next/image';
 import enquire from '../../images/stepsEnquire.svg';
-import profile from '../../images/stepsProfile.svg';
+import stepEndorsement from '../../images/stepEndorsement.png';
+// import profile from '../../images/stepsProfile.svg';
 import quality from '../../images/stepsQuality.svg';
 import guide from '../../images/stepsGuide.svg';
 import Typography, { TypographyVariant } from '../typography/Typography';
 
-export default function HowItWorks() {
+export default function HowItWorksInstitutions() {
   return (
     <div className={styles.stepsContainer}>
       <div className={styles.stepsTitle}>
@@ -21,29 +22,9 @@ export default function HowItWorks() {
       </div>
 
       <div className={styles.stepsGrid}>
-        {/* <div className={styles.gridItem1}>
-          <Image src={explore} alt='explore'></Image>
-
-          <div className={styles.stepsText}>
-            <Typography
-              variant={TypographyVariant.Body1}
-              color='var(--GhostWhite)'
-            >
-              Explore
-            </Typography>
-            <Typography
-              variant={TypographyVariant.Body2}
-              color='var(--GhostWhite)'
-            >
-              You search for learning organisations
-            </Typography>
-          </div>
-        </div> */}
-
-        <div className={styles.gridItem}>
+        <div className={styles.gridItem1}>
           <Image src={enquire} alt='enquire'></Image>
           <div className={styles.stepsText}>
-            {' '}
             <Typography
               variant={TypographyVariant.Body1}
               color='var(--GhostWhite)'
@@ -58,58 +39,82 @@ export default function HowItWorks() {
             </Typography>
           </div>
         </div>
-
         <div className={styles.gridItem}>
-          <Image src={profile} alt='profile'></Image>
+          <Image src={enquire} alt='enquire'></Image>
           <div className={styles.stepsText}>
             {' '}
             <Typography
               variant={TypographyVariant.Body1}
               color='var(--GhostWhite)'
             >
-              Profile
+              Form
             </Typography>
             <Typography
               variant={TypographyVariant.Body2}
               color='var(--GhostWhite)'
             >
-              You fill out a profile for the learning provider
+              You fill out a form describing the support provided.
             </Typography>
           </div>
         </div>
 
         <div className={styles.gridItem}>
+          <Image src={guide} alt='guide'></Image>
+          <div className={styles.stepsText}>
+            {' '}
+            <Typography
+              variant={TypographyVariant.Body1}
+              color='var(--GhostWhite)'
+            >
+              Evaulation
+            </Typography>
+            <Typography
+              variant={TypographyVariant.Body2}
+              color='var(--GhostWhite)'
+            >
+              We evaluate the responses and get back to you with feedback
+            </Typography>
+          </div>
+        </div>
+
+        <div className={styles.gridItem}>
+          <Image
+            src={stepEndorsement}
+            width={110}
+            height={110}
+            alt='endorsement'
+          ></Image>
+
+          <div className={styles.stepsText}>
+            <Typography
+              variant={TypographyVariant.Body1}
+              color='var(--GhostWhite)'
+            >
+              Endorse
+            </Typography>
+            <Typography
+              variant={TypographyVariant.Body2}
+              color='var(--GhostWhite)'
+            >
+              We endorse you as a neurodiversity friendly institution
+            </Typography>
+          </div>
+        </div>
+
+        <div className={styles.gridItem5}>
           <Image src={quality} alt='quality'></Image>
           <div className={styles.stepsText}>
             <Typography
               variant={TypographyVariant.Body1}
               color='var(--GhostWhite)'
             >
-              Quality
+              Promote
             </Typography>
             <Typography
               variant={TypographyVariant.Body2}
               color='var(--GhostWhite)'
             >
-              We improve experience with great materials
-            </Typography>
-          </div>
-        </div>
-
-        <div className={styles.gridItem5}>
-          <Image src={guide} alt='guide'></Image>
-          <div className={styles.stepsText}>
-            <Typography
-              variant={TypographyVariant.Body1}
-              color='var(--GhostWhite)'
-            >
-              Guide
-            </Typography>
-            <Typography
-              variant={TypographyVariant.Body2}
-              color='var(--GhostWhite)'
-            >
-              We regularly monitor & support learning
+              We promote your institution on our platform.
             </Typography>
           </div>
         </div>
