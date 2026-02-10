@@ -39,10 +39,10 @@ export const metadata: Metadata = createMetadata(
 
 export default function Home({
   searchParams,
-}:{
-    searchParams?: { [key: string]: string | string[] | undefined };
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-    const showSearchBar = isFeatureEnabled(searchParams, 'searchBar');
+  const showSearchBar = isFeatureEnabled(searchParams, 'searchBar');
 
   return (
     <main className={styles.main}>
