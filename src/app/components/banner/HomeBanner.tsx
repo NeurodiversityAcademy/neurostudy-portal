@@ -63,9 +63,11 @@ export default function HomeBanner({
           </CourseProvider>
         )}
       </div>
-      <CourseProvider redirectToSearchPage>
-        <CoursePrimaryFilter className={styles.formMobile} />
-      </CourseProvider>
+      {showSearchBar && displayFilter && (
+        <CourseProvider redirectToSearchPage>
+          <CoursePrimaryFilter className={styles.formMobile} />
+        </CourseProvider>
+      )}
     </>
   );
 }
