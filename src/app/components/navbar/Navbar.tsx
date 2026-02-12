@@ -103,6 +103,13 @@ export default function Navbar() {
           {isDropdownVisible && (
             <ul className={`${styles.dropdownMenu}`}>
               <li className={styles.li}>
+                <Link href='/students' onClick={toggleDropdown}>
+                  <Typography variant={TypographyVariant.Body2}>
+                    For Students
+                  </Typography>
+                </Link>
+              </li>
+              <li className={styles.li}>
                 <Link href='/profile' onClick={toggleDropdown}>
                   <Typography variant={TypographyVariant.Body2}>
                     Profile
