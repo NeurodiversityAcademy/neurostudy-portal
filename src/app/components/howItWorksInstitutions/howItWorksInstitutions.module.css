@@ -1,0 +1,98 @@
+@media (min-width: 480px) {
+  .stepsContainer {
+    text-align: center;
+    background-color: var(--cherryPie);
+    /* height: 60vh; */
+    z-index: 3;
+  }
+  .stepsTitle {
+    padding-top: 80px;
+    margin: 0px 30px;
+  }
+  .stepsText {
+    display: flex;
+    flex-direction: column;
+    margin: 4vh 0px;
+    padding: 0px 1vw;
+  }
+  .stepsGrid {
+    display: flex;
+    justify-content: center;
+    margin: 8vh;
+  }
+
+  .gridItem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--bondBlack);
+    gap: auto;
+    background-image: url('../../images/stepsLineHorizontal.svg');
+  }
+  .gridItem1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--bondBlack);
+    gap: auto;
+    background-image: url('../../images/stepsLine.svg');
+  }
+  .gridItem5 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--bondBlack);
+    gap: auto;
+    background-image: url('../../images/stepsLine5.svg');
+    margin: 0px;
+  }
+  .gridItem span {
+    padding-bottom: 2vh;
+  }
+  .gridItem1 span {
+    padding-bottom: 2vh;
+  }
+  .gridItem5 span {
+    padding-bottom: 2vh;
+  }
+}
+@media (max-width: 480px) {
+  .stepsContainer {
+    text-align: center;
+    background-color: var(--cherryPie);
+    height: auto;
+    padding: 3vh 0px;
+  }
+  .gridItem,
+  .gridItem1,
+  .gridItem5 {
+    display: flex;
+    text-align: left;
+    align-items: center;
+    gap: 5vw;
+    margin: 4vh 3vw;
+  }
+
+  .stepsTitle {
+    padding: 0px 3vw 2vh 3vw;
+  }
+  .stepsText {
+    display: flex;
+    flex-direction: column;
+  }
+  .gridItem span {
+    padding-bottom: 1vh;
+  }
+  .gridItem1 span {
+    padding-bottom: 1vh;
+  }
+  .gridItem5 span {
+    padding-bottom: 1vh;
+  }
+  .stepsGrid {
+    background-image: url('../../images/stepsline1Mobile.svg');
+  }
+}

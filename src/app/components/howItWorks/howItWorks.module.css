@@ -28,7 +28,7 @@
     align-items: center;
     color: var(--bondBlack);
     gap: auto;
-    background-image: url('../../images/stepsLine4.svg');
+    background-image: url('../../images/stepsLineHorizontal.svg');
   }
   .gridItem1 {
     display: flex;
