@@ -33,7 +33,7 @@ export const metadata: Metadata = createMetadata(
       'Education',
       'Neurodiverse Individuals',
       'Neurodiversity in vocational education',
-      'Student support'
+      'Student support',
     ],
   }
 );
