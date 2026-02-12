@@ -51,7 +51,7 @@ export const metadata: Metadata = createMetadata(META_KEY.HOME, {
       'max-snippet': -1,
     },
   },
-  title: 'Neurodiversity Academy - Neurodiversity in Vocational Education',
+  title: 'Homepage',
   description:
     'Leading platform for neurodiversity in vocational education. Learn what neurodivergent means, access endorsements, and connect with neurodivergent mates.',
   openGraph: {

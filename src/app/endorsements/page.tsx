@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './endorsements.module.css';
-import HomeBanner from '../components/banner/HomeBanner';
+import HomeBanner from '../components/bannerStudents/HomeBanner';
 import Typography, {
   TypographyVariant,
 } from '../components/typography/Typography';

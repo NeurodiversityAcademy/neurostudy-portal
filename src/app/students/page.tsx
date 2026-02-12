@@ -5,7 +5,7 @@ import { META_KEY } from '../utilities/constants';
 import { createMetadata } from '../utilities/common';
 import Subscribe from '../components/subscribe/subscribe';
 import ArticleList from '../components/articleList/articleList';
-import HomeBanner from '../components/banner/HomeBanner';
+import HomeBanner from '../components/bannerStudents/HomeBanner';
 import Fact from '../components/fact/Fact';
 import HowItWorks from '../components/howItWorks/HowItWorks';
 import isFeatureEnabled from '../utilities/featureToggle';
@@ -22,9 +22,9 @@ export const metadata: Metadata = createMetadata(
       index: true,
       follow: true,
     },
-    title: 'Neurodiversity Academy - Neurodiversity in Vocational Education',
+    title: 'Student Homepage',
     description:
-      'Leading platform for neurodiversity in vocational education. Learn what neurodivergent means, access endorsements, and connect with neurodivergent mates.',
+      'Find neuroinclusive courses, supportive institutions, and tools to thrive in academic life',
     keywords: [
       'Neurodiversity Academy',
       'Neurodivergent Mates',
@@ -33,6 +33,7 @@ export const metadata: Metadata = createMetadata(
       'Education',
       'Neurodiverse Individuals',
       'Neurodiversity in vocational education',
+      'Student support'
     ],
   }
 );
@@ -49,7 +50,7 @@ export default function Home({
       <HomeBanner
         title='A Home for Neurodivergent Learners'
         subtitle='Find neuroinclusive courses, supportive institutions, and tools to thrive in academic life'
-        displayBadges={false}
+        displayBadges={true}
         showButton={false}
         displayFilter={true}
         showSearchBar={showSearchBar}
