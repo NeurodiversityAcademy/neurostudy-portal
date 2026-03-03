@@ -4,11 +4,12 @@ import Image from 'next/image';
 import PeterImage from '../../images/PeterHaasz.jpeg';
 import JanImage from '../../images/JanCroeni.jpeg';
 import JasonImage from '../../images/JasonWong.jpeg';
-import TimWeirImage from '../../images/timWeirImage.jpg';
+import Timweir from '../../images/timweir.png';
 import LesleyImage from '../../images/LesleyGordon.jpeg';
 import KatieImage from '../../images/KatieFleet.jpeg';
-import RachelMorley from '../../images/RachelMorley.jpeg';
+import Rachel from '../../images/rachel.png';
 import CarlyImage from '../../images/Carly.png';
+import Chelsea from '../../images/chelsea.png';
 import NatashaImage from '../../images/NatashaArthars.jpeg';
 import linkedin from '../../images/linkedin.svg';
 
@@ -35,14 +36,21 @@ export default function Advisors() {
       type: 'Business Advisor',
     },
     {
-      ProfilePic: TimWeirImage,
+      ProfilePic: Timweir,
       name: 'Dr Tim Weir',
       logo: linkedin,
       linkedin: 'https://www.linkedin.com/in/drtimweir',
       company: 'Teton Advisory Group',
       type: 'Business Advisor',
     },
-
+    {
+      ProfilePic: Chelsea,
+      name: 'Chelsea Matulich',
+      logo: linkedin,
+      linkedin: 'https://www.linkedin.com/in/chelsea-matulich-034711225/',
+      company: 'Academia Pty Ltd',
+      type: 'Business Advisor',
+    },
     // Events Advisory Board
     {
       ProfilePic: JasonImage,
@@ -86,7 +94,7 @@ export default function Advisors() {
       type: 'Academic Advisor',
     },
     {
-      ProfilePic: RachelMorley,
+      ProfilePic: Rachel,
       name: 'Dr Rachel Morley (PhD)',
       logo: linkedin,
       linkedin: 'https://www.linkedin.com/in/drrachelmorley',
