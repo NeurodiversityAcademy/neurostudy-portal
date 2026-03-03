@@ -1,0 +1,66 @@
+@media (min-width: 480px) {
+  .factContainer {
+    text-align: center;
+    width: 100%;
+    margin: 0px;   
+  }
+  .factTitle {
+    padding-top: 20px;    
+  }
+  .factGrid {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: var(--bondBlack);
+    padding: 0px 30px;
+  }
+
+  .gridItem {
+    text-align: center;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 0 20px;
+  }
+  .gridItem span {
+    height: 15rem;
+  }
+
+  .factReference {
+    text-align: right;
+    margin-right: 1rem;
+    height: 70px;
+    padding: 10px 0px;
+    display: flex;
+    flex: content;
+    flex-direction: row-reverse;
+    align-items: flex-end;
+  }
+}
+@media (max-width: 480px) {
+  .factContainer {
+    text-align: center;
+    margin: 0px;   
+  }
+  .factTitle {
+    padding-top: 2rem;
+  }
+  .factGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+    justify-content: center;
+  }
+  .gridItem {
+    text-align: center;
+    max-width: 480px;
+    padding: 0px 10px;
+  }
+  .factReference {
+    text-align: right;
+    /* margin-right: 80px; */
+    padding: 3rem 1rem 1rem 1rem;
+  }
+}

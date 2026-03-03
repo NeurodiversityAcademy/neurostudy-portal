@@ -6,7 +6,7 @@ import { createMetadata } from '../utilities/common';
 import Subscribe from '../components/subscribe/subscribe';
 import ArticleList from '../components/articleList/articleList';
 import HomeBanner from '../components/bannerStudents/HomeBanner';
-import Fact from '../components/fact/Fact';
+import StudentFacts from '../components/studentFacts/StudentFacts';
 import HowItWorks from '../components/howItWorks/HowItWorks';
 import isFeatureEnabled from '../utilities/featureToggle';
 
@@ -55,7 +55,7 @@ export default function Home({
         displayFilter={true}
         showSearchBar={showSearchBar}
       />
-      <Fact />
+      <StudentFacts />
       <HowItWorks />
       <DisplayPodcast
         scriptSrc='https://www.buzzsprout.com/2132579.js?container_id=buzzsprout-large-player&player=large'
