@@ -24,10 +24,12 @@ import Form from '@/app/components/formElements/Form';
 import { notifyError } from '@/app/utilities/common';
 import LoaderWrapper from '../loader/LoaderWrapper';
 import Dropdown from '../formElements/Dropdown/Dropdown';
+import CheckBox from '../formElements/CheckBox/CheckBox';
 
 interface SubscribeFieldValues extends FieldValues {
   email: string;
   hs_persona: HSPersona;
+  subscribe: boolean;
 }
 
 export default function Subscribe() {
@@ -41,6 +43,7 @@ export default function Subscribe() {
     const userSubscriptionData: UserSubscriptionType = {
       email: data.email,
       hs_persona: data.hs_persona,
+      subscribe: data.subscribe,
     };
 
     setIsLoading(true);
@@ -98,6 +101,19 @@ export default function Subscribe() {
                   placeholder='Select your role'
                   options={PERSONA_OPTIONS}
                   multiple={false}
+                />
+                <CheckBox
+                  name='subscribe'
+                  label="I'm in for positive, growth-focused updates."
+                  showLabel={false}
+                  options={[
+                    {
+                      label: "I'm in for positive, growth-focused updates.",
+                      value: true,
+                    },
+                  ]}
+                  defaultValue={true}
+                  orientation='horizontal'
                 />
                 <div className='mt-2'>
                   <ActionButton

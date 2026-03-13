@@ -7,4 +7,5 @@ export interface UserFormSubmissionType {
   phone?: string;
   message: string;
   hs_persona: HSPersona;
+  subscription: boolean;
 }

@@ -26,6 +26,7 @@ export interface SenderContactParams {
   firstname?: string;
   lastname?: string;
   phone?: string;
+  subscription?: boolean;
   fields?: Record<string, string | number>;
   trigger_automation?: boolean;
 }
