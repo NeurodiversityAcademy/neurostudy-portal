@@ -62,7 +62,7 @@ export default async function RootLayout({
       <body className={poppins.className}>
         {process.env.NODE_ENV === 'production' && <MetaPixel />}
         <GoogleAnalytics
-          gaId="G-5YMLVTTK45"
+          gaId='G-5YMLVTTK45'
           debugMode={process.env.NODE_ENV !== 'production'}
         />
         <NextAuthProvider>
