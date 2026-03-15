@@ -1,6 +1,5 @@
 import styles from './page.module.css';
 import DisplayPodcast from './components/podcast/DisplayPodcast';
-import Script from 'next/script';
 import ArticleList from './components/articleList/articleList';
 import Teacher from './components/teacherSection/Teacher';
 import Fact from './components/fact/Fact';
@@ -13,23 +12,6 @@ import Subscribe from './components/subscribe/subscribe';
 import Handbook from './components/handbook';
 import HomeBanner from './components/banner/HomeBanner';
 import { Suspense } from 'react';
-
-const getGoogleAnalyticsScript = () => {
-  return (
-    <>
-      <Script src='https://www.googletagmanager.com/gtag/js?id=G-5YMLVTTK45' />
-      <Script id='google-analytics'>
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
- 
-          gtag('config', 'G-5YMLVTTK45');
-        `}
-      </Script>
-    </>
-  );
-};
 
 export const metadata: Metadata = createMetadata(META_KEY.HOME, {
   images: [
@@ -74,7 +56,6 @@ export default async function Home() {
   return (
     <Suspense fallback={<h1>Loading...</h1>}>
       <main className={styles.main}>
-        {process.env.NODE_ENV === 'production' && getGoogleAnalyticsScript()}
         <HomeBanner
           displayBadges={true}
           showButton={true}

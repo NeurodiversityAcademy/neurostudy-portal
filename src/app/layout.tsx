@@ -11,6 +11,7 @@ import { Metadata } from 'next';
 import ToasterWrapper from './components/toaster/ToasterWrapper';
 import NextAuthProvider from './utilities/auth/NextAuthProvider';
 import MetaPixel from './components/article/MetaPixel';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -60,6 +61,10 @@ export default async function RootLayout({
       </head>
       <body className={poppins.className}>
         {process.env.NODE_ENV === 'production' && <MetaPixel />}
+        <GoogleAnalytics
+          gaId='G-5YMLVTTK45'
+          debugMode={process.env.NODE_ENV !== 'production'}
+        />
         <NextAuthProvider>
           <Navbar />
           {children}
