@@ -1,16 +1,16 @@
 'use client';
 import React from 'react';
 import Image from 'next/image';
-import PeterImage from '../../images/PeterHaasz.jpeg';
-import JanImage from '../../images/JanCroeni.jpeg';
-import JasonImage from '../../images/JasonWong.jpeg';
-import Timweir from '../../images/timweir.png';
-import LesleyImage from '../../images/LesleyGordon.jpeg';
-import KatieImage from '../../images/KatieFleet.jpeg';
+import PeterImage from '../../images/peter.png';
+import JanImage from '../../images/jan.png';
+import JasonImage from '../../images/jason.png';
+import Timweir from '../../images/tim.png';
+import LesleyImage from '../../images/lesley.png';
+import KatieImage from '../../images/katie.png';
 import Rachel from '../../images/rachel.png';
 import CarlyImage from '../../images/Carly.png';
 import Chelsea from '../../images/chelsea.png';
-import NatashaImage from '../../images/NatashaArthars.jpeg';
+import NatashaImage from '../../images/natasha.png';
 import linkedin from '../../images/linkedin.svg';
 
 import styles from './advisors.module.css';
