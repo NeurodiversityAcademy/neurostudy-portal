@@ -1,17 +1,15 @@
 import styles from './page.module.css';
 import DisplayPodcast from './components/podcast/DisplayPodcast';
-import ArticleList from './components/articleList/articleList';
-import Teacher from './components/teacherSection/Teacher';
-import Fact from './components/fact/Fact';
-import HowItWorksInstitutions from './components/howItWorksInstitutions/howItWorksInstitutions';
-import Partner from './components/partnerSection/Partner';
 import { Metadata } from 'next';
 import { createMetadata } from './utilities/common';
 import { META_KEY } from './utilities/constants';
 import Subscribe from './components/subscribe/subscribe';
-import Handbook from './components/handbook';
 import HomeBanner from './components/banner/HomeBanner';
 import { Suspense } from 'react';
+import HowItWorks from './components/howItWorks/HowItWorks';
+import StudentFacts from './components/studentFacts/StudentFacts';
+import isFeatureEnabled from './utilities/featureToggle';
+import ArticleList from './components/articleList/articleList';
 
 export const metadata: Metadata = createMetadata(META_KEY.HOME, {
   images: [
@@ -52,20 +50,25 @@ export const metadata: Metadata = createMetadata(META_KEY.HOME, {
     ],
   },
 });
-export default async function Home() {
+export default function Home({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
+  const showSearchBar = isFeatureEnabled(searchParams, 'searchBar');
   return (
     <Suspense fallback={<h1>Loading...</h1>}>
       <main className={styles.main}>
         <HomeBanner
+          title='A Home for Neurodivergent Learners'
+          subtitle='Find neuroinclusive courses, supportive institutions, and tools to thrive in academic life'
           displayBadges={true}
-          showButton={true}
+          showButton={false}
           displayFilter={true}
+          showSearchBar={showSearchBar}
         />
-        <Teacher />
-        <Handbook />
-        <Fact />
-        <HowItWorksInstitutions />
-        <Partner />
+        <StudentFacts />
+        <HowItWorks />
         <DisplayPodcast
           scriptSrc='https://www.buzzsprout.com/2132579.js?container_id=buzzsprout-large-player&player=large'
           containerId='buzzsprout-large-player'
