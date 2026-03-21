@@ -6,9 +6,11 @@ import { createMetadata } from '../utilities/common';
 import Subscribe from '../components/subscribe/subscribe';
 import ArticleList from '../components/articleList/articleList';
 import HomeBanner from '../components/bannerStudents/HomeBanner';
-import StudentFacts from '../components/studentFacts/StudentFacts';
-import HowItWorks from '../components/howItWorks/HowItWorks';
-import isFeatureEnabled from '../utilities/featureToggle';
+import Fact from '../components/fact/Fact';
+import Handbook from '../components/handbook';
+import HowItWorksInstitutions from '../components/howItWorksInstitutions/howItWorksInstitutions';
+import Partner from '../components/partnerSection/Partner';
+import Teacher from '../components/teacherSection/Teacher';
 
 export const metadata: Metadata = createMetadata(
   META_KEY.NEURODIVERGENT_MATES,
@@ -38,25 +40,15 @@ export const metadata: Metadata = createMetadata(
   }
 );
 
-export default function Home({
-  searchParams,
-}: {
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
-  const showSearchBar = isFeatureEnabled(searchParams, 'searchBar');
-
+export default function Home() {
   return (
     <main className={styles.main}>
-      <HomeBanner
-        title='A Home for Neurodivergent Learners'
-        subtitle='Find neuroinclusive courses, supportive institutions, and tools to thrive in academic life'
-        displayBadges={true}
-        showButton={false}
-        displayFilter={true}
-        showSearchBar={showSearchBar}
-      />
-      <StudentFacts />
-      <HowItWorks />
+      <HomeBanner displayBadges={true} showButton={true} displayFilter={true} />
+      <Teacher />
+      <Handbook />
+      <Fact />
+      <HowItWorksInstitutions />
+      <Partner />
       <DisplayPodcast
         scriptSrc='https://www.buzzsprout.com/2132579.js?container_id=buzzsprout-large-player&player=large'
         containerId='buzzsprout-large-player'

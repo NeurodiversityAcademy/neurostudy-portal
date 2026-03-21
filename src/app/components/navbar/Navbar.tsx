@@ -48,9 +48,9 @@ export default function Navbar() {
         <div className={styles.innerWrapper}>
           <ul className={styles.ul}>
             <li className={styles.li}>
-              <Link href='/students'>
+              <Link href='/professionals'>
                 <Typography variant={TypographyVariant.Body2}>
-                  For Students
+                  For Professionals
                 </Typography>
               </Link>
             </li>
@@ -103,9 +103,9 @@ export default function Navbar() {
           {isDropdownVisible && (
             <ul className={`${styles.dropdownMenu}`}>
               <li className={styles.li}>
-                <Link href='/students' onClick={toggleDropdown}>
+                <Link href='/professionals' onClick={toggleDropdown}>
                   <Typography variant={TypographyVariant.Body2}>
-                    For Students
+                    For Professionals
                   </Typography>
                 </Link>
               </li>
