@@ -87,6 +87,10 @@
   --primary-100: #e4dcff;
   --black-400: #17171726;
   --bond-black-light: #212121;
+
+  /* Shadows (shared rgba / alpha hex) */
+  --color-shadow-soft: rgba(0, 0, 0, 0.12);
+  --color-shadow-pressed: #0000001f;
 }
 
 body {

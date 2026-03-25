@@ -1,0 +1,137 @@
+.section {
+  width: 100%;
+  background: var(--GhostWhiteVariant);
+  padding: 32px 20px 44px;
+}
+
+.container {
+  width: min(100%, 1440px);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.subtitle {
+  margin: 0 0 28px;
+  text-align: center;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 72px;
+  width: 100%;
+}
+
+.card {
+  width: 274px;
+  height: 260px;
+  flex: 0 0 274px;
+  flex-direction: column;
+  display: flex;
+  border: 0.5px solid var(--BondBlack);
+  border-radius: 8px;
+  background: var(--GhostWhite);
+  overflow: clip;
+  box-shadow: 0px 1px 20px 0px var(--color-shadow-soft);
+}
+
+.cardTop {
+  height: 84px;
+  background-image: url('../../images/emergingCardHeader.png');
+  background-size: cover;
+  background-position: center -10px;
+  background-repeat: no-repeat;
+  flex: 0 0 auto;
+}
+
+.cardBody {
+  width: 100%;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0px;
+}
+
+.nameWrap {
+  width: 70%;
+  height: 50px;
+  padding: 8px;
+  border-radius: 4px;
+  background: var(--GhostWhite);
+  border: 0.3px solid var(--BondBlackVariant);
+  box-shadow: 0px 2px 16px 0px var(--color-shadow-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/*
+  Override ActionButton .primary for this card only: compact size, purple fill, no padding.
+  Typography (font-size/weight) and flex alignment come from button.module.css .primary.
+*/
+.card .ctaButton {
+  width: 202px;
+  height: 41px;
+  padding: 0;
+  background: var(--cherryPieVariant);
+}
+
+.card .ctaButton:hover {
+  background-color: var(--cherryPieVariantSub);
+  box-shadow: 0px 2px 8px 0px var(--color-shadow-pressed);
+}
+
+@media (max-width: 1024px) {
+  .cards {
+    flex-wrap: wrap;
+    max-width: 760px;
+    gap: 32px;
+    margin: 20px;
+  }
+
+  /* Lets wrapped rows size naturally; width/height stay from base `.card` */
+  .card {
+    flex: 0 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 0px;
+  }
+
+  .subtitle {
+    margin: 20px;
+  }
+
+  .cards {
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    max-width: 340px;
+  }
+
+  .card {
+    max-width: 100%;
+  }
+}
