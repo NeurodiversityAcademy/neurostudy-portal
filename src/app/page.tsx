@@ -68,8 +68,8 @@ export default function Home({
           displayFilter={true}
           showSearchBar={showSearchBar}
         />
-        <EmergingInstitutions />
         <StudentFacts />
+        <EmergingInstitutions />
         <HowItWorks />
         <DisplayPodcast
           scriptSrc='https://www.buzzsprout.com/2132579.js?container_id=buzzsprout-large-player&player=large'
