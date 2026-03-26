@@ -5,12 +5,12 @@ import Typography, { TypographyVariant } from '../typography/Typography';
 
 type EmergingInstitutionCardProps = {
   name: string;
-  document: string;
+  pdfUrl: string;
 };
 
 export default function EmergingInstitutionCard({
   name,
-  document,
+  pdfUrl,
 }: EmergingInstitutionCardProps) {
   return (
     <div className={styles.card}>
@@ -23,7 +23,7 @@ export default function EmergingInstitutionCard({
           label='Explore More'
           style={BUTTON_STYLE.Primary}
           className={styles.ctaButton}
-          to={`/documents/${document}`}
+          to={pdfUrl}
           openInNewTab={true}
         />
       </div>

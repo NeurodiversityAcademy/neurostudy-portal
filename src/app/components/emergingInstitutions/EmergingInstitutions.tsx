@@ -7,7 +7,7 @@ import EmergingInstitutionCard from './EmergingInstitutionCard';
 
 type InstitutionCard = {
   name: string;
-  document: string;
+  pdfUrl: string;
 };
 
 export default function EmergingInstitutions() {
@@ -31,7 +31,8 @@ export default function EmergingInstitutions() {
           color='var(--BondBlackVariant)'
           className={styles.subtitle}
         >
-           Emerging Providers are organisations with developing practices and strong potential for neuro-inclusive education.
+          Emerging Providers are organisations with developing practices and
+          strong potential for neuro-inclusive education.
         </Typography>
 
         <div className={styles.cards}>
@@ -39,7 +40,7 @@ export default function EmergingInstitutions() {
             <EmergingInstitutionCard
               key={`${institution.name}-${index}`}
               name={institution.name}
-              document={institution.document}
+              pdfUrl={institution.pdfUrl}
             />
           ))}
         </div>
