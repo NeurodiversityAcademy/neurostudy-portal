@@ -23,7 +23,7 @@ export default function EmergingInstitutions() {
             className={styles.icon}
           />
           <Typography variant={TypographyVariant.H2} color='var(--BondBlack)'>
-            NDA Emerging Institutions
+            NDA Emerging Providers
           </Typography>
         </div>
         <Typography
