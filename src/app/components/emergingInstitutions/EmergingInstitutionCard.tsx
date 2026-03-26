@@ -1,7 +1,6 @@
 import styles from './emergingInstitutions.module.css';
-import ActionButton from '../buttons/ActionButton';
-import { BUTTON_STYLE } from '@/app/utilities/constants';
 import Typography, { TypographyVariant } from '../typography/Typography';
+import EmergingInstitutionCtaButton from './EmergingInstitutionCtaButton';
 
 type EmergingInstitutionCardProps = {
   name: string;
@@ -19,12 +18,9 @@ export default function EmergingInstitutionCard({
         <div className={styles.nameWrap}>
           <Typography variant={TypographyVariant.Body2}>{name}</Typography>
         </div>
-        <ActionButton
-          label='Explore More'
-          style={BUTTON_STYLE.Primary}
+        <EmergingInstitutionCtaButton
+          pdfUrl={pdfUrl}
           className={styles.ctaButton}
-          to={pdfUrl}
-          openInNewTab={true}
         />
       </div>
     </div>
