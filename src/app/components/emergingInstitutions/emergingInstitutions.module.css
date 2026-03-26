@@ -1,7 +1,7 @@
 .section {
   width: 100%;
   background: var(--GhostWhiteVariant);
-  padding: 32px 20px 44px;
+  padding: 32px 0px 44px;
 }
 
 .container {
@@ -33,16 +33,18 @@
 
 .cards {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: 72px;
+  gap: 52px;
   width: 100%;
 }
 
 .card {
-  width: 274px;
+  width: 20%;
   height: 260px;
-  flex: 0 0 274px;
+  flex: 0 1 16%;
+  min-width: 220px;
+  max-width: 274px;
   flex-direction: column;
   display: flex;
   border: 0.5px solid var(--BondBlack);
@@ -103,15 +105,9 @@
 
 @media (max-width: 1024px) {
   .cards {
-    flex-wrap: wrap;
     max-width: 760px;
     gap: 32px;
     margin: 20px;
-  }
-
-  /* Lets wrapped rows size naturally; width/height stay from base `.card` */
-  .card {
-    flex: 0 0 auto;
   }
 }
 
@@ -132,6 +128,9 @@
   }
 
   .card {
+    width: 100%;
+    min-width: 0;
     max-width: 100%;
+    flex: 0 0 auto;
   }
 }
