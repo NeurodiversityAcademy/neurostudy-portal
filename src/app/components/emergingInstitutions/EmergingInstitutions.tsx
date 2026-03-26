@@ -14,7 +14,7 @@ export default function EmergingInstitutions() {
   const institutions = cardData as InstitutionCard[];
 
   return (
-    <section className={styles.section}>
+    <section className={styles.section} id='emerging-institutions'>
       <div className={styles.container}>
         <div className={styles.header}>
           <Image
