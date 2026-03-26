@@ -1,5 +1,11 @@
+/* eslint-disable react/no-children-prop */
 'use client';
-import React, { isValidElement, ReactElement, ReactEventHandler } from 'react';
+import React, {
+  isValidElement,
+  ReactElement,
+  ReactEventHandler,
+  CSSProperties,
+} from 'react';
 import styles from './button.module.css';
 import Image from 'next/image';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
@@ -17,6 +23,8 @@ interface ActionButtonProps {
   type?: 'button' | 'submit' | 'reset' | undefined;
   to?: string;
   fullWidth?: boolean;
+  openInNewTab?: boolean;
+  buttonStyle?: CSSProperties;
 }
 
 export default function ActionButton({
@@ -30,6 +38,8 @@ export default function ActionButton({
   type,
   to,
   fullWidth,
+  openInNewTab = false,
+  buttonStyle,
 }: ActionButtonProps) {
   const buttonStyles = classNames(styles.common, className, {
     [styles.primary]: style === BUTTON_STYLE.Primary,
@@ -56,9 +66,15 @@ export default function ActionButton({
       disabled={disabled}
       onClick={onClick}
       type={type}
+      style={buttonStyle}
     >
       {to ? (
-        <Link href={to} className={styles.a}>
+        <Link
+          href={to}
+          className={styles.a}
+          target={openInNewTab ? '_blank' : undefined}
+          rel={openInNewTab ? 'noopener noreferrer' : undefined}
+        >
           {children}
         </Link>
       ) : (
