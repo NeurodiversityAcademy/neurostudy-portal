@@ -1,6 +1,6 @@
 'use client';
 
-import { MouseEventHandler, ReactNode, useId, useState } from 'react';
+import { ReactNode, useId, useState } from 'react';
 import styles from './accordion.module.css';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import ArrowDownIcon from '@/app/components/images/ArrowDown';
@@ -10,51 +10,52 @@ interface Props {
   title: string;
   children: ReactNode;
   startExpanded?: boolean;
+  className?: string;
 }
 
 const Accordion: React.FC<Props> = ({
   title,
   children,
   startExpanded = false,
+  className,
 }) => {
   const contentId = useId() + '-accordion-content';
+  const triggerId = useId() + '-accordion-trigger';
   const [expanded, setExpanded] = useState(startExpanded);
 
-  const toggleContent: MouseEventHandler = () => {
-    setExpanded(!expanded);
+  const toggleContent = () => {
+    setExpanded((previous) => !previous);
   };
 
   return (
     <div
-      className={classNames(styles.container, !expanded && styles.collapsed)}
+      className={classNames(
+        styles.container,
+        !expanded && styles.collapsed,
+        className
+      )}
     >
-      <div
+      <button
+        type='button'
         className={styles.header}
+        id={triggerId}
         aria-expanded={expanded}
         aria-controls={contentId}
-        role='button'
         onClick={toggleContent}
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            toggleContent(e as never);
-          }
-        }}
       >
         <Typography variant={TypographyVariant.Body2} className={styles.title}>
           {title}
         </Typography>
-        <button
-          aria-expanded={expanded}
-          aria-controls={contentId}
-          className={styles.collapsibleIcon}
-          tabIndex={-1}
-        >
+        <span className={styles.collapsibleIcon} aria-hidden='true'>
           <ArrowDownIcon />
-        </button>
-      </div>
-      <div className={styles.content} id={contentId} aria-hidden={!expanded}>
+        </span>
+      </button>
+      <div
+        className={styles.content}
+        id={contentId}
+        aria-hidden={!expanded}
+        aria-labelledby={triggerId}
+      >
         <div className={styles.contentPadding}>{children}</div>
       </div>
     </div>

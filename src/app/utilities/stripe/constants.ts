@@ -1,4 +1,5 @@
 import { INFO_EMAIL_ADDRESS } from '../constants';
+import { isNextProductionBuildPhase } from '@/app/utilities/nextBuildPhase';
 
 const STRIPE_INTRO_PRODUCT_PRICE_LOOKUP_KEY =
   process.env.STRIPE_INTRO_PRODUCT_PRICE_LOOKUP_KEY ?? '';
@@ -8,6 +9,7 @@ const STRIPE_PRICE_META_MOODLE_COURSE_ID_KEY =
 const STRIPE_SECRET: string = process.env.STRIPE_SECRET ?? '';
 
 if (
+  !isNextProductionBuildPhase &&
   process.env.NODE_ENV !== 'development' &&
   typeof window === 'undefined' &&
   (!STRIPE_SECRET ||

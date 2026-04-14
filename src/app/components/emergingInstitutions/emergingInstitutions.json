@@ -1,22 +1,17 @@
 [
   {
-    "name": "Bond University",
-    "pdfUrl": "https://neurostudyportal-assets.s3.ap-southeast-2.amazonaws.com/NDA+Emerging+Providers+-+Bond+Uni.pdf"
+    "name": "Bond University"
   },
   {
-    "name": "Australian College of Physical Education",
-    "pdfUrl": "https://neurostudyportal-assets.s3.ap-southeast-2.amazonaws.com/NDA+Emerging+Providers+-+ACPE.pdf"
+    "name": "Australian College of Physical Education"
   },
   {
-    "name": "Flinders University",
-    "pdfUrl": "https://neurostudyportal-assets.s3.ap-southeast-2.amazonaws.com/NDA+Emerging+Providers+-+Flinders.pdf"
+    "name": "Flinders University"
   },
   {
-    "name": "Griffith University",
-    "pdfUrl": "https://neurostudyportal-assets.s3.ap-southeast-2.amazonaws.com/NDA+Emerging+Providers+-+Griffith+University.pdf"
+    "name": "Griffith University"
   },
   {
-    "name": "Jazz Music Institute",
-    "pdfUrl": "https://neurostudyportal-assets.s3.ap-southeast-2.amazonaws.com/NDA+Emerging+Providers+-+JMI.pdf"
+    "name": "Jazz Music Institute"
   }
 ]
