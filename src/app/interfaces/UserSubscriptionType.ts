@@ -11,6 +11,7 @@ export interface UserSubscriptionType {
   hs_persona: HSPersona;
   firstName?: string;
   lastName?: string;
+  subscribe?: boolean;
 }
 
 export type UserSubscriptionHandbookType = {
