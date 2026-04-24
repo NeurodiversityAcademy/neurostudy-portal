@@ -1,28 +1,32 @@
 'use client';
 
 import ActionButton from '../buttons/ActionButton';
+import { analyticsFileNameFromPdfUrl } from '@/app/utilities/analyticsFileName';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 
 type EmergingInstitutionCtaButtonProps = {
   pdfUrl: string;
   className: string;
+  gaEventName?: string;
+  gaCategory?: string;
+  /** Optional override; default is derived from `pdfUrl` (used for GA `file_name`). */
+  gaFileName?: string;
 };
 
 const EMERGING_CTA_LABEL = 'Explore More';
-const EMERGING_GA_EVENT = {
+const DEFAULT_GA = {
   name: 'emerging_cta_click',
   category: 'Emerging',
-  linkText: EMERGING_CTA_LABEL,
 } as const;
 
 export default function EmergingInstitutionCtaButton({
   pdfUrl,
   className,
+  gaEventName = DEFAULT_GA.name,
+  gaCategory = DEFAULT_GA.category,
+  gaFileName,
 }: EmergingInstitutionCtaButtonProps) {
-  const fileName = decodeURIComponent(pdfUrl.split('/').pop() ?? '').replace(
-    /\+/g,
-    ' '
-  );
+  const fileName = gaFileName ?? analyticsFileNameFromPdfUrl(pdfUrl);
 
   const handleCtaClick = () => {
     const gtag = (
@@ -31,10 +35,10 @@ export default function EmergingInstitutionCtaButton({
       }
     ).gtag;
 
-    gtag?.('event', EMERGING_GA_EVENT.name, {
+    gtag?.('event', gaEventName, {
       file_name: fileName,
-      link_text: EMERGING_GA_EVENT.linkText,
-      category: EMERGING_GA_EVENT.category,
+      link_text: EMERGING_CTA_LABEL,
+      category: gaCategory,
     });
   };
 

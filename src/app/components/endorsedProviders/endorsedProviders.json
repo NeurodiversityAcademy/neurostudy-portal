@@ -1,0 +1,26 @@
+[
+  {
+    "id": "bond-university",
+    "logo": "/images/AcademiaLogoLong.png",
+    "topBackgroundImage": "/images/AcademiaCover.jpeg",
+    "pdfUrl": "https://neurostudyportal-assets.s3.ap-southeast-2.amazonaws.com/NDA+Emerging+Providers+-+Bond+Uni.pdf"
+  },
+  {
+    "id": "acpe",
+    "logo": "/images/AcademiaLogoLong.png",
+    "topBackgroundImage": "/images/AcademiaCover.jpeg",
+    "pdfUrl": "https://neurostudyportal-assets.s3.ap-southeast-2.amazonaws.com/NDA+Emerging+Providers+-+ACPE.pdf"
+  },
+  {
+    "id": "flinders-university",
+    "logo": "/images/AcademiaLogoLong.png",
+    "topBackgroundImage": "/images/AcademiaCover.jpeg",
+    "pdfUrl": "https://neurostudyportal-assets.s3.ap-southeast-2.amazonaws.com/NDA+Emerging+Providers+-+Flinders.pdf"
+  },
+  {
+    "id": "flinders-university",
+    "logo": "/images/AcademiaLogoLong.png",
+    "topBackgroundImage": "/images/AcademiaCover.jpeg",
+    "pdfUrl": "https://neurostudyportal-assets.s3.ap-southeast-2.amazonaws.com/NDA+Emerging+Providers+-+Flinders.pdf"
+  }
+]

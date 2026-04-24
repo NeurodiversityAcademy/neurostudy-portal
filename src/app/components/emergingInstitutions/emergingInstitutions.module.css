@@ -39,70 +39,6 @@
   width: 100%;
 }
 
-.card {
-  width: 20%;
-  height: 260px;
-  flex: 0 1 16%;
-  min-width: 220px;
-  max-width: 274px;
-  flex-direction: column;
-  display: flex;
-  border: 0.5px solid var(--BondBlack);
-  border-radius: 8px;
-  background: var(--GhostWhite);
-  overflow: clip;
-  box-shadow: 0px 1px 20px 0px var(--color-shadow-soft);
-}
-
-.cardTop {
-  height: 84px;
-  background-image: url('../../images/emergingCardHeader.png');
-  background-size: cover;
-  background-position: center -10px;
-  background-repeat: no-repeat;
-  flex: 0 0 auto;
-}
-
-.cardBody {
-  width: 100%;
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 0px;
-}
-
-.nameWrap {
-  width: 70%;
-  height: 50px;
-  padding: 8px;
-  border-radius: 4px;
-  background: var(--GhostWhite);
-  border: 0.3px solid var(--BondBlackVariant);
-  box-shadow: 0px 2px 16px 0px var(--color-shadow-soft);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-/*
-  Override ActionButton .primary for this card only: compact size, purple fill, no padding.
-  Typography (font-size/weight) and flex alignment come from button.module.css .primary.
-*/
-.card .ctaButton {
-  width: 202px;
-  height: 41px;
-  padding: 0;
-  background: var(--cherryPieVariant);
-}
-
-.card .ctaButton:hover {
-  background-color: var(--cherryPieVariantSub);
-  box-shadow: 0px 2px 8px 0px var(--color-shadow-pressed);
-}
-
 @media (max-width: 1024px) {
   .cards {
     max-width: 760px;
@@ -121,16 +57,19 @@
   }
 
   .cards {
-    flex-direction: column;
-    align-items: center;
-    gap: 18px;
-    max-width: 340px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    width: min(92vw, 560px);
+    max-width: min(92vw, 560px);
+    margin-inline: auto;
+    justify-content: stretch;
   }
 
-  .card {
-    width: 100%;
-    min-width: 0;
-    max-width: 100%;
-    flex: 0 0 auto;
+  .cards > *:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc((100% - 16px) / 2);
+    max-width: calc((100% - 16px) / 2);
   }
 }
