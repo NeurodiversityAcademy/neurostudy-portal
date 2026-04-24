@@ -3,7 +3,7 @@ import cardData from '@/app/components/emergingInstitutions/emergingInstitutions
 import EmergingProviderHero from '@/app/components/emergingInstitutions/EmergingProviderHero';
 import EmergingProviderStudentSuitability from '@/app/components/emergingInstitutions/EmergingProviderStudentSuitability';
 import EmergingProviderStats from '@/app/components/emergingInstitutions/EmergingProviderStats';
-import EmergingProviderWhoAreThey from '@/app/components/emergingInstitutions/EmergingProviderWhoAreThey';
+import EmergingProvidersFAQs from '@/app/components/emergingInstitutions/EmergingProvidersFAQs';
 import { slugify } from '@/app/utilities/common';
 import {
   HERO_DETAILS_BY_SLUG,
@@ -48,7 +48,7 @@ export default function EmergingProviderPage({
       />
       <EmergingProviderStudentSuitability instituteSlug={institutionSlug} />
       <EmergingProviderStats stats={providerStats} />
-      <EmergingProviderWhoAreThey />
+      <EmergingProvidersFAQs />
     </main>
   );
 }

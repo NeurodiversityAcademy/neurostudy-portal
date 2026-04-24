@@ -325,49 +325,58 @@
   }
 }
 
-.providerWhoSection {
+.emergingFAQSection {
   padding: 0 24px 64px;
 }
 
-.providerWhoCard {
-  width: 80vw;
+.emergingFAQCard {
+  width: 60vw;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   max-width: 80vw;
   margin: 0 auto;
+
 }
 
-.providerWhoAccordion {
+.emergingFAQAccordion {
   border: none;
 }
 
-.providerWhoLead {
+.emergingFAQLead {
   margin-top: 0;
+  padding: 20px;
 }
 
-.providerWhoAreasTable {
+.emergingFAQLead li {
+  margin-left: 20px;
+}
+
+.emergingFAQAreasTable {
   width: 100%;
   border-collapse: collapse;
   margin: 16px 0 24px;
 }
 
-.providerWhoAreaCell {
+.emergingFAQAreaCell {
   border: 1px solid #000000;
   background: transparent;
   padding: 8px 14px;
   vertical-align: middle;
 }
 
-.providerWhoSubheading {
+.emergingFAQSubheading {
   margin: 0 0 8px;
 }
 
 @media (min-width: 768px) {
-  .providerWhoAreaCell {
+  .emergingFAQAreaCell {
     width: 50%;
   }
 }
 
 @media (max-width: 767px) {
-  .providerWhoCard {
+  .emergingFAQCard {
     width: 100%;
   }
 }

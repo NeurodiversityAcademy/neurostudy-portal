@@ -25,7 +25,7 @@ export default function EmergingProviderStats({
           color='var(--BondBlack)'
           className={styles.providerStatsHeading}
         >
-          Student Experience Highlights
+          Student Experience Highlights<sup>*</sup>
         </Typography>
         <div className={styles.providerStatsGrid}>
           {stats.map((stat) => (

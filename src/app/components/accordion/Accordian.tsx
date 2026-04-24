@@ -7,7 +7,7 @@ import ArrowDownIcon from '@/app/components/images/ArrowDown';
 import classNames from 'classnames';
 
 interface Props {
-  title: string;
+  title: string | ReactNode;
   children: ReactNode;
   startExpanded?: boolean;
   className?: string;
