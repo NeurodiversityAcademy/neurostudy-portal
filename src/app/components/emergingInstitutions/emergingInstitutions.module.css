@@ -701,12 +701,32 @@
 }
 
 .emergingFAQLead {
+  display: block;
+  box-sizing: border-box;
   margin-top: 0;
   padding: 20px;
 }
 
 .emergingFAQLead li {
   margin-left: 20px;
+}
+
+.emergingFAQKeyAreasList {
+  margin: 0 20px 12px;
+  padding-left: 1.25rem;
+  list-style-type: disc;
+  list-style-position: outside;
+  color: var(--BondBlackVariant);
+  font-size: var(--body3-font-size);
+  line-height: 1.45;
+}
+
+.emergingFAQKeyAreasList li {
+  margin-bottom: 4px;
+}
+
+.emergingFAQKeyAreasList li:last-child {
+  margin-bottom: 0;
 }
 
 .emergingFAQAreasTable {

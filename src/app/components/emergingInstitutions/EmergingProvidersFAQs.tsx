@@ -34,7 +34,16 @@ export default function EmergingProvidersFAQs() {
             Emerging Providers are education organisations that perform strongly
             across multiple areas of the national QILT Student Experience
             Survey.
+            <br/>
+            Emerging providers must perform above the national
+            average in four key areas that strongly influence a
+            student’s learning environment and development:
           </Typography>
+          <ul className={styles.emergingFAQKeyAreasList}>
+            {QILT_AREAS.slice(0, 4).map((area) => (
+              <li key={area}>{area}</li>
+            ))}
+          </ul>
           <Typography variant={TypographyVariant.Body3}>
             When identifying Emerging Providers, Neurodiversity Academy reviews
             six key areas measured by QILT:
