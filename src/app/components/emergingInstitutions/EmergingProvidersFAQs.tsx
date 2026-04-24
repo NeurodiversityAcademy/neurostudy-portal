@@ -54,24 +54,6 @@ export default function EmergingProvidersFAQs() {
               ))}
             </tbody>
           </table>
-          <Typography
-            variant={TypographyVariant.Body2Strong}
-            className={styles.emergingFAQSubheading}
-          >
-            Why these areas?
-          </Typography>
-          <Typography variant={TypographyVariant.Body3}>
-            These areas reflect the quality of teaching, learning environments,
-            and student support that can benefit neurodivergent learners.
-            Interactions with other students and facilities are also considered,
-            while still allowing providers that are only slightly below national
-            average benchmarks in those categories.
-          </Typography>
-          <Typography variant={TypographyVariant.Body3}>
-            Neurodiversity Academy focuses on building inclusive environments
-            where different ways of thinking and learning are recognised and
-            supported so all students can thrive.
-          </Typography>
         </Accordion>
         <Accordion
           title='Why these areas?'
