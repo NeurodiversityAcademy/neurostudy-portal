@@ -9,6 +9,7 @@ import {
   HERO_DETAILS_BY_SLUG,
   STATS_BY_SLUG,
 } from '@/app/components/emergingInstitutions/emergingProviderPageData';
+import pageStyles from './emergingProviderPage.module.css';
 
 type InstitutionCard = {
   name: string;
@@ -41,7 +42,7 @@ export default function EmergingProviderPage({
   }
 
   return (
-    <main>
+    <main className={pageStyles.pageMain}>
       <EmergingProviderHero
         title={institution.name}
         heroInfoItems={heroInfoItems}

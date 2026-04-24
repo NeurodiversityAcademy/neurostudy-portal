@@ -141,7 +141,7 @@
 
 .providerHeroBanner {
   width: 100%;
-  justify-content: flex-end;
+  justify-content: stretch;
   align-items: stretch;
   position: relative;
   overflow: hidden;
@@ -151,12 +151,8 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    var(--bond-black-light) 100%
-  );
-  opacity: 0.78;
+  background: rgba(42, 42, 42, 0.58);
+  pointer-events: none;
 }
 
 .providerHeroCoverContent {
@@ -164,11 +160,54 @@
   z-index: 1;
   width: 100%;
   box-sizing: border-box;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  align-self: stretch;
 }
 
-.providerHeroTitle {
+.providerHeroCoverInner {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 100%;
+  flex: 1;
+  gap: max(16px, 3vw);
+  box-sizing: border-box;
+}
+
+.providerHeroInstitutionCol {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  flex: 0 1 auto;
+  align-self: stretch;
+}
+
+.providerHeroInstitutionCol .providerHeroInstitutionName {
   margin: 0;
-  text-shadow: 0px 2px 12px rgba(0, 0, 0, 0.4);
+  font-weight: 700;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+}
+
+.providerHeroTaglineCol {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  text-align: right;
+  flex: 1 1 auto;
+  max-width: min(420px, 58vw);
+  align-self: stretch;
+}
+
+.providerHeroTaglineCol .providerHeroTagline {
+  margin: 0;
+  font-weight: 700;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.45);
 }
 
 .providerHeroStatsBelow {
@@ -186,20 +225,122 @@
   border-radius: 16px;
   border: 1px solid var(--grey-100);
   box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 12px 8px;
-  padding: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  column-gap: 10px;
+  row-gap: 0;
+  align-items: center;
+  justify-items: stretch;
+  padding: 20px 12px;
 }
 
-/* Reuse CourseDetailsMiddleBannerIcon safely in hero stats row */
+.providerHeroStatSlotLeft,
+.providerHeroStatSlotRight {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.providerHeroCenterLogo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  width: 100%;
+  max-width: min(104px, 28vw);
+}
+
+.providerHeroCenterLogoImg {
+  width: 100%;
+  max-width: min(104px, 28vw);
+  height: auto;
+  object-fit: contain;
+}
+
+/* Tighter icon + label stacks so Type / Location fit beside the logo on narrow widths */
+.providerHeroStats .providerHeroStatSlotLeft > div,
+.providerHeroStats .providerHeroStatSlotRight > div {
+  padding: 2px 4px;
+  gap: 0.35rem;
+  max-width: 100%;
+  min-width: 0;
+  align-items: center;
+}
+
+/*
+  CourseDetailsMiddleBannerIcon uses a broken circle (fixed height + large padding-bottom + img scale).
+  Here we draw a real circle and centre the glyph so Type / Location line up with the logo row.
+*/
+.providerHeroStats .providerHeroStatSlotLeft > div > div:first-child,
+.providerHeroStats .providerHeroStatSlotRight > div > div:first-child {
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.providerHeroStats .providerHeroStatSlotLeft > div > div:first-child img,
+.providerHeroStats .providerHeroStatSlotRight > div > div:first-child img,
+.providerHeroStats .providerHeroStatSlotLeft > div > div:first-child span img,
+.providerHeroStats .providerHeroStatSlotRight > div > div:first-child span img {
+  scale: 1;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
 @media (min-width: 768px) {
   .providerHeroStats {
-    flex-wrap: nowrap;
-    gap: 0;
-    justify-content: space-between;
+    grid-template-columns: 1fr minmax(160px, 240px) 1fr;
+    column-gap: 20px;
+    row-gap: 12px;
+    padding: 24px;
+  }
+
+  .providerHeroStatSlotLeft {
+    justify-content: flex-start;
+  }
+
+  .providerHeroStatSlotRight {
+    justify-content: flex-end;
+  }
+
+  .providerHeroCenterLogo {
+    max-width: none;
+  }
+
+  .providerHeroCenterLogoImg {
+    max-width: 220px;
+  }
+
+  .providerHeroStats .providerHeroStatSlotLeft > div,
+  .providerHeroStats .providerHeroStatSlotRight > div {
+    padding: 1rem;
+    gap: 0.6rem;
+  }
+
+  .providerHeroStats .providerHeroStatSlotLeft > div > div:first-child,
+  .providerHeroStats .providerHeroStatSlotRight > div > div:first-child {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+  }
+
+  .providerHeroStats .providerHeroStatSlotLeft > div > div:first-child img,
+  .providerHeroStats .providerHeroStatSlotRight > div > div:first-child img,
+  .providerHeroStats .providerHeroStatSlotLeft > div > div:first-child span img,
+  .providerHeroStats .providerHeroStatSlotRight > div > div:first-child span img {
+    width: 24px;
+    height: 24px;
   }
 }
 
@@ -208,25 +349,48 @@
     padding: 24px 16px;
   }
 
+  .providerHeroCoverInner {
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .providerHeroTaglineCol {
+    max-width: 100%;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .providerHeroInstitutionCol {
+    width: 100%;
+  }
+
   .providerHeroStatsBelow {
     padding: 16px 16px 24px;
   }
 
   .providerHeroStats {
-    gap: 16px;
-    padding: 18px 14px;
+    column-gap: 6px;
+    padding: 14px 8px;
+  }
+
+  .providerHeroCenterLogo,
+  .providerHeroCenterLogoImg {
+    max-width: min(92px, 26vw);
   }
 }
 
 .providerHeroSection .providerHeroBanner {
-  height: 45vh;
-  min-height: 312px;
+  height: 32.59vh;
+  min-height: 226px;
+  justify-content: stretch;
+  align-items: stretch;
 }
 
 @media (max-width: 767px) {
   .providerHeroSection .providerHeroBanner {
-    height: 41vh;
-    min-height: 276px;
+    height: 29.69vh;
+    min-height: 200px;
   }
 }
 
@@ -234,21 +398,48 @@
   padding: 0 0 48px;
 }
 
+@media (min-width: 768px) {
+  .providerBenefitsSection > div {
+    width: 80vw;
+    max-width: 100%;
+  }
+}
+
 .providerBenefitsList {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  /* Mobile: two columns (minmax(300px) only fits one column on narrow screens) */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 12px;
+  row-gap: 8px;
   list-style: none;
-  gap: 0;
   padding: 0;
   margin: 0;
 }
 
 .providerBenefitsItem {
   display: flex;
-  align-items: center;
-  padding: 20px;
-  width: max-content;
-  max-width: 300px;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 12px 8px;
+  width: auto;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .providerBenefitsList {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    column-gap: 0;
+    row-gap: 0;
+  }
+
+  .providerBenefitsItem {
+    align-items: center;
+    padding: 20px;
+    width: max-content;
+    max-width: 300px;
+  }
 }
 
 .providerBenefitsItem img {
@@ -266,11 +457,17 @@
 
 .providerStatsSection {
   padding: 0 24px 48px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 .providerStatsContainer {
   width: min(100%, 896px);
+  max-width: 100%;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .providerStatsHeading {
@@ -280,48 +477,186 @@
 
 .providerStatsGrid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 10px;
+  row-gap: 14px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .providerStatsCard {
-  background: #f7d772;
-  border-radius: 12px;
-  padding: 24px;
+  background: #fbde5d;
+  border-radius: 20px;
+  padding: 29px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 8px;
-}
-
-.providerStatsValue {
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 1.1;
-}
-
-.providerStatsMeta {
-  margin-top: 6px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  gap: 0;
+  letter-spacing: 0.03em;
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
 }
 
 .providerStatsIcon {
   width: 48px;
   height: 48px;
+  margin-bottom: 17px;
+  flex-shrink: 0;
+  object-fit: contain;
 }
 
-@media (min-width: 768px) {
+.providerStatsCard .providerStatsValue {
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.1;
+  margin-bottom: 10px;
+  letter-spacing: 0.025em;
+}
+
+.providerStatsCard .providerStatsTitle {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.25;
+  max-width: 100%;
+}
+
+.providerStatsMeta {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.providerStatsCard .providerStatsNational {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+}
+
+.providerStatsCard .providerStatsResponses {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.providerStatsDisclaimer {
+  width: 80%;
+  margin-left: auto;
+  margin-top: 32px;
+  text-align: right;
+}
+
+.providerStatsDisclaimer .providerStatsDisclaimerLine {
+  display: block;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0.02em;
+}
+
+.providerStatsDisclaimer .providerStatsDisclaimerLine + .providerStatsDisclaimerLine {
+  margin-top: 4px;
+}
+
+.providerStatsDisclaimerLink {
+  color: var(--cherryPie);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.providerStatsDisclaimerLink:hover {
+  color: var(--cherryPieVariant);
+}
+
+@media (max-width: 767px) {
+  .providerStatsSection {
+    padding: 0 12px 36px;
+  }
+
+  .providerStatsSection .providerStatsHeading {
+    margin-bottom: 14px;
+    font-size: 18px;
+    line-height: 1.25;
+  }
+
   .providerStatsGrid {
-    grid-template-columns: repeat(2, 1fr);
+    column-gap: 8px;
+    row-gap: 10px;
+  }
+
+  /* ~20% shorter cards: less padding + tighter type (≈80% of prior mobile sizes) */
+  .providerStatsCard {
+    padding: 23px 8px;
+    border-radius: 16px;
+  }
+
+  .providerStatsIcon {
+    width: 38px;
+    height: 38px;
+    margin-bottom: 13px;
+  }
+
+  .providerStatsCard .providerStatsValue {
+    font-size: 18px;
+    line-height: 1.08;
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+
+  .providerStatsCard .providerStatsTitle {
+    font-size: 16px;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+  }
+
+  .providerStatsMeta {
+    margin-top: 9px;
+    gap: 3px;
+  }
+
+  .providerStatsCard .providerStatsNational,
+  .providerStatsCard .providerStatsResponses {
+    font-size: 10px;
+    line-height: 1.3;
+    letter-spacing: 0.025em;
+  }
+
+  .providerStatsDisclaimer {
+    margin-top: 22px;
+    width: 100%;
+    max-width: 100%;
+    padding-left: 0;
+  }
+
+  .providerStatsDisclaimer .providerStatsDisclaimerLine {
+    font-size: 10px;
+    line-height: 1.4;
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
+  .providerStatsContainer {
+    width: 80vw;
+    max-width: 100%;
+  }
+
   .providerStatsGrid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 88px;
+    row-gap: 72px;
+    justify-items: center;
+  }
+
+  /* Yellow tiles max width (+40% vs 252px); extra space stays in gutters */
+  .providerStatsCard {
+    width: 100%;
+    max-width: 353px;
+    justify-self: center;
   }
 }
 

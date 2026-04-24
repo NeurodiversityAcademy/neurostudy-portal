@@ -1,14 +1,12 @@
-import { StaticImageData } from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import styles from './emergingInstitutions.module.css';
 import bannerStyles from '@/app/components/banner/banner.module.css';
 import classNames from 'classnames';
 import CourseDetailsMiddleBannerIcon from '@/app/components/course/CourseDetails/CourseDetailsMiddleBanner/CourseDetailsMiddleBannerIcon';
 import mapPin from '@/app/images/MapPin.png';
-import hourglass from '@/app/images/Hourglass.png';
-import clockCountdown from '@/app/images/ClockCountdown.png';
 import notebook from '@/app/images/Notebook.png';
-import currencyCircleDollar from '@/app/images/CurrencyCircleDollar.png';
+import emergingProvidersLogo from '@/app/images/emergingProviders.jpeg';
 
 export type HeroInfoItem = {
   icon: StaticImageData;
@@ -27,23 +25,11 @@ export default function EmergingProviderHero({
 }: EmergingProviderHeroProps) {
   const iconByLabel: Record<string, StaticImageData> = {
     Location: mapPin,
-    Duration: hourglass,
-    'Application End': clockCountdown,
-    Subjects: notebook,
-    Fees: currencyCircleDollar,
+    Type: notebook,
   };
 
-  const statOrder = [
-    'Location',
-    'Duration',
-    'Application End',
-    'Subjects',
-    'Fees',
-  ] as const;
-
-  const orderedStatItems = statOrder
-    .map((label) => heroInfoItems.find((item) => item.label === label))
-    .filter((item): item is HeroInfoItem => Boolean(item));
+  const locationItem = heroInfoItems.find((item) => item.label === 'Location');
+  const typeItem = heroInfoItems.find((item) => item.label === 'Type');
 
   return (
     <section className={styles.providerHeroSection}>
@@ -54,26 +40,66 @@ export default function EmergingProviderHero({
         )}
       >
         <div className={styles.providerHeroCoverContent}>
-          <Typography
-            variant={TypographyVariant.H1}
-            color='var(--GhostWhite)'
-            className={styles.providerHeroTitle}
-          >
-            {title}
-          </Typography>
+          <div className={styles.providerHeroCoverInner}>
+            <div className={styles.providerHeroInstitutionCol}>
+              <Typography
+                variant={TypographyVariant.H1}
+                color='var(--GhostWhite)'
+                className={styles.providerHeroInstitutionName}
+              >
+                ({title})
+              </Typography>
+            </div>
+            <div className={styles.providerHeroTaglineCol}>
+              <Typography
+                variant={TypographyVariant.H3}
+                color='var(--GhostWhite)'
+                className={styles.providerHeroTagline}
+              >
+                Organisations Showing
+                <br />
+                Potential for
+                <br />
+                Neuro-Inclusive
+                <br />
+                Education
+              </Typography>
+            </div>
+          </div>
         </div>
       </div>
       <div className={styles.providerHeroStatsBelow}>
         <div className={styles.providerHeroStats}>
-          {orderedStatItems.map((item, index) => (
-            <CourseDetailsMiddleBannerIcon
-              key={`${item.label}-${index}`}
-              src={iconByLabel[item.label]}
-              alt=''
-              title={item.value}
-              description={item.label}
+          <div className={styles.providerHeroStatSlotLeft}>
+            {typeItem ? (
+              <CourseDetailsMiddleBannerIcon
+                src={iconByLabel.Type}
+                alt=''
+                title={typeItem.label}
+                description={typeItem.value}
+              />
+            ) : null}
+          </div>
+          <div className={styles.providerHeroCenterLogo}>
+            <Image
+              src={emergingProvidersLogo}
+              alt='Emerging Providers'
+              width={emergingProvidersLogo.width}
+              height={emergingProvidersLogo.height}
+              className={styles.providerHeroCenterLogoImg}
+              priority
             />
-          ))}
+          </div>
+          <div className={styles.providerHeroStatSlotRight}>
+            {locationItem ? (
+              <CourseDetailsMiddleBannerIcon
+                src={iconByLabel.Location}
+                alt=''
+                title={locationItem.label}
+                description={locationItem.value}
+              />
+            ) : null}
+          </div>
         </div>
       </div>
     </section>
