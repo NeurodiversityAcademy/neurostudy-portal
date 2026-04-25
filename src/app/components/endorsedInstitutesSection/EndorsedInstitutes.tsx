@@ -15,6 +15,7 @@ import ActionButton from '../buttons/ActionButton';
 
 const ENDORSED_INSTITUTES_GA = {
   category: 'Endorsed',
+  section: 'endorsed_institutes_carousel',
   providerWebsiteClick: 'endorsed_provider_website_click',
   carouselNavigationClick: 'endorsed_provider_carousel_navigation_click',
   carouselCtaClick: 'endorsed_provider_carousel_cta_click',
@@ -39,7 +40,7 @@ export default function EndorsedInstitutes() {
 
       gtag?.('event', eventName, {
         category: ENDORSED_INSTITUTES_GA.category,
-        section: 'endorsed_institutes_carousel',
+        section: ENDORSED_INSTITUTES_GA.section,
         ...eventParams,
       });
     },
