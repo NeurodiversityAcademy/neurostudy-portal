@@ -1,0 +1,21 @@
+{
+  "title": "Benefits of this course",
+  "tabs": [
+    {
+      "id": "support",
+      "label": "Support Available",
+      "courseSource": "support"
+    },
+    {
+      "id": "adjustment",
+      "label": "Possible Adjustments*",
+      "courseSource": "adjustment"
+    },
+    {
+      "id": "jobs",
+      "label": "Possible Job Requirements",
+      "courseSource": "jobs"
+    }
+  ],
+  "disclaimer": "*These are possible reasonable adjustments that the learning organisation may be able to provide. They are not automatic and will be discussed and agreed upon with the organisation before you begin, as part of your individual support plan."
+}

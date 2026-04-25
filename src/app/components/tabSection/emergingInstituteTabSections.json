@@ -1,0 +1,38 @@
+{
+  "studentSuitabilityDefault": {
+    "title": "Student Suitability",
+    "disclaimer": null,
+    "tabs": [
+      {
+        "id": "suit",
+        "label": "May Suit Students Who",
+        "iconType": "check",
+        "items": [
+          "Prefer structured academic programs",
+          "Benefit from predictable course structures",
+          "Prefer defined degree pathways",
+          "Prefer a mix of practical and academic learning",
+          "Prefer small cohort learning environments",
+          "Prefer traditional university environments",
+          "Value direct interaction with teachers",
+          "Prefer strong teaching relationships",
+          "Prefer collaborative learning environments",
+          "Prefer higher education pathways"
+        ]
+      },
+      {
+        "id": "challenge",
+        "label": "May Be Challenging For Students Who",
+        "iconType": "close",
+        "items": [
+          "Prefer fully online learning",
+          "Prefer highly flexible study schedules",
+          "Prefer self-paced learning models",
+          "Prefer academic learning over practical learning",
+          "Prefer fully online degree programs"
+        ]
+      }
+    ]
+  },
+  "byInstituteSlug": {}
+}

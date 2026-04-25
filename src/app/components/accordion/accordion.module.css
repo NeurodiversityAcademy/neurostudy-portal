@@ -28,6 +28,11 @@
     border-color 150ms linear;
   border-bottom: 1px solid var(--grey-100); /* Using global grey variable */
   margin-bottom: 0;
+  width: 100%;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  text-align: left;
 }
 
 .header:hover {

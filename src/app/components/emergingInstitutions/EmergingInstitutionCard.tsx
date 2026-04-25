@@ -4,12 +4,12 @@ import EmergingInstitutionCtaButton from './EmergingInstitutionCtaButton';
 
 type EmergingInstitutionCardProps = {
   name: string;
-  pdfUrl: string;
+  href: string;
 };
 
 export default function EmergingInstitutionCard({
   name,
-  pdfUrl,
+  href,
 }: EmergingInstitutionCardProps) {
   return (
     <div className={styles.card}>
@@ -19,7 +19,8 @@ export default function EmergingInstitutionCard({
           <Typography variant={TypographyVariant.Body2}>{name}</Typography>
         </div>
         <EmergingInstitutionCtaButton
-          pdfUrl={pdfUrl}
+          href={href}
+          institutionName={name}
           className={styles.ctaButton}
         />
       </div>
