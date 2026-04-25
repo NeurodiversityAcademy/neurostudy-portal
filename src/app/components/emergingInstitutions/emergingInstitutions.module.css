@@ -35,13 +35,13 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 52px;
+  gap: 34px;
   width: 100%;
 }
 
 .card {
   width: 20%;
-  height: 260px;
+  height: 240px;
   flex: 0 1 16%;
   min-width: 220px;
   max-width: 274px;
@@ -55,7 +55,7 @@
 }
 
 .cardTop {
-  height: 143px;
+  height: 100px;
   background-image: url('../../images/emergingCardHeader.png');
   background-size: cover;
   background-position: center -10px;
@@ -70,7 +70,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 0px;
+  padding: 12px 0px 14px;
 }
 
 .nameWrap {
@@ -92,8 +92,9 @@
   Typography (font-size/weight) and flex alignment come from button.module.css .primary.
 */
 .card .ctaButton {
-  width: 202px;
-  height: 41px;
+  width: 180px;
+  height: 38px;
+  margin-top: 10px;
   padding: 0;
   background: var(--cherryPieVariant);
 }
@@ -133,6 +134,7 @@
     max-width: 100%;
     flex: 0 0 auto;
   }
+
 }
 
 .providerHeroSection {
@@ -338,7 +340,7 @@
 
   .providerHeroCenterLogoImg {
     max-width: 170px;
-    height: 72px;
+    min-height: 50px;
     object-fit: cover;
   }
 
@@ -422,7 +424,7 @@
 
   .providerHeroCenterLogoImg {
     width: 100%;
-    height: 143px;
+    height: 100px;
     object-fit: contain;
   }
 }
