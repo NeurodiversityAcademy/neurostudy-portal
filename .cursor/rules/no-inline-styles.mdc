@@ -1,0 +1,60 @@
+---
+description: Forbid React inline style objects on JSX; use CSS Modules and classes instead
+globs: **/*.tsx, **/*.jsx
+alwaysApply: true
+---
+
+# No inline styles
+
+This rule applies to **all** TSX/JSX in this repo unless an item is listed under **Exceptions**.
+
+## What counts as forbidden
+
+- Any React **`style={{ ... }}`** (or `style={someObject}`) used for **presentation**: color, typography, spacing, borders, shadows, flex/grid placement, width/height/max-width, transforms, opacity, etc.
+- **Hoisting does not help**: extracting `const cardStyle = { margin: 12 }` and passing `style={cardStyle}` is still an inline style on the DOM and is **not** allowed.
+- **`dangerouslySetInnerHTML` with embedded `style=` attributes** in HTML strings — use classes in CSS instead.
+
+## What to use instead
+
+- **CSS Modules** (`.module.css`) co-located with the component — default for component-specific layout and look.
+- **Global or shared stylesheets** only when the style is truly cross-cutting (tokens, resets, layout shells already in the app).
+- **Design tokens** as `var(--token)` inside CSS files — not by injecting `color: var(--x)` via JSX `style`.
+- **Responsive behavior**: media queries, `clamp()`, `min()`, `max()`, container queries — in CSS, not breakpoint logic duplicated in `style`.
+- **`next/image`**: control **display size** with CSS (`width`, `max-width`, `height: auto`, `object-fit`, wrapper layout). Do not use the `style` prop on `<Image>` for sizing. The `sizes` attribute is for **srcset selection**, not visual styling; prefer defining layout in CSS; add `sizes` only when needed for performance, not as a substitute for CSS dimensions.
+
+## Project-specific: Typography
+
+- Use the **`color`** prop with **supported design-token strings** only. Tokens map to classes via `src/app/components/typography/typographyColorClasses.ts` and `typography.module.css`.
+- **`Typography` does not accept `style`** (omitted from its public props). To add a new text color, add a CSS class **and** a map entry; do not pass arbitrary `var(...)` strings without mapping.
+
+## Legacy code
+
+- Some older primitives (e.g. button helpers using shared style objects) may still pass `style`. **Do not copy that pattern into new code.** When you edit those files, migrate toward class-based variants (CSS Module modifiers or dedicated classes).
+
+## Exceptions (allowed)
+
+1. **Runtime-only CSS custom properties** when the value **cannot** be expressed in static CSS and drives behavior the stylesheet cannot know upfront (e.g. range slider fill). The JSX line or block **must** include a short comment pointing to this rule or stating why `style` is required. Reference: `SliderInput` (`--slider-value` on the native range input).
+2. **Third-party components** that mandate a `style` prop with no class-based API — wrap if possible; if unavoidable, isolate in one thin adapter and document why.
+
+## Anti-patterns
+
+```tsx
+// BAD — inline presentation
+<div style={{ padding: 16, color: 'var(--BondBlack)' }} />
+
+// BAD — “hoisted” is still inline
+const sx = { maxWidth: 220 };
+<Image style={sx} ... />
+
+// GOOD — CSS Module
+<div className={styles.card} />
+
+// GOOD — token in CSS, not JSX
+/* in module.css */ .title { color: var(--BondBlack); }
+```
+
+## Checklist before merging UI work
+
+- [ ] No new `style={{` in files you changed.
+- [ ] No new presentation logic in JS that belongs in CSS (width breakpoints as inline objects, etc.).
+- [ ] New `Typography` colors added only via `typographyColorClasses.ts` + `typography.module.css`.

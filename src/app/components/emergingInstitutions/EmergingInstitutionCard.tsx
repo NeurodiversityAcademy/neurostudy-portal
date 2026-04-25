@@ -4,12 +4,12 @@ import Typography, { TypographyVariant } from '../typography/Typography';
 
 type EmergingInstitutionCardProps = {
   name: string;
-  pdfUrl: string;
+  href: string;
 };
 
 export default function EmergingInstitutionCard({
   name,
-  pdfUrl,
+  href,
 }: EmergingInstitutionCardProps) {
   return (
     <InstitutionProviderCard

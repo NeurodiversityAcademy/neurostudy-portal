@@ -86,3 +86,44 @@
   }
 
 }
+
+/* Typography `color` prop maps here — never use inline `style` for text color */
+.colorGhostWhite {
+  color: var(--GhostWhite);
+}
+
+.colorGhostWhiteVariant {
+  color: var(--GhostWhiteVariant);
+}
+
+.colorBondBlack {
+  color: var(--BondBlack);
+}
+
+.colorBondBlackVariant {
+  color: var(--BondBlackVariant);
+}
+
+.colorGrey {
+  color: var(--grey);
+}
+
+.colorGrey300 {
+  color: var(--grey-300);
+}
+
+.colorGrey500 {
+  color: var(--grey-500);
+}
+
+.colorCherryPie {
+  color: var(--cherryPie);
+}
+
+.colorCherryPieVariant {
+  color: var(--cherryPieVariant);
+}
+
+.colorError {
+  color: red;
+}

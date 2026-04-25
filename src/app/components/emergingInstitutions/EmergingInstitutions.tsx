@@ -4,10 +4,10 @@ import cardData from './emergingInstitutions.json';
 import graduationCap from '../../images/graduationCap.png';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import EmergingInstitutionCard from './EmergingInstitutionCard';
+import { slugify } from '@/app/utilities/common';
 
 type InstitutionCard = {
   name: string;
-  pdfUrl: string;
 };
 
 export default function EmergingInstitutions() {
@@ -36,11 +36,11 @@ export default function EmergingInstitutions() {
         </Typography>
 
         <div className={styles.cards}>
-          {institutions.map((institution, index) => (
+          {institutions.map((institution) => (
             <EmergingInstitutionCard
-              key={`${institution.name}-${index}`}
+              key={institution.name}
               name={institution.name}
-              pdfUrl={institution.pdfUrl}
+              href={`/emergingproviders/${slugify(institution.name)}`}
             />
           ))}
         </div>

@@ -1,6 +1,7 @@
 import React, { createElement, HTMLAttributes } from 'react';
 import styles from './typography.module.css';
 import classNames from 'classnames';
+import { typographyColorClassForToken } from './typographyColorClasses';
 
 export enum TypographyVariant {
   H1 = 'h1',
@@ -18,10 +19,11 @@ export enum TypographyVariant {
 interface TypographyElement
   extends HTMLAttributes<HTMLHeadingElement | HTMLSpanElement> {}
 
-interface TypographyProps extends TypographyElement {
+interface TypographyProps extends Omit<TypographyElement, 'color' | 'style'> {
   variant: TypographyVariant;
   children: React.ReactNode;
-  color?: string;
+  /** Design-token string (e.g. `var(--BondBlack)`) or `'red'` for errors — mapped to CSS classes, never inline styles */
+  color?: string | false;
 }
 
 const Typography: React.FC<TypographyProps> = ({
@@ -31,7 +33,19 @@ const Typography: React.FC<TypographyProps> = ({
   className,
   ...rest
 }) => {
-  const style = color ? { color } : {};
+  const colorClassName =
+    typeof color === 'string' ? typographyColorClassForToken(color) : undefined;
+
+  if (
+    process.env.NODE_ENV !== 'production' &&
+    typeof color === 'string' &&
+    color.length > 0 &&
+    !colorClassName
+  ) {
+    console.warn(
+      `[Typography] Unmapped color prop "${color}". Add typographyColorClasses.ts + typography.module.css entries.`
+    );
+  }
 
   let tag: 'span' | 'h1' | 'h2' | 'h3' = 'span';
   let variantClassName = styles.body1;
@@ -73,9 +87,13 @@ const Typography: React.FC<TypographyProps> = ({
   }
 
   const props: TypographyElement = {
-    style,
     ...rest,
-    className: classNames(styles.common, variantClassName, className),
+    className: classNames(
+      styles.common,
+      variantClassName,
+      colorClassName,
+      className
+    ),
   };
 
   return createElement(tag, props, children);

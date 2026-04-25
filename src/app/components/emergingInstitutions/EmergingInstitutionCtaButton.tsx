@@ -18,7 +18,8 @@ export type InstitutionCtaAnalytics = {
 };
 
 type EmergingInstitutionCtaButtonProps = {
-  pdfUrl: string;
+  href: string;
+  institutionName: string;
   className: string;
   analytics?: InstitutionCtaAnalytics;
 };
@@ -30,7 +31,8 @@ const DEFAULT_GA = {
 } as const;
 
 export default function EmergingInstitutionCtaButton({
-  pdfUrl,
+  href,
+  institutionName,
   className,
   analytics,
 }: EmergingInstitutionCtaButtonProps) {
@@ -58,8 +60,8 @@ export default function EmergingInstitutionCtaButton({
       label={EMERGING_CTA_LABEL}
       style={BUTTON_STYLE.Primary}
       className={className}
-      to={pdfUrl}
-      openInNewTab={true}
+      to={href}
+      openInNewTab={false}
       onClick={handleCtaClick}
     />
   );
