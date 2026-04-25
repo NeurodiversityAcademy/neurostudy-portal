@@ -11,6 +11,7 @@ interface Props {
   children: ReactNode;
   startExpanded?: boolean;
   className?: string;
+  onToggle?: (expanded: boolean) => void;
 }
 
 const Accordion: React.FC<Props> = ({
@@ -18,13 +19,18 @@ const Accordion: React.FC<Props> = ({
   children,
   startExpanded = false,
   className,
+  onToggle,
 }) => {
   const contentId = useId() + '-accordion-content';
   const triggerId = useId() + '-accordion-trigger';
   const [expanded, setExpanded] = useState(startExpanded);
 
   const toggleContent = () => {
-    setExpanded((previous) => !previous);
+    setExpanded((previous) => {
+      const nextExpanded = !previous;
+      onToggle?.(nextExpanded);
+      return nextExpanded;
+    });
   };
 
   return (
