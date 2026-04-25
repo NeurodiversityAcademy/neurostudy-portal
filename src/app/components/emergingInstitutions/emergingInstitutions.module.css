@@ -339,7 +339,7 @@
   .providerHeroCenterLogoImg {
     max-width: 170px;
     height: 72px;
-    object-fit: contain;
+    object-fit: cover;
   }
 
   .providerHeroStats .providerHeroStatSlotLeft > div,
