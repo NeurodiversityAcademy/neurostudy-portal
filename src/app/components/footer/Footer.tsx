@@ -171,7 +171,7 @@ export default function Footer() {
             Terms of Service
           </Typography>
           <a
-            href='https://neurodiversityacademy927-my.sharepoint.com/:b:/g/personal/pratik_neurodiversityacademy_com/EXNxXkIM999Ot5uVj79jds0Bw4Q7b_rHPqA4bBDS3Q1acg?e=4Tnsi0'
+            href='https://neurostudyportal-assets.s3.ap-southeast-2.amazonaws.com/Privacy+Policy.pdf'
             target='_blank'
             aria-label='Privacy policy (opens in new tab)'
             title='Visit Privacy policy page'
