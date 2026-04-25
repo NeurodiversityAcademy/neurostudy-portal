@@ -33,6 +33,11 @@ export default function EmergingProviderStats({
               <Image
                 src={stat.icon}
                 alt=''
+                width={stat.icon.width}
+                height={stat.icon.height}
+                quality={100}
+                unoptimized
+                sizes='(max-width: 767px) 45vw, 200px'
                 className={styles.providerStatsIcon}
               />
               <Typography
@@ -43,7 +48,7 @@ export default function EmergingProviderStats({
                 {stat.value}
               </Typography>
               <Typography
-                variant={TypographyVariant.Body3Strong}
+                variant={TypographyVariant.Body3}
                 color='var(--BondBlack)'
                 className={styles.providerStatsTitle}
               >
@@ -58,11 +63,14 @@ export default function EmergingProviderStats({
                   National Average {stat.nationalAverage}
                 </Typography>
                 <Typography
-                  variant={TypographyVariant.Body3Strong}
+                  variant={TypographyVariant.Body3}
                   color='var(--BondBlack)'
                   className={styles.providerStatsResponses}
                 >
-                  Responses {stat.responses}
+                  <span className={styles.providerStatsResponsesLabel}>
+                    Responses
+                  </span>{' '}
+                  {stat.responses}
                 </Typography>
               </div>
             </article>
@@ -74,7 +82,7 @@ export default function EmergingProviderStats({
             color='var(--BondBlack)'
             className={styles.providerStatsDisclaimerLine}
           >
-            Based on Undergraduate Student Experience Survey data
+            <sup>*</sup>Based on Undergraduate Student Experience Survey data
           </Typography>
           <Typography
             variant={TypographyVariant.Body3}

@@ -139,12 +139,22 @@
   width: 100%;
 }
 
+/* Do not compose banner.bannerContainer here: its bg.svg can override this cover in the cascade. */
 .providerHeroBanner {
+  box-sizing: border-box;
   width: 100%;
+  padding: 5vw;
+  gap: 1vw;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
   justify-content: stretch;
   align-items: stretch;
   position: relative;
   overflow: hidden;
+  background-image: url('../../images/emergingInstitutions/cover-emerging-providers.png');
+  background-repeat: no-repeat;
+  background-size: cover;
   background-position: center center;
 }
 
@@ -256,9 +266,10 @@
 .providerHeroCenterLogoImg {
   width: 100%;
   max-width: min(104px, 28vw);
-  height: auto;
-  object-fit: contain;
+  height: clamp(38px, 11vw, 56px);
+  object-fit: cover;
 }
+
 
 /* Tighter icon + label stacks so Type / Location fit beside the logo on narrow widths */
 .providerHeroStats .providerHeroStatSlotLeft > div,
@@ -327,6 +338,8 @@
 
   .providerHeroCenterLogoImg {
     max-width: 170px;
+    height: 72px;
+    object-fit: cover;
   }
 
   .providerHeroStats .providerHeroStatSlotLeft > div,
@@ -485,7 +498,7 @@
 }
 
 .providerStatsContainer {
-  width: min(100%, 896px);
+  width: min(100%, 986px);
   max-width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
@@ -506,6 +519,8 @@
 }
 
 .providerStatsCard {
+  container-type: inline-size;
+  container-name: stat-card;
   background: #fbde5d;
   border-radius: 20px;
   padding: 29px;
@@ -514,38 +529,49 @@
   align-items: center;
   text-align: center;
   gap: 0;
-  letter-spacing: 0.03em;
+  letter-spacing: 0;
   box-sizing: border-box;
   min-width: 0;
   width: 100%;
   max-width: 100%;
 }
 
+/* Fallback; overridden below when container query units are supported */
 .providerStatsIcon {
-  width: 48px;
+  width: 60px;
   height: 48px;
+  max-width: 100%;
   margin-bottom: 17px;
   flex-shrink: 0;
   object-fit: contain;
 }
 
+/* Height = 45% of card width; width 25% greater than that height */
+@supports (width: 1cqw) {
+  .providerStatsIcon {
+    height: 45cqw;
+    width: calc(45cqw * 1.25);
+  }
+}
+
 .providerStatsCard .providerStatsValue {
-  font-size: 22px;
-  font-weight: 500;
-  line-height: 1.1;
-  margin-bottom: 10px;
-  letter-spacing: 0.025em;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.05;
+  margin-bottom: 6px;
+  letter-spacing: 0;
 }
 
 .providerStatsCard .providerStatsTitle {
   font-size: 20px;
-  font-weight: 700;
-  line-height: 1.25;
+  font-weight: 400;
+  line-height: 1.12;
   max-width: 100%;
+  letter-spacing: 0;
 }
 
 .providerStatsMeta {
-  margin-top: 12px;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -553,8 +579,8 @@
 
 .providerStatsCard .providerStatsNational,
 .providerStatsCard .providerStatsResponses {
-  font-size: 12px;
-  letter-spacing: 0.03em;
+  font-size: 13px;
+  letter-spacing: 0;
 }
 
 .providerStatsCard .providerStatsNational {
@@ -562,7 +588,11 @@
 }
 
 .providerStatsCard .providerStatsResponses {
-  font-weight: 700;
+  font-weight: 400;
+}
+
+.providerStatsCard .providerStatsResponsesLabel {
+  font-weight: 400;
 }
 
 .providerStatsDisclaimer {
@@ -619,34 +649,33 @@
   }
 
   .providerStatsIcon {
-    width: 38px;
-    height: 38px;
     margin-bottom: 13px;
   }
 
   .providerStatsCard .providerStatsValue {
-    font-size: 18px;
-    line-height: 1.08;
-    margin-bottom: 8px;
-    letter-spacing: 0.02em;
+    font-size: 22px;
+    line-height: 1.05;
+    margin-bottom: 5px;
+    letter-spacing: 0;
   }
 
   .providerStatsCard .providerStatsTitle {
     font-size: 16px;
-    line-height: 1.2;
-    letter-spacing: 0.01em;
+    font-weight: 400;
+    line-height: 1.12;
+    letter-spacing: 0;
   }
 
   .providerStatsMeta {
-    margin-top: 9px;
+    margin-top: 14px;
     gap: 3px;
   }
 
   .providerStatsCard .providerStatsNational,
   .providerStatsCard .providerStatsResponses {
-    font-size: 10px;
+    font-size: 11px;
     line-height: 1.3;
-    letter-spacing: 0.025em;
+    letter-spacing: 0;
   }
 
   .providerStatsDisclaimer {
@@ -663,7 +692,7 @@
 
 @media (min-width: 768px) {
   .providerStatsContainer {
-    width: 80vw;
+    width: 84vw;
     max-width: 100%;
   }
 
@@ -677,7 +706,7 @@
   /* Yellow tiles max width (+40% vs 252px); extra space stays in gutters */
   .providerStatsCard {
     width: 100%;
-    max-width: 353px;
+    max-width: 400px;
     justify-self: center;
   }
 }

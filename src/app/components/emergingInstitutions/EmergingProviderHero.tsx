@@ -1,12 +1,10 @@
 import Image, { StaticImageData } from 'next/image';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import styles from './emergingInstitutions.module.css';
-import bannerStyles from '@/app/components/banner/banner.module.css';
-import classNames from 'classnames';
 import CourseDetailsMiddleBannerIcon from '@/app/components/course/CourseDetails/CourseDetailsMiddleBanner/CourseDetailsMiddleBannerIcon';
 import mapPin from '@/app/images/MapPin.png';
 import notebook from '@/app/images/Notebook.png';
-import emergingProvidersLogo from '@/app/images/emergingProviders.jpeg';
+import emergingProvidersBadge from '@/app/images/emergingInstitutions/emgerging-badge.png';
 
 export type HeroInfoItem = {
   icon: StaticImageData;
@@ -33,12 +31,7 @@ export default function EmergingProviderHero({
 
   return (
     <section className={styles.providerHeroSection}>
-      <div
-        className={classNames(
-          bannerStyles.bannerContainer,
-          styles.providerHeroBanner
-        )}
-      >
+      <div className={styles.providerHeroBanner}>
         <div className={styles.providerHeroCoverContent}>
           <div className={styles.providerHeroCoverInner}>
             <div className={styles.providerHeroInstitutionCol}>
@@ -82,10 +75,10 @@ export default function EmergingProviderHero({
           </div>
           <div className={styles.providerHeroCenterLogo}>
             <Image
-              src={emergingProvidersLogo}
+              src={emergingProvidersBadge}
               alt='Emerging Providers'
-              width={emergingProvidersLogo.width}
-              height={emergingProvidersLogo.height}
+              width={emergingProvidersBadge.width}
+              height={emergingProvidersBadge.height}
               className={styles.providerHeroCenterLogoImg}
               priority
             />
