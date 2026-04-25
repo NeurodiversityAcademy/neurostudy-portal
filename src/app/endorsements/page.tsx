@@ -10,8 +10,10 @@ import bronzeBadge from '../images/bronzeBadge.svg';
 import silverBadge from '../images/silverBadge.svg';
 import goldBadge from '../images/goldBadge.svg';
 // import Unify360 from '../images/logo_unify360.svg';
-import EndorsementAccordion from './EndorsementAccordion';
-import EndorsementContactButton from './EndorsementContactButton';
+import ActionButton from '../components/buttons/ActionButton';
+import { BUTTON_STYLE } from '../utilities/constants';
+import Link from 'next/link';
+import Accordion from '../components/accordion/Accordian';
 // import endorsedInstitutesData from './endorsedInstitutesData.json';
 
 // import BlueprintCD from '../images/logo_blueprint_cd.jpeg';
@@ -58,7 +60,7 @@ export default function Page() {
           </div> */}{' '}
           {/* Temporarily hiding endorsed institutes section bring back when endorsement is complete*/}
           <div className={styles.accordionWrapper}>
-            <EndorsementAccordion title='Why is endorsement necessary?'>
+            <Accordion title='Why is endorsement necessary?'>
               <Typography
                 variant={TypographyVariant.Body1}
                 color='var(--BondBlack)'
@@ -69,8 +71,8 @@ export default function Page() {
                 giving students confidence that these organisations are prepared
                 to support neurodivergent learners effectively.
               </Typography>
-            </EndorsementAccordion>
-            <EndorsementAccordion title='What are “ND Standards”?'>
+            </Accordion>
+            <Accordion title='What are “ND Standards”?'>
               <Typography
                 variant={TypographyVariant.Body1}
                 color='var(--BondBlack)'
@@ -83,8 +85,8 @@ export default function Page() {
                 technology, and continuous improvement through feedback from
                 neurodivergent students.
               </Typography>
-            </EndorsementAccordion>
-            <EndorsementAccordion title='What outcomes can a learning institute expect from being endorsed?'>
+            </Accordion>
+            <Accordion title='What outcomes can a learning institute expect from being endorsed?'>
               <Typography
                 variant={TypographyVariant.Body1}
                 color='var(--BondBlack)'
@@ -106,8 +108,8 @@ export default function Page() {
                   </li>
                 </ul>
               </Typography>
-            </EndorsementAccordion>
-            <EndorsementAccordion title='What does NDA expect from endorsed organisations?'>
+            </Accordion>
+            <Accordion title='What does NDA expect from endorsed organisations?'>
               <Typography
                 variant={TypographyVariant.Body1}
                 color='var(--BondBlack)'
@@ -143,8 +145,8 @@ export default function Page() {
                   </li>
                 </ul>
               </Typography>
-            </EndorsementAccordion>
-            <EndorsementAccordion title='What does NDA not expect from endorsement?'>
+            </Accordion>
+            <Accordion title='What does NDA not expect from endorsement?'>
               <Typography
                 variant={TypographyVariant.Body1}
                 color='var(--BondBlack)'
@@ -156,8 +158,8 @@ export default function Page() {
                 actively working to provide the right support, systems, and
                 mindset for neurodivergent students to thrive.
               </Typography>
-            </EndorsementAccordion>
-            <EndorsementAccordion
+            </Accordion>
+            <Accordion
               title='What does a student gain from studying at a Bronze, Silver, or Gold
             endorsed institute?'
             >
@@ -209,8 +211,8 @@ export default function Page() {
                   </li>
                 </ul>
               </Typography>
-            </EndorsementAccordion>
-            <EndorsementAccordion title='What are students expecting from endorsed providers?'>
+            </Accordion>
+            <Accordion title='What are students expecting from endorsed providers?'>
               <Typography
                 variant={TypographyVariant.Body1}
                 color='var(--BondBlack)'
@@ -222,10 +224,16 @@ export default function Page() {
                 leading to better study experiences, fewer barriers, and a more
                 welcoming environment for learning and growth.
               </Typography>
-            </EndorsementAccordion>
+            </Accordion>
           </div>
         </div>
-        <EndorsementContactButton className={styles.enrolBtn} />
+        <Link href='/contact'>
+          <ActionButton
+            style={BUTTON_STYLE.Primary}
+            label='Contact us for endorsement'
+            className={styles.enrolBtn}
+          />
+        </Link>
       </div>
     </div>
   );
