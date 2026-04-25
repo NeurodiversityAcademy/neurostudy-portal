@@ -34,10 +34,10 @@ export default function EmergingProvidersFAQs() {
             Emerging Providers are education organisations that perform strongly
             across multiple areas of the national QILT Student Experience
             Survey.
-            <br/>
-            Emerging providers must perform above the national
-            average in four key areas that strongly influence a
-            student’s learning environment and development:
+            <br />
+            Emerging providers must perform above the national average in four
+            key areas that strongly influence a student’s learning environment
+            and development:
           </Typography>
           <ul className={styles.emergingFAQKeyAreasList}>
             {QILT_AREAS.slice(0, 4).map((area) => (
@@ -74,29 +74,29 @@ export default function EmergingProvidersFAQs() {
             color='var(--BondBlackVariant)'
             className={styles.emergingFAQLead}
           >
-            These areas reflect the quality of teaching,
-            learning environments, and student support
-            which may benefit neurodivergent learners.
-            Interactions with other students and facilities
-            are also considered, but organisations may
-            still be included if they are slightly below the
-            national average in these areas.
+            These areas reflect the quality of teaching, learning environments,
+            and student support which may benefit neurodivergent learners.
+            Interactions with other students and facilities are also considered,
+            but organisations may still be included if they are slightly below
+            the national average in these areas.
           </Typography>
           <Typography
             variant={TypographyVariant.Body3}
             color='var(--BondBlackVariant)'
             className={styles.emergingFAQLead}
           >
-            At Neurodiversity Academy, we believe
-            neuro-inclusion is not about fixing the
-            student, but about creating learning
-            environments where different ways of
-            thinking and learning are supported so all
+            At Neurodiversity Academy, we believe neuro-inclusion is not about
+            fixing the student, but about creating learning environments where
+            different ways of thinking and learning are supported so all
             students can thrive.
           </Typography>
         </Accordion>
         <Accordion
-          title={<span>Disclaimer<sup>*</sup></span>}
+          title={
+            <span>
+              Disclaimer<sup>*</sup>
+            </span>
+          }
           startExpanded={true}
           className={styles.emergingFAQAccordion}
         >
@@ -105,18 +105,20 @@ export default function EmergingProvidersFAQs() {
             color='var(--BondBlackVariant)'
             className={styles.emergingFAQLead}
           >
-            The information in these profiles has been
-            compiled from publicly available sources
-            using desktop research and AI-assisted tools.
-            While every effort has been made to ensure
-            accuracy, Neurodiversity Academy cannot
-            guarantee all information is complete or up to
-            date. We encourage readers to verify details
-            directly with the relevant organisation.
+            The information in these profiles has been compiled from publicly
+            available sources using desktop research and AI-assisted tools.
+            While every effort has been made to ensure accuracy, Neurodiversity
+            Academy cannot guarantee all information is complete or up to date.
+            We encourage readers to verify details directly with the relevant
+            organisation.
           </Typography>
         </Accordion>
         <Accordion
-          title={<span>Evidence Sources<sup>*</sup></span>}
+          title={
+            <span>
+              Evidence Sources<sup>*</sup>
+            </span>
+          }
           startExpanded={true}
           className={styles.emergingFAQAccordion}
         >

@@ -2,7 +2,10 @@ import styles from './typography.module.css';
 
 /** Normalizes legacy strings like `var( --GhostWhite)` to `var(--GhostWhite)`. */
 export function normalizeTypographyColorToken(value: string): string {
-  return value.replace(/var\(\s+/g, 'var(').replace(/\s+\)/g, ')').trim();
+  return value
+    .replace(/var\(\s+/g, 'var(')
+    .replace(/\s+\)/g, ')')
+    .trim();
 }
 
 /**

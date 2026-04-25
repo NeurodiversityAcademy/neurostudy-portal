@@ -10,7 +10,7 @@ import strategyIcon from '@/app/images/strategyIcon.svg';
 import facilitiesIcon from '@/app/images/emergingInstitutions/facilities-icon.png';
 import interactionsIcon from '@/app/images/emergingInstitutions/interactions-icon.png';
 import skillIcon from '@/app/images/emergingInstitutions/skill-icon.png';
-import supportServicesIcon from '@/app/images/emergingInstitutions/suport-services-icon.png';
+import supportServicesIcon from '@/app/images/emergingInstitutions/support-services-icon.png';
 import teachingQualityIcon from '@/app/images/emergingInstitutions/teaching-quality-icon.png';
 import userExperienceIcon from '@/app/images/emergingInstitutions/user-experience-icon.png';
 
