@@ -88,43 +88,22 @@ export const HERO_DETAILS_BY_SLUG: Record<string, HeroInfoItem[]> = {
   'bond-university': [
     { icon: mapPin, value: 'Gold Coast, QLD', label: 'Location' },
     { icon: graduationCap, value: 'Higher Education', label: 'Type' },
-    { icon: challengeIcon, value: '2.5 Years', label: 'Duration' },
-    { icon: clock, value: '10/31/2030', label: 'Application End' },
-    { icon: goalIcon, value: '10', label: 'Subjects' },
-    { icon: strategyIcon, value: '$7,990.00', label: 'Fees' },
   ],
   'australian-college-of-physical-education': [
-    { icon: mapPin, value: 'Gold Coast, QLD', label: 'Location' },
+    { icon: mapPin, value: 'Sydney, NSW', label: 'Location' },
     { icon: graduationCap, value: 'Higher Education', label: 'Type' },
-    { icon: challengeIcon, value: '3 Years', label: 'Duration' },
-    { icon: clock, value: '11/30/2030', label: 'Application End' },
-    { icon: goalIcon, value: '12', label: 'Subjects' },
-    { icon: strategyIcon, value: '$8,120.00', label: 'Fees' },
   ],
   'flinders-university': [
-    { icon: mapPin, value: 'Gold Coast, QLD', label: 'Location' },
+    { icon: mapPin, value: 'Adelaide, SA', label: 'Location' },
     { icon: graduationCap, value: 'Higher Education', label: 'Type' },
-    { icon: challengeIcon, value: '2 Years', label: 'Duration' },
-    { icon: clock, value: '09/30/2030', label: 'Application End' },
-    { icon: goalIcon, value: '9', label: 'Subjects' },
-    { icon: strategyIcon, value: '$7,200.00', label: 'Fees' },
   ],
   'griffith-university': [
-    { icon: mapPin, value: 'Gold Coast, QLD', label: 'Location' },
+    { icon: mapPin, value: 'Mutiple Campuses, QLD', label: 'Location' },
     { icon: graduationCap, value: 'Higher Education', label: 'Type' },
-    { icon: challengeIcon, value: '2.5 Years', label: 'Duration' },
-    { icon: clock, value: '10/15/2030', label: 'Application End' },
-    { icon: goalIcon, value: '10', label: 'Subjects' },
-    { icon: strategyIcon, value: '$7,750.00', label: 'Fees' },
   ],
   'jazz-music-institute': [
     { icon: mapPin, value: 'Gold Coast, QLD', label: 'Location' },
-    { icon: graduationCap, value: 'Higher Education', label: 'Type' },
-    { icon: challengeIcon, value: '2 Years', label: 'Duration' },
-    { icon: clock, value: '12/12/2030', label: 'Application End' },
-    { icon: goalIcon, value: '8', label: 'Subjects' },
-    { icon: strategyIcon, value: '$6,980.00', label: 'Fees' },
-  ],
+    { icon: graduationCap, value: 'Higher Education', label: 'Type' },  ],
 };
 
 export const STATS_BY_SLUG: Record<string, ProviderStatItem[]> =
