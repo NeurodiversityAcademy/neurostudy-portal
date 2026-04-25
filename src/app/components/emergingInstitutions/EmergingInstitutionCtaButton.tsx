@@ -12,16 +12,15 @@ export type AnalyticsEventParams = Record<
 export type InstitutionCtaAnalytics = {
   eventName?: string;
   category?: string;
-  /** Optional override; default is derived from `pdfUrl` (used for GA `file_name`). */
   fileName?: string;
   params?: AnalyticsEventParams;
 };
 
 type EmergingInstitutionCtaButtonProps = {
-  href: string;
-  institutionName: string;
+  pdfUrl: string;
   className: string;
   analytics?: InstitutionCtaAnalytics;
+  openInNewTab?: boolean;
 };
 
 const EMERGING_CTA_LABEL = 'Explore More';
@@ -31,10 +30,10 @@ const DEFAULT_GA = {
 } as const;
 
 export default function EmergingInstitutionCtaButton({
-  href,
-  institutionName,
+  pdfUrl,
   className,
   analytics,
+  openInNewTab = false,
 }: EmergingInstitutionCtaButtonProps) {
   const eventName = analytics?.eventName ?? DEFAULT_GA.name;
   const category = analytics?.category ?? DEFAULT_GA.category;
@@ -48,6 +47,7 @@ export default function EmergingInstitutionCtaButton({
     ).gtag;
 
     gtag?.('event', eventName, {
+      destination_path: pdfUrl,
       file_name: fileName,
       link_text: EMERGING_CTA_LABEL,
       category,
@@ -60,8 +60,8 @@ export default function EmergingInstitutionCtaButton({
       label={EMERGING_CTA_LABEL}
       style={BUTTON_STYLE.Primary}
       className={className}
-      to={href}
-      openInNewTab={false}
+      to={pdfUrl}
+      openInNewTab={openInNewTab}
       onClick={handleCtaClick}
     />
   );

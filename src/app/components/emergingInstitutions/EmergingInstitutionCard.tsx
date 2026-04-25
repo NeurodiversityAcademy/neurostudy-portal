@@ -1,4 +1,6 @@
-import InstitutionProviderCard from '../institutionProviderCard/InstitutionProviderCard';
+import InstitutionProviderCard, {
+  INSTITUTION_PROVIDER_HEADER_KIND,
+} from '../institutionProviderCard/InstitutionProviderCard';
 import styles from '../institutionProviderCard/institutionProviderCard.module.css';
 import Typography, { TypographyVariant } from '../typography/Typography';
 
@@ -13,8 +15,8 @@ export default function EmergingInstitutionCard({
 }: EmergingInstitutionCardProps) {
   return (
     <InstitutionProviderCard
-      pdfUrl={pdfUrl}
-      header={{ kind: 'emergingDefault' }}
+      pdfUrl={href}
+      header={{ kind: INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT }}
       center={
         <div className={styles.nameWrap}>
           <Typography variant={TypographyVariant.Body2}>{name}</Typography>

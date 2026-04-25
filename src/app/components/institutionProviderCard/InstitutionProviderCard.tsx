@@ -5,10 +5,16 @@ import styles from './institutionProviderCard.module.css';
 import classNames from 'classnames';
 import type { InstitutionCtaAnalytics } from '../emergingInstitutions/EmergingInstitutionCtaButton';
 
+export const INSTITUTION_PROVIDER_HEADER_KIND = {
+  EMERGING_DEFAULT: 'emergingDefault',
+  YELLOW: 'yellow',
+  REMOTE_IMAGE: 'remoteImage',
+} as const;
+
 export type InstitutionProviderHeader =
-  | { kind: 'emergingDefault' }
-  | { kind: 'yellow' }
-  | { kind: 'remoteImage'; src: string };
+  | { kind: typeof INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT }
+  | { kind: typeof INSTITUTION_PROVIDER_HEADER_KIND.YELLOW }
+  | { kind: typeof INSTITUTION_PROVIDER_HEADER_KIND.REMOTE_IMAGE; src: string };
 
 export interface InstitutionProviderCardProps {
   pdfUrl: string;
@@ -20,6 +26,7 @@ export interface InstitutionProviderCardProps {
   /** Stronger shadow + light rim for cards on dark backgrounds (e.g. cherryPie section). */
   elevatedOnDark?: boolean;
   gaEvent?: InstitutionCtaAnalytics;
+  ctaOpenInNewTab?: boolean;
 }
 
 export default function InstitutionProviderCard({
@@ -30,14 +37,17 @@ export default function InstitutionProviderCard({
   equalWidth,
   elevatedOnDark,
   gaEvent,
+  ctaOpenInNewTab,
 }: InstitutionProviderCardProps) {
   const topClass = classNames(
     styles.cardTop,
-    header.kind === 'emergingDefault' && styles.cardTopEmerging,
-    header.kind === 'yellow' && styles.cardTopYellow
+    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT &&
+      styles.cardTopEmerging,
+    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.YELLOW && styles.cardTopYellow
   );
 
-  const showRemoteImage = header.kind === 'remoteImage';
+  const showRemoteImage =
+    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.REMOTE_IMAGE;
 
   return (
     <div
@@ -65,6 +75,7 @@ export default function InstitutionProviderCard({
           pdfUrl={pdfUrl}
           className={styles.ctaButton}
           analytics={gaEvent}
+          openInNewTab={ctaOpenInNewTab}
         />
       </div>
     </div>

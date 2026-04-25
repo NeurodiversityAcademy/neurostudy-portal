@@ -1,26 +1,26 @@
 [
   {
-    "id": "bond-university",
+    "id": "HSH",
     "logo": "/images/AcademiaLogoLong.png",
     "topBackgroundImage": "/images/AcademiaCover.jpeg",
-    "pdfUrl": "https://neurostudyportal-assets.s3.ap-southeast-2.amazonaws.com/NDA+Emerging+Providers+-+Bond+Uni.pdf"
+    "pdfUrl": "https://neurostudyportal-assets.s3.ap-southeast-2.amazonaws.com/Endorsed+Provider-HSH.pdf"
   },
   {
-    "id": "acpe",
+    "id": "academia",
     "logo": "/images/AcademiaLogoLong.png",
     "topBackgroundImage": "/images/AcademiaCover.jpeg",
-    "pdfUrl": "https://neurostudyportal-assets.s3.ap-southeast-2.amazonaws.com/NDA+Emerging+Providers+-+ACPE.pdf"
+    "pdfUrl": "https://neurostudyportal-assets.s3.ap-southeast-2.amazonaws.com/Endorsed+Provider-Academia.pdf"
   },
   {
-    "id": "flinders-university",
+    "id": "Blueprint Career Development",
     "logo": "/images/AcademiaLogoLong.png",
     "topBackgroundImage": "/images/AcademiaCover.jpeg",
-    "pdfUrl": "https://neurostudyportal-assets.s3.ap-southeast-2.amazonaws.com/NDA+Emerging+Providers+-+Flinders.pdf"
+    "pdfUrl": "https://neurostudyportal-assets.s3.ap-southeast-2.amazonaws.com/Endorsed+Provider-Blueprint.pdf"
   },
   {
-    "id": "flinders-university",
+    "id": "Collarts",
     "logo": "/images/AcademiaLogoLong.png",
     "topBackgroundImage": "/images/AcademiaCover.jpeg",
-    "pdfUrl": "https://neurostudyportal-assets.s3.ap-southeast-2.amazonaws.com/NDA+Emerging+Providers+-+Flinders.pdf"
+    "pdfUrl": "https://neurostudyportal-assets.s3.ap-southeast-2.amazonaws.com/Endorsed+Provider-Collarts.pdf"
   }
 ]

@@ -88,6 +88,7 @@ export default function EndorsedProviders() {
                 badge={badge}
                 equalWidth
                 elevatedOnDark
+                ctaOpenInNewTab
                 gaEvent={{
                   eventName: ENDORSED_PROVIDERS_GA.ctaClick.eventName,
                   category: ENDORSED_PROVIDERS_GA.ctaClick.category,
