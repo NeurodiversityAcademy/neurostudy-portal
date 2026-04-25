@@ -9,6 +9,7 @@ import badgeGeneric from '../../images/badgeGeneric.png';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import { analyticsFileNameFromPdfUrl } from '@/app/utilities/analyticsFileName';
 import endorsedData from './endorsedProviders.json';
+import { providerNameFromId } from './providerName';
 
 type EndorsedProviderRow = {
   id: string;
@@ -68,29 +69,39 @@ export default function EndorsedProviders() {
         </Typography>
 
         <div className={endorseStyles.cardsRow}>
-          {providers.map((provider) => (
-            <InstitutionProviderCard
-              key={provider.id}
-              pdfUrl={provider.pdfUrl}
-              header={resolveHeader(provider.topBackgroundImage)}
-              badge={badge}
-              equalWidth
-              elevatedOnDark
-              gaEventName='endorsed_cta_click'
-              gaCategory='Endorsed'
-              gaFileName={analyticsFileNameFromPdfUrl(provider.pdfUrl)}
-              center={
-                <div className={cardStyles.logoWrap}>
-                  <Image
-                    src={provider.logo}
-                    alt={`${provider.id.replace(/-/g, ' ')} logo`}
-                    width={280}
-                    height={72}
-                  />
-                </div>
-              }
-            />
-          ))}
+          {providers.map((provider) => {
+            const providerName = providerNameFromId(provider.id);
+
+            return (
+              <InstitutionProviderCard
+                key={provider.id}
+                pdfUrl={provider.pdfUrl}
+                header={resolveHeader(provider.topBackgroundImage)}
+                badge={badge}
+                equalWidth
+                elevatedOnDark
+                gaEventName='endorsed_cta_click'
+                gaCategory='Endorsed'
+                gaFileName={analyticsFileNameFromPdfUrl(provider.pdfUrl)}
+                gaEventParams={{
+                  provider_id: provider.id,
+                  provider_name: providerName,
+                  destination_url: provider.pdfUrl,
+                  section: 'endorsed_providers_cards',
+                }}
+                center={
+                  <div className={cardStyles.logoWrap}>
+                    <Image
+                      src={provider.logo}
+                      alt={`${providerName} logo`}
+                      width={280}
+                      height={72}
+                    />
+                  </div>
+                }
+              />
+            );
+          })}
         </div>
       </div>
     </section>

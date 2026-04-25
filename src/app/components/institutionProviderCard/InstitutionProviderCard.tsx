@@ -22,6 +22,7 @@ export interface InstitutionProviderCardProps {
   elevatedOnDark?: boolean;
   /** GA `file_name` (e.g. set from endorsed row for `endorsed_cta_click`). */
   gaFileName?: string;
+  gaEventParams?: Record<string, string | number | boolean | null | undefined>;
 }
 
 export default function InstitutionProviderCard({
@@ -34,6 +35,7 @@ export default function InstitutionProviderCard({
   equalWidth,
   elevatedOnDark,
   gaFileName,
+  gaEventParams,
 }: InstitutionProviderCardProps) {
   const topClass = classNames(
     styles.cardTop,
@@ -76,6 +78,7 @@ export default function InstitutionProviderCard({
           gaEventName={gaEventName}
           gaCategory={gaCategory}
           gaFileName={gaFileName}
+          gaEventParams={gaEventParams}
         />
       </div>
     </div>

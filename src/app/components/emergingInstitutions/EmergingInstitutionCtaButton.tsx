@@ -11,6 +11,7 @@ type EmergingInstitutionCtaButtonProps = {
   gaCategory?: string;
   /** Optional override; default is derived from `pdfUrl` (used for GA `file_name`). */
   gaFileName?: string;
+  gaEventParams?: Record<string, string | number | boolean | null | undefined>;
 };
 
 const EMERGING_CTA_LABEL = 'Explore More';
@@ -25,6 +26,7 @@ export default function EmergingInstitutionCtaButton({
   gaEventName = DEFAULT_GA.name,
   gaCategory = DEFAULT_GA.category,
   gaFileName,
+  gaEventParams,
 }: EmergingInstitutionCtaButtonProps) {
   const fileName = gaFileName ?? analyticsFileNameFromPdfUrl(pdfUrl);
 
@@ -39,6 +41,7 @@ export default function EmergingInstitutionCtaButton({
       file_name: fileName,
       link_text: EMERGING_CTA_LABEL,
       category: gaCategory,
+      ...gaEventParams,
     });
   };
 
