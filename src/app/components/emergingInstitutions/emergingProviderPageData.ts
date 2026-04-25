@@ -99,7 +99,8 @@ export const HERO_DETAILS_BY_SLUG: Record<string, HeroInfoItem[]> = {
   ],
   'jazz-music-institute': [
     { icon: mapPin, value: 'Gold Coast, QLD', label: 'Location' },
-    { icon: graduationCap, value: 'Higher Education', label: 'Type' },  ],
+    { icon: graduationCap, value: 'Higher Education', label: 'Type' },
+  ],
 };
 
 export const STATS_BY_SLUG: Record<string, ProviderStatItem[]> =
