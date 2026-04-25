@@ -2,10 +2,6 @@ import type { HeroInfoItem } from './EmergingProviderHero';
 import type { ProviderStatItem } from './EmergingProviderStats';
 import mapPin from '@/app/images/mapPin.svg';
 import graduationCap from '@/app/images/graduationCap.png';
-import challengeIcon from '@/app/images/challengeIcon.svg';
-import clock from '@/app/images/clock.svg';
-import goalIcon from '@/app/images/goalIcon.svg';
-import strategyIcon from '@/app/images/strategyIcon.svg';
 /* Emerging provider stat tiles — one asset per QILT area (src/app/images/emergingInstitutions/) */
 import facilitiesIcon from '@/app/images/emergingInstitutions/facilities-icon.png';
 import interactionsIcon from '@/app/images/emergingInstitutions/interactions-icon.png';
