@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import EmergingInstitutionCtaButton from '../emergingInstitutions/EmergingInstitutionCtaButton';
 import styles from './institutionProviderCard.module.css';
 import classNames from 'classnames';
+import type { InstitutionCtaAnalytics } from '../emergingInstitutions/EmergingInstitutionCtaButton';
 
 export type InstitutionProviderHeader =
   | { kind: 'emergingDefault' }
@@ -14,15 +15,11 @@ export interface InstitutionProviderCardProps {
   center: ReactNode;
   header: InstitutionProviderHeader;
   badge?: ReactNode;
-  gaEventName?: string;
-  gaCategory?: string;
   /** When true, card flexes with siblings to share row width equally (e.g. endorsed row). */
   equalWidth?: boolean;
   /** Stronger shadow + light rim for cards on dark backgrounds (e.g. cherryPie section). */
   elevatedOnDark?: boolean;
-  /** GA `file_name` (e.g. set from endorsed row for `endorsed_cta_click`). */
-  gaFileName?: string;
-  gaEventParams?: Record<string, string | number | boolean | null | undefined>;
+  gaEvent?: InstitutionCtaAnalytics;
 }
 
 export default function InstitutionProviderCard({
@@ -30,12 +27,9 @@ export default function InstitutionProviderCard({
   center,
   header,
   badge,
-  gaEventName,
-  gaCategory,
   equalWidth,
   elevatedOnDark,
-  gaFileName,
-  gaEventParams,
+  gaEvent,
 }: InstitutionProviderCardProps) {
   const topClass = classNames(
     styles.cardTop,
@@ -60,11 +54,6 @@ export default function InstitutionProviderCard({
             alt=''
             fill
             className={styles.cardTopImage}
-            sizes={
-              equalWidth
-                ? '(max-width: 768px) 100vw, 32vw'
-                : '(max-width: 274px) 100vw, 274px'
-            }
             priority={false}
           />
         ) : null}
@@ -75,10 +64,7 @@ export default function InstitutionProviderCard({
         <EmergingInstitutionCtaButton
           pdfUrl={pdfUrl}
           className={styles.ctaButton}
-          gaEventName={gaEventName}
-          gaCategory={gaCategory}
-          gaFileName={gaFileName}
-          gaEventParams={gaEventParams}
+          analytics={gaEvent}
         />
       </div>
     </div>

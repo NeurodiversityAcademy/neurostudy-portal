@@ -11,6 +11,14 @@ import { analyticsFileNameFromPdfUrl } from '@/app/utilities/analyticsFileName';
 import endorsedData from './endorsedProviders.json';
 import { providerNameFromId } from './providerName';
 
+const ENDORSED_PROVIDERS_GA = {
+  ctaClick: {
+    eventName: 'endorsed_cta_click',
+    category: 'Endorsed',
+    section: 'endorsed_providers_cards',
+  },
+} as const;
+
 type EndorsedProviderRow = {
   id: string;
   logo: string;
@@ -80,14 +88,16 @@ export default function EndorsedProviders() {
                 badge={badge}
                 equalWidth
                 elevatedOnDark
-                gaEventName='endorsed_cta_click'
-                gaCategory='Endorsed'
-                gaFileName={analyticsFileNameFromPdfUrl(provider.pdfUrl)}
-                gaEventParams={{
-                  provider_id: provider.id,
-                  provider_name: providerName,
-                  destination_url: provider.pdfUrl,
-                  section: 'endorsed_providers_cards',
+                gaEvent={{
+                  eventName: ENDORSED_PROVIDERS_GA.ctaClick.eventName,
+                  category: ENDORSED_PROVIDERS_GA.ctaClick.category,
+                  fileName: analyticsFileNameFromPdfUrl(provider.pdfUrl),
+                  params: {
+                    provider_id: provider.id,
+                    provider_name: providerName,
+                    destination_url: provider.pdfUrl,
+                    section: ENDORSED_PROVIDERS_GA.ctaClick.section,
+                  },
                 }}
                 center={
                   <div className={cardStyles.logoWrap}>

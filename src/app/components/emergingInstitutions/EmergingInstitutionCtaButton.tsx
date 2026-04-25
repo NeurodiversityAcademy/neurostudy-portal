@@ -4,14 +4,23 @@ import ActionButton from '../buttons/ActionButton';
 import { analyticsFileNameFromPdfUrl } from '@/app/utilities/analyticsFileName';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 
+export type AnalyticsEventParams = Record<
+  string,
+  string | number | boolean | null | undefined
+>;
+
+export type InstitutionCtaAnalytics = {
+  eventName?: string;
+  category?: string;
+  /** Optional override; default is derived from `pdfUrl` (used for GA `file_name`). */
+  fileName?: string;
+  params?: AnalyticsEventParams;
+};
+
 type EmergingInstitutionCtaButtonProps = {
   pdfUrl: string;
   className: string;
-  gaEventName?: string;
-  gaCategory?: string;
-  /** Optional override; default is derived from `pdfUrl` (used for GA `file_name`). */
-  gaFileName?: string;
-  gaEventParams?: Record<string, string | number | boolean | null | undefined>;
+  analytics?: InstitutionCtaAnalytics;
 };
 
 const EMERGING_CTA_LABEL = 'Explore More';
@@ -23,12 +32,11 @@ const DEFAULT_GA = {
 export default function EmergingInstitutionCtaButton({
   pdfUrl,
   className,
-  gaEventName = DEFAULT_GA.name,
-  gaCategory = DEFAULT_GA.category,
-  gaFileName,
-  gaEventParams,
+  analytics,
 }: EmergingInstitutionCtaButtonProps) {
-  const fileName = gaFileName ?? analyticsFileNameFromPdfUrl(pdfUrl);
+  const eventName = analytics?.eventName ?? DEFAULT_GA.name;
+  const category = analytics?.category ?? DEFAULT_GA.category;
+  const fileName = analytics?.fileName ?? analyticsFileNameFromPdfUrl(pdfUrl);
 
   const handleCtaClick = () => {
     const gtag = (
@@ -37,11 +45,11 @@ export default function EmergingInstitutionCtaButton({
       }
     ).gtag;
 
-    gtag?.('event', gaEventName, {
+    gtag?.('event', eventName, {
       file_name: fileName,
       link_text: EMERGING_CTA_LABEL,
-      category: gaCategory,
-      ...gaEventParams,
+      category,
+      ...analytics?.params,
     });
   };
 
