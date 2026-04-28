@@ -4,7 +4,7 @@ export const TABNAV_WIDGET_SCRIPT_SRC =
   'https://widget.tabnav.com/limited-widget.min.js.gz?req=vMQ3cmfKZ1uArD5iCVzxM4hwFZqBEeFP6tyaF6RyYkR__T6-d0cc';
 
 export const tabNavWidgetConfig = {
-  language: 'au-en',
+  language: 'us-en',
   color: '#330066',
   buttonColor: '#330066',
   buttonSize: 'small',
