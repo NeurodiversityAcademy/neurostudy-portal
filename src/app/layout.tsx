@@ -11,6 +11,7 @@ import { Metadata } from 'next';
 import ToasterWrapper from './components/toaster/ToasterWrapper';
 import NextAuthProvider from './utilities/auth/NextAuthProvider';
 import MetaPixel from './components/article/MetaPixel';
+import TabNavEmbed from './components/tabnav/TabNavEmbed';
 import { GoogleAnalytics } from '@next/third-parties/google';
 
 const poppins = Poppins({
@@ -73,6 +74,7 @@ export default async function RootLayout({
           <Analytics />
           <ToasterWrapper />
         </NextAuthProvider>
+        <TabNavEmbed />
       </body>
     </html>
   );
