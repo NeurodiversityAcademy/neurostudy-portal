@@ -40,6 +40,8 @@
     "uuid": "^10.0.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "@types/dompurify": "^3.0.5",
     "@types/jest": "^29.5.3",
     "@types/node": "^22.0.0",
