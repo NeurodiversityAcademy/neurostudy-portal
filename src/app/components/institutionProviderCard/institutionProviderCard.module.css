@@ -1,0 +1,158 @@
+.card {
+  container-type: inline-size;
+  width: 20%;
+  height: 260px;
+  flex: 0 1 16%;
+  min-width: 220px;
+  max-width: 274px;
+  flex-direction: column;
+  display: flex;
+  border: 0.5px solid var(--BondBlack);
+  border-radius: 8px;
+  background: var(--GhostWhite);
+  overflow: clip;
+  box-shadow: 0px 1px 20px 0px var(--color-shadow-soft);
+}
+
+.cardEqual {
+  flex: 1 1 0;
+  width: auto;
+  max-width: none;
+  min-width: min(220px, 100%);
+}
+
+.cardElevatedOnDark {
+  border: 1px solid rgb(255 255 255 / 0.26);
+  box-shadow:
+    0 2px 8px rgb(0 0 0 / 0.2),
+    0 14px 40px rgb(0 0 0 / 0.28);
+}
+
+.cardTop {
+  position: relative;
+  height: 84px;
+  flex: 0 0 auto;
+  overflow: hidden;
+}
+
+.cardTopEmerging {
+  background-image: url('../../images/emergingCardHeader.png');
+  background-size: cover;
+  background-position: center -10px;
+  background-repeat: no-repeat;
+}
+
+.cardTopYellow {
+  background-color: #f5e6a3;
+}
+
+.cardTopImage {
+  object-fit: cover;
+}
+
+.badgeSlot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 48px;
+  height: 48px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.badgeSlot img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.cardBody {
+  width: 100%;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0px;
+}
+
+.nameWrap {
+  width: 70%;
+  height: 68px;
+  box-sizing: border-box;
+  padding: 8px;
+  border-radius: 4px;
+  background: var(--GhostWhite);
+  border: 0.3px solid var(--BondBlackVariant);
+  box-shadow: 0px 2px 16px 0px var(--color-shadow-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Body2 is a <span>; scale with card width (cqi) so long names fit the name pill */
+.card .nameWrap span {
+  font-size: clamp(10px, 5.85cqi, 16px);
+  line-height: 1.2;
+}
+
+.logoWrap {
+  width: 70%;
+  min-height: 50px;
+  max-height: 80px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  background: var(--GhostWhite);
+  border: 0.3px solid var(--BondBlackVariant);
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.06),
+    0px 2px 16px 0px var(--color-shadow-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoWrap img {
+  max-width: 100%;
+  max-height: 64px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  /* Extra lift for transparent PNG wordmarks on GhostWhite */
+  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.14))
+    drop-shadow(0 2px 6px rgb(0 0 0 / 0.08));
+}
+
+/*
+  Override ActionButton .primary for this card only: compact size, purple fill, no padding.
+*/
+.card .ctaButton {
+  width: 80%;
+  max-width: 100%;
+  height: 41px;
+  padding: 0;
+  background: var(--cherryPieVariant);
+}
+
+.card .ctaButton:hover {
+  background-color: var(--cherryPieVariantSub);
+  box-shadow: 0px 2px 8px 0px var(--color-shadow-pressed);
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    flex: 0 0 auto;
+  }
+
+  /* Two-column grids (endorsed / emerging): fill cell, allow shrink below 220px */
+  .cardEqual {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+}

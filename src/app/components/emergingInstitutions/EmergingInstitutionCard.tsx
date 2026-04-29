@@ -1,6 +1,8 @@
-import styles from './emergingInstitutions.module.css';
+import InstitutionProviderCard, {
+  INSTITUTION_PROVIDER_HEADER_KIND,
+} from '../institutionProviderCard/InstitutionProviderCard';
+import styles from '../institutionProviderCard/institutionProviderCard.module.css';
 import Typography, { TypographyVariant } from '../typography/Typography';
-import EmergingInstitutionCtaButton from './EmergingInstitutionCtaButton';
 
 type EmergingInstitutionCardProps = {
   name: string;
@@ -12,18 +14,14 @@ export default function EmergingInstitutionCard({
   href,
 }: EmergingInstitutionCardProps) {
   return (
-    <div className={styles.card}>
-      <div className={styles.cardTop} />
-      <div className={styles.cardBody}>
+    <InstitutionProviderCard
+      pdfUrl={href}
+      header={{ kind: INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT }}
+      center={
         <div className={styles.nameWrap}>
           <Typography variant={TypographyVariant.Body2}>{name}</Typography>
         </div>
-        <EmergingInstitutionCtaButton
-          href={href}
-          institutionName={name}
-          className={styles.ctaButton}
-        />
-      </div>
-    </div>
+      }
+    />
   );
 }
