@@ -13,6 +13,7 @@ export function normalizeTypographyColorToken(value: string): string {
  * Add an entry here and a matching rule in typography.module.css for any new token.
  */
 export const TYPOGRAPHY_COLOR_CLASS_BY_TOKEN: Record<string, string> = {
+  'var(--pure-white)': styles.colorPureWhite,
   'var(--GhostWhite)': styles.colorGhostWhite,
   'var(--GhostWhiteVariant)': styles.colorGhostWhiteVariant,
   'var(--BondBlack)': styles.colorBondBlack,

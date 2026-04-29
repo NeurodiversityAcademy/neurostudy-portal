@@ -43,7 +43,8 @@ export default function InstitutionProviderCard({
     styles.cardTop,
     header.kind === INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT &&
       styles.cardTopEmerging,
-    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.YELLOW && styles.cardTopYellow
+    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.YELLOW &&
+      styles.cardTopYellow
   );
 
   const showRemoteImage =
