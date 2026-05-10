@@ -3,24 +3,24 @@
     "id": "HSH",
     "logo": "/images/AcademiaLogoLong.png",
     "topBackgroundImage": "/images/AcademiaCover.jpeg",
-    "pdfUrl": "https://neurostudyportal-assets.s3.ap-southeast-2.amazonaws.com/Endorsed+Provider-HSH.pdf"
+    "institutionCoursesUrl": "https://www.hsh.edu.au"
   },
   {
     "id": "academia",
     "logo": "/images/AcademiaLogoLong.png",
     "topBackgroundImage": "/images/AcademiaCover.jpeg",
-    "pdfUrl": "https://neurostudyportal-assets.s3.ap-southeast-2.amazonaws.com/Endorsed+Provider-Academia.pdf"
+    "institutionCoursesUrl": "https://www.studyacademia.edu.au"
   },
   {
     "id": "Blueprint Career Development",
     "logo": "/images/AcademiaLogoLong.png",
     "topBackgroundImage": "/images/AcademiaCover.jpeg",
-    "pdfUrl": "https://neurostudyportal-assets.s3.ap-southeast-2.amazonaws.com/Endorsed+Provider-Blueprint.pdf"
+    "institutionCoursesUrl": "https://www.blueprint.edu.au"
   },
   {
     "id": "Collarts",
     "logo": "/images/AcademiaLogoLong.png",
     "topBackgroundImage": "/images/AcademiaCover.jpeg",
-    "pdfUrl": "https://neurostudyportal-assets.s3.ap-southeast-2.amazonaws.com/Endorsed+Provider-Collarts.pdf"
+    "institutionCoursesUrl": "https://www.collarts.edu.au/courses"
   }
 ]

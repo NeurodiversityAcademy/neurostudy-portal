@@ -1,7 +1,7 @@
 'use client';
 
 import ActionButton from '../buttons/ActionButton';
-import { analyticsFileNameFromPdfUrl } from '@/app/utilities/analyticsFileName';
+import { analyticsFileNameFromUrl } from '@/app/utilities/analyticsFileName';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 
 export type AnalyticsEventParams = Record<
@@ -17,7 +17,8 @@ export type InstitutionCtaAnalytics = {
 };
 
 type EmergingInstitutionCtaButtonProps = {
-  pdfUrl: string;
+  /** Internal path or external URL for navigation and GA `destination_path`. */
+  ctaHref: string;
   className: string;
   analytics?: InstitutionCtaAnalytics;
   openInNewTab?: boolean;
@@ -30,14 +31,14 @@ const DEFAULT_GA = {
 } as const;
 
 export default function EmergingInstitutionCtaButton({
-  pdfUrl,
+  ctaHref,
   className,
   analytics,
   openInNewTab = false,
 }: EmergingInstitutionCtaButtonProps) {
   const eventName = analytics?.eventName ?? DEFAULT_GA.name;
   const category = analytics?.category ?? DEFAULT_GA.category;
-  const fileName = analytics?.fileName ?? analyticsFileNameFromPdfUrl(pdfUrl);
+  const fileName = analytics?.fileName ?? analyticsFileNameFromUrl(ctaHref);
 
   const handleCtaClick = () => {
     const gtag = (
@@ -47,7 +48,7 @@ export default function EmergingInstitutionCtaButton({
     ).gtag;
 
     gtag?.('event', eventName, {
-      destination_path: pdfUrl,
+      destination_path: ctaHref,
       file_name: fileName,
       link_text: EMERGING_CTA_LABEL,
       category,
@@ -60,7 +61,7 @@ export default function EmergingInstitutionCtaButton({
       label={EMERGING_CTA_LABEL}
       style={BUTTON_STYLE.Primary}
       className={className}
-      to={pdfUrl}
+      to={ctaHref}
       openInNewTab={openInNewTab}
       onClick={handleCtaClick}
     />

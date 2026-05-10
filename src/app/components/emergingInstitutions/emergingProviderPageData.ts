@@ -1,4 +1,4 @@
-import type { HeroInfoItem } from './EmergingProviderHero';
+import type { HeroInfoItem } from './InstitutionHero';
 import type { ProviderStatItem } from './EmergingProviderStats';
 import mapPin from '@/app/images/mapPin.svg';
 import graduationCap from '@/app/images/graduationCap.png';

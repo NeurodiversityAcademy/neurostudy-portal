@@ -106,6 +106,22 @@
   pointer-events: none;
 }
 
+/* Endorsed detail hero: match home “NDA Endorsed Providers” section (cherry pie), not grey photo cover. */
+.providerHeroBannerEndorsed {
+  background-image: none;
+  background-color: var(--cherryPie);
+}
+
+.providerHeroBannerEndorsed::before {
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.providerHeroEndorsedCenterLogoImg {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+}
+
 .providerHeroCoverContent {
   position: relative;
   z-index: 1;
@@ -282,6 +298,11 @@
     object-fit: contain;
   }
 
+  .providerHeroEndorsedCenterLogoImg {
+    width: 96px;
+    height: 96px;
+  }
+
   .providerHeroStats .providerHeroStatSlotLeft > div,
   .providerHeroStats .providerHeroStatSlotRight > div {
     padding: 6px 4px;
@@ -366,6 +387,11 @@
     height: auto;
     max-height: 76px;
     object-fit: contain;
+  }
+
+  .providerHeroEndorsedCenterLogoImg {
+    width: 64px;
+    height: 64px;
   }
 }
 
@@ -452,8 +478,25 @@
   overflow-x: clip;
 }
 
+/* Same as `.providerStatsSection` but no horizontal padding — use inside `.endorsedPageColumn`. */
+.providerStatsSectionAligned {
+  padding: 0 0 48px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
 .providerStatsContainer {
   width: min(100%, 986px);
+  max-width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Parent column (e.g. endorsed page) already applies 986px / 84vw; fill it. */
+.providerStatsContainerInAlignedColumn {
+  width: 100%;
   max-width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
@@ -584,6 +627,10 @@
 @media (max-width: 767px) {
   .providerStatsSection {
     padding: 0 12px 36px;
+  }
+
+  .providerStatsSectionAligned {
+    padding: 0 0 36px;
   }
 
   .providerStatsSection .providerStatsHeading {

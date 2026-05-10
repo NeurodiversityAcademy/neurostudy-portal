@@ -1,0 +1,46 @@
+.pageMain {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+/**
+ * Matches Student Delivery Signals layout: `.providerStatsSection` horizontal
+ * padding (24px / 12px) + `.providerStatsContainer` width (986px cap, 84vw desktop).
+ */
+.endorsedPageColumn {
+  width: 100%;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+.endorsedPageColumnInner {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  width: min(100%, 986px);
+  max-width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+@media (max-width: 767px) {
+  .pageMain {
+    gap: 32px;
+  }
+
+  .endorsedPageColumnInner {
+    gap: 36px;
+  }
+
+  .endorsedPageColumn {
+    padding: 0 12px;
+  }
+}
+
+@media (min-width: 768px) {
+  .endorsedPageColumnInner {
+    width: 84vw;
+    max-width: 100%;
+  }
+}

@@ -25,7 +25,7 @@ export default function Values() {
             <div>
               <Typography
                 variant={TypographyVariant.Body1}
-                color='var( --GhostWhiteVariant)'
+                color='var(--GhostWhiteVariant)'
               >
                 Support
               </Typography>
@@ -33,7 +33,7 @@ export default function Values() {
             <div className={styles.gridText}>
               <Typography
                 variant={TypographyVariant.Body2}
-                color='var( --GhostWhiteVariant)'
+                color='var(--GhostWhiteVariant)'
               >
                 Supporting individuals to feel comfortable and confident in
                 their identity
@@ -49,7 +49,7 @@ export default function Values() {
             <div>
               <Typography
                 variant={TypographyVariant.Body1}
-                color='var( --GhostWhiteVariant)'
+                color='var(--GhostWhiteVariant)'
               >
                 Respect
               </Typography>
@@ -57,7 +57,7 @@ export default function Values() {
             <div className={styles.gridText}>
               <Typography
                 variant={TypographyVariant.Body2}
-                color='var( --GhostWhiteVariant)'
+                color='var(--GhostWhiteVariant)'
               >
                 Encouraging respect for everyone and the diverse ideas they wish
                 to share
@@ -74,7 +74,7 @@ export default function Values() {
             <div>
               <Typography
                 variant={TypographyVariant.Body1}
-                color='var( --GhostWhiteVariant)'
+                color='var(--GhostWhiteVariant)'
               >
                 Safety
               </Typography>
@@ -82,7 +82,7 @@ export default function Values() {
             <div className={styles.gridText}>
               <Typography
                 variant={TypographyVariant.Body2}
-                color='var( --GhostWhiteVariant)'
+                color='var(--GhostWhiteVariant)'
               >
                 Everyone should feel safe in the environment they are in and the
                 people they interact with.
@@ -98,7 +98,7 @@ export default function Values() {
             <div>
               <Typography
                 variant={TypographyVariant.Body1}
-                color='var( --GhostWhiteVariant)'
+                color='var(--GhostWhiteVariant)'
               >
                 Innovation
               </Typography>
@@ -106,7 +106,7 @@ export default function Values() {
             <div className={styles.gridText}>
               <Typography
                 variant={TypographyVariant.Body2}
-                color='var( --GhostWhiteVariant)'
+                color='var(--GhostWhiteVariant)'
               >
                 {' '}
                 Innovation and standing out while supporting the Neurodiversity
@@ -123,7 +123,7 @@ export default function Values() {
             <div>
               <Typography
                 variant={TypographyVariant.Body1}
-                color='var( --GhostWhiteVariant)'
+                color='var(--GhostWhiteVariant)'
               >
                 Fun
               </Typography>
@@ -131,7 +131,7 @@ export default function Values() {
             <div className={styles.gridText}>
               <Typography
                 variant={TypographyVariant.Body2}
-                color='var( --GhostWhiteVariant)'
+                color='var(--GhostWhiteVariant)'
               >
                 Everything we do should be all about having fun and working
                 together as a team.
@@ -147,7 +147,7 @@ export default function Values() {
             <div>
               <Typography
                 variant={TypographyVariant.Body1}
-                color='var( --GhostWhiteVariant)'
+                color='var(--GhostWhiteVariant)'
               >
                 Leadership
               </Typography>
@@ -155,7 +155,7 @@ export default function Values() {
             <div className={styles.gridText}>
               <Typography
                 variant={TypographyVariant.Body2}
-                color='var( --GhostWhiteVariant)'
+                color='var(--GhostWhiteVariant)'
               >
                 We embody leadership in all we do, while actively fostering
                 tomorrow&apos;s leaders

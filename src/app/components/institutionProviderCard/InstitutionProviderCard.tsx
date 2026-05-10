@@ -17,7 +17,7 @@ export type InstitutionProviderHeader =
   | { kind: typeof INSTITUTION_PROVIDER_HEADER_KIND.REMOTE_IMAGE; src: string };
 
 export interface InstitutionProviderCardProps {
-  pdfUrl: string;
+  ctaHref: string;
   center: ReactNode;
   header: InstitutionProviderHeader;
   badge?: ReactNode;
@@ -30,7 +30,7 @@ export interface InstitutionProviderCardProps {
 }
 
 export default function InstitutionProviderCard({
-  pdfUrl,
+  ctaHref,
   center,
   header,
   badge,
@@ -73,7 +73,7 @@ export default function InstitutionProviderCard({
       <div className={styles.cardBody}>
         {center}
         <EmergingInstitutionCtaButton
-          pdfUrl={pdfUrl}
+          ctaHref={ctaHref}
           className={styles.ctaButton}
           analytics={gaEvent}
           openInNewTab={ctaOpenInNewTab}

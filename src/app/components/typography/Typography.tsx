@@ -2,6 +2,7 @@ import React, { createElement, HTMLAttributes } from 'react';
 import styles from './typography.module.css';
 import classNames from 'classnames';
 import { typographyColorClassForToken } from './typographyColorClasses';
+import type { TypographyColor } from './typographyColorToken';
 
 export enum TypographyVariant {
   H1 = 'h1',
@@ -22,8 +23,11 @@ interface TypographyElement
 interface TypographyProps extends Omit<TypographyElement, 'color' | 'style'> {
   variant: TypographyVariant;
   children: React.ReactNode;
-  /** Design-token string (e.g. `var(--BondBlack)`) or `'red'` for errors — mapped to CSS classes, never inline styles */
-  color?: string | false;
+  /**
+   * Prefer `TypographyColorToken.*` or `TypographyColor` union; `string` is allowed for
+   * dynamic/legacy call sites and is resolved via `typographyColorClasses` at runtime.
+   */
+  color?: TypographyColor | string | false;
 }
 
 const Typography: React.FC<TypographyProps> = ({

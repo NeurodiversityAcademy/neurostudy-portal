@@ -1,0 +1,735 @@
+import type { HeroInfoItem } from '@/app/components/emergingInstitutions/InstitutionHero';
+import type { ProviderStatItem } from '@/app/components/emergingInstitutions/EmergingProviderStats';
+import mapPin from '@/app/images/mapPin.svg';
+import graduationCap from '@/app/images/graduationCap.png';
+import facilitiesIcon from '@/app/images/emergingInstitutions/facilities-icon.png';
+import interactionsIcon from '@/app/images/emergingInstitutions/interactions-icon.png';
+import skillIcon from '@/app/images/emergingInstitutions/skill-icon.png';
+import supportServicesIcon from '@/app/images/emergingInstitutions/support-services-icon.png';
+import teachingQualityIcon from '@/app/images/emergingInstitutions/teaching-quality-icon.png';
+import userExperienceIcon from '@/app/images/emergingInstitutions/user-experience-icon.png';
+import { slugify } from '@/app/utilities/common';
+import endorsedData from './endorsedProviders.json';
+
+const QILT_STAT_SECTIONS = [
+  { title: 'Overall experience', icon: userExperienceIcon },
+  { title: 'Skills development', icon: skillIcon },
+  { title: 'Interactions with other students', icon: interactionsIcon },
+  { title: 'Facilities & resources', icon: facilitiesIcon },
+  { title: 'Teaching quality', icon: teachingQualityIcon },
+  { title: 'Support & services', icon: supportServicesIcon },
+] as const;
+
+type StatNumbers = Pick<
+  ProviderStatItem,
+  'value' | 'nationalAverage' | 'responses'
+>;
+
+/** Placeholder QILT-style stats per endorsed slug; replace with provider-specific data when available. */
+const STAT_NUMBERS_BY_SLUG: Record<string, StatNumbers[]> = {
+  hsh: [
+    { value: '85.0%', nationalAverage: '78.6%', responses: '—' },
+    { value: '88.0%', nationalAverage: '81.1%', responses: '—' },
+    { value: '80.0%', nationalAverage: '73.1%', responses: '—' },
+    { value: '90.0%', nationalAverage: '85.3%', responses: '—' },
+    { value: '86.0%', nationalAverage: '80.5%', responses: '—' },
+    { value: '84.0%', nationalAverage: '85.3%', responses: '—' },
+  ],
+  academia: [
+    { value: '84.2%', nationalAverage: '78.6%', responses: '—' },
+    { value: '87.1%', nationalAverage: '81.1%', responses: '—' },
+    { value: '79.5%', nationalAverage: '73.1%', responses: '—' },
+    { value: '91.2%', nationalAverage: '85.3%', responses: '—' },
+    { value: '88.4%', nationalAverage: '80.5%', responses: '—' },
+    { value: '83.1%', nationalAverage: '71.2%', responses: '—' },
+  ],
+  'blueprint-career-development': [
+    { value: '82.0%', nationalAverage: '78.6%', responses: '—' },
+    { value: '86.0%', nationalAverage: '81.1%', responses: '—' },
+    { value: '76.0%', nationalAverage: '73.1%', responses: '—' },
+    { value: '88.0%', nationalAverage: '85.3%', responses: '—' },
+    { value: '85.0%', nationalAverage: '80.5%', responses: '—' },
+    { value: '81.0%', nationalAverage: '71.2%', responses: '—' },
+  ],
+  collarts: [
+    { value: '81.3%', nationalAverage: '78.6%', responses: '391' },
+    { value: '87.5%', nationalAverage: '81.1%', responses: '376' },
+    { value: '62.3%', nationalAverage: '73.1%', responses: '390' },
+    { value: '87.4%', nationalAverage: '85.3%', responses: '354' },
+    { value: '87.6%', nationalAverage: '80.5%', responses: '388' },
+    { value: '84.3%', nationalAverage: '71.2%', responses: '313' },
+  ],
+};
+
+function buildStatsForSlug(slug: string): ProviderStatItem[] {
+  const numbers = STAT_NUMBERS_BY_SLUG[slug];
+  if (!numbers || numbers.length !== QILT_STAT_SECTIONS.length) {
+    return [];
+  }
+  return QILT_STAT_SECTIONS.map((section, index) => ({
+    icon: section.icon,
+    title: section.title,
+    ...numbers[index],
+  }));
+}
+
+export const HERO_DETAILS_BY_SLUG: Record<string, HeroInfoItem[]> = {
+  hsh: [
+    { icon: mapPin, value: 'Australia', label: 'Location' },
+    { icon: graduationCap, value: 'Higher Education', label: 'Type' },
+  ],
+  academia: [
+    { icon: mapPin, value: 'Australia', label: 'Location' },
+    { icon: graduationCap, value: 'Higher Education', label: 'Type' },
+  ],
+  'blueprint-career-development': [
+    { icon: mapPin, value: 'Australia', label: 'Location' },
+    { icon: graduationCap, value: 'Vocational', label: 'Type' },
+  ],
+  collarts: [
+    { icon: mapPin, value: 'Melbourne, VIC', label: 'Location' },
+    { icon: graduationCap, value: 'Higher Education', label: 'Type' },
+  ],
+};
+
+export const STATS_BY_SLUG: Record<string, ProviderStatItem[]> =
+  Object.fromEntries(
+    Object.keys(STAT_NUMBERS_BY_SLUG).map((slug) => [
+      slug,
+      buildStatsForSlug(slug),
+    ])
+  );
+
+export type EndorsedIntroSection = {
+  heading: string;
+  body: string;
+};
+
+export type EndorsedFaqItem = {
+  question: string;
+  answer: string;
+};
+
+export type EndorsedFaqSection = {
+  sectionTitle: string;
+  items: EndorsedFaqItem[];
+};
+
+export const INTRO_SECTION_BY_SLUG: Record<string, EndorsedIntroSection> = {
+  hsh: {
+    heading: 'About this organisation',
+    body: 'Profile content for HSH will appear here as editorial copy is finalised.',
+  },
+  academia: {
+    heading: 'About this organisation',
+    body: 'Profile content for Academia will appear here as editorial copy is finalised.',
+  },
+  'blueprint-career-development': {
+    heading: 'About this organisation',
+    body: 'Profile content for Blueprint Career Development will appear here as editorial copy is finalised.',
+  },
+  collarts: {
+    heading: 'About this organisation',
+    body: 'Collarts (Australian College of the Arts) is a specialist higher education provider based in Melbourne, Australia & Sydney, focused on creative industries and practical career pathways. The institution delivers industry-relevant degrees and courses across areas such as music, entertainment, fashion, digital media, and entrepreneurship. See the results and insights from the endorsement assessment below.',
+  },
+};
+
+export const ENDORSED_FAQ_SECTIONS_DEFAULT: EndorsedFaqSection[] = [
+  {
+    sectionTitle: 'About the Endorsement',
+    items: [
+      {
+        question:
+          'How does an organisation become endorsed by Neurodiversity Academy?',
+        answer:
+          'Organisations endorsed by Neurodiversity Academy undergo an endorsement assessment to verify their commitment to neuro-inclusive practices.',
+      },
+      {
+        question: 'What criteria are used to assess neuro-inclusive practices?',
+        answer:
+          'Strong support from senior leadership is essential to ensure the right culture is in place before beginning a formal assessment.',
+      },
+      {
+        question: 'Can organisations improve their endorsement over time?',
+        answer:
+          "Yes, absolutely. Endorsement is not about identifying the 'best' organisation. It recognises organisations committed to improving support for neurodivergent learners. While some may not initially meet every requirement, they can grow and strengthen their practices over time through student feedback and continuous improvement.",
+      },
+      {
+        question: 'How often is endorsement reviewed?',
+        answer:
+          'Endorsement is reviewed every three months using student feedback. If concerns arise, an earlier review may take place to address issues and support improvement.',
+      },
+    ],
+  },
+  {
+    sectionTitle: 'About the Platform',
+    items: [
+      {
+        question: 'How can students use the platform to choose where to study?',
+        answer:
+          'Students can use the platform to explore the supports each organisation has in place and review past student ratings. The goal is to help neurodivergent students identify organisations that understand and provide the right supports for their learning journey.',
+      },
+      {
+        question: 'Can parents or carers also provide feedback?',
+        answer:
+          'Yes, absolutely. We understand how important it is to find the right place for your child to study, so feedback from parents and carers is vital for the community.',
+      },
+      {
+        question:
+          'Are endorsed organisations required to maintain their standards?',
+        answer:
+          'Yes, this is vital. Regular feedback helps ensure endorsed organisations are delivering the supports they say they provide.',
+      },
+    ],
+  },
+  {
+    sectionTitle: 'About Student Supports',
+    items: [
+      {
+        question: 'What types of supports do endorsed organisations provide?',
+        answer:
+          'Endorsed organisations may offer a range of supports for neurodivergent students. As these supports can vary between organisations, we encourage students to review each organisation’s profile to see what is available.',
+      },
+      {
+        question: 'Do all organisations offer the same supports?',
+        answer:
+          'Each organisation is unique and may offer different supports. Reviewing and comparing these can help you find the best fit for your needs.',
+      },
+      {
+        question:
+          'How do I request support or reasonable adjustments when studying?',
+        answer:
+          "If you require support or reasonable adjustments, contact the organisation's student support or support services team. They can discuss your learning needs and help arrange appropriate adjustments.",
+      },
+    ],
+  },
+  {
+    sectionTitle: 'About Student Feedback',
+    items: [
+      {
+        question:
+          'What does “Neurodivergent Student Experience - Top 4 Areas of Strength” show?',
+        answer:
+          'This section combines student experience outcomes with feedback from neurodivergent learners (including student and parent/carer responses) to highlight where an organisation is currently performing strongly. The seven survey areas include overall experience, clear support information, effective adjustments, genuine institutional support, psychological safety, responsiveness to individual needs, and clear communication. The “Top 4 Areas of Strength” are the highest-performing areas from these results and provide a practical snapshot of where support is currently most consistent. Performance bands are interpreted as Low (below 60%), Medium (60-79%), and High (80%+), and all featured strengths meet the high-performance threshold.',
+      },
+      {
+        question: 'How is student feedback used in the endorsement process?',
+        answer:
+          'Student feedback helps organisations maintain their endorsement by ensuring the student experience matches the supports offered and guiding continuous improvement.',
+      },
+      {
+        question:
+          'Can students share their experiences with endorsed organisations?',
+        answer:
+          'Yes, all feedback is shared with the organisation and is anonymous unless you choose to identify yourself.',
+      },
+      {
+        question: 'How is student feedback collected and monitored?',
+        answer:
+          'Student feedback is collected through surveys distributed by the endorsed organisation. Neurodiversity Academy monitors the feedback and shares the results with the organisation.',
+      },
+    ],
+  },
+  {
+    sectionTitle: 'Important Questions',
+    items: [
+      {
+        question: 'Is endorsement a guarantee that an organisation is perfect?',
+        answer:
+          'No. While we aim for every student to have a positive experience, we cannot guarantee that it will always be perfect.',
+      },
+      {
+        question:
+          'What happens if an organisation stops meeting endorsement standards?',
+        answer:
+          'If an organisation no longer meets endorsement standards, their endorsement may be reviewed or removed.',
+      },
+    ],
+  },
+];
+
+export const ENDORSED_FAQ_SECTIONS_BY_SLUG: Record<
+  string,
+  EndorsedFaqSection[]
+> = {};
+
+export type EndorsedNdExperience = {
+  heading: string;
+  summary: string;
+  surveyAreas: string[];
+  contextNote: string;
+  responseSummary: string;
+  methodology?: string;
+  performanceBands?: {
+    low: string;
+    medium: string;
+    high: string;
+  };
+};
+
+export type TopStrengthIconKind =
+  | 'supportInformation'
+  | 'adjustments'
+  | 'overallExperience'
+  | 'communication';
+
+export type TopStrengthArea = {
+  title: string;
+  iconKind: TopStrengthIconKind;
+  description?: string;
+  scoreBand?: 'Low' | 'Medium' | 'High';
+};
+
+export type StaffNomination = {
+  name: string;
+  role: string;
+  nominations: number;
+};
+
+export type SupportFrameworkItem = {
+  label: string;
+  status: 'Supports in place' | 'In the works';
+};
+
+export type SupportFrameworkSection = {
+  section: string;
+  items: SupportFrameworkItem[];
+};
+
+export const ENDORSED_ND_EXPERIENCE_BY_SLUG: Record<
+  string,
+  EndorsedNdExperience
+> = {
+  collarts: {
+    heading: 'Neurodivergent Student Experience - Top 4 Areas of Strength',
+    summary:
+      'Higher education providers publish data on student experience and outcomes, including the national QILT (Quality Indicators for Learning and Teaching) Student Experience Survey. This profile combines QILT data with feedback from neurodivergent learners, including both student and parent/carer responses, to provide insight into the learning environment and support provided.',
+    surveyAreas: [
+      'Overall experience',
+      'Clear information about support options',
+      'Adjustments implemented effectively',
+      'Organisation genuinely supports neurodivergent students',
+      'Feel safe being open about learning needs',
+      "Organisation takes the learner's individual needs seriously",
+      'Communication is clear and responsive',
+    ],
+    contextNote:
+      'This information supports continuous improvement and ongoing Neuroinclusion Endorsement. Below, we have shared the top four areas of strength based on these results. All areas shown below meet the high performance threshold.',
+    responseSummary:
+      'Based on 5 total survey responses from students and parents collected over a three-month period.',
+    performanceBands: {
+      low: 'Low — below 60%',
+      medium: 'Medium — 60–79%',
+      high: 'High — 80%+',
+    },
+  },
+};
+
+export const TOP_STRENGTH_AREAS_BY_SLUG: Record<string, TopStrengthArea[]> = {
+  collarts: [
+    {
+      title: 'Clear information about support options',
+      iconKind: 'supportInformation',
+      scoreBand: 'High',
+    },
+    {
+      title: 'Adjustments implemented effectively',
+      iconKind: 'adjustments',
+      scoreBand: 'High',
+    },
+    {
+      title: 'Overall experience',
+      iconKind: 'overallExperience',
+      scoreBand: 'High',
+    },
+    {
+      title: 'Communication is clear and responsive',
+      iconKind: 'communication',
+      scoreBand: 'High',
+    },
+  ],
+};
+
+export const STUDY_AREAS_BY_SLUG: Record<string, string[]> = {
+  collarts: [
+    'Music & Audio',
+    'Film, Theatre & Performing Arts',
+    'Games & Animation',
+    'Design & Visual Arts',
+    'Fashion',
+    'Media & Communication',
+    'Creative Business & Management',
+  ],
+};
+
+export const STAFF_NOMINATIONS_BY_SLUG: Record<string, StaffNomination[]> = {
+  collarts: [
+    {
+      name: 'Support Team Member 1',
+      role: 'Student Support',
+      nominations: 0,
+    },
+    {
+      name: 'Support Team Member 2',
+      role: 'Learning Support',
+      nominations: 0,
+    },
+  ],
+};
+
+export const SUPPORT_FRAMEWORK_BY_SLUG: Record<
+  string,
+  SupportFrameworkSection[]
+> = {
+  collarts: [
+    {
+      section: 'Staff Training',
+      items: [
+        {
+          label: 'Designated neuroinclusion champion',
+          status: 'Supports in place',
+        },
+        {
+          label: 'External neurodiversity training',
+          status: 'In the works',
+        },
+        {
+          label: 'Whole-org training (2 years)',
+          status: 'In the works',
+        },
+      ],
+    },
+    {
+      section: 'Support Staff',
+      items: [
+        {
+          label: 'Support person listed publicly',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Support staff training',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Lived experience of ND',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Designated ND support person',
+          status: 'In the works',
+        },
+        {
+          label: 'Peer support / student networks',
+          status: 'In the works',
+        },
+      ],
+    },
+    {
+      section: 'Pre-Enrolment & Disclosure',
+      items: [
+        {
+          label: 'Accessibility discussed pre-enrolment',
+          status: 'In the works',
+        },
+        {
+          label: 'School transition support',
+          status: 'In the works',
+        },
+      ],
+    },
+    {
+      section: 'Student Support',
+      items: [
+        {
+          label: 'Individualised support plans',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Support plans co-created',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Regular check-in sessions',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Academic literacy/LLND',
+          status: 'Supports in place',
+        },
+        {
+          label: 'ND-specific support services',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Career guidance tailored',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Pre-course teacher connection',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Digital literacy / exec function',
+          status: 'In the works',
+        },
+        {
+          label: 'Referral pathways',
+          status: 'In the works',
+        },
+        {
+          label: 'Teaching staff resources',
+          status: 'In the works',
+        },
+        {
+          label: 'Admin navigation support',
+          status: 'In the works',
+        },
+        {
+          label: 'Documentation of support needs',
+          status: 'In the works',
+        },
+      ],
+    },
+    {
+      section: 'Website & Digital Accessibility',
+      items: [
+        {
+          label: 'Enrolment process accessible',
+          status: 'Supports in place',
+        },
+        {
+          label: 'ND support info easy to find',
+          status: 'In the works',
+        },
+      ],
+    },
+    {
+      section: 'Assistive Technology',
+      items: [
+        {
+          label: 'Assistive technologies available',
+          status: 'Supports in place',
+        },
+        {
+          label: 'LMS compatible with AT',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Ongoing AT support',
+          status: 'In the works',
+        },
+      ],
+    },
+    {
+      section: 'Assessment',
+      items: [
+        {
+          label: 'Flexible assessment options',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Reasonable adjustments policy',
+          status: 'Supports in place',
+        },
+      ],
+    },
+    {
+      section: 'Learning Design & Delivery',
+      items: [
+        {
+          label: 'Learning materials in multiple formats',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Live sessions recorded and uploaded',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Students can adjust playback speed',
+          status: 'Supports in place',
+        },
+        {
+          label: 'UDL principles embedded',
+          status: 'In the works',
+        },
+        {
+          label: 'Lectures pre-recorded and available',
+          status: 'In the works',
+        },
+        {
+          label: 'Absence alternatives available',
+          status: 'In the works',
+        },
+      ],
+    },
+    {
+      section: 'Campus',
+      items: [
+        {
+          label: 'Orientation/campus visits',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Sensory-friendly areas',
+          status: 'In the works',
+        },
+        {
+          label: 'Sensory challenge policies',
+          status: 'In the works',
+        },
+        {
+          label: 'Minimise sensory triggers',
+          status: 'In the works',
+        },
+        {
+          label: 'Quiet zones communicated',
+          status: 'In the works',
+        },
+      ],
+    },
+    {
+      section: 'Policy & Compliance',
+      items: [
+        {
+          label: 'Harassment/discrimination policies',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Complaints/appeals process',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Formal review cycle',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Standalone neuroinclusion policy',
+          status: 'In the works',
+        },
+        {
+          label: 'Track outcomes for ND students',
+          status: 'In the works',
+        },
+      ],
+    },
+  ],
+};
+
+type EndorsedJsonRow = {
+  id: string;
+  logo?: string;
+  /** Large institution mark beside the endorsed badge in the meta strip; falls back to `logo`. */
+  metaStripInstitutionIconSrc?: string;
+  topBackgroundImage?: string;
+  institutionCoursesUrl: string;
+};
+
+const rows = endorsedData as EndorsedJsonRow[];
+
+const INSTITUTION_COURSES_URL_BY_SLUG: Record<string, string> =
+  Object.fromEntries(
+    rows.map((row) => [slugify(row.id), row.institutionCoursesUrl.trim()])
+  );
+
+const COVER_IMAGE_BY_SLUG: Record<string, string> = Object.fromEntries(
+  rows.map((row) => [
+    slugify(row.id),
+    row.topBackgroundImage?.trim() || '/images/endorsed-hero-cover.png',
+  ])
+);
+
+const META_STRIP_INSTITUTION_ICON_BY_SLUG: Record<string, string> =
+  Object.fromEntries(
+    rows
+      .map((row) => {
+        const slug = slugify(row.id);
+        const explicit = row.metaStripInstitutionIconSrc?.trim();
+        const fallback = row.logo?.trim();
+        const src = explicit || fallback || '';
+        return [slug, src];
+      })
+      .filter(([, src]) => src.length > 0)
+  );
+
+/** Slugs derived the same way as future home card links: `slugify(provider.id)`. */
+export const ENDORSED_SLUGS: readonly string[] = rows.map((row) =>
+  slugify(row.id)
+);
+
+function displayNameForEndorsedId(id: string): string {
+  if (id === 'academia') {
+    return 'Academia';
+  }
+  if (id === 'HSH') {
+    return 'HSH';
+  }
+  return id;
+}
+
+const DISPLAY_NAME_BY_SLUG: Record<string, string> = Object.fromEntries(
+  rows.map((row) => [slugify(row.id), displayNameForEndorsedId(row.id)])
+);
+
+export function getEndorsedDisplayNameForSlug(
+  slug: string
+): string | undefined {
+  return DISPLAY_NAME_BY_SLUG[slug];
+}
+
+export function getEndorsedFaqSectionsForSlug(
+  slug: string
+): EndorsedFaqSection[] {
+  const overrideSections = ENDORSED_FAQ_SECTIONS_BY_SLUG[slug];
+  if (overrideSections && overrideSections.length > 0) {
+    return overrideSections;
+  }
+
+  return ENDORSED_FAQ_SECTIONS_DEFAULT;
+}
+
+export function getEndorsedNdExperienceForSlug(
+  slug: string
+): EndorsedNdExperience | undefined {
+  return ENDORSED_ND_EXPERIENCE_BY_SLUG[slug];
+}
+
+export function getTopStrengthAreasForSlug(slug: string): TopStrengthArea[] {
+  const items = TOP_STRENGTH_AREAS_BY_SLUG[slug] ?? [];
+  return items.slice(0, 4);
+}
+
+export function getStudyAreasForSlug(slug: string): string[] {
+  return STUDY_AREAS_BY_SLUG[slug] ?? [];
+}
+
+export function getStaffNominationsForSlug(slug: string): StaffNomination[] {
+  return STAFF_NOMINATIONS_BY_SLUG[slug] ?? [];
+}
+
+export function getSupportFrameworkForSlug(
+  slug: string
+): SupportFrameworkSection[] {
+  return SUPPORT_FRAMEWORK_BY_SLUG[slug] ?? [];
+}
+
+export function isKnownEndorsedSlug(slug: string): boolean {
+  return ENDORSED_SLUGS.includes(slug);
+}
+
+export function getEndorsedInstitutionCoursesUrl(
+  slug: string
+): string | undefined {
+  const url = INSTITUTION_COURSES_URL_BY_SLUG[slug];
+  return url && url.length > 0 ? url : undefined;
+}
+
+export function getEndorsedCoverBackgroundSrc(slug: string): string {
+  return COVER_IMAGE_BY_SLUG[slug] ?? '/images/endorsed-hero-cover.png';
+}
+
+export function getEndorsedMetaStripInstitutionIconSrc(
+  slug: string
+): string | undefined {
+  const src = META_STRIP_INSTITUTION_ICON_BY_SLUG[slug];
+  return src && src.length > 0 ? src : undefined;
+}

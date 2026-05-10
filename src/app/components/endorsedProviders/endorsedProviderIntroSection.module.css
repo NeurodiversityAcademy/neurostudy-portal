@@ -1,0 +1,15 @@
+.section {
+  width: 100%;
+  margin: 0;
+  padding: 0 0 8px;
+  box-sizing: border-box;
+}
+
+.heading {
+  margin: 0 0 12px;
+}
+
+.body {
+  margin: 0;
+  max-width: none;
+}

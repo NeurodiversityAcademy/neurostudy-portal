@@ -1,6 +1,6 @@
-/** Last path segment of a PDF URL, decoded — used for GA `file_name` on institution CTAs. */
-export function analyticsFileNameFromPdfUrl(pdfUrl?: string | null): string {
-  const safeUrl = typeof pdfUrl === 'string' ? pdfUrl : '';
+/** Last path segment of a destination URL, decoded — used for GA `file_name` on institution CTAs. */
+export function analyticsFileNameFromUrl(url?: string | null): string {
+  const safeUrl = typeof url === 'string' ? url : '';
   const last = safeUrl.split('/').pop() ?? '';
   let name = last;
   try {

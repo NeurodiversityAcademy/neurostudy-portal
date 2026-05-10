@@ -15,7 +15,7 @@ export default function EmergingInstitutionCard({
 }: EmergingInstitutionCardProps) {
   return (
     <InstitutionProviderCard
-      pdfUrl={href}
+      ctaHref={href}
       header={{ kind: INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT }}
       center={
         <div className={styles.nameWrap}>

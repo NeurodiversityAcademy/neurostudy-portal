@@ -7,7 +7,9 @@ import sectionStyles from '../emergingInstitutions/emergingInstitutions.module.c
 import endorseStyles from './endorsedProviders.module.css';
 import badgeGeneric from '../../images/badgeGeneric.png';
 import Typography, { TypographyVariant } from '../typography/Typography';
-import { analyticsFileNameFromPdfUrl } from '@/app/utilities/analyticsFileName';
+import { TypographyColorToken } from '../typography/typographyColorToken';
+import { analyticsFileNameFromUrl } from '@/app/utilities/analyticsFileName';
+import { slugify } from '@/app/utilities/common';
 import endorsedData from './endorsedProviders.json';
 import { providerNameFromId } from './providerName';
 
@@ -22,9 +24,13 @@ const ENDORSED_PROVIDERS_GA = {
 type EndorsedProviderRow = {
   id: string;
   logo: string;
-  pdfUrl: string;
   topBackgroundImage?: string;
+  institutionCoursesUrl?: string;
 };
+
+function endorsedDetailPathForProviderId(id: string): string {
+  return `/endorsedproviders/${slugify(id)}`;
+}
 
 function resolveHeader(topBackgroundImage?: string): InstitutionProviderHeader {
   const trimmed = topBackgroundImage?.trim();
@@ -63,13 +69,16 @@ export default function EndorsedProviders() {
               className={endorseStyles.headerBadgeImg}
             />
           </div>
-          <Typography variant={TypographyVariant.H2} color='var(--pure-white)'>
+          <Typography
+            variant={TypographyVariant.H2}
+            color={TypographyColorToken.PureWhite}
+          >
             NDA Endorsed Providers
           </Typography>
         </div>
         <Typography
           variant={TypographyVariant.Body1}
-          color='var(--pure-white)'
+          color={TypographyColorToken.PureWhite}
           className={sectionStyles.subtitle}
         >
           Endorsed Providers meet Neurodiversity Academy standards for
@@ -79,24 +88,24 @@ export default function EndorsedProviders() {
         <div className={endorseStyles.cardsRow}>
           {providers.map((provider) => {
             const providerName = providerNameFromId(provider.id);
+            const ctaHref = endorsedDetailPathForProviderId(provider.id);
 
             return (
               <InstitutionProviderCard
                 key={provider.id}
-                pdfUrl={provider.pdfUrl}
+                ctaHref={ctaHref}
                 header={resolveHeader(provider.topBackgroundImage)}
                 badge={badge}
                 equalWidth
                 elevatedOnDark
-                ctaOpenInNewTab
                 gaEvent={{
                   eventName: ENDORSED_PROVIDERS_GA.ctaClick.eventName,
                   category: ENDORSED_PROVIDERS_GA.ctaClick.category,
-                  fileName: analyticsFileNameFromPdfUrl(provider.pdfUrl),
+                  fileName: analyticsFileNameFromUrl(ctaHref),
                   params: {
                     provider_id: provider.id,
                     provider_name: providerName,
-                    destination_url: provider.pdfUrl,
+                    destination_url: ctaHref,
                     section: ENDORSED_PROVIDERS_GA.ctaClick.section,
                   },
                 }}
