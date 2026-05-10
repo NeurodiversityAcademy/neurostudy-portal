@@ -19,6 +19,7 @@ import {
   getTopStrengthAreasForSlug,
   getEndorsedCoverBackgroundSrc,
   getEndorsedMetaStripInstitutionIconSrc,
+  getEndorsedInstitutionCoursesUrl,
   isKnownEndorsedSlug,
 } from '@/app/components/endorsedProviders/endorsedProviderPageData';
 import { HOST_URL } from '@/app/utilities/constants';
@@ -84,6 +85,7 @@ export default function EndorsedProviderDetailPage({ params }: PageProps) {
   const supportFramework = getSupportFrameworkForSlug(slug);
   const coverBackgroundSrc = getEndorsedCoverBackgroundSrc(slug);
   const institutionIconSrc = getEndorsedMetaStripInstitutionIconSrc(slug);
+  const coursesUrl = getEndorsedInstitutionCoursesUrl(slug);
 
   const locationValue = heroInfoItems.find(
     (i) => i.label === 'Location'
@@ -106,6 +108,7 @@ export default function EndorsedProviderDetailPage({ params }: PageProps) {
         locationValue={locationValue}
         typeValue={typeValue}
         institutionIconSrc={institutionIconSrc}
+        coursesUrl={coursesUrl}
       />
       <div className={pageStyles.endorsedPageColumn}>
         <div className={pageStyles.endorsedPageColumnInner}>

@@ -13,6 +13,8 @@ export interface EndorsedInstitutionCoverHeroProps {
   typeValue?: string;
   /** Large institution mark beside the endorsed badge (from endorsed provider data). */
   institutionIconSrc?: string;
+  /** External courses URL for the Explore CTA (from endorsed provider data). */
+  coursesUrl?: string;
 }
 
 export default function EndorsedInstitutionCoverHero({
@@ -20,6 +22,7 @@ export default function EndorsedInstitutionCoverHero({
   locationValue,
   typeValue,
   institutionIconSrc,
+  coursesUrl,
 }: EndorsedInstitutionCoverHeroProps) {
   const iconByLabel = {
     Type: notebook,
@@ -49,16 +52,16 @@ export default function EndorsedInstitutionCoverHero({
               Neurodiversity Academy Endorsed Provider
             </Typography>
           </div>
+        </div>
 
+        {coursesUrl ? (
           <div className={styles.ctaCard}>
             <Typography
               variant={TypographyVariant.Body2}
               color={TypographyColorToken.BondBlack}
               className={styles.ctaTitle}
             >
-              Explore This Organisation&apos;s
-              <br />
-              Courses
+              Explore this organisation&apos;s courses
             </Typography>
             <Typography
               variant={TypographyVariant.Body3}
@@ -69,7 +72,7 @@ export default function EndorsedInstitutionCoverHero({
             </Typography>
             <div className={styles.ctaExploreRow}>
               <a
-                href='https://www.collarts.edu.au/courses'
+                href={coursesUrl}
                 target='_blank'
                 rel='noopener noreferrer'
                 className={styles.ctaExploreLink}
@@ -84,7 +87,7 @@ export default function EndorsedInstitutionCoverHero({
               </a>
             </div>
           </div>
-        </div>
+        ) : null}
       </div>
       <div className={styles.metaStripWrap}>
         <div className={styles.metaStrip}>
@@ -116,7 +119,7 @@ export default function EndorsedInstitutionCoverHero({
                   alt=''
                   fill
                   className={styles.metaInstitutionIcon}
-                  sizes='(max-width: 767px) 180px, 260px'
+                  sizes='(max-width: 767px) 108px, 200px'
                   unoptimized
                 />
               </div>
