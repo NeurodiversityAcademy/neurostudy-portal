@@ -55,8 +55,7 @@
   right: clamp(16px, 10vw, 10%);
   z-index: 2;
   box-sizing: border-box;
-  width: min(210px, calc(100vw - 48px));
-  max-width: 210px;
+  width: 210px;
   padding: 13px 15px 15px;
   display: flex;
   flex-direction: column;
@@ -238,8 +237,7 @@
   }
 
   .ctaCard {
-    width: min(210px, calc(100vw - 24px));
-    max-width: none;
+    width: 210px;
     right: 12px;
     bottom: 12px;
     padding: 11px 13px 13px;

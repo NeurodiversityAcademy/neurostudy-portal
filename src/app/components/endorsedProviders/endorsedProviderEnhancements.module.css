@@ -18,10 +18,17 @@
 
 .frameworkHeader {
   display: grid;
-  grid-template-columns: 1.2fr 1.3fr 1.3fr;
   gap: 0;
   background: var(--pure-white);
   border-bottom: 1px solid var(--grey-300);
+}
+
+.frameworkGridCols3 {
+  grid-template-columns: 1.2fr 1.3fr 1.3fr;
+}
+
+.frameworkGridCols2 {
+  grid-template-columns: 1.2fr 1.3fr;
 }
 
 .frameworkHeader > * {
@@ -34,7 +41,6 @@
 
 .frameworkRow {
   display: grid;
-  grid-template-columns: 1.2fr 1.3fr 1.3fr;
   gap: 0;
   background: var(--pure-white);
 }
@@ -81,6 +87,23 @@
 .frameworkAreaCell,
 .frameworkItemsCell:not(:last-child) {
   border-right: 1px solid var(--grey-300);
+}
+
+.frameworkColumnHeadingMobile {
+  display: none;
+}
+
+.frameworkItemsCellPlaceholder {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  border-right: 1px solid var(--grey-300);
+  background: var(--pure-white);
+  min-height: 0;
+}
+
+.frameworkRowAlt .frameworkItemsCellPlaceholder {
+  background: var(--GhostWhite);
 }
 
 .frameworkList {
@@ -184,6 +207,15 @@
     display: none;
   }
 
+  .frameworkItemsCellPlaceholder {
+    display: none;
+  }
+
+  .frameworkColumnHeadingMobile {
+    display: block;
+    margin: 0 0 10px;
+  }
+
   .frameworkRow {
     grid-template-columns: 1fr;
   }
@@ -191,5 +223,15 @@
   .frameworkAreaCell,
   .frameworkItemsCell {
     border-right: none;
+  }
+
+  .frameworkItemsCell {
+    padding-top: 12px;
+    border-top: 1px solid var(--grey-300);
+  }
+
+  .frameworkItemsCellFirst {
+    padding-top: 16px;
+    border-top: none;
   }
 }

@@ -10,14 +10,44 @@ interface EndorsedProviderEnhancementsProps {
   supportFramework: SupportFrameworkSection[];
 }
 
+function partitionSupportItems(section: SupportFrameworkSection) {
+  const supportsInPlace = section.items.filter(
+    (item) => item.status === 'Supports in place',
+  );
+  const inTheWorks = section.items.filter(
+    (item) => item.status === 'In the works',
+  );
+  return { supportsInPlace, inTheWorks };
+}
+
 export default function EndorsedProviderEnhancements({
   supportFramework,
 }: EndorsedProviderEnhancementsProps) {
-  const hasAnySection = supportFramework.length > 0;
+  const rows = supportFramework
+    .map((frameworkSection) => ({
+      frameworkSection,
+      ...partitionSupportItems(frameworkSection),
+    }))
+    .filter(
+      ({ supportsInPlace, inTheWorks }) =>
+        supportsInPlace.length > 0 || inTheWorks.length > 0,
+    );
 
-  if (!hasAnySection) {
+  if (rows.length === 0) {
     return null;
   }
+
+  const showSupportsColumn = rows.some(
+    ({ supportsInPlace }) => supportsInPlace.length > 0,
+  );
+  const showInWorksColumn = rows.some(
+    ({ inTheWorks }) => inTheWorks.length > 0,
+  );
+  const useThreeColumns = showSupportsColumn && showInWorksColumn;
+
+  const gridColsClass = useThreeColumns
+    ? styles.frameworkGridCols3
+    : styles.frameworkGridCols2;
 
   return (
     <section className={styles.section} aria-labelledby='endorsed-more-heading'>
@@ -30,37 +60,48 @@ export default function EndorsedProviderEnhancements({
         Endorsed Provider Insights
       </Typography>
 
-      {supportFramework.length > 0 ? (
-        <article className={styles.supportFrameworkCard}>
-          <div className={styles.frameworkHeader}>
-            <Typography
-              variant={TypographyVariant.Body2Strong}
-              color={TypographyColorToken.BondBlack}
-            >
-              Area
-            </Typography>
+      <article className={styles.supportFrameworkCard}>
+        <div className={`${styles.frameworkHeader} ${gridColsClass}`}>
+          <Typography
+            variant={TypographyVariant.Body2Strong}
+            color={TypographyColorToken.BondBlack}
+          >
+            Area
+          </Typography>
+          {showSupportsColumn ? (
             <Typography
               variant={TypographyVariant.Body2Strong}
               color={TypographyColorToken.BondBlack}
             >
               Supports in place
             </Typography>
+          ) : null}
+          {showInWorksColumn ? (
             <Typography
               variant={TypographyVariant.Body2Strong}
               color={TypographyColorToken.BondBlack}
             >
               In the works
             </Typography>
-          </div>
-          {supportFramework.map((frameworkSection, index) => {
+          ) : null}
+        </div>
+        {rows.map(
+          (
+            { frameworkSection, supportsInPlace, inTheWorks },
+            index,
+          ) => {
             const sectionIcon = getSupportFrameworkSectionIcon(
-              frameworkSection.section
+              frameworkSection.section,
             );
+            const showSupportsCell = supportsInPlace.length > 0;
+            const showInWorksCell = inTheWorks.length > 0;
+            const supportsCellFirst = showSupportsCell;
+            const inWorksCellFirst = !showSupportsCell && showInWorksCell;
 
             return (
               <div
                 key={frameworkSection.section}
-                className={`${styles.frameworkRow} ${
+                className={`${styles.frameworkRow} ${gridColsClass} ${
                   index % 2 === 1 ? styles.frameworkRowAlt : ''
                 }`}
               >
@@ -85,29 +126,65 @@ export default function EndorsedProviderEnhancements({
                     {frameworkSection.section}
                   </Typography>
                 </div>
-                <div className={styles.frameworkItemsCell}>
-                  <ul className={styles.frameworkList}>
-                    {frameworkSection.items
-                      .filter((item) => item.status === 'Supports in place')
-                      .map((item) => (
-                        <li key={item.label}>{item.label}</li>
-                      ))}
-                  </ul>
-                </div>
-                <div className={styles.frameworkItemsCell}>
-                  <ul className={styles.frameworkList}>
-                    {frameworkSection.items
-                      .filter((item) => item.status === 'In the works')
-                      .map((item) => (
-                        <li key={item.label}>{item.label}</li>
-                      ))}
-                  </ul>
-                </div>
+                {showSupportsColumn ? (
+                  showSupportsCell ? (
+                    <div
+                      className={`${styles.frameworkItemsCell} ${
+                        supportsCellFirst ? styles.frameworkItemsCellFirst : ''
+                      }`}
+                    >
+                      <Typography
+                        variant={TypographyVariant.Body2Strong}
+                        color={TypographyColorToken.BondBlack}
+                        className={styles.frameworkColumnHeadingMobile}
+                      >
+                        Supports in place
+                      </Typography>
+                      <ul className={styles.frameworkList}>
+                        {supportsInPlace.map((item) => (
+                          <li key={item.label}>{item.label}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : useThreeColumns ? (
+                    <div
+                      className={styles.frameworkItemsCellPlaceholder}
+                      aria-hidden='true'
+                    />
+                  ) : null
+                ) : null}
+                {showInWorksColumn ? (
+                  showInWorksCell ? (
+                    <div
+                      className={`${styles.frameworkItemsCell} ${
+                        inWorksCellFirst ? styles.frameworkItemsCellFirst : ''
+                      }`}
+                    >
+                      <Typography
+                        variant={TypographyVariant.Body2Strong}
+                        color={TypographyColorToken.BondBlack}
+                        className={styles.frameworkColumnHeadingMobile}
+                      >
+                        In the works
+                      </Typography>
+                      <ul className={styles.frameworkList}>
+                        {inTheWorks.map((item) => (
+                          <li key={item.label}>{item.label}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : useThreeColumns ? (
+                    <div
+                      className={styles.frameworkItemsCellPlaceholder}
+                      aria-hidden='true'
+                    />
+                  ) : null
+                ) : null}
               </div>
             );
-          })}
-        </article>
-      ) : null}
+          },
+        )}
+      </article>
 
       {/* Staff nominations section intentionally hidden for now; data is retained. */}
     </section>
