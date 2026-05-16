@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import EndorsedInstitutionCoverHero from '@/app/components/endorsedProviders/EndorsedInstitutionCoverHero';
 import InstitutionStats from '@/app/components/emergingInstitutions/InstitutionStats';
+import EndorsedVetKeyDataPoints from '@/app/components/endorsedProviders/EndorsedVetKeyDataPoints';
 import EndorsedProviderIntroSection from '@/app/components/endorsedProviders/EndorsedProviderIntroSection';
 import EndorsedStudyAreas from '@/app/components/endorsedProviders/EndorsedStudyAreas';
 import EndorsedNdExperienceStrengths from '@/app/components/endorsedProviders/EndorsedNdExperienceStrengths';
@@ -20,6 +21,9 @@ import {
   getEndorsedCoverBackgroundSrc,
   getEndorsedMetaStripInstitutionIconSrc,
   getEndorsedInstitutionCoursesUrl,
+  getInstitutionTypeForSlug,
+  getVetKeyDataPointsForSlug,
+  hasEndorsedDeliverySignals,
   isKnownEndorsedSlug,
 } from '@/app/components/endorsedProviders/endorsedProviderPageData';
 import { HOST_URL } from '@/app/utilities/constants';
@@ -39,14 +43,12 @@ export async function generateMetadata({
   const { slug } = params;
   const displayName = getEndorsedDisplayNameForSlug(slug);
   const hero = HERO_DETAILS_BY_SLUG[slug];
-  const stats = STATS_BY_SLUG[slug];
 
   if (
     !isKnownEndorsedSlug(slug) ||
     !displayName ||
     !hero ||
-    !stats ||
-    stats.length === 0
+    !hasEndorsedDeliverySignals(slug)
   ) {
     return { title: 'Not found' };
   }
@@ -76,7 +78,10 @@ export default function EndorsedProviderDetailPage({ params }: PageProps) {
 
   const displayName = getEndorsedDisplayNameForSlug(slug);
   const heroInfoItems = HERO_DETAILS_BY_SLUG[slug];
+
+  const institutionType = getInstitutionTypeForSlug(slug);
   const providerStats = STATS_BY_SLUG[slug];
+  const vetKeyDataPoints = getVetKeyDataPointsForSlug(slug);
   const intro = INTRO_SECTION_BY_SLUG[slug];
   const faqSections = getEndorsedFaqSectionsForSlug(slug);
   const studyAreas = getStudyAreasForSlug(slug);
@@ -92,12 +97,7 @@ export default function EndorsedProviderDetailPage({ params }: PageProps) {
   )?.value;
   const typeValue = heroInfoItems.find((i) => i.label === 'Type')?.value;
 
-  if (
-    !displayName ||
-    !heroInfoItems ||
-    !providerStats ||
-    providerStats.length === 0
-  ) {
+  if (!displayName || !heroInfoItems || !hasEndorsedDeliverySignals(slug)) {
     notFound();
   }
 
@@ -119,11 +119,16 @@ export default function EndorsedProviderDetailPage({ params }: PageProps) {
             />
           ) : null}
           <EndorsedStudyAreas studyAreas={studyAreas} />
-          <InstitutionStats stats={providerStats} isAlignedWithPageColumn />
+          {institutionType === 'VET' ? (
+            <EndorsedVetKeyDataPoints dataPoints={vetKeyDataPoints} />
+          ) : (
+            <InstitutionStats stats={providerStats} isAlignedWithPageColumn />
+          )}
           {ndExperience ? (
             <EndorsedNdExperienceStrengths
               experience={ndExperience}
               topStrengths={topStrengthAreas}
+              followsVetKeyDataPoints={institutionType === 'VET'}
             />
           ) : null}
           <EndorsedProviderEnhancements supportFramework={supportFramework} />

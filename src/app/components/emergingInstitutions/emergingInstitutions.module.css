@@ -568,6 +568,23 @@
   letter-spacing: 0;
 }
 
+.providerStatsCard .providerStatsTitleStrong {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.12;
+  max-width: 100%;
+  letter-spacing: 0;
+}
+
+.providerStatsCard .providerStatsSupportingText {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-top: 8px;
+  max-width: 100%;
+  letter-spacing: 0;
+}
+
 .providerStatsMeta {
   margin-top: 20px;
   display: flex;
@@ -665,6 +682,20 @@
     font-size: 16px;
     font-weight: 400;
     line-height: 1.12;
+    letter-spacing: 0;
+  }
+
+  .providerStatsCard .providerStatsTitleStrong {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: 0;
+  }
+
+  .providerStatsCard .providerStatsSupportingText {
+    font-size: 14px;
+    line-height: 1.2;
+    margin-top: 6px;
     letter-spacing: 0;
   }
 

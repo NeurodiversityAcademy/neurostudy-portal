@@ -12,6 +12,20 @@ import userExperienceIcon from '@/app/images/emergingInstitutions/user-experienc
 import { slugify } from '@/app/utilities/common';
 import { ENDORSED_PROVIDER_LOGO_BY_SLUG } from './endorsedProviderBrandAssets';
 import endorsedData from './endorsedProviders.json';
+import {
+  VET_KEY_DATA_POINT_ICONS,
+  type VetKeyDataPointIconKey,
+} from './vetStatIcons';
+
+export type EndorsedInstitutionType = 'higherEducation' | 'VET';
+
+export type VetKeyDataPoint = {
+  id: string;
+  icon: StaticImageData;
+  headline: string;
+  title: string;
+  description: string;
+};
 
 const QILT_STAT_SECTIONS = [
   { title: 'Overall experience', icon: userExperienceIcon },
@@ -29,30 +43,6 @@ type StatNumbers = Pick<
 
 /** Placeholder QILT-style stats per endorsed slug; replace with provider-specific data when available. */
 const STAT_NUMBERS_BY_SLUG: Record<string, StatNumbers[]> = {
-  hsh: [
-    { value: '85.0%', nationalAverage: '78.6%', responses: '—' },
-    { value: '88.0%', nationalAverage: '81.1%', responses: '—' },
-    { value: '80.0%', nationalAverage: '73.1%', responses: '—' },
-    { value: '90.0%', nationalAverage: '85.3%', responses: '—' },
-    { value: '86.0%', nationalAverage: '80.5%', responses: '—' },
-    { value: '84.0%', nationalAverage: '85.3%', responses: '—' },
-  ],
-  academia: [
-    { value: '84.2%', nationalAverage: '78.6%', responses: '—' },
-    { value: '87.1%', nationalAverage: '81.1%', responses: '—' },
-    { value: '79.5%', nationalAverage: '73.1%', responses: '—' },
-    { value: '91.2%', nationalAverage: '85.3%', responses: '—' },
-    { value: '88.4%', nationalAverage: '80.5%', responses: '—' },
-    { value: '83.1%', nationalAverage: '71.2%', responses: '—' },
-  ],
-  'blueprint-career-development': [
-    { value: '82.0%', nationalAverage: '78.6%', responses: '—' },
-    { value: '86.0%', nationalAverage: '81.1%', responses: '—' },
-    { value: '76.0%', nationalAverage: '73.1%', responses: '—' },
-    { value: '88.0%', nationalAverage: '85.3%', responses: '—' },
-    { value: '85.0%', nationalAverage: '80.5%', responses: '—' },
-    { value: '81.0%', nationalAverage: '71.2%', responses: '—' },
-  ],
   collarts: [
     { value: '81.3%', nationalAverage: '78.6%', responses: '391' },
     { value: '87.5%', nationalAverage: '81.1%', responses: '376' },
@@ -63,7 +53,81 @@ const STAT_NUMBERS_BY_SLUG: Record<string, StatNumbers[]> = {
   ],
 };
 
-function buildStatsForSlug(slug: string): ProviderStatItem[] {
+type VetKeyDataPointContent = {
+  id: string;
+  iconKey: VetKeyDataPointIconKey;
+  headline: string;
+  title: string;
+  description: string;
+};
+
+const VET_KEY_DATA_POINTS_CONTENT: VetKeyDataPointContent[] = [
+  {
+    id: 'vet-disability-prevalence',
+    iconKey: 'disabilityPrevalence',
+    headline: '4-5%',
+    title: 'of VET students report having a disability',
+    description: 'representing over 180,000 enrolments nationally.',
+  },
+  {
+    id: 'vet-disability-young',
+    iconKey: 'disabilityYoungStudents',
+    headline: '5.4%',
+    title: 'Report disability',
+    description: 'Among VET students aged 15–24',
+  },
+  {
+    id: 'vet-remote-regional',
+    iconKey: 'remoteRegional',
+    headline: '20%',
+    title: 'of VET students in remote and regional',
+    description:
+      'Australia report having a disability, compared with around 6% of students in major cities.',
+  },
+  {
+    id: 'vet-completion-rates',
+    iconKey: 'completionRates',
+    headline: '10-15%',
+    title: 'lower completion rates are reported',
+    description:
+      'for students with disability compared with students without disability',
+  },
+  {
+    id: 'vet-graduate-employment',
+    iconKey: 'graduateEmployment',
+    headline: '59%',
+    title: 'of VET graduates with disability',
+    description:
+      'gain employment after training, compared with 79% without disability.',
+  },
+  {
+    id: 'vet-neurodivergent-prevalence',
+    iconKey: 'neurodivergentPrevalence',
+    headline: '15-20%',
+    title: 'of people are neurodivergent',
+    description:
+      'meaning the true number of neurodivergent VET students is likely higher than reported.',
+  },
+];
+
+const VET_KEY_DATA_POINTS: VetKeyDataPoint[] = VET_KEY_DATA_POINTS_CONTENT.map(
+  (point) => ({
+    id: point.id,
+    icon: VET_KEY_DATA_POINT_ICONS[point.iconKey],
+    headline: point.headline,
+    title: point.title,
+    description: point.description,
+  })
+);
+
+const INSTITUTION_TYPE_BY_SLUG: Record<string, EndorsedInstitutionType> = {
+  hsh: 'VET',
+  'blueprint-career-development': 'VET',
+  academia: 'VET',
+  collarts: 'higherEducation',
+};
+
+function buildQiltStatsForSlug(slug: string): ProviderStatItem[] {
   const numbers = STAT_NUMBERS_BY_SLUG[slug];
   if (!numbers || numbers.length !== QILT_STAT_SECTIONS.length) {
     return [];
@@ -75,40 +139,50 @@ function buildStatsForSlug(slug: string): ProviderStatItem[] {
   }));
 }
 
+function buildStatsForSlug(
+  slug: string,
+  institutionType: EndorsedInstitutionType
+): ProviderStatItem[] {
+  if (institutionType === 'VET') {
+    return [];
+  }
+  return buildQiltStatsForSlug(slug);
+}
+
 export const HERO_DETAILS_BY_SLUG: Record<string, HeroInfoItem[]> = {
   hsh: [
     {
       icon: mapPin,
-      value: 'Perth, Subiaco, Bunbury, Murdoch University',
+      value: 'Perth',
       label: 'Location',
     },
     {
       icon: graduationCap,
-      value: 'Vocational Education & Training · Online | Face-to-Face | Hybrid',
+      value: 'Vocational Education & Training',
       label: 'Type',
     },
   ],
   academia: [
     { icon: mapPin, value: 'Australia', label: 'Location' },
-    { icon: graduationCap, value: 'Higher Education', label: 'Type' },
+    {
+      icon: graduationCap,
+      value: 'Vocational Education & Training',
+      label: 'Type',
+    },
   ],
   'blueprint-career-development': [
     { icon: mapPin, value: 'Australia', label: 'Location' },
-    { icon: graduationCap, value: 'Vocational', label: 'Type' },
+    {
+      icon: graduationCap,
+      value: 'Vocational Education & Training',
+      label: 'Type',
+    },
   ],
   collarts: [
     { icon: mapPin, value: 'Melbourne, VIC', label: 'Location' },
     { icon: graduationCap, value: 'Higher Education', label: 'Type' },
   ],
 };
-
-export const STATS_BY_SLUG: Record<string, ProviderStatItem[]> =
-  Object.fromEntries(
-    Object.keys(STAT_NUMBERS_BY_SLUG).map((slug) => [
-      slug,
-      buildStatsForSlug(slug),
-    ])
-  );
 
 export type EndorsedIntroSection = {
   heading: string;
@@ -306,35 +380,60 @@ export type SupportFrameworkSection = {
   items: SupportFrameworkItem[];
 };
 
+const VET_ND_EXPERIENCE: EndorsedNdExperience = {
+  heading: 'Neurodivergent Student Experience - Top 4 Areas of Strength',
+  summary:
+    'With higher education, endorsement insights are informed by student surveys such as QILT, conducted by the Australian Government and neurodivergent student feedback. As vocational education does not currently have an equivalent national report, Neurodiversity Academy collects independent student feedback to help organisations maintain their endorsement, monitor student experiences, and identify areas for improvement. See how this organisation is performing below.',
+  surveyAreas: [
+    'Overall experience',
+    'Clear information about support options',
+    'Adjustments implemented effectively',
+    'Organisation genuinely supports neurodivergent students',
+    'Feel safe being open about learning needs',
+    "Organisation takes the learner's individual needs seriously",
+    'Communication is clear and responsive',
+  ],
+  contextNote:
+    'This information supports continuous improvement and ongoing Neuroinclusion Endorsement. Below, we have shared the top four areas of strength based on these results. All areas shown below meet the High performance threshold.',
+  responseSummary:
+    'Based on 5 total survey responses from students and parents collected over a three-month period.',
+  performanceBands: {
+    low: 'Low — below 60%',
+    medium: 'Medium — 60–79%',
+    high: 'High — 80%+',
+  },
+};
+
+const VET_TOP_STRENGTH_AREAS: TopStrengthArea[] = [
+  {
+    title: 'Clear information about support options',
+    iconKind: 'supportInformation',
+    scoreBand: 'High',
+  },
+  {
+    title: 'Adjustments implemented effectively',
+    iconKind: 'adjustments',
+    scoreBand: 'High',
+  },
+  {
+    title: 'Overall experience',
+    iconKind: 'overallExperience',
+    scoreBand: 'High',
+  },
+  {
+    title: 'Communication is clear and responsive',
+    iconKind: 'communication',
+    scoreBand: 'High',
+  },
+];
+
 export const ENDORSED_ND_EXPERIENCE_BY_SLUG: Record<
   string,
   EndorsedNdExperience
 > = {
-  hsh: {
-    heading: 'Neurodivergent Student Experience - Top 4 Areas of Strength',
-    summary:
-      'With higher education, endorsement insights are informed by student surveys such as QILT, conducted by the Australian Government and neurodivergent student feedback. As vocational education does not currently have an equivalent national report, Neurodiversity Academy collects independent student feedback to help organisations maintain their endorsement, monitor student experiences, and identify areas for improvement. See how this organisation is performing below.',
-    surveyAreas: [
-      'Overall experience',
-      'Clear information about support options',
-      'Adjustments implemented effectively',
-      'Organisation genuinely supports neurodivergent students',
-      'Feel safe being open about learning needs',
-      "Organisation takes the learner's individual needs seriously",
-      'Communication is clear and responsive',
-    ],
-    contextNote:
-      'This information supports continuous improvement and ongoing Neuroinclusion Endorsement. Below, we have shared the top four areas of strength based on these results. All areas shown below meet the High performance threshold.',
-    responseSummary:
-      'Based on 5 total survey responses from students and parents collected over a three-month period.',
-    performanceBands: {
-      low: 'Low — below 60%',
-      medium: 'Medium — 60–79%',
-      high: 'High — 80%+',
-    },
-    methodology:
-      '6 Key Data Points – Neurodiversity & Disability in VET: Insights into vocational education to help neurodivergent students understand why endorsed organisations may be a good fit. Source: NCVER, AIHW, and ABS education and disability data.',
-  },
+  hsh: VET_ND_EXPERIENCE,
+  academia: VET_ND_EXPERIENCE,
+  'blueprint-career-development': VET_ND_EXPERIENCE,
   collarts: {
     heading: 'Neurodivergent Student Experience - Top 4 Areas of Strength',
     summary:
@@ -361,28 +460,9 @@ export const ENDORSED_ND_EXPERIENCE_BY_SLUG: Record<
 };
 
 export const TOP_STRENGTH_AREAS_BY_SLUG: Record<string, TopStrengthArea[]> = {
-  hsh: [
-    {
-      title: 'Clear information about support options',
-      iconKind: 'supportInformation',
-      scoreBand: 'High',
-    },
-    {
-      title: 'Adjustments implemented effectively',
-      iconKind: 'adjustments',
-      scoreBand: 'High',
-    },
-    {
-      title: 'Overall experience',
-      iconKind: 'overallExperience',
-      scoreBand: 'High',
-    },
-    {
-      title: 'Communication is clear and responsive',
-      iconKind: 'communication',
-      scoreBand: 'High',
-    },
-  ],
+  hsh: VET_TOP_STRENGTH_AREAS,
+  academia: VET_TOP_STRENGTH_AREAS,
+  'blueprint-career-development': VET_TOP_STRENGTH_AREAS,
   collarts: [
     {
       title: 'Clear information about support options',
@@ -907,6 +987,35 @@ const META_STRIP_INSTITUTION_ICON_BY_SLUG: Record<string, string> =
 export const ENDORSED_SLUGS: readonly string[] = rows.map((row) =>
   slugify(row.id)
 );
+
+export function getInstitutionTypeForSlug(
+  slug: string
+): EndorsedInstitutionType {
+  return INSTITUTION_TYPE_BY_SLUG[slug] ?? 'higherEducation';
+}
+
+export const STATS_BY_SLUG: Record<string, ProviderStatItem[]> =
+  Object.fromEntries(
+    ENDORSED_SLUGS.map((slug) => [
+      slug,
+      buildStatsForSlug(slug, getInstitutionTypeForSlug(slug)),
+    ])
+  );
+
+export function getVetKeyDataPointsForSlug(slug: string): VetKeyDataPoint[] {
+  if (getInstitutionTypeForSlug(slug) !== 'VET') {
+    return [];
+  }
+  return VET_KEY_DATA_POINTS;
+}
+
+export function hasEndorsedDeliverySignals(slug: string): boolean {
+  const institutionType = getInstitutionTypeForSlug(slug);
+  if (institutionType === 'VET') {
+    return getVetKeyDataPointsForSlug(slug).length > 0;
+  }
+  return (STATS_BY_SLUG[slug]?.length ?? 0) > 0;
+}
 
 function displayNameForEndorsedId(id: string): string {
   if (id === 'academia') {

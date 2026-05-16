@@ -1,8 +1,16 @@
 .section {
-  width: 100%;
-  margin: 0;
+  margin: 0 20px 0 0;
   padding: 0 0 16px;
   box-sizing: border-box;
+}
+
+.sectionFollowingVet {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.sectionFollowingVet .title {
+  margin-top: 0;
 }
 
 .title {
@@ -50,7 +58,7 @@
   list-style: none;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 10px;
+  column-gap: 4px;
   row-gap: 14px;
   width: 100%;
   box-sizing: border-box;
@@ -106,14 +114,23 @@
 
 @media (min-width: 768px) {
   .strengthsGrid {
-    column-gap: 88px;
-    row-gap: 72px;
+    display: grid;
+    grid-template-columns: repeat(2, 400px);
+    justify-content: center;
+    gap: 72px 60px;
+    width: 100%;
+  }
+
+  .strengthCard {
+    width: 100%;
+    max-width: 400px;
+    justify-self: stretch;
   }
 }
 
 @media (max-width: 767px) {
   .strengthsGrid {
-    column-gap: 8px;
+    column-gap: 4px;
     row-gap: 10px;
   }
 
