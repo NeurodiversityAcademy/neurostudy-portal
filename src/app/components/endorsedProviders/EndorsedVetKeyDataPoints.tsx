@@ -14,9 +14,16 @@ interface EndorsedVetKeyDataPointsProps {
 const VET_TITLE_LINE_1 = '6 Key Data Points –';
 const VET_TITLE_LINE_2 = 'Neurodiversity & Disability in VET';
 
-const VET_SECTION_INTRO = 
-  <>Insights into vocational education to help neurodivergent students understand why endorsed organisations may be a good fit.<br /><span className={styles.bottomLine}>Source: NCVER, AIHW, and ABS education and disability data.</span></>;
-
+const VET_SECTION_INTRO = (
+  <>
+    Insights into vocational education to help neurodivergent students
+    understand why endorsed organisations may be a good fit.
+    <br />
+    <span className={styles.bottomLine}>
+      Source: NCVER, AIHW, and ABS education and disability data.
+    </span>
+  </>
+);
 
 export default function EndorsedVetKeyDataPoints({
   dataPoints,
