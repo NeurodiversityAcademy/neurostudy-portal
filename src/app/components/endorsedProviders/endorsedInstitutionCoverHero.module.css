@@ -220,6 +220,21 @@
   height: 56px;
   object-fit: contain;
 }
+
+/* Lock cover to 45% of viewport height on desktop (fill image + overlay match this box). */
+@media (min-width: 768px) {
+  .banner {
+    height: 45vh;
+    min-height: 45vh;
+  }
+
+  .bannerContent {
+    min-height: 45vh;
+    height: 100%;
+    box-sizing: border-box;
+  }
+}
+
 @media (max-width: 767px) {
   .banner {
     min-height: 30vh;

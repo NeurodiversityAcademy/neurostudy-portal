@@ -12,10 +12,10 @@ interface EndorsedProviderEnhancementsProps {
 
 function partitionSupportItems(section: SupportFrameworkSection) {
   const supportsInPlace = section.items.filter(
-    (item) => item.status === 'Supports in place',
+    (item) => item.status === 'Supports in place'
   );
   const inTheWorks = section.items.filter(
-    (item) => item.status === 'In the works',
+    (item) => item.status === 'In the works'
   );
   return { supportsInPlace, inTheWorks };
 }
@@ -30,7 +30,7 @@ export default function EndorsedProviderEnhancements({
     }))
     .filter(
       ({ supportsInPlace, inTheWorks }) =>
-        supportsInPlace.length > 0 || inTheWorks.length > 0,
+        supportsInPlace.length > 0 || inTheWorks.length > 0
     );
 
   if (rows.length === 0) {
@@ -38,10 +38,10 @@ export default function EndorsedProviderEnhancements({
   }
 
   const showSupportsColumn = rows.some(
-    ({ supportsInPlace }) => supportsInPlace.length > 0,
+    ({ supportsInPlace }) => supportsInPlace.length > 0
   );
   const showInWorksColumn = rows.some(
-    ({ inTheWorks }) => inTheWorks.length > 0,
+    ({ inTheWorks }) => inTheWorks.length > 0
   );
   const useThreeColumns = showSupportsColumn && showInWorksColumn;
 
@@ -86,12 +86,9 @@ export default function EndorsedProviderEnhancements({
           ) : null}
         </div>
         {rows.map(
-          (
-            { frameworkSection, supportsInPlace, inTheWorks },
-            index,
-          ) => {
+          ({ frameworkSection, supportsInPlace, inTheWorks }, index) => {
             const sectionIcon = getSupportFrameworkSectionIcon(
-              frameworkSection.section,
+              frameworkSection.section
             );
             const showSupportsCell = supportsInPlace.length > 0;
             const showInWorksCell = inTheWorks.length > 0;
@@ -182,7 +179,7 @@ export default function EndorsedProviderEnhancements({
                 ) : null}
               </div>
             );
-          },
+          }
         )}
       </article>
 

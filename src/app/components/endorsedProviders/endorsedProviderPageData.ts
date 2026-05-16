@@ -1,3 +1,4 @@
+import type { StaticImageData } from 'next/image';
 import type { HeroInfoItem } from '@/app/components/emergingInstitutions/InstitutionHero';
 import type { ProviderStatItem } from '@/app/components/emergingInstitutions/EmergingProviderStats';
 import mapPin from '@/app/images/mapPin.svg';
@@ -9,6 +10,7 @@ import supportServicesIcon from '@/app/images/emergingInstitutions/support-servi
 import teachingQualityIcon from '@/app/images/emergingInstitutions/teaching-quality-icon.png';
 import userExperienceIcon from '@/app/images/emergingInstitutions/user-experience-icon.png';
 import { slugify } from '@/app/utilities/common';
+import { ENDORSED_PROVIDER_LOGO_BY_SLUG } from './endorsedProviderBrandAssets';
 import endorsedData from './endorsedProviders.json';
 
 const QILT_STAT_SECTIONS = [
@@ -75,8 +77,16 @@ function buildStatsForSlug(slug: string): ProviderStatItem[] {
 
 export const HERO_DETAILS_BY_SLUG: Record<string, HeroInfoItem[]> = {
   hsh: [
-    { icon: mapPin, value: 'Australia', label: 'Location' },
-    { icon: graduationCap, value: 'Higher Education', label: 'Type' },
+    {
+      icon: mapPin,
+      value: 'Perth, Subiaco, Bunbury, Murdoch University',
+      label: 'Location',
+    },
+    {
+      icon: graduationCap,
+      value: 'Vocational Education & Training · Online | Face-to-Face | Hybrid',
+      label: 'Type',
+    },
   ],
   academia: [
     { icon: mapPin, value: 'Australia', label: 'Location' },
@@ -117,8 +127,8 @@ export type EndorsedFaqSection = {
 
 export const INTRO_SECTION_BY_SLUG: Record<string, EndorsedIntroSection> = {
   hsh: {
-    heading: 'About this organisation',
-    body: 'Profile content for HSH will appear here as editorial copy is finalised.',
+    heading: 'About the organisation',
+    body: 'Health Science Hub is an Australian Registered Training Organisation (RTO #52806) delivering training focused on health, community services, and applied science, helping individuals build practical skills, career pathways, and employment outcomes. They specialise in health and wellbeing-related programs, offering industry-relevant training with a strong focus on practical application and real-world readiness, ensuring learners are well-prepared for further study or careers in the healthcare sector. See the results and insights from the endorsement assessment below.',
   },
   academia: {
     heading: 'About this organisation',
@@ -300,6 +310,31 @@ export const ENDORSED_ND_EXPERIENCE_BY_SLUG: Record<
   string,
   EndorsedNdExperience
 > = {
+  hsh: {
+    heading: 'Neurodivergent Student Experience - Top 4 Areas of Strength',
+    summary:
+      'With higher education, endorsement insights are informed by student surveys such as QILT, conducted by the Australian Government and neurodivergent student feedback. As vocational education does not currently have an equivalent national report, Neurodiversity Academy collects independent student feedback to help organisations maintain their endorsement, monitor student experiences, and identify areas for improvement. See how this organisation is performing below.',
+    surveyAreas: [
+      'Overall experience',
+      'Clear information about support options',
+      'Adjustments implemented effectively',
+      'Organisation genuinely supports neurodivergent students',
+      'Feel safe being open about learning needs',
+      "Organisation takes the learner's individual needs seriously",
+      'Communication is clear and responsive',
+    ],
+    contextNote:
+      'This information supports continuous improvement and ongoing Neuroinclusion Endorsement. Below, we have shared the top four areas of strength based on these results. All areas shown below meet the High performance threshold.',
+    responseSummary:
+      'Based on 5 total survey responses from students and parents collected over a three-month period.',
+    performanceBands: {
+      low: 'Low — below 60%',
+      medium: 'Medium — 60–79%',
+      high: 'High — 80%+',
+    },
+    methodology:
+      '6 Key Data Points – Neurodiversity & Disability in VET: Insights into vocational education to help neurodivergent students understand why endorsed organisations may be a good fit. Source: NCVER, AIHW, and ABS education and disability data.',
+  },
   collarts: {
     heading: 'Neurodivergent Student Experience - Top 4 Areas of Strength',
     summary:
@@ -326,6 +361,28 @@ export const ENDORSED_ND_EXPERIENCE_BY_SLUG: Record<
 };
 
 export const TOP_STRENGTH_AREAS_BY_SLUG: Record<string, TopStrengthArea[]> = {
+  hsh: [
+    {
+      title: 'Clear information about support options',
+      iconKind: 'supportInformation',
+      scoreBand: 'High',
+    },
+    {
+      title: 'Adjustments implemented effectively',
+      iconKind: 'adjustments',
+      scoreBand: 'High',
+    },
+    {
+      title: 'Overall experience',
+      iconKind: 'overallExperience',
+      scoreBand: 'High',
+    },
+    {
+      title: 'Communication is clear and responsive',
+      iconKind: 'communication',
+      scoreBand: 'High',
+    },
+  ],
   collarts: [
     {
       title: 'Clear information about support options',
@@ -351,6 +408,18 @@ export const TOP_STRENGTH_AREAS_BY_SLUG: Record<string, TopStrengthArea[]> = {
 };
 
 export const STUDY_AREAS_BY_SLUG: Record<string, string[]> = {
+  hsh: [
+    'Nursing',
+    'Medic / Emergency Response',
+    'Allied Health',
+    'Caring for Others (Community Services)',
+    'World Health (Public Health & Global Health)',
+    'Fitness, Sport & Nutrition',
+    'Animal, Marine & Environmental Studies',
+    'Digital Technology',
+    'Laboratory & Forensic Science',
+    'Education (Teaching & Learning Pathways)',
+  ],
   collarts: [
     'Music & Audio',
     'Film, Theatre & Performing Arts',
@@ -363,6 +432,12 @@ export const STUDY_AREAS_BY_SLUG: Record<string, string[]> = {
 };
 
 export const STAFF_NOMINATIONS_BY_SLUG: Record<string, StaffNomination[]> = {
+  hsh: [
+    { name: 'Name', role: 'Job title · slot 1', nominations: 0 },
+    { name: 'Name', role: 'Job title · slot 2', nominations: 0 },
+    { name: 'Name', role: 'Job title · slot 3', nominations: 0 },
+    { name: 'Name', role: 'Job title · slot 4', nominations: 0 },
+  ],
   collarts: [
     {
       name: 'Support Team Member 1',
@@ -381,6 +456,183 @@ export const SUPPORT_FRAMEWORK_BY_SLUG: Record<
   string,
   SupportFrameworkSection[]
 > = {
+  hsh: [
+    {
+      section: 'Staff Training',
+      items: [
+        { label: 'NDA-approved training', status: 'In the works' },
+        { label: 'External neurodiversity training', status: 'In the works' },
+        { label: 'Whole-org training (2 years)', status: 'In the works' },
+        { label: 'Ongoing PD structured', status: 'In the works' },
+      ],
+    },
+    {
+      section: 'Support Staff',
+      items: [
+        {
+          label: 'Designated ND support person',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Support person listed publicly',
+          status: 'Supports in place',
+        },
+        { label: 'Support staff training', status: 'Supports in place' },
+        { label: 'Lived experience of ND', status: 'Supports in place' },
+        { label: 'Peer support / student networks', status: 'In the works' },
+      ],
+    },
+    {
+      section: 'Pre-Enrolment & Disclosure',
+      items: [
+        {
+          label: 'Accessibility discussed pre-enrolment',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Process for undiagnosed students',
+          status: 'Supports in place',
+        },
+        {
+          label: 'School transition support',
+          status: 'In the works',
+        },
+      ],
+    },
+    {
+      section: 'Student Support',
+      items: [
+        { label: 'Individualised support plans', status: 'Supports in place' },
+        { label: 'Support plans co-created', status: 'Supports in place' },
+        {
+          label: 'Teaching staff involved in plans',
+          status: 'Supports in place',
+        },
+        { label: 'Regular check-in sessions', status: 'Supports in place' },
+        {
+          label: 'Academic literacy/LLN for ND needs',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Digital literacy / exec function',
+          status: 'Supports in place',
+        },
+        {
+          label: 'ND-specific support services',
+          status: 'Supports in place',
+        },
+        { label: 'Referral pathways', status: 'Supports in place' },
+        {
+          label: 'Pre-course teacher connection',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Admin navigation support',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Documentation of support needs',
+          status: 'Supports in place',
+        },
+        { label: 'Career guidance tailored', status: 'In the works' },
+        { label: 'Teaching staff resources', status: 'In the works' },
+      ],
+    },
+    {
+      section: 'Website & Digital Accessibility',
+      items: [
+        { label: 'ND support info easy to find', status: 'Supports in place' },
+        {
+          label: 'Website tested by ND users',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Enrolment process accessible',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Website accessibility features',
+          status: 'In the works',
+        },
+      ],
+    },
+    {
+      section: 'Assistive Technology',
+      items: [
+        {
+          label: 'Instructional videos/LMS guides',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Assistive technologies available',
+          status: 'In the works',
+        },
+        { label: 'Ongoing AT support', status: 'In the works' },
+      ],
+    },
+    {
+      section: 'Assessment',
+      items: [
+        {
+          label: 'Flexible assessment options',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Reasonable adjustments policy',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Layout examples/mock assessments',
+          status: 'Supports in place',
+        },
+      ],
+    },
+    {
+      section: 'Learning Design & Delivery',
+      items: [
+        {
+          label: 'Learning materials in multiple formats',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Students can adjust playback speed',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Absence alternatives available',
+          status: 'Supports in place',
+        },
+        { label: 'UDL principles embedded', status: 'In the works' },
+      ],
+    },
+    {
+      section: 'Campus',
+      items: [
+        { label: 'Minimise sensory triggers', status: 'Supports in place' },
+        { label: 'Quiet zones communicated', status: 'Supports in place' },
+        { label: 'Orientation/campus visits', status: 'Supports in place' },
+        {
+          label: 'Visual navigation guides',
+          status: 'Supports in place',
+        },
+        { label: 'Sensory-friendly areas', status: 'In the works' },
+        { label: 'ND consultation on spaces', status: 'In the works' },
+        {
+          label: 'Sensory challenge policies',
+          status: 'In the works',
+        },
+      ],
+    },
+    {
+      section: 'Policy & Compliance',
+      items: [
+        {
+          label: 'Standalone neuroinclusion policy',
+          status: 'In the works',
+        },
+      ],
+    },
+  ],
   collarts: [
     {
       section: 'Staff Training',
@@ -661,7 +913,7 @@ function displayNameForEndorsedId(id: string): string {
     return 'Academia';
   }
   if (id === 'HSH') {
-    return 'HSH';
+    return 'Health Science Hub';
   }
   return id;
 }
@@ -729,7 +981,11 @@ export function getEndorsedCoverBackgroundSrc(slug: string): string {
 
 export function getEndorsedMetaStripInstitutionIconSrc(
   slug: string
-): string | undefined {
+): string | StaticImageData | undefined {
+  const bundled = ENDORSED_PROVIDER_LOGO_BY_SLUG[slug];
+  if (bundled) {
+    return bundled;
+  }
   const src = META_STRIP_INSTITUTION_ICON_BY_SLUG[slug];
   return src && src.length > 0 ? src : undefined;
 }

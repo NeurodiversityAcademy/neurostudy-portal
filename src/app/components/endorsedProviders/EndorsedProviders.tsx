@@ -10,6 +10,7 @@ import Typography, { TypographyVariant } from '../typography/Typography';
 import { TypographyColorToken } from '../typography/typographyColorToken';
 import { analyticsFileNameFromUrl } from '@/app/utilities/analyticsFileName';
 import { slugify } from '@/app/utilities/common';
+import { ENDORSED_PROVIDER_LOGO_BY_SLUG } from './endorsedProviderBrandAssets';
 import endorsedData from './endorsedProviders.json';
 import { providerNameFromId } from './providerName';
 
@@ -89,6 +90,9 @@ export default function EndorsedProviders() {
           {providers.map((provider) => {
             const providerName = providerNameFromId(provider.id);
             const ctaHref = endorsedDetailPathForProviderId(provider.id);
+            const cardLogoSrc =
+              ENDORSED_PROVIDER_LOGO_BY_SLUG[slugify(provider.id)] ??
+              provider.logo;
 
             return (
               <InstitutionProviderCard
@@ -112,7 +116,7 @@ export default function EndorsedProviders() {
                 center={
                   <div className={cardStyles.logoWrap}>
                     <Image
-                      src={provider.logo}
+                      src={cardLogoSrc}
                       alt={`${providerName} logo`}
                       width={280}
                       height={72}

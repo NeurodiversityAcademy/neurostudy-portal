@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image, { type StaticImageData } from 'next/image';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import { TypographyColorToken } from '../typography/typographyColorToken';
 import CourseDetailsMiddleBannerIcon from '@/app/components/course/CourseDetails/CourseDetailsMiddleBanner/CourseDetailsMiddleBannerIcon';
@@ -12,7 +12,7 @@ export interface EndorsedInstitutionCoverHeroProps {
   locationValue?: string;
   typeValue?: string;
   /** Large institution mark beside the endorsed badge (from endorsed provider data). */
-  institutionIconSrc?: string;
+  institutionIconSrc?: string | StaticImageData;
   /** External courses URL for the Explore CTA (from endorsed provider data). */
   coursesUrl?: string;
 }
