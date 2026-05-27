@@ -5,7 +5,6 @@ import InstitutionStats from '@/app/components/emergingInstitutions/InstitutionS
 import EndorsedVetKeyDataPoints from '@/app/components/endorsedProviders/EndorsedVetKeyDataPoints';
 import EndorsedProviderIntroSection from '@/app/components/endorsedProviders/EndorsedProviderIntroSection';
 import EndorsedStudyAreas from '@/app/components/endorsedProviders/EndorsedStudyAreas';
-import EndorsedNdExperienceStrengths from '@/app/components/endorsedProviders/EndorsedNdExperienceStrengths';
 import EndorsedProviderEnhancements from '@/app/components/endorsedProviders/EndorsedProviderEnhancements';
 import EndorsedProvidersFAQs from '@/app/components/endorsedProviders/EndorsedProvidersFAQs';
 import {
@@ -16,8 +15,6 @@ import {
   getEndorsedDisplayNameForSlug,
   getStudyAreasForSlug,
   getSupportFrameworkForSlug,
-  getEndorsedNdExperienceForSlug,
-  getTopStrengthAreasForSlug,
   getEndorsedCoverBackgroundSrc,
   getEndorsedMetaStripInstitutionIconSrc,
   getEndorsedInstitutionCoursesUrl,
@@ -85,8 +82,6 @@ export default function EndorsedProviderDetailPage({ params }: PageProps) {
   const intro = INTRO_SECTION_BY_SLUG[slug];
   const faqSections = getEndorsedFaqSectionsForSlug(slug);
   const studyAreas = getStudyAreasForSlug(slug);
-  const ndExperience = getEndorsedNdExperienceForSlug(slug);
-  const topStrengthAreas = getTopStrengthAreasForSlug(slug);
   const supportFramework = getSupportFrameworkForSlug(slug);
   const coverBackgroundSrc = getEndorsedCoverBackgroundSrc(slug);
   const institutionIconSrc = getEndorsedMetaStripInstitutionIconSrc(slug);
@@ -124,13 +119,6 @@ export default function EndorsedProviderDetailPage({ params }: PageProps) {
           ) : (
             <InstitutionStats stats={providerStats} isAlignedWithPageColumn />
           )}
-          {ndExperience ? (
-            <EndorsedNdExperienceStrengths
-              experience={ndExperience}
-              topStrengths={topStrengthAreas}
-              followsVetKeyDataPoints={institutionType === 'VET'}
-            />
-          ) : null}
           <EndorsedProviderEnhancements supportFramework={supportFramework} />
           <EndorsedProvidersFAQs sections={faqSections} />
         </div>

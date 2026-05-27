@@ -1,9 +1,8 @@
 import Image from 'next/image';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import { TypographyColorToken } from '../typography/typographyColorToken';
-import vetHeaderIcon from '@/app/images/emergingInstitutions/vet-key-data-points-header-icon.svg';
+import vetHeaderIcon from '@/app/images/emergingInstitutions/survey-icon.png';
 import strengthStyles from './endorsedNdExperienceStrengths.module.css';
-import statsStyles from '../emergingInstitutions/emergingInstitutions.module.css';
 import type { VetKeyDataPoint } from './endorsedProviderPageData';
 import styles from './endorsedVetKeyDataPoints.module.css';
 
@@ -37,7 +36,7 @@ export default function EndorsedVetKeyDataPoints({
       className={styles.vetSection}
       aria-labelledby='vet-key-data-heading'
     >
-      <div className={statsStyles.providerStatsContainerInAlignedColumn}>
+      <div className={styles.vetInner}>
         <header className={styles.headerBlock}>
           <div className={styles.titleRow}>
             <div className={styles.headerIcon}>
@@ -67,7 +66,9 @@ export default function EndorsedVetKeyDataPoints({
             {VET_SECTION_INTRO}
           </Typography>
         </header>
-        <ul className={styles.vetStrengthsGrid}>
+        <ul
+          className={`${strengthStyles.strengthsGrid} ${styles.vetStrengthsGrid}`}
+        >
           {dataPoints.map((point) => (
             <li key={point.id} className={styles.vetStatCard}>
               <div className={strengthStyles.strengthCardIcon}>
@@ -83,21 +84,21 @@ export default function EndorsedVetKeyDataPoints({
               </div>
               <Typography
                 variant={TypographyVariant.Body1}
-                color={TypographyColorToken.BondBlack}
+                color={TypographyColorToken.PureWhite}
                 className={styles.vetHeadline}
               >
                 {point.headline}
               </Typography>
               <Typography
                 variant={TypographyVariant.Body3}
-                color={TypographyColorToken.BondBlack}
+                color={TypographyColorToken.PureWhite}
                 className={styles.vetTitle}
               >
                 {point.title}
               </Typography>
               <Typography
                 variant={TypographyVariant.Body3}
-                color={TypographyColorToken.BondBlack}
+                color={TypographyColorToken.PureWhite}
                 className={styles.vetSupportingText}
               >
                 {point.description}

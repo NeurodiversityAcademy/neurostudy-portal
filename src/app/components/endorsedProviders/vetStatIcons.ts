@@ -7,26 +7,13 @@ import reportDisabilityIcon from '@/app/images/emergingInstitutions/report-disab
 import studentStatIcon from '@/app/images/emergingInstitutions/student-stat-icon.png';
 import vetGraduateIcon from '@/app/images/emergingInstitutions/vet-graduate-icon.png';
 
-export const VET_KEY_DATA_POINT_ICON_KEYS = [
-  'disabilityPrevalence',
-  'disabilityYoungStudents',
-  'remoteRegional',
-  'completionRates',
-  'graduateEmployment',
-  'neurodivergentPrevalence',
-] as const;
-
-export type VetKeyDataPointIconKey =
-  (typeof VET_KEY_DATA_POINT_ICON_KEYS)[number];
-
-export const VET_KEY_DATA_POINT_ICONS: Record<
-  VetKeyDataPointIconKey,
-  StaticImageData
-> = {
+export const VET_KEY_DATA_POINT_ICONS = {
   disabilityPrevalence: reportDisabilityIcon,
   disabilityYoungStudents: studentStatIcon,
   remoteRegional: remoteRegionalIcon,
   completionRates: completionRatesIcon,
   graduateEmployment: vetGraduateIcon,
   neurodivergentPrevalence: neurodivergentIcon,
-};
+} as const satisfies Record<string, StaticImageData>;
+
+export type VetKeyDataPointIconKey = keyof typeof VET_KEY_DATA_POINT_ICONS;

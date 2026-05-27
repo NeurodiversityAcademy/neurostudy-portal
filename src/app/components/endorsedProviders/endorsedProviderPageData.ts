@@ -380,31 +380,48 @@ export type SupportFrameworkSection = {
   items: SupportFrameworkItem[];
 };
 
+const ENDORSED_SURVEY_AREAS = [
+  'Overall experience',
+  'Clear information about support options',
+  'Adjustments implemented effectively',
+  'Organisation genuinely supports neurodivergent students',
+  'Feel safe being open about learning needs',
+  "Organisation takes the learner's individual needs seriously",
+  'Communication is clear and responsive',
+] as const;
+
+const DEFAULT_PERFORMANCE_BANDS: EndorsedNdExperience['performanceBands'] = {
+  low: 'Low — below 60%',
+  medium: 'Medium — 60–79%',
+  high: 'High — 80%+',
+};
+
+const DEFAULT_RESPONSE_SUMMARY =
+  'Based on 5 total survey responses from students and parents collected over a three-month period.';
+
 const VET_ND_EXPERIENCE: EndorsedNdExperience = {
   heading: 'Neurodivergent Student Experience - Top 4 Areas of Strength',
   summary:
     'With higher education, endorsement insights are informed by student surveys such as QILT, conducted by the Australian Government and neurodivergent student feedback. As vocational education does not currently have an equivalent national report, Neurodiversity Academy collects independent student feedback to help organisations maintain their endorsement, monitor student experiences, and identify areas for improvement. See how this organisation is performing below.',
-  surveyAreas: [
-    'Overall experience',
-    'Clear information about support options',
-    'Adjustments implemented effectively',
-    'Organisation genuinely supports neurodivergent students',
-    'Feel safe being open about learning needs',
-    "Organisation takes the learner's individual needs seriously",
-    'Communication is clear and responsive',
-  ],
+  surveyAreas: [...ENDORSED_SURVEY_AREAS],
   contextNote:
     'This information supports continuous improvement and ongoing Neuroinclusion Endorsement. Below, we have shared the top four areas of strength based on these results. All areas shown below meet the High performance threshold.',
-  responseSummary:
-    'Based on 5 total survey responses from students and parents collected over a three-month period.',
-  performanceBands: {
-    low: 'Low — below 60%',
-    medium: 'Medium — 60–79%',
-    high: 'High — 80%+',
-  },
+  responseSummary: DEFAULT_RESPONSE_SUMMARY,
+  performanceBands: DEFAULT_PERFORMANCE_BANDS,
 };
 
-const VET_TOP_STRENGTH_AREAS: TopStrengthArea[] = [
+const COLLARTS_ND_EXPERIENCE: EndorsedNdExperience = {
+  heading: 'Neurodivergent Student Experience - Top 4 Areas of Strength',
+  summary:
+    'Higher education providers publish data on student experience and outcomes, including the national QILT (Quality Indicators for Learning and Teaching) Student Experience Survey. This profile combines QILT data with feedback from neurodivergent learners, including both student and parent/carer responses, to provide insight into the learning environment and support provided.',
+  surveyAreas: [...ENDORSED_SURVEY_AREAS],
+  contextNote:
+    'This information supports continuous improvement and ongoing Neuroinclusion Endorsement. Below, we have shared the top four areas of strength based on these results. All areas shown below meet the high performance threshold.',
+  responseSummary: DEFAULT_RESPONSE_SUMMARY,
+  performanceBands: DEFAULT_PERFORMANCE_BANDS,
+};
+
+const DEFAULT_TOP_STRENGTH_AREAS: TopStrengthArea[] = [
   {
     title: 'Clear information about support options',
     iconKind: 'supportInformation',
@@ -434,57 +451,14 @@ export const ENDORSED_ND_EXPERIENCE_BY_SLUG: Record<
   hsh: VET_ND_EXPERIENCE,
   academia: VET_ND_EXPERIENCE,
   'blueprint-career-development': VET_ND_EXPERIENCE,
-  collarts: {
-    heading: 'Neurodivergent Student Experience - Top 4 Areas of Strength',
-    summary:
-      'Higher education providers publish data on student experience and outcomes, including the national QILT (Quality Indicators for Learning and Teaching) Student Experience Survey. This profile combines QILT data with feedback from neurodivergent learners, including both student and parent/carer responses, to provide insight into the learning environment and support provided.',
-    surveyAreas: [
-      'Overall experience',
-      'Clear information about support options',
-      'Adjustments implemented effectively',
-      'Organisation genuinely supports neurodivergent students',
-      'Feel safe being open about learning needs',
-      "Organisation takes the learner's individual needs seriously",
-      'Communication is clear and responsive',
-    ],
-    contextNote:
-      'This information supports continuous improvement and ongoing Neuroinclusion Endorsement. Below, we have shared the top four areas of strength based on these results. All areas shown below meet the high performance threshold.',
-    responseSummary:
-      'Based on 5 total survey responses from students and parents collected over a three-month period.',
-    performanceBands: {
-      low: 'Low — below 60%',
-      medium: 'Medium — 60–79%',
-      high: 'High — 80%+',
-    },
-  },
+  collarts: COLLARTS_ND_EXPERIENCE,
 };
 
 export const TOP_STRENGTH_AREAS_BY_SLUG: Record<string, TopStrengthArea[]> = {
-  hsh: VET_TOP_STRENGTH_AREAS,
-  academia: VET_TOP_STRENGTH_AREAS,
-  'blueprint-career-development': VET_TOP_STRENGTH_AREAS,
-  collarts: [
-    {
-      title: 'Clear information about support options',
-      iconKind: 'supportInformation',
-      scoreBand: 'High',
-    },
-    {
-      title: 'Adjustments implemented effectively',
-      iconKind: 'adjustments',
-      scoreBand: 'High',
-    },
-    {
-      title: 'Overall experience',
-      iconKind: 'overallExperience',
-      scoreBand: 'High',
-    },
-    {
-      title: 'Communication is clear and responsive',
-      iconKind: 'communication',
-      scoreBand: 'High',
-    },
-  ],
+  hsh: DEFAULT_TOP_STRENGTH_AREAS,
+  academia: DEFAULT_TOP_STRENGTH_AREAS,
+  'blueprint-career-development': DEFAULT_TOP_STRENGTH_AREAS,
+  collarts: DEFAULT_TOP_STRENGTH_AREAS,
 };
 
 export const STUDY_AREAS_BY_SLUG: Record<string, string[]> = {
@@ -947,6 +921,24 @@ export const SUPPORT_FRAMEWORK_BY_SLUG: Record<
   ],
 };
 
+function cloneSupportFrameworkSections(
+  sections: SupportFrameworkSection[]
+): SupportFrameworkSection[] {
+  return sections.map((section) => ({
+    section: section.section,
+    items: section.items.map((item) => ({
+      label: item.label,
+      status: item.status,
+    })),
+  }));
+}
+
+SUPPORT_FRAMEWORK_BY_SLUG.academia = cloneSupportFrameworkSections(
+  SUPPORT_FRAMEWORK_BY_SLUG.hsh ?? []
+);
+SUPPORT_FRAMEWORK_BY_SLUG['blueprint-career-development'] =
+  cloneSupportFrameworkSections(SUPPORT_FRAMEWORK_BY_SLUG.hsh ?? []);
+
 type EndorsedJsonRow = {
   id: string;
   logo?: string;
@@ -1012,7 +1004,7 @@ export function getVetKeyDataPointsForSlug(slug: string): VetKeyDataPoint[] {
 export function hasEndorsedDeliverySignals(slug: string): boolean {
   const institutionType = getInstitutionTypeForSlug(slug);
   if (institutionType === 'VET') {
-    return getVetKeyDataPointsForSlug(slug).length > 0;
+    return VET_KEY_DATA_POINTS.length > 0;
   }
   return (STATS_BY_SLUG[slug]?.length ?? 0) > 0;
 }

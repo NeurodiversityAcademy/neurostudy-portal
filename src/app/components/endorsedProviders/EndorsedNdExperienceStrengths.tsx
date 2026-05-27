@@ -10,23 +10,17 @@ import styles from './endorsedNdExperienceStrengths.module.css';
 interface EndorsedNdExperienceStrengthsProps {
   experience: EndorsedNdExperience;
   topStrengths: TopStrengthArea[];
-  /** Tighter spacing when rendered directly after the VET key data points block. */
-  followsVetKeyDataPoints?: boolean;
 }
 
 export default function EndorsedNdExperienceStrengths({
   experience,
   topStrengths,
-  followsVetKeyDataPoints = false,
 }: EndorsedNdExperienceStrengthsProps) {
   const bands = experience.performanceBands;
-  const sectionClassName = followsVetKeyDataPoints
-    ? `${styles.section} ${styles.sectionFollowingVet}`
-    : styles.section;
 
   return (
     <section
-      className={sectionClassName}
+      className={styles.section}
       aria-labelledby='endorsed-nd-experience-heading'
     >
       <Typography
