@@ -39,71 +39,6 @@
   width: 100%;
 }
 
-.card {
-  width: 20%;
-  height: 240px;
-  flex: 0 1 16%;
-  min-width: 220px;
-  max-width: 274px;
-  flex-direction: column;
-  display: flex;
-  border: 0.5px solid var(--BondBlack);
-  border-radius: 8px;
-  background: var(--GhostWhite);
-  overflow: clip;
-  box-shadow: 0px 1px 20px 0px var(--color-shadow-soft);
-}
-
-.cardTop {
-  height: 100px;
-  background-image: url('../../images/emergingCardHeader.png');
-  background-size: cover;
-  background-position: center -10px;
-  background-repeat: no-repeat;
-  flex: 0 0 auto;
-}
-
-.cardBody {
-  width: 100%;
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 0px 14px;
-}
-
-.nameWrap {
-  width: 70%;
-  height: 50px;
-  padding: 8px;
-  border-radius: 4px;
-  background: var(--GhostWhite);
-  border: 0.3px solid var(--BondBlackVariant);
-  box-shadow: 0px 2px 16px 0px var(--color-shadow-soft);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-/*
-  Override ActionButton .primary for this card only: compact size, purple fill, no padding.
-  Typography (font-size/weight) and flex alignment come from button.module.css .primary.
-*/
-.card .ctaButton {
-  width: 180px;
-  height: 38px;
-  margin-top: 10px;
-  padding: 0;
-  background: var(--cherryPieVariant);
-}
-
-.card .ctaButton:hover {
-  background-color: var(--cherryPieVariantSub);
-  box-shadow: 0px 2px 8px 0px var(--color-shadow-pressed);
-}
-
 @media (max-width: 1024px) {
   .cards {
     max-width: 760px;
@@ -122,17 +57,20 @@
   }
 
   .cards {
-    flex-direction: column;
-    align-items: center;
-    gap: 18px;
-    max-width: 340px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    width: min(92vw, 560px);
+    max-width: min(92vw, 560px);
+    margin-inline: auto;
+    justify-content: stretch;
   }
 
-  .card {
-    width: 100%;
-    min-width: 0;
+  .cards > *:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: 272px;
     max-width: 100%;
-    flex: 0 0 auto;
   }
 
 }
@@ -166,6 +104,22 @@
   inset: 0;
   background: rgba(42, 42, 42, 0.58);
   pointer-events: none;
+}
+
+/* Endorsed detail hero: match home “NDA Endorsed Providers” section (cherry pie), not grey photo cover. */
+.providerHeroBannerEndorsed {
+  background-image: none;
+  background-color: var(--cherryPie);
+}
+
+.providerHeroBannerEndorsed::before {
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.providerHeroEndorsedCenterLogoImg {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
 }
 
 .providerHeroCoverContent {
@@ -344,6 +298,11 @@
     object-fit: contain;
   }
 
+  .providerHeroEndorsedCenterLogoImg {
+    width: 96px;
+    height: 96px;
+  }
+
   .providerHeroStats .providerHeroStatSlotLeft > div,
   .providerHeroStats .providerHeroStatSlotRight > div {
     padding: 6px 4px;
@@ -428,6 +387,11 @@
     height: auto;
     max-height: 76px;
     object-fit: contain;
+  }
+
+  .providerHeroEndorsedCenterLogoImg {
+    width: 64px;
+    height: 64px;
   }
 }
 
@@ -514,8 +478,25 @@
   overflow-x: clip;
 }
 
+/* Same as `.providerStatsSection` but no horizontal padding — use inside `.endorsedPageColumn`. */
+.providerStatsSectionAligned {
+  padding: 0 0 48px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
 .providerStatsContainer {
   width: min(100%, 986px);
+  max-width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Parent column (e.g. endorsed page) already applies 986px / 84vw; fill it. */
+.providerStatsContainerInAlignedColumn {
+  width: 100%;
   max-width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
@@ -587,6 +568,23 @@
   letter-spacing: 0;
 }
 
+.providerStatsCard .providerStatsTitleStrong {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.12;
+  max-width: 100%;
+  letter-spacing: 0;
+}
+
+.providerStatsCard .providerStatsSupportingText {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-top: 8px;
+  max-width: 100%;
+  letter-spacing: 0;
+}
+
 .providerStatsMeta {
   margin-top: 20px;
   display: flex;
@@ -648,6 +646,10 @@
     padding: 0 12px 36px;
   }
 
+  .providerStatsSectionAligned {
+    padding: 0 0 36px;
+  }
+
   .providerStatsSection .providerStatsHeading {
     margin-bottom: 14px;
     font-size: 18px;
@@ -680,6 +682,20 @@
     font-size: 16px;
     font-weight: 400;
     line-height: 1.12;
+    letter-spacing: 0;
+  }
+
+  .providerStatsCard .providerStatsTitleStrong {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: 0;
+  }
+
+  .providerStatsCard .providerStatsSupportingText {
+    font-size: 14px;
+    line-height: 1.2;
+    margin-top: 6px;
     letter-spacing: 0;
   }
 

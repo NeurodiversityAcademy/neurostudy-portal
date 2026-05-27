@@ -88,6 +88,10 @@
 }
 
 /* Typography `color` prop maps here — never use inline `style` for text color */
+.colorPureWhite {
+  color: var(--pure-white);
+}
+
 .colorGhostWhite {
   color: var(--GhostWhite);
 }

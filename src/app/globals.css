@@ -75,6 +75,8 @@
   --cherryPieVariantSub: #9834fc;
   --cherryPieBlue: #7240fc;
   --cherryPieBlueVariant: #5d1df1;
+  /* NDA Endorsed Providers — header seal frame (sampled brand purple) */
+  --endorsedHeaderSealBackground: #9685c4;
   --errorRed: red;
   --darkred: darkred;
   --grey: #b8b8b8;

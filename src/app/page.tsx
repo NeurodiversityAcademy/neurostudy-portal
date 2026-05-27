@@ -11,6 +11,7 @@ import StudentFacts from './components/studentFacts/StudentFacts';
 import isFeatureEnabled from './utilities/featureToggle';
 import ArticleList from './components/articleList/articleList';
 import EmergingInstitutions from './components/emergingInstitutions/EmergingInstitutions';
+import EndorsedProviders from './components/endorsedProviders/EndorsedProviders';
 
 export const metadata: Metadata = createMetadata(META_KEY.HOME, {
   images: [
@@ -69,6 +70,7 @@ export default function Home({
           showSearchBar={showSearchBar}
         />
         <StudentFacts />
+        <EndorsedProviders />
         <EmergingInstitutions />
         <HowItWorks />
         <DisplayPodcast

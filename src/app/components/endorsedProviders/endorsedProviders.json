@@ -1,0 +1,26 @@
+[
+  {
+    "id": "HSH",
+    "logo": "/images/AcademiaLogoLong.png",
+    "topBackgroundImage": "/images/AcademiaCover.jpeg",
+    "institutionCoursesUrl": "https://www.hsh.edu.au"
+  },
+  {
+    "id": "academia",
+    "logo": "/images/AcademiaLogoLong.png",
+    "topBackgroundImage": "/images/AcademiaCover.jpeg",
+    "institutionCoursesUrl": "https://www.studyacademia.edu.au"
+  },
+  {
+    "id": "Blueprint Career Development",
+    "logo": "/images/AcademiaLogoLong.png",
+    "topBackgroundImage": "/images/AcademiaCover.jpeg",
+    "institutionCoursesUrl": "https://www.blueprint.edu.au"
+  },
+  {
+    "id": "Collarts",
+    "logo": "/images/AcademiaLogoLong.png",
+    "topBackgroundImage": "/images/AcademiaCover.jpeg",
+    "institutionCoursesUrl": "https://www.collarts.edu.au/courses"
+  }
+]
