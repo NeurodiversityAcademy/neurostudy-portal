@@ -1,3 +1,5 @@
+'use client';
+
 import Image, { type StaticImageData } from 'next/image';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import { TypographyColorToken } from '../typography/typographyColorToken';
@@ -5,6 +7,7 @@ import CourseDetailsMiddleBannerIcon from '@/app/components/course/CourseDetails
 import mapPin from '@/app/images/MapPin.png';
 import notebook from '@/app/images/Notebook.png';
 import endorsedProvidersBadge from '@/app/images/badgeGeneric.png';
+import { sendEndorsedExploreClickEvent } from '@/app/utilities/gaTracking';
 import styles from './endorsedInstitutionCoverHero.module.css';
 
 export interface EndorsedInstitutionCoverHeroProps {
@@ -15,6 +18,8 @@ export interface EndorsedInstitutionCoverHeroProps {
   institutionIconSrc?: string | StaticImageData;
   /** External courses URL for the Explore CTA (from endorsed provider data). */
   coursesUrl?: string;
+  /** Slug used as GA provider identifier. */
+  providerSlug: string;
 }
 
 export default function EndorsedInstitutionCoverHero({
@@ -23,10 +28,18 @@ export default function EndorsedInstitutionCoverHero({
   typeValue,
   institutionIconSrc,
   coursesUrl,
+  providerSlug,
 }: EndorsedInstitutionCoverHeroProps) {
   const iconByLabel = {
     Type: notebook,
     Location: mapPin,
+  };
+
+  const handleExploreClick = () => {
+    if (coursesUrl === undefined || coursesUrl.length === 0) {
+      return;
+    }
+    sendEndorsedExploreClickEvent(providerSlug, coursesUrl);
   };
 
   return (
@@ -76,6 +89,7 @@ export default function EndorsedInstitutionCoverHero({
                 target='_blank'
                 rel='noopener noreferrer'
                 className={styles.ctaExploreLink}
+                onClick={handleExploreClick}
               >
                 <Typography
                   variant={TypographyVariant.Body2}

@@ -7,6 +7,7 @@ import EndorsedProviderIntroSection from '@/app/components/endorsedProviders/End
 import EndorsedStudyAreas from '@/app/components/endorsedProviders/EndorsedStudyAreas';
 import EndorsedProviderEnhancements from '@/app/components/endorsedProviders/EndorsedProviderEnhancements';
 import EndorsedProvidersFAQs from '@/app/components/endorsedProviders/EndorsedProvidersFAQs';
+import PageEngagementTracker from '@/app/components/endorsedProviders/PageEngagementTracker';
 import {
   HERO_DETAILS_BY_SLUG,
   STATS_BY_SLUG,
@@ -24,6 +25,12 @@ import {
   isKnownEndorsedSlug,
 } from '@/app/components/endorsedProviders/endorsedProviderPageData';
 import { HOST_URL } from '@/app/utilities/constants';
+import {
+  ENDORSED_INSTITUTION_TYPE,
+  ENDORSED_PAGE_SECTION,
+  resolveStatsSectionId,
+} from '@/app/utilities/endorsedPageSections';
+import { DATA_SECTION_ATTRIBUTE } from '@/app/utilities/gaTracking';
 import pageStyles from './endorsedProviderPage.module.css';
 
 type RouteParams = {
@@ -97,32 +104,67 @@ export default function EndorsedProviderDetailPage({ params }: PageProps) {
   }
 
   return (
-    <main className={pageStyles.pageMain}>
-      <EndorsedInstitutionCoverHero
-        backgroundSrc={coverBackgroundSrc}
-        locationValue={locationValue}
-        typeValue={typeValue}
-        institutionIconSrc={institutionIconSrc}
-        coursesUrl={coursesUrl}
-      />
-      <div className={pageStyles.endorsedPageColumn}>
-        <div className={pageStyles.endorsedPageColumnInner}>
-          {intro ? (
-            <EndorsedProviderIntroSection
-              heading={intro.heading}
-              body={intro.body}
-            />
-          ) : null}
-          <EndorsedStudyAreas studyAreas={studyAreas} />
-          {institutionType === 'VET' ? (
-            <EndorsedVetKeyDataPoints dataPoints={vetKeyDataPoints} />
-          ) : (
-            <InstitutionStats stats={providerStats} isAlignedWithPageColumn />
-          )}
-          <EndorsedProviderEnhancements supportFramework={supportFramework} />
-          <EndorsedProvidersFAQs sections={faqSections} />
+    <PageEngagementTracker providerSlug={slug}>
+      <main className={pageStyles.pageMain}>
+        <EndorsedInstitutionCoverHero
+          backgroundSrc={coverBackgroundSrc}
+          locationValue={locationValue}
+          typeValue={typeValue}
+          institutionIconSrc={institutionIconSrc}
+          coursesUrl={coursesUrl}
+          providerSlug={slug}
+        />
+        <div className={pageStyles.endorsedPageColumn}>
+          <div className={pageStyles.endorsedPageColumnInner}>
+            <section
+              {...{ [DATA_SECTION_ATTRIBUTE]: ENDORSED_PAGE_SECTION.INTRO }}
+            >
+              {intro ? (
+                <EndorsedProviderIntroSection
+                  heading={intro.heading}
+                  body={intro.body}
+                />
+              ) : null}
+            </section>
+            <section
+              {...{
+                [DATA_SECTION_ATTRIBUTE]: ENDORSED_PAGE_SECTION.STUDY_AREAS,
+              }}
+            >
+              <EndorsedStudyAreas studyAreas={studyAreas} />
+            </section>
+            <section
+              {...{
+                [DATA_SECTION_ATTRIBUTE]:
+                  resolveStatsSectionId(institutionType),
+              }}
+            >
+              {institutionType === ENDORSED_INSTITUTION_TYPE.VET ? (
+                <EndorsedVetKeyDataPoints dataPoints={vetKeyDataPoints} />
+              ) : (
+                <InstitutionStats
+                  stats={providerStats}
+                  isAlignedWithPageColumn
+                />
+              )}
+            </section>
+            <section
+              {...{
+                [DATA_SECTION_ATTRIBUTE]: ENDORSED_PAGE_SECTION.ENHANCEMENTS,
+              }}
+            >
+              <EndorsedProviderEnhancements
+                supportFramework={supportFramework}
+              />
+            </section>
+            <section
+              {...{ [DATA_SECTION_ATTRIBUTE]: ENDORSED_PAGE_SECTION.FAQS }}
+            >
+              <EndorsedProvidersFAQs sections={faqSections} />
+            </section>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </PageEngagementTracker>
   );
 }

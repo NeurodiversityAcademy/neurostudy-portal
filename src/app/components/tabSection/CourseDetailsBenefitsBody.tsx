@@ -4,6 +4,7 @@ import { useCourseDetailsContext } from '@/app/utilities/course/CourseDetailsPro
 import type { CourseDetailsProps } from '@/app/interfaces/Course';
 import styles from '@/app/components/course/CourseDetails/courseDetails.module.css';
 import Accordion from '@/app/components/accordion/Accordian';
+import { ACCORDION_NO_EXPAND_ACTION } from '@/app/utilities/accordionActions';
 import CheckIcon from '@/app/components/images/Check';
 import type { CourseBenefitsContentSource } from './tabSectionTypes';
 
@@ -51,7 +52,10 @@ export default function CourseDetailsBenefitsBody({
             Object.entries(courseData.AdjustmentsAvailable).map(
               ([category, items]) => (
                 <div className={styles.supportContainer} key={category}>
-                  <Accordion title={prettifyLabel(category)}>
+                  <Accordion
+                    title={prettifyLabel(category)}
+                    onExpanded={ACCORDION_NO_EXPAND_ACTION}
+                  >
                     <div className={styles.adjustmentCategory}>
                       <ul className={styles.adjustmentAvailableList}>
                         {items.map((item: string, index: number) => {
@@ -84,7 +88,10 @@ export default function CourseDetailsBenefitsBody({
         <div className={styles.jobRequirementsContainer}>
           {Object.entries(jobs).map(([jobTitle, jobData]) => (
             <div className={styles.jobContainer} key={jobTitle}>
-              <Accordion title={prettifyLabel(jobTitle)}>
+              <Accordion
+                title={prettifyLabel(jobTitle)}
+                onExpanded={ACCORDION_NO_EXPAND_ACTION}
+              >
                 <div className={styles.jobCard}>
                   <ul className={styles.adjustmentAvailableList}>
                     {Object.entries(jobData.requirements).flatMap(
