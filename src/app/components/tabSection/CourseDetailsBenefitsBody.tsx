@@ -4,7 +4,7 @@ import { useCourseDetailsContext } from '@/app/utilities/course/CourseDetailsPro
 import type { CourseDetailsProps } from '@/app/interfaces/Course';
 import styles from '@/app/components/course/CourseDetails/courseDetails.module.css';
 import Accordion from '@/app/components/accordion/Accordian';
-import { ACCORDION_NO_EXPAND_ACTION } from '@/app/utilities/accordionActions';
+import { ACCORDION_TRACKING_DISABLED } from '@/app/utilities/accordionActions';
 import CheckIcon from '@/app/components/images/Check';
 import type { CourseBenefitsContentSource } from './tabSectionTypes';
 
@@ -54,7 +54,7 @@ export default function CourseDetailsBenefitsBody({
                 <div className={styles.supportContainer} key={category}>
                   <Accordion
                     title={prettifyLabel(category)}
-                    onExpanded={ACCORDION_NO_EXPAND_ACTION}
+                    accordionToggleLabel={ACCORDION_TRACKING_DISABLED}
                   >
                     <div className={styles.adjustmentCategory}>
                       <ul className={styles.adjustmentAvailableList}>
@@ -90,7 +90,7 @@ export default function CourseDetailsBenefitsBody({
             <div className={styles.jobContainer} key={jobTitle}>
               <Accordion
                 title={prettifyLabel(jobTitle)}
-                onExpanded={ACCORDION_NO_EXPAND_ACTION}
+                accordionToggleLabel={ACCORDION_TRACKING_DISABLED}
               >
                 <div className={styles.jobCard}>
                   <ul className={styles.adjustmentAvailableList}>

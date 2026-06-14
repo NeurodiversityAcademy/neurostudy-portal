@@ -2,7 +2,6 @@ import Accordion from '@/app/components/accordion/Accordian';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import { TypographyColorToken } from '../typography/typographyColorToken';
 import type { EndorsedFaqSection } from './endorsedProviderPageData';
-import { createAccordionExpandHandler } from '@/app/utilities/accordionActions';
 import styles from './endorsedProvidersFaqs.module.css';
 
 interface EndorsedProvidersFAQsProps {
@@ -45,7 +44,7 @@ export default function EndorsedProvidersFAQs({
                   title={item.question}
                   startExpanded={false}
                   className={styles.faqAccordion}
-                  onExpanded={createAccordionExpandHandler(item.question)}
+                  accordionToggleLabel={item.question}
                 >
                   <Typography
                     variant={TypographyVariant.Body2}

@@ -5,14 +5,16 @@ import styles from './accordion.module.css';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import ArrowDownIcon from '@/app/components/images/ArrowDown';
 import classNames from 'classnames';
-import { ACCORDION_NO_EXPAND_ACTION } from '@/app/utilities/accordionActions';
+import { ACCORDION_TRACKING_DISABLED } from '@/app/utilities/accordionActions';
+import { GA_EVENTS } from '@/app/utilities/constants';
+import { sendAccordionToggleEvent } from '@/app/utilities/gaTracking';
 
 interface Props {
   title: string | ReactNode;
   children: ReactNode;
   startExpanded?: boolean;
   className?: string;
-  onExpanded: () => void;
+  accordionToggleLabel: string;
 }
 
 const Accordion: React.FC<Props> = ({
@@ -20,7 +22,7 @@ const Accordion: React.FC<Props> = ({
   children,
   startExpanded = false,
   className,
-  onExpanded = ACCORDION_NO_EXPAND_ACTION,
+  accordionToggleLabel = ACCORDION_TRACKING_DISABLED,
 }) => {
   const contentId = useId() + '-accordion-content';
   const triggerId = useId() + '-accordion-trigger';
@@ -29,8 +31,12 @@ const Accordion: React.FC<Props> = ({
   const toggleContent = () => {
     setExpanded((previous) => {
       const next = !previous;
-      if (next) {
-        onExpanded();
+      if (next && accordionToggleLabel.length > 0) {
+        sendAccordionToggleEvent(
+          GA_EVENTS.ACCORDION_TOGGLE.eventName,
+          GA_EVENTS.ACCORDION_TOGGLE.category,
+          accordionToggleLabel
+        );
       }
       return next;
     });

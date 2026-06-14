@@ -1,9 +1,6 @@
 import { fireEvent, render } from '@testing-library/react';
 import Accordion from '../Accordian';
-import {
-  ACCORDION_NO_EXPAND_ACTION,
-  createAccordionExpandHandler,
-} from '@/app/utilities/accordionActions';
+import { ACCORDION_TRACKING_DISABLED } from '@/app/utilities/accordionActions';
 import {
   GA_EVENT_COMMAND,
   installGtagMock,
@@ -23,11 +20,11 @@ describe('Accordion analytics', () => {
     installTestPagePath('/endorsedproviders/collarts');
   });
 
-  it('does not fire gtag when onExpanded is a no-op', () => {
+  it('does not fire gtag when accordionToggleLabel is disabled', () => {
     const { getByRole } = render(
       <Accordion
         title='Question without analytics'
-        onExpanded={ACCORDION_NO_EXPAND_ACTION}
+        accordionToggleLabel={ACCORDION_TRACKING_DISABLED}
       >
         <p>Answer</p>
       </Accordion>
@@ -37,10 +34,10 @@ describe('Accordion analytics', () => {
     expect(mockGtag).not.toHaveBeenCalled();
   });
 
-  it('fires gtag when accordion is expanded with tracking handler', () => {
+  it('fires gtag when accordion is expanded with tracking label', () => {
     const label = 'What support is available?';
     const { getByRole } = render(
-      <Accordion title={label} onExpanded={createAccordionExpandHandler(label)}>
+      <Accordion title={label} accordionToggleLabel={label}>
         <p>Answer</p>
       </Accordion>
     );
@@ -61,7 +58,7 @@ describe('Accordion analytics', () => {
   it('does not fire gtag when accordion is collapsed', () => {
     const label = 'Collapse test';
     const { getByRole } = render(
-      <Accordion title={label} onExpanded={createAccordionExpandHandler(label)}>
+      <Accordion title={label} accordionToggleLabel={label}>
         <p>Answer</p>
       </Accordion>
     );
@@ -76,11 +73,7 @@ describe('Accordion analytics', () => {
   it('does not fire gtag on mount when startExpanded is true', () => {
     const label = 'Pre-expanded';
     render(
-      <Accordion
-        title={label}
-        startExpanded
-        onExpanded={createAccordionExpandHandler(label)}
-      >
+      <Accordion title={label} startExpanded accordionToggleLabel={label}>
         <p>Answer</p>
       </Accordion>
     );

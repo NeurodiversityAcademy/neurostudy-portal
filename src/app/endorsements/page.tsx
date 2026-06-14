@@ -14,7 +14,7 @@ import ActionButton from '../components/buttons/ActionButton';
 import { BUTTON_STYLE } from '../utilities/constants';
 import Link from 'next/link';
 import Accordion from '../components/accordion/Accordian';
-import { ACCORDION_NO_EXPAND_ACTION } from '@/app/utilities/accordionActions';
+import { ACCORDION_TRACKING_DISABLED } from '@/app/utilities/accordionActions';
 // import endorsedInstitutesData from './endorsedInstitutesData.json';
 
 // import BlueprintCD from '../images/logo_blueprint_cd.jpeg';
@@ -63,7 +63,7 @@ export default function Page() {
           <div className={styles.accordionWrapper}>
             <Accordion
               title='Why is endorsement necessary?'
-              onExpanded={ACCORDION_NO_EXPAND_ACTION}
+              accordionToggleLabel={ACCORDION_TRACKING_DISABLED}
             >
               <Typography
                 variant={TypographyVariant.Body1}
@@ -78,7 +78,7 @@ export default function Page() {
             </Accordion>
             <Accordion
               title='What are “ND Standards”?'
-              onExpanded={ACCORDION_NO_EXPAND_ACTION}
+              accordionToggleLabel={ACCORDION_TRACKING_DISABLED}
             >
               <Typography
                 variant={TypographyVariant.Body1}
@@ -95,7 +95,7 @@ export default function Page() {
             </Accordion>
             <Accordion
               title='What outcomes can a learning institute expect from being endorsed?'
-              onExpanded={ACCORDION_NO_EXPAND_ACTION}
+              accordionToggleLabel={ACCORDION_TRACKING_DISABLED}
             >
               <Typography
                 variant={TypographyVariant.Body1}
@@ -121,7 +121,7 @@ export default function Page() {
             </Accordion>
             <Accordion
               title='What does NDA expect from endorsed organisations?'
-              onExpanded={ACCORDION_NO_EXPAND_ACTION}
+              accordionToggleLabel={ACCORDION_TRACKING_DISABLED}
             >
               <Typography
                 variant={TypographyVariant.Body1}
@@ -161,7 +161,7 @@ export default function Page() {
             </Accordion>
             <Accordion
               title='What does NDA not expect from endorsement?'
-              onExpanded={ACCORDION_NO_EXPAND_ACTION}
+              accordionToggleLabel={ACCORDION_TRACKING_DISABLED}
             >
               <Typography
                 variant={TypographyVariant.Body1}
@@ -178,7 +178,7 @@ export default function Page() {
             <Accordion
               title='What does a student gain from studying at a Bronze, Silver, or Gold
             endorsed institute?'
-              onExpanded={ACCORDION_NO_EXPAND_ACTION}
+              accordionToggleLabel={ACCORDION_TRACKING_DISABLED}
             >
               <Typography
                 variant={TypographyVariant.Body1}
@@ -231,7 +231,7 @@ export default function Page() {
             </Accordion>
             <Accordion
               title='What are students expecting from endorsed providers?'
-              onExpanded={ACCORDION_NO_EXPAND_ACTION}
+              accordionToggleLabel={ACCORDION_TRACKING_DISABLED}
             >
               <Typography
                 variant={TypographyVariant.Body1}
