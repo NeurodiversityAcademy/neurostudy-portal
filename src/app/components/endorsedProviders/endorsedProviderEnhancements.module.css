@@ -1,0 +1,237 @@
+.section {
+  width: 100%;
+  margin: 0;
+  padding: 0 0 8px;
+  box-sizing: border-box;
+}
+
+.heading {
+  margin: 0 0 16px;
+}
+
+.supportFrameworkCard {
+  border: 1px solid var(--grey-300);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.frameworkHeader {
+  display: grid;
+  gap: 0;
+  background: var(--pure-white);
+  border-bottom: 1px solid var(--grey-300);
+}
+
+.frameworkGridCols3 {
+  grid-template-columns: 1.2fr 1.3fr 1.3fr;
+}
+
+.frameworkGridCols2 {
+  grid-template-columns: 1.2fr 1.3fr;
+}
+
+.frameworkHeader > * {
+  padding: 12px 16px;
+}
+
+.frameworkHeader > *:not(:last-child) {
+  border-right: 1px solid var(--grey-300);
+}
+
+.frameworkRow {
+  display: grid;
+  gap: 0;
+  background: var(--pure-white);
+}
+
+.frameworkRow:not(:last-child) {
+  border-bottom: 1px solid var(--grey-300);
+}
+
+.frameworkRowAlt {
+  background: var(--GhostWhite);
+}
+
+.frameworkAreaCell,
+.frameworkItemsCell {
+  padding: 16px;
+}
+
+.frameworkAreaCell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  align-self: stretch;
+  min-height: 0;
+}
+
+.frameworkAreaIconWrap {
+  position: relative;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+}
+
+.frameworkAreaIconImage {
+  object-fit: contain;
+}
+
+.frameworkAreaTitle {
+  width: 100%;
+  text-align: center;
+}
+
+.frameworkAreaCell,
+.frameworkItemsCell:not(:last-child) {
+  border-right: 1px solid var(--grey-300);
+}
+
+.frameworkColumnHeadingMobile {
+  display: none;
+}
+
+.frameworkItemsCellPlaceholder {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  border-right: 1px solid var(--grey-300);
+  background: var(--pure-white);
+  min-height: 0;
+}
+
+.frameworkRowAlt .frameworkItemsCellPlaceholder {
+  background: var(--GhostWhite);
+}
+
+.frameworkList {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--BondBlackVariant);
+}
+
+.studyAreasSection {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.studyAreasTitle {
+  margin: 0 0 12px;
+}
+
+.studyAreasList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+}
+
+.studyAreasPill {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--GhostWhite);
+  border: 1px solid var(--grey-300);
+  box-sizing: border-box;
+}
+
+.staffCard {
+  border-radius: 12px;
+  background: var(--GhostWhite);
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.staffCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.staffCountBadge {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: #ff2800;
+  color: var(--pure-white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.staffList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.staffItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.staffAvatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #5a7cff, #330066 70%);
+  color: var(--pure-white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.staffBody {
+  display: grid;
+  gap: 2px;
+}
+
+@media (max-width: 767px) {
+  .frameworkHeader {
+    display: none;
+  }
+
+  .frameworkItemsCellPlaceholder {
+    display: none;
+  }
+
+  .frameworkColumnHeadingMobile {
+    display: block;
+    margin: 0 0 10px;
+  }
+
+  .frameworkRow {
+    grid-template-columns: 1fr;
+  }
+
+  .frameworkAreaCell,
+  .frameworkItemsCell {
+    border-right: none;
+  }
+
+  .frameworkItemsCell {
+    padding-top: 12px;
+    border-top: 1px solid var(--grey-300);
+  }
+
+  .frameworkItemsCellFirst {
+    padding-top: 16px;
+    border-top: none;
+  }
+}

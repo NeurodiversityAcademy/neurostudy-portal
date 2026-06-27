@@ -12,14 +12,24 @@ export type ProviderStatItem = {
 
 type EmergingProviderStatsProps = {
   stats: ProviderStatItem[];
+  isAlignedWithPageColumn?: boolean;
 };
 
 export default function EmergingProviderStats({
   stats,
+  isAlignedWithPageColumn = false,
 }: EmergingProviderStatsProps) {
+  const sectionClassName = isAlignedWithPageColumn
+    ? styles.providerStatsSectionAligned
+    : styles.providerStatsSection;
+
+  const containerClassName = isAlignedWithPageColumn
+    ? styles.providerStatsContainerInAlignedColumn
+    : styles.providerStatsContainer;
+
   return (
-    <section className={styles.providerStatsSection}>
-      <div className={styles.providerStatsContainer}>
+    <section className={sectionClassName}>
+      <div className={containerClassName}>
         <Typography
           variant={TypographyVariant.H3}
           color='var(--BondBlack)'

@@ -98,3 +98,14 @@ export const PERSONA_OPTIONS = [
   { label: 'Parent/Carer', value: 'persona_4' },
   { label: 'Ally/Advocate', value: 'persona_5' },
 ];
+
+export const GA_EVENTS = {
+  SCROLL_DEPTH: { eventName: 'scroll_depth', category: 'Engagement' },
+  SECTION_VISIBLE: { eventName: 'section_visible', category: 'Engagement' },
+  TIME_ON_PAGE: { eventName: 'time_on_page', category: 'Engagement' },
+  ACCORDION_TOGGLE: { eventName: 'accordion_toggle', category: 'Content' },
+  ENDORSED_EXPLORE_CLICK: {
+    eventName: 'endorsed_explore_click',
+    category: 'Endorsed',
+  },
+} as const;

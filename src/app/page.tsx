@@ -11,6 +11,9 @@ import StudentFacts from './components/studentFacts/StudentFacts';
 import isFeatureEnabled from './utilities/featureToggle';
 import ArticleList from './components/articleList/articleList';
 import EmergingInstitutions from './components/emergingInstitutions/EmergingInstitutions';
+import EndorsedProviders from './components/endorsedProviders/EndorsedProviders';
+import { resolveHomeDemoAccess } from './utilities/demoAccess';
+import type { SearchParams } from './utilities/featureToggle';
 
 export const metadata: Metadata = createMetadata(META_KEY.HOME, {
   images: [
@@ -52,11 +55,12 @@ export const metadata: Metadata = createMetadata(META_KEY.HOME, {
   },
 });
 export default function Home({
-  searchParams,
+  searchParams = {},
 }: {
-  searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams?: SearchParams;
 }) {
   const showSearchBar = isFeatureEnabled(searchParams, 'searchBar');
+  const demoAccess = resolveHomeDemoAccess(searchParams);
   return (
     <Suspense fallback={<h1>Loading...</h1>}>
       <main className={styles.main}>
@@ -70,6 +74,12 @@ export default function Home({
         />
         <StudentFacts />
         <EmergingInstitutions />
+        {demoAccess !== null ? (
+          <EndorsedProviders
+            demoGuid={demoAccess.demoGuid}
+            demoSlug={demoAccess.demoSlug}
+          />
+        ) : null}
         <HowItWorks />
         <DisplayPodcast
           scriptSrc='https://www.buzzsprout.com/2132579.js?container_id=buzzsprout-large-player&player=large'

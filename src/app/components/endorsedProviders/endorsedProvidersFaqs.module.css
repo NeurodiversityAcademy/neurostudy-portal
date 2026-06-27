@@ -1,0 +1,33 @@
+.section {
+  width: 100%;
+  margin: 0;
+  padding: 24px 0 40px;
+  box-sizing: border-box;
+}
+
+.title {
+  margin: 0 0 20px;
+}
+
+.sectionGroup {
+  display: grid;
+  gap: 24px;
+}
+
+.faqSection {
+  display: grid;
+  gap: 12px;
+}
+
+.sectionTitle {
+  margin: 0;
+}
+
+.items {
+  display: grid;
+  gap: 12px;
+}
+
+.faqAccordion {
+  border-radius: 12px;
+}

@@ -1,0 +1,141 @@
+.section {
+  padding: 0 0 16px;
+  box-sizing: border-box;
+}
+
+.title {
+  margin: 0 0 12px;
+}
+
+.paragraph {
+  margin: 0 0 10px;
+}
+
+.subheading {
+  display: block;
+  margin: 16px 0 8px;
+}
+
+.subheading:first-of-type {
+  margin-top: 12px;
+}
+
+.surveyList {
+  margin: 0 0 0 1.25em;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.surveyList li {
+  padding-left: 4px;
+}
+
+.legendList {
+  margin: 0 0 0 1.25em;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.responseNote {
+  margin: 14px 0 0;
+}
+
+.strengthsGrid {
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 4px;
+  row-gap: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Match `.providerStatsCard` + grid rhythm from Student Delivery Signals */
+.strengthCard {
+  container-type: inline-size;
+  container-name: strength-card;
+  margin: 0;
+  border-radius: 20px;
+  background: var(--cherryPie);
+  padding: 29px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  gap: 0;
+  letter-spacing: 0;
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+  max-width: 400px;
+  justify-self: center;
+}
+
+.strengthCardIcon {
+  position: relative;
+  width: 60px;
+  height: 48px;
+  max-width: 100%;
+  flex-shrink: 0;
+  margin-bottom: 17px;
+}
+
+@supports (width: 1cqw) {
+  .strengthCardIcon {
+    height: 45cqw;
+    width: calc(45cqw * 1.25);
+  }
+}
+
+.strengthCard .strengthCardTitle {
+  margin: 0;
+  text-align: center;
+  line-height: 1.12;
+  max-width: 100%;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+@media (min-width: 768px) {
+  .strengthsGrid {
+    grid-template-columns: repeat(2, 400px);
+    justify-content: center;
+    gap: 72px 60px;
+    width: 100%;
+  }
+
+  .strengthCard {
+    width: 100%;
+    max-width: 400px;
+    justify-self: stretch;
+  }
+}
+
+@media (max-width: 767px) {
+  .strengthsGrid {
+    column-gap: 4px;
+    row-gap: 10px;
+  }
+
+  .strengthCard {
+    padding: 23px 8px;
+    border-radius: 16px;
+  }
+
+  .strengthCardIcon {
+    margin-bottom: 13px;
+  }
+
+  .strengthCard .strengthCardTitle {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.12;
+    letter-spacing: 0;
+  }
+}

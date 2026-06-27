@@ -1,0 +1,174 @@
+.vetSection {
+  padding: 0 0 12px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+.vetInner {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* Reuses `.strengthsGrid`; no top margin under the VET header. */
+.vetStrengthsGrid {
+  margin-top: 0;
+}
+
+.headerBlock {
+  margin: 0 0 12px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.titleRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 12px;
+}
+
+.headerIcon {
+  position: relative;
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+}
+
+.headerIconImage {
+  object-fit: contain;
+}
+
+.headerTitle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin: 0;
+  text-align: center;
+  line-height: 1.15;
+}
+
+.headerTitleLine {
+  display: block;
+}
+
+.headerIntro {
+  margin: 0 0 10px;
+  text-align: center;
+  line-height: 1.35;
+  max-width: none;
+}
+
+.bottomLine {
+  font-weight: 400;
+}
+
+.vetStatCard {
+  container-type: inline-size;
+  container-name: vet-stat-card;
+  margin: 0;
+  border-radius: 20px;
+  background: var(--cherryPieBlueVariant);
+  padding: 29px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  gap: 0;
+  letter-spacing: 0;
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+  max-width: 400px;
+  justify-self: center;
+}
+
+.vetStatIcon {
+  object-fit: contain;
+}
+
+.vetStatCard .vetHeadline {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.05;
+  margin: 0 0 6px;
+  letter-spacing: 0;
+}
+
+.vetStatCard .vetTitle {
+  margin: 0;
+  text-align: center;
+  line-height: 1.12;
+  max-width: 100%;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.vetStatCard .vetSupportingText {
+  margin: 0;
+  text-align: center;
+  line-height: 1.12;
+  max-width: 100%;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+@media (min-width: 768px) {
+  .vetStatCard {
+    width: 100%;
+    max-width: 400px;
+    justify-self: stretch;
+  }
+}
+
+@media (max-width: 767px) {
+  .titleRow {
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .headerIcon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .headerIntro {
+    margin-bottom: 8px;
+  }
+
+  .vetStatCard {
+    padding: 23px 8px;
+    border-radius: 16px;
+  }
+
+  .vetStatCard .vetHeadline {
+    font-size: 22px;
+    line-height: 1.05;
+    margin-bottom: 5px;
+    letter-spacing: 0;
+  }
+
+  .vetStatCard .vetTitle {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: 0;
+  }
+
+  .vetStatCard .vetSupportingText {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.12;
+    letter-spacing: 0;
+  }
+}

@@ -1,26 +1,45 @@
 'use client';
 
 import ActionButton from '../buttons/ActionButton';
+import { analyticsFileNameFromUrl } from '@/app/utilities/analyticsFileName';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 
+export type AnalyticsEventParams = Record<
+  string,
+  string | number | boolean | null | undefined
+>;
+
+export type InstitutionCtaAnalytics = {
+  eventName?: string;
+  category?: string;
+  fileName?: string;
+  params?: AnalyticsEventParams;
+};
+
 type EmergingInstitutionCtaButtonProps = {
-  href: string;
-  institutionName: string;
+  /** Internal path or external URL for navigation and GA `destination_path`. */
+  ctaHref: string;
   className: string;
+  analytics?: InstitutionCtaAnalytics;
+  openInNewTab?: boolean;
 };
 
 const EMERGING_CTA_LABEL = 'Explore More';
-const EMERGING_GA_EVENT = {
+const DEFAULT_GA = {
   name: 'emerging_cta_click',
   category: 'Emerging',
-  linkText: EMERGING_CTA_LABEL,
 } as const;
 
 export default function EmergingInstitutionCtaButton({
-  href,
-  institutionName,
+  ctaHref,
   className,
+  analytics,
+  openInNewTab = false,
 }: EmergingInstitutionCtaButtonProps) {
+  const eventName = analytics?.eventName ?? DEFAULT_GA.name;
+  const category = analytics?.category ?? DEFAULT_GA.category;
+  const fileName = analytics?.fileName ?? analyticsFileNameFromUrl(ctaHref);
+
   const handleCtaClick = () => {
     const gtag = (
       window as Window & {
@@ -28,11 +47,12 @@ export default function EmergingInstitutionCtaButton({
       }
     ).gtag;
 
-    gtag?.('event', EMERGING_GA_EVENT.name, {
-      institution_name: institutionName,
-      destination_path: href,
-      link_text: EMERGING_GA_EVENT.linkText,
-      category: EMERGING_GA_EVENT.category,
+    gtag?.('event', eventName, {
+      destination_path: ctaHref,
+      file_name: fileName,
+      link_text: EMERGING_CTA_LABEL,
+      category,
+      ...analytics?.params,
     });
   };
 
@@ -41,8 +61,8 @@ export default function EmergingInstitutionCtaButton({
       label={EMERGING_CTA_LABEL}
       style={BUTTON_STYLE.Primary}
       className={className}
-      to={href}
-      openInNewTab={false}
+      to={ctaHref}
+      openInNewTab={openInNewTab}
       onClick={handleCtaClick}
     />
   );

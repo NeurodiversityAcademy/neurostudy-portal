@@ -1,4 +1,5 @@
 import Accordion from '@/app/components/accordion/Accordian';
+import { ACCORDION_TRACKING_DISABLED } from '@/app/utilities/accordionActions';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import styles from './emergingInstitutions.module.css';
 
@@ -25,6 +26,7 @@ export default function EmergingProvidersFAQs() {
           title='Who are Emerging Providers?'
           startExpanded={false}
           className={styles.emergingFAQAccordion}
+          accordionToggleLabel={ACCORDION_TRACKING_DISABLED}
         >
           <Typography
             variant={TypographyVariant.Body3}
@@ -68,6 +70,7 @@ export default function EmergingProvidersFAQs() {
           title='Why these areas?'
           startExpanded={false}
           className={styles.emergingFAQAccordion}
+          accordionToggleLabel={ACCORDION_TRACKING_DISABLED}
         >
           <Typography
             variant={TypographyVariant.Body3}
@@ -99,6 +102,7 @@ export default function EmergingProvidersFAQs() {
           }
           startExpanded={true}
           className={styles.emergingFAQAccordion}
+          accordionToggleLabel={ACCORDION_TRACKING_DISABLED}
         >
           <Typography
             variant={TypographyVariant.Body3}
@@ -121,6 +125,7 @@ export default function EmergingProvidersFAQs() {
           }
           startExpanded={true}
           className={styles.emergingFAQAccordion}
+          accordionToggleLabel={ACCORDION_TRACKING_DISABLED}
         >
           <Typography
             variant={TypographyVariant.Body3}
