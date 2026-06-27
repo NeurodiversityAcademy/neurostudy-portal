@@ -149,6 +149,22 @@ function buildStatsForSlug(
   return buildQiltStatsForSlug(slug);
 }
 
+export const HERO_INFO_LABEL_LOCATION = 'Location' as const;
+export const HERO_INFO_LABEL_TYPE = 'Type' as const;
+
+export function findHeroInfoValueByLabel(
+  items: HeroInfoItem[],
+  label: string
+): string {
+  for (let i = 0; i < items.length; i += 1) {
+    const item = items[i];
+    if (item.label === label) {
+      return item.value;
+    }
+  }
+  return '';
+}
+
 export const HERO_DETAILS_BY_SLUG: Record<string, HeroInfoItem[]> = {
   hsh: [
     {

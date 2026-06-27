@@ -10,8 +10,11 @@ import EndorsedProvidersFAQs from '@/app/components/endorsedProviders/EndorsedPr
 import PageEngagementTracker from '@/app/components/endorsedProviders/PageEngagementTracker';
 import {
   HERO_DETAILS_BY_SLUG,
+  HERO_INFO_LABEL_LOCATION,
+  HERO_INFO_LABEL_TYPE,
   STATS_BY_SLUG,
   INTRO_SECTION_BY_SLUG,
+  findHeroInfoValueByLabel,
   getEndorsedFaqSectionsForSlug,
   getEndorsedDisplayNameForSlug,
   getStudyAreasForSlug,
@@ -22,9 +25,14 @@ import {
   getInstitutionTypeForSlug,
   getVetKeyDataPointsForSlug,
   hasEndorsedDeliverySignals,
-  isKnownEndorsedSlug,
 } from '@/app/components/endorsedProviders/endorsedProviderPageData';
 import { HOST_URL } from '@/app/utilities/constants';
+import {
+  buildEndorsedDemoDetailHref,
+  resolveDetailDemoAccess,
+} from '@/app/utilities/demoAccess';
+import type { SearchParams } from '@/app/utilities/featureToggle';
+import { EMPTY_SEARCH_PARAMS } from '@/app/utilities/searchParamsReader';
 import {
   ENDORSED_INSTITUTION_TYPE,
   ENDORSED_PAGE_SECTION,
@@ -39,27 +47,29 @@ type RouteParams = {
 
 interface PageProps {
   params: RouteParams;
+  searchParams: SearchParams;
 }
 
 export async function generateMetadata({
   params,
+  searchParams = EMPTY_SEARCH_PARAMS,
 }: PageProps): Promise<Metadata> {
-  const { slug } = params;
-  const displayName = getEndorsedDisplayNameForSlug(slug);
-  const hero = HERO_DETAILS_BY_SLUG[slug];
+  const demoAccess = resolveDetailDemoAccess(params.slug, searchParams);
+  if (demoAccess === null) {
+    return { title: 'Not found' };
+  }
 
-  if (
-    !isKnownEndorsedSlug(slug) ||
-    !displayName ||
-    !hero ||
-    !hasEndorsedDeliverySignals(slug)
-  ) {
+  const internalSlug = demoAccess.internalSlug;
+  const displayName = getEndorsedDisplayNameForSlug(internalSlug);
+  const hero = HERO_DETAILS_BY_SLUG[internalSlug];
+
+  if (!displayName || !hero || !hasEndorsedDeliverySignals(internalSlug)) {
     return { title: 'Not found' };
   }
 
   const title = `${displayName} | NDA Endorsed Provider`;
   const description = `Explore neuro-inclusive profile and delivery signals for ${displayName}.`;
-  const canonical = `${HOST_URL}/endorsedproviders/${slug}`;
+  const canonical = `${HOST_URL}${buildEndorsedDemoDetailHref(params.slug)}`;
 
   return {
     title,
@@ -73,38 +83,50 @@ export async function generateMetadata({
   };
 }
 
-export default function EndorsedProviderDetailPage({ params }: PageProps) {
-  const { slug } = params;
-
-  if (!isKnownEndorsedSlug(slug)) {
+export default function EndorsedProviderDetailPage({
+  params,
+  searchParams = EMPTY_SEARCH_PARAMS,
+}: PageProps) {
+  const demoAccess = resolveDetailDemoAccess(params.slug, searchParams);
+  if (demoAccess === null) {
     notFound();
   }
 
-  const displayName = getEndorsedDisplayNameForSlug(slug);
-  const heroInfoItems = HERO_DETAILS_BY_SLUG[slug];
+  const internalSlug = demoAccess.internalSlug;
+  const displayName = getEndorsedDisplayNameForSlug(internalSlug);
+  const heroInfoItems = HERO_DETAILS_BY_SLUG[internalSlug];
 
-  const institutionType = getInstitutionTypeForSlug(slug);
-  const providerStats = STATS_BY_SLUG[slug];
-  const vetKeyDataPoints = getVetKeyDataPointsForSlug(slug);
-  const intro = INTRO_SECTION_BY_SLUG[slug];
-  const faqSections = getEndorsedFaqSectionsForSlug(slug);
-  const studyAreas = getStudyAreasForSlug(slug);
-  const supportFramework = getSupportFrameworkForSlug(slug);
-  const coverBackgroundSrc = getEndorsedCoverBackgroundSrc(slug);
-  const institutionIconSrc = getEndorsedMetaStripInstitutionIconSrc(slug);
-  const coursesUrl = getEndorsedInstitutionCoursesUrl(slug);
-
-  const locationValue = heroInfoItems.find(
-    (i) => i.label === 'Location'
-  )?.value;
-  const typeValue = heroInfoItems.find((i) => i.label === 'Type')?.value;
-
-  if (!displayName || !heroInfoItems || !hasEndorsedDeliverySignals(slug)) {
+  if (
+    !displayName ||
+    !heroInfoItems ||
+    !hasEndorsedDeliverySignals(internalSlug)
+  ) {
     notFound();
   }
+
+  const institutionType = getInstitutionTypeForSlug(internalSlug);
+  const providerStats = STATS_BY_SLUG[internalSlug];
+  const vetKeyDataPoints = getVetKeyDataPointsForSlug(internalSlug);
+  const intro = INTRO_SECTION_BY_SLUG[internalSlug];
+  const faqSections = getEndorsedFaqSectionsForSlug(internalSlug);
+  const studyAreas = getStudyAreasForSlug(internalSlug);
+  const supportFramework = getSupportFrameworkForSlug(internalSlug);
+  const coverBackgroundSrc = getEndorsedCoverBackgroundSrc(internalSlug);
+  const institutionIconSrc =
+    getEndorsedMetaStripInstitutionIconSrc(internalSlug);
+  const coursesUrl = getEndorsedInstitutionCoursesUrl(internalSlug);
+
+  const locationValue = findHeroInfoValueByLabel(
+    heroInfoItems,
+    HERO_INFO_LABEL_LOCATION
+  );
+  const typeValue = findHeroInfoValueByLabel(
+    heroInfoItems,
+    HERO_INFO_LABEL_TYPE
+  );
 
   return (
-    <PageEngagementTracker providerSlug={slug}>
+    <PageEngagementTracker providerSlug={internalSlug}>
       <main className={pageStyles.pageMain}>
         <EndorsedInstitutionCoverHero
           backgroundSrc={coverBackgroundSrc}
@@ -112,7 +134,7 @@ export default function EndorsedProviderDetailPage({ params }: PageProps) {
           typeValue={typeValue}
           institutionIconSrc={institutionIconSrc}
           coursesUrl={coursesUrl}
-          providerSlug={slug}
+          providerSlug={internalSlug}
         />
         <div className={pageStyles.endorsedPageColumn}>
           <div className={pageStyles.endorsedPageColumnInner}>

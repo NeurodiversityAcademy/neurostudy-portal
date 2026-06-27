@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import classNames from 'classnames';
 import InstitutionProviderCard, {
   type InstitutionProviderHeader,
 } from '../institutionProviderCard/InstitutionProviderCard';
@@ -10,44 +11,93 @@ import Typography, { TypographyVariant } from '../typography/Typography';
 import { TypographyColorToken } from '../typography/typographyColorToken';
 import { analyticsFileNameFromUrl } from '@/app/utilities/analyticsFileName';
 import { slugify } from '@/app/utilities/common';
+import {
+  ENDORSED_PROVIDERS_BADGE_ALT,
+  ENDORSED_PROVIDERS_GA,
+  ENDORSED_PROVIDERS_HEADING,
+  ENDORSED_PROVIDERS_SECTION_ID,
+  ENDORSED_PROVIDERS_SUBTITLE,
+  buildEndorsedProviderDetailHref,
+  resolveEndorsedProviderLogoSrc,
+} from '@/app/utilities/endorsedProvidersDemo';
 import { ENDORSED_PROVIDER_LOGO_BY_SLUG } from './endorsedProviderBrandAssets';
 import endorsedData from './endorsedProviders.json';
 import { providerNameFromId } from './providerName';
 
-const ENDORSED_PROVIDERS_GA = {
-  ctaClick: {
-    eventName: 'endorsed_cta_click',
-    category: 'Endorsed',
-    section: 'endorsed_providers_cards',
-  },
-} as const;
+type EndorsedProviderRawRow = {
+  id: string;
+  logo: string;
+  topBackgroundImage: string;
+  institutionCoursesUrl: string;
+};
 
 type EndorsedProviderRow = {
   id: string;
   logo: string;
-  topBackgroundImage?: string;
-  institutionCoursesUrl?: string;
+  topBackgroundImage: string | null;
+  institutionCoursesUrl: string | null;
 };
 
-function endorsedDetailPathForProviderId(id: string): string {
-  return `/endorsedproviders/${slugify(id)}`;
+type EndorsedProvidersProps = {
+  demoGuid: string;
+  demoSlug: string;
+};
+
+function toEndorsedProviderRow(
+  row: EndorsedProviderRawRow
+): EndorsedProviderRow {
+  return {
+    id: row.id,
+    logo: row.logo,
+    topBackgroundImage: row.topBackgroundImage,
+    institutionCoursesUrl: row.institutionCoursesUrl,
+  };
 }
 
-function resolveHeader(topBackgroundImage?: string): InstitutionProviderHeader {
-  const trimmed = topBackgroundImage?.trim();
-  if (trimmed) {
-    return { kind: 'remoteImage', src: trimmed };
+function resolveHeader(
+  topBackgroundImage: string | null
+): InstitutionProviderHeader {
+  if (topBackgroundImage === null) {
+    return { kind: 'yellow' };
   }
-  return { kind: 'yellow' };
+  const trimmed = topBackgroundImage.trim();
+  if (trimmed.length === 0) {
+    return { kind: 'yellow' };
+  }
+  return { kind: 'remoteImage', src: trimmed };
 }
 
-export default function EndorsedProviders() {
-  const providers = endorsedData as EndorsedProviderRow[];
+function filterProvidersBySlug(
+  providers: EndorsedProviderRow[],
+  demoSlug: string
+): EndorsedProviderRow[] {
+  return providers.filter((provider) => slugify(provider.id) === demoSlug);
+}
+
+export default function EndorsedProviders({
+  demoGuid,
+  demoSlug,
+}: EndorsedProvidersProps) {
+  if (demoGuid === '' || demoSlug === '') {
+    return null;
+  }
+
+  const rawProviders = endorsedData as EndorsedProviderRawRow[];
+  const providers = filterProvidersBySlug(
+    rawProviders.map(toEndorsedProviderRow),
+    demoSlug
+  );
+
+  if (providers.length === 0) {
+    return null;
+  }
+
+  const ctaHref = buildEndorsedProviderDetailHref(demoGuid);
 
   const badge = (
     <Image
       src={badgeGeneric}
-      alt='Endorsed Learning Organisation'
+      alt={ENDORSED_PROVIDERS_BADGE_ALT}
       width={48}
       height={48}
     />
@@ -56,14 +106,14 @@ export default function EndorsedProviders() {
   return (
     <section
       className={endorseStyles.sectionCherryPie}
-      id='nda-endorsed-providers'
+      id={ENDORSED_PROVIDERS_SECTION_ID}
     >
       <div className={sectionStyles.container}>
         <div className={sectionStyles.header}>
           <div className={endorseStyles.headerBadgeFrame}>
             <Image
               src={badgeGeneric}
-              alt='Endorsed Learning Organisation'
+              alt={ENDORSED_PROVIDERS_BADGE_ALT}
               width={54}
               height={54}
               unoptimized
@@ -74,7 +124,7 @@ export default function EndorsedProviders() {
             variant={TypographyVariant.H2}
             color={TypographyColorToken.PureWhite}
           >
-            NDA Endorsed Providers
+            {ENDORSED_PROVIDERS_HEADING}
           </Typography>
         </div>
         <Typography
@@ -82,17 +132,23 @@ export default function EndorsedProviders() {
           color={TypographyColorToken.PureWhite}
           className={sectionStyles.subtitle}
         >
-          Endorsed Providers meet Neurodiversity Academy standards for
-          neuro-inclusive education and practice.
+          {ENDORSED_PROVIDERS_SUBTITLE}
         </Typography>
 
-        <div className={endorseStyles.cardsRow}>
+        <div
+          className={classNames(
+            endorseStyles.cardsRow,
+            providers.length === 1 && endorseStyles.cardsRowSingle
+          )}
+        >
           {providers.map((provider) => {
             const providerName = providerNameFromId(provider.id);
-            const ctaHref = endorsedDetailPathForProviderId(provider.id);
-            const cardLogoSrc =
-              ENDORSED_PROVIDER_LOGO_BY_SLUG[slugify(provider.id)] ??
-              provider.logo;
+            const providerSlug = slugify(provider.id);
+            const cardLogoSrc = resolveEndorsedProviderLogoSrc(
+              providerSlug,
+              provider.logo,
+              ENDORSED_PROVIDER_LOGO_BY_SLUG
+            );
 
             return (
               <InstitutionProviderCard
@@ -100,7 +156,7 @@ export default function EndorsedProviders() {
                 ctaHref={ctaHref}
                 header={resolveHeader(provider.topBackgroundImage)}
                 badge={badge}
-                equalWidth
+                equalWidth={providers.length > 1}
                 elevatedOnDark
                 gaEvent={{
                   eventName: ENDORSED_PROVIDERS_GA.ctaClick.eventName,

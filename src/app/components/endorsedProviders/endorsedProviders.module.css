@@ -12,7 +12,7 @@
 
 /*
   Header seal: image nearly fills the frame (small inset for corner radius).
-*/
+ */
 .headerBadgeFrame {
   display: inline-flex;
   align-items: center;
@@ -42,6 +42,16 @@
   gap: clamp(18px, 3.6vw, 47px);
   width: 90%;
   margin-inline: auto;
+}
+
+.cardsRowSingle {
+  justify-content: center;
+}
+
+.cardsRowSingle > * {
+  width: 20%;
+  max-width: 20%;
+  flex: 0 0 auto;
 }
 
 @media (max-width: 1024px) {
