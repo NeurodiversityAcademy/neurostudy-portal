@@ -169,7 +169,7 @@ export const HERO_DETAILS_BY_SLUG: Record<string, HeroInfoItem[]> = {
   hsh: [
     {
       icon: mapPin,
-      value: 'Perth',
+      value: 'Perth, Subiaco, Bunbury, Murdoch University',
       label: 'Location',
     },
     {
@@ -187,7 +187,11 @@ export const HERO_DETAILS_BY_SLUG: Record<string, HeroInfoItem[]> = {
     },
   ],
   'blueprint-career-development': [
-    { icon: mapPin, value: 'Australia', label: 'Location' },
+    {
+      icon: mapPin,
+      value: 'Brisbane - Online | Face-to-Face | Hybrid',
+      label: 'Location',
+    },
     {
       icon: graduationCap,
       value: 'Vocational Education & Training',
@@ -226,7 +230,7 @@ export const INTRO_SECTION_BY_SLUG: Record<string, EndorsedIntroSection> = {
   },
   'blueprint-career-development': {
     heading: 'About this organisation',
-    body: 'Profile content for Blueprint Career Development will appear here as editorial copy is finalised.',
+    body: 'Blueprint Career Development is an Australian Registered Training Organisation (RTO #30978) delivering vocational education focused on practical skills, career pathways, and employment outcomes. They specialise in training and assessment (TAE), business, hospitality, and career development, offering nationally recognised qualifications with a strong focus on personalised, industry-relevant training that prepares learners for the workforce. See the results and insights from the endorsement assessment below.',
   },
   collarts: {
     heading: 'About this organisation',
@@ -499,6 +503,16 @@ export const STUDY_AREAS_BY_SLUG: Record<string, string[]> = {
     'Media & Communication',
     'Creative Business & Management',
   ],
+  'blueprint-career-development': [
+    'Training & Assessment (TAE)',
+    'Business & Workplace Skills',
+    'Hospitality',
+    'Tourism',
+    'Career Development',
+    'Volunteering',
+    'Sport & Recreation / Coaching',
+    'Personal Development & Empowerment',
+  ],
 };
 
 export const STAFF_NOMINATIONS_BY_SLUG: Record<string, StaffNomination[]> = {
@@ -557,7 +571,7 @@ export const SUPPORT_FRAMEWORK_BY_SLUG: Record<
       items: [
         {
           label: 'Accessibility discussed pre-enrolment',
-          status: 'Supports in place',
+          status: 'In the works',
         },
         {
           label: 'Process for undiagnosed students',
@@ -700,6 +714,181 @@ export const SUPPORT_FRAMEWORK_BY_SLUG: Record<
           label: 'Standalone neuroinclusion policy',
           status: 'In the works',
         },
+      ],
+    },
+  ],
+  'blueprint-career-development': [
+    {
+      section: 'Staff Training',
+      items: [
+        {
+          label: 'External neurodiversity training',
+          status: 'Supports in place',
+        },
+        { label: 'Ongoing PD structured', status: 'Supports in place' },
+        { label: 'NDA-approved training', status: 'In the works' },
+        { label: 'Whole-org training (2 years)', status: 'In the works' },
+        {
+          label: 'Designated neuroinclusion champion',
+          status: 'In the works',
+        },
+      ],
+    },
+    {
+      section: 'Support Staff',
+      items: [
+        { label: 'Support staff training', status: 'Supports in place' },
+        {
+          label: 'Peer support / student networks',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Designated ND support person',
+          status: 'In the works',
+        },
+        { label: 'Lived experience of ND', status: 'In the works' },
+      ],
+    },
+    {
+      section: 'Pre-Enrolment & Disclosure',
+      items: [
+        {
+          label: 'Accessibility discussed pre-enrolment',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Process for undiagnosed students',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Accessibility discussed pre-enrolment',
+          status: 'In the works',
+        },
+        {
+          label: 'School transition support',
+          status: 'In the works',
+        },
+      ],
+    },
+    {
+      section: 'Student Support',
+      items: [
+        {
+          label: 'Teaching staff involved in plans',
+          status: 'Supports in place',
+        },
+        { label: 'Regular check-in sessions', status: 'Supports in place' },
+        {
+          label: 'Academic literacy/LLN for ND needs',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Digital literacy / exec function',
+          status: 'Supports in place',
+        },
+        {
+          label: 'ND-specific support services',
+          status: 'Supports in place',
+        },
+        { label: 'Referral pathways', status: 'Supports in place' },
+        { label: 'Career guidance tailored', status: 'Supports in place' },
+        { label: 'Teaching staff resources', status: 'Supports in place' },
+        { label: 'Admin navigation support', status: 'Supports in place' },
+        {
+          label: 'Documentation of support needs',
+          status: 'Supports in place',
+        },
+        { label: 'Support plans co-created', status: 'In the works' },
+        {
+          label: 'Pre-course teacher connection',
+          status: 'In the works',
+        },
+      ],
+    },
+    {
+      section: 'Website & Digital Accessibility',
+      items: [
+        {
+          label: 'Website accessibility features',
+          status: 'Supports in place',
+        },
+        {
+          label: 'ND support info easy to find',
+          status: 'In the works',
+        },
+        {
+          label: 'Enrolment process accessible',
+          status: 'In the works',
+        },
+      ],
+    },
+    {
+      section: 'Assistive Technology',
+      items: [
+        {
+          label: 'Assistive technologies available',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Instructional videos/LMS guides',
+          status: 'Supports in place',
+        },
+        { label: 'Ongoing AT support', status: 'In the works' },
+      ],
+    },
+    {
+      section: 'Assessment',
+      items: [
+        {
+          label: 'Flexible assessment options',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Reasonable adjustments policy',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Layout examples/mock assessments',
+          status: 'Supports in place',
+        },
+      ],
+    },
+    {
+      section: 'Learning Design & Delivery',
+      items: [
+        {
+          label: 'Learning materials in multiple formats',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Students can adjust playback speed',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Absence alternatives available',
+          status: 'Supports in place',
+        },
+        { label: 'UDL principles embedded', status: 'In the works' },
+      ],
+    },
+    {
+      section: 'Campus',
+      items: [
+        { label: 'Orientation/campus visits', status: 'Supports in place' },
+        { label: 'Sensory-friendly areas', status: 'In the works' },
+        { label: 'Minimise sensory triggers', status: 'In the works' },
+        { label: 'Quiet zones communicated', status: 'In the works' },
+      ],
+    },
+    {
+      section: 'Policy & Compliance',
+      items: [
+        {
+          label: 'Harassment/discrimination policies',
+          status: 'In the works',
+        },
+        { label: 'Complaints/appeals process', status: 'In the works' },
+        { label: 'Formal review cycle', status: 'In the works' },
       ],
     },
   ],
@@ -952,8 +1141,6 @@ function cloneSupportFrameworkSections(
 SUPPORT_FRAMEWORK_BY_SLUG.academia = cloneSupportFrameworkSections(
   SUPPORT_FRAMEWORK_BY_SLUG.hsh ?? []
 );
-SUPPORT_FRAMEWORK_BY_SLUG['blueprint-career-development'] =
-  cloneSupportFrameworkSections(SUPPORT_FRAMEWORK_BY_SLUG.hsh ?? []);
 
 type EndorsedJsonRow = {
   id: string;

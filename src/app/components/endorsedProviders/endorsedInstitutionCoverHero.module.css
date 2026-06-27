@@ -164,6 +164,7 @@
   max-width: 100%;
   min-width: 0;
   align-items: center;
+  text-align: center;
 }
 
 .metaSlot > div > div:first-child {

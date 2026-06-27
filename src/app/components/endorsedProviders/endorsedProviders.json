@@ -2,7 +2,7 @@
   {
     "id": "HSH",
     "logo": "/images/AcademiaLogoLong.png",
-    "topBackgroundImage": "/images/AcademiaCover.jpeg",
+    "topBackgroundImage": "/images/HSHCover.png",
     "institutionCoursesUrl": "https://www.hsh.edu.au"
   },
   {
@@ -14,8 +14,8 @@
   {
     "id": "Blueprint Career Development",
     "logo": "/images/AcademiaLogoLong.png",
-    "topBackgroundImage": "/images/AcademiaCover.jpeg",
-    "institutionCoursesUrl": "https://www.blueprint.edu.au"
+    "topBackgroundImage": "/images/BlueprintCover.jpeg",
+    "institutionCoursesUrl": "https://www.blueprintcd.com.au/"
   },
   {
     "id": "Collarts",
