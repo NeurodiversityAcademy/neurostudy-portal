@@ -2,66 +2,44 @@ import React from 'react';
 import styles from './endorsements.module.css';
 import HomeBanner from '../components/bannerStudents/HomeBanner';
 import EndorsementProcess from '../components/endorsements/EndorsementProcess';
+import Teacher from '../components/teacherSection/Teacher';
+import Handbook from '../components/handbook';
+import Fact from '../components/fact/Fact';
+import Partner from '../components/partnerSection/Partner';
+import DisplayPodcast from '../components/podcast/DisplayPodcast';
+import ArticleList from '../components/articleList/articleList';
+import Subscribe from '../components/subscribe/subscribe';
 import Typography, {
   TypographyVariant,
 } from '../components/typography/Typography';
-// import Image, { StaticImageData } from 'next/image';
 import Image from 'next/image';
 import bronzeBadge from '../images/bronzeBadge.svg';
 import silverBadge from '../images/silverBadge.svg';
 import goldBadge from '../images/goldBadge.svg';
-// import Unify360 from '../images/logo_unify360.svg';
 import ActionButton from '../components/buttons/ActionButton';
 import { BUTTON_STYLE } from '../utilities/constants';
 import Link from 'next/link';
 import Accordion from '../components/accordion/Accordian';
 import { ACCORDION_TRACKING_DISABLED } from '@/app/utilities/accordionActions';
-// import endorsedInstitutesData from './endorsedInstitutesData.json';
-
-// import BlueprintCD from '../images/logo_blueprint_cd.jpeg';
-// import AccessInstitute from '../images/logo_access_institute.jpeg';
-
-// const instituteLogos: { [key: string]: StaticImageData } = {
-//   'logo_blueprint_cd.jpeg': BlueprintCD,
-//   'logo_access_institute.jpeg': AccessInstitute,
-// };
 
 export default function Page() {
   return (
     <div className={styles.container}>
-      <HomeBanner displayBadges={false} displayFilter={false} />
+      <HomeBanner displayBadges={true} displayFilter={false} />
+      <Teacher />
+      <Handbook />
+      <Fact />
       <EndorsementProcess />
+      <Partner />
+      <DisplayPodcast
+        scriptSrc='https://www.buzzsprout.com/2132579.js?container_id=buzzsprout-large-player&player=large'
+        containerId='buzzsprout-large-player'
+        singleBlog={false}
+      />
+      <ArticleList />
+      <Subscribe />
       <div className={styles.endorsementContainer}>
         <div className={styles.endorsementBodyText}>
-          {/* <div className={styles.accordionWrapper}>
-            <div className={styles.instituteSection}>
-              <Typography
-                variant={TypographyVariant.H3}
-                className={styles.instituteTitle}
-              >
-                Our endorsed institutes
-              </Typography>
-              <div className={styles.instituteList}>
-                {endorsedInstitutesData.institutes.map((institute) => (
-                  <a
-                    key={institute.id}
-                    href={institute.url}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className={styles.instituteCard}
-                  >
-                    <Image
-                      src={instituteLogos[institute.logo]}
-                      alt={`${institute.name} logo`}
-                      title={institute.name}
-                      className={styles.instituteLogo}
-                    />
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div> */}{' '}
-          {/* Temporarily hiding endorsed institutes section bring back when endorsement is complete*/}
           <div className={styles.accordionWrapper}>
             <Accordion
               title='Why is endorsement necessary?'

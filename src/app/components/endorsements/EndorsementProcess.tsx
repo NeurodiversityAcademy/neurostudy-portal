@@ -109,8 +109,8 @@ export default function EndorsementProcess() {
                   src={step.icon}
                   alt=''
                   className={step.iconClassName}
-                  width={72}
-                  height={72}
+                  width={106}
+                  height={106}
                 />
               </div>
             ) : (
