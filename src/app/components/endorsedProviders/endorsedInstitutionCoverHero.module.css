@@ -158,16 +158,18 @@
   padding-right: 18px;
 }
 
-.metaSlot > div {
-  padding: 2px 4px;
+.metaField {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 0.35rem;
+  padding: 2px 4px;
   max-width: 100%;
   min-width: 0;
-  align-items: center;
   text-align: center;
 }
 
-.metaSlot > div > div:first-child {
+.metaFieldIconWrap {
   box-sizing: border-box;
   width: 32px;
   height: 32px;
@@ -176,13 +178,28 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  background: var(--GhostWhiteVariant);
+  border-radius: 50%;
 }
 
-.metaSlot > div > div:first-child img {
-  scale: 1;
+.metaFieldIcon {
   width: 16px;
   height: 16px;
   object-fit: contain;
+}
+
+.metaFieldText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.metaFieldLabel,
+.metaFieldValue {
+  margin: 0;
+  line-height: 1.2;
 }
 
 .metaBadgeCenter {
@@ -279,7 +296,7 @@
   }
 
   .ctaExploreLink {
-    padding: 4px 12px;
+    padding: 3.5px 12px;
   }
 
   .ctaCard .ctaExploreText {
@@ -292,26 +309,29 @@
     padding: 0 12px 4px;
   }
 
-  /* One row: Type | badge + institution | Location — tighter + smaller marks */
   .metaStrip {
-    grid-template-columns: 1fr auto 1fr;
-    column-gap: 4px;
-    padding: 8px 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 12px;
     min-height: 0;
   }
 
-  .metaStrip > .metaSlot:first-child {
-    padding-left: 4px;
-  }
-
+  .metaStrip > .metaSlot:first-child,
   .metaStrip > .metaSlot:last-child {
-    padding-right: 4px;
+    padding-left: 0;
+    padding-right: 0;
+    justify-content: flex-start;
+    width: 100%;
   }
 
   .metaBadgeCenter {
-    max-width: min(200px, 52vw);
-    gap: 5px;
-    flex-wrap: nowrap;
+    order: -1;
+    max-width: 100%;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .metaInstitutionIconWrap {
@@ -325,20 +345,40 @@
     object-fit: contain;
   }
 
-  .metaSlot > div {
+  .metaField {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
     padding: 0;
-    gap: 0.06rem;
-    max-width: 100%;
-    min-width: 0;
+    text-align: left;
+    width: 100%;
   }
 
-  .metaSlot > div > div:first-child {
+  .metaFieldIconWrap {
+    width: 32px;
+    height: 32px;
+    margin-top: 1px;
+  }
+
+  .metaFieldIcon {
     width: 18px;
     height: 18px;
   }
 
-  .metaSlot > div > div:first-child img {
-    width: 9px;
-    height: 9px;
+  .metaFieldText {
+    align-items: flex-start;
+    flex: 1 1 auto;
+    gap: 2px;
+  }
+
+  .metaFieldLabel {
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .metaFieldValue {
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.3;
   }
 }

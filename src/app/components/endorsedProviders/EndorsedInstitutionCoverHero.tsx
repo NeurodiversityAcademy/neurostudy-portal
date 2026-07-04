@@ -3,7 +3,6 @@
 import Image, { type StaticImageData } from 'next/image';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import { TypographyColorToken } from '../typography/typographyColorToken';
-import CourseDetailsMiddleBannerIcon from '@/app/components/course/CourseDetails/CourseDetailsMiddleBanner/CourseDetailsMiddleBannerIcon';
 import mapPin from '@/app/images/MapPin.png';
 import notebook from '@/app/images/Notebook.png';
 import endorsedProvidersBadge from '@/app/images/badgeGeneric.png';
@@ -20,6 +19,38 @@ export interface EndorsedInstitutionCoverHeroProps {
   coursesUrl?: string;
   /** Slug used as GA provider identifier. */
   providerSlug: string;
+}
+
+interface MetaStripFieldProps {
+  src: StaticImageData;
+  title: string;
+  description: string;
+}
+
+function MetaStripField({ src, title, description }: MetaStripFieldProps) {
+  return (
+    <div className={styles.metaField}>
+      <div className={styles.metaFieldIconWrap}>
+        <Image src={src} alt='' className={styles.metaFieldIcon} />
+      </div>
+      <div className={styles.metaFieldText}>
+        <Typography
+          variant={TypographyVariant.Body2Strong}
+          color={TypographyColorToken.BondBlack}
+          className={styles.metaFieldLabel}
+        >
+          {title}
+        </Typography>
+        <Typography
+          variant={TypographyVariant.Body3}
+          color={TypographyColorToken.BondBlack}
+          className={styles.metaFieldValue}
+        >
+          {description}
+        </Typography>
+      </div>
+    </div>
+  );
 }
 
 export default function EndorsedInstitutionCoverHero({
@@ -107,9 +138,8 @@ export default function EndorsedInstitutionCoverHero({
         <div className={styles.metaStrip}>
           <div className={styles.metaSlot}>
             {typeValue ? (
-              <CourseDetailsMiddleBannerIcon
+              <MetaStripField
                 src={iconByLabel.Type}
-                alt=''
                 title='Type'
                 description={typeValue}
               />
@@ -142,9 +172,8 @@ export default function EndorsedInstitutionCoverHero({
 
           <div className={styles.metaSlot}>
             {locationValue ? (
-              <CourseDetailsMiddleBannerIcon
+              <MetaStripField
                 src={iconByLabel.Location}
-                alt=''
                 title='Location'
                 description={locationValue}
               />

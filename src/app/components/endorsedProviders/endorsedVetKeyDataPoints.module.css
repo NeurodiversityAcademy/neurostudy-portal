@@ -132,56 +132,85 @@
 }
 
 @media (max-width: 767px) {
-  .titleRow {
-    gap: 10px;
+  .headerBlock {
     margin-bottom: 8px;
+    width: 100%;
+  }
+
+  .titleRow {
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 6px;
+    width: 100%;
   }
 
   .headerIcon {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .headerTitle {
+    font-size: 17px;
+    line-height: 1.2;
   }
 
   .headerIntro {
-    margin-bottom: 6px;
-    font-weight: 500;
+    margin-bottom: 4px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+    width: 100%;
+  }
+
+  .bottomLine {
+    display: block;
+    margin-top: 6px;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.35;
+    color: var(--BondBlackVariant);
   }
 
   .vetStatCard {
-    padding: 18px 6px;
+    padding: 12px 6px;
     border-radius: 14px;
+    max-width: none;
   }
 
   .vetStatCardIcon {
-    width: 44px;
-    height: 36px;
-    max-width: 44px;
-    margin-bottom: 8px;
+    width: 36px;
+    height: 28px;
+    max-width: 36px;
+    margin-bottom: 5px;
   }
 
   .vetStrengthsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     row-gap: 8px;
+    column-gap: 4px;
+    width: 100%;
   }
 
   .vetStatCard .vetHeadline {
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 1.05;
-    margin-bottom: 4px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.1;
+    margin-bottom: 3px;
     letter-spacing: 0;
   }
 
   .vetStatCard .vetTitle {
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 500;
-    line-height: 1.15;
+    line-height: 1.2;
     letter-spacing: 0;
   }
 
   .vetStatCard .vetSupportingText {
-    font-size: 13px;
+    font-size: 10px;
     font-weight: 400;
-    line-height: 1.15;
+    line-height: 1.25;
     letter-spacing: 0;
+    color: rgba(255, 255, 255, 0.92);
   }
 }
