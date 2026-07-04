@@ -8,12 +8,14 @@ import type { InstitutionCtaAnalytics } from '../emergingInstitutions/EmergingIn
 export const INSTITUTION_PROVIDER_HEADER_KIND = {
   EMERGING_DEFAULT: 'emergingDefault',
   YELLOW: 'yellow',
+  CHERRY_PIE_SUB: 'cherryPieSub',
   REMOTE_IMAGE: 'remoteImage',
 } as const;
 
 export type InstitutionProviderHeader =
   | { kind: typeof INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT }
   | { kind: typeof INSTITUTION_PROVIDER_HEADER_KIND.YELLOW }
+  | { kind: typeof INSTITUTION_PROVIDER_HEADER_KIND.CHERRY_PIE_SUB }
   | { kind: typeof INSTITUTION_PROVIDER_HEADER_KIND.REMOTE_IMAGE; src: string };
 
 export interface InstitutionProviderCardProps {
@@ -44,7 +46,9 @@ export default function InstitutionProviderCard({
     header.kind === INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT &&
       styles.cardTopEmerging,
     header.kind === INSTITUTION_PROVIDER_HEADER_KIND.YELLOW &&
-      styles.cardTopYellow
+      styles.cardTopYellow,
+    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.CHERRY_PIE_SUB &&
+      styles.cardTopCherryPieSub
   );
 
   const showRemoteImage =

@@ -8,19 +8,7 @@
   width: 100%;
   min-height: 30vh;
   overflow: hidden;
-}
-
-.bannerImage {
-  object-fit: cover;
-  object-position: center;
-}
-
-.bannerOverlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: rgba(51, 0, 102, 0.72);
-  pointer-events: none;
+  background: var(--cherryPieSub);
 }
 
 .bannerContent {

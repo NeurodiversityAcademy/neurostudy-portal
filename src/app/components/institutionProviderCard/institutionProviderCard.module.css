@@ -46,6 +46,10 @@
   background-color: #f5e6a3;
 }
 
+.cardTopCherryPieSub {
+  background-color: var(--cherryPieSub);
+}
+
 .cardTopImage {
   object-fit: cover;
 }

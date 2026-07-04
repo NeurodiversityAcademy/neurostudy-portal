@@ -19,9 +19,8 @@ import {
   getEndorsedDisplayNameForSlug,
   getStudyAreasForSlug,
   getSupportFrameworkForSlug,
-  getEndorsedCoverBackgroundSrc,
-  getEndorsedMetaStripInstitutionIconSrc,
   getEndorsedInstitutionCoursesUrl,
+  getEndorsedMetaStripInstitutionIconSrc,
   getInstitutionTypeForSlug,
   getVetKeyDataPointsForSlug,
   hasEndorsedDeliverySignals,
@@ -111,7 +110,6 @@ export default function EndorsedProviderDetailPage({
   const faqSections = getEndorsedFaqSectionsForSlug(internalSlug);
   const studyAreas = getStudyAreasForSlug(internalSlug);
   const supportFramework = getSupportFrameworkForSlug(internalSlug);
-  const coverBackgroundSrc = getEndorsedCoverBackgroundSrc(internalSlug);
   const institutionIconSrc =
     getEndorsedMetaStripInstitutionIconSrc(internalSlug);
   const coursesUrl = getEndorsedInstitutionCoursesUrl(internalSlug);
@@ -129,7 +127,6 @@ export default function EndorsedProviderDetailPage({
     <PageEngagementTracker providerSlug={internalSlug}>
       <main className={pageStyles.pageMain}>
         <EndorsedInstitutionCoverHero
-          backgroundSrc={coverBackgroundSrc}
           locationValue={locationValue}
           typeValue={typeValue}
           institutionIconSrc={institutionIconSrc}

@@ -31,7 +31,6 @@ jest.mock(
 
 describe('EndorsedInstitutionCoverHero analytics', () => {
   const baseProps = {
-    backgroundSrc: '/test-banner.jpg',
     locationValue: 'Melbourne',
     typeValue: 'Higher Education',
     providerSlug: 'collarts',

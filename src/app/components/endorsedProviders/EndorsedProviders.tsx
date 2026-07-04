@@ -1,8 +1,6 @@
 import Image from 'next/image';
 import classNames from 'classnames';
-import InstitutionProviderCard, {
-  type InstitutionProviderHeader,
-} from '../institutionProviderCard/InstitutionProviderCard';
+import InstitutionProviderCard from '../institutionProviderCard/InstitutionProviderCard';
 import cardStyles from '../institutionProviderCard/institutionProviderCard.module.css';
 import sectionStyles from '../emergingInstitutions/emergingInstitutions.module.css';
 import endorseStyles from './endorsedProviders.module.css';
@@ -20,6 +18,7 @@ import {
   buildEndorsedProviderDetailHref,
   resolveEndorsedProviderLogoSrc,
 } from '@/app/utilities/endorsedProvidersDemo';
+import { INSTITUTION_PROVIDER_HEADER_KIND } from '../institutionProviderCard/InstitutionProviderCard';
 import { ENDORSED_PROVIDER_LOGO_BY_SLUG } from './endorsedProviderBrandAssets';
 import endorsedData from './endorsedProviders.json';
 import { providerNameFromId } from './providerName';
@@ -27,14 +26,12 @@ import { providerNameFromId } from './providerName';
 type EndorsedProviderRawRow = {
   id: string;
   logo: string;
-  topBackgroundImage: string;
   institutionCoursesUrl: string;
 };
 
 type EndorsedProviderRow = {
   id: string;
   logo: string;
-  topBackgroundImage: string | null;
   institutionCoursesUrl: string | null;
 };
 
@@ -49,22 +46,8 @@ function toEndorsedProviderRow(
   return {
     id: row.id,
     logo: row.logo,
-    topBackgroundImage: row.topBackgroundImage,
     institutionCoursesUrl: row.institutionCoursesUrl,
   };
-}
-
-function resolveHeader(
-  topBackgroundImage: string | null
-): InstitutionProviderHeader {
-  if (topBackgroundImage === null) {
-    return { kind: 'yellow' };
-  }
-  const trimmed = topBackgroundImage.trim();
-  if (trimmed.length === 0) {
-    return { kind: 'yellow' };
-  }
-  return { kind: 'remoteImage', src: trimmed };
 }
 
 function filterProvidersBySlug(
@@ -154,7 +137,9 @@ export default function EndorsedProviders({
               <InstitutionProviderCard
                 key={provider.id}
                 ctaHref={ctaHref}
-                header={resolveHeader(provider.topBackgroundImage)}
+                header={{
+                  kind: INSTITUTION_PROVIDER_HEADER_KIND.CHERRY_PIE_SUB,
+                }}
                 badge={badge}
                 equalWidth={providers.length > 1}
                 elevatedOnDark

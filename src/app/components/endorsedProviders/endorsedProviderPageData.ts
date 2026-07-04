@@ -1158,13 +1158,6 @@ const INSTITUTION_COURSES_URL_BY_SLUG: Record<string, string> =
     rows.map((row) => [slugify(row.id), row.institutionCoursesUrl.trim()])
   );
 
-const COVER_IMAGE_BY_SLUG: Record<string, string> = Object.fromEntries(
-  rows.map((row) => [
-    slugify(row.id),
-    row.topBackgroundImage?.trim() || '/images/endorsed-hero-cover.png',
-  ])
-);
-
 const META_STRIP_INSTITUTION_ICON_BY_SLUG: Record<string, string> =
   Object.fromEntries(
     rows
@@ -1277,10 +1270,6 @@ export function getEndorsedInstitutionCoursesUrl(
 ): string | undefined {
   const url = INSTITUTION_COURSES_URL_BY_SLUG[slug];
   return url && url.length > 0 ? url : undefined;
-}
-
-export function getEndorsedCoverBackgroundSrc(slug: string): string {
-  return COVER_IMAGE_BY_SLUG[slug] ?? '/images/endorsed-hero-cover.png';
 }
 
 export function getEndorsedMetaStripInstitutionIconSrc(

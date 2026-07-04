@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './endorsements.module.css';
 import HomeBanner from '../components/bannerStudents/HomeBanner';
+import EndorsementProcess from '../components/endorsements/EndorsementProcess';
 import Typography, {
   TypographyVariant,
 } from '../components/typography/Typography';
@@ -29,6 +30,7 @@ export default function Page() {
   return (
     <div className={styles.container}>
       <HomeBanner displayBadges={false} displayFilter={false} />
+      <EndorsementProcess />
       <div className={styles.endorsementContainer}>
         <div className={styles.endorsementBodyText}>
           {/* <div className={styles.accordionWrapper}>

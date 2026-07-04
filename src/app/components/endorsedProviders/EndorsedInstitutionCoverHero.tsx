@@ -10,7 +10,6 @@ import { sendEndorsedExploreClickEvent } from '@/app/utilities/gaTracking';
 import styles from './endorsedInstitutionCoverHero.module.css';
 
 export interface EndorsedInstitutionCoverHeroProps {
-  backgroundSrc: string;
   locationValue?: string;
   typeValue?: string;
   /** Large institution mark beside the endorsed badge (from endorsed provider data). */
@@ -54,7 +53,6 @@ function MetaStripField({ src, title, description }: MetaStripFieldProps) {
 }
 
 export default function EndorsedInstitutionCoverHero({
-  backgroundSrc,
   locationValue,
   typeValue,
   institutionIconSrc,
@@ -76,21 +74,11 @@ export default function EndorsedInstitutionCoverHero({
   return (
     <section className={styles.section} aria-label='Endorsed provider cover'>
       <div className={styles.banner}>
-        <Image
-          src={backgroundSrc}
-          alt=''
-          fill
-          className={styles.bannerImage}
-          sizes='100vw'
-          priority
-        />
-        <div className={styles.bannerOverlay} />
-
         <div className={styles.bannerContent}>
           <div className={styles.textContainer}>
             <Typography
               variant={TypographyVariant.H1}
-              color={TypographyColorToken.PureWhite}
+              color={TypographyColorToken.BondBlack}
               className={styles.title}
             >
               Neurodiversity Academy Endorsed Provider
