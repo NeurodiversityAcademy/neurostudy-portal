@@ -24,7 +24,7 @@ const ENDORSEMENT_PROCESS_STEPS: EndorsementProcessStep[] = [
     title: 'Assessed',
     description: (
       <>
-        Organisation completes the detailed
+        Organisation completes
         <br />
         endorsement checklist.
       </>
@@ -36,9 +36,9 @@ const ENDORSEMENT_PROCESS_STEPS: EndorsementProcessStep[] = [
     title: 'Identified',
     description: (
       <>
-        Neuroinclusion supports are identified,
+        Neuroinclusion supports identified
         <br />
-        and the organisation&apos;s neuro-inclusive practices are evaluated.
+        and practices evaluated.
       </>
     ),
     icon: stepIdentified,
@@ -48,9 +48,9 @@ const ENDORSEMENT_PROCESS_STEPS: EndorsementProcessStep[] = [
     title: 'Endorsed',
     description: (
       <>
-        Endorsement is agreed upon,
+        Endorsement agreed
         <br />
-        and the organisation is added to our platform.
+        and added to platform.
       </>
     ),
     icon: badgeGeneric,
@@ -62,9 +62,9 @@ const ENDORSEMENT_PROCESS_STEPS: EndorsementProcessStep[] = [
     title: 'Feedback',
     description: (
       <>
-        To maintain endorsement,
+        Student feedback assessed
         <br />
-        regular student feedback is assessed.
+        to maintain endorsement.
       </>
     ),
     icon: stepFeedback,
@@ -74,9 +74,9 @@ const ENDORSEMENT_PROCESS_STEPS: EndorsementProcessStep[] = [
     title: 'Student',
     description: (
       <>
-        Students can browse organisations on our platform
+        Browse organisations
         <br />
-        and explore available supports to choose the right place to study.
+        and explore supports.
       </>
     ),
     icon: graduationCap,
