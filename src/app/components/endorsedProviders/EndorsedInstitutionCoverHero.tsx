@@ -3,7 +3,6 @@
 import Image, { type StaticImageData } from 'next/image';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import { TypographyColorToken } from '../typography/typographyColorToken';
-import CourseDetailsMiddleBannerIcon from '@/app/components/course/CourseDetails/CourseDetailsMiddleBanner/CourseDetailsMiddleBannerIcon';
 import mapPin from '@/app/images/MapPin.png';
 import notebook from '@/app/images/Notebook.png';
 import endorsedProvidersBadge from '@/app/images/badgeGeneric.png';
@@ -11,7 +10,6 @@ import { sendEndorsedExploreClickEvent } from '@/app/utilities/gaTracking';
 import styles from './endorsedInstitutionCoverHero.module.css';
 
 export interface EndorsedInstitutionCoverHeroProps {
-  backgroundSrc: string;
   locationValue?: string;
   typeValue?: string;
   /** Large institution mark beside the endorsed badge (from endorsed provider data). */
@@ -22,8 +20,39 @@ export interface EndorsedInstitutionCoverHeroProps {
   providerSlug: string;
 }
 
+interface MetaStripFieldProps {
+  src: StaticImageData;
+  title: string;
+  description: string;
+}
+
+function MetaStripField({ src, title, description }: MetaStripFieldProps) {
+  return (
+    <div className={styles.metaField}>
+      <div className={styles.metaFieldIconWrap}>
+        <Image src={src} alt='' className={styles.metaFieldIcon} />
+      </div>
+      <div className={styles.metaFieldText}>
+        <Typography
+          variant={TypographyVariant.Body2Strong}
+          color={TypographyColorToken.BondBlack}
+          className={styles.metaFieldLabel}
+        >
+          {title}
+        </Typography>
+        <Typography
+          variant={TypographyVariant.Body3}
+          color={TypographyColorToken.BondBlack}
+          className={styles.metaFieldValue}
+        >
+          {description}
+        </Typography>
+      </div>
+    </div>
+  );
+}
+
 export default function EndorsedInstitutionCoverHero({
-  backgroundSrc,
   locationValue,
   typeValue,
   institutionIconSrc,
@@ -45,21 +74,11 @@ export default function EndorsedInstitutionCoverHero({
   return (
     <section className={styles.section} aria-label='Endorsed provider cover'>
       <div className={styles.banner}>
-        <Image
-          src={backgroundSrc}
-          alt=''
-          fill
-          className={styles.bannerImage}
-          sizes='100vw'
-          priority
-        />
-        <div className={styles.bannerOverlay} />
-
         <div className={styles.bannerContent}>
           <div className={styles.textContainer}>
             <Typography
               variant={TypographyVariant.H1}
-              color={TypographyColorToken.PureWhite}
+              color={TypographyColorToken.BondBlack}
               className={styles.title}
             >
               Neurodiversity Academy Endorsed Provider
@@ -107,9 +126,8 @@ export default function EndorsedInstitutionCoverHero({
         <div className={styles.metaStrip}>
           <div className={styles.metaSlot}>
             {typeValue ? (
-              <CourseDetailsMiddleBannerIcon
+              <MetaStripField
                 src={iconByLabel.Type}
-                alt=''
                 title='Type'
                 description={typeValue}
               />
@@ -142,9 +160,8 @@ export default function EndorsedInstitutionCoverHero({
 
           <div className={styles.metaSlot}>
             {locationValue ? (
-              <CourseDetailsMiddleBannerIcon
+              <MetaStripField
                 src={iconByLabel.Location}
-                alt=''
                 title='Location'
                 description={locationValue}
               />

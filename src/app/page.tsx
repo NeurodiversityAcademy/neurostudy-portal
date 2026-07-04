@@ -73,13 +73,13 @@ export default function Home({
           showSearchBar={showSearchBar}
         />
         <StudentFacts />
-        <EmergingInstitutions />
         {demoAccess !== null ? (
           <EndorsedProviders
             demoGuid={demoAccess.demoGuid}
             demoSlug={demoAccess.demoSlug}
           />
         ) : null}
+        <EmergingInstitutions />
         <HowItWorks />
         <DisplayPodcast
           scriptSrc='https://www.buzzsprout.com/2132579.js?container_id=buzzsprout-large-player&player=large'

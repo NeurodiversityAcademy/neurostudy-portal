@@ -71,7 +71,9 @@ export default function EndorsedVetKeyDataPoints({
         >
           {dataPoints.map((point) => (
             <li key={point.id} className={styles.vetStatCard}>
-              <div className={strengthStyles.strengthCardIcon}>
+              <div
+                className={`${strengthStyles.strengthCardIcon} ${styles.vetStatCardIcon}`}
+              >
                 <Image
                   src={point.icon}
                   alt=''
