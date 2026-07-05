@@ -5,7 +5,6 @@ import Typography, { TypographyVariant } from '../typography/Typography';
 import { TypographyColorToken } from '../typography/typographyColorToken';
 import mapPin from '@/app/images/MapPin.png';
 import notebook from '@/app/images/Notebook.png';
-import studyModeIcon from '@/app/images/clock.svg';
 import endorsedProvidersBadge from '@/app/images/badgeGeneric.png';
 import { sendEndorsedExploreClickEvent } from '@/app/utilities/gaTracking';
 import styles from './endorsedInstitutionCoverHero.module.css';
@@ -65,8 +64,12 @@ export default function EndorsedInstitutionCoverHero({
   const iconByLabel = {
     Type: notebook,
     Location: mapPin,
-    'Study Mode': studyModeIcon,
   };
+
+  const locationDescription =
+    locationValue && studyModeValue
+      ? `${locationValue} · ${studyModeValue}`
+      : locationValue || studyModeValue;
 
   const handleExploreClick = () => {
     if (coursesUrl === undefined || coursesUrl.length === 0) {
@@ -163,23 +166,12 @@ export default function EndorsedInstitutionCoverHero({
           </div>
 
           <div className={styles.metaSlot}>
-            {locationValue || studyModeValue ? (
-              <div className={styles.metaSlotFields}>
-                {locationValue ? (
-                  <MetaStripField
-                    src={iconByLabel.Location}
-                    title='Location'
-                    description={locationValue}
-                  />
-                ) : null}
-                {studyModeValue ? (
-                  <MetaStripField
-                    src={iconByLabel['Study Mode']}
-                    title='Study Mode'
-                    description={studyModeValue}
-                  />
-                ) : null}
-              </div>
+            {locationDescription ? (
+              <MetaStripField
+                src={iconByLabel.Location}
+                title='Location'
+                description={locationDescription}
+              />
             ) : null}
           </div>
         </div>

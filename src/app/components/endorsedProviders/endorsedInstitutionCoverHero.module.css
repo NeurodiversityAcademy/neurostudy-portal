@@ -184,14 +184,6 @@
   min-width: 0;
 }
 
-.metaSlotFields {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
-}
-
 .metaFieldLabel,
 .metaFieldValue {
   margin: 0;
@@ -347,12 +339,6 @@
     gap: 10px;
     padding: 0;
     text-align: left;
-    width: 100%;
-  }
-
-  .metaSlotFields {
-    align-items: flex-start;
-    gap: 10px;
     width: 100%;
   }
 
