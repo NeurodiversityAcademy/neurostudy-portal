@@ -11,6 +11,7 @@ import styles from './endorsedInstitutionCoverHero.module.css';
 
 export interface EndorsedInstitutionCoverHeroProps {
   locationValue?: string;
+  studyModeValue?: string;
   typeValue?: string;
   /** Large institution mark beside the endorsed badge (from endorsed provider data). */
   institutionIconSrc?: string | StaticImageData;
@@ -24,9 +25,15 @@ interface MetaStripFieldProps {
   src: StaticImageData;
   title: string;
   description: string;
+  secondaryDescription?: string;
 }
 
-function MetaStripField({ src, title, description }: MetaStripFieldProps) {
+function MetaStripField({
+  src,
+  title,
+  description,
+  secondaryDescription,
+}: MetaStripFieldProps) {
   return (
     <div className={styles.metaField}>
       <div className={styles.metaFieldIconWrap}>
@@ -47,6 +54,15 @@ function MetaStripField({ src, title, description }: MetaStripFieldProps) {
         >
           {description}
         </Typography>
+        {secondaryDescription ? (
+          <Typography
+            variant={TypographyVariant.Body3}
+            color={TypographyColorToken.BondBlack}
+            className={styles.metaFieldValue}
+          >
+            {secondaryDescription}
+          </Typography>
+        ) : null}
       </div>
     </div>
   );
@@ -54,6 +70,7 @@ function MetaStripField({ src, title, description }: MetaStripFieldProps) {
 
 export default function EndorsedInstitutionCoverHero({
   locationValue,
+  studyModeValue,
   typeValue,
   institutionIconSrc,
   coursesUrl,
@@ -159,11 +176,14 @@ export default function EndorsedInstitutionCoverHero({
           </div>
 
           <div className={styles.metaSlot}>
-            {locationValue ? (
+            {locationValue || studyModeValue ? (
               <MetaStripField
                 src={iconByLabel.Location}
                 title='Location'
-                description={locationValue}
+                description={locationValue ?? studyModeValue ?? ''}
+                secondaryDescription={
+                  locationValue && studyModeValue ? studyModeValue : undefined
+                }
               />
             ) : null}
           </div>
