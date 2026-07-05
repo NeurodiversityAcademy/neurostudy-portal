@@ -583,14 +583,16 @@ export const STUDY_AREAS_BY_SLUG: Record<string, string[]> = {
     'Personal Development & Empowerment',
   ],
   'nepean-community-college': [
-    'Business',
-    'Community Services',
-    'Individual Support (Ageing & Disability)',
-    'Information Technology',
+    'Accredited Qualifications',
     'Foundation Skills',
-    'English as an Additional Language (EAL)',
+    'Digital Skills',
     'Creative Arts & Crafts',
+    'Creative Writing',
+    'Health & Wellbeing',
     'Life Skills',
+    'Languages (Multilingual Life)',
+    'One-Day Workshops',
+    'Government-Funded Training Programs',
   ],
 };
 
