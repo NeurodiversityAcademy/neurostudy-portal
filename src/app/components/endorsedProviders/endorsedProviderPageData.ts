@@ -207,7 +207,7 @@ export const HERO_DETAILS_BY_SLUG: Record<string, HeroInfoItem[]> = {
   collarts: [
     {
       icon: mapPin,
-      value: 'Melbourne, Sydney - Australia',
+      value: 'Melbourne, Sydney',
       label: 'Location',
     },
     {
