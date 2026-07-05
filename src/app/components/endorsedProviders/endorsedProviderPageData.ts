@@ -125,6 +125,7 @@ const INSTITUTION_TYPE_BY_SLUG: Record<string, EndorsedInstitutionType> = {
   'blueprint-career-development': 'VET',
   academia: 'VET',
   collarts: 'higherEducation',
+  'nepean-community-college': 'VET',
 };
 
 function buildQiltStatsForSlug(slug: string): ProviderStatItem[] {
@@ -221,6 +222,19 @@ export const HERO_DETAILS_BY_SLUG: Record<string, HeroInfoItem[]> = {
       label: 'Type',
     },
   ],
+  'nepean-community-college': [
+    { icon: mapPin, value: 'Penrith, Sydney, NSW', label: 'Location' },
+    {
+      icon: graduationCap,
+      value: 'Online | Face-to-Face | Hybrid',
+      label: 'Study Mode',
+    },
+    {
+      icon: graduationCap,
+      value: 'Vocational Education & Training',
+      label: 'Type',
+    },
+  ],
 };
 
 export type EndorsedIntroSection = {
@@ -254,6 +268,10 @@ export const INTRO_SECTION_BY_SLUG: Record<string, EndorsedIntroSection> = {
   collarts: {
     heading: 'About this organisation',
     body: 'Collarts (Australian College of the Arts) is a specialist higher education provider based in Melbourne, Australia & Sydney, focused on creative industries and practical career pathways. The institution delivers industry-relevant degrees and courses across areas such as music, entertainment, fashion, digital media, and entrepreneurship. See the results and insights from the endorsement assessment below.',
+  },
+  'nepean-community-college': {
+    heading: 'About the organisation',
+    body: 'Nepean Community College is an Australian Registered Training Organisation (RTO #1223) delivering accessible, community-focused education across a range of vocational and foundation programs, supporting individuals to build practical skills, confidence, and pathways into further study, employment, and personal development. They focus on inclusive, flexible learning environments, offering industry-relevant training with a strong emphasis on real-world application and learner support, ensuring students are well-prepared for future opportunities. See the results and insights from the endorsement assessment below. See the results and insights from the endorsement assessment below.',
   },
 };
 
@@ -514,6 +532,7 @@ export const ENDORSED_ND_EXPERIENCE_BY_SLUG: Record<
   academia: VET_ND_EXPERIENCE,
   'blueprint-career-development': VET_ND_EXPERIENCE,
   collarts: COLLARTS_ND_EXPERIENCE,
+  'nepean-community-college': VET_ND_EXPERIENCE,
 };
 
 export const TOP_STRENGTH_AREAS_BY_SLUG: Record<string, TopStrengthArea[]> = {
@@ -521,6 +540,7 @@ export const TOP_STRENGTH_AREAS_BY_SLUG: Record<string, TopStrengthArea[]> = {
   academia: COLLARTS_TOP_STRENGTH_AREAS,
   'blueprint-career-development': DEFAULT_TOP_STRENGTH_AREAS,
   collarts: COLLARTS_TOP_STRENGTH_AREAS,
+  'nepean-community-college': DEFAULT_TOP_STRENGTH_AREAS,
 };
 
 export const STUDY_AREAS_BY_SLUG: Record<string, string[]> = {
@@ -561,6 +581,16 @@ export const STUDY_AREAS_BY_SLUG: Record<string, string[]> = {
     'Volunteering',
     'Sport & Recreation / Coaching',
     'Personal Development & Empowerment',
+  ],
+  'nepean-community-college': [
+    'Business',
+    'Community Services',
+    'Individual Support (Ageing & Disability)',
+    'Information Technology',
+    'Foundation Skills',
+    'English as an Additional Language (EAL)',
+    'Creative Arts & Crafts',
+    'Life Skills',
   ],
 };
 
@@ -1338,6 +1368,196 @@ export const SUPPORT_FRAMEWORK_BY_SLUG: Record<
         {
           label: 'Track outcomes for ND students',
           status: 'In the works',
+        },
+      ],
+    },
+  ],
+  'nepean-community-college': [
+    {
+      section: 'Staff Training',
+      items: [
+        { label: 'NDA-approved training', status: 'Supports in place' },
+        {
+          label: 'External neurodiversity training',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Designated neuroinclusion champion',
+          status: 'Supports in place',
+        },
+        { label: 'Ongoing PD structured', status: 'Supports in place' },
+        { label: 'Whole-org training (2 years)', status: 'In the works' },
+      ],
+    },
+    {
+      section: 'Support Staff',
+      items: [
+        {
+          label: 'Designated ND support person',
+          status: 'Supports in place',
+        },
+        { label: 'Support staff training', status: 'Supports in place' },
+        { label: 'Lived experience of ND', status: 'Supports in place' },
+        {
+          label: 'Peer support / student networks',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Support person listed publicly',
+          status: 'In the works',
+        },
+      ],
+    },
+    {
+      section: 'Pre-Enrolment & Disclosure',
+      items: [
+        {
+          label: 'Accessibility discussed pre-enrolment',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Process for undiagnosed students',
+          status: 'Supports in place',
+        },
+        { label: 'School transition support', status: 'Supports in place' },
+      ],
+    },
+    {
+      section: 'Student Support',
+      items: [
+        {
+          label: 'Individualised support plans',
+          status: 'Supports in place',
+        },
+        { label: 'Support plans co-created', status: 'Supports in place' },
+        {
+          label: 'Teaching staff involved in plans',
+          status: 'Supports in place',
+        },
+        { label: 'Regular check-in sessions', status: 'Supports in place' },
+        {
+          label: 'Academic literacy/LLN for ND needs',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Digital literacy / exec function',
+          status: 'Supports in place',
+        },
+        {
+          label: 'ND-specific support services',
+          status: 'Supports in place',
+        },
+        { label: 'Referral pathways', status: 'Supports in place' },
+        {
+          label: 'Pre-course teacher connection',
+          status: 'Supports in place',
+        },
+        { label: 'Admin navigation support', status: 'Supports in place' },
+        {
+          label: 'Documentation of support needs',
+          status: 'Supports in place',
+        },
+        { label: 'Career guidance tailored', status: 'Supports in place' },
+        { label: 'Teaching staff resources', status: 'Supports in place' },
+      ],
+    },
+    {
+      section: 'Website & Digital Accessibility',
+      items: [
+        {
+          label: 'Enrolment process accessible',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Website accessibility features',
+          status: 'In the works',
+        },
+        { label: 'ND support info easy to find', status: 'In the works' },
+        { label: 'Website tested by ND users', status: 'In the works' },
+      ],
+    },
+    {
+      section: 'Assistive Technology',
+      items: [
+        {
+          label: 'Assistive technologies available',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Instructional videos/LMS guides',
+          status: 'Supports in place',
+        },
+        { label: 'LMS compatible with AT', status: 'In the works' },
+      ],
+    },
+    {
+      section: 'Assessment',
+      items: [
+        {
+          label: 'Flexible assessment options',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Reasonable adjustments policy',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Layout examples/mock assessments',
+          status: 'Supports in place',
+        },
+      ],
+    },
+    {
+      section: 'Learning Design & Delivery',
+      items: [
+        {
+          label: 'Learning materials in multiple formats',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Students can adjust playback speed',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Absence alternatives available',
+          status: 'Supports in place',
+        },
+        { label: 'UDL principles embedded', status: 'In the works' },
+        {
+          label: 'Lectures pre-recorded and available',
+          status: 'In the works',
+        },
+      ],
+    },
+    {
+      section: 'Campus',
+      items: [
+        { label: 'Sensory-friendly areas', status: 'Supports in place' },
+        { label: 'ND consultation on spaces', status: 'Supports in place' },
+        { label: 'Minimise sensory triggers', status: 'Supports in place' },
+        { label: 'Quiet zones communicated', status: 'Supports in place' },
+        { label: 'Orientation/campus visits', status: 'Supports in place' },
+        {
+          label: 'Visual navigation guides',
+          status: 'Supports in place',
+        },
+      ],
+    },
+    {
+      section: 'Policy & Compliance',
+      items: [
+        {
+          label: 'Harassment/discrimination policies',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Complaints/appeals process',
+          status: 'Supports in place',
+        },
+        { label: 'Formal review cycle', status: 'Supports in place' },
+        {
+          label: 'Track outcomes for ND students',
+          status: 'Supports in place',
         },
       ],
     },

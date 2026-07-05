@@ -22,5 +22,11 @@
     "logo": "/images/AcademiaLogoLong.png",
     "topBackgroundImage": "/images/AcademiaCover.jpeg",
     "institutionCoursesUrl": "https://www.collarts.edu.au/courses"
+  },
+  {
+    "id": "Nepean Community College",
+    "logo": "/images/AcademiaLogoLong.png",
+    "topBackgroundImage": "/images/NepeanCover.jpeg",
+    "institutionCoursesUrl": "https://ncc.nsw.edu.au/our-courses/"
   }
 ]
