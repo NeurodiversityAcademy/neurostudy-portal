@@ -770,10 +770,10 @@ export const SUPPORT_FRAMEWORK_BY_SLUG: Record<
     {
       section: 'Staff Training',
       items: [
-        { label: 'NDA-approved training', status: 'Supports in place' },
+        { label: 'NDA-approved training', status: 'In the works' },
         {
           label: 'External neurodiversity training',
-          status: 'Supports in place',
+          status: 'In the works',
         },
         {
           label: 'Designated neuroinclusion champion',
@@ -803,24 +803,16 @@ export const SUPPORT_FRAMEWORK_BY_SLUG: Record<
           status: 'Supports in place',
         },
         {
+          label: 'Process for undiagnosed students',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Accessibility discussed pre-enrolment',
+          status: 'In the works',
+        },
+        {
           label: 'School transition support',
-          status: 'Supports in place',
-        },
-        {
-          label: 'Individualised support plans',
-          status: 'Supports in place',
-        },
-        {
-          label: 'Regular check-in sessions',
-          status: 'Supports in place',
-        },
-        {
-          label: 'Academic literacy/LLN for ND needs',
-          status: 'Supports in place',
-        },
-        {
-          label: 'Digital literacy / exec function',
-          status: 'Supports in place',
+          status: 'In the works',
         },
       ],
     },
@@ -843,8 +835,20 @@ export const SUPPORT_FRAMEWORK_BY_SLUG: Record<
           status: 'Supports in place',
         },
         {
-          label: 'Process for undiagnosed students',
-          status: 'Supports in place',
+          label: 'Individualised support plans',
+          status: 'In the works',
+        },
+        {
+          label: 'Regular check-in sessions',
+          status: 'In the works',
+        },
+        {
+          label: 'Academic literacy/LLN for ND needs',
+          status: 'In the works',
+        },
+        {
+          label: 'Digital literacy / exec function',
+          status: 'In the works',
         },
       ],
     },
@@ -862,9 +866,9 @@ export const SUPPORT_FRAMEWORK_BY_SLUG: Record<
       items: [
         {
           label: 'Assistive technologies available',
-          status: 'Supports in place',
+          status: 'In the works',
         },
-        { label: 'LMS compatible with AT', status: 'Supports in place' },
+        { label: 'LMS compatible with AT', status: 'In the works' },
         { label: 'Ongoing AT support', status: 'In the works' },
         {
           label: 'Instructional videos/LMS guides',
@@ -888,14 +892,14 @@ export const SUPPORT_FRAMEWORK_BY_SLUG: Record<
     {
       section: 'Learning Design & Delivery',
       items: [
-        { label: 'UDL principles embedded', status: 'Supports in place' },
+        { label: 'UDL principles embedded', status: 'In the works' },
         {
           label: 'Learning materials in multiple formats',
-          status: 'Supports in place',
+          status: 'In the works',
         },
         {
           label: 'Absence alternatives available',
-          status: 'Supports in place',
+          status: 'In the works',
         },
       ],
     },
