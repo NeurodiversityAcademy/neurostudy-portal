@@ -11,6 +11,7 @@ import PageEngagementTracker from '@/app/components/endorsedProviders/PageEngage
 import {
   HERO_DETAILS_BY_SLUG,
   HERO_INFO_LABEL_LOCATION,
+  HERO_INFO_LABEL_STUDY_MODE,
   HERO_INFO_LABEL_TYPE,
   STATS_BY_SLUG,
   INTRO_SECTION_BY_SLUG,
@@ -118,6 +119,10 @@ export default function EndorsedProviderDetailPage({
     heroInfoItems,
     HERO_INFO_LABEL_LOCATION
   );
+  const studyModeValue = findHeroInfoValueByLabel(
+    heroInfoItems,
+    HERO_INFO_LABEL_STUDY_MODE
+  );
   const typeValue = findHeroInfoValueByLabel(
     heroInfoItems,
     HERO_INFO_LABEL_TYPE
@@ -128,6 +133,7 @@ export default function EndorsedProviderDetailPage({
       <main className={pageStyles.pageMain}>
         <EndorsedInstitutionCoverHero
           locationValue={locationValue}
+          studyModeValue={studyModeValue}
           typeValue={typeValue}
           institutionIconSrc={institutionIconSrc}
           coursesUrl={coursesUrl}

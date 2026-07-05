@@ -5,12 +5,14 @@ import Typography, { TypographyVariant } from '../typography/Typography';
 import { TypographyColorToken } from '../typography/typographyColorToken';
 import mapPin from '@/app/images/MapPin.png';
 import notebook from '@/app/images/Notebook.png';
+import studyModeIcon from '@/app/images/clock.svg';
 import endorsedProvidersBadge from '@/app/images/badgeGeneric.png';
 import { sendEndorsedExploreClickEvent } from '@/app/utilities/gaTracking';
 import styles from './endorsedInstitutionCoverHero.module.css';
 
 export interface EndorsedInstitutionCoverHeroProps {
   locationValue?: string;
+  studyModeValue?: string;
   typeValue?: string;
   /** Large institution mark beside the endorsed badge (from endorsed provider data). */
   institutionIconSrc?: string | StaticImageData;
@@ -54,6 +56,7 @@ function MetaStripField({ src, title, description }: MetaStripFieldProps) {
 
 export default function EndorsedInstitutionCoverHero({
   locationValue,
+  studyModeValue,
   typeValue,
   institutionIconSrc,
   coursesUrl,
@@ -62,6 +65,7 @@ export default function EndorsedInstitutionCoverHero({
   const iconByLabel = {
     Type: notebook,
     Location: mapPin,
+    'Study Mode': studyModeIcon,
   };
 
   const handleExploreClick = () => {
@@ -159,12 +163,23 @@ export default function EndorsedInstitutionCoverHero({
           </div>
 
           <div className={styles.metaSlot}>
-            {locationValue ? (
-              <MetaStripField
-                src={iconByLabel.Location}
-                title='Location'
-                description={locationValue}
-              />
+            {locationValue || studyModeValue ? (
+              <div className={styles.metaSlotFields}>
+                {locationValue ? (
+                  <MetaStripField
+                    src={iconByLabel.Location}
+                    title='Location'
+                    description={locationValue}
+                  />
+                ) : null}
+                {studyModeValue ? (
+                  <MetaStripField
+                    src={iconByLabel['Study Mode']}
+                    title='Study Mode'
+                    description={studyModeValue}
+                  />
+                ) : null}
+              </div>
             ) : null}
           </div>
         </div>

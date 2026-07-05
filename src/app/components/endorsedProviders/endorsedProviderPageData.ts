@@ -30,9 +30,9 @@ export type VetKeyDataPoint = {
 const QILT_STAT_SECTIONS = [
   { title: 'Overall experience', icon: userExperienceIcon },
   { title: 'Skills development', icon: skillIcon },
+  { title: 'Teaching quality', icon: teachingQualityIcon },
   { title: 'Interactions with other students', icon: interactionsIcon },
   { title: 'Facilities & resources', icon: facilitiesIcon },
-  { title: 'Teaching quality', icon: teachingQualityIcon },
   { title: 'Support & services', icon: supportServicesIcon },
 ] as const;
 
@@ -44,12 +44,12 @@ type StatNumbers = Pick<
 /** Placeholder QILT-style stats per endorsed slug; replace with provider-specific data when available. */
 const STAT_NUMBERS_BY_SLUG: Record<string, StatNumbers[]> = {
   collarts: [
-    { value: '81.3%', nationalAverage: '78.6%', responses: '391' },
-    { value: '87.5%', nationalAverage: '81.1%', responses: '376' },
-    { value: '62.3%', nationalAverage: '73.1%', responses: '390' },
-    { value: '87.4%', nationalAverage: '85.3%', responses: '354' },
-    { value: '87.6%', nationalAverage: '80.5%', responses: '388' },
-    { value: '84.3%', nationalAverage: '71.2%', responses: '313' },
+    { value: '87.3%', nationalAverage: '78.6%', responses: '1278' },
+    { value: '91.0%', nationalAverage: '81.1%', responses: '1219' },
+    { value: '90.6%', nationalAverage: '80.5%', responses: '1261' },
+    { value: '86.1%', nationalAverage: '73.1%', responses: '1281' },
+    { value: '93.0%', nationalAverage: '85.3%', responses: '1226' },
+    { value: '90.6%', nationalAverage: '86.4%', responses: '1035' },
   ],
 };
 
@@ -150,6 +150,7 @@ function buildStatsForSlug(
 }
 
 export const HERO_INFO_LABEL_LOCATION = 'Location' as const;
+export const HERO_INFO_LABEL_STUDY_MODE = 'Study Mode' as const;
 export const HERO_INFO_LABEL_TYPE = 'Type' as const;
 
 export function findHeroInfoValueByLabel(
@@ -179,10 +180,15 @@ export const HERO_DETAILS_BY_SLUG: Record<string, HeroInfoItem[]> = {
     },
   ],
   academia: [
-    { icon: mapPin, value: 'Australia', label: 'Location' },
+    { icon: mapPin, value: 'Brisbane', label: 'Location' },
     {
       icon: graduationCap,
-      value: 'Vocational Education & Training',
+      value: 'Online | Face-to-Face | Hybrid',
+      label: 'Study Mode',
+    },
+    {
+      icon: graduationCap,
+      value: 'Vocational Education & Training Provider',
       label: 'Type',
     },
   ],
@@ -199,8 +205,21 @@ export const HERO_DETAILS_BY_SLUG: Record<string, HeroInfoItem[]> = {
     },
   ],
   collarts: [
-    { icon: mapPin, value: 'Melbourne, VIC', label: 'Location' },
-    { icon: graduationCap, value: 'Higher Education', label: 'Type' },
+    {
+      icon: mapPin,
+      value: 'Melbourne, Sydney - Australia',
+      label: 'Location',
+    },
+    {
+      icon: graduationCap,
+      value: 'Online | Face-to-Face | Hybrid',
+      label: 'Study Mode',
+    },
+    {
+      icon: graduationCap,
+      value: 'Higher education',
+      label: 'Type',
+    },
   ],
 };
 
@@ -225,8 +244,8 @@ export const INTRO_SECTION_BY_SLUG: Record<string, EndorsedIntroSection> = {
     body: 'Health Science Hub is an Australian Registered Training Organisation (RTO #52806) delivering training focused on health, community services, and applied science, helping individuals build practical skills, career pathways, and employment outcomes. They specialise in health and wellbeing-related programs, offering industry-relevant training with a strong focus on practical application and real-world readiness, ensuring learners are well-prepared for further study or careers in the healthcare sector. See the results and insights from the endorsement assessment below.',
   },
   academia: {
-    heading: 'About this organisation',
-    body: 'Profile content for Academia will appear here as editorial copy is finalised.',
+    heading: 'About the Organisation',
+    body: 'Academia is an Australian Registered Training Organisation (RTO #45593) delivering vocational education focused on building and construction, helping individuals develop practical skills, industry knowledge, and career outcomes. They specialise in construction-related qualifications, including Certificate III trades, higher-level qualifications, QBCC Site Supervisor courses, CPD training, and Recognition of Prior Learning (RPL). Their training is industry-aligned and designed to support learners in gaining the skills and credentials needed to succeed in the building and construction sector. See the results and insights from the endorsement assessment below.',
   },
   'blueprint-career-development': {
     heading: 'About this organisation',
@@ -441,6 +460,29 @@ const COLLARTS_ND_EXPERIENCE: EndorsedNdExperience = {
   performanceBands: DEFAULT_PERFORMANCE_BANDS,
 };
 
+const COLLARTS_TOP_STRENGTH_AREAS: TopStrengthArea[] = [
+  {
+    title: 'Clear information about support options',
+    iconKind: 'supportInformation',
+    scoreBand: 'High',
+  },
+  {
+    title: 'Overall experience',
+    iconKind: 'overallExperience',
+    scoreBand: 'High',
+  },
+  {
+    title: 'Adjustments implemented effectively',
+    iconKind: 'adjustments',
+    scoreBand: 'High',
+  },
+  {
+    title: 'Communication is clear and responsive',
+    iconKind: 'communication',
+    scoreBand: 'High',
+  },
+];
+
 const DEFAULT_TOP_STRENGTH_AREAS: TopStrengthArea[] = [
   {
     title: 'Clear information about support options',
@@ -476,9 +518,9 @@ export const ENDORSED_ND_EXPERIENCE_BY_SLUG: Record<
 
 export const TOP_STRENGTH_AREAS_BY_SLUG: Record<string, TopStrengthArea[]> = {
   hsh: DEFAULT_TOP_STRENGTH_AREAS,
-  academia: DEFAULT_TOP_STRENGTH_AREAS,
+  academia: COLLARTS_TOP_STRENGTH_AREAS,
   'blueprint-career-development': DEFAULT_TOP_STRENGTH_AREAS,
-  collarts: DEFAULT_TOP_STRENGTH_AREAS,
+  collarts: COLLARTS_TOP_STRENGTH_AREAS,
 };
 
 export const STUDY_AREAS_BY_SLUG: Record<string, string[]> = {
@@ -493,6 +535,13 @@ export const STUDY_AREAS_BY_SLUG: Record<string, string[]> = {
     'Digital Technology',
     'Laboratory & Forensic Science',
     'Education (Teaching & Learning Pathways)',
+  ],
+  academia: [
+    'Construction Safety (White Card / WHS)',
+    'Carpentry (Certificate III)',
+    'Building & Construction Management (Advanced Diploma)',
+    'Site Supervision (QBCC Open Site Supervisor)',
+    'Continuing Professional Development (CPD) Courses',
   ],
   collarts: [
     'Music & Audio',
@@ -712,6 +761,171 @@ export const SUPPORT_FRAMEWORK_BY_SLUG: Record<
       items: [
         {
           label: 'Standalone neuroinclusion policy',
+          status: 'In the works',
+        },
+      ],
+    },
+  ],
+  academia: [
+    {
+      section: 'Staff Training',
+      items: [
+        { label: 'NDA-approved training', status: 'Supports in place' },
+        {
+          label: 'External neurodiversity training',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Designated neuroinclusion champion',
+          status: 'In the works',
+        },
+      ],
+    },
+    {
+      section: 'Support Staff',
+      items: [
+        {
+          label: 'Designated ND support person',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Support person listed publicly',
+          status: 'Supports in place',
+        },
+        { label: 'Support staff training', status: 'Supports in place' },
+      ],
+    },
+    {
+      section: 'Pre-Enrolment & Disclosure',
+      items: [
+        {
+          label: 'Accessibility discussed pre-enrolment',
+          status: 'Supports in place',
+        },
+        {
+          label: 'School transition support',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Individualised support plans',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Regular check-in sessions',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Academic literacy/LLN for ND needs',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Digital literacy / exec function',
+          status: 'Supports in place',
+        },
+      ],
+    },
+    {
+      section: 'Student Support',
+      items: [
+        { label: 'Support plans co-created', status: 'Supports in place' },
+        {
+          label: 'Teaching staff involved in plans',
+          status: 'Supports in place',
+        },
+        { label: 'Referral pathways', status: 'Supports in place' },
+        { label: 'Career guidance tailored', status: 'Supports in place' },
+        {
+          label: 'Pre-course teacher connection',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Admin navigation support',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Process for undiagnosed students',
+          status: 'Supports in place',
+        },
+      ],
+    },
+    {
+      section: 'Website & Digital Accessibility',
+      items: [
+        {
+          label: 'Enrolment process accessible',
+          status: 'Supports in place',
+        },
+      ],
+    },
+    {
+      section: 'Assistive Technology',
+      items: [
+        {
+          label: 'Assistive technologies available',
+          status: 'Supports in place',
+        },
+        { label: 'LMS compatible with AT', status: 'Supports in place' },
+        { label: 'Ongoing AT support', status: 'In the works' },
+        {
+          label: 'Instructional videos/LMS guides',
+          status: 'In the works',
+        },
+      ],
+    },
+    {
+      section: 'Assessment',
+      items: [
+        {
+          label: 'Flexible assessment options',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Reasonable adjustments policy',
+          status: 'Supports in place',
+        },
+      ],
+    },
+    {
+      section: 'Learning Design & Delivery',
+      items: [
+        { label: 'UDL principles embedded', status: 'Supports in place' },
+        {
+          label: 'Learning materials in multiple formats',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Absence alternatives available',
+          status: 'Supports in place',
+        },
+      ],
+    },
+    {
+      section: 'Campus',
+      items: [
+        { label: 'Quiet zones communicated', status: 'Supports in place' },
+        { label: 'Sensory-friendly areas', status: 'In the works' },
+        { label: 'Sensory challenge policies', status: 'In the works' },
+        { label: 'Minimise sensory triggers', status: 'In the works' },
+      ],
+    },
+    {
+      section: 'Policy & Compliance',
+      items: [
+        {
+          label: 'Harassment/discrimination policies',
+          status: 'Supports in place',
+        },
+        {
+          label: 'Complaints/appeals process',
+          status: 'Supports in place',
+        },
+        { label: 'Formal review cycle', status: 'Supports in place' },
+        {
+          label: 'Standalone neuroinclusion policy',
+          status: 'In the works',
+        },
+        {
+          label: 'Track outcomes for ND students',
           status: 'In the works',
         },
       ],
@@ -1125,22 +1339,6 @@ export const SUPPORT_FRAMEWORK_BY_SLUG: Record<
     },
   ],
 };
-
-function cloneSupportFrameworkSections(
-  sections: SupportFrameworkSection[]
-): SupportFrameworkSection[] {
-  return sections.map((section) => ({
-    section: section.section,
-    items: section.items.map((item) => ({
-      label: item.label,
-      status: item.status,
-    })),
-  }));
-}
-
-SUPPORT_FRAMEWORK_BY_SLUG.academia = cloneSupportFrameworkSections(
-  SUPPORT_FRAMEWORK_BY_SLUG.hsh ?? []
-);
 
 type EndorsedJsonRow = {
   id: string;
