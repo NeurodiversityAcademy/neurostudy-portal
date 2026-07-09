@@ -1568,6 +1568,8 @@ export const SUPPORT_FRAMEWORK_BY_SLUG: Record<
 
 type EndorsedJsonRow = {
   id: string;
+  /** When true, profile is public via slug URL and shown on the homepage. */
+  live?: boolean;
   logo?: string;
   /** Large institution mark beside the endorsed badge in the meta strip; falls back to `logo`. */
   metaStripInstitutionIconSrc?: string;
@@ -1599,6 +1601,14 @@ const META_STRIP_INSTITUTION_ICON_BY_SLUG: Record<string, string> =
 export const ENDORSED_SLUGS: readonly string[] = rows.map((row) =>
   slugify(row.id)
 );
+
+export const ENDORSED_LIVE_SLUGS: readonly string[] = rows
+  .filter((row) => row.live === true)
+  .map((row) => slugify(row.id));
+
+export function isLiveEndorsedSlug(slug: string): boolean {
+  return ENDORSED_LIVE_SLUGS.includes(slug);
+}
 
 export function getInstitutionTypeForSlug(
   slug: string

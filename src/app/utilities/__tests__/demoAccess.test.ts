@@ -4,6 +4,7 @@ import {
   ENDORSED_PROVIDERS_BASE_PATH,
   buildEndorsedDemoDetailHref,
   buildEndorsedDemoHomeHref,
+  buildEndorsedLiveDetailHref,
   isValidDemoGuid,
   parseDemoAccessMap,
   readDemoGuidFromSearchParams,
@@ -113,6 +114,18 @@ describe('buildEndorsedDemoDetailHref', () => {
 
   it('returns empty string for empty guid', () => {
     expect(buildEndorsedDemoDetailHref('')).toBe('');
+  });
+});
+
+describe('buildEndorsedLiveDetailHref', () => {
+  it('returns slug path without demo query param', () => {
+    expect(buildEndorsedLiveDetailHref('hsh')).toBe(
+      `${ENDORSED_PROVIDERS_BASE_PATH}/hsh`
+    );
+  });
+
+  it('returns empty string for empty slug', () => {
+    expect(buildEndorsedLiveDetailHref('')).toBe('');
   });
 });
 

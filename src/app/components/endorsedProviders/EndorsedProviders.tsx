@@ -25,6 +25,7 @@ import { providerNameFromId } from './providerName';
 
 type EndorsedProviderRawRow = {
   id: string;
+  live?: boolean;
   logo: string;
   institutionCoursesUrl: string;
 };
@@ -36,8 +37,8 @@ type EndorsedProviderRow = {
 };
 
 type EndorsedProvidersProps = {
-  demoGuid: string;
-  demoSlug: string;
+  demoGuid?: string;
+  demoSlug?: string;
 };
 
 function toEndorsedProviderRow(
@@ -50,32 +51,53 @@ function toEndorsedProviderRow(
   };
 }
 
-function filterProvidersBySlug(
-  providers: EndorsedProviderRow[],
+function resolveProvidersToShow(
+  rawProviders: EndorsedProviderRawRow[],
+  demoGuid: string,
   demoSlug: string
 ): EndorsedProviderRow[] {
-  return providers.filter((provider) => slugify(provider.id) === demoSlug);
+  const providers = rawProviders.map(toEndorsedProviderRow);
+  const liveProviders = providers.filter((provider) => {
+    const row = rawProviders.find((item) => item.id === provider.id);
+    return row?.live === true;
+  });
+
+  if (demoGuid === '' || demoSlug === '') {
+    return liveProviders;
+  }
+
+  const demoProvider = providers.find(
+    (provider) => slugify(provider.id) === demoSlug
+  );
+  if (!demoProvider) {
+    return liveProviders;
+  }
+
+  const demoRow = rawProviders.find((item) => item.id === demoProvider.id);
+  if (demoRow?.live === true) {
+    return liveProviders;
+  }
+
+  const alreadyListed = liveProviders.some(
+    (provider) => provider.id === demoProvider.id
+  );
+  if (alreadyListed) {
+    return liveProviders;
+  }
+
+  return [...liveProviders, demoProvider];
 }
 
 export default function EndorsedProviders({
-  demoGuid,
-  demoSlug,
+  demoGuid = '',
+  demoSlug = '',
 }: EndorsedProvidersProps) {
-  if (demoGuid === '' || demoSlug === '') {
-    return null;
-  }
-
   const rawProviders = endorsedData as EndorsedProviderRawRow[];
-  const providers = filterProvidersBySlug(
-    rawProviders.map(toEndorsedProviderRow),
-    demoSlug
-  );
+  const providers = resolveProvidersToShow(rawProviders, demoGuid, demoSlug);
 
   if (providers.length === 0) {
     return null;
   }
-
-  const ctaHref = buildEndorsedProviderDetailHref(demoGuid);
 
   const badge = (
     <Image
@@ -131,6 +153,10 @@ export default function EndorsedProviders({
               providerSlug,
               provider.logo,
               ENDORSED_PROVIDER_LOGO_BY_SLUG
+            );
+            const ctaHref = buildEndorsedProviderDetailHref(
+              providerSlug,
+              demoGuid
             );
 
             return (

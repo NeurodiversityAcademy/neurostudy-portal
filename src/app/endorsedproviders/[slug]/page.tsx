@@ -25,10 +25,12 @@ import {
   getInstitutionTypeForSlug,
   getVetKeyDataPointsForSlug,
   hasEndorsedDeliverySignals,
+  isLiveEndorsedSlug,
 } from '@/app/components/endorsedProviders/endorsedProviderPageData';
 import { HOST_URL } from '@/app/utilities/constants';
 import {
   buildEndorsedDemoDetailHref,
+  buildEndorsedLiveDetailHref,
   resolveDetailDemoAccess,
 } from '@/app/utilities/demoAccess';
 import type { SearchParams } from '@/app/utilities/featureToggle';
@@ -69,7 +71,10 @@ export async function generateMetadata({
 
   const title = `${displayName} | NDA Endorsed Provider`;
   const description = `Explore neuro-inclusive profile and delivery signals for ${displayName}.`;
-  const canonical = `${HOST_URL}${buildEndorsedDemoDetailHref(params.slug)}`;
+  const canonicalPath = isLiveEndorsedSlug(internalSlug)
+    ? buildEndorsedLiveDetailHref(internalSlug)
+    : buildEndorsedDemoDetailHref(params.slug);
+  const canonical = `${HOST_URL}${canonicalPath}`;
 
   return {
     title,

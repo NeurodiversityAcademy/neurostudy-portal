@@ -1,7 +1,9 @@
 import {
   ENDORSED_PROVIDERS_BASE_PATH,
   buildEndorsedDemoDetailHref,
+  buildEndorsedLiveDetailHref,
 } from '@/app/utilities/demoAccess';
+import { isLiveEndorsedSlug } from '@/app/components/endorsedProviders/endorsedProviderPageData';
 
 import type { StaticImageData } from 'next/image';
 
@@ -34,7 +36,14 @@ export function resolveEndorsedProviderLogoSrc(
   return logoBySlug[providerSlug];
 }
 
-export function buildEndorsedProviderDetailHref(demoGuid: string): string {
+export function buildEndorsedProviderDetailHref(
+  providerSlug: string,
+  demoGuid: string
+): string {
+  if (isLiveEndorsedSlug(providerSlug)) {
+    return buildEndorsedLiveDetailHref(providerSlug);
+  }
+
   return buildEndorsedDemoDetailHref(demoGuid);
 }
 

@@ -1,4 +1,4 @@
-import { isKnownEndorsedSlug } from '@/app/components/endorsedProviders/endorsedProviderPageData';
+import { isKnownEndorsedSlug, isLiveEndorsedSlug } from '@/app/components/endorsedProviders/endorsedProviderPageData';
 import type { SearchParams } from '@/app/utilities/featureToggle';
 import { readFirstSearchParamValue } from '@/app/utilities/searchParamsReader';
 
@@ -101,6 +101,14 @@ export function buildEndorsedDemoHomeHref(guid: string): string {
   return `/?${params.toString()}`;
 }
 
+export function buildEndorsedLiveDetailHref(slug: string): string {
+  if (slug === '') {
+    return '';
+  }
+
+  return `${ENDORSED_PROVIDERS_BASE_PATH}/${slug}`;
+}
+
 export type HomeDemoAccess = {
   demoGuid: string;
   demoSlug: string;
@@ -140,6 +148,10 @@ export function resolveDetailDemoAccess(
 ): DetailDemoAccess | null {
   if (pathGuid === '') {
     return null;
+  }
+
+  if (isLiveEndorsedSlug(pathGuid)) {
+    return { internalSlug: pathGuid };
   }
 
   if (isBlockedPublicSlugPath(pathGuid)) {
