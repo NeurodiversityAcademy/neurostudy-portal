@@ -24,6 +24,21 @@
   box-sizing: border-box;
 }
 
+.endorsementIdSection {
+  width: 100%;
+}
+
+.endorsementIdText {
+  margin: 0;
+  color: var(--BondBlack);
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.endorsementIdLabel {
+  font-weight: 700;
+}
+
 @media (max-width: 767px) {
   .pageMain {
     gap: 32px;

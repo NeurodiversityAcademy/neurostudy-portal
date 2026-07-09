@@ -128,6 +128,11 @@ const INSTITUTION_TYPE_BY_SLUG: Record<string, EndorsedInstitutionType> = {
   'nepean-community-college': 'VET',
 };
 
+const ENDORSEMENT_ID_BY_SLUG: Record<string, string> = {
+  hsh: '84173',
+  'blueprint-career-development': '29560',
+};
+
 function buildQiltStatsForSlug(slug: string): ProviderStatItem[] {
   const numbers = STAT_NUMBERS_BY_SLUG[slug];
   if (!numbers || numbers.length !== QILT_STAT_SECTIONS.length) {
@@ -577,7 +582,6 @@ export const STUDY_AREAS_BY_SLUG: Record<string, string[]> = {
     'Business & Workplace Skills',
     'Hospitality',
     'Tourism',
-    'Career Development',
     'Volunteering',
     'Sport & Recreation / Coaching',
     'Personal Development & Empowerment',
@@ -1710,6 +1714,15 @@ export function getEndorsedInstitutionCoursesUrl(
 ): string | undefined {
   const url = INSTITUTION_COURSES_URL_BY_SLUG[slug];
   return url && url.length > 0 ? url : undefined;
+}
+
+export function getEndorsedEndorsementIdForSlug(
+  slug: string
+): string | undefined {
+  const endorsementId = ENDORSEMENT_ID_BY_SLUG[slug];
+  return endorsementId && endorsementId.length === 5
+    ? endorsementId
+    : undefined;
 }
 
 export function getEndorsedMetaStripInstitutionIconSrc(

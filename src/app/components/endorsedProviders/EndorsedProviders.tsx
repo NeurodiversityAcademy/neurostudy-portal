@@ -27,12 +27,14 @@ type EndorsedProviderRawRow = {
   id: string;
   live?: boolean;
   logo: string;
+  topBackgroundImage?: string;
   institutionCoursesUrl: string;
 };
 
 type EndorsedProviderRow = {
   id: string;
   logo: string;
+  topBackgroundImage?: string;
   institutionCoursesUrl: string | null;
 };
 
@@ -47,6 +49,7 @@ function toEndorsedProviderRow(
   return {
     id: row.id,
     logo: row.logo,
+    topBackgroundImage: row.topBackgroundImage,
     institutionCoursesUrl: row.institutionCoursesUrl,
   };
 }
@@ -143,6 +146,7 @@ export default function EndorsedProviders({
         <div
           className={classNames(
             endorseStyles.cardsRow,
+            providers.length === 2 && endorseStyles.cardsRowTwo,
             providers.length === 1 && endorseStyles.cardsRowSingle
           )}
         >
@@ -163,11 +167,18 @@ export default function EndorsedProviders({
               <InstitutionProviderCard
                 key={provider.id}
                 ctaHref={ctaHref}
-                header={{
-                  kind: INSTITUTION_PROVIDER_HEADER_KIND.CHERRY_PIE_SUB,
-                }}
+                header={
+                  provider.topBackgroundImage
+                    ? {
+                        kind: INSTITUTION_PROVIDER_HEADER_KIND.REMOTE_IMAGE,
+                        src: provider.topBackgroundImage,
+                      }
+                    : {
+                        kind: INSTITUTION_PROVIDER_HEADER_KIND.CHERRY_PIE_SUB,
+                      }
+                }
                 badge={badge}
-                equalWidth={providers.length > 1}
+                equalWidth={providers.length > 2}
                 elevatedOnDark
                 gaEvent={{
                   eventName: ENDORSED_PROVIDERS_GA.ctaClick.eventName,

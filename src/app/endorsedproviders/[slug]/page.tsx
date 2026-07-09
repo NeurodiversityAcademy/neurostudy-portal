@@ -18,6 +18,7 @@ import {
   findHeroInfoValueByLabel,
   getEndorsedFaqSectionsForSlug,
   getEndorsedDisplayNameForSlug,
+  getEndorsedEndorsementIdForSlug,
   getStudyAreasForSlug,
   getSupportFrameworkForSlug,
   getEndorsedInstitutionCoursesUrl,
@@ -121,6 +122,7 @@ export default function EndorsedProviderDetailPage({
     getEndorsedMetaStripInstitutionIconSrc(internalSlug);
   const coverImageSrc = getEndorsedTopBackgroundImageForSlug(internalSlug);
   const coursesUrl = getEndorsedInstitutionCoursesUrl(internalSlug);
+  const endorsementId = getEndorsedEndorsementIdForSlug(internalSlug);
 
   const locationValue = findHeroInfoValueByLabel(
     heroInfoItems,
@@ -159,6 +161,16 @@ export default function EndorsedProviderDetailPage({
                 />
               ) : null}
             </section>
+            {endorsementId ? (
+              <section className={pageStyles.endorsementIdSection}>
+                <p className={pageStyles.endorsementIdText}>
+                  <span className={pageStyles.endorsementIdLabel}>
+                    Endorsement ID:
+                  </span>{' '}
+                  {endorsementId}
+                </p>
+              </section>
+            ) : null}
             <section
               {...{
                 [DATA_SECTION_ATTRIBUTE]: ENDORSED_PAGE_SECTION.STUDY_AREAS,
