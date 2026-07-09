@@ -22,6 +22,7 @@ import {
   getSupportFrameworkForSlug,
   getEndorsedInstitutionCoursesUrl,
   getEndorsedMetaStripInstitutionIconSrc,
+  getEndorsedTopBackgroundImageForSlug,
   getInstitutionTypeForSlug,
   getVetKeyDataPointsForSlug,
   hasEndorsedDeliverySignals,
@@ -118,6 +119,7 @@ export default function EndorsedProviderDetailPage({
   const supportFramework = getSupportFrameworkForSlug(internalSlug);
   const institutionIconSrc =
     getEndorsedMetaStripInstitutionIconSrc(internalSlug);
+  const coverImageSrc = getEndorsedTopBackgroundImageForSlug(internalSlug);
   const coursesUrl = getEndorsedInstitutionCoursesUrl(internalSlug);
 
   const locationValue = findHeroInfoValueByLabel(
@@ -141,6 +143,7 @@ export default function EndorsedProviderDetailPage({
           studyModeValue={studyModeValue}
           typeValue={typeValue}
           institutionIconSrc={institutionIconSrc}
+          coverImageSrc={coverImageSrc}
           coursesUrl={coursesUrl}
           providerSlug={internalSlug}
         />

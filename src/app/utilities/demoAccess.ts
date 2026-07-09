@@ -1,4 +1,7 @@
-import { isKnownEndorsedSlug, isLiveEndorsedSlug } from '@/app/components/endorsedProviders/endorsedProviderPageData';
+import {
+  isKnownEndorsedSlug,
+  isLiveEndorsedSlug,
+} from '@/app/components/endorsedProviders/endorsedProviderPageData';
 import type { SearchParams } from '@/app/utilities/featureToggle';
 import { readFirstSearchParamValue } from '@/app/utilities/searchParamsReader';
 

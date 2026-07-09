@@ -1,6 +1,7 @@
 'use client';
 
 import Image, { type StaticImageData } from 'next/image';
+import classNames from 'classnames';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import { TypographyColorToken } from '../typography/typographyColorToken';
 import mapPin from '@/app/images/MapPin.png';
@@ -17,6 +18,8 @@ export interface EndorsedInstitutionCoverHeroProps {
   institutionIconSrc?: string | StaticImageData;
   /** External courses URL for the Explore CTA (from endorsed provider data). */
   coursesUrl?: string;
+  /** Optional hero cover photo from endorsed provider data. */
+  coverImageSrc?: string;
   /** Slug used as GA provider identifier. */
   providerSlug: string;
 }
@@ -74,12 +77,17 @@ export default function EndorsedInstitutionCoverHero({
   typeValue,
   institutionIconSrc,
   coursesUrl,
+  coverImageSrc,
   providerSlug,
 }: EndorsedInstitutionCoverHeroProps) {
   const iconByLabel = {
     Type: notebook,
     Location: mapPin,
   };
+  const hasCoverImage = coverImageSrc !== undefined && coverImageSrc.length > 0;
+  const titleColor = hasCoverImage
+    ? TypographyColorToken.GhostWhite
+    : TypographyColorToken.BondBlack;
 
   const handleExploreClick = () => {
     if (coursesUrl === undefined || coursesUrl.length === 0) {
@@ -90,13 +98,26 @@ export default function EndorsedInstitutionCoverHero({
 
   return (
     <section className={styles.section} aria-label='Endorsed provider cover'>
-      <div className={styles.banner}>
+      <div
+        className={classNames(
+          styles.banner,
+          hasCoverImage && styles.bannerWithCover
+        )}
+        style={
+          hasCoverImage
+            ? { backgroundImage: `url(${coverImageSrc})` }
+            : undefined
+        }
+      >
         <div className={styles.bannerContent}>
           <div className={styles.textContainer}>
             <Typography
               variant={TypographyVariant.H1}
-              color={TypographyColorToken.BondBlack}
-              className={styles.title}
+              color={titleColor}
+              className={classNames(
+                styles.title,
+                hasCoverImage && styles.titleOnCover
+              )}
             >
               Neurodiversity Academy Endorsed Provider
             </Typography>

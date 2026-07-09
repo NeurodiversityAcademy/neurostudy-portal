@@ -1597,6 +1597,12 @@ const META_STRIP_INSTITUTION_ICON_BY_SLUG: Record<string, string> =
       .filter(([, src]) => src.length > 0)
   );
 
+const TOP_BACKGROUND_IMAGE_BY_SLUG: Record<string, string> = Object.fromEntries(
+  rows
+    .map((row) => [slugify(row.id), row.topBackgroundImage?.trim() ?? ''])
+    .filter(([, src]) => src.length > 0)
+);
+
 /** Slugs derived the same way as future home card links: `slugify(provider.id)`. */
 export const ENDORSED_SLUGS: readonly string[] = rows.map((row) =>
   slugify(row.id)
@@ -1714,5 +1720,12 @@ export function getEndorsedMetaStripInstitutionIconSrc(
     return bundled;
   }
   const src = META_STRIP_INSTITUTION_ICON_BY_SLUG[slug];
+  return src && src.length > 0 ? src : undefined;
+}
+
+export function getEndorsedTopBackgroundImageForSlug(
+  slug: string
+): string | undefined {
+  const src = TOP_BACKGROUND_IMAGE_BY_SLUG[slug];
   return src && src.length > 0 ? src : undefined;
 }

@@ -30,7 +30,10 @@ describe('resolveDetailDemoAccess', () => {
       internalSlug: 'hsh',
     });
     expect(
-      resolveDetailDemoAccess('blueprint-career-development', EMPTY_SEARCH_PARAMS)
+      resolveDetailDemoAccess(
+        'blueprint-career-development',
+        EMPTY_SEARCH_PARAMS
+      )
     ).toEqual({
       internalSlug: 'blueprint-career-development',
     });
