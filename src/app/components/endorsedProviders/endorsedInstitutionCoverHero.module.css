@@ -8,11 +8,9 @@
   width: 100%;
   min-height: 30vh;
   overflow: hidden;
-  background: var(--cherryPieSub);
 }
 
 .bannerWithCover {
-  background-color: var(--cherryPieSub);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
