@@ -18,17 +18,21 @@ import {
   findHeroInfoValueByLabel,
   getEndorsedFaqSectionsForSlug,
   getEndorsedDisplayNameForSlug,
+  getEndorsedEndorsementIdForSlug,
   getStudyAreasForSlug,
   getSupportFrameworkForSlug,
   getEndorsedInstitutionCoursesUrl,
   getEndorsedMetaStripInstitutionIconSrc,
+  getEndorsedTopBackgroundImageForSlug,
   getInstitutionTypeForSlug,
   getVetKeyDataPointsForSlug,
   hasEndorsedDeliverySignals,
+  isLiveEndorsedSlug,
 } from '@/app/components/endorsedProviders/endorsedProviderPageData';
 import { HOST_URL } from '@/app/utilities/constants';
 import {
   buildEndorsedDemoDetailHref,
+  buildEndorsedLiveDetailHref,
   resolveDetailDemoAccess,
 } from '@/app/utilities/demoAccess';
 import type { SearchParams } from '@/app/utilities/featureToggle';
@@ -69,7 +73,10 @@ export async function generateMetadata({
 
   const title = `${displayName} | NDA Endorsed Provider`;
   const description = `Explore neuro-inclusive profile and delivery signals for ${displayName}.`;
-  const canonical = `${HOST_URL}${buildEndorsedDemoDetailHref(params.slug)}`;
+  const canonicalPath = isLiveEndorsedSlug(internalSlug)
+    ? buildEndorsedLiveDetailHref(internalSlug)
+    : buildEndorsedDemoDetailHref(params.slug);
+  const canonical = `${HOST_URL}${canonicalPath}`;
 
   return {
     title,
@@ -113,7 +120,9 @@ export default function EndorsedProviderDetailPage({
   const supportFramework = getSupportFrameworkForSlug(internalSlug);
   const institutionIconSrc =
     getEndorsedMetaStripInstitutionIconSrc(internalSlug);
+  const coverImageSrc = getEndorsedTopBackgroundImageForSlug(internalSlug);
   const coursesUrl = getEndorsedInstitutionCoursesUrl(internalSlug);
+  const endorsementId = getEndorsedEndorsementIdForSlug(internalSlug);
 
   const locationValue = findHeroInfoValueByLabel(
     heroInfoItems,
@@ -136,6 +145,7 @@ export default function EndorsedProviderDetailPage({
           studyModeValue={studyModeValue}
           typeValue={typeValue}
           institutionIconSrc={institutionIconSrc}
+          coverImageSrc={coverImageSrc}
           coursesUrl={coursesUrl}
           providerSlug={internalSlug}
         />
@@ -151,6 +161,16 @@ export default function EndorsedProviderDetailPage({
                 />
               ) : null}
             </section>
+            {endorsementId ? (
+              <section className={pageStyles.endorsementIdSection}>
+                <p className={pageStyles.endorsementIdText}>
+                  <span className={pageStyles.endorsementIdLabel}>
+                    Endorsement ID:
+                  </span>{' '}
+                  {endorsementId}
+                </p>
+              </section>
+            ) : null}
             <section
               {...{
                 [DATA_SECTION_ATTRIBUTE]: ENDORSED_PAGE_SECTION.STUDY_AREAS,

@@ -25,7 +25,21 @@ describe('resolveDetailDemoAccess', () => {
     });
   });
 
-  it('returns null when demo param is missing', () => {
+  it('returns internalSlug for live provider slug without demo param', () => {
+    expect(resolveDetailDemoAccess('hsh', EMPTY_SEARCH_PARAMS)).toEqual({
+      internalSlug: 'hsh',
+    });
+    expect(
+      resolveDetailDemoAccess(
+        'blueprint-career-development',
+        EMPTY_SEARCH_PARAMS
+      )
+    ).toEqual({
+      internalSlug: 'blueprint-career-development',
+    });
+  });
+
+  it('returns null when demo param is missing for non-live guid path', () => {
     expect(resolveDetailDemoAccess(VALID_GUID, EMPTY_SEARCH_PARAMS)).toBeNull();
   });
 

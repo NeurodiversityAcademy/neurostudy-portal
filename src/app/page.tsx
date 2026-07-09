@@ -73,12 +73,10 @@ export default function Home({
           showSearchBar={showSearchBar}
         />
         <StudentFacts />
-        {demoAccess !== null ? (
-          <EndorsedProviders
-            demoGuid={demoAccess.demoGuid}
-            demoSlug={demoAccess.demoSlug}
-          />
-        ) : null}
+        <EndorsedProviders
+          demoGuid={demoAccess?.demoGuid}
+          demoSlug={demoAccess?.demoSlug}
+        />
         <EmergingInstitutions />
         <HowItWorks />
         <DisplayPodcast

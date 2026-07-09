@@ -128,6 +128,11 @@ const INSTITUTION_TYPE_BY_SLUG: Record<string, EndorsedInstitutionType> = {
   'nepean-community-college': 'VET',
 };
 
+const ENDORSEMENT_ID_BY_SLUG: Record<string, string> = {
+  hsh: '84173',
+  'blueprint-career-development': '29560',
+};
+
 function buildQiltStatsForSlug(slug: string): ProviderStatItem[] {
   const numbers = STAT_NUMBERS_BY_SLUG[slug];
   if (!numbers || numbers.length !== QILT_STAT_SECTIONS.length) {
@@ -577,7 +582,6 @@ export const STUDY_AREAS_BY_SLUG: Record<string, string[]> = {
     'Business & Workplace Skills',
     'Hospitality',
     'Tourism',
-    'Career Development',
     'Volunteering',
     'Sport & Recreation / Coaching',
     'Personal Development & Empowerment',
@@ -1568,6 +1572,8 @@ export const SUPPORT_FRAMEWORK_BY_SLUG: Record<
 
 type EndorsedJsonRow = {
   id: string;
+  /** When true, profile is public via slug URL and shown on the homepage. */
+  live?: boolean;
   logo?: string;
   /** Large institution mark beside the endorsed badge in the meta strip; falls back to `logo`. */
   metaStripInstitutionIconSrc?: string;
@@ -1595,10 +1601,24 @@ const META_STRIP_INSTITUTION_ICON_BY_SLUG: Record<string, string> =
       .filter(([, src]) => src.length > 0)
   );
 
+const TOP_BACKGROUND_IMAGE_BY_SLUG: Record<string, string> = Object.fromEntries(
+  rows
+    .map((row) => [slugify(row.id), row.topBackgroundImage?.trim() ?? ''])
+    .filter(([, src]) => src.length > 0)
+);
+
 /** Slugs derived the same way as future home card links: `slugify(provider.id)`. */
 export const ENDORSED_SLUGS: readonly string[] = rows.map((row) =>
   slugify(row.id)
 );
+
+export const ENDORSED_LIVE_SLUGS: readonly string[] = rows
+  .filter((row) => row.live === true)
+  .map((row) => slugify(row.id));
+
+export function isLiveEndorsedSlug(slug: string): boolean {
+  return ENDORSED_LIVE_SLUGS.includes(slug);
+}
 
 export function getInstitutionTypeForSlug(
   slug: string
@@ -1696,6 +1716,15 @@ export function getEndorsedInstitutionCoursesUrl(
   return url && url.length > 0 ? url : undefined;
 }
 
+export function getEndorsedEndorsementIdForSlug(
+  slug: string
+): string | undefined {
+  const endorsementId = ENDORSEMENT_ID_BY_SLUG[slug];
+  return endorsementId && endorsementId.length === 5
+    ? endorsementId
+    : undefined;
+}
+
 export function getEndorsedMetaStripInstitutionIconSrc(
   slug: string
 ): string | StaticImageData | undefined {
@@ -1704,5 +1733,12 @@ export function getEndorsedMetaStripInstitutionIconSrc(
     return bundled;
   }
   const src = META_STRIP_INSTITUTION_ICON_BY_SLUG[slug];
+  return src && src.length > 0 ? src : undefined;
+}
+
+export function getEndorsedTopBackgroundImageForSlug(
+  slug: string
+): string | undefined {
+  const src = TOP_BACKGROUND_IMAGE_BY_SLUG[slug];
   return src && src.length > 0 ? src : undefined;
 }

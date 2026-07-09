@@ -48,6 +48,17 @@
   justify-content: center;
 }
 
+.cardsRowTwo {
+  justify-content: center;
+}
+
+.cardsRowTwo > * {
+  width: 20vw;
+  max-width: 360px;
+  min-width: 220px;
+  flex: 0 0 auto;
+}
+
 .cardsRowSingle > * {
   width: 20%;
   max-width: 20%;
@@ -79,5 +90,11 @@
     justify-self: center;
     width: calc((100% - 16px) / 2);
     max-width: calc((100% - 16px) / 2);
+  }
+
+  .cardsRowTwo > * {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
   }
 }

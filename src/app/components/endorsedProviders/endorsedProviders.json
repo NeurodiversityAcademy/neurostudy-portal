@@ -1,6 +1,7 @@
 [
   {
     "id": "HSH",
+    "live": true,
     "logo": "/images/AcademiaLogoLong.png",
     "topBackgroundImage": "/images/HSHCover.png",
     "institutionCoursesUrl": "https://www.hsh.edu.au"
@@ -13,8 +14,9 @@
   },
   {
     "id": "Blueprint Career Development",
+    "live": true,
     "logo": "/images/AcademiaLogoLong.png",
-    "topBackgroundImage": "/images/BlueprintCover.jpeg",
+    "topBackgroundImage": "/images/BlueprintCover.png",
     "institutionCoursesUrl": "https://www.blueprintcd.com.au/"
   },
   {
