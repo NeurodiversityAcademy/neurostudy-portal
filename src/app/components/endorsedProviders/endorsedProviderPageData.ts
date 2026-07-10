@@ -268,7 +268,7 @@ export const INTRO_SECTION_BY_SLUG: Record<string, EndorsedIntroSection> = {
   },
   'blueprint-career-development': {
     heading: 'About this organisation',
-    body: 'Blueprint Career Development is an Australian Registered Training Organisation (RTO #30978) delivering vocational education focused on practical skills, career pathways, and employment outcomes. They specialise in training and assessment (TAE), business, hospitality, and career development, offering nationally recognised qualifications with a strong focus on personalised, industry-relevant training that prepares learners for the workforce. See the results and insights from the endorsement assessment below.',
+    body: 'Blueprint Career Development is an Australian Registered Training Organisation (RTO #30978) delivering vocational education focused on practical skills, career pathways, and employment outcomes. They specialise in training and assessment (TAE), business, hospitality, offering nationally recognised qualifications with a strong focus on personalised, industry-relevant training that prepares learners for the workforce. See the results and insights from the endorsement assessment below.',
   },
   collarts: {
     heading: 'About this organisation',
