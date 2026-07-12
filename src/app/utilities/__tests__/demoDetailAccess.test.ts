@@ -37,6 +37,11 @@ describe('resolveDetailDemoAccess', () => {
     ).toEqual({
       internalSlug: 'blueprint-career-development',
     });
+    expect(
+      resolveDetailDemoAccess('nepean-community-college', EMPTY_SEARCH_PARAMS)
+    ).toEqual({
+      internalSlug: 'nepean-community-college',
+    });
   });
 
   it('returns null when demo param is missing for non-live guid path', () => {
