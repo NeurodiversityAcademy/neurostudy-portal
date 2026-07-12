@@ -15,7 +15,7 @@ describe('EndorsedProviders demo access', () => {
     const { getAllByRole, getByText } = render(<EndorsedProviders />);
 
     expect(getByText('NDA Endorsed Providers')).toBeInTheDocument();
-    expect(getAllByRole('link')).toHaveLength(2);
+    expect(getAllByRole('link')).toHaveLength(3);
   });
 
   it('renders live cards plus one demo card for valid non-live demo slug', () => {
@@ -24,7 +24,7 @@ describe('EndorsedProviders demo access', () => {
     );
 
     expect(getByText('NDA Endorsed Providers')).toBeInTheDocument();
-    expect(getAllByRole('link')).toHaveLength(3);
+    expect(getAllByRole('link')).toHaveLength(4);
   });
 
   it('uses slug-based detail href for live provider cards', () => {
@@ -36,6 +36,9 @@ describe('EndorsedProviders demo access', () => {
     expect(hrefs).toContain(buildEndorsedLiveDetailHref('hsh'));
     expect(hrefs).toContain(
       buildEndorsedLiveDetailHref('blueprint-career-development')
+    );
+    expect(hrefs).toContain(
+      buildEndorsedLiveDetailHref('nepean-community-college')
     );
   });
 
@@ -56,6 +59,6 @@ describe('EndorsedProviders demo access', () => {
       <EndorsedProviders demoGuid='test-guid' demoSlug='nonexistent-slug' />
     );
 
-    expect(getAllByRole('link')).toHaveLength(2);
+    expect(getAllByRole('link')).toHaveLength(3);
   });
 });
