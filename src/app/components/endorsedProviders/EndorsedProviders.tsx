@@ -38,6 +38,7 @@ type EndorsedProviderRow = {
   logo: string;
   topBackgroundImage?: string;
   institutionCoursesUrl: string | null;
+  ndaCertified: boolean;
 };
 
 type EndorsedProvidersProps = {
@@ -53,6 +54,7 @@ function toEndorsedProviderRow(
     logo: row.logo,
     topBackgroundImage: row.topBackgroundImage,
     institutionCoursesUrl: row.institutionCoursesUrl,
+    ndaCertified: row.ndaCertified === true,
   };
 }
 
@@ -99,14 +101,14 @@ export default function EndorsedProviders({
 }: EndorsedProvidersProps) {
   const rawProviders = endorsedData as EndorsedProviderRawRow[];
   const providers = resolveProvidersToShow(rawProviders, demoGuid, demoSlug);
-  const showCertifiedLegend = providers.some((provider) => {
-    const row = rawProviders.find((item) => item.id === provider.id);
-    return row?.ndaCertified === true;
-  });
 
   if (providers.length === 0) {
     return null;
   }
+
+  const showCertifiedLegend = providers.some(
+    (provider) => provider.ndaCertified
+  );
 
   return (
     <section
@@ -150,10 +152,7 @@ export default function EndorsedProviders({
           {providers.map((provider) => {
             const providerName = providerNameFromId(provider.id);
             const providerSlug = slugify(provider.id);
-            const providerRow = rawProviders.find(
-              (item) => item.id === provider.id
-            );
-            const ndaCertified = providerRow?.ndaCertified === true;
+            const { ndaCertified } = provider;
             const cardLogoSrc = resolveEndorsedProviderLogoSrc(
               providerSlug,
               provider.logo,

@@ -1,14 +1,12 @@
 .wrap {
   position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
   flex-shrink: 0;
+  line-height: 0;
 }
 
 .badgeImage {
   display: block;
-  flex-shrink: 0;
   object-fit: contain;
 }
 
@@ -22,36 +20,26 @@
   height: 56px;
 }
 
-/*
-  Star floats above the crest; badge keeps the same footprint and alignment
-  as non-certified badges (e.g. beside the institution logo).
-*/
-.wrap.certified {
-  display: inline-block;
-}
-
-.starIcon {
+.star {
   position: absolute;
   left: 50%;
   bottom: 100%;
   transform: translateX(-50%);
-  display: block;
+  margin-bottom: 3px;
+  line-height: 1;
   color: #d4af37;
-  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.22))
-    drop-shadow(0 0 3px rgb(212 175 55 / 0.45));
+  text-shadow:
+    0 0 4px rgb(212 175 55 / 0.55),
+    0 1px 2px rgb(0 0 0 / 0.35);
   pointer-events: none;
 }
 
-.card.certified .starIcon {
-  width: 20px;
-  height: 20px;
-  margin-bottom: 3px;
+.card .star {
+  font-size: 20px;
 }
 
-.meta.certified .starIcon {
-  width: 22px;
-  height: 22px;
-  margin-bottom: 3px;
+.meta .star {
+  font-size: 22px;
 }
 
 @media (max-width: 767px) {
@@ -60,9 +48,8 @@
     height: 34px;
   }
 
-  .meta.certified .starIcon {
-    width: 16px;
-    height: 16px;
+  .meta .star {
+    font-size: 16px;
     margin-bottom: 2px;
   }
 }

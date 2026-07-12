@@ -226,7 +226,6 @@
   gap: 10px;
   width: 100%;
   max-width: min(360px, 92vw);
-  overflow: visible;
 }
 
 .metaInstitutionIconWrap {
@@ -247,12 +246,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.metaEndorsedBadgeWrapCertified {
-  align-items: center;
-  justify-content: center;
-  overflow: visible;
 }
 
 .metaBadgeImage {

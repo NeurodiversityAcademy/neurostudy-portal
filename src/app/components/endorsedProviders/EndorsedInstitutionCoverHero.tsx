@@ -181,12 +181,7 @@ export default function EndorsedInstitutionCoverHero({
           </div>
 
           <div className={styles.metaBadgeCenter}>
-            <div
-              className={classNames(
-                styles.metaEndorsedBadgeWrap,
-                ndaCertified && styles.metaEndorsedBadgeWrapCertified
-              )}
-            >
+            <div className={styles.metaEndorsedBadgeWrap}>
               <EndorsedCertifiedBadge size='meta' certified={ndaCertified} />
             </div>
             {institutionIconSrc ? (

@@ -1622,12 +1622,10 @@ export function isLiveEndorsedSlug(slug: string): boolean {
   return ENDORSED_LIVE_SLUGS.includes(slug);
 }
 
-export const ENDORSED_NDA_CERTIFIED_SLUGS: readonly string[] = rows
-  .filter((row) => row.ndaCertified === true)
-  .map((row) => slugify(row.id));
-
 export function isNdaCertifiedEndorsedSlug(slug: string): boolean {
-  return ENDORSED_NDA_CERTIFIED_SLUGS.includes(slug);
+  return rows.some(
+    (row) => row.ndaCertified === true && slugify(row.id) === slug
+  );
 }
 
 export function getInstitutionTypeForSlug(

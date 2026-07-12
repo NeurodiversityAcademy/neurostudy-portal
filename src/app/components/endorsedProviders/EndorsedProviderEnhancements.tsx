@@ -11,44 +11,6 @@ interface EndorsedProviderEnhancementsProps {
   ndaCertified?: boolean;
 }
 
-const NDA_APPROVED_TRAINING_LABEL = 'NDA-approved training';
-
-function NdaCertifiedTrainingMark() {
-  return (
-    <span className={styles.ndaCertifiedMark}>
-      <svg
-        className={styles.ndaCertifiedMarkStar}
-        viewBox='0 0 24 24'
-        aria-hidden='true'
-        focusable='false'
-      >
-        <path
-          fill='currentColor'
-          d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'
-        />
-      </svg>
-      NDA Certified
-    </span>
-  );
-}
-
-function renderSupportFrameworkItem(
-  item: SupportFrameworkSection['items'][number],
-  ndaCertified: boolean
-) {
-  const showCertifiedMark =
-    ndaCertified &&
-    item.label === NDA_APPROVED_TRAINING_LABEL &&
-    item.status === 'Supports in place';
-
-  return (
-    <li key={item.label} className={styles.frameworkListItem}>
-      <span>{item.label}</span>
-      {showCertifiedMark ? <NdaCertifiedTrainingMark /> : null}
-    </li>
-  );
-}
-
 function partitionSupportItems(section: SupportFrameworkSection) {
   const supportsInPlace = section.items.filter(
     (item) => item.status === 'Supports in place'
@@ -178,9 +140,20 @@ export default function EndorsedProviderEnhancements({
                         Supports in place
                       </Typography>
                       <ul className={styles.frameworkList}>
-                        {supportsInPlace.map((item) =>
-                          renderSupportFrameworkItem(item, ndaCertified)
-                        )}
+                        {supportsInPlace.map((item) => (
+                          <li
+                            key={item.label}
+                            className={styles.frameworkListItem}
+                          >
+                            {item.label}
+                            {ndaCertified &&
+                            item.label === 'NDA-approved training' ? (
+                              <span className={styles.ndaCertifiedMark}>
+                                ★ NDA Certified
+                              </span>
+                            ) : null}
+                          </li>
+                        ))}
                       </ul>
                     </div>
                   ) : useThreeColumns ? (
