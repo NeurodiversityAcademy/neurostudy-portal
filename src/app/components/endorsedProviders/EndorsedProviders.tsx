@@ -179,7 +179,10 @@ export default function EndorsedProviders({
                       }
                 }
                 badge={
-                  <EndorsedCertifiedBadge size='card' certified={ndaCertified} />
+                  <EndorsedCertifiedBadge
+                    size='card'
+                    certified={ndaCertified}
+                  />
                 }
                 equalWidth={providers.length > 2}
                 elevatedOnDark
@@ -215,7 +218,10 @@ export default function EndorsedProviders({
             color={TypographyColorToken.PureWhite}
             className={endorseStyles.certifiedLegend}
           >
-            <span className={endorseStyles.certifiedLegendStar} aria-hidden='true'>
+            <span
+              className={endorseStyles.certifiedLegendStar}
+              aria-hidden='true'
+            >
               ★
             </span>{' '}
             NDA Certified — completed Neurodiversity Academy provider training

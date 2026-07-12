@@ -66,7 +66,9 @@ describe('EndorsedProviders demo access', () => {
     const { getByText } = render(<EndorsedProviders />);
 
     expect(
-      getByText(/NDA Certified — completed Neurodiversity Academy provider training/)
+      getByText(
+        /NDA Certified — completed Neurodiversity Academy provider training/
+      )
     ).toBeInTheDocument();
   });
 });
