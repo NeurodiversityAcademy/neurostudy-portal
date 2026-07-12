@@ -20,12 +20,14 @@ import {
 } from '@/app/utilities/endorsedProvidersDemo';
 import { INSTITUTION_PROVIDER_HEADER_KIND } from '../institutionProviderCard/InstitutionProviderCard';
 import { ENDORSED_PROVIDER_LOGO_BY_SLUG } from './endorsedProviderBrandAssets';
+import EndorsedCertifiedBadge from './EndorsedCertifiedBadge';
 import endorsedData from './endorsedProviders.json';
 import { providerNameFromId } from './providerName';
 
 type EndorsedProviderRawRow = {
   id: string;
   live?: boolean;
+  ndaCertified?: boolean;
   logo: string;
   topBackgroundImage?: string;
   institutionCoursesUrl: string;
@@ -97,19 +99,14 @@ export default function EndorsedProviders({
 }: EndorsedProvidersProps) {
   const rawProviders = endorsedData as EndorsedProviderRawRow[];
   const providers = resolveProvidersToShow(rawProviders, demoGuid, demoSlug);
+  const showCertifiedLegend = providers.some((provider) => {
+    const row = rawProviders.find((item) => item.id === provider.id);
+    return row?.ndaCertified === true;
+  });
 
   if (providers.length === 0) {
     return null;
   }
-
-  const badge = (
-    <Image
-      src={badgeGeneric}
-      alt={ENDORSED_PROVIDERS_BADGE_ALT}
-      width={48}
-      height={48}
-    />
-  );
 
   return (
     <section
@@ -153,6 +150,10 @@ export default function EndorsedProviders({
           {providers.map((provider) => {
             const providerName = providerNameFromId(provider.id);
             const providerSlug = slugify(provider.id);
+            const providerRow = rawProviders.find(
+              (item) => item.id === provider.id
+            );
+            const ndaCertified = providerRow?.ndaCertified === true;
             const cardLogoSrc = resolveEndorsedProviderLogoSrc(
               providerSlug,
               provider.logo,
@@ -177,9 +178,12 @@ export default function EndorsedProviders({
                         kind: INSTITUTION_PROVIDER_HEADER_KIND.CHERRY_PIE_SUB,
                       }
                 }
-                badge={badge}
+                badge={
+                  <EndorsedCertifiedBadge size='card' certified={ndaCertified} />
+                }
                 equalWidth={providers.length > 2}
                 elevatedOnDark
+                ndaCertified={ndaCertified}
                 gaEvent={{
                   eventName: ENDORSED_PROVIDERS_GA.ctaClick.eventName,
                   category: ENDORSED_PROVIDERS_GA.ctaClick.category,
@@ -205,6 +209,18 @@ export default function EndorsedProviders({
             );
           })}
         </div>
+        {showCertifiedLegend ? (
+          <Typography
+            variant={TypographyVariant.Body3}
+            color={TypographyColorToken.PureWhite}
+            className={endorseStyles.certifiedLegend}
+          >
+            <span className={endorseStyles.certifiedLegendStar} aria-hidden='true'>
+              ★
+            </span>{' '}
+            NDA Certified — completed Neurodiversity Academy provider training
+          </Typography>
+        ) : null}
       </div>
     </section>
   );

@@ -149,6 +149,13 @@
   box-sizing: border-box;
 }
 
+.metaStripNdaCertified {
+  border-color: #d4af37;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.1),
+    0 0 12px rgb(212 175 55 / 0.28);
+}
+
 .metaSlot {
   display: flex;
   justify-content: center;
@@ -219,6 +226,7 @@
   gap: 10px;
   width: 100%;
   max-width: min(360px, 92vw);
+  overflow: visible;
 }
 
 .metaInstitutionIconWrap {
@@ -239,6 +247,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.metaEndorsedBadgeWrapCertified {
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
 }
 
 .metaBadgeImage {
@@ -324,6 +338,11 @@
     gap: 10px;
     padding: 12px;
     min-height: 0;
+  }
+
+  .metaStripNdaCertified {
+    /* Room for certified star above the badge (16px + 2px gap). */
+    padding-top: 22px;
   }
 
   .metaStrip > .metaSlot:first-child,

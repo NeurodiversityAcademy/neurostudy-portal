@@ -6,7 +6,7 @@ import Typography, { TypographyVariant } from '../typography/Typography';
 import { TypographyColorToken } from '../typography/typographyColorToken';
 import mapPin from '@/app/images/MapPin.png';
 import notebook from '@/app/images/Notebook.png';
-import endorsedProvidersBadge from '@/app/images/badgeGeneric.png';
+import EndorsedCertifiedBadge from './EndorsedCertifiedBadge';
 import { sendEndorsedExploreClickEvent } from '@/app/utilities/gaTracking';
 import styles from './endorsedInstitutionCoverHero.module.css';
 
@@ -22,6 +22,8 @@ export interface EndorsedInstitutionCoverHeroProps {
   coverImageSrc?: string;
   /** Slug used as GA provider identifier. */
   providerSlug: string;
+  /** Gold star on badge + rim when provider completed NDA training. */
+  ndaCertified?: boolean;
 }
 
 interface MetaStripFieldProps {
@@ -79,6 +81,7 @@ export default function EndorsedInstitutionCoverHero({
   coursesUrl,
   coverImageSrc,
   providerSlug,
+  ndaCertified = false,
 }: EndorsedInstitutionCoverHeroProps) {
   const iconByLabel = {
     Type: notebook,
@@ -161,7 +164,12 @@ export default function EndorsedInstitutionCoverHero({
         ) : null}
       </div>
       <div className={styles.metaStripWrap}>
-        <div className={styles.metaStrip}>
+        <div
+          className={classNames(
+            styles.metaStrip,
+            ndaCertified && styles.metaStripNdaCertified
+          )}
+        >
           <div className={styles.metaSlot}>
             {typeValue ? (
               <MetaStripField
@@ -173,14 +181,13 @@ export default function EndorsedInstitutionCoverHero({
           </div>
 
           <div className={styles.metaBadgeCenter}>
-            <div className={styles.metaEndorsedBadgeWrap}>
-              <Image
-                src={endorsedProvidersBadge}
-                alt='Endorsed Learning Organisation'
-                width={220}
-                height={220}
-                className={styles.metaBadgeImage}
-              />
+            <div
+              className={classNames(
+                styles.metaEndorsedBadgeWrap,
+                ndaCertified && styles.metaEndorsedBadgeWrapCertified
+              )}
+            >
+              <EndorsedCertifiedBadge size='meta' certified={ndaCertified} />
             </div>
             {institutionIconSrc ? (
               <div className={styles.metaInstitutionIconWrap}>

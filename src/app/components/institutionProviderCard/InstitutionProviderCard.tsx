@@ -27,6 +27,8 @@ export interface InstitutionProviderCardProps {
   equalWidth?: boolean;
   /** Stronger shadow + light rim for cards on dark backgrounds (e.g. cherryPie section). */
   elevatedOnDark?: boolean;
+  /** Gold rim for providers that completed NDA training. */
+  ndaCertified?: boolean;
   gaEvent?: InstitutionCtaAnalytics;
   ctaOpenInNewTab?: boolean;
 }
@@ -38,6 +40,7 @@ export default function InstitutionProviderCard({
   badge,
   equalWidth,
   elevatedOnDark,
+  ndaCertified,
   gaEvent,
   ctaOpenInNewTab,
 }: InstitutionProviderCardProps) {
@@ -59,7 +62,8 @@ export default function InstitutionProviderCard({
       className={classNames(
         styles.card,
         equalWidth && styles.cardEqual,
-        elevatedOnDark && styles.cardElevatedOnDark
+        elevatedOnDark && styles.cardElevatedOnDark,
+        ndaCertified && styles.cardNdaCertified
       )}
     >
       <div className={topClass}>
@@ -72,7 +76,16 @@ export default function InstitutionProviderCard({
             priority={false}
           />
         ) : null}
-        {badge ? <div className={styles.badgeSlot}>{badge}</div> : null}
+        {badge ? (
+          <div
+            className={classNames(
+              styles.badgeSlot,
+              ndaCertified && styles.badgeSlotCertified
+            )}
+          >
+            {badge}
+          </div>
+        ) : null}
       </div>
       <div className={styles.cardBody}>
         {center}

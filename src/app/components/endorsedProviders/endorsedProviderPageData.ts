@@ -1574,6 +1574,8 @@ type EndorsedJsonRow = {
   id: string;
   /** When true, profile is public via slug URL and shown on the homepage. */
   live?: boolean;
+  /** When true, provider has completed NDA provider training (gold star + rim). */
+  ndaCertified?: boolean;
   logo?: string;
   /** Large institution mark beside the endorsed badge in the meta strip; falls back to `logo`. */
   metaStripInstitutionIconSrc?: string;
@@ -1618,6 +1620,14 @@ export const ENDORSED_LIVE_SLUGS: readonly string[] = rows
 
 export function isLiveEndorsedSlug(slug: string): boolean {
   return ENDORSED_LIVE_SLUGS.includes(slug);
+}
+
+export const ENDORSED_NDA_CERTIFIED_SLUGS: readonly string[] = rows
+  .filter((row) => row.ndaCertified === true)
+  .map((row) => slugify(row.id));
+
+export function isNdaCertifiedEndorsedSlug(slug: string): boolean {
+  return ENDORSED_NDA_CERTIFIED_SLUGS.includes(slug);
 }
 
 export function getInstitutionTypeForSlug(

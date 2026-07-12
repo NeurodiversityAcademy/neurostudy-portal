@@ -112,6 +112,34 @@
   color: var(--BondBlackVariant);
 }
 
+.frameworkListItem {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.ndaCertifiedMark {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #d4af37;
+  background: rgb(212 175 55 / 0.12);
+  color: #8a6f08;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.ndaCertifiedMarkStar {
+  width: 10px;
+  height: 10px;
+  color: #d4af37;
+  flex-shrink: 0;
+}
+
 .studyAreasSection {
   width: 100%;
   margin: 0;

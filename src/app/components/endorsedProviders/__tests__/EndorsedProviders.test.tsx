@@ -61,4 +61,12 @@ describe('EndorsedProviders demo access', () => {
 
     expect(getAllByRole('link')).toHaveLength(3);
   });
+
+  it('shows NDA certified legend when a live provider is certified', () => {
+    const { getByText } = render(<EndorsedProviders />);
+
+    expect(
+      getByText(/NDA Certified — completed Neurodiversity Academy provider training/)
+    ).toBeInTheDocument();
+  });
 });
