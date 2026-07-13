@@ -1,5 +1,6 @@
 import {
   ENDORSED_PROVIDERS_HEADING,
+  NDA_CERTIFIED_LEGEND,
   resolveEndorsedProviderLogoSrc,
 } from '@/app/utilities/endorsedProvidersDemo';
 
@@ -21,5 +22,11 @@ describe('endorsedProvidersDemo', () => {
 
   it('ENDORSED_PROVIDERS_HEADING is defined', () => {
     expect(ENDORSED_PROVIDERS_HEADING.length).toBeGreaterThan(0);
+  });
+
+  it('NDA_CERTIFIED_LEGEND uses accredited training wording', () => {
+    expect(NDA_CERTIFIED_LEGEND).toBe(
+      'NDA Certified — completed Neurodiversity Academy accredited training'
+    );
   });
 });

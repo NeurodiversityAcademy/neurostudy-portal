@@ -17,6 +17,7 @@ import {
   ENDORSED_PROVIDERS_SUBTITLE,
   buildEndorsedProviderDetailHref,
   resolveEndorsedProviderLogoSrc,
+  NDA_CERTIFIED_LEGEND,
 } from '@/app/utilities/endorsedProvidersDemo';
 import { INSTITUTION_PROVIDER_HEADER_KIND } from '../institutionProviderCard/InstitutionProviderCard';
 import { ENDORSED_PROVIDER_LOGO_BY_SLUG } from './endorsedProviderBrandAssets';
@@ -223,7 +224,7 @@ export default function EndorsedProviders({
             >
               ★
             </span>{' '}
-            NDA Certified — completed Neurodiversity Academy provider training
+            {NDA_CERTIFIED_LEGEND}
           </Typography>
         ) : null}
       </div>

@@ -4,6 +4,7 @@ import {
   buildEndorsedDemoDetailHref,
   buildEndorsedLiveDetailHref,
 } from '@/app/utilities/demoAccess';
+import { NDA_CERTIFIED_LEGEND } from '@/app/utilities/endorsedProvidersDemo';
 
 jest.mock('next/image', () => ({
   __esModule: true,
@@ -66,10 +67,6 @@ describe('EndorsedProviders demo access', () => {
   it('shows NDA certified legend when a live provider is certified', () => {
     const { getByText } = render(<EndorsedProviders />);
 
-    expect(
-      getByText(
-        /NDA Certified — completed Neurodiversity Academy provider training/
-      )
-    ).toBeInTheDocument();
+    expect(getByText(new RegExp(NDA_CERTIFIED_LEGEND))).toBeInTheDocument();
   });
 });
