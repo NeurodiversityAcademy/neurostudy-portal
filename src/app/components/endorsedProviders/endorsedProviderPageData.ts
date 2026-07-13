@@ -131,6 +131,8 @@ const INSTITUTION_TYPE_BY_SLUG: Record<string, EndorsedInstitutionType> = {
 const ENDORSEMENT_ID_BY_SLUG: Record<string, string> = {
   hsh: '84173',
   'blueprint-career-development': '29560',
+  collarts: '61847',
+  'nepean-community-college': '47283',
 };
 
 function buildQiltStatsForSlug(slug: string): ProviderStatItem[] {
@@ -1574,6 +1576,8 @@ type EndorsedJsonRow = {
   id: string;
   /** When true, profile is public via slug URL and shown on the homepage. */
   live?: boolean;
+  /** When true, provider has completed NDA provider training (gold star + rim). */
+  ndaCertified?: boolean;
   logo?: string;
   /** Large institution mark beside the endorsed badge in the meta strip; falls back to `logo`. */
   metaStripInstitutionIconSrc?: string;
@@ -1618,6 +1622,12 @@ export const ENDORSED_LIVE_SLUGS: readonly string[] = rows
 
 export function isLiveEndorsedSlug(slug: string): boolean {
   return ENDORSED_LIVE_SLUGS.includes(slug);
+}
+
+export function isNdaCertifiedEndorsedSlug(slug: string): boolean {
+  return rows.some(
+    (row) => row.ndaCertified === true && slugify(row.id) === slug
+  );
 }
 
 export function getInstitutionTypeForSlug(

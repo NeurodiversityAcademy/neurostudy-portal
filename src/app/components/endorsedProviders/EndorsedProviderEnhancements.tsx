@@ -8,6 +8,7 @@ import { getSupportFrameworkSectionIcon } from './supportFrameworkSectionIcons';
 
 interface EndorsedProviderEnhancementsProps {
   supportFramework: SupportFrameworkSection[];
+  ndaCertified?: boolean;
 }
 
 function partitionSupportItems(section: SupportFrameworkSection) {
@@ -22,6 +23,7 @@ function partitionSupportItems(section: SupportFrameworkSection) {
 
 export default function EndorsedProviderEnhancements({
   supportFramework,
+  ndaCertified = false,
 }: EndorsedProviderEnhancementsProps) {
   const rows = supportFramework
     .map((frameworkSection) => ({
@@ -139,7 +141,18 @@ export default function EndorsedProviderEnhancements({
                       </Typography>
                       <ul className={styles.frameworkList}>
                         {supportsInPlace.map((item) => (
-                          <li key={item.label}>{item.label}</li>
+                          <li
+                            key={item.label}
+                            className={styles.frameworkListItem}
+                          >
+                            {item.label}
+                            {ndaCertified &&
+                            item.label === 'NDA-approved training' ? (
+                              <span className={styles.ndaCertifiedMark}>
+                                ★ NDA Certified
+                              </span>
+                            ) : null}
+                          </li>
                         ))}
                       </ul>
                     </div>

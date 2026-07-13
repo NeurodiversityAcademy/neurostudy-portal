@@ -1,0 +1,55 @@
+.wrap {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.badgeImage {
+  display: block;
+  object-fit: contain;
+}
+
+.card .badgeImage {
+  width: 48px;
+  height: 48px;
+}
+
+.meta .badgeImage {
+  width: 56px;
+  height: 56px;
+}
+
+.star {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translateX(-50%);
+  margin-bottom: 3px;
+  line-height: 1;
+  color: var(--ndaCertifiedGold);
+  text-shadow:
+    0 0 4px rgb(var(--ndaCertifiedGoldChannel) / 0.55),
+    0 1px 2px rgb(0 0 0 / 0.35);
+  pointer-events: none;
+}
+
+.card .star {
+  font-size: 20px;
+}
+
+.meta .star {
+  font-size: 22px;
+}
+
+@media (max-width: 767px) {
+  .meta .badgeImage {
+    width: 34px;
+    height: 34px;
+  }
+
+  .meta .star {
+    font-size: 16px;
+    margin-bottom: 2px;
+  }
+}

@@ -28,6 +28,7 @@ import {
   getVetKeyDataPointsForSlug,
   hasEndorsedDeliverySignals,
   isLiveEndorsedSlug,
+  isNdaCertifiedEndorsedSlug,
 } from '@/app/components/endorsedProviders/endorsedProviderPageData';
 import { HOST_URL } from '@/app/utilities/constants';
 import {
@@ -123,6 +124,7 @@ export default function EndorsedProviderDetailPage({
   const coverImageSrc = getEndorsedTopBackgroundImageForSlug(internalSlug);
   const coursesUrl = getEndorsedInstitutionCoursesUrl(internalSlug);
   const endorsementId = getEndorsedEndorsementIdForSlug(internalSlug);
+  const ndaCertified = isNdaCertifiedEndorsedSlug(internalSlug);
 
   const locationValue = findHeroInfoValueByLabel(
     heroInfoItems,
@@ -148,6 +150,7 @@ export default function EndorsedProviderDetailPage({
           coverImageSrc={coverImageSrc}
           coursesUrl={coursesUrl}
           providerSlug={internalSlug}
+          ndaCertified={ndaCertified}
         />
         <div className={pageStyles.endorsedPageColumn}>
           <div className={pageStyles.endorsedPageColumnInner}>
@@ -200,6 +203,7 @@ export default function EndorsedProviderDetailPage({
             >
               <EndorsedProviderEnhancements
                 supportFramework={supportFramework}
+                ndaCertified={ndaCertified}
               />
             </section>
             <section

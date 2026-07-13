@@ -149,6 +149,13 @@
   box-sizing: border-box;
 }
 
+.metaStripNdaCertified {
+  border-color: var(--ndaCertifiedGold);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.1),
+    0 0 12px rgb(var(--ndaCertifiedGoldChannel) / 0.28);
+}
+
 .metaSlot {
   display: flex;
   justify-content: center;
@@ -324,6 +331,11 @@
     gap: 10px;
     padding: 12px;
     min-height: 0;
+  }
+
+  .metaStripNdaCertified {
+    /* Room for certified star above the badge (16px + 2px gap). */
+    padding-top: 22px;
   }
 
   .metaStrip > .metaSlot:first-child,

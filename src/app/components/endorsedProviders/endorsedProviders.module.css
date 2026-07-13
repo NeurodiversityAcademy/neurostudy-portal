@@ -98,3 +98,17 @@
     max-width: 100%;
   }
 }
+
+.certifiedLegend {
+  margin: 18px auto 0;
+  width: min(90%, 684px);
+  text-align: center;
+  opacity: 0.92;
+}
+
+.certifiedLegendStar {
+  color: var(--ndaCertifiedGold);
+  text-shadow:
+    0 0 4px rgb(var(--ndaCertifiedGoldChannel) / 0.55),
+    0 1px 2px rgb(0 0 0 / 0.35);
+}
