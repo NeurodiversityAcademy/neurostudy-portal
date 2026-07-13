@@ -11,7 +11,7 @@ const VALID_GUID = '00000000-0000-0000-0000-000000000001';
 describe('resolveDetailDemoAccess', () => {
   beforeEach(() => {
     process.env = { ...ORIGINAL_ENV };
-    process.env[ENDORSED_DEMO_ACCESS_ENV_KEY] = `{"${VALID_GUID}":"collarts"}`;
+    process.env[ENDORSED_DEMO_ACCESS_ENV_KEY] = `{"${VALID_GUID}":"academia"}`;
     resetDemoAccessMapCacheForTests();
   });
 
@@ -21,7 +21,7 @@ describe('resolveDetailDemoAccess', () => {
 
   it('returns internalSlug when path guid matches demo param', () => {
     expect(resolveDetailDemoAccess(VALID_GUID, { demo: VALID_GUID })).toEqual({
-      internalSlug: 'collarts',
+      internalSlug: 'academia',
     });
   });
 
@@ -41,6 +41,9 @@ describe('resolveDetailDemoAccess', () => {
       resolveDetailDemoAccess('nepean-community-college', EMPTY_SEARCH_PARAMS)
     ).toEqual({
       internalSlug: 'nepean-community-college',
+    });
+    expect(resolveDetailDemoAccess('collarts', EMPTY_SEARCH_PARAMS)).toEqual({
+      internalSlug: 'collarts',
     });
   });
 

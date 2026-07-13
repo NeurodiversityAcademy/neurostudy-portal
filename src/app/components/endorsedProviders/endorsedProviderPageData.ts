@@ -131,6 +131,8 @@ const INSTITUTION_TYPE_BY_SLUG: Record<string, EndorsedInstitutionType> = {
 const ENDORSEMENT_ID_BY_SLUG: Record<string, string> = {
   hsh: '84173',
   'blueprint-career-development': '29560',
+  collarts: '61847',
+  'nepean-community-college': '47283',
 };
 
 function buildQiltStatsForSlug(slug: string): ProviderStatItem[] {
