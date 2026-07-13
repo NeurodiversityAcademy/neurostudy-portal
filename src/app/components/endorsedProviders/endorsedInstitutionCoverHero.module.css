@@ -157,17 +157,14 @@
 }
 
 .certifiedLegendRow {
-  width: 100%;
-  margin-top: 8px;
-  padding: 0 24px;
+  width: min(100%, 920px);
+  margin: 8px auto 0;
   box-sizing: border-box;
-  display: flex;
-  justify-content: center;
 }
 
 .certifiedLegendRow .certifiedLegend {
   display: block;
-  width: min(100%, 986px);
+  width: 100%;
   margin: 0;
   font-size: 11px;
   text-align: right;
@@ -290,11 +287,6 @@
     min-height: 45vh;
     height: 100%;
     box-sizing: border-box;
-  }
-
-  .certifiedLegendRow .certifiedLegend {
-    width: 84vw;
-    max-width: 100%;
   }
 }
 
@@ -434,11 +426,5 @@
 
   .certifiedLegendRow {
     margin-top: 6px;
-    padding: 0 12px;
-  }
-
-  .certifiedLegendRow .certifiedLegend {
-    width: 100%;
-    text-align: right;
   }
 }
