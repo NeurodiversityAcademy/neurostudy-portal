@@ -27,9 +27,9 @@
   transform: translateX(-50%);
   margin-bottom: 3px;
   line-height: 1;
-  color: #d4af37;
+  color: var(--ndaCertifiedGold);
   text-shadow:
-    0 0 4px rgb(212 175 55 / 0.55),
+    0 0 4px rgb(var(--ndaCertifiedGoldChannel) / 0.55),
     0 1px 2px rgb(0 0 0 / 0.35);
   pointer-events: none;
 }

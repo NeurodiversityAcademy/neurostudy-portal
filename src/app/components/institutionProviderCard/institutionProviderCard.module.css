@@ -29,18 +29,18 @@
 }
 
 .cardNdaCertified {
-  border: 1.5px solid #d4af37;
+  border: 1.5px solid var(--ndaCertifiedGold);
   box-shadow:
     0 1px 20px 0px var(--color-shadow-soft),
-    0 0 10px rgb(212 175 55 / 0.28);
+    0 0 10px rgb(var(--ndaCertifiedGoldChannel) / 0.28);
 }
 
 .cardElevatedOnDark.cardNdaCertified {
-  border: 1.5px solid #d4af37;
+  border: 1.5px solid var(--ndaCertifiedGold);
   box-shadow:
     0 2px 8px rgb(0 0 0 / 0.2),
     0 14px 40px rgb(0 0 0 / 0.28),
-    0 0 12px rgb(212 175 55 / 0.32);
+    0 0 12px rgb(var(--ndaCertifiedGoldChannel) / 0.32);
 }
 
 .cardTop {

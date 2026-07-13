@@ -150,10 +150,10 @@
 }
 
 .metaStripNdaCertified {
-  border-color: #d4af37;
+  border-color: var(--ndaCertifiedGold);
   box-shadow:
     0 4px 16px rgba(0, 0, 0, 0.1),
-    0 0 12px rgb(212 175 55 / 0.28);
+    0 0 12px rgb(var(--ndaCertifiedGoldChannel) / 0.28);
 }
 
 .metaSlot {

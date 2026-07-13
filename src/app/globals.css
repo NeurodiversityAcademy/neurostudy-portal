@@ -90,6 +90,11 @@
   --black-400: #17171726;
   --bond-black-light: #212121;
 
+  /* NDA Certified provider highlight */
+  --ndaCertifiedGold: #d4af37;
+  --ndaCertifiedGoldDark: #8a6f08;
+  --ndaCertifiedGoldChannel: 212 175 55;
+
   /* Shadows (shared rgba / alpha hex) */
   --color-shadow-soft: rgba(0, 0, 0, 0.12);
   --color-shadow-pressed: #0000001f;
