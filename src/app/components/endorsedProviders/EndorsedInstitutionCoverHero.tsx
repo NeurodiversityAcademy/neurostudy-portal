@@ -8,6 +8,7 @@ import mapPin from '@/app/images/MapPin.png';
 import notebook from '@/app/images/Notebook.png';
 import EndorsedCertifiedBadge from './EndorsedCertifiedBadge';
 import { sendEndorsedExploreClickEvent } from '@/app/utilities/gaTracking';
+import { NDA_CERTIFIED_LEGEND } from '@/app/utilities/endorsedProvidersDemo';
 import styles from './endorsedInstitutionCoverHero.module.css';
 
 export interface EndorsedInstitutionCoverHeroProps {
@@ -211,6 +212,20 @@ export default function EndorsedInstitutionCoverHero({
             ) : null}
           </div>
         </div>
+        {ndaCertified ? (
+          <div className={styles.certifiedLegendRow}>
+            <Typography
+              variant={TypographyVariant.Body3}
+              color={TypographyColorToken.BondBlackVariant}
+              className={styles.certifiedLegend}
+            >
+              <span className={styles.certifiedLegendStar} aria-hidden='true'>
+                ★
+              </span>{' '}
+              {NDA_CERTIFIED_LEGEND}
+            </Typography>
+          </div>
+        ) : null}
       </div>
     </section>
   );

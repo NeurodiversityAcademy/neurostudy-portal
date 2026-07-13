@@ -5,6 +5,7 @@ import {
   installGtagMock,
   installTestPagePath,
 } from '@/app/utilities/__tests__/gaTestHelpers';
+import { NDA_CERTIFIED_LEGEND } from '@/app/utilities/endorsedProvidersDemo';
 
 jest.mock('next/image', () => ({
   __esModule: true,
@@ -82,5 +83,29 @@ describe('EndorsedInstitutionCoverHero analytics', () => {
     const link = getByRole('link', { name: 'Explore' });
     expect(link).toHaveAttribute('href', coursesUrl);
     expect(link).toHaveAttribute('target', '_blank');
+  });
+
+  it('shows NDA certified legend below the meta strip when certified', () => {
+    const { getByText, getByRole } = render(
+      <EndorsedInstitutionCoverHero {...baseProps} ndaCertified />
+    );
+
+    const legend = getByText(NDA_CERTIFIED_LEGEND);
+    expect(legend).toBeInTheDocument();
+
+    const section = getByRole('region', { name: 'Endorsed provider cover' });
+    const metaStripWrap = section.lastElementChild;
+    const metaStrip = metaStripWrap?.firstElementChild;
+    expect(metaStrip).not.toBeNull();
+    expect(metaStrip?.contains(legend)).toBe(false);
+    expect(metaStripWrap?.contains(legend)).toBe(true);
+  });
+
+  it('does not show NDA certified legend when not certified', () => {
+    const { queryByText } = render(
+      <EndorsedInstitutionCoverHero {...baseProps} ndaCertified={false} />
+    );
+
+    expect(queryByText(NDA_CERTIFIED_LEGEND)).not.toBeInTheDocument();
   });
 });

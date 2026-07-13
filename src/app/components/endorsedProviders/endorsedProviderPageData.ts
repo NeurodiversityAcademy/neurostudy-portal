@@ -1576,7 +1576,7 @@ type EndorsedJsonRow = {
   id: string;
   /** When true, profile is public via slug URL and shown on the homepage. */
   live?: boolean;
-  /** When true, provider has completed NDA provider training (gold star + rim). */
+  /** When true, provider has completed NDA accredited training (gold star + rim). */
   ndaCertified?: boolean;
   logo?: string;
   /** Large institution mark beside the endorsed badge in the meta strip; falls back to `logo`. */
