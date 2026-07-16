@@ -105,56 +105,65 @@ const getAuthMethod = (request: Request | undefined): string | null => {
   }
 };
 
+const isCognitoConfigured =
+  Boolean(COGNITO_CONFIDENTIAL_CLIENT_ID) &&
+  Boolean(COGNITO_CONFIDENTIAL_CLIENT_SECRET) &&
+  Boolean(COGNITO_ISSUER);
+
+const credentialsProvider = CredentialsProvider({
+  credentials: {
+    username: { type: 'text', label: 'Username' },
+    password: { type: 'password', label: 'Password' },
+    confirmationCode: { type: 'text', label: 'Confirmation Code' },
+  },
+  async authorize(credentials, request) {
+    if (!credentials) {
+      throw new Error('No credentials found!');
+    }
+
+    const username =
+      typeof credentials.username === 'string' ? credentials.username : '';
+    const password =
+      typeof credentials.password === 'string' ? credentials.password : '';
+    const confirmationCode =
+      typeof credentials.confirmationCode === 'string'
+        ? credentials.confirmationCode
+        : '';
+
+    if (getAuthMethod(request) === 'confirmSignUp') {
+      const confirmSignUpOutput = await confirmSignUp({
+        username,
+        confirmationCode,
+      });
+      const { signUpStep } = confirmSignUpOutput.nextStep;
+
+      if (signUpStep === FORM_STATE.DONE) {
+        return await applySignIn({ username, password });
+      }
+
+      throw new Error(JSON.stringify(confirmSignUpOutput));
+    }
+
+    return await applySignIn({ username, password });
+  },
+});
+
 export const { handlers, auth, signIn: authSignIn, signOut: authSignOut } =
   NextAuth({
     providers: [
-      CognitoProvider({
-        clientId: COGNITO_CONFIDENTIAL_CLIENT_ID,
-        clientSecret: COGNITO_CONFIDENTIAL_CLIENT_SECRET,
-        issuer: COGNITO_ISSUER,
-        checks: ['nonce'],
-      }),
-      CredentialsProvider({
-        credentials: {
-          username: { type: 'text', label: 'Username' },
-          password: { type: 'password', label: 'Password' },
-          confirmationCode: { type: 'text', label: 'Confirmation Code' },
-        },
-        async authorize(credentials, request) {
-          if (!credentials) {
-            throw new Error('No credentials found!');
-          }
-
-          const username =
-            typeof credentials.username === 'string'
-              ? credentials.username
-              : '';
-          const password =
-            typeof credentials.password === 'string'
-              ? credentials.password
-              : '';
-          const confirmationCode =
-            typeof credentials.confirmationCode === 'string'
-              ? credentials.confirmationCode
-              : '';
-
-          if (getAuthMethod(request) === 'confirmSignUp') {
-            const confirmSignUpOutput = await confirmSignUp({
-              username,
-              confirmationCode,
-            });
-            const { signUpStep } = confirmSignUpOutput.nextStep;
-
-            if (signUpStep === FORM_STATE.DONE) {
-              return await applySignIn({ username, password });
-            }
-
-            throw new Error(JSON.stringify(confirmSignUpOutput));
-          }
-
-          return await applySignIn({ username, password });
-        },
-      }),
+      // Skip Cognito OAuth when issuer/client env is unset — Auth.js v5 throws
+      // InvalidEndpoints and breaks /api/auth/session for the whole site.
+      ...(isCognitoConfigured
+        ? [
+            CognitoProvider({
+              clientId: COGNITO_CONFIDENTIAL_CLIENT_ID,
+              clientSecret: COGNITO_CONFIDENTIAL_CLIENT_SECRET,
+              issuer: COGNITO_ISSUER,
+              checks: ['nonce'],
+            }),
+          ]
+        : []),
+      credentialsProvider,
     ],
     pages: {
       signIn: '/login',
@@ -206,5 +215,6 @@ export const { handlers, auth, signIn: authSignIn, signOut: authSignOut } =
         signOut().catch(() => undefined);
       },
     },
+    secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
     trustHost: true,
   });
