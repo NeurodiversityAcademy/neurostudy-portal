@@ -51,6 +51,11 @@
   border-radius: 16px;
 }
 
+/* Standalone modifier used when checkbox is rendered as a pill control */
+.pill {
+  border-radius: 16px;
+}
+
 .radio.checked {
   outline: 6px solid var(--cherryPieVariant);
   outline-offset: -10px;

@@ -7,6 +7,10 @@
   padding: 20px 0;
 }
 
+.title {
+  margin: 0 0 16px;
+}
+
 /* Alternate background colors for sections */
 .section:nth-of-type(odd) {
   background-color: var(--cherryPie);
@@ -19,6 +23,7 @@
 .cardContainer {
   display: flex;
   justify-content: space-around;
+  align-items: stretch;
   gap: 20px;
   flex-wrap: wrap;
 }
@@ -35,6 +40,18 @@
   gap: 20px;
   align-items: center;
   text-align: center;
+}
+
+.cardBody {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.linkedinWrap {
+  margin-top: auto;
 }
 
 @media (max-width: 768px) {

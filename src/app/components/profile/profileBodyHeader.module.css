@@ -24,6 +24,13 @@
   height: auto;
 }
 
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
 .editBtn {
   margin-left: auto;
   align-self: center;

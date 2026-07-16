@@ -4,28 +4,34 @@
   padding-top: 30px;
 }
 
-.container h2{
- margin: 0px 0px 80px 0px;
+.header {
+  margin: 0 0 80px;
+}
+
+.container h2 {
+  margin: 0;
 }
 
 .grid {
   display: flex;
-  justify-content:space-around;
+  justify-content: space-around;
+  align-items: stretch;
   gap: 56px;
   padding-bottom: 80px;
   flex-wrap: wrap;
 }
 
 .image {
-  width: 150px; /* Ensure width is fixed */
-  height: 150px; /* Ensure height matches width */
-  border-radius: 50%; /* Make the image circular */
-  object-fit: cover; /* Ensure the image maintains its aspect ratio */
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
   display: block;
 }
 
 .textBox {
   margin: 24px;
+  flex: 1 1 auto;
 }
 
 .gridItem {
@@ -33,7 +39,7 @@
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 10px;
-  flex: 1 1 calc(50% - 20px); /* Default: Two items per row */
+  flex: 1 1 calc(50% - 20px);
   margin: 10px;
   display: flex;
   flex-direction: column;
@@ -42,11 +48,20 @@
   text-align: center;
 }
 
+.icon {
+  margin-top: auto;
+}
+
 @media (max-width: 800px) {
   .container {
     background-color: var(--BondBlack);
     text-align: center;
   }
+
+  .header {
+    margin: 0 0 40px;
+  }
+
   .grid {
     margin: 0px 24px;
     justify-content: center;
@@ -55,20 +70,22 @@
   }
 
   .container img {
-    width: 150px; /* Ensure width is fixed */
-    height: 150px; /* Ensure height matches width */
-    border-radius: 50%; /* Make the image circular */
-    object-fit: cover; /* Ensure the image maintains its aspect ratio */
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
     display: block;
   }
-  
+
   .gridItem span {
     font-size: 16px;
   }
+
   .role {
     display: block;
-    height: 45px;
+    min-height: 45px;
   }
+
   .role span {
     font-size: 14px;
   }
@@ -77,6 +94,7 @@
     width: 40px;
     height: 40px;
   }
+
   .textBox {
     margin: 0px;
   }

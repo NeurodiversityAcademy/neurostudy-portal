@@ -1,25 +1,34 @@
 .container {
   text-align: center;
-  margin: 80px 80px 40px 80px;  
+  margin: 80px 80px 40px 80px;
 }
+
+.header {
+  margin: 0 0 24px;
+}
+
 .container h1 {
   margin: 0px;
   overflow-x: auto;
 }
+
 .grid {
-  display: flex;  
+  display: flex;
   overflow-x: auto;
   gap: 20px;
   margin: 48px 0px;
 }
+
 .gridItem {
   flex: 0 0 410px;
   background-color: var(--BondBlack);
   border-radius: 8px;
 }
+
 .gridItem img {
   margin: 48px 0px 24px 0px;
 }
+
 .gridTextBox {
   margin: 0px 56px 48px 56px;
 }
@@ -36,11 +45,13 @@
     background-color: var(--BondBlack);
     border-radius: 6px;
   }
+
   .gridItem img {
     width: 250px;
     height: 250px;
     margin: 20px;
   }
+
   .grid {
     display: flex;
     flex-direction: column;
@@ -49,12 +60,15 @@
     align-items: center;
     gap: 24px;
   }
+
   .gridTextBox {
     margin: 0px 16px 40px 16px;
   }
+
   .gridText span {
     text-align: center;
   }
+
   .container {
     margin: 40px;
     display: flex;

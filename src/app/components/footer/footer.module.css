@@ -8,7 +8,8 @@
   justify-content: space-between;
 }
 
-.topFoot span {
+.topFoot span,
+.footerText {
   display: inline-block;
   border-bottom: 2px solid var(--GhostWhite);
   padding-bottom: 10px;
