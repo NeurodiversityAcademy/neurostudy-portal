@@ -134,24 +134,26 @@ export default function Advisors() {
                   alt={`${advisor.name} photo`}
                   className={styles.image}
                 />
-                <div>
-                  <Typography
-                    variant={TypographyVariant.Body1}
-                    color='var(--GhostWhite)'
-                  >
-                    {advisor.name}
-                  </Typography>
+                <div className={styles.cardBody}>
+                  <div>
+                    <Typography
+                      variant={TypographyVariant.Body1}
+                      color='var(--GhostWhite)'
+                    >
+                      {advisor.name}
+                    </Typography>
+                  </div>
+                  <div>
+                    <Typography
+                      variant={TypographyVariant.Body2}
+                      color='var(--GhostWhite)'
+                      className={styles.company}
+                    >
+                      {advisor.company}
+                    </Typography>
+                  </div>
                 </div>
-                <div>
-                  <Typography
-                    variant={TypographyVariant.Body2}
-                    color='var(--GhostWhite)'
-                    className={styles.company}
-                  >
-                    {advisor.company}
-                  </Typography>
-                </div>
-                <div>
+                <div className={styles.linkedinWrap}>
                   <Image
                     src={advisor.logo}
                     alt='LinkedIn icon'

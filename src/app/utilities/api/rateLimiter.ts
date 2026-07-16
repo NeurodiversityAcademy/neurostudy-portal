@@ -11,23 +11,30 @@ const rateLimiter = new RateLimiterMemory({
   duration: API_CONSUMPTION_INTERVAL,
 });
 
+const getClientIp = (req: NextRequest): string => {
+  const forwardedFor = req.headers.get('x-forwarded-for');
+  if (forwardedFor) {
+    const firstIp = forwardedFor.split(',')[0]?.trim();
+    if (firstIp) {
+      return firstIp;
+    }
+  }
+
+  return req.headers.get('x-real-ip') || 'unknown';
+};
+
 export const consumeRateWithIp = async (
   req: NextRequest,
   pointsToConsume?: number
 ) => {
-  const ip =
-    req.ip ||
-    req.headers.get('x-forwarded-for') ||
-    req.headers.get('x-real-ip') ||
-    'unknown';
-
+  const ip = getClientIp(req);
   const pathname = new URL(req.url).pathname;
 
   try {
     const res = await rateLimiter.consume(ip + '-' + pathname, pointsToConsume);
 
     return { ip, data: res };
-  } catch (ex) {
+  } catch {
     throw new APIError({ status: 429, error: 'Too Many Requests.' });
   }
 };

@@ -20,7 +20,7 @@ import CourseCard from './course/CourseCard';
 import { DEFAULT_COURSE } from '../utilities/db/constants';
 import CourseSecondaryFilter from './course/CourseSecondaryFilter';
 import CoursePrimaryFilter from './course/CoursePrimaryFilter';
-import { useEffect, useRef } from 'react';
+import { Suspense, useEffect, useRef } from 'react';
 import CourseProvider from '../utilities/course/CourseProvider';
 
 interface LoginFieldValues extends FieldValues {
@@ -28,7 +28,7 @@ interface LoginFieldValues extends FieldValues {
   password: string;
 }
 
-export default function Components() {
+function ComponentsContent() {
   const containerRef = useRef<HTMLElement>(null);
   const methods: UseFormReturn<LoginFieldValues> = useForm<LoginFieldValues>({
     mode: 'onBlur',
@@ -233,5 +233,13 @@ export default function Components() {
         </Form>
       </div>
     </main>
+  );
+}
+
+export default function Components() {
+  return (
+    <Suspense fallback={null}>
+      <ComponentsContent />
+    </Suspense>
   );
 }

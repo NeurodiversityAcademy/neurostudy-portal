@@ -24,7 +24,8 @@
     padding: 0 20px;
   }
   .gridItem span {
-    height: 15rem;
+    min-height: 15rem;
+    flex-grow: 1;
   }
 
   .factReference {
@@ -33,7 +34,7 @@
     height: 70px;
     padding: 10px 0px;
     display: flex;
-    flex: content;
+    flex: 1 1 auto;
     flex-direction: row-reverse;
     align-items: flex-end;
   }

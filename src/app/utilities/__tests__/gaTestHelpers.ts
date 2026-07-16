@@ -11,11 +11,8 @@ export function installGtagMock(): jest.Mock {
 }
 
 export function installTestPagePath(pathname: string): void {
-  Object.defineProperty(window, 'location', {
-    value: { pathname },
-    writable: true,
-    configurable: true,
-  });
+  // Jest 30 / jsdom: window.location is non-configurable; use History API instead.
+  window.history.pushState({}, '', pathname);
 }
 
 export { GA_EVENT_COMMAND };

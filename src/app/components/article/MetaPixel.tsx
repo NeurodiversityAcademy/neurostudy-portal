@@ -1,13 +1,13 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, type ReactElement } from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let ReactPixel: undefined | Record<string, any>;
 const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID ?? '';
 
-export default function MetaPixel(): JSX.Element | null {
+export default function MetaPixel(): ReactElement | null {
   const pathname = usePathname();
 
   useEffect(() => {

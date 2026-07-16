@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import CourseSearch from '../components/course/CourseSearch';
 import { CourseProps } from '../interfaces/Course';
 import { createMetadata, getSearchQuery } from '../utilities/common';
@@ -23,7 +24,8 @@ export async function generateMetadata({
   // const shouldIndex = !(
   //   COURSE_TEST_DATA_QUERY_KEY in searchParams || isQueryComplex(searchParams)
   // );
-  const query = getPartialFetchQuery(searchParams);
+  const resolvedSearchParams = await searchParams;
+  const query = getPartialFetchQuery(resolvedSearchParams);
 
   return createMetadata(META_KEY.COURSES, {
     canonical: META_COURSES_DEFAULT_CANONICAL_URL + (query ? '?' + query : ''),
@@ -36,7 +38,9 @@ export async function generateMetadata({
 //     [...COURSE_FILTER_KEYS, COURSE_TEST_DATA_QUERY_KEY].includes(key)
 //   );
 
-const getPartialFetchQuery = (searchParams: MetadataProps['searchParams']) =>
+const getPartialFetchQuery = (
+  searchParams: Record<string, string | string[] | undefined>
+) =>
   getSearchQuery(
     searchParams,
     (key, value) =>
@@ -45,10 +49,11 @@ const getPartialFetchQuery = (searchParams: MetadataProps['searchParams']) =>
   );
 
 const CoursesPage: React.FC<{
-  searchParams: Record<string, string | string[]>;
+  searchParams: Promise<Record<string, string | string[]>>;
 }> = async ({ searchParams }) => {
+  const resolvedSearchParams = await searchParams;
   // NOTE: DynamoDB is not ideal for complex queries, hence partial extraction
-  const query = getPartialFetchQuery(searchParams);
+  const query = getPartialFetchQuery(resolvedSearchParams);
 
   const data: CourseProps[] | undefined = await new Promise((resolve) => {
     fetch(HOST_URL + '/api/course' + (query ? '?' + query : ''), {
@@ -84,9 +89,11 @@ const CoursesPage: React.FC<{
   }
 
   return (
-    <CourseProvider data={finalData}>
-      <CourseSearch />
-    </CourseProvider>
+    <Suspense fallback={null}>
+      <CourseProvider data={finalData}>
+        <CourseSearch />
+      </CourseProvider>
+    </Suspense>
   );
 };
 

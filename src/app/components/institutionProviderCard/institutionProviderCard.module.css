@@ -1,7 +1,8 @@
 .card {
   container-type: inline-size;
   width: 20%;
-  height: 260px;
+  min-height: 260px;
+  height: auto;
   flex: 0 1 16%;
   min-width: 220px;
   max-width: 274px;
@@ -102,7 +103,8 @@
 
 .nameWrap {
   width: 70%;
-  height: 68px;
+  min-height: 68px;
+  height: auto;
   box-sizing: border-box;
   padding: 8px;
   border-radius: 4px;
@@ -120,6 +122,10 @@
 .card .nameWrap span {
   font-size: clamp(10px, 5.85cqi, 16px);
   line-height: 1.2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
 }
 
 .logoWrap {

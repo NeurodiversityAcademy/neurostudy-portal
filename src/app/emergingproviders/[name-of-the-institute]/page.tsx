@@ -19,21 +19,22 @@ type RouteParams = {
   'name-of-the-institute': string;
 };
 
-export default function EmergingProviderPage({
+export default async function EmergingProviderPage({
   params,
 }: {
-  params: RouteParams;
+  params: Promise<RouteParams>;
 }) {
+  const resolvedParams = await params;
   const institutions = cardData as InstitutionCard[];
   const institution = institutions.find(
-    (item) => slugify(item.name) === params['name-of-the-institute']
+    (item) => slugify(item.name) === resolvedParams['name-of-the-institute']
   );
 
   if (!institution) {
     notFound();
   }
 
-  const institutionSlug = params['name-of-the-institute'];
+  const institutionSlug = resolvedParams['name-of-the-institute'];
   const heroInfoItems = HERO_DETAILS_BY_SLUG[institutionSlug];
   const providerStats = STATS_BY_SLUG[institutionSlug];
 

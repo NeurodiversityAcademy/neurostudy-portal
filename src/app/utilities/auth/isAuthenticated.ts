@@ -8,9 +8,12 @@ export default async function isAuthenticated({
 }: {
   req: NextRequest;
 }): Promise<UserToken | AuthErrorResponse> {
-  const token: UserToken | null = (await getToken({ req })) as UserToken;
+  const token = (await getToken({
+    req,
+    secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
+  })) as UserToken | null;
 
-  if (!token) {
+  if (!token?.email) {
     return new AuthErrorResponse('User is not authorized.', { status: 401 });
   }
 

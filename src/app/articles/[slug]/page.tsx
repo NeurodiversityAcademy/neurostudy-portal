@@ -13,13 +13,13 @@ import { createMetadata, slugify } from '@/app/utilities/common';
 import VisitTrackerWrapper from '@/app/components/wrapper/VisitTrackerWrapper';
 
 interface Props {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = params;
+  const { slug } = await params;
   const { articles } = articleData;
   const article = articles.find(({ title }) => slugify(title) === slug);
 
@@ -47,8 +47,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
-export default function OneArticle({ params }: Props) {
-  const { slug } = params;
+export default async function OneArticle({ params }: Props) {
+  const { slug } = await params;
   const { articles } = articleData;
   const article = articles.find((article) => slugify(article.title) === slug);
 

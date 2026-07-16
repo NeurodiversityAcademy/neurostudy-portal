@@ -14,7 +14,7 @@ export default function TextHeavyArticle({
   bodyText,
   authorName,
   authorImageUrl,
-}: TextHeavyInterface): JSX.Element {
+}: TextHeavyInterface): React.ReactElement {
   const windowWidth = useWindowWidth();
 
   const paragraphs = bodyText.split('\n').map((paragraph, index) => {

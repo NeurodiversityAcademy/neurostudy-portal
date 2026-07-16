@@ -1,13 +1,13 @@
 import CourseDetails from '@/app/components/course/CourseDetails';
 
 interface CoursePageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-const CoursePage: React.FC<CoursePageProps> = ({ params }) => {
-  const { id } = params;
+const CoursePage = async ({ params }: CoursePageProps) => {
+  const { id } = await params;
 
   return (
     <div className='course-layout'>

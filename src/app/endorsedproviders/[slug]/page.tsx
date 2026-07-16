@@ -51,15 +51,20 @@ type RouteParams = {
 };
 
 interface PageProps {
-  params: RouteParams;
-  searchParams: SearchParams;
+  params: Promise<RouteParams>;
+  searchParams: Promise<SearchParams>;
 }
 
 export async function generateMetadata({
   params,
-  searchParams = EMPTY_SEARCH_PARAMS,
+  searchParams,
 }: PageProps): Promise<Metadata> {
-  const demoAccess = resolveDetailDemoAccess(params.slug, searchParams);
+  const resolvedParams = await params;
+  const resolvedSearchParams = (await searchParams) ?? EMPTY_SEARCH_PARAMS;
+  const demoAccess = resolveDetailDemoAccess(
+    resolvedParams.slug,
+    resolvedSearchParams
+  );
   if (demoAccess === null) {
     return { title: 'Not found' };
   }
@@ -76,7 +81,7 @@ export async function generateMetadata({
   const description = `Explore neuro-inclusive profile and delivery signals for ${displayName}.`;
   const canonicalPath = isLiveEndorsedSlug(internalSlug)
     ? buildEndorsedLiveDetailHref(internalSlug)
-    : buildEndorsedDemoDetailHref(params.slug);
+    : buildEndorsedDemoDetailHref(resolvedParams.slug);
   const canonical = `${HOST_URL}${canonicalPath}`;
 
   return {
@@ -91,11 +96,16 @@ export async function generateMetadata({
   };
 }
 
-export default function EndorsedProviderDetailPage({
+export default async function EndorsedProviderDetailPage({
   params,
-  searchParams = EMPTY_SEARCH_PARAMS,
+  searchParams,
 }: PageProps) {
-  const demoAccess = resolveDetailDemoAccess(params.slug, searchParams);
+  const resolvedParams = await params;
+  const resolvedSearchParams = (await searchParams) ?? EMPTY_SEARCH_PARAMS;
+  const demoAccess = resolveDetailDemoAccess(
+    resolvedParams.slug,
+    resolvedSearchParams
+  );
   if (demoAccess === null) {
     notFound();
   }

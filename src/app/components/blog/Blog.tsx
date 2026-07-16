@@ -10,7 +10,7 @@ export default function Blog({
   //id,
   title,
   imageUrl,
-}: BlogInterface): JSX.Element {
+}: BlogInterface): React.ReactElement {
   const blogSlug = slugify(title);
   return (
     <div className={styles.card}>
@@ -18,7 +18,7 @@ export default function Blog({
         <Image src={imageUrl} alt={`Thumbnail for ${title}`} fill={true} />
       </div>
       <div className={styles.descriptionContainer}>
-        <div className={styles.title}>
+        <div className={styles.description}>
           <Typography variant={TypographyVariant.Body2}>{title}</Typography>
         </div>
         <LearnMore dest={`/blogs/${blogSlug}`} />
