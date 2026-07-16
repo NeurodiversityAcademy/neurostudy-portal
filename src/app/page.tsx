@@ -54,13 +54,14 @@ export const metadata: Metadata = createMetadata(META_KEY.HOME, {
     ],
   },
 });
-export default function Home({
-  searchParams = {},
+export default async function Home({
+  searchParams,
 }: {
-  searchParams?: SearchParams;
+  searchParams: Promise<SearchParams>;
 }) {
-  const showSearchBar = isFeatureEnabled(searchParams, 'searchBar');
-  const demoAccess = resolveHomeDemoAccess(searchParams);
+  const resolvedSearchParams = await searchParams;
+  const showSearchBar = isFeatureEnabled(resolvedSearchParams, 'searchBar');
+  const demoAccess = resolveHomeDemoAccess(resolvedSearchParams);
   return (
     <Suspense fallback={<h1>Loading...</h1>}>
       <main className={styles.main}>

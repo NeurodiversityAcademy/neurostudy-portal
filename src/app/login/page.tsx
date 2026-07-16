@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import Login from '@/app/components/auth/Login';
 import { Metadata } from 'next';
 
@@ -7,7 +8,11 @@ import { createMetadata } from '@/app/utilities/common';
 export const metadata: Metadata = createMetadata(META_KEY.LOGIN);
 
 const Page = () => {
-  return <Login />;
+  return (
+    <Suspense fallback={null}>
+      <Login />
+    </Suspense>
+  );
 };
 
 export default Page;

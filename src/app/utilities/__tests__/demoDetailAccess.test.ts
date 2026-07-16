@@ -59,9 +59,15 @@ describe('resolveDetailDemoAccess', () => {
     ).toBeNull();
   });
 
-  it('returns null for slug path even with valid demo param', () => {
+  it('returns live slug for live provider even with demo param', () => {
+    expect(resolveDetailDemoAccess('collarts', { demo: VALID_GUID })).toEqual({
+      internalSlug: 'collarts',
+    });
+  });
+
+  it('returns null for non-live known slug path even with valid demo param', () => {
     expect(
-      resolveDetailDemoAccess('collarts', { demo: VALID_GUID })
+      resolveDetailDemoAccess('academia', { demo: VALID_GUID })
     ).toBeNull();
   });
 

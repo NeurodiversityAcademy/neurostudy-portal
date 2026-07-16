@@ -10,7 +10,7 @@ export default function Blog({
   //id,
   title,
   imageUrl,
-}: BlogInterface): JSX.Element {
+}: BlogInterface): React.ReactElement {
   const blogSlug = slugify(title);
   return (
     <div className={styles.card}>

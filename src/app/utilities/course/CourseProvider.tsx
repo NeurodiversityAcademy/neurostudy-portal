@@ -4,6 +4,7 @@ import {
   Dispatch,
   ReactNode,
   SetStateAction,
+  Suspense,
   useCallback,
   useEffect,
   useRef,
@@ -88,7 +89,7 @@ const updateRoute = ({
 };
 const updateRouteWithDebounce = debounce(updateRoute, 500);
 
-export default function CourseProvider({
+function CourseProviderContent({
   children,
   data,
   redirectToSearchPage = false,
@@ -208,5 +209,14 @@ export default function CourseProvider({
     >
       {children}
     </CourseContext.Provider>
+  );
+}
+
+
+export default function CourseProvider(props: PropType) {
+  return (
+    <Suspense fallback={null}>
+      <CourseProviderContent {...props} />
+    </Suspense>
   );
 }

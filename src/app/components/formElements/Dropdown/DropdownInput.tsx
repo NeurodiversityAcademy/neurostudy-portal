@@ -64,8 +64,10 @@ const DropdownInput = <TFieldValues extends FieldValues>({
   const error = errors[name];
   const { disabled, onBlur, value } = field;
 
-  const inputRef = useRef<HTMLInputElement | HTMLSpanElement>();
-  const nextFocusElemRef = useRef<HTMLElement>();
+  const inputRef = useRef<HTMLInputElement | HTMLSpanElement | undefined>(
+    undefined
+  );
+  const nextFocusElemRef = useRef<HTMLElement | undefined>(undefined);
   const selectedOptions = useMemo(
     () => (value != null ? (Array.isArray(value) ? value : [value]) : []),
     [value]

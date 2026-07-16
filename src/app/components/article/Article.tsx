@@ -9,7 +9,7 @@ import { slugify } from '@/app/utilities/common';
 export default function Article({
   title,
   imageUrl,
-}: ArticleInterface): JSX.Element {
+}: ArticleInterface): React.ReactElement {
   const articleSlug = slugify(title);
   return (
     <div className={styles.card}>

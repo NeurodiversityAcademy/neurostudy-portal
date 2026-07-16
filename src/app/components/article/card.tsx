@@ -1,4 +1,6 @@
-import React from 'react';
+'use client';
+
+import React, { Suspense } from 'react';
 import Article from './Article';
 import articleData from '../../articles/articleData.json';
 import styles from './article.module.css';
@@ -7,14 +9,14 @@ import { useSearchParams } from 'next/navigation';
 import { slugify } from '@/app/utilities/common';
 import { useVisitedItems } from '@/app/hooks/useVisitedItems';
 
-const CardList: React.FC = () => {
+const CardListContent: React.FC = () => {
   const searchParams = useSearchParams();
   const titleSlug = searchParams.get('title');
   const visitedArticleIds = useVisitedItems('article', searchParams);
 
   const articles: ArticleInterface[] = articleData.articles
-    .filter((article) => slugify(article.title) !== titleSlug) // Filter out current article
-    .filter((article) => !visitedArticleIds.includes(article.id)) // Filter out visited articles
+    .filter((article) => slugify(article.title) !== titleSlug)
+    .filter((article) => !visitedArticleIds.includes(article.id))
     .reverse()
     .slice(0, 3);
 
@@ -23,9 +25,9 @@ const CardList: React.FC = () => {
     const articleIdsToShow = articles.map((article) => article.id);
 
     const fallbackArticles = articleData.articles
-      .filter((article) => slugify(article.title) !== titleSlug) // Exclude current
-      .filter((article) => !articleIdsToShow.includes(article.id)) // Exclude already selected
-      .sort(() => 0.5 - Math.random()) // Shuffle to get random articles
+      .filter((article) => slugify(article.title) !== titleSlug)
+      .filter((article) => !articleIdsToShow.includes(article.id))
+      .sort(() => 0.5 - Math.random())
       .slice(0, needed);
 
     articles.push(...fallbackArticles);
@@ -37,6 +39,14 @@ const CardList: React.FC = () => {
         <Article key={article.id} {...article} />
       ))}
     </div>
+  );
+};
+
+const CardList: React.FC = () => {
+  return (
+    <Suspense fallback={null}>
+      <CardListContent />
+    </Suspense>
   );
 };
 

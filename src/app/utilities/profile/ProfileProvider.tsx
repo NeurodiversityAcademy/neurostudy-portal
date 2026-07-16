@@ -2,7 +2,7 @@
 
 import { UserProps, UserWithEmailProps } from '@/app/interfaces/User';
 import getUserProfile from './getUser';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, Suspense, useEffect, useState } from 'react';
 import saveUserProfile from './saveUserProfile';
 import { notifyAxiosError, notifySuccess } from '../common';
 import processProfileFormData from './processProfileFormData';
@@ -31,7 +31,7 @@ const [ProfileContext, useProfileContext] = deviseContext<ProfileContent>();
 export { ProfileContext };
 export { useProfileContext };
 
-export default function ProfileProvider({ children }: PropType) {
+function ProfileProviderContent({ children }: PropType) {
   const searchParams = useSearchParams();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -92,5 +92,14 @@ export default function ProfileProvider({ children }: PropType) {
     >
       {children}
     </ProfileContext.Provider>
+  );
+}
+
+
+export default function ProfileProvider({ children }: PropType) {
+  return (
+    <Suspense fallback={null}>
+      <ProfileProviderContent>{children}</ProfileProviderContent>
+    </Suspense>
   );
 }

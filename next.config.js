@@ -2,6 +2,8 @@
 
 module.exports = {
   images: {
+    // Next 16 defaults qualities to [75]; keep 100 for existing hero/cover images.
+    qualities: [75, 100],
     remotePatterns: [
       {
         protocol: 'https',
@@ -13,19 +15,18 @@ module.exports = {
       },
       {
         protocol: 'https',
-        hostname: 'res.cloudinary.com', // Add Cloudinary's hostname
+        hostname: 'res.cloudinary.com',
       },
       {
         protocol: 'https',
-        hostname: 'asset.cloudinary.com', // Add Cloudinary's hostname
+        hostname: 'asset.cloudinary.com',
       },
       {
         protocol: 'https',
-        hostname: 'i.imgur.com', // Add Imgur
+        hostname: 'i.imgur.com',
       },
     ],
   },
-  robotsHeaders: true,
   headers: async () => {
     return [
       {

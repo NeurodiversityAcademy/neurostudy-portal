@@ -1,4 +1,5 @@
 import Script from 'next/script';
+import type { ReactElement } from 'react';
 import {
   TABNAV_WIDGET_CONFIG_JSON,
   TABNAV_WIDGET_SCRIPT_SRC,
@@ -8,7 +9,7 @@ import {
  * TabNav accessibility widget loader (third-party).
  * Props match TabNav dashboard snippet; see tabNavConstants for regression-locked values.
  */
-export default function TabNavEmbed(): JSX.Element {
+export default function TabNavEmbed(): ReactElement {
   return (
     <>
       <Script

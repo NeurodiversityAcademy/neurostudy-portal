@@ -12,7 +12,7 @@ export default function TextHeavyBlog({
   header,
   imageUrl,
   bodyText,
-}: TextHeavyInterface): JSX.Element {
+}: TextHeavyInterface): React.ReactElement {
   const windowWidth = useWindowWidth();
 
   const paragraphs = bodyText.split('\n').map((paragraph, index) => {

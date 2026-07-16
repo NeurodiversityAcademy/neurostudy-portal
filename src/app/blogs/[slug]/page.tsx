@@ -14,13 +14,13 @@ import VisitTrackerWrapper from '@/app/components/wrapper/VisitTrackerWrapper';
 import BlogList from '@/app/components/blogList/blogList';
 
 interface Props {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = params;
+  const { slug } = await params;
   const { blogs } = blogData;
   const blog = blogs.find(({ title }) => slugify(title) === slug);
 
@@ -41,8 +41,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
-export default function OneBlog({ params }: Props) {
-  const { slug } = params;
+export default async function OneBlog({ params }: Props) {
+  const { slug } = await params;
   const { blogs } = blogData;
   const blog = blogs.find((blog) => slugify(blog.title) === slug);
 
