@@ -10,8 +10,9 @@ package-lock.json
 tsconfig.tsbuildinfo
 next-env.d.ts
 
-# Non-Prettier formats
+# Non-Prettier formats / platform-owned config
 .gitattributes
+vercel.json
 
 # Large static content datasets (not hand-formatted source)
 src/app/articles/articleData.json
