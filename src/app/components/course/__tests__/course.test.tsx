@@ -451,6 +451,7 @@ describe('CourseDetails', () => {
   });
 
   it('renders "Course not found" when fetch throws', async () => {
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => undefined);
     global.fetch = jest.fn().mockRejectedValueOnce(new Error('Network error')) as jest.Mock;
 
     render(<CourseDetails id='test-id' />);
@@ -458,5 +459,11 @@ describe('CourseDetails', () => {
     await waitFor(() => {
       expect(screen.getByText('Course not found')).toBeInTheDocument();
     });
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      'Failed to fetch course details:',
+      expect.any(Error),
+    );
+    consoleErrorSpy.mockRestore();
   });
 });

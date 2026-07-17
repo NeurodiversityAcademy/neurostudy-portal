@@ -13,3 +13,34 @@ Object.defineProperty(globalThis, 'IS_REACT_ACT_ENVIRONMENT', {
   writable: true,
   value: true,
 });
+
+const ignoredConsolePatterns = [
+  /Not implemented: navigation/i,
+  /inside a test was not wrapped in act/i,
+  /An update to .* inside a test was not wrapped in act/i,
+  /Warning: An update to .* inside a test was not wrapped in act/i,
+];
+
+const shouldIgnoreConsoleMessage = (args: unknown[]): boolean => {
+  const message = args
+    .map((arg) => {
+      if (typeof arg === 'string') {
+        return arg;
+      }
+      if (arg instanceof Error) {
+        return arg.message;
+      }
+      return String(arg);
+    })
+    .join(' ');
+
+  return ignoredConsolePatterns.some((pattern) => pattern.test(message));
+};
+
+const originalConsoleError = console.error.bind(console);
+console.error = (...args: unknown[]) => {
+  if (shouldIgnoreConsoleMessage(args)) {
+    return;
+  }
+  originalConsoleError(...args);
+};

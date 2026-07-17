@@ -3,9 +3,15 @@ import { render, screen, fireEvent, act } from '@testing-library/react';
 import ToasterWrapper from '../ToasterWrapper';
 import toast, { destructToast } from '../index';
 
-jest.mock('@/app/utilities/common', () => ({
-  getUniqueID: jest.fn(() => 'toast-id-1'),
-}));
+jest.mock('@/app/utilities/common', () => {
+  let toastId = 0;
+  return {
+    getUniqueID: jest.fn(() => {
+      toastId += 1;
+      return `toast-id-${toastId}`;
+    }),
+  };
+});
 
 describe('ToasterWrapper', () => {
   beforeEach(() => {
