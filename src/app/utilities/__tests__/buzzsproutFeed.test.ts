@@ -37,6 +37,30 @@ describe('getBuzzsproutEmbedAvailability', () => {
     ).resolves.toBe(true);
   });
 
+  it('returns true for show player when RSS fetch fails open', async () => {
+    global.fetch = jest.fn().mockRejectedValue(new Error('network down'));
+
+    await expect(
+      getBuzzsproutEmbedAvailability(
+        'https://www.buzzsprout.com/2132579.js?container_id=buzzsprout-large-player&player=large',
+        false
+      )
+    ).resolves.toBe(true);
+  });
+
+  it('returns true for show player when RSS response is not ok', async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: false,
+    });
+
+    await expect(
+      getBuzzsproutEmbedAvailability(
+        'https://www.buzzsprout.com/2132579.js?container_id=buzzsprout-large-player&player=large',
+        false
+      )
+    ).resolves.toBe(true);
+  });
+
   it('returns false for blog embed when episode script returns 404', async () => {
     global.fetch = jest.fn().mockResolvedValue({
       ok: false,
@@ -48,6 +72,11 @@ describe('getBuzzsproutEmbedAvailability', () => {
         true
       )
     ).resolves.toBe(false);
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      'https://www.buzzsprout.com/2132579/14760813-example.js',
+      expect.objectContaining({ method: 'HEAD' })
+    );
   });
 
   it('returns true for blog embed when episode script is available', async () => {

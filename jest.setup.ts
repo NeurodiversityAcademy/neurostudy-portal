@@ -5,3 +5,4 @@ if (typeof globalThis.TextEncoder === 'undefined') {
   Object.defineProperty(globalThis, 'TextEncoder', { value: TextEncoder });
   Object.defineProperty(globalThis, 'TextDecoder', { value: TextDecoder });
 }
+

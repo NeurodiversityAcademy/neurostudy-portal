@@ -3,9 +3,7 @@ import React from 'react';
 import styles from './teacher.module.css';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import ActionButton from '../buttons/ActionButton';
-// import DialogPopUp from '../popupSubscribe/DialogComponent';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
-// import useHideOverflowEffect from '@/app/hooks/useHideOverflowEffect';
 
 export default function Teacher() {
   const onRequestCheckout = async () => {

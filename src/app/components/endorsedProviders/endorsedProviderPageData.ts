@@ -401,39 +401,6 @@ export const ENDORSED_FAQ_SECTIONS_BY_SLUG: Record<
   EndorsedFaqSection[]
 > = {};
 
-export type EndorsedNdExperience = {
-  heading: string;
-  summary: string;
-  surveyAreas: string[];
-  contextNote: string;
-  responseSummary: string;
-  methodology?: string;
-  performanceBands?: {
-    low: string;
-    medium: string;
-    high: string;
-  };
-};
-
-export type TopStrengthIconKind =
-  | 'supportInformation'
-  | 'adjustments'
-  | 'overallExperience'
-  | 'communication';
-
-export type TopStrengthArea = {
-  title: string;
-  iconKind: TopStrengthIconKind;
-  description?: string;
-  scoreBand?: 'Low' | 'Medium' | 'High';
-};
-
-export type StaffNomination = {
-  name: string;
-  role: string;
-  nominations: number;
-};
-
 export type SupportFrameworkItem = {
   label: string;
   status: 'Supports in place' | 'In the works';
@@ -442,112 +409,6 @@ export type SupportFrameworkItem = {
 export type SupportFrameworkSection = {
   section: string;
   items: SupportFrameworkItem[];
-};
-
-const ENDORSED_SURVEY_AREAS = [
-  'Overall experience',
-  'Clear information about support options',
-  'Adjustments implemented effectively',
-  'Organisation genuinely supports neurodivergent students',
-  'Feel safe being open about learning needs',
-  "Organisation takes the learner's individual needs seriously",
-  'Communication is clear and responsive',
-] as const;
-
-const DEFAULT_PERFORMANCE_BANDS: EndorsedNdExperience['performanceBands'] = {
-  low: 'Low — below 60%',
-  medium: 'Medium — 60–79%',
-  high: 'High — 80%+',
-};
-
-const DEFAULT_RESPONSE_SUMMARY =
-  'Based on 5 total survey responses from students and parents collected over a three-month period.';
-
-const VET_ND_EXPERIENCE: EndorsedNdExperience = {
-  heading: 'Neurodivergent Student Experience - Top 4 Areas of Strength',
-  summary:
-    'With higher education, endorsement insights are informed by student surveys such as QILT, conducted by the Australian Government and neurodivergent student feedback. As vocational education does not currently have an equivalent national report, Neurodiversity Academy collects independent student feedback to help organisations maintain their endorsement, monitor student experiences, and identify areas for improvement. See how this organisation is performing below.',
-  surveyAreas: [...ENDORSED_SURVEY_AREAS],
-  contextNote:
-    'This information supports continuous improvement and ongoing Neuroinclusion Endorsement. Below, we have shared the top four areas of strength based on these results. All areas shown below meet the High performance threshold.',
-  responseSummary: DEFAULT_RESPONSE_SUMMARY,
-  performanceBands: DEFAULT_PERFORMANCE_BANDS,
-};
-
-const COLLARTS_ND_EXPERIENCE: EndorsedNdExperience = {
-  heading: 'Neurodivergent Student Experience - Top 4 Areas of Strength',
-  summary:
-    'Higher education providers publish data on student experience and outcomes, including the national QILT (Quality Indicators for Learning and Teaching) Student Experience Survey. This profile combines QILT data with feedback from neurodivergent learners, including both student and parent/carer responses, to provide insight into the learning environment and support provided.',
-  surveyAreas: [...ENDORSED_SURVEY_AREAS],
-  contextNote:
-    'This information supports continuous improvement and ongoing Neuroinclusion Endorsement. Below, we have shared the top four areas of strength based on these results. All areas shown below meet the high performance threshold.',
-  responseSummary: DEFAULT_RESPONSE_SUMMARY,
-  performanceBands: DEFAULT_PERFORMANCE_BANDS,
-};
-
-const COLLARTS_TOP_STRENGTH_AREAS: TopStrengthArea[] = [
-  {
-    title: 'Clear information about support options',
-    iconKind: 'supportInformation',
-    scoreBand: 'High',
-  },
-  {
-    title: 'Overall experience',
-    iconKind: 'overallExperience',
-    scoreBand: 'High',
-  },
-  {
-    title: 'Adjustments implemented effectively',
-    iconKind: 'adjustments',
-    scoreBand: 'High',
-  },
-  {
-    title: 'Communication is clear and responsive',
-    iconKind: 'communication',
-    scoreBand: 'High',
-  },
-];
-
-const DEFAULT_TOP_STRENGTH_AREAS: TopStrengthArea[] = [
-  {
-    title: 'Clear information about support options',
-    iconKind: 'supportInformation',
-    scoreBand: 'High',
-  },
-  {
-    title: 'Adjustments implemented effectively',
-    iconKind: 'adjustments',
-    scoreBand: 'High',
-  },
-  {
-    title: 'Overall experience',
-    iconKind: 'overallExperience',
-    scoreBand: 'High',
-  },
-  {
-    title: 'Communication is clear and responsive',
-    iconKind: 'communication',
-    scoreBand: 'High',
-  },
-];
-
-export const ENDORSED_ND_EXPERIENCE_BY_SLUG: Record<
-  string,
-  EndorsedNdExperience
-> = {
-  hsh: VET_ND_EXPERIENCE,
-  academia: VET_ND_EXPERIENCE,
-  'blueprint-career-development': VET_ND_EXPERIENCE,
-  collarts: COLLARTS_ND_EXPERIENCE,
-  'nepean-community-college': VET_ND_EXPERIENCE,
-};
-
-export const TOP_STRENGTH_AREAS_BY_SLUG: Record<string, TopStrengthArea[]> = {
-  hsh: DEFAULT_TOP_STRENGTH_AREAS,
-  academia: COLLARTS_TOP_STRENGTH_AREAS,
-  'blueprint-career-development': DEFAULT_TOP_STRENGTH_AREAS,
-  collarts: COLLARTS_TOP_STRENGTH_AREAS,
-  'nepean-community-college': DEFAULT_TOP_STRENGTH_AREAS,
 };
 
 export const STUDY_AREAS_BY_SLUG: Record<string, string[]> = {
@@ -599,27 +460,6 @@ export const STUDY_AREAS_BY_SLUG: Record<string, string[]> = {
     'Languages (Multilingual Life)',
     'One-Day Workshops',
     'Government-Funded Training Programs',
-  ],
-};
-
-export const STAFF_NOMINATIONS_BY_SLUG: Record<string, StaffNomination[]> = {
-  hsh: [
-    { name: 'Name', role: 'Job title · slot 1', nominations: 0 },
-    { name: 'Name', role: 'Job title · slot 2', nominations: 0 },
-    { name: 'Name', role: 'Job title · slot 3', nominations: 0 },
-    { name: 'Name', role: 'Job title · slot 4', nominations: 0 },
-  ],
-  collarts: [
-    {
-      name: 'Support Team Member 1',
-      role: 'Student Support',
-      nominations: 0,
-    },
-    {
-      name: 'Support Team Member 2',
-      role: 'Learning Support',
-      nominations: 0,
-    },
   ],
 };
 
@@ -1690,23 +1530,8 @@ export function getEndorsedFaqSectionsForSlug(
   return ENDORSED_FAQ_SECTIONS_DEFAULT;
 }
 
-export function getEndorsedNdExperienceForSlug(
-  slug: string
-): EndorsedNdExperience | undefined {
-  return ENDORSED_ND_EXPERIENCE_BY_SLUG[slug];
-}
-
-export function getTopStrengthAreasForSlug(slug: string): TopStrengthArea[] {
-  const items = TOP_STRENGTH_AREAS_BY_SLUG[slug] ?? [];
-  return items.slice(0, 4);
-}
-
 export function getStudyAreasForSlug(slug: string): string[] {
   return STUDY_AREAS_BY_SLUG[slug] ?? [];
-}
-
-export function getStaffNominationsForSlug(slug: string): StaffNomination[] {
-  return STAFF_NOMINATIONS_BY_SLUG[slug] ?? [];
 }
 
 export function getSupportFrameworkForSlug(
