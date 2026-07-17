@@ -147,6 +147,19 @@ describe('CourseProvider', () => {
     expect(result.current.isLoading).toBe(false);
   });
 
+  it('loadData sets loading when shouldDebounce is true', async () => {
+    const { result } = renderHook(() => useCourseContext(), {
+      wrapper: wrapper({ data: sampleCourses }),
+    });
+
+    await act(async () => {
+      await result.current.loadData({ Location: ['Sydney'] }, { shouldDebounce: true });
+    });
+
+    expect(result.current.isLoading).toBe(true);
+    expect(mockPush).toHaveBeenCalled();
+  });
+
   it('updateFilter merges pending filters into subsequent loadData calls', async () => {
     const { result } = renderHook(() => useCourseContext(), {
       wrapper: wrapper({ data: sampleCourses }),

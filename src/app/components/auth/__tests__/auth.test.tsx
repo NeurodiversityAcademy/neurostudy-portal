@@ -32,10 +32,11 @@ jest.mock('next/link', () => ({
 }));
 
 const mockSignIn = jest.fn();
+let mockSessionStatus: 'authenticated' | 'unauthenticated' | 'loading' = 'unauthenticated';
 jest.mock('next-auth/react', () => ({
   signIn: (...args: unknown[]) => mockSignIn(...args),
   signOut: jest.fn(),
-  useSession: () => ({ data: null, status: 'unauthenticated' }),
+  useSession: () => ({ data: null, status: mockSessionStatus }),
 }));
 
 jest.mock('@/app/utilities/auth/signUp', () => ({
@@ -750,10 +751,25 @@ describe('ForgotPassword', () => {
 // Signup (wrapper)
 // ---------------------------------------------------------------------------
 describe('Signup', () => {
+  beforeEach(() => {
+    mockSessionStatus = 'unauthenticated';
+    mockPush.mockClear();
+  });
+
   it('renders the sign-up form inside Signup wrapper', () => {
     render(<Signup />);
     expect(screen.getByPlaceholderText('First Name')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Last Name')).toBeInTheDocument();
     expect(screen.getByText('Signup/Login to Neurodiversity Academy')).toBeInTheDocument();
+  });
+
+  it('redirects to the callback URL when the session is authenticated', async () => {
+    mockSessionStatus = 'authenticated';
+
+    render(<Signup />);
+
+    await waitFor(() => {
+      expect(mockPush).toHaveBeenCalledWith('/profile');
+    });
   });
 });

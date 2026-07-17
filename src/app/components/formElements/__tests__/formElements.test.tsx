@@ -421,6 +421,26 @@ describe('CheckBox', () => {
     );
     expect(screen.getByText('Pick hobbies')).toBeInTheDocument();
   });
+
+  it('marks the field touched when focus leaves the group', async () => {
+    const onSubmit = jest.fn();
+    render(
+      <TestWrapper onSubmit={onSubmit}>
+        <CheckBox name='hobbies' label='Hobbies' options={options} required showLabel />
+      </TestWrapper>,
+    );
+
+    const group = screen.getByRole('group');
+    fireEvent.blur(group, { relatedTarget: document.body });
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('Submit'));
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Hobbies is invalid.')).toBeInTheDocument();
+    });
+  });
 });
 
 describe('Radio', () => {
@@ -511,6 +531,26 @@ describe('Radio', () => {
       </TestWrapper>,
     );
     expect(screen.getByText('Select your gender')).toBeInTheDocument();
+  });
+
+  it('marks the field touched when focus leaves the group', async () => {
+    const onSubmit = jest.fn();
+    render(
+      <TestWrapper onSubmit={onSubmit}>
+        <Radio name='gender' label='Gender' options={options} required showLabel />
+      </TestWrapper>,
+    );
+
+    const group = screen.getByRole('group');
+    fireEvent.blur(group, { relatedTarget: document.body });
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('Submit'));
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('Gender is invalid.')).toBeInTheDocument();
+    });
   });
 
   it('calls onChange callback when option is selected', () => {
