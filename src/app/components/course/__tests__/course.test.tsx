@@ -76,8 +76,9 @@ jest.mock('@/app/hooks/useHideOverflowEffect', () => ({
   default: () => jest.fn(),
 }));
 
-jest.mock('@/app/utilities/sanitizeHtml', () => ({
-  sanitizeHtml: (html: string) => html,
+jest.mock('isomorphic-dompurify', () => ({
+  __esModule: true,
+  default: { sanitize: (html: string) => html },
 }));
 
 jest.mock('@/app/utilities/course/CourseDetailsProvider', () => {

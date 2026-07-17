@@ -1,9 +1,9 @@
+import DOMPurify from 'isomorphic-dompurify';
 import React from 'react';
 import Typography, { TypographyVariant } from '../../../typography/Typography';
 import styles from '../../CourseDetails/courseDetails.module.css';
 import ActionButton from '@/app/components/buttons/ActionButton';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
-import { sanitizeHtml } from '@/app/utilities/sanitizeHtml';
 
 interface CourseDetailsBodyTextProps {
   id: string;
@@ -12,7 +12,7 @@ interface CourseDetailsBodyTextProps {
 
 const CourseDetailsBodyText: React.FC<CourseDetailsBodyTextProps> = ({ id, data }) => {
   const paragraphs = data?.split('\n').map((paragraph, index) => {
-    const sanitizedHTML = sanitizeHtml(paragraph);
+    const sanitizedHTML = DOMPurify.sanitize?.(paragraph);
     return (
       <div key={index} className={styles.courseDetailsBodyText}>
         <Typography variant={TypographyVariant.Body2}>

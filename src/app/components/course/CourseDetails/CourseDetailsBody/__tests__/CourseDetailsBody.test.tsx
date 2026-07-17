@@ -2,8 +2,9 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { CourseDetailsProps } from '@/app/interfaces/Course';
 
-jest.mock('@/app/utilities/sanitizeHtml', () => ({
-  sanitizeHtml: (html: string) => html,
+jest.mock('isomorphic-dompurify', () => ({
+  __esModule: true,
+  default: { sanitize: (html: string) => html },
 }));
 
 const mockCourseData: CourseDetailsProps = {

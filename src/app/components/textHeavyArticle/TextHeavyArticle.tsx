@@ -5,8 +5,8 @@ import Typography, { TypographyVariant } from '../typography/Typography';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './textHeavyArticle.module.css';
+import DOMPurify from 'isomorphic-dompurify';
 import useWindowWidth from '@/app/hooks/useWindowWidth';
-import { sanitizeHtml } from '@/app/utilities/sanitizeHtml';
 
 export default function TextHeavyArticle({
   header,
@@ -18,9 +18,9 @@ export default function TextHeavyArticle({
   const windowWidth = useWindowWidth();
 
   const paragraphs = bodyText.split('\n').map((paragraph, index) => {
-    const sanitizedHTML = sanitizeHtml(paragraph, {
-      allowIframes: true,
-      allowTargetAttr: true,
+    const sanitizedHTML = DOMPurify.sanitize?.(paragraph, {
+      ADD_TAGS: ['iframe'],
+      ADD_ATTR: ['target'],
     });
     return (
       <div key={index}>
