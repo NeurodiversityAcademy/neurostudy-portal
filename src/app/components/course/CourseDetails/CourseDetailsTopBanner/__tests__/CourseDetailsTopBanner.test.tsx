@@ -6,7 +6,7 @@ import { CourseDetailsProps } from '@/app/interfaces/Course';
 jest.mock('next/image', () => ({
   __esModule: true,
   default: (props: Record<string, unknown>) => {
-    const { priority, fill, quality, ...rest } = props;
+    const { _priority, _fill, _quality, ...rest } = props;
     return <img {...rest} />;
   },
 }));

@@ -23,7 +23,7 @@ export async function getMoodleUserByEmail(email: string): Promise<MoodleUserBas
     const user: MoodleUserBasic | null = json[0] || null;
 
     return user;
-  } catch (_) {
+  } catch {
     throw new Error('Failed to fetch the moodle user.');
   }
 }

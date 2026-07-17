@@ -43,7 +43,7 @@ export async function createMoodleUser({
     const user: MoodleUser = json[0];
 
     return user;
-  } catch (_) {
+  } catch {
     throw new Error('Failed to create the moodle user.');
   }
 }

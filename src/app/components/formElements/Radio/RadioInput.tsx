@@ -47,7 +47,9 @@ const RadioInput = <TFieldValues extends FieldValues>({
       role='group'
       aria-disabled={disabled}
       onBlurCapture={(e: FocusEvent<HTMLDivElement, Element>) => {
-        !(e.currentTarget as Node)?.contains(e.relatedTarget as Node) && onBlur();
+        if (!(e.currentTarget as Node)?.contains(e.relatedTarget as Node)) {
+          onBlur();
+        }
       }}
     >
       {showLabel && <Label name={name} color={error && 'red'} label={label} required={required} />}

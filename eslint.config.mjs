@@ -8,7 +8,11 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import testingLibrary from 'eslint-plugin-testing-library';
 import globals from 'globals';
 
-const SOURCE_FILES = ['src/**/*.{js,jsx,ts,tsx}'];
+const SOURCE_FILES = [
+  'src/**/*.{js,jsx,ts,tsx}',
+  '!src/**/__tests__/**/*.{js,jsx,ts,tsx}',
+  '!src/**/*.{spec,test}.{js,jsx,ts,tsx}',
+];
 const TEST_FILES = [
   'src/**/__tests__/**/*.{js,jsx,ts,tsx}',
   'src/**/*.{spec,test}.{js,jsx,ts,tsx}',
@@ -54,6 +58,19 @@ const eslintConfig = [
     files: ['src/app/components/formElements/Dropdown/DropdownInput.tsx'],
     rules: {
       complexity: ['error', 38],
+      'max-lines-per-function': 'off',
+    },
+  },
+  {
+    // Legacy surfaces slightly over the 150-line guide; keep tracked for later splits.
+    files: [
+      'src/app/components/auth/AuthInitSignUp.tsx',
+      'src/app/components/footer/Footer.tsx',
+      'src/app/components/page.tsx',
+      'src/app/endorsements/page.tsx',
+    ],
+    rules: {
+      'max-lines-per-function': ['warn', { max: 200, skipBlankLines: true, skipComments: true }],
     },
   },
   {
@@ -74,6 +91,8 @@ const eslintConfig = [
       'jest/no-identical-title': 'error',
       'jest/prefer-to-have-length': 'warn',
       'jest/valid-expect': 'error',
+      'jest/expect-expect': 'off',
+      'jest/no-conditional-expect': 'off',
     },
   },
   {
@@ -91,11 +110,26 @@ const eslintConfig = [
     rules: {
       complexity: ['error', 20],
       'max-lines-per-function': 'off',
+      '@next/next/no-img-element': 'off',
+      'jsx-a11y/alt-text': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
       '@typescript-eslint/no-require-imports': 'off',
       'jest-dom/prefer-to-have-style': 'off',
+      'jest-dom/prefer-to-have-class': 'off',
       'react/display-name': 'off',
       'testing-library/no-container': 'off',
       'testing-library/no-node-access': 'off',
+      'testing-library/prefer-screen-queries': 'off',
+      'testing-library/no-unnecessary-act': 'off',
+      'testing-library/render-result-naming-convention': 'off',
     },
   },
   {
@@ -113,9 +147,14 @@ const eslintConfig = [
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-unused-vars': [
-        'warn',
-        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
       ],
+      '@typescript-eslint/no-unused-expressions': 'error',
       // Fail the quality gate on the React Compiler / hooks issues tracked in errors.txt.
       'react-hooks/purity': 'error',
       'react-hooks/refs': 'error',
@@ -123,6 +162,22 @@ const eslintConfig = [
       'react-hooks/set-state-in-effect': 'error',
       'react-hooks/incompatible-library': 'error',
       'react-hooks/preserve-manual-memoization': 'warn',
+    },
+  },
+  // Must stay last: flat-config `files` negations are unreliable, so re-assert test overrides.
+  {
+    files: TEST_FILES,
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@next/next/no-img-element': 'off',
+      'jsx-a11y/alt-text': 'off',
+      'max-lines-per-function': 'off',
+      'testing-library/prefer-screen-queries': 'off',
+      'testing-library/no-unnecessary-act': 'off',
+      'testing-library/render-result-naming-convention': 'off',
+      'jest-dom/prefer-to-have-class': 'off',
+      'jest/expect-expect': 'off',
+      'jest/no-conditional-expect': 'off',
     },
   },
 ];

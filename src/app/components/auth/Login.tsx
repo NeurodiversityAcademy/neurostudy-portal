@@ -81,7 +81,7 @@ const Login = () => {
           } else {
             notifyInProgress();
           }
-        } catch (ex) {
+        } catch {
           throw new Error(res.error);
         }
       }

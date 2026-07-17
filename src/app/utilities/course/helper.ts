@@ -18,8 +18,9 @@ export const updateCourseDropdownFilter = <
 ) => {
   value = value || [];
   const oldValue = methods.getValues(name) || [];
-  !compare(value, oldValue) &&
+  if (!compare(value, oldValue)) {
     setTimeout(() => methods.setValue(name, value as PathValue<T, Path<T>>));
+  }
 };
 
 const matches = (value: string | string[], queries: string[]): boolean => {

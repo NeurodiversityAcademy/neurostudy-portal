@@ -81,7 +81,7 @@ export async function registerSenderContact(
     }
 
     return responseData;
-  } catch (error) {
+  } catch {
     return null;
   }
 }

@@ -30,7 +30,9 @@ const CheckBoxItem: React.FC<PropType> = ({
 
   const onClick = (e: MouseEvent<HTMLButtonElement>) => {
     const newSelected = isTypeRadio ? true : !checked;
-    newSelected !== checked && onChange(newSelected, e);
+    if (newSelected !== checked) {
+      onChange(newSelected, e);
+    }
     _onClick?.(e);
   };
 

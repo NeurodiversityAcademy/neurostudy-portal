@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 jest.mock('next/image', () => ({
   __esModule: true,
   default: (props: Record<string, unknown>) => {
-    const { fill, quality, ...rest } = props;
+    const { _fill, _quality, ...rest } = props;
     return <img {...rest} />;
   },
 }));

@@ -63,14 +63,18 @@ export default async function GET(req: NextRequest): Promise<Response> {
 
     COURSE_TABLE_FILTERABLE_NON_INDEX_KEYS.forEach((key) => {
       const value = searchParams.get(key);
-      value && updateExpressionAttributes(key, value);
+      if (value) {
+        updateExpressionAttributes(key, value);
+      }
     });
 
     for (const indexKey in indexKeyValueObj) {
       updateExpressionAttributes(indexKey, indexKeyValueObj[indexKey]);
     }
 
-    partitionKeyValue && updateExpressionAttributes(COURSE_TABLE_PARTITION_KEY, partitionKeyValue);
+    if (partitionKeyValue) {
+      updateExpressionAttributes(COURSE_TABLE_PARTITION_KEY, partitionKeyValue);
+    }
 
     const applyQuery = partitionKeyValue || !isObjEmpty(indexKeyValueObj);
 

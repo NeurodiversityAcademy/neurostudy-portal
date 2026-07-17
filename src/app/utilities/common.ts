@@ -152,7 +152,9 @@ export const getAxiosErrorMessage = (ex: object): string => {
 };
 
 export const notifyAxiosError = (ex: unknown) => {
-  process.env.NODE_ENV === 'development' && console.error(ex);
+  if (process.env.NODE_ENV === 'development') {
+    console.error(ex);
+  }
   notifyError(getAxiosErrorMessage(ex as object));
 };
 

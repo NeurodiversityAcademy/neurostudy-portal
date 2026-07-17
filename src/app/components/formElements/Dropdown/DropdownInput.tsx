@@ -121,7 +121,9 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     const valLowerCase = val.toLowerCase();
     setInputValue('');
     const option = selectedOptions.find((option) => String(option).toLowerCase() === valLowerCase);
-    !option && setSelectedOptions([...selectedOptions, val]);
+    if (!option) {
+      setSelectedOptions([...selectedOptions, val]);
+    }
     inputRef.current?.focus();
   };
 
@@ -130,7 +132,9 @@ const DropdownInput = <TFieldValues extends FieldValues>({
       return;
     }
     setInputValue(e.target.value);
-    !multiple && selectedOptions.length && setSelectedOptions([]);
+    if (!multiple && selectedOptions.length) {
+      setSelectedOptions([]);
+    }
   };
 
   const onInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {

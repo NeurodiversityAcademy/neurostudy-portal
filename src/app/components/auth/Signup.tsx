@@ -30,7 +30,9 @@ const SignUp: React.FC = () => {
         return;
       }
 
-      status === 'authenticated' && router.push(getCallbackUrlOnSignIn());
+      if (status === 'authenticated') {
+        router.push(getCallbackUrlOnSignIn());
+      }
     })();
   }, [status, router]);
 

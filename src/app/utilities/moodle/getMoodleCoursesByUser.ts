@@ -29,7 +29,7 @@ export async function getMoodleCoursesByUser(userid: number): Promise<MoodleCour
     });
 
     return data;
-  } catch (_) {
+  } catch {
     throw new Error(`Failed to fetch the user's enrolled courses.`);
   }
 }

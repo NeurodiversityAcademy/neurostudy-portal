@@ -140,7 +140,9 @@ function CourseProviderContent({ children, data, redirectToSearchPage = false }:
       const search = queryString.stringify(searchObj, { useLocationSearch: true }) || '?';
 
       const fn = shouldDebounce ? updateRouteWithDebounce : updateRoute;
-      shouldDebounce && setIsLoading(true);
+      if (shouldDebounce) {
+        setIsLoading(true);
+      }
       fn({
         redirectToSearchPage,
         search,

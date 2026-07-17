@@ -75,8 +75,10 @@ const AuthVerifyForm: React.FC<PropType> = ({
           } else {
             throw new Error(TOAST_UNKNOWN_ERROR_MESSAGE);
           }
-        } catch (ex) {
-          res.error === INVALID_CREDENTIALS_MESSAGE && onIncorrectCredentials?.();
+        } catch {
+          if (res.error === INVALID_CREDENTIALS_MESSAGE) {
+            onIncorrectCredentials?.();
+          }
 
           throw new Error(res.error);
         }

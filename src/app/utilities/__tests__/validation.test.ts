@@ -81,22 +81,22 @@ describe('isValidContactUsFormData', () => {
   });
 
   it('returns false when firstname is missing', () => {
-    const { firstname, ...rest } = validData;
+    const { firstname: _firstname, ...rest } = validData;
     expect(isValidContactUsFormData(rest)).toBe(false);
   });
 
   it('returns false when lastname is missing', () => {
-    const { lastname, ...rest } = validData;
+    const { lastname: _lastname, ...rest } = validData;
     expect(isValidContactUsFormData(rest)).toBe(false);
   });
 
   it('returns false when email is missing', () => {
-    const { email, ...rest } = validData;
+    const { email: _email, ...rest } = validData;
     expect(isValidContactUsFormData(rest)).toBe(false);
   });
 
   it('returns false when hs_persona is missing', () => {
-    const { hs_persona, ...rest } = validData;
+    const { hs_persona: _hs_persona, ...rest } = validData;
     expect(isValidContactUsFormData(rest)).toBe(false);
   });
 
@@ -138,17 +138,17 @@ describe('isValidTeacherRegistrationData', () => {
   });
 
   it('returns false when firstname is missing', () => {
-    const { firstname, ...rest } = validData;
+    const { firstname: _firstname, ...rest } = validData;
     expect(isValidTeacherRegistrationData(rest)).toBe(false);
   });
 
   it('returns false when lastname is missing', () => {
-    const { lastname, ...rest } = validData;
+    const { lastname: _lastname, ...rest } = validData;
     expect(isValidTeacherRegistrationData(rest)).toBe(false);
   });
 
   it('returns false when email is missing', () => {
-    const { email, ...rest } = validData;
+    const { email: _email, ...rest } = validData;
     expect(isValidTeacherRegistrationData(rest)).toBe(false);
   });
 
@@ -196,7 +196,7 @@ describe('isValidTeacherRegistrationData', () => {
   });
 
   it('returns false when phone is undefined', () => {
-    const { phone, ...rest } = validData;
+    const { phone: _phone, ...rest } = validData;
     expect(isValidTeacherRegistrationData(rest)).toBe(false);
   });
 });

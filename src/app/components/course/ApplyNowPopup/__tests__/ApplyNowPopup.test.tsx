@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 jest.mock('next/image', () => ({
   __esModule: true,
   default: (props: Record<string, unknown>) => {
-    const { quality, ...rest } = props;
+    const { _quality, ...rest } = props;
     return <img {...rest} />;
   },
 }));

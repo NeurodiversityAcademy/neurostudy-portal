@@ -29,8 +29,9 @@ export default function Loader({
       }
 
       parentNode.classList.add(styles.loaderContainer);
-      getComputedStyle(parentNode).position === 'static' &&
+      if (getComputedStyle(parentNode).position === 'static') {
         parentNode.classList.add(styles.loaderContainerRelative);
+      }
 
       return () => {
         parentNode.classList.remove(styles.loaderContainerRelative);
