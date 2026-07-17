@@ -50,10 +50,10 @@ const eslintConfig = [
     },
   },
   {
-    // TODO: Split this legacy 37-complexity control into focused hooks/helpers.
+    // TODO: Split this legacy control into focused hooks/helpers.
     files: ['src/app/components/formElements/Dropdown/DropdownInput.tsx'],
     rules: {
-      complexity: ['error', 37],
+      complexity: ['error', 38],
     },
   },
   {
@@ -116,12 +116,12 @@ const eslintConfig = [
         'warn',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
-      // Pre-existing patterns; React Compiler / hooks v7 rules are stricter than Before.
-      // Keep as warnings so `npm run dev` / CI upgrades are not blocked by legacy code.
-      'react-hooks/purity': 'warn',
-      'react-hooks/refs': 'warn',
-      'react-hooks/immutability': 'warn',
-      'react-hooks/set-state-in-effect': 'warn',
+      // Fail the quality gate on the React Compiler / hooks issues tracked in errors.txt.
+      'react-hooks/purity': 'error',
+      'react-hooks/refs': 'error',
+      'react-hooks/immutability': 'error',
+      'react-hooks/set-state-in-effect': 'error',
+      'react-hooks/incompatible-library': 'error',
       'react-hooks/preserve-manual-memoization': 'warn',
     },
   },

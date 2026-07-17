@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 const mockPush = jest.fn();
@@ -539,6 +539,7 @@ describe('AuthResendOTPBtn', () => {
   });
 
   afterEach(() => {
+    jest.clearAllTimers();
     jest.useRealTimers();
   });
 
@@ -555,7 +556,9 @@ describe('AuthResendOTPBtn', () => {
 
     render(<AuthResendOTPBtn username='user@test.com' />);
 
-    jest.advanceTimersByTime(65000);
+    await act(async () => {
+      jest.advanceTimersByTime(65000);
+    });
 
     await waitFor(() => {
       const btn = screen.getByRole('button', { name: /resend code/i });
@@ -577,7 +580,9 @@ describe('AuthResendOTPBtn', () => {
 
     render(<AuthResendOTPBtn username='user@test.com' resetPasswordCode />);
 
-    jest.advanceTimersByTime(65000);
+    await act(async () => {
+      jest.advanceTimersByTime(65000);
+    });
 
     await waitFor(() => {
       const btn = screen.getByRole('button', { name: /resend code/i });

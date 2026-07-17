@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { DOCUMENT_VISIBILITY_HIDDEN, MILLISECONDS_PER_SECOND } from '@/app/utilities/gaTracking';
 
 type TimeOnPageReporter = (seconds: number) => void;
@@ -10,7 +10,7 @@ function elapsedSeconds(startTimeMs: number): number {
 }
 
 export function useTimeOnPageTracking(reportTimeOnPage: TimeOnPageReporter): void {
-  const startTimeMs = useRef(Date.now());
+  const [startTimeMs] = useState(() => Date.now());
   const hasSentTime = useRef(false);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export function useTimeOnPageTracking(reportTimeOnPage: TimeOnPageReporter): voi
         return;
       }
       hasSentTime.current = true;
-      reportTimeOnPage(elapsedSeconds(startTimeMs.current));
+      reportTimeOnPage(elapsedSeconds(startTimeMs));
     };
 
     const handleVisibilityChange = () => {
@@ -36,5 +36,5 @@ export function useTimeOnPageTracking(reportTimeOnPage: TimeOnPageReporter): voi
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       sendTimeOnPageOnce();
     };
-  }, [reportTimeOnPage]);
+  }, [reportTimeOnPage, startTimeMs]);
 }

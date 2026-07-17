@@ -66,6 +66,42 @@ export const slugify = (text: string) =>
     .replace(/^-+/, '') // Trim - from start of text
     .replace(/-+$/, ''); // Trim - from end of text
 
+/** FNV-1a style hash for deterministic seeded picks during render. */
+export const hashString = (value: string): number => {
+  let hash = 2166136261;
+  for (let i = 0; i < value.length; i += 1) {
+    hash ^= value.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
+};
+
+/**
+ * Pure Fisher–Yates pick. Same seed + items always yields the same result,
+ * so it is safe to call during render (unlike Math.random).
+ */
+export const pickSeeded = <T>(items: readonly T[], count: number, seed: string): T[] => {
+  if (count <= 0 || items.length === 0) {
+    return [];
+  }
+
+  const copy = [...items];
+  let state = hashString(seed) || 1;
+  const next = (): number => {
+    state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+    return state / 0x100000000;
+  };
+
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(next() * (i + 1));
+    const current = copy[i];
+    copy[i] = copy[j] as T;
+    copy[j] = current as T;
+  }
+
+  return copy.slice(0, count);
+};
+
 export const createMetadata = (
   key: META_KEY,
   customMetadata?: Partial<MetadataParams>,

@@ -23,6 +23,8 @@ import {
   debounce,
   throttle,
   slugify,
+  hashString,
+  pickSeeded,
   createMetadata,
   notifyError,
   notifySuccess,
@@ -194,6 +196,37 @@ describe('slugify', () => {
 
   it('returns empty string for empty input', () => {
     expect(slugify('')).toBe('');
+  });
+});
+
+describe('hashString', () => {
+  it('returns a stable unsigned 32-bit hash for the same input', () => {
+    expect(hashString('article-fallback')).toBe(hashString('article-fallback'));
+    expect(hashString('a')).not.toBe(hashString('b'));
+  });
+});
+
+describe('pickSeeded', () => {
+  const items = ['a', 'b', 'c', 'd', 'e'];
+
+  it('returns an empty array when count is zero or items are empty', () => {
+    expect(pickSeeded(items, 0, 'seed')).toEqual([]);
+    expect(pickSeeded([], 3, 'seed')).toEqual([]);
+  });
+
+  it('returns a deterministic subset for the same seed', () => {
+    expect(pickSeeded(items, 3, 'home')).toEqual(pickSeeded(items, 3, 'home'));
+  });
+
+  it('returns different orderings for different seeds', () => {
+    expect(pickSeeded(items, 5, 'seed-a')).not.toEqual(pickSeeded(items, 5, 'seed-b'));
+  });
+
+  it('never duplicates items and respects count', () => {
+    const picked = pickSeeded(items, 3, 'seed');
+    expect(picked).toHaveLength(3);
+    expect(new Set(picked).size).toBe(3);
+    picked.forEach((item) => expect(items).toContain(item));
   });
 });
 

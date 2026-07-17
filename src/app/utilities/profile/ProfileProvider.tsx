@@ -30,12 +30,11 @@ export { useProfileContext };
 
 function ProfileProviderContent({ children }: PropType) {
   const searchParams = useSearchParams();
+  const isEditing = searchParams.get('edit') === '1';
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<UserWithEmailProps>();
   const [courses, setCourses] = useState<MoodleCourse[]>([]);
-
-  const [isEditing, setIsEditing] = useState<boolean>(() => searchParams.get('edit') === '1');
 
   const saveData: ProfileContent['saveData'] = async (
     _data: Record<string, unknown>,
@@ -61,25 +60,35 @@ function ProfileProviderContent({ children }: PropType) {
   };
 
   useEffect(() => {
-    const getData = async () => {
-      setData(await getUserProfile());
-      setIsLoading(false);
+    let cancelled = false;
+
+    const loadProfile = async () => {
+      try {
+        const profile = await getUserProfile();
+        if (!cancelled) {
+          setData(profile);
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
+      }
     };
 
-    setIsLoading(true);
+    const loadCourses = async () => {
+      const nextCourses = await getMoodleCourses();
+      if (!cancelled) {
+        setCourses(nextCourses);
+      }
+    };
 
-    getData();
+    void loadProfile();
+    void loadCourses();
 
-    (async () => {
-      const courses: MoodleCourse[] = await getMoodleCourses();
-      setCourses(courses);
-    })();
+    return () => {
+      cancelled = true;
+    };
   }, []);
-
-  useEffect(() => {
-    const _isEditing: boolean = searchParams.get('edit') === '1';
-    _isEditing !== isEditing && setIsEditing(_isEditing);
-  }, [isEditing, searchParams]);
 
   return (
     <ProfileContext.Provider value={{ data, courses, isLoading, saveData, isEditing }}>

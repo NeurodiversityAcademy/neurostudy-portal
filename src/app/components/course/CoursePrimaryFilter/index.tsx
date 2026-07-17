@@ -3,7 +3,7 @@
 import { FormHTMLAttributes, useEffect } from 'react';
 import styles from './coursePrimaryFilter.module.css';
 import classNames from 'classnames';
-import { useForm, UseFormReturn } from 'react-hook-form';
+import { useForm, useWatch, UseFormReturn } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import Form from '../../formElements/Form';
 import Dropdown from '../../formElements/Dropdown/Dropdown';
@@ -27,6 +27,7 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
     mode: 'onBlur',
     defaultValues: Object.fromEntries(DROPDOWN_KEYS.map((key) => [key, filter[key]])),
   });
+  const watchedValues = useWatch({ control: methods.control });
 
   useUpdatedValue(filter, () => {
     DROPDOWN_KEYS.forEach((name) => {
@@ -35,12 +36,8 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
   });
 
   useEffect(() => {
-    const listener = methods.watch(() => {
-      updateFilter(methods.getValues());
-    });
-
-    return () => listener.unsubscribe();
-  }, [methods, updateFilter]);
+    updateFilter(watchedValues);
+  }, [watchedValues, updateFilter]);
 
   return (
     <Form

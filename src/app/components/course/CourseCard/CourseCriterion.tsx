@@ -14,14 +14,14 @@ const CourseCriterion: React.FC<PropType> = ({ criterion, label }) => {
     return null;
   }
 
-  criterion = Math.min(MAX_CRITERION_RATING, criterion);
-  const floorCriterion = Math.floor(criterion);
+  const clampedCriterion = Math.min(MAX_CRITERION_RATING, criterion);
+  const floorCriterion = Math.floor(clampedCriterion);
 
   return (
     <div className={styles.criterionContainer}>
       <div
         role='img'
-        aria-label={`Rating: ${criterion} out of ${MAX_CRITERION_RATING}`}
+        aria-label={`Rating: ${clampedCriterion} out of ${MAX_CRITERION_RATING}`}
         aria-labelledby={labelId}
         className={styles.meter}
       >
@@ -31,10 +31,11 @@ const CourseCriterion: React.FC<PropType> = ({ criterion, label }) => {
             <div
               key={index}
               aria-hidden
-              className={index < criterion ? styles.active : undefined}
+              className={index < clampedCriterion ? styles.active : undefined}
               {...(index === floorCriterion && {
+                // Runtime CSS custom property — see no-inline-styles rule exception.
                 style: {
-                  '--inner-percentage': (criterion - floorCriterion) * 100 + '%',
+                  '--inner-percentage': (clampedCriterion - floorCriterion) * 100 + '%',
                 } as CSSProperties,
               })}
             />

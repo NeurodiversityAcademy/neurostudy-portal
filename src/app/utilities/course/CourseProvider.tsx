@@ -152,16 +152,21 @@ function CourseProviderContent({ children, data, redirectToSearchPage = false }:
     [filterEntries, router, sortBy, sortOrder, redirectToSearchPage],
   );
 
+  const [prevData, setPrevData] = useState(data);
+  if (data !== prevData) {
+    setPrevData(data);
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    pendingFilterRef.current = {};
+  }, [data]);
+
   useEffect(() => {
     const onPopState = () => setIsLoading(true);
     window.addEventListener('popstate', onPopState);
     return () => window.removeEventListener('popstate', onPopState);
   }, []);
-
-  useEffect(() => {
-    setIsLoading(false);
-    pendingFilterRef.current = {};
-  }, [data]);
 
   return (
     <CourseContext.Provider

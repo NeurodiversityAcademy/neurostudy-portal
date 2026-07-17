@@ -9,7 +9,6 @@ import {
   FocusEvent,
   KeyboardEventHandler,
   useId,
-  useEffect,
   useMemo,
 } from 'react';
 import styles from './dropdown.module.css';
@@ -173,9 +172,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     nextFocusElemRef.current?.focus();
   }, [selectedOptions]);
 
-  useEffect(() => {
-    disabled && setExpanded(false);
-  }, [disabled]);
+  const isExpanded = !disabled && expanded;
 
   const filteredOptions = searchable
     ? options.filter((option) => {
@@ -207,9 +204,9 @@ const DropdownInput = <TFieldValues extends FieldValues>({
       )}
       role='combobox'
       aria-controls={listId}
-      aria-expanded={expanded}
+      aria-expanded={isExpanded}
       aria-disabled={disabled}
-      onFocusCapture={() => !expanded && setExpanded(true)}
+      onFocusCapture={() => !disabled && !expanded && setExpanded(true)}
       onBlurCapture={(e: FocusEvent<HTMLDivElement, Element>) => {
         if (!(e.currentTarget as Node)?.contains(e.relatedTarget as Node)) {
           onBlur();
@@ -282,7 +279,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
           aria-hidden
           className={styles.expandIcon}
           onMouseDown={(e) => {
-            inputRef.current?.[expanded ? 'blur' : 'focus']();
+            inputRef.current?.[isExpanded ? 'blur' : 'focus']();
             e.preventDefault();
           }}
         />
@@ -294,10 +291,13 @@ const DropdownInput = <TFieldValues extends FieldValues>({
           role='listbox'
           aria-multiselectable={multiple}
           onTransitionEnd={(e) => {
-            e.target === e.currentTarget &&
-              !expanded &&
-              (multiple || !selectedOptions.length) &&
+            if (
+              e.target === e.currentTarget &&
+              !isExpanded &&
+              (multiple || !selectedOptions.length)
+            ) {
               setInputValue('');
+            }
           }}
         >
           {hasCreateItem && (

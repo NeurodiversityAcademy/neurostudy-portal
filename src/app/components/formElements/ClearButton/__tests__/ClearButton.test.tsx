@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm, useWatch, FormProvider } from 'react-hook-form';
 import ClearButton from '../ClearButton';
 
 jest.mock('next/image', () => ({
@@ -22,12 +22,13 @@ function ClearButtonHarness({
   const methods = useForm<FormValues>({
     defaultValues: { name: defaultValue },
   });
+  const value = useWatch({ control: methods.control, name: 'name' });
 
   return (
     <FormProvider {...methods}>
       <ClearButton
         name='name'
-        value={methods.watch('name')}
+        value={value}
         methods={methods}
         disabled={disabled}
         onClick={jest.fn()}
@@ -57,17 +58,13 @@ describe('ClearButton', () => {
       const methods = useForm<FormValues>({
         defaultValues: { name: 'Hello' },
       });
+      const value = useWatch({ control: methods.control, name: 'name' });
       const onClick = jest.fn();
 
       return (
         <FormProvider {...methods}>
           <input {...methods.register('name')} aria-label='name-input' />
-          <ClearButton
-            name='name'
-            value={methods.watch('name')}
-            methods={methods}
-            onClick={onClick}
-          />
+          <ClearButton name='name' value={value} methods={methods} onClick={onClick} />
         </FormProvider>
       );
     }
@@ -86,15 +83,11 @@ describe('ClearButton', () => {
       const methods = useForm<FormValues>({
         defaultValues: { name: 'Hello' },
       });
+      const value = useWatch({ control: methods.control, name: 'name' });
 
       return (
         <FormProvider {...methods}>
-          <ClearButton
-            name='name'
-            value={methods.watch('name')}
-            methods={methods}
-            onClick={onClick}
-          />
+          <ClearButton name='name' value={value} methods={methods} onClick={onClick} />
         </FormProvider>
       );
     }

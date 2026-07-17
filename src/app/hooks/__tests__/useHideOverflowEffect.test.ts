@@ -1,58 +1,42 @@
 import { renderHook } from '@testing-library/react';
-import useHideOverflowEffect from '@/app/hooks/useHideOverflowEffect';
+import useHideOverflowEffect, { HIDE_OVERFLOW_CLASS } from '@/app/hooks/useHideOverflowEffect';
 
 describe('useHideOverflowEffect', () => {
   afterEach(() => {
-    document.body.style.removeProperty('overflow');
+    document.body.classList.remove(HIDE_OVERFLOW_CLASS);
   });
 
   it('returns a function that hides overflow on document.body by default', () => {
     const { result } = renderHook(() => useHideOverflowEffect());
     const cleanup = result.current();
 
-    expect(document.body.style.overflow).toBe('hidden');
+    expect(document.body.classList.contains(HIDE_OVERFLOW_CLASS)).toBe(true);
 
     cleanup();
   });
 
-  it('restores the original overflow value on cleanup', () => {
-    document.body.style.overflow = 'auto';
-
+  it('removes the hide-overflow class on cleanup', () => {
     const { result } = renderHook(() => useHideOverflowEffect());
     const cleanup = result.current();
 
-    expect(document.body.style.overflow).toBe('hidden');
+    expect(document.body.classList.contains(HIDE_OVERFLOW_CLASS)).toBe(true);
 
     cleanup();
 
-    expect(document.body.style.overflow).toBe('auto');
-  });
-
-  it('removes overflow property on cleanup when no previous value existed', () => {
-    document.body.style.removeProperty('overflow');
-
-    const { result } = renderHook(() => useHideOverflowEffect());
-    const cleanup = result.current();
-
-    expect(document.body.style.overflow).toBe('hidden');
-
-    cleanup();
-
-    expect(document.body.style.overflow).toBe('');
+    expect(document.body.classList.contains(HIDE_OVERFLOW_CLASS)).toBe(false);
   });
 
   it('applies to a custom element when provided', () => {
     const elem = document.createElement('div');
-    elem.style.overflow = 'scroll';
 
     const { result } = renderHook(() => useHideOverflowEffect(elem));
     const cleanup = result.current();
 
-    expect(elem.style.overflow).toBe('hidden');
+    expect(elem.classList.contains(HIDE_OVERFLOW_CLASS)).toBe(true);
 
     cleanup();
 
-    expect(elem.style.overflow).toBe('scroll');
+    expect(elem.classList.contains(HIDE_OVERFLOW_CLASS)).toBe(false);
   });
 
   it('returns a stable function reference across re-renders', () => {

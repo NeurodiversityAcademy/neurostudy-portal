@@ -1,10 +1,12 @@
 'use client';
 
 import classNames from 'classnames';
-import { MouseEventHandler, ReactNode, useEffect, useRef, useState } from 'react';
+import { MouseEventHandler, ReactNode, useEffect, useState } from 'react';
 import styles from './dialog.module.css';
 import { createPortal } from 'react-dom';
 import useHideOverflowEffect from '@/app/hooks/useHideOverflowEffect';
+
+const CLOSE_ANIMATION_MS = 300;
 
 interface Props {
   open: boolean;
@@ -14,23 +16,25 @@ interface Props {
 }
 
 const Dialog: React.FC<Props> = ({ open, onClose, children, usePortal = true }) => {
-  const childrenRef = useRef<ReactNode>(undefined);
-  const [isRendered, setIsRendered] = useState<boolean>(open);
-  if (children) {
-    childrenRef.current = children;
+  const [isRendered, setIsRendered] = useState(open);
+  const [cachedChildren, setCachedChildren] = useState(children);
+
+  if (open && !isRendered) {
+    setIsRendered(true);
+  }
+
+  if (children != null && children !== cachedChildren) {
+    setCachedChildren(children);
   }
 
   const hideOverflow = useHideOverflowEffect();
 
   useEffect(() => {
     if (open) {
-      setIsRendered(true);
       return hideOverflow();
     }
-    // TODO
-    // The value `300` should be used as a constant that matches
-    // the specified css animation duration
-    const timer = setTimeout(() => setIsRendered(false), 300);
+
+    const timer = setTimeout(() => setIsRendered(false), CLOSE_ANIMATION_MS);
     return () => clearTimeout(timer);
   }, [open, hideOverflow]);
 
@@ -42,7 +46,7 @@ const Dialog: React.FC<Props> = ({ open, onClose, children, usePortal = true }) 
     <div className={classNames(styles.container, open ? styles.open : styles.closed)}>
       <div className={styles.backdrop} onClick={onClose} />
       <dialog open className={styles.content}>
-        {childrenRef.current}
+        {children ?? cachedChildren}
       </dialog>
     </div>
   );

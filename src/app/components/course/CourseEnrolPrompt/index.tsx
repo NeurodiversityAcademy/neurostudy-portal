@@ -33,7 +33,7 @@ const CourseEnrolPrompt: React.FC = () => {
     const searchObj = queryString.parse();
 
     if (['failure', 'canceled'].includes(searchObj['checkout_status']?.toString())) {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         const { error } = searchObj;
         notifyError(
           error
@@ -44,17 +44,23 @@ const CourseEnrolPrompt: React.FC = () => {
           },
         );
       });
+      return () => clearTimeout(timer);
+    }
+
+    if (isSessionLoading) {
       return;
     }
 
-    setBannerOpen(true);
+    const shouldOpenPopup =
+      !session && window[COURSE_ENROL_CACHE_STORAGE].getItem(COURSE_ENROL_POPUP_CLOSED_KEY) !== '1';
 
-    if (isSessionLoading || !!session) {
-      return;
-    }
+    // Defer state updates so we only sync after reading external session/storage.
+    const frame = requestAnimationFrame(() => {
+      setBannerOpen(true);
+      setPopupOpen(shouldOpenPopup);
+    });
 
-    const open = window[COURSE_ENROL_CACHE_STORAGE].getItem(COURSE_ENROL_POPUP_CLOSED_KEY) !== '1';
-    setPopupOpen(open);
+    return () => cancelAnimationFrame(frame);
   }, [session, isSessionLoading]);
 
   const onRequestCheckout = async () => {
