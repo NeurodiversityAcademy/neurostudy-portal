@@ -23,9 +23,9 @@ jest.mock('next/link', () => ({
   ),
 }));
 
-jest.mock('isomorphic-dompurify', () => ({
+jest.mock('@/app/utilities/sanitizeHtml', () => ({
   __esModule: true,
-  default: { sanitize: (html: string) => html },
+  sanitizeHtml: (html: string) => html ?? '',
 }));
 
 import CourseDetailsBodyText from '../CourseDetailsBodyText';

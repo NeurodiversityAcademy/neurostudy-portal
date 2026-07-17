@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
 jest.mock('next/image', () => ({
   __esModule: true,
@@ -63,10 +63,7 @@ describe('HandbookPopup', () => {
   it('submits form and shows download ready message', async () => {
     render(<HandbookPopup open onClose={jest.fn()} />);
     fillHandbookForm();
-
-    await act(async () => {
-      fireEvent.click(screen.getByText('Free Download'));
-    });
+    fireEvent.click(screen.getByText('Free Download'));
 
     await waitFor(() => {
       expect(mockRegisterSubscriptionData).toHaveBeenCalledWith({
@@ -81,10 +78,7 @@ describe('HandbookPopup', () => {
   it('disables submit button after successful download', async () => {
     render(<HandbookPopup open onClose={jest.fn()} />);
     fillHandbookForm();
-
-    await act(async () => {
-      fireEvent.click(screen.getByText('Free Download'));
-    });
+    fireEvent.click(screen.getByText('Free Download'));
 
     await waitFor(() => {
       expect(screen.getByText('Free Download').closest('button')).toBeDisabled();
@@ -96,10 +90,7 @@ describe('HandbookPopup', () => {
     mockRegisterSubscriptionData.mockRejectedValue(error);
     render(<HandbookPopup open onClose={jest.fn()} />);
     fillHandbookForm();
-
-    await act(async () => {
-      fireEvent.click(screen.getByText('Free Download'));
-    });
+    fireEvent.click(screen.getByText('Free Download'));
 
     await waitFor(() => {
       expect(mockNotifyError).toHaveBeenCalledWith(error);

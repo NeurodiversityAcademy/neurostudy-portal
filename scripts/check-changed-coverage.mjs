@@ -7,6 +7,7 @@ const COVERAGE_THRESHOLD = Number(process.env.CHANGED_COVERAGE_THRESHOLD ?? '90'
 const BASE_REF = process.env.COVERAGE_BASE_REF ?? 'origin/main';
 const SOURCE_FILE_PATTERN = /^src\/.*\.(?:ts|tsx)$/;
 const TEST_FILE_PATTERN = /(?:__tests__|\.test\.|\.spec\.)/;
+const DECLARATION_FILE_PATTERN = /\.d\.ts$/;
 const ZERO_SHA = '0000000000000000000000000000000000000000';
 // Keep in sync with jest.config.cjs collectCoverageFrom exclusions.
 const INTENTIONAL_COVERAGE_EXCLUSIONS = [
@@ -117,7 +118,9 @@ const intersectsChangedLine = (location, changedLines) => {
 };
 
 const isMeasurableSourceFile = (relativeFile) =>
-  SOURCE_FILE_PATTERN.test(relativeFile) && !TEST_FILE_PATTERN.test(relativeFile);
+  SOURCE_FILE_PATTERN.test(relativeFile) &&
+  !TEST_FILE_PATTERN.test(relativeFile) &&
+  !DECLARATION_FILE_PATTERN.test(relativeFile);
 
 const coverage = JSON.parse(readFileSync(COVERAGE_FILE, 'utf8'));
 const changedLinesByFile = getChangedLines();
