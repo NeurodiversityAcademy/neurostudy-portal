@@ -47,7 +47,7 @@ export default function Loader({
           className,
           styles.loader,
           expand && styles.expand,
-          alignTop && styles.alignTop
+          alignTop && styles.alignTop,
         )}
         aria-hidden
         {...rest}

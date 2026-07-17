@@ -12,10 +12,9 @@ jest.mock('@/app/utilities/validation/assertUserData', () => jest.fn());
 jest.mock('@/app/utilities/auth/responses', () => ({
   returnAuthError: jest.fn().mockImplementation((ex: unknown) => {
     const status = (ex as { status?: number })?.status || 500;
-    return new Response(
-      JSON.stringify({ message: (ex as Error)?.message || 'Auth error' }),
-      { status }
-    );
+    return new Response(JSON.stringify({ message: (ex as Error)?.message || 'Auth error' }), {
+      status,
+    });
   }),
 }));
 
@@ -83,10 +82,9 @@ describe('GET /api/user', () => {
   });
 
   it('returns auth error when not authenticated', async () => {
-    const authError = new AuthErrorResponse(
-      JSON.stringify({ error: 'Unauthorized' }),
-      { status: 401 }
-    );
+    const authError = new AuthErrorResponse(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401,
+    });
     mockIsAuth.mockResolvedValue(authError);
 
     const res = await GET(makeGetRequest());
@@ -118,10 +116,9 @@ describe('PUT /api/user', () => {
   });
 
   it('returns auth error when not authenticated', async () => {
-    const authError = new AuthErrorResponse(
-      JSON.stringify({ error: 'Unauthorized' }),
-      { status: 401 }
-    );
+    const authError = new AuthErrorResponse(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401,
+    });
     mockIsAuth.mockResolvedValue(authError);
 
     const res = await PUT(makePutRequest({ displayName: 'JD' }));

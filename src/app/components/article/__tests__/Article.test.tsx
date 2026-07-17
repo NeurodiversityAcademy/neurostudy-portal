@@ -48,13 +48,9 @@ describe('Article', () => {
       />,
     );
 
+    expect(screen.getByText('Understanding Neurodiversity in Education')).toBeInTheDocument();
     expect(
-      screen.getByText('Understanding Neurodiversity in Education'),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByAltText(
-        'Thumbnail for Understanding Neurodiversity in Education',
-      ),
+      screen.getByAltText('Thumbnail for Understanding Neurodiversity in Education'),
     ).toBeInTheDocument();
     expect(screen.getByText('Learn more')).toBeInTheDocument();
     expect(screen.getByRole('link')).toHaveAttribute(

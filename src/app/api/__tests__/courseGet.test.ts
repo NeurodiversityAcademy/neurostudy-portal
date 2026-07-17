@@ -16,11 +16,10 @@ jest.mock('@/app/utilities/validation/assertCourseData', () => jest.fn());
 jest.mock('@/app/utilities/db/processCourseAPIError', () =>
   jest.fn().mockImplementation((ex: unknown) => {
     const status = (ex as { status?: number })?.status || 500;
-    return new Response(
-      JSON.stringify({ message: (ex as Error)?.message || 'DB error' }),
-      { status }
-    );
-  })
+    return new Response(JSON.stringify({ message: (ex as Error)?.message || 'DB error' }), {
+      status,
+    });
+  }),
 );
 
 import { consumeRateWithIp } from '@/app/utilities/api/rateLimiter';
@@ -30,9 +29,7 @@ import GET from '@/app/api/course/GET';
 const mockConsumeRate = consumeRateWithIp as jest.Mock;
 const mockDbSend = dbDocumentClient.send as jest.Mock;
 
-const makeRequest = (
-  params: Record<string, string> = {}
-): NextRequest => {
+const makeRequest = (params: Record<string, string> = {}): NextRequest => {
   const url = new URL('http://localhost/api/course');
   Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
   return new NextRequest(url, { method: 'GET' });
@@ -121,9 +118,7 @@ describe('GET /api/course', () => {
 
   it('returns error when rate limited', async () => {
     const APIError = (await import('@/app/interfaces/APIError')).default;
-    mockConsumeRate.mockRejectedValue(
-      new APIError({ status: 429, error: 'Too Many Requests.' })
-    );
+    mockConsumeRate.mockRejectedValue(new APIError({ status: 429, error: 'Too Many Requests.' }));
 
     const res = await GET(makeRequest());
 

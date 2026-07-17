@@ -8,13 +8,9 @@ jest.mock('next/image', () => ({
 
 jest.mock('next/link', () => ({
   __esModule: true,
-  default: ({
-    children,
-    href,
-  }: {
-    children: React.ReactNode;
-    href: string;
-  }) => <a href={href}>{children}</a>,
+  default: ({ children, href }: { children: React.ReactNode; href: string }) => (
+    <a href={href}>{children}</a>
+  ),
 }));
 
 jest.mock('next/navigation', () => ({
@@ -58,39 +54,21 @@ import ProfileInfoSection from '../ProfileInfoSection';
 describe('ProfilePreferenceSection', () => {
   it('renders the section title in edit mode', () => {
     render(<ProfilePreferenceSection />);
-    expect(
-      screen.getByText('Neuro Condition & Learning Preferences'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Neuro Condition & Learning Preferences')).toBeInTheDocument();
   });
 
   it('renders the section icon in edit mode', () => {
     render(<ProfilePreferenceSection />);
-    expect(
-      screen.getByAltText('Neuro Condition & Learning Preferences'),
-    ).toBeInTheDocument();
+    expect(screen.getByAltText('Neuro Condition & Learning Preferences')).toBeInTheDocument();
   });
 
   it('renders form when popup is true', () => {
-    render(
-      <ProfilePreferenceSection
-        popup
-        onSubmit={jest.fn()}
-        onCancel={jest.fn()}
-      />,
-    );
-    expect(
-      screen.getByText('Neuro Condition & Learning Preferences'),
-    ).toBeInTheDocument();
+    render(<ProfilePreferenceSection popup onSubmit={jest.fn()} onCancel={jest.fn()} />);
+    expect(screen.getByText('Neuro Condition & Learning Preferences')).toBeInTheDocument();
   });
 
   it('renders Cancel button in popup mode', () => {
-    render(
-      <ProfilePreferenceSection
-        popup
-        onSubmit={jest.fn()}
-        onCancel={jest.fn()}
-      />,
-    );
+    render(<ProfilePreferenceSection popup onSubmit={jest.fn()} onCancel={jest.fn()} />);
     expect(screen.getByText('Cancel')).toBeInTheDocument();
     expect(screen.getByText('Save')).toBeInTheDocument();
   });
@@ -108,13 +86,7 @@ describe('ProfileGoalSection', () => {
   });
 
   it('renders form when popup is true', () => {
-    render(
-      <ProfileGoalSection
-        popup
-        onSubmit={jest.fn()}
-        onCancel={jest.fn()}
-      />,
-    );
+    render(<ProfileGoalSection popup onSubmit={jest.fn()} onCancel={jest.fn()} />);
     expect(screen.getByText('Goals & Interests')).toBeInTheDocument();
   });
 });
@@ -127,19 +99,11 @@ describe('ProfileChallengeSection', () => {
 
   it('renders the section icon in edit mode', () => {
     render(<ProfileChallengeSection />);
-    expect(
-      screen.getByAltText('Comfort & Challenges'),
-    ).toBeInTheDocument();
+    expect(screen.getByAltText('Comfort & Challenges')).toBeInTheDocument();
   });
 
   it('renders form when popup is true', () => {
-    render(
-      <ProfileChallengeSection
-        popup
-        onSubmit={jest.fn()}
-        onCancel={jest.fn()}
-      />,
-    );
+    render(<ProfileChallengeSection popup onSubmit={jest.fn()} onCancel={jest.fn()} />);
     expect(screen.getByText('Comfort & Challenges')).toBeInTheDocument();
   });
 });
@@ -152,19 +116,11 @@ describe('ProfileStrategySection', () => {
 
   it('renders the section icon in edit mode', () => {
     render(<ProfileStrategySection />);
-    expect(
-      screen.getByAltText('Strategies & Support'),
-    ).toBeInTheDocument();
+    expect(screen.getByAltText('Strategies & Support')).toBeInTheDocument();
   });
 
   it('renders form when popup is true', () => {
-    render(
-      <ProfileStrategySection
-        popup
-        onSubmit={jest.fn()}
-        onCancel={jest.fn()}
-      />,
-    );
+    render(<ProfileStrategySection popup onSubmit={jest.fn()} onCancel={jest.fn()} />);
     expect(screen.getByText('Strategies & Support')).toBeInTheDocument();
   });
 });
@@ -172,9 +128,7 @@ describe('ProfileStrategySection', () => {
 describe('ProfileInfoSection', () => {
   it('renders Personal Information title', () => {
     render(<ProfileInfoSection />);
-    expect(
-      screen.getByText('Personal Information'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Personal Information')).toBeInTheDocument();
   });
 
   it('renders form input placeholders', () => {

@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 
 export default function FavouriteIcon(
-  props: React.SVGProps<SVGSVGElement>
+  props: React.SVGProps<SVGSVGElement>,
 ): ReactElement<SVGElement> {
   return (
     <svg

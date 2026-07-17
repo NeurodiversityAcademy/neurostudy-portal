@@ -52,21 +52,8 @@ const ToggleInput = <TFieldValues extends FieldValues>({
   };
 
   return (
-    <div
-      className={classNames(
-        styles.toggleRoot,
-        'border-box-parent',
-        cols && 'col-md-' + cols
-      )}
-    >
-      {showLabel && (
-        <Label
-          name={name}
-          color={error && 'red'}
-          label={label}
-          required={required}
-        />
-      )}
+    <div className={classNames(styles.toggleRoot, 'border-box-parent', cols && 'col-md-' + cols)}>
+      {showLabel && <Label name={name} color={error && 'red'} label={label} required={required} />}
       <div
         className={styles.switchContainer}
         onClick={(e) => e.currentTarget === e.target && toggle()}
@@ -87,12 +74,9 @@ const ToggleInput = <TFieldValues extends FieldValues>({
       </div>
       <HelperText>{helperText}</HelperText>
       {error && (
-        <ErrorBox
-          message={error.message?.toString() || defaultErrorMessage}
-          label={label}
-        />
+        <ErrorBox message={error.message?.toString() || defaultErrorMessage} label={label} />
       )}
-      {value != undefined && (
+      {value != null && (
         <input
           type='hidden'
           name={name}

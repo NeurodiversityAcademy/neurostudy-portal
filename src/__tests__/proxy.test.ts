@@ -12,10 +12,7 @@ import { proxy, config } from '@/proxy';
 const mockIsAuthenticated = isAuthenticated as jest.Mock;
 
 const makeRequest = (path = '/profile', search = ''): NextRequest =>
-  new NextRequest(
-    new URL(`http://localhost:3000${path}${search}`),
-    { method: 'GET' }
-  );
+  new NextRequest(new URL(`http://localhost:3000${path}${search}`), { method: 'GET' });
 
 describe('proxy', () => {
   beforeEach(() => {
@@ -40,7 +37,7 @@ describe('proxy', () => {
 
   it('redirects unauthenticated users to login with callback URL', async () => {
     mockIsAuthenticated.mockResolvedValue(
-      new AuthErrorResponse('User is not authorized.', { status: 401 })
+      new AuthErrorResponse('User is not authorized.', { status: 401 }),
     );
 
     const req = makeRequest('/profile', '?tab=courses');
@@ -50,23 +47,17 @@ describe('proxy', () => {
     expect(res.status).toBeGreaterThanOrEqual(300);
     expect(location).toContain('/login');
     expect(location).toContain('error=AuthRequired');
-    expect(location).toContain(
-      encodeURIComponent('/profile?tab=courses')
-    );
+    expect(location).toContain(encodeURIComponent('/profile?tab=courses'));
   });
 
   it('preserves pathname-only callback when there is no search string', async () => {
-    mockIsAuthenticated.mockResolvedValue(
-      new AuthErrorResponse(null, { status: 401 })
-    );
+    mockIsAuthenticated.mockResolvedValue(new AuthErrorResponse(null, { status: 401 }));
 
     const req = makeRequest('/profile');
     const res = await proxy(req);
     const location = res.headers.get('location') ?? '';
 
-    expect(location).toContain(
-      encodeURIComponent('/profile')
-    );
+    expect(location).toContain(encodeURIComponent('/profile'));
   });
 
   it('exports matcher config for profile route', () => {

@@ -14,8 +14,7 @@ export interface CourseDetailsContent {
   isLoading: boolean;
 }
 
-const [CourseDetailsContext, useCourseDetailsContext] =
-  deviseContext<CourseDetailsContent>();
+const [CourseDetailsContext, useCourseDetailsContext] = deviseContext<CourseDetailsContent>();
 
 export { CourseDetailsContext };
 export { useCourseDetailsContext };

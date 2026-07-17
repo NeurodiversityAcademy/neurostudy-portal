@@ -6,15 +6,11 @@ import EndorsedStudyAreas from '../EndorsedStudyAreas';
 describe('EndorsedStudyAreas', () => {
   it('returns null when studyAreas is empty', () => {
     const { container } = render(<EndorsedStudyAreas studyAreas={[]} />);
-    expect(container.firstChild).toBeNull();
+    expect(container).toBeEmptyDOMElement();
   });
 
   it('renders heading and study area pills', () => {
-    render(
-      <EndorsedStudyAreas
-        studyAreas={['Creative Arts', 'Health Sciences', 'Business']}
-      />,
-    );
+    render(<EndorsedStudyAreas studyAreas={['Creative Arts', 'Health Sciences', 'Business']} />);
 
     expect(screen.getByText('Study Areas')).toBeInTheDocument();
     expect(screen.getByText('Creative Arts')).toBeInTheDocument();

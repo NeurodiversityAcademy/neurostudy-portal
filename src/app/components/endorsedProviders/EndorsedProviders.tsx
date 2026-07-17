@@ -47,9 +47,7 @@ type EndorsedProvidersProps = {
   demoSlug?: string;
 };
 
-function toEndorsedProviderRow(
-  row: EndorsedProviderRawRow
-): EndorsedProviderRow {
+function toEndorsedProviderRow(row: EndorsedProviderRawRow): EndorsedProviderRow {
   return {
     id: row.id,
     logo: row.logo,
@@ -62,7 +60,7 @@ function toEndorsedProviderRow(
 function resolveProvidersToShow(
   rawProviders: EndorsedProviderRawRow[],
   demoGuid: string,
-  demoSlug: string
+  demoSlug: string,
 ): EndorsedProviderRow[] {
   const providers = rawProviders.map(toEndorsedProviderRow);
   const liveProviders = providers.filter((provider) => {
@@ -74,9 +72,7 @@ function resolveProvidersToShow(
     return liveProviders;
   }
 
-  const demoProvider = providers.find(
-    (provider) => slugify(provider.id) === demoSlug
-  );
+  const demoProvider = providers.find((provider) => slugify(provider.id) === demoSlug);
   if (!demoProvider) {
     return liveProviders;
   }
@@ -86,9 +82,7 @@ function resolveProvidersToShow(
     return liveProviders;
   }
 
-  const alreadyListed = liveProviders.some(
-    (provider) => provider.id === demoProvider.id
-  );
+  const alreadyListed = liveProviders.some((provider) => provider.id === demoProvider.id);
   if (alreadyListed) {
     return liveProviders;
   }
@@ -107,15 +101,10 @@ export default function EndorsedProviders({
     return null;
   }
 
-  const showCertifiedLegend = providers.some(
-    (provider) => provider.ndaCertified
-  );
+  const showCertifiedLegend = providers.some((provider) => provider.ndaCertified);
 
   return (
-    <section
-      className={endorseStyles.sectionCherryPie}
-      id={ENDORSED_PROVIDERS_SECTION_ID}
-    >
+    <section className={endorseStyles.sectionCherryPie} id={ENDORSED_PROVIDERS_SECTION_ID}>
       <div className={sectionStyles.container}>
         <div className={sectionStyles.header}>
           <div className={endorseStyles.headerBadgeFrame}>
@@ -128,10 +117,7 @@ export default function EndorsedProviders({
               className={endorseStyles.headerBadgeImg}
             />
           </div>
-          <Typography
-            variant={TypographyVariant.H2}
-            color={TypographyColorToken.PureWhite}
-          >
+          <Typography variant={TypographyVariant.H2} color={TypographyColorToken.PureWhite}>
             {ENDORSED_PROVIDERS_HEADING}
           </Typography>
         </div>
@@ -147,7 +133,7 @@ export default function EndorsedProviders({
           className={classNames(
             endorseStyles.cardsRow,
             providers.length === 2 && endorseStyles.cardsRowTwo,
-            providers.length === 1 && endorseStyles.cardsRowSingle
+            providers.length === 1 && endorseStyles.cardsRowSingle,
           )}
         >
           {providers.map((provider) => {
@@ -157,12 +143,9 @@ export default function EndorsedProviders({
             const cardLogoSrc = resolveEndorsedProviderLogoSrc(
               providerSlug,
               provider.logo,
-              ENDORSED_PROVIDER_LOGO_BY_SLUG
+              ENDORSED_PROVIDER_LOGO_BY_SLUG,
             );
-            const ctaHref = buildEndorsedProviderDetailHref(
-              providerSlug,
-              demoGuid
-            );
+            const ctaHref = buildEndorsedProviderDetailHref(providerSlug, demoGuid);
 
             return (
               <InstitutionProviderCard
@@ -178,12 +161,7 @@ export default function EndorsedProviders({
                         kind: INSTITUTION_PROVIDER_HEADER_KIND.CHERRY_PIE_SUB,
                       }
                 }
-                badge={
-                  <EndorsedCertifiedBadge
-                    size='card'
-                    certified={ndaCertified}
-                  />
-                }
+                badge={<EndorsedCertifiedBadge size='card' certified={ndaCertified} />}
                 equalWidth={providers.length > 2}
                 elevatedOnDark
                 ndaCertified={ndaCertified}
@@ -200,12 +178,7 @@ export default function EndorsedProviders({
                 }}
                 center={
                   <div className={cardStyles.logoWrap}>
-                    <Image
-                      src={cardLogoSrc}
-                      alt={`${providerName} logo`}
-                      width={280}
-                      height={72}
-                    />
+                    <Image src={cardLogoSrc} alt={`${providerName} logo`} width={280} height={72} />
                   </div>
                 }
               />
@@ -218,10 +191,7 @@ export default function EndorsedProviders({
             color={TypographyColorToken.PureWhite}
             className={endorseStyles.certifiedLegend}
           >
-            <span
-              className={endorseStyles.certifiedLegendStar}
-              aria-hidden='true'
-            >
+            <span className={endorseStyles.certifiedLegendStar} aria-hidden='true'>
               ★
             </span>{' '}
             {NDA_CERTIFIED_LEGEND}

@@ -36,12 +36,11 @@ const sampleCourses: CourseProps[] = [
 
 const wrapper =
   (props: { data?: CourseProps[]; redirectToSearchPage?: boolean } = {}) =>
-  ({ children }: { children: React.ReactNode }) =>
-    (
-      <CourseProvider data={props.data} redirectToSearchPage={props.redirectToSearchPage}>
-        {children}
-      </CourseProvider>
-    );
+  ({ children }: { children: React.ReactNode }) => (
+    <CourseProvider data={props.data} redirectToSearchPage={props.redirectToSearchPage}>
+      {children}
+    </CourseProvider>
+  );
 
 const setWindowLocation = (pathname: string, search = '') => {
   window.history.pushState({}, '', `${pathname}${search}`);
@@ -56,7 +55,7 @@ describe('CourseProvider', () => {
 
   it('throws when useCourseContext is used outside the provider', () => {
     expect(() => renderHook(() => useCourseContext())).toThrow(
-      'deviseContext()[1](derivative of `useContext`) does not have proper context.'
+      'deviseContext()[1](derivative of `useContext`) does not have proper context.',
     );
   });
 
@@ -98,10 +97,7 @@ describe('CourseProvider', () => {
       await result.current.loadData({ Location: ['Sydney'] });
     });
 
-    expect(mockPush).toHaveBeenCalledWith(
-      expect.stringContaining('/courses'),
-      { scroll: false }
-    );
+    expect(mockPush).toHaveBeenCalledWith(expect.stringContaining('/courses'), { scroll: false });
     expect(result.current.isLoading).toBe(true);
   });
 
@@ -116,10 +112,7 @@ describe('CourseProvider', () => {
       await result.current.loadData();
     });
 
-    expect(mockReplace).toHaveBeenCalledWith(
-      expect.stringContaining('&_='),
-      { scroll: false }
-    );
+    expect(mockReplace).toHaveBeenCalledWith(expect.stringContaining('&_='), { scroll: false });
   });
 
   it('loadData stops loading when URL already matches and filter is passed', async () => {
@@ -167,10 +160,7 @@ describe('CourseProvider', () => {
       await result.current.loadData({ Location: ['Sydney'] });
     });
 
-    expect(mockPush).toHaveBeenCalledWith(
-      expect.stringContaining('Location'),
-      { scroll: false }
-    );
+    expect(mockPush).toHaveBeenCalledWith(expect.stringContaining('Location'), { scroll: false });
   });
 
   it('clears loading when data prop changes', async () => {
@@ -178,10 +168,7 @@ describe('CourseProvider', () => {
       const [courses, setCourses] = React.useState(sampleCourses);
 
       React.useEffect(() => {
-        setCourses([
-          ...sampleCourses,
-          makeCourse({ Title: 'Gamma Course' }),
-        ]);
+        setCourses([...sampleCourses, makeCourse({ Title: 'Gamma Course' })]);
       }, []);
 
       return <CourseProvider data={courses}>{children}</CourseProvider>;

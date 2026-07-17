@@ -25,13 +25,7 @@ jest.mock('@/app/utilities/course/CourseProvider', () => ({
 
 jest.mock('../../../formElements/Dropdown/Dropdown', () => ({
   __esModule: true,
-  default: ({
-    name,
-    label,
-  }: {
-    name: string;
-    label: string;
-  }) => (
+  default: ({ name, label }: { name: string; label: string }) => (
     <div data-testid={`dropdown-${name}`}>
       <label htmlFor={name}>{label}</label>
       <input id={name} name={name} aria-label={label} />
@@ -59,24 +53,15 @@ describe('CoursePrimaryFilter', () => {
   it('renders primary filter dropdowns and search button', () => {
     render(<CoursePrimaryFilter />);
 
-    expect(
-      screen.getByLabelText('What is your neurotype?'),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByLabelText('What do you want to study?'),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByLabelText('Where do you want to study?'),
-    ).toBeInTheDocument();
+    expect(screen.getByLabelText('What is your neurotype?')).toBeInTheDocument();
+    expect(screen.getByLabelText('What do you want to study?')).toBeInTheDocument();
+    expect(screen.getByLabelText('Where do you want to study?')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /search/i })).toBeInTheDocument();
   });
 
   it('has search role and aria label', () => {
     render(<CoursePrimaryFilter />);
-    expect(screen.getByRole('search')).toHaveAttribute(
-      'aria-label',
-      'Primary search criteria',
-    );
+    expect(screen.getByRole('search')).toHaveAttribute('aria-label', 'Primary search criteria');
   });
 
   it('disables search button when loading', () => {

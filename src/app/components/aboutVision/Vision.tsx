@@ -12,9 +12,9 @@ export default function Vision() {
         </div>
         <div>
           <Typography variant={TypographyVariant.Body1}>
-            To set the standard around Neurodiversity in higher education and
-            the working environment and to allow Neurodivergent people to feel
-            safe and supported while developing in their careers.
+            To set the standard around Neurodiversity in higher education and the working
+            environment and to allow Neurodivergent people to feel safe and supported while
+            developing in their careers.
           </Typography>
         </div>
       </div>

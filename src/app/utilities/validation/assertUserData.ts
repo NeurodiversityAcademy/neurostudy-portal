@@ -4,13 +4,9 @@ import throwAssertionError from '../api/throwAssertionError';
 
 const throwError = throwAssertionError;
 
-export default function assertUserProps(
-  user: UserProps
-): asserts user is UserProps {
+export default function assertUserProps(user: UserProps): asserts user is UserProps {
   if (!user || typeof user !== 'object') {
-    throwError(
-      `Invalid prop 'user' supplied, expected an object with key-value pairs.`
-    );
+    throwError(`Invalid prop 'user' supplied, expected an object with key-value pairs.`);
   }
 
   let key: string;
@@ -22,7 +18,7 @@ export default function assertUserProps(
       const providedType: unknown = typeof user[key];
       if (expectedType !== providedType) {
         throwError(
-          `Invalid prop 'user["${key}"]' of type '${providedType}' supplied, expected '${expectedType}'.`
+          `Invalid prop 'user["${key}"]' of type '${providedType}' supplied, expected '${expectedType}'.`,
         );
       }
     } else {

@@ -13,10 +13,7 @@ describe('queryString', () => {
     });
 
     it('omits the ? delimiter when addDelimiter is false', () => {
-      const result = queryString.stringify(
-        { key: 'val' },
-        { addDelimiter: false }
-      );
+      const result = queryString.stringify({ key: 'val' }, { addDelimiter: false });
       expect(result).not.toContain('?');
       expect(result).toBe('key=val');
     });
@@ -38,9 +35,7 @@ describe('queryString', () => {
       // stringify calls encodeURIComponent, then URLSearchParams re-encodes
       expect(result).toContain('q=');
       const params = new URLSearchParams(result);
-      expect(decodeURIComponent(params.get('q') || '')).toBe(
-        'hello world&more'
-      );
+      expect(decodeURIComponent(params.get('q') || '')).toBe('hello world&more');
     });
 
     it('handles null values by converting to string "null"', () => {
@@ -49,10 +44,7 @@ describe('queryString', () => {
     });
 
     it('returns empty string when record produces no params and addDelimiter is false', () => {
-      const result = queryString.stringify(
-        { gone: undefined },
-        { addDelimiter: false }
-      );
+      const result = queryString.stringify({ gone: undefined }, { addDelimiter: false });
       expect(result).toBe('');
     });
   });
@@ -64,9 +56,7 @@ describe('queryString', () => {
     });
 
     it('decodes encoded values', () => {
-      const result = queryString.parse(
-        `?q=${encodeURIComponent('hello world')}`
-      );
+      const result = queryString.parse(`?q=${encodeURIComponent('hello world')}`);
       expect(result).toEqual({ q: 'hello world' });
     });
 

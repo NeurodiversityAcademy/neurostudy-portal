@@ -29,9 +29,7 @@ type ProfileSectionPopupFalseProps = BaseProfileSectionProps & {
   onCancel?: never;
 };
 
-export type ProfileSectionProps =
-  | ProfileSectionPopupTrueProps
-  | ProfileSectionPopupFalseProps;
+export type ProfileSectionProps = ProfileSectionPopupTrueProps | ProfileSectionPopupFalseProps;
 
 export interface ProfileSectionFormProps {
   onSubmit?: SubmitHandler<UserProps>;
@@ -39,7 +37,4 @@ export interface ProfileSectionFormProps {
 }
 
 export type ProfileFieldsType =
-  | typeof PREFERENCE_FIELDS
-  | typeof GOAL_FIELDS
-  | typeof CHALLENGE_FIELDS
-  | typeof STRATEGY_FIELDS;
+  typeof PREFERENCE_FIELDS | typeof GOAL_FIELDS | typeof CHALLENGE_FIELDS | typeof STRATEGY_FIELDS;

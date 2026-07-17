@@ -27,27 +27,17 @@ describe('EndorsementProcess', () => {
 
   it('renders step descriptions', () => {
     render(<EndorsementProcess />);
-    expect(
-      screen.getByText(/Organisation completes/),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Neuroinclusion supports identified/),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Endorsement agreed/),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Student feedback assessed/),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Browse organisations/),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Organisation completes/)).toBeInTheDocument();
+    expect(screen.getByText(/Neuroinclusion supports identified/)).toBeInTheDocument();
+    expect(screen.getByText(/Endorsement agreed/)).toBeInTheDocument();
+    expect(screen.getByText(/Student feedback assessed/)).toBeInTheDocument();
+    expect(screen.getByText(/Browse organisations/)).toBeInTheDocument();
   });
 
   it('renders as an ordered list with five steps', () => {
     render(<EndorsementProcess />);
     const list = screen.getByRole('list');
     expect(list.tagName).toBe('OL');
-    expect(list.querySelectorAll('li').length).toBe(5);
+    expect(list.querySelectorAll('li')).toHaveLength(5);
   });
 });

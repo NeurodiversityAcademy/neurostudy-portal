@@ -29,17 +29,10 @@ export default function HomeBanner({
       <div className={styles.bannerContainer}>
         <div className={styles.bannerTextAndBadge}>
           <div className={styles.textContainer}>
-            <Typography
-              variant={TypographyVariant.H1}
-              className='m-0'
-              color='var(--GhostWhite)'
-            >
+            <Typography variant={TypographyVariant.H1} className='m-0' color='var(--GhostWhite)'>
               {title || 'We endorse Neuro-inclusion in tertiary education'}
             </Typography>
-            <Typography
-              variant={TypographyVariant.H2}
-              color='var(--GhostWhite)'
-            >
+            <Typography variant={TypographyVariant.H2} color='var(--GhostWhite)'>
               {subtitle ||
                 'Reach out to learn more about our endorsements and the \
               impact we are creating for Neurodivergent students.'}

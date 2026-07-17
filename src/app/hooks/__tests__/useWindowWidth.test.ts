@@ -63,10 +63,7 @@ describe('useWindowWidth', () => {
 
     unmount();
 
-    expect(removeSpy).toHaveBeenCalledWith(
-      'resize',
-      expect.any(Function)
-    );
+    expect(removeSpy).toHaveBeenCalledWith('resize', expect.any(Function));
     removeSpy.mockRestore();
     jest.useRealTimers();
   });

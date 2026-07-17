@@ -4,9 +4,7 @@ import { Controller, FieldValues, useFormContext } from 'react-hook-form';
 import { DefaultValue, TextBoxProps } from '@/app/interfaces/FormElements';
 import TextBoxInput from './TextBoxInput';
 
-const TextBox = <TFieldValues extends FieldValues>(
-  rootProps: TextBoxProps<TFieldValues>
-) => {
+const TextBox = <TFieldValues extends FieldValues>(rootProps: TextBoxProps<TFieldValues>) => {
   const {
     name,
     defaultValue = '' as DefaultValue<TFieldValues>,

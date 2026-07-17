@@ -2,9 +2,7 @@ import { MoodleException, MoodleUserBasic } from '@/app/interfaces/Moodle';
 import { getMoodleAPIInfo } from './helper';
 import { getSearchQuery } from '../common';
 
-export async function getMoodleUserByEmail(
-  email: string
-): Promise<MoodleUserBasic | null> {
+export async function getMoodleUserByEmail(email: string): Promise<MoodleUserBasic | null> {
   try {
     const { src, secret } = getMoodleAPIInfo();
 

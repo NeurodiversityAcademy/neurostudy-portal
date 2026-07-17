@@ -7,13 +7,7 @@ jest.mock('@/app/utilities/buzzsproutFeed', () => ({
 
 jest.mock('../Buzzsprout', () => ({
   __esModule: true,
-  default: ({
-    embedAvailable,
-    singleBlog,
-  }: {
-    embedAvailable?: boolean;
-    singleBlog: boolean;
-  }) => (
+  default: ({ embedAvailable, singleBlog }: { embedAvailable?: boolean; singleBlog: boolean }) => (
     <div data-testid='buzzsprout-embed'>
       {singleBlog ? 'single' : 'multi'}-{String(embedAvailable)}
     </div>
@@ -41,13 +35,8 @@ describe('DisplayPodcast', () => {
 
     render(element);
 
-    expect(mockGetAvailability).toHaveBeenCalledWith(
-      'https://buzzsprout.com/test.js',
-      false,
-    );
-    expect(screen.getByTestId('buzzsprout-embed')).toHaveTextContent(
-      'multi-true',
-    );
+    expect(mockGetAvailability).toHaveBeenCalledWith('https://buzzsprout.com/test.js', false);
+    expect(screen.getByTestId('buzzsprout-embed')).toHaveTextContent('multi-true');
   });
 
   it('handles unavailable embed', async () => {
@@ -61,8 +50,6 @@ describe('DisplayPodcast', () => {
 
     render(element);
 
-    expect(screen.getByTestId('buzzsprout-embed')).toHaveTextContent(
-      'single-false',
-    );
+    expect(screen.getByTestId('buzzsprout-embed')).toHaveTextContent('single-false');
   });
 });

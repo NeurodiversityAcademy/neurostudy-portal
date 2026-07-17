@@ -12,11 +12,7 @@ describe('EndorsedProviderIntroSection', () => {
       />,
     );
 
-    expect(
-      screen.getByRole('heading', { name: 'Welcome to our program' }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText('This provider offers neuro-inclusive learning.'),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Welcome to our program' })).toBeInTheDocument();
+    expect(screen.getByText('This provider offers neuro-inclusive learning.')).toBeInTheDocument();
   });
 });

@@ -4,7 +4,7 @@
   min-height: 300px;
 }
 
-.container>div {
+.container > div {
   flex-direction: row-reverse;
   row-gap: var(--profile-y-gap);
 }

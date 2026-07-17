@@ -2,9 +2,7 @@
 import React, { useCallback } from 'react';
 import Image from 'next/image';
 import styles from './partner.module.css';
-import Typography, {
-  TypographyVariant,
-} from '@/app/components/typography/Typography';
+import Typography, { TypographyVariant } from '@/app/components/typography/Typography';
 import LeftArrow from '../../images/arrow_left.png';
 import RightArrow from '../../images/arrow_right.png';
 import useEmblaCarouse from 'embla-carousel-react';
@@ -44,29 +42,17 @@ export default function Partner() {
           <div className={styles.embla__container}>
             <div className={styles.embla__slide}>
               <a href='https://inc-change.com/' target='_blank'>
-                <Image
-                  src={InclusiveChange}
-                  alt='Inclusive Change'
-                  title='Inclusive Change'
-                />
+                <Image src={InclusiveChange} alt='Inclusive Change' title='Inclusive Change' />
               </a>
             </div>
             <div className={styles.embla__slide}>
               <a href='https://www.gritandflow.com/' target='_blank'>
-                <Image
-                  src={GritNFlow}
-                  alt='Grit and Flow'
-                  title='Grit and Flow'
-                />
+                <Image src={GritNFlow} alt='Grit and Flow' title='Grit and Flow' />
               </a>
             </div>
             <div className={styles.embla__slide}>
               <a href='https://tech-diversity.com.au/' target='_blank'>
-                <Image
-                  src={TechDiversity}
-                  alt='Tech Diversity'
-                  title='Tech Diversity'
-                />
+                <Image src={TechDiversity} alt='Tech Diversity' title='Tech Diversity' />
               </a>
             </div>
             <div className={styles.embla__slide}>

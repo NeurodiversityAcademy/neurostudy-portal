@@ -38,17 +38,13 @@ describe('Teacher', () => {
 
   it('renders the section heading', () => {
     render(<Teacher />);
-    const headings = screen.getAllByText(
-      /Introduction to Neurodiversity in VET/,
-    );
+    const headings = screen.getAllByText(/Introduction to Neurodiversity in VET/);
     expect(headings.length).toBeGreaterThanOrEqual(1);
   });
 
   it('renders the body description text', () => {
     render(<Teacher />);
-    expect(
-      screen.getByText(/VET educators, trainers, assessors/),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/VET educators, trainers, assessors/)).toBeInTheDocument();
   });
 
   it('renders an Enrol Now button', () => {

@@ -20,10 +20,7 @@ const QILT_STAT_SECTIONS = [
   { title: 'Support & services', icon: supportServicesIcon }, // suport-services-icon.png (filename spelling)
 ] as const;
 
-type StatNumbers = Pick<
-  ProviderStatItem,
-  'value' | 'nationalAverage' | 'responses'
->;
+type StatNumbers = Pick<ProviderStatItem, 'value' | 'nationalAverage' | 'responses'>;
 
 const STAT_NUMBERS_BY_SLUG: Record<string, StatNumbers[]> = {
   'bond-university': [
@@ -103,10 +100,6 @@ export const HERO_DETAILS_BY_SLUG: Record<string, HeroInfoItem[]> = {
   ],
 };
 
-export const STATS_BY_SLUG: Record<string, ProviderStatItem[]> =
-  Object.fromEntries(
-    Object.keys(STAT_NUMBERS_BY_SLUG).map((slug) => [
-      slug,
-      buildStatsForSlug(slug),
-    ])
-  );
+export const STATS_BY_SLUG: Record<string, ProviderStatItem[]> = Object.fromEntries(
+  Object.keys(STAT_NUMBERS_BY_SLUG).map((slug) => [slug, buildStatsForSlug(slug)]),
+);

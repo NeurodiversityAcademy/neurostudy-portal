@@ -6,7 +6,7 @@ import LoaderWrapper from '../LoaderWrapper';
 describe('Loader', () => {
   it('renders nothing when isLoading is false', () => {
     const { container } = render(<Loader isLoading={false} />);
-    expect(container.innerHTML).toBe('');
+    expect(container).toBeEmptyDOMElement();
   });
 
   it('renders loader circles when isLoading is true', () => {
@@ -22,23 +22,17 @@ describe('Loader', () => {
   });
 
   it('applies expand class when expand is true', () => {
-    const { container } = render(
-      <Loader isLoading={true} expand={true} />,
-    );
+    const { container } = render(<Loader isLoading={true} expand={true} />);
     expect(container.firstChild).toHaveClass('expand');
   });
 
   it('applies alignTop class when alignTop is true', () => {
-    const { container } = render(
-      <Loader isLoading={true} alignTop={true} />,
-    );
+    const { container } = render(<Loader isLoading={true} alignTop={true} />);
     expect(container.firstChild).toHaveClass('alignTop');
   });
 
   it('applies custom className', () => {
-    const { container } = render(
-      <Loader isLoading={true} className='test-loader' />,
-    );
+    const { container } = render(<Loader isLoading={true} className='test-loader' />);
     expect(container.firstChild).toHaveClass('test-loader');
   });
 
@@ -92,11 +86,7 @@ describe('LoaderWrapper', () => {
 
   it('passes expandLoaderWidth and loaderAlignTop to Loader', () => {
     const { container } = render(
-      <LoaderWrapper
-        isLoading={true}
-        expandLoaderWidth={true}
-        loaderAlignTop={true}
-      >
+      <LoaderWrapper isLoading={true} expandLoaderWidth={true} loaderAlignTop={true}>
         <span>Content</span>
       </LoaderWrapper>,
     );

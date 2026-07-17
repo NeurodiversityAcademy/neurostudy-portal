@@ -81,21 +81,18 @@ jest.mock('isomorphic-dompurify', () => ({
   default: { sanitize: (html: string) => html },
 }));
 
-jest.mock(
-  '@/app/utilities/course/CourseDetailsProvider',
-  () => {
-    const React = require('react');
-    const ctx = React.createContext(undefined);
-    return {
-      __esModule: true,
-      default: ({ children, data }: { children: React.ReactNode; data: unknown }) => (
-        <ctx.Provider value={{ data, isLoading: false }}>{children}</ctx.Provider>
-      ),
-      CourseDetailsContext: ctx,
-      useCourseDetailsContext: () => React.useContext(ctx),
-    };
-  }
-);
+jest.mock('@/app/utilities/course/CourseDetailsProvider', () => {
+  const React = require('react');
+  const ctx = React.createContext(undefined);
+  return {
+    __esModule: true,
+    default: ({ children, data }: { children: React.ReactNode; data: unknown }) => (
+      <ctx.Provider value={{ data, isLoading: false }}>{children}</ctx.Provider>
+    ),
+    CourseDetailsContext: ctx,
+    useCourseDetailsContext: () => React.useContext(ctx),
+  };
+});
 
 import CourseCard from '../CourseCard';
 import CourseRating from '../CourseCard/CourseRating';
@@ -152,9 +149,7 @@ const makeCourse = (overrides: Partial<CourseProps> = {}): CourseProps => ({
   ...overrides,
 });
 
-const makeMoodleCourse = (
-  overrides: Partial<MoodleCourse> = {}
-): MoodleCourse => ({
+const makeMoodleCourse = (overrides: Partial<MoodleCourse> = {}): MoodleCourse => ({
   id: 1,
   href: 'https://moodle.example.com/course/1',
   shortname: 'ND101',
@@ -208,9 +203,7 @@ describe('CourseCard', () => {
   });
 
   it('does not render duration when Duration is undefined', () => {
-    render(
-      <CourseCard course={makeCourse({ Duration: undefined as unknown as number })} />
-    );
+    render(<CourseCard course={makeCourse({ Duration: undefined as unknown as number })} />);
     expect(screen.queryByText(/Year/)).not.toBeInTheDocument();
   });
 });
@@ -220,10 +213,8 @@ describe('CourseCard', () => {
 // ---------------------------------------------------------------------------
 describe('CourseRating', () => {
   it('returns null when Rating is undefined', () => {
-    const { container } = render(
-      <CourseRating Rating={undefined} />
-    );
-    expect(container.firstChild).toBeNull();
+    const { container } = render(<CourseRating Rating={undefined} />);
+    expect(container).toBeEmptyDOMElement();
   });
 
   it('renders the rating value', () => {
@@ -239,10 +230,7 @@ describe('CourseRating', () => {
   it('renders correct aria label for rating', () => {
     render(<CourseRating Rating={3.5} />);
     const imgEl = screen.getByLabelText(/3\.5/);
-    expect(imgEl).toHaveAttribute(
-      'aria-label',
-      'Rating: 3.5 out of 5'
-    );
+    expect(imgEl).toHaveAttribute('aria-label', 'Rating: 3.5 out of 5');
   });
 
   it('renders tier badge when valid tier is provided', () => {
@@ -261,10 +249,8 @@ describe('CourseRating', () => {
 // ---------------------------------------------------------------------------
 describe('CourseCriterion', () => {
   it('returns null when criterion is undefined', () => {
-    const { container } = render(
-      <CourseCriterion criterion={undefined} />
-    );
-    expect(container.firstChild).toBeNull();
+    const { container } = render(<CourseCriterion criterion={undefined} />);
+    expect(container).toBeEmptyDOMElement();
   });
 
   it('renders label text', () => {
@@ -275,19 +261,13 @@ describe('CourseCriterion', () => {
   it('renders correct aria label', () => {
     render(<CourseCriterion criterion={4} label='Faculty' />);
     const imgEl = screen.getByRole('img');
-    expect(imgEl).toHaveAttribute(
-      'aria-label',
-      'Rating: 4 out of 5'
-    );
+    expect(imgEl).toHaveAttribute('aria-label', 'Rating: 4 out of 5');
   });
 
   it('caps criterion at MAX_CRITERION_RATING (5)', () => {
     render(<CourseCriterion criterion={8} label='Faculty' />);
     const imgEl = screen.getByRole('img');
-    expect(imgEl).toHaveAttribute(
-      'aria-label',
-      'Rating: 5 out of 5'
-    );
+    expect(imgEl).toHaveAttribute('aria-label', 'Rating: 5 out of 5');
   });
 });
 
@@ -297,25 +277,18 @@ describe('CourseCriterion', () => {
 describe('MoodleCourseCard', () => {
   it('renders course full name', () => {
     render(<MoodleCourseCard course={makeMoodleCourse()} />);
-    expect(
-      screen.getByText('Intro to Neurodiversity')
-    ).toBeInTheDocument();
+    expect(screen.getByText('Intro to Neurodiversity')).toBeInTheDocument();
   });
 
   it('renders institution as Neurodiversity Academy', () => {
     render(<MoodleCourseCard course={makeMoodleCourse()} />);
-    expect(
-      screen.getByText('Neurodiversity Academy')
-    ).toBeInTheDocument();
+    expect(screen.getByText('Neurodiversity Academy')).toBeInTheDocument();
   });
 
   it('links to the moodle course href', () => {
     render(<MoodleCourseCard course={makeMoodleCourse()} />);
     const link = screen.getByRole('listitem');
-    expect(link).toHaveAttribute(
-      'href',
-      'https://moodle.example.com/course/1'
-    );
+    expect(link).toHaveAttribute('href', 'https://moodle.example.com/course/1');
   });
 
   it('renders favourite button', () => {
@@ -331,16 +304,12 @@ describe('MoodleCourseCard', () => {
 describe('CourseSearchError', () => {
   it('renders error message', () => {
     render(<CourseSearchError reset={jest.fn()} />);
-    expect(
-      screen.getByText('Failed to fetch the list of courses.')
-    ).toBeInTheDocument();
+    expect(screen.getByText('Failed to fetch the list of courses.')).toBeInTheDocument();
   });
 
   it('renders try again button', () => {
     render(<CourseSearchError reset={jest.fn()} />);
-    expect(
-      screen.getByRole('button', { name: /try again/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /try again/i })).toBeInTheDocument();
   });
 
   it('calls reset when try again is clicked', async () => {
@@ -348,9 +317,7 @@ describe('CourseSearchError', () => {
     const user = userEvent.setup();
     render(<CourseSearchError reset={reset} />);
 
-    await user.click(
-      screen.getByRole('button', { name: /try again/i })
-    );
+    await user.click(screen.getByRole('button', { name: /try again/i }));
     expect(reset).toHaveBeenCalledTimes(1);
   });
 
@@ -367,9 +334,7 @@ describe('CourseSearchEmpty', () => {
   it('renders the no-results message', () => {
     render(<CourseSearchEmpty />);
     expect(
-      screen.getByText(
-        'Sorry, there are no results for the applied filter(s).'
-      )
+      screen.getByText('Sorry, there are no results for the applied filter(s).'),
     ).toBeInTheDocument();
   });
 
@@ -380,9 +345,7 @@ describe('CourseSearchEmpty', () => {
 
   it('renders the no-courses image', () => {
     render(<CourseSearchEmpty />);
-    expect(
-      screen.getByAltText('No courses found.')
-    ).toBeInTheDocument();
+    expect(screen.getByAltText('No courses found.')).toBeInTheDocument();
   });
 });
 
@@ -399,40 +362,27 @@ describe('CourseEnrolPopup', () => {
 
   it('renders Enrol Now button when open', () => {
     render(<CourseEnrolPopup {...defaultProps} />);
-    expect(
-      screen.getByRole('button', { name: /enrol now/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /enrol now/i })).toBeInTheDocument();
   });
 
   it('disables button when isLoading is true', () => {
     render(<CourseEnrolPopup {...defaultProps} isLoading />);
-    expect(
-      screen.getByRole('button', { name: /enrol now/i })
-    ).toBeDisabled();
+    expect(screen.getByRole('button', { name: /enrol now/i })).toBeDisabled();
   });
 
   it('calls onRequestCheckout when Enrol Now is clicked', async () => {
     const onRequestCheckout = jest.fn();
     const user = userEvent.setup();
-    render(
-      <CourseEnrolPopup
-        {...defaultProps}
-        onRequestCheckout={onRequestCheckout}
-      />
-    );
+    render(<CourseEnrolPopup {...defaultProps} onRequestCheckout={onRequestCheckout} />);
 
-    await user.click(
-      screen.getByRole('button', { name: /enrol now/i })
-    );
+    await user.click(screen.getByRole('button', { name: /enrol now/i }));
     expect(onRequestCheckout).toHaveBeenCalledTimes(1);
   });
 
   it('renders popup image', () => {
     render(<CourseEnrolPopup {...defaultProps} />);
     expect(
-      screen.getByAltText(
-        'Introduction to Neurodiversity - Course Enrolment Popup'
-      )
+      screen.getByAltText('Introduction to Neurodiversity - Course Enrolment Popup'),
     ).toBeInTheDocument();
   });
 });
@@ -449,39 +399,26 @@ describe('CourseBanner', () => {
 
   it('renders Enrol button', () => {
     render(<CourseBanner {...defaultProps} />);
-    expect(
-      screen.getByRole('button', { name: /enrol/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /enrol/i })).toBeInTheDocument();
   });
 
   it('disables button when isLoading', () => {
     render(<CourseBanner {...defaultProps} isLoading />);
-    expect(
-      screen.getByRole('button', { name: /enrol/i })
-    ).toBeDisabled();
+    expect(screen.getByRole('button', { name: /enrol/i })).toBeDisabled();
   });
 
   it('calls onRequestCheckout on click', async () => {
     const onRequestCheckout = jest.fn();
     const user = userEvent.setup();
-    render(
-      <CourseBanner
-        {...defaultProps}
-        onRequestCheckout={onRequestCheckout}
-      />
-    );
+    render(<CourseBanner {...defaultProps} onRequestCheckout={onRequestCheckout} />);
 
-    await user.click(
-      screen.getByRole('button', { name: /enrol/i })
-    );
+    await user.click(screen.getByRole('button', { name: /enrol/i }));
     expect(onRequestCheckout).toHaveBeenCalledTimes(1);
   });
 
   it('renders course banner image', () => {
     render(<CourseBanner {...defaultProps} />);
-    expect(
-      screen.getByAltText('Neurodiversity Academy Course')
-    ).toBeInTheDocument();
+    expect(screen.getByAltText('Neurodiversity Academy Course')).toBeInTheDocument();
   });
 });
 
@@ -496,9 +433,7 @@ describe('CourseDetails', () => {
   });
 
   it('renders loading state initially', () => {
-    global.fetch = jest.fn(
-      () => new Promise(() => {})
-    ) as jest.Mock;
+    global.fetch = jest.fn(() => new Promise(() => {})) as jest.Mock;
     render(<CourseDetails id='test-id' />);
     expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
@@ -516,9 +451,7 @@ describe('CourseDetails', () => {
   });
 
   it('renders "Course not found" when fetch throws', async () => {
-    global.fetch = jest.fn().mockRejectedValueOnce(
-      new Error('Network error')
-    ) as jest.Mock;
+    global.fetch = jest.fn().mockRejectedValueOnce(new Error('Network error')) as jest.Mock;
 
     render(<CourseDetails id='test-id' />);
 

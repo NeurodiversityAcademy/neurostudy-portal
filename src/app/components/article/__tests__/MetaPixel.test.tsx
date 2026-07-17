@@ -29,22 +29,19 @@ describe('MetaPixel', () => {
   it('renders nothing while tracking route changes via the Facebook pixel', async () => {
     mockUsePathname.mockReturnValue('/articles');
     const { container, rerender } = render(<MetaPixel />);
-    expect(container.firstChild).toBeNull();
+    expect(container).toBeEmptyDOMElement();
 
     await waitFor(() => {
       expect(ReactPixel.pageView).toHaveBeenCalled();
     });
 
-    const pageViewsAfterFirstRoute = (ReactPixel.pageView as jest.Mock).mock
-      .calls.length;
+    const pageViewsAfterFirstRoute = (ReactPixel.pageView as jest.Mock).mock.calls.length;
 
     mockUsePathname.mockReturnValue('/blogs');
     rerender(<MetaPixel />);
 
     await waitFor(() => {
-      expect(ReactPixel.pageView).toHaveBeenCalledTimes(
-        pageViewsAfterFirstRoute + 1
-      );
+      expect(ReactPixel.pageView).toHaveBeenCalledTimes(pageViewsAfterFirstRoute + 1);
     });
   });
 });

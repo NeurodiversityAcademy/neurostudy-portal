@@ -8,9 +8,7 @@ interface EndorsedProvidersFAQsProps {
   sections: EndorsedFaqSection[];
 }
 
-export default function EndorsedProvidersFAQs({
-  sections,
-}: EndorsedProvidersFAQsProps) {
+export default function EndorsedProvidersFAQs({ sections }: EndorsedProvidersFAQsProps) {
   if (!sections.length) {
     return null;
   }

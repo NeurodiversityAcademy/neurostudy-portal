@@ -45,9 +45,6 @@ describe('Advisors', () => {
     render(<Advisors />);
     const linkedinIcons = screen.getAllByAltText('LinkedIn icon');
     fireEvent.click(linkedinIcons[0]);
-    expect(window.open).toHaveBeenCalledWith(
-      'https://www.linkedin.com/in/peterhaasz',
-      '_blank',
-    );
+    expect(window.open).toHaveBeenCalledWith('https://www.linkedin.com/in/peterhaasz', '_blank');
   });
 });

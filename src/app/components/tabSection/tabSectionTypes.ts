@@ -32,8 +32,5 @@ export interface InstituteTabSectionConfig {
 export interface EmergingInstituteTabSectionsFile {
   studentSuitabilityDefault: InstituteTabSectionConfig;
   /** Per-slug overrides; when missing, `studentSuitabilityDefault` is used */
-  byInstituteSlug?: Record<
-    string,
-    { studentSuitability?: InstituteTabSectionConfig }
-  >;
+  byInstituteSlug?: Record<string, { studentSuitability?: InstituteTabSectionConfig }>;
 }

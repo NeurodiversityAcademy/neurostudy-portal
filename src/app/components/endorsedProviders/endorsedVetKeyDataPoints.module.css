@@ -13,9 +13,16 @@
   box-sizing: border-box;
 }
 
-/* Reuses `.strengthsGrid`; no top margin under the VET header. */
 .vetStrengthsGrid {
-  margin-top: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 4px;
+  row-gap: 14px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .headerBlock {
@@ -95,6 +102,22 @@
   object-fit: contain;
 }
 
+.vetStatCardIcon {
+  position: relative;
+  width: 60px;
+  height: 48px;
+  max-width: 100%;
+  flex-shrink: 0;
+  margin-bottom: 17px;
+}
+
+@supports (width: 1cqw) {
+  .vetStatCardIcon {
+    height: 45cqw;
+    width: calc(45cqw * 1.25);
+  }
+}
+
 .vetStatCard .vetHeadline {
   font-size: 28px;
   font-weight: 500;
@@ -124,6 +147,12 @@
 }
 
 @media (min-width: 768px) {
+  .vetStrengthsGrid {
+    grid-template-columns: repeat(2, 400px);
+    justify-content: center;
+    gap: 72px 60px;
+  }
+
   .vetStatCard {
     width: 100%;
     max-width: 400px;

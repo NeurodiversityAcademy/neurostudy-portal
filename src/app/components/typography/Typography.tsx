@@ -17,8 +17,7 @@ export enum TypographyVariant {
   BenefitTabText = 'benefitTabText',
 }
 
-interface TypographyElement
-  extends HTMLAttributes<HTMLHeadingElement | HTMLSpanElement> {}
+interface TypographyElement extends HTMLAttributes<HTMLHeadingElement | HTMLSpanElement> {}
 
 interface TypographyProps extends Omit<TypographyElement, 'color' | 'style'> {
   variant: TypographyVariant;
@@ -47,7 +46,7 @@ const Typography: React.FC<TypographyProps> = ({
     !colorClassName
   ) {
     console.warn(
-      `[Typography] Unmapped color prop "${color}". Add typographyColorClasses.ts + typography.module.css entries.`
+      `[Typography] Unmapped color prop "${color}". Add typographyColorClasses.ts + typography.module.css entries.`,
     );
   }
 
@@ -92,12 +91,7 @@ const Typography: React.FC<TypographyProps> = ({
 
   const props: TypographyElement = {
     ...rest,
-    className: classNames(
-      styles.common,
-      variantClassName,
-      colorClassName,
-      className
-    ),
+    className: classNames(styles.common, variantClassName, colorClassName, className),
   };
 
   return createElement(tag, props, children);

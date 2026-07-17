@@ -6,21 +6,13 @@ import {
 
 describe('normalizeTypographyColorToken', () => {
   it('trims whitespace after var( and before )', () => {
-    expect(normalizeTypographyColorToken('var( --GhostWhite)')).toBe(
-      'var(--GhostWhite)',
-    );
-    expect(normalizeTypographyColorToken('var(--BondBlack )')).toBe(
-      'var(--BondBlack)',
-    );
-    expect(normalizeTypographyColorToken('var( --grey )')).toBe(
-      'var(--grey)',
-    );
+    expect(normalizeTypographyColorToken('var( --GhostWhite)')).toBe('var(--GhostWhite)');
+    expect(normalizeTypographyColorToken('var(--BondBlack )')).toBe('var(--BondBlack)');
+    expect(normalizeTypographyColorToken('var( --grey )')).toBe('var(--grey)');
   });
 
   it('returns the same string when already clean', () => {
-    expect(normalizeTypographyColorToken('var(--GhostWhite)')).toBe(
-      'var(--GhostWhite)',
-    );
+    expect(normalizeTypographyColorToken('var(--GhostWhite)')).toBe('var(--GhostWhite)');
   });
 
   it('trims leading/trailing whitespace', () => {
@@ -49,8 +41,6 @@ describe('typographyColorClassForToken', () => {
   });
 
   it('returns a class for the red token', () => {
-    expect(typographyColorClassForToken('red')).toBe(
-      TYPOGRAPHY_COLOR_CLASS_BY_TOKEN['red'],
-    );
+    expect(typographyColorClassForToken('red')).toBe(TYPOGRAPHY_COLOR_CLASS_BY_TOKEN['red']);
   });
 });

@@ -18,9 +18,7 @@ jest.mock('../wrapper/BlogCardListWrapper', () => ({
 
 jest.mock('../exploreMore/ExploreMore', () => ({
   __esModule: true,
-  default: ({ dest }: { dest: string }) => (
-    <a href={dest}>Explore more</a>
-  ),
+  default: ({ dest }: { dest: string }) => <a href={dest}>Explore more</a>,
 }));
 
 import ArticleList from '../articleList/articleList';
@@ -30,42 +28,28 @@ import Fact from '../fact/Fact';
 describe('ArticleList', () => {
   it('renders article list section', () => {
     render(<ArticleList />);
-    expect(
-      screen.getByText('Explore Neurodiversity Academy'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Explore Neurodiversity Academy')).toBeInTheDocument();
     expect(screen.getByTestId('article-card-list')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Explore more' })).toHaveAttribute(
-      'href',
-      '/articles',
-    );
+    expect(screen.getByRole('link', { name: 'Explore more' })).toHaveAttribute('href', '/articles');
   });
 });
 
 describe('BlogList', () => {
   it('renders blog list section', () => {
     render(<BlogList />);
-    expect(
-      screen.getByText('Explore Neurodivergent Mates'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Explore Neurodivergent Mates')).toBeInTheDocument();
     expect(screen.getByTestId('blog-card-list')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Explore more' })).toHaveAttribute(
-      'href',
-      '/blogs',
-    );
+    expect(screen.getByRole('link', { name: 'Explore more' })).toHaveAttribute('href', '/blogs');
   });
 });
 
 describe('Fact', () => {
   it('renders neurodiversity statistics', () => {
     render(<Fact />);
-    expect(
-      screen.getByText('Neurodiversity in Adult Education'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Neurodiversity in Adult Education')).toBeInTheDocument();
     expect(screen.getByText('66%')).toBeInTheDocument();
     expect(screen.getByText('27%')).toBeInTheDocument();
     expect(screen.getByText('56%')).toBeInTheDocument();
-    expect(
-      screen.getByText('*People with Disability in Australia 2022'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('*People with Disability in Australia 2022')).toBeInTheDocument();
   });
 });

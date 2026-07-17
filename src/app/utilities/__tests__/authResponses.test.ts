@@ -2,11 +2,11 @@
  * @jest-environment node
  */
 jest.mock('@/app/utilities/api/processAPIError', () =>
-  jest.fn(() => new Response(JSON.stringify({ error: 'Server Error' }), { status: 500 }))
+  jest.fn(() => new Response(JSON.stringify({ error: 'Server Error' }), { status: 500 })),
 );
 jest.mock('@/app/utilities/db/responses', () => ({
   returnDBError: jest.fn(
-    () => new Response(JSON.stringify({ error: 'DB Error' }), { status: 500 })
+    () => new Response(JSON.stringify({ error: 'DB Error' }), { status: 500 }),
   ),
 }));
 

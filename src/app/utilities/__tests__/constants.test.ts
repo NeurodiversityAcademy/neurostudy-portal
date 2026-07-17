@@ -25,8 +25,6 @@ describe('GA_EVENTS', () => {
     expect(GA_EVENTS.SECTION_VISIBLE.eventName).toBe('section_visible');
     expect(GA_EVENTS.TIME_ON_PAGE.eventName).toBe('time_on_page');
     expect(GA_EVENTS.ACCORDION_TOGGLE.eventName).toBe('accordion_toggle');
-    expect(GA_EVENTS.ENDORSED_EXPLORE_CLICK.eventName).toBe(
-      'endorsed_explore_click'
-    );
+    expect(GA_EVENTS.ENDORSED_EXPLORE_CLICK.eventName).toBe('endorsed_explore_click');
   });
 });

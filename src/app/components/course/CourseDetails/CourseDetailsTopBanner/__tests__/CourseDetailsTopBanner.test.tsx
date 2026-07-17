@@ -11,23 +11,14 @@ jest.mock('next/image', () => ({
   },
 }));
 
-jest.mock(
-  '../../CourseDetailsMiddleBanner/CourseDetailsMiddleBanner',
-  () => ({
-    __esModule: true,
-    default: () => <div data-testid='middle-banner'>Middle Banner</div>,
-  })
-);
+jest.mock('../../CourseDetailsMiddleBanner/CourseDetailsMiddleBanner', () => ({
+  __esModule: true,
+  default: () => <div data-testid='middle-banner'>Middle Banner</div>,
+}));
 
 jest.mock('../../../ApplyNowPopup/ApplyNowPopup', () => ({
   __esModule: true,
-  default: ({
-    open,
-    onClose,
-  }: {
-    open: boolean;
-    onClose: () => void;
-  }) =>
+  default: ({ open, onClose }: { open: boolean; onClose: () => void }) =>
     open ? (
       <div data-testid='apply-now-popup'>
         <button type='button' onClick={onClose}>
@@ -77,9 +68,7 @@ const mockCourseData: CourseDetailsProps = {
 
 jest.mock('@/app/utilities/course/CourseDetailsProvider', () => {
   const React = require('react');
-  const ctx = React.createContext<{ data?: CourseDetailsProps } | undefined>(
-    undefined
-  );
+  const ctx = React.createContext<{ data?: CourseDetailsProps } | undefined>(undefined);
   return {
     useCourseDetailsContext: () => React.useContext(ctx),
     __mockContext: ctx,
@@ -89,13 +78,11 @@ jest.mock('@/app/utilities/course/CourseDetailsProvider', () => {
 import CourseDetailsTopBanner from '../CourseDetailsTopBanner';
 import { __mockContext as MockContext } from '@/app/utilities/course/CourseDetailsProvider';
 
-const renderWithContext = (
-  data: CourseDetailsProps | undefined = mockCourseData
-) =>
+const renderWithContext = (data: CourseDetailsProps | undefined = mockCourseData) =>
   render(
     <MockContext.Provider value={{ data }}>
       <CourseDetailsTopBanner />
-    </MockContext.Provider>
+    </MockContext.Provider>,
   );
 
 describe('CourseDetailsTopBanner', () => {
@@ -108,12 +95,8 @@ describe('CourseDetailsTopBanner', () => {
 
     expect(screen.getByText('Test University')).toBeInTheDocument();
     expect(screen.getByText('Master of Data Science')).toBeInTheDocument();
-    expect(
-      screen.getByText('Advanced analytics program')
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText('Learn data science fundamentals.')
-    ).toBeInTheDocument();
+    expect(screen.getByText('Advanced analytics program')).toBeInTheDocument();
+    expect(screen.getByText('Learn data science fundamentals.')).toBeInTheDocument();
   });
 
   it('renders institution logo when InstitutionLogoUrl is provided', () => {
@@ -137,12 +120,8 @@ describe('CourseDetailsTopBanner', () => {
   it('renders admissions copy and Apply Now button', () => {
     renderWithContext();
 
-    expect(
-      screen.getByText('2026 Admissions are open now')
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole('button', { name: /apply now/i })
-    ).toBeInTheDocument();
+    expect(screen.getByText('2026 Admissions are open now')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /apply now/i })).toBeInTheDocument();
   });
 
   it('opens Apply Now popup when Apply Now is clicked', async () => {

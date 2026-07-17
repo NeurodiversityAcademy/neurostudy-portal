@@ -1,9 +1,7 @@
 import React from 'react';
 import { renderHook, act, waitFor } from '@testing-library/react';
 
-import CourseDetailsProvider, {
-  useCourseDetailsContext,
-} from '../CourseDetailsProvider';
+import CourseDetailsProvider, { useCourseDetailsContext } from '../CourseDetailsProvider';
 import { DEFAULT_COURSE_DETAILS } from '@/app/utilities/db/constants';
 
 const courseData = {
@@ -13,10 +11,9 @@ const courseData = {
 
 const wrapper =
   (data: typeof courseData | undefined = courseData) =>
-  ({ children }: { children: React.ReactNode }) =>
-    (
-      <CourseDetailsProvider data={data}>{children}</CourseDetailsProvider>
-    );
+  ({ children }: { children: React.ReactNode }) => (
+    <CourseDetailsProvider data={data}>{children}</CourseDetailsProvider>
+  );
 
 describe('CourseDetailsProvider', () => {
   it('throws when useCourseDetailsContext is used outside the provider', () => {
@@ -54,9 +51,7 @@ describe('CourseDetailsProvider', () => {
         setData({ ...courseData, Title: 'Updated Course' });
       }, []);
 
-      return (
-        <CourseDetailsProvider data={data}>{children}</CourseDetailsProvider>
-      );
+      return <CourseDetailsProvider data={data}>{children}</CourseDetailsProvider>;
     };
 
     const { result } = renderHook(() => useCourseDetailsContext(), {

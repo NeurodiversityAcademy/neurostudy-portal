@@ -22,10 +22,7 @@ export default function TextHeavyBlog({
     return (
       <div key={index}>
         <Typography key={index} variant={TypographyVariant.Body2}>
-          <div
-            className={styles.paragraph}
-            dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
-          />
+          <div className={styles.paragraph} dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
         </Typography>
         <br></br>
       </div>
@@ -37,13 +34,10 @@ export default function TextHeavyBlog({
       <div>
         <Typography
           variant={
-            windowWidth <= 430
-              ? TypographyVariant.Body3Strong
-              : TypographyVariant.Body2Strong
+            windowWidth <= 430 ? TypographyVariant.Body3Strong : TypographyVariant.Body2Strong
           }
         >
-          <Link href='/'>Home</Link> {'>'} <Link href='/blogs'>Blogs</Link>{' '}
-          {'>'} {header}
+          <Link href='/'>Home</Link> {'>'} <Link href='/blogs'>Blogs</Link> {'>'} {header}
         </Typography>
       </div>
       <Typography variant={TypographyVariant.H2}>{header}</Typography>

@@ -103,9 +103,7 @@ describe('ToasterWrapper', () => {
       jest.advanceTimersByTime(5000);
     });
     expect(screen.getByText('Custom duration')).toBeInTheDocument();
-    expect(
-      screen.getByText('Custom duration').closest('.containerItem')
-    ).not.toHaveClass('hide');
+    expect(screen.getByText('Custom duration').closest('.containerItem')).not.toHaveClass('hide');
   });
 
   it('resets toast API on unmount so further calls are no-ops in test', () => {

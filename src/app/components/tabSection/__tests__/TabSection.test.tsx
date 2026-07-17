@@ -103,16 +103,12 @@ describe('TabSection', () => {
         {() => <div>Content</div>}
       </TabSection>,
     );
-    expect(container.innerHTML).toBe('');
+    expect(container).toBeEmptyDOMElement();
   });
 
   it('applies sectionClassName to outer section', () => {
     render(
-      <TabSection
-        title='Title'
-        tabs={mockTabs}
-        sectionClassName='custom-section'
-      >
+      <TabSection title='Title' tabs={mockTabs} sectionClassName='custom-section'>
         {() => <div>Content</div>}
       </TabSection>,
     );

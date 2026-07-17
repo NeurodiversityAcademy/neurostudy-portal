@@ -19,8 +19,7 @@ import { GET } from '../route';
 const mockConsumeRate = consumeRateWithIp as jest.Mock;
 const mockCreateMoodleCourseUrl = createMoodleCourseUrl as jest.Mock;
 
-const makeParams = (courseid: string) =>
-  Promise.resolve({ courseid });
+const makeParams = (courseid: string) => Promise.resolve({ courseid });
 
 describe('GET /moodle/course/[courseid]', () => {
   beforeEach(() => {
@@ -60,15 +59,11 @@ describe('GET /moodle/course/[courseid]', () => {
     expect(res.status).toBeGreaterThanOrEqual(300);
     expect(location).toContain(HOST_URL);
     expect(location).toContain('moodle_redirection_status=failure');
-    expect(location).toContain(
-      encodeURIComponent('Course and/or user is invalid.')
-    );
+    expect(location).toContain(encodeURIComponent('Course and/or user is invalid.'));
   });
 
   it('redirects to home with failure status when rate limit is exceeded', async () => {
-    mockConsumeRate.mockRejectedValue(
-      new Error('Too Many Requests.')
-    );
+    mockConsumeRate.mockRejectedValue(new Error('Too Many Requests.'));
 
     const req = createMockNextRequest({
       url: 'http://localhost:3000/moodle/course/1',
@@ -83,9 +78,7 @@ describe('GET /moodle/course/[courseid]', () => {
   });
 
   it('redirects to home with failure status when createMoodleCourseUrl throws', async () => {
-    mockCreateMoodleCourseUrl.mockRejectedValue(
-      new Error('Moodle service unavailable')
-    );
+    mockCreateMoodleCourseUrl.mockRejectedValue(new Error('Moodle service unavailable'));
 
     const req = createMockNextRequest({
       url: 'http://localhost:3000/moodle/course/5',
@@ -95,8 +88,6 @@ describe('GET /moodle/course/[courseid]', () => {
     const location = res.headers.get('location') ?? '';
 
     expect(location).toContain('moodle_redirection_status=failure');
-    expect(location).toContain(
-      encodeURIComponent('Moodle service unavailable')
-    );
+    expect(location).toContain(encodeURIComponent('Moodle service unavailable'));
   });
 });

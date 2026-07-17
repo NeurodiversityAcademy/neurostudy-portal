@@ -14,7 +14,7 @@ export const updateCourseDropdownFilter = <
 >(
   name: Path<T>,
   value: unknown[] | undefined,
-  methods: UseFormReturn<T>
+  methods: UseFormReturn<T>,
 ) => {
   value = value || [];
   const oldValue = methods.getValues(name) || [];
@@ -41,7 +41,7 @@ const matches = (value: string | string[], queries: string[]): boolean => {
 
 export const filterCourses = (
   data: CourseProps[],
-  filterEntries: [keyof FilterCourseProps, string[]][]
+  filterEntries: [keyof FilterCourseProps, string[]][],
 ): CourseProps[] => {
   return data.filter((item) => {
     return filterEntries.every(([key, query]) => {
@@ -50,10 +50,7 @@ export const filterCourses = (
   });
 };
 
-export const sortCourses = (
-  data: CourseProps[],
-  config?: CourseSortConfig
-): CourseProps[] => {
+export const sortCourses = (data: CourseProps[], config?: CourseSortConfig): CourseProps[] => {
   if (!config) {
     return data;
   }

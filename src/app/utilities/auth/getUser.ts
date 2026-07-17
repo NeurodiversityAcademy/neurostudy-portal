@@ -8,9 +8,7 @@ import { USER_TABLE_NAME, USER_TABLE_PARTITION_ID } from './constants';
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
 import { dbDocumentClient } from '../db/configure';
 
-export default async function getUser(
-  email: string
-): Promise<UserWithEmailProps | undefined> {
+export default async function getUser(email: string): Promise<UserWithEmailProps | undefined> {
   const commandParams: GetItemCommandInput = {
     TableName: USER_TABLE_NAME,
     Key: marshall({

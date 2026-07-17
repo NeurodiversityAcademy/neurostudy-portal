@@ -47,16 +47,12 @@ import HomeBanner from '../HomeBanner';
 describe('HomeBanner (students)', () => {
   it('renders default title when none provided', () => {
     render(<HomeBanner />);
-    expect(
-      screen.getByText(/We endorse Neuro-inclusion/),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/We endorse Neuro-inclusion/)).toBeInTheDocument();
   });
 
   it('renders default subtitle when none provided', () => {
     render(<HomeBanner />);
-    expect(
-      screen.getByText(/Reach out to learn more/),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Reach out to learn more/)).toBeInTheDocument();
   });
 
   it('renders custom title and subtitle', () => {
@@ -72,7 +68,7 @@ describe('HomeBanner (students)', () => {
 
   it('does not render badges when displayBadges is false', () => {
     render(<HomeBanner displayBadges={false} />);
-    expect(screen.queryByTestId('badge-display')).toBeNull();
+    expect(screen.queryByTestId('badge-display')).not.toBeInTheDocument();
   });
 
   it('renders Learn More button when showButton is true', () => {
@@ -94,6 +90,6 @@ describe('HomeBanner (students)', () => {
 
   it('does not render course filter when showSearchBar is false', () => {
     render(<HomeBanner showSearchBar={false} displayFilter />);
-    expect(screen.queryByTestId('course-filter')).toBeNull();
+    expect(screen.queryByTestId('course-filter')).not.toBeInTheDocument();
   });
 });

@@ -5,10 +5,7 @@ jest.mock('@/app/utilities/db/configure', () => require('@/testUtils/mockDb'));
 
 import { PutItemCommand } from '@aws-sdk/client-dynamodb';
 import { mockSend, resetDbMocks } from '@/testUtils/mockDb';
-import {
-  USER_TABLE_NAME,
-  USER_TABLE_PARTITION_ID,
-} from '@/app/utilities/auth/constants';
+import { USER_TABLE_NAME, USER_TABLE_PARTITION_ID } from '@/app/utilities/auth/constants';
 import createUser from '../createUser';
 
 describe('createUser', () => {
@@ -50,7 +47,7 @@ describe('createUser', () => {
       {
         birthdate: '1990-05-15',
         subscribed: true,
-      }
+      },
     );
 
     expect(user.DOB).toBe('1990-05-15');
@@ -96,7 +93,7 @@ describe('createUser', () => {
         email: 'fail@test.com',
         family_name: 'Fail',
         given_name: 'User',
-      })
+      }),
     ).rejects.toThrow('DynamoDB failure');
   });
 });

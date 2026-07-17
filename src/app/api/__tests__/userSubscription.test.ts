@@ -15,21 +15,15 @@ jest.mock('@/app/utilities/register/registerSenderContact', () => ({
   registerSenderContact: jest.fn().mockResolvedValue({ ok: true }),
 }));
 
-jest.mock(
-  '@/app/utilities/validation/validateUserSubscriptionData',
-  () => ({
-    isValidUserSubscriptionData: jest.fn(),
-  })
-);
+jest.mock('@/app/utilities/validation/validateUserSubscriptionData', () => ({
+  isValidUserSubscriptionData: jest.fn(),
+}));
 
 jest.mock('@/app/utilities/api/processAPIError', () =>
   jest.fn().mockImplementation((err: Error | null) => {
     const status = (err as { status?: number })?.status || 500;
-    return new Response(
-      JSON.stringify({ message: err?.message || 'Server error' }),
-      { status }
-    );
-  })
+    return new Response(JSON.stringify({ message: err?.message || 'Server error' }), { status });
+  }),
 );
 
 import { consumeRateWithIp } from '@/app/utilities/api/rateLimiter';
@@ -99,9 +93,7 @@ describe('POST /api/userSubscription', () => {
 
     expect(res.status).toBe(200);
     expect(res.headers.get('Content-Type')).toBe('application/pdf');
-    expect(res.headers.get('Content-Disposition')).toContain(
-      'NDA Handbook.pdf'
-    );
+    expect(res.headers.get('Content-Disposition')).toContain('NDA Handbook.pdf');
 
     global.fetch = originalFetch;
   });
@@ -122,9 +114,7 @@ describe('POST /api/userSubscription', () => {
 
   it('returns 429 when rate limited', async () => {
     const APIError = (await import('@/app/interfaces/APIError')).default;
-    mockConsumeRate.mockRejectedValue(
-      new APIError({ status: 429, error: 'Too Many Requests.' })
-    );
+    mockConsumeRate.mockRejectedValue(new APIError({ status: 429, error: 'Too Many Requests.' }));
 
     const res = await POST(makeRequest(validData));
 

@@ -1,27 +1,23 @@
 import { renderHook } from '@testing-library/react';
 import { useSectionVisibilityTracking } from '@/app/hooks/useSectionVisibilityTracking';
 
-type IntersectionCallback = (
-  entries: Partial<IntersectionObserverEntry>[]
-) => void;
+type IntersectionCallback = (entries: Partial<IntersectionObserverEntry>[]) => void;
 
 let observerCallback: IntersectionCallback;
 let observedElements: Element[];
 let disconnectSpy: jest.Mock;
 
-const MockIntersectionObserver = jest.fn(
-  (callback: IntersectionCallback) => {
-    observerCallback = callback;
-    observedElements = [];
-    disconnectSpy = jest.fn();
+const MockIntersectionObserver = jest.fn((callback: IntersectionCallback) => {
+  observerCallback = callback;
+  observedElements = [];
+  disconnectSpy = jest.fn();
 
-    return {
-      observe: jest.fn((el: Element) => observedElements.push(el)),
-      unobserve: jest.fn(),
-      disconnect: disconnectSpy,
-    };
-  }
-);
+  return {
+    observe: jest.fn((el: Element) => observedElements.push(el)),
+    unobserve: jest.fn(),
+    disconnect: disconnectSpy,
+  };
+});
 
 describe('useSectionVisibilityTracking', () => {
   const mockReporter = jest.fn();
@@ -59,9 +55,7 @@ describe('useSectionVisibilityTracking', () => {
 
     renderHook(() => useSectionVisibilityTracking(mockReporter));
 
-    observerCallback([
-      { isIntersecting: true, target: sec },
-    ]);
+    observerCallback([{ isIntersecting: true, target: sec }]);
 
     expect(mockReporter).toHaveBeenCalledWith('pricing');
   });
@@ -73,9 +67,7 @@ describe('useSectionVisibilityTracking', () => {
 
     renderHook(() => useSectionVisibilityTracking(mockReporter));
 
-    observerCallback([
-      { isIntersecting: false, target: sec },
-    ]);
+    observerCallback([{ isIntersecting: false, target: sec }]);
 
     expect(mockReporter).not.toHaveBeenCalled();
   });
@@ -87,12 +79,8 @@ describe('useSectionVisibilityTracking', () => {
 
     renderHook(() => useSectionVisibilityTracking(mockReporter));
 
-    observerCallback([
-      { isIntersecting: true, target: sec },
-    ]);
-    observerCallback([
-      { isIntersecting: true, target: sec },
-    ]);
+    observerCallback([{ isIntersecting: true, target: sec }]);
+    observerCallback([{ isIntersecting: true, target: sec }]);
 
     expect(mockReporter).toHaveBeenCalledTimes(1);
   });
@@ -104,9 +92,7 @@ describe('useSectionVisibilityTracking', () => {
 
     renderHook(() => useSectionVisibilityTracking(mockReporter));
 
-    observerCallback([
-      { isIntersecting: true, target: sec },
-    ]);
+    observerCallback([{ isIntersecting: true, target: sec }]);
 
     expect(mockReporter).not.toHaveBeenCalled();
   });
@@ -114,9 +100,7 @@ describe('useSectionVisibilityTracking', () => {
   it('disconnects the observer on unmount', () => {
     renderHook(() => useSectionVisibilityTracking(mockReporter));
 
-    const { unmount } = renderHook(() =>
-      useSectionVisibilityTracking(mockReporter)
-    );
+    const { unmount } = renderHook(() => useSectionVisibilityTracking(mockReporter));
 
     unmount();
 
@@ -126,9 +110,6 @@ describe('useSectionVisibilityTracking', () => {
   it('creates the observer with the correct threshold', () => {
     renderHook(() => useSectionVisibilityTracking(mockReporter));
 
-    expect(MockIntersectionObserver).toHaveBeenCalledWith(
-      expect.any(Function),
-      { threshold: 0.3 }
-    );
+    expect(MockIntersectionObserver).toHaveBeenCalledWith(expect.any(Function), { threshold: 0.3 });
   });
 });

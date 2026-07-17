@@ -13,11 +13,7 @@ export const PREFERENCE_FIELDS = [
 
 export const GOAL_FIELDS = ['Goals', 'Interests', 'Contents'] as const;
 
-export const CHALLENGE_FIELDS = [
-  'Comforts',
-  'Struggles',
-  'Challenges',
-] as const;
+export const CHALLENGE_FIELDS = ['Comforts', 'Struggles', 'Challenges'] as const;
 
 export const STRATEGY_FIELDS = [
   'Strategies',

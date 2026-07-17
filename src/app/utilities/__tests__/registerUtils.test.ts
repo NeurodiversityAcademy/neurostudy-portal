@@ -31,7 +31,7 @@ describe('register utilities', () => {
           method: 'post',
           url: '/api/contactUsSubmission',
           data: JSON.stringify(contactData),
-        })
+        }),
       );
       expect(result).toEqual({ id: '123' });
     });
@@ -65,7 +65,7 @@ describe('register utilities', () => {
         expect.objectContaining({
           method: 'post',
           url: '/api/teacherRegistration',
-        })
+        }),
       );
       expect(result).toEqual({ id: '456' });
     });
@@ -93,7 +93,7 @@ describe('register utilities', () => {
         expect.objectContaining({
           method: 'post',
           url: '/api/userSubscription',
-        })
+        }),
       );
       expect(result).toEqual({ subscribed: true });
     });
@@ -112,7 +112,7 @@ describe('register utilities', () => {
       expect(mockedAxios.request).toHaveBeenCalledWith(
         expect.objectContaining({
           responseType: 'blob',
-        })
+        }),
       );
     });
 
@@ -120,7 +120,8 @@ describe('register utilities', () => {
       const mockBlob = new Blob(['pdf content'], { type: 'application/pdf' });
       mockedAxios.request.mockResolvedValue({ data: mockBlob });
 
-      const clickSpy = jest.spyOn(HTMLAnchorElement.prototype, 'click')
+      const clickSpy = jest
+        .spyOn(HTMLAnchorElement.prototype, 'click')
         .mockImplementation(() => undefined);
       window.URL.createObjectURL = jest.fn(() => 'blob:url');
       window.URL.revokeObjectURL = jest.fn();

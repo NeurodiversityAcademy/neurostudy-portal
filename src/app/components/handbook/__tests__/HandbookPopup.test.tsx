@@ -49,21 +49,15 @@ describe('HandbookPopup', () => {
 
   it('renders newsletter form when open', () => {
     render(<HandbookPopup open onClose={jest.fn()} />);
-    expect(
-      screen.getByText('Subscribe to our Newsletter!'),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Register your email address to get free access/),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Subscribe to our Newsletter!')).toBeInTheDocument();
+    expect(screen.getByText(/Register your email address to get free access/)).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Email address')).toBeInTheDocument();
     expect(screen.getByText('Free Download')).toBeInTheDocument();
   });
 
   it('does not render content when closed', () => {
     render(<HandbookPopup open={false} onClose={jest.fn()} />);
-    expect(
-      screen.queryByText('Subscribe to our Newsletter!'),
-    ).toBeNull();
+    expect(screen.queryByText('Subscribe to our Newsletter!')).not.toBeInTheDocument();
   });
 
   it('submits form and shows download ready message', async () => {
@@ -80,9 +74,7 @@ describe('HandbookPopup', () => {
         email: 'user@example.com',
         getHandbook: true,
       });
-      expect(
-        screen.getByText('Your file is ready to be downloaded...'),
-      ).toBeInTheDocument();
+      expect(screen.getByText('Your file is ready to be downloaded...')).toBeInTheDocument();
     });
   });
 

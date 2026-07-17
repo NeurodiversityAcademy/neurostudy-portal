@@ -25,9 +25,7 @@ describe('useAuthError', () => {
     jest.useFakeTimers();
     mockReplace.mockClear();
     mockGet.mockClear();
-    notifyErrorSpy = jest
-      .spyOn(common, 'notifyError')
-      .mockImplementation();
+    notifyErrorSpy = jest.spyOn(common, 'notifyError').mockImplementation();
 
     window.location.hash = '#test';
   });
@@ -57,11 +55,9 @@ describe('useAuthError', () => {
     jest.runAllTimers();
 
     expect(notifyErrorSpy).toHaveBeenCalledWith(
-      'Error during authentication. Please try again later.'
+      'Error during authentication. Please try again later.',
     );
-    expect(mockReplace).toHaveBeenCalledWith(
-      expect.stringContaining('?cleaned=true')
-    );
+    expect(mockReplace).toHaveBeenCalledWith(expect.stringContaining('?cleaned=true'));
   });
 
   it('shows Callback error message', () => {
@@ -72,7 +68,7 @@ describe('useAuthError', () => {
     jest.runAllTimers();
 
     expect(notifyErrorSpy).toHaveBeenCalledWith(
-      'User was not granted access. Please try again later.'
+      'User was not granted access. Please try again later.',
     );
   });
 
@@ -94,7 +90,7 @@ describe('useAuthError', () => {
     jest.runAllTimers();
 
     expect(notifyErrorSpy).toHaveBeenCalledWith(
-      'Unknown error occurred, please try back again later.'
+      'Unknown error occurred, please try back again later.',
     );
   });
 });

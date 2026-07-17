@@ -36,9 +36,7 @@ describe('GET /api/test', () => {
 
   it('returns 400 when rate limiter throws', async () => {
     const APIError = (await import('@/app/interfaces/APIError')).default;
-    mockConsumeRate.mockRejectedValue(
-      new APIError({ status: 429, error: 'Too Many Requests.' })
-    );
+    mockConsumeRate.mockRejectedValue(new APIError({ status: 429, error: 'Too Many Requests.' }));
 
     const res = await GET(makeRequest());
     const body = await res.json();

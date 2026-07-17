@@ -34,8 +34,7 @@ const CourseCriterion: React.FC<PropType> = ({ criterion, label }) => {
               className={index < criterion ? styles.active : undefined}
               {...(index === floorCriterion && {
                 style: {
-                  '--inner-percentage':
-                    (criterion - floorCriterion) * 100 + '%',
+                  '--inner-percentage': (criterion - floorCriterion) * 100 + '%',
                 } as CSSProperties,
               })}
             />

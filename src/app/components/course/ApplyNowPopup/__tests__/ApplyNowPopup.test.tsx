@@ -39,9 +39,7 @@ describe('ApplyNowPopup', () => {
     expect(screen.getByPlaceholderText('Your full name')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Phone number')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Email address')).toBeInTheDocument();
-    expect(
-      screen.getByRole('button', { name: /submit application/i }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /submit application/i })).toBeInTheDocument();
   });
 
   it('does not render when closed', () => {
@@ -55,28 +53,19 @@ describe('ApplyNowPopup', () => {
 
     await user.type(screen.getByPlaceholderText('Your full name'), 'Jane Doe');
     await user.type(screen.getByPlaceholderText('Phone number'), '0400000000');
-    await user.type(
-      screen.getByPlaceholderText('Email address'),
-      'jane@example.com',
-    );
+    await user.type(screen.getByPlaceholderText('Email address'), 'jane@example.com');
 
-    await user.click(
-      screen.getByRole('button', { name: /submit application/i }),
-    );
+    await user.click(screen.getByRole('button', { name: /submit application/i }));
 
     await act(async () => {
       jest.advanceTimersByTime(700);
     });
 
     await waitFor(() => {
-      expect(
-        screen.getByText(/your application has been received/i),
-      ).toBeInTheDocument();
+      expect(screen.getByText(/your application has been received/i)).toBeInTheDocument();
     });
 
-    expect(
-      screen.getByRole('button', { name: /submitted/i }),
-    ).toBeDisabled();
+    expect(screen.getByRole('button', { name: /submitted/i })).toBeDisabled();
   });
 
   it('renders course interested illustration', () => {

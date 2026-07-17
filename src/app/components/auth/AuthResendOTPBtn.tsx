@@ -14,17 +14,12 @@ interface PropType {
   resetPasswordCode?: boolean;
 }
 
-const AuthResendOTPBtn: React.FC<PropType> = ({
-  username,
-  resetPasswordCode,
-}: PropType) => {
+const AuthResendOTPBtn: React.FC<PropType> = ({ username, resetPasswordCode }: PropType) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [startTime, setStartTime] = useState<number>(() => Date.now());
   const [lastSentTime, setLastSentTime] = useState<number>(startTime);
 
-  const timeLeft = Math.round(
-    (DEFAULT_RESEND_OTP_WAIT_TIME - (lastSentTime - startTime)) / 1000
-  );
+  const timeLeft = Math.round((DEFAULT_RESEND_OTP_WAIT_TIME - (lastSentTime - startTime)) / 1000);
   const anyTimeLeft = timeLeft > 0;
   const disabled = isLoading || anyTimeLeft;
 

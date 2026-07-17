@@ -26,9 +26,7 @@ describe('CourseDetailsBenefitTab', () => {
 
   it('shows support content by default', () => {
     render(<CourseDetailsBenefitTab />);
-    expect(screen.getByTestId('benefits-body')).toHaveTextContent(
-      'Source: support',
-    );
+    expect(screen.getByTestId('benefits-body')).toHaveTextContent('Source: support');
   });
 
   it('switches to adjustment content when tab is clicked', () => {
@@ -36,9 +34,7 @@ describe('CourseDetailsBenefitTab', () => {
 
     fireEvent.click(screen.getByText('Possible Adjustments*'));
 
-    expect(screen.getByTestId('benefits-body')).toHaveTextContent(
-      'Source: adjustment',
-    );
+    expect(screen.getByTestId('benefits-body')).toHaveTextContent('Source: adjustment');
   });
 
   it('switches to jobs content when tab is clicked', () => {
@@ -46,15 +42,11 @@ describe('CourseDetailsBenefitTab', () => {
 
     fireEvent.click(screen.getByText('Possible Job Requirements'));
 
-    expect(screen.getByTestId('benefits-body')).toHaveTextContent(
-      'Source: jobs',
-    );
+    expect(screen.getByTestId('benefits-body')).toHaveTextContent('Source: jobs');
   });
 
   it('renders disclaimer text', () => {
     render(<CourseDetailsBenefitTab />);
-    expect(
-      screen.getByText(/These are possible reasonable adjustments/),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/These are possible reasonable adjustments/)).toBeInTheDocument();
   });
 });

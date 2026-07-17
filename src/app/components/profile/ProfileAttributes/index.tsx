@@ -20,22 +20,18 @@ type Props = {
   onSectionEdit?: MouseEventHandler<HTMLButtonElement>;
 };
 
-export default function ProfileAttributes({
-  fields,
-  onSectionEdit,
-}: Props): ReactNode {
+export default function ProfileAttributes({ fields, onSectionEdit }: Props): ReactNode {
   const { data: wholeData } = useProfileContext();
 
-  const data: UserProps | undefined = useUpdatedValue<
-    UserProps | undefined,
-    UserProps | undefined
-  >(wholeData, () => {
-    return wholeData && getProfileSectionData(wholeData, fields);
-  });
+  const data: UserProps | undefined = useUpdatedValue<UserProps | undefined, UserProps | undefined>(
+    wholeData,
+    () => {
+      return wholeData && getProfileSectionData(wholeData, fields);
+    },
+  );
 
   const isDataEmpty = useIsProfileSectionEmpty(data);
-  const emptyAttributeInfo =
-    (isDataEmpty && PROFILE_EMPTY_ATTRIBUTE_MAP.get(fields)) || undefined;
+  const emptyAttributeInfo = (isDataEmpty && PROFILE_EMPTY_ATTRIBUTE_MAP.get(fields)) || undefined;
 
   if (!data) {
     return null;

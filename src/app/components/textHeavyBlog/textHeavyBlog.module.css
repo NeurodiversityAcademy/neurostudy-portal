@@ -27,15 +27,12 @@
 }
 
 @media (max-width: 1024px) and (min-width: 480px) {
-
   .imageWrapper {
     height: 400px;
   }
-
 }
 
 @media (max-width: 480px) {
-
   .container {
     padding: 0rem;
     margin: 0px 0.3rem;
@@ -52,5 +49,4 @@
   .blogText {
     margin-top: 20px;
   }
-
 }

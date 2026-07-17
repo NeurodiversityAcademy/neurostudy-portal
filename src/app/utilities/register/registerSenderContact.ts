@@ -43,7 +43,7 @@ export interface SenderContactResponse {
 
 export async function registerSenderContact(
   contact: SenderContactParams,
-  personaValue: string
+  personaValue: string,
 ): Promise<SenderContactResponse | null> {
   try {
     const url = `${process.env.SENDER_BASE_URL}/subscribers`;

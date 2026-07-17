@@ -5,7 +5,7 @@ import { DEFAULT_COURSE } from '../db/constants';
 const throwError = throwAssertionError;
 
 export default function assertCourseData(
-  data: Record<string, unknown>[]
+  data: Record<string, unknown>[],
 ): asserts data is CourseProps[] {
   if (!Array.isArray(data)) {
     throwError(`Invalid request payload, expected a JSON array.`);
@@ -28,7 +28,7 @@ export default function assertCourseData(
         const providedType: unknown = typeof item[key];
         if (expectedType !== providedType) {
           throwError(
-            `Invalid prop 'item[${index}]["${key}"]' of type '${providedType}' supplied, expected '${expectedType}'.`
+            `Invalid prop 'item[${index}]["${key}"]' of type '${providedType}' supplied, expected '${expectedType}'.`,
           );
         }
       } else {

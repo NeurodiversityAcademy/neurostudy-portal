@@ -15,23 +15,16 @@ import { updateCourseDropdownFilter } from '@/app/utilities/course/helper';
 
 interface PropType extends FormHTMLAttributes<HTMLFormElement> {}
 
-const DROPDOWN_KEYS: (keyof CourseSecondaryFilterType)[] = [
-  'Level',
-  'InstitutionName',
-  'Mode',
-];
+const DROPDOWN_KEYS: (keyof CourseSecondaryFilterType)[] = ['Level', 'InstitutionName', 'Mode'];
 
 const CourseSecondaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
   const labelId = useId();
   const { loadData, filter } = useCourseContext();
 
-  const methods: UseFormReturn<CourseSecondaryFilterType> =
-    useForm<CourseSecondaryFilterType>({
-      mode: 'onBlur',
-      defaultValues: Object.fromEntries(
-        DROPDOWN_KEYS.map((key) => [key, filter[key]])
-      ),
-    });
+  const methods: UseFormReturn<CourseSecondaryFilterType> = useForm<CourseSecondaryFilterType>({
+    mode: 'onBlur',
+    defaultValues: Object.fromEntries(DROPDOWN_KEYS.map((key) => [key, filter[key]])),
+  });
 
   useUpdatedValue(filter, () => {
     DROPDOWN_KEYS.forEach((name) => {
@@ -58,11 +51,7 @@ const CourseSecondaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
       role='search'
       {...rest}
     >
-      <Typography
-        variant={TypographyVariant.Body1}
-        id={labelId}
-        color='var(--cherryPie)'
-      >
+      <Typography variant={TypographyVariant.Body1} id={labelId} color='var(--cherryPie)'>
         Filters
       </Typography>
       <Dropdown<CourseSecondaryFilterType>

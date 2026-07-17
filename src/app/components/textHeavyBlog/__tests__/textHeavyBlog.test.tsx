@@ -55,10 +55,7 @@ describe('TextHeavyBlog', () => {
   it('renders breadcrumb links and header', () => {
     render(<TextHeavyBlog {...defaultProps} />);
     expect(screen.getByRole('link', { name: 'Home' })).toHaveAttribute('href', '/');
-    expect(screen.getByRole('link', { name: 'Blogs' })).toHaveAttribute(
-      'href',
-      '/blogs',
-    );
+    expect(screen.getByRole('link', { name: 'Blogs' })).toHaveAttribute('href', '/blogs');
     expect(screen.getByText('Test Blog Header')).toBeInTheDocument();
   });
 

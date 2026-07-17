@@ -96,9 +96,7 @@ describe('CourseSearchResult', () => {
 
     render(<CourseSearchResult />);
     expect(
-      screen.getByText(
-        'Sorry, there are no results for the applied filter(s).',
-      ),
+      screen.getByText('Sorry, there are no results for the applied filter(s).'),
     ).toBeInTheDocument();
   });
 
@@ -110,9 +108,7 @@ describe('CourseSearchResult', () => {
     });
 
     render(<CourseSearchResult />);
-    expect(
-      screen.getByText('Failed to fetch the list of courses.'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Failed to fetch the list of courses.')).toBeInTheDocument();
   });
 
   it('calls loadData when try again is clicked in error state', () => {

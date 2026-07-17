@@ -14,9 +14,7 @@ describe('useGaEventReporter', () => {
   });
 
   it('returns three reporter functions', () => {
-    const { result } = renderHook(() =>
-      useGaEventReporter('test-provider')
-    );
+    const { result } = renderHook(() => useGaEventReporter('test-provider'));
 
     expect(typeof result.current.reportScrollDepth).toBe('function');
     expect(typeof result.current.reportSectionVisible).toBe('function');
@@ -24,48 +22,31 @@ describe('useGaEventReporter', () => {
   });
 
   it('reportScrollDepth delegates to sendScrollDepthEvent', () => {
-    const { result } = renderHook(() =>
-      useGaEventReporter('my-slug')
-    );
+    const { result } = renderHook(() => useGaEventReporter('my-slug'));
 
     result.current.reportScrollDepth(50);
 
-    expect(gaTracking.sendScrollDepthEvent).toHaveBeenCalledWith(
-      'my-slug',
-      50
-    );
+    expect(gaTracking.sendScrollDepthEvent).toHaveBeenCalledWith('my-slug', 50);
   });
 
   it('reportSectionVisible delegates to sendSectionVisibleEvent', () => {
-    const { result } = renderHook(() =>
-      useGaEventReporter('my-slug')
-    );
+    const { result } = renderHook(() => useGaEventReporter('my-slug'));
 
     result.current.reportSectionVisible('hero');
 
-    expect(gaTracking.sendSectionVisibleEvent).toHaveBeenCalledWith(
-      'my-slug',
-      'hero'
-    );
+    expect(gaTracking.sendSectionVisibleEvent).toHaveBeenCalledWith('my-slug', 'hero');
   });
 
   it('reportTimeOnPage delegates to sendTimeOnPageEvent', () => {
-    const { result } = renderHook(() =>
-      useGaEventReporter('my-slug')
-    );
+    const { result } = renderHook(() => useGaEventReporter('my-slug'));
 
     result.current.reportTimeOnPage(30);
 
-    expect(gaTracking.sendTimeOnPageEvent).toHaveBeenCalledWith(
-      'my-slug',
-      30
-    );
+    expect(gaTracking.sendTimeOnPageEvent).toHaveBeenCalledWith('my-slug', 30);
   });
 
   it('returns stable callbacks when slug is unchanged', () => {
-    const { result, rerender } = renderHook(() =>
-      useGaEventReporter('stable-slug')
-    );
+    const { result, rerender } = renderHook(() => useGaEventReporter('stable-slug'));
 
     const first = result.current;
     rerender();

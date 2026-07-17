@@ -48,13 +48,9 @@ describe('Blog', () => {
       />,
     );
 
+    expect(screen.getByText('Neurodiversity and Inclusive Workplaces')).toBeInTheDocument();
     expect(
-      screen.getByText('Neurodiversity and Inclusive Workplaces'),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByAltText(
-        'Thumbnail for Neurodiversity and Inclusive Workplaces',
-      ),
+      screen.getByAltText('Thumbnail for Neurodiversity and Inclusive Workplaces'),
     ).toBeInTheDocument();
     expect(screen.getByText('Learn more')).toBeInTheDocument();
     expect(screen.getByRole('link')).toHaveAttribute(

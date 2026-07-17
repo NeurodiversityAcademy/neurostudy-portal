@@ -26,13 +26,9 @@ jest.mock('next/image', () => ({
 
 jest.mock('next/link', () => ({
   __esModule: true,
-  default: ({
-    children,
-    href,
-  }: {
-    children: React.ReactNode;
-    href: string;
-  }) => <a href={href}>{children}</a>,
+  default: ({ children, href }: { children: React.ReactNode; href: string }) => (
+    <a href={href}>{children}</a>
+  ),
 }));
 
 const mockSignIn = jest.fn();
@@ -67,9 +63,7 @@ jest.mock('@/app/utilities/common', () => ({
   notifyAxiosError: jest.fn(),
   notifyInProgress: jest.fn(),
   notifySuccess: jest.fn(),
-  formatDate: jest.fn(
-    (y: number, m: number, d: number) => `${y}-${m}-${d}`
-  ),
+  formatDate: jest.fn((y: number, m: number, d: number) => `${y}-${m}-${d}`),
   debounce: jest.fn((fn: (...args: unknown[]) => void) => fn),
 }));
 
@@ -102,15 +96,8 @@ import signUp from '@/app/utilities/auth/signUp';
 import resetPassword from '@/app/utilities/auth/resetPassword';
 import confirmResetPassword from '@/app/utilities/auth/confirmResetPassword';
 import resendSignUpCode from '@/app/utilities/auth/resendSignUpCode';
-import {
-  notifyError,
-  notifyAxiosError,
-  notifyInProgress,
-} from '@/app/utilities/common';
-import {
-  FORM_STATE,
-  INVALID_CREDENTIALS_MESSAGE,
-} from '@/app/utilities/auth/constants';
+import { notifyError, notifyAxiosError, notifyInProgress } from '@/app/utilities/common';
+import { FORM_STATE, INVALID_CREDENTIALS_MESSAGE } from '@/app/utilities/auth/constants';
 import { TOAST_UNKNOWN_ERROR_MESSAGE } from '@/app/utilities/constants';
 
 beforeEach(() => {
@@ -139,13 +126,7 @@ describe('AuthFormHeader', () => {
 // ---------------------------------------------------------------------------
 describe('AuthFormFooter', () => {
   it('renders text and link', () => {
-    render(
-      <AuthFormFooter
-        text='New here? '
-        toText='Sign Up'
-        to='/signup'
-      />
-    );
+    render(<AuthFormFooter text='New here? ' toText='Sign Up' to='/signup' />);
     expect(screen.getByText('New here?')).toBeInTheDocument();
     const link = screen.getByText('Sign Up');
     expect(link).toBeInTheDocument();
@@ -165,9 +146,7 @@ describe('AuthFormFooter', () => {
 describe('AuthLeftBanner', () => {
   it('renders the banner heading', () => {
     render(<AuthLeftBanner />);
-    expect(
-      screen.getByText('Signup/Login to Neurodiversity Academy')
-    ).toBeInTheDocument();
+    expect(screen.getByText('Signup/Login to Neurodiversity Academy')).toBeInTheDocument();
   });
 });
 
@@ -177,15 +156,9 @@ describe('AuthLeftBanner', () => {
 describe('Login', () => {
   it('renders email and password fields plus submit button', () => {
     render(<Login />);
-    expect(
-      screen.getByPlaceholderText('Email address')
-    ).toBeInTheDocument();
-    expect(
-      screen.getByPlaceholderText('Password')
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole('button', { name: /login/i })
-    ).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Email address')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
   });
 
   it('renders header with Login title', () => {
@@ -213,10 +186,7 @@ describe('Login', () => {
 
     render(<Login />);
 
-    await user.type(
-      screen.getByPlaceholderText('Email address'),
-      'user@test.com'
-    );
+    await user.type(screen.getByPlaceholderText('Email address'), 'user@test.com');
     await user.type(screen.getByPlaceholderText('Password'), 'Pass1234');
     await user.click(screen.getByRole('button', { name: /login/i }));
 
@@ -228,7 +198,7 @@ describe('Login', () => {
           password: 'Pass1234',
           redirect: false,
         }),
-        { method: 'signIn' }
+        { method: 'signIn' },
       );
     });
 
@@ -243,10 +213,7 @@ describe('Login', () => {
 
     render(<Login />);
 
-    await user.type(
-      screen.getByPlaceholderText('Email address'),
-      'user@test.com'
-    );
+    await user.type(screen.getByPlaceholderText('Email address'), 'user@test.com');
     await user.type(screen.getByPlaceholderText('Password'), 'Pass1234');
     await user.click(screen.getByRole('button', { name: /login/i }));
 
@@ -267,17 +234,12 @@ describe('Login', () => {
 
     render(<Login />);
 
-    await user.type(
-      screen.getByPlaceholderText('Email address'),
-      'user@test.com'
-    );
+    await user.type(screen.getByPlaceholderText('Email address'), 'user@test.com');
     await user.type(screen.getByPlaceholderText('Password'), 'Pass1234');
     await user.click(screen.getByRole('button', { name: /login/i }));
 
     await waitFor(() => {
-      expect(
-        screen.getByPlaceholderText('Verification Code')
-      ).toBeInTheDocument();
+      expect(screen.getByPlaceholderText('Verification Code')).toBeInTheDocument();
     });
   });
 });
@@ -293,16 +255,12 @@ describe('AuthInitSignUp', () => {
     expect(screen.getByPlaceholderText('Email address')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Repeat Password')).toBeInTheDocument();
-    expect(
-      screen.getByRole('button', { name: /sign up/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /sign up/i })).toBeInTheDocument();
   });
 
   it('renders terms link and login footer', () => {
     render(<AuthInitSignUp />);
-    expect(
-      screen.getByText(/Terms and Conditions/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Terms and Conditions/i)).toBeInTheDocument();
     const loginLink = screen.getByText('Login');
     expect(loginLink.closest('a')).toHaveAttribute('href', '/login');
   });
@@ -314,9 +272,7 @@ describe('AuthInitSignUp', () => {
 
   it('renders newsletter subscription checkbox', () => {
     render(<AuthInitSignUp />);
-    expect(
-      screen.getByText(/Subscribe to our newsletter/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Subscribe to our newsletter/i)).toBeInTheDocument();
   });
 
   it('submit button is present and of type submit', () => {
@@ -335,10 +291,7 @@ describe('AuthInitSignUp', () => {
 
     await user.type(screen.getByPlaceholderText('First Name'), 'Jane');
     await user.type(screen.getByPlaceholderText('Last Name'), 'Doe');
-    await user.type(
-      screen.getByPlaceholderText('Email address'),
-      'jane@example.com'
-    );
+    await user.type(screen.getByPlaceholderText('Email address'), 'jane@example.com');
     await user.type(screen.getByPlaceholderText('Password'), 'Pass1234!');
     await user.type(screen.getByPlaceholderText('Repeat Password'), 'Pass1234!');
 
@@ -363,14 +316,12 @@ describe('AuthInitSignUp', () => {
               subscribed: '0',
             }),
           }),
-        })
+        }),
       );
     });
 
     await waitFor(() => {
-      expect(
-        screen.getByPlaceholderText('Verification Code')
-      ).toBeInTheDocument();
+      expect(screen.getByPlaceholderText('Verification Code')).toBeInTheDocument();
     });
   });
 
@@ -382,10 +333,7 @@ describe('AuthInitSignUp', () => {
 
     await user.type(screen.getByPlaceholderText('First Name'), 'Jane');
     await user.type(screen.getByPlaceholderText('Last Name'), 'Doe');
-    await user.type(
-      screen.getByPlaceholderText('Email address'),
-      'jane@example.com'
-    );
+    await user.type(screen.getByPlaceholderText('Email address'), 'jane@example.com');
     await user.type(screen.getByPlaceholderText('Password'), 'Pass1234!');
     await user.type(screen.getByPlaceholderText('Repeat Password'), 'Pass1234!');
 
@@ -413,10 +361,7 @@ describe('AuthInitSignUp', () => {
 
     await user.type(screen.getByPlaceholderText('First Name'), 'Jane');
     await user.type(screen.getByPlaceholderText('Last Name'), 'Doe');
-    await user.type(
-      screen.getByPlaceholderText('Email address'),
-      'jane@example.com'
-    );
+    await user.type(screen.getByPlaceholderText('Email address'), 'jane@example.com');
     await user.type(screen.getByPlaceholderText('Password'), 'Pass1234!');
     await user.type(screen.getByPlaceholderText('Repeat Password'), 'Pass1234!');
 
@@ -444,9 +389,7 @@ describe('AuthInitSignUp', () => {
     fireEvent.blur(screen.getByPlaceholderText('Repeat Password'));
 
     await waitFor(() => {
-      expect(
-        screen.getByText('Should match the password field')
-      ).toBeInTheDocument();
+      expect(screen.getByText('Should match the password field')).toBeInTheDocument();
     });
   });
 });
@@ -465,12 +408,8 @@ describe('AuthVerifyForm', () => {
 
   it('renders verification code input and verify button', () => {
     render(<AuthVerifyForm {...defaultProps} />);
-    expect(
-      screen.getByPlaceholderText('Verification Code')
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole('button', { name: /verify/i })
-    ).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Verification Code')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /verify/i })).toBeInTheDocument();
   });
 
   it('displays the email the code was sent to', () => {
@@ -480,9 +419,7 @@ describe('AuthVerifyForm', () => {
 
   it('renders the resend OTP button', () => {
     render(<AuthVerifyForm {...defaultProps} />);
-    expect(
-      screen.getByRole('button', { name: /resend code/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /resend code/i })).toBeInTheDocument();
   });
 
   it('calls signIn with confirmSignUp method on submit', async () => {
@@ -491,10 +428,7 @@ describe('AuthVerifyForm', () => {
 
     render(<AuthVerifyForm {...defaultProps} />);
 
-    await user.type(
-      screen.getByPlaceholderText('Verification Code'),
-      '123456'
-    );
+    await user.type(screen.getByPlaceholderText('Verification Code'), '123456');
     await user.click(screen.getByRole('button', { name: /verify/i }));
 
     await waitFor(() => {
@@ -504,7 +438,7 @@ describe('AuthVerifyForm', () => {
           confirmationCode: '123456',
           redirect: false,
         }),
-        { method: 'confirmSignUp' }
+        { method: 'confirmSignUp' },
       );
     });
   });
@@ -515,10 +449,7 @@ describe('AuthVerifyForm', () => {
 
     render(<AuthVerifyForm {...defaultProps} />);
 
-    await user.type(
-      screen.getByPlaceholderText('Verification Code'),
-      '123456'
-    );
+    await user.type(screen.getByPlaceholderText('Verification Code'), '123456');
     await user.click(screen.getByRole('button', { name: /verify/i }));
 
     await waitFor(() => {
@@ -533,10 +464,7 @@ describe('AuthVerifyForm', () => {
 
     render(<AuthVerifyForm {...defaultProps} setIsLoading={setIsLoading} />);
 
-    await user.type(
-      screen.getByPlaceholderText('Verification Code'),
-      '123456'
-    );
+    await user.type(screen.getByPlaceholderText('Verification Code'), '123456');
     await user.click(screen.getByRole('button', { name: /verify/i }));
 
     await waitFor(() => {
@@ -552,17 +480,14 @@ describe('AuthVerifyForm', () => {
 
     render(<AuthVerifyForm {...defaultProps} />);
 
-    await user.type(
-      screen.getByPlaceholderText('Verification Code'),
-      '123456'
-    );
+    await user.type(screen.getByPlaceholderText('Verification Code'), '123456');
     await user.click(screen.getByRole('button', { name: /verify/i }));
 
     await waitFor(() => {
       expect(notifyError).toHaveBeenCalledWith(
         expect.objectContaining({
           message: TOAST_UNKNOWN_ERROR_MESSAGE,
-        })
+        }),
       );
     });
   });
@@ -576,10 +501,7 @@ describe('AuthVerifyForm', () => {
 
     render(<AuthVerifyForm {...defaultProps} />);
 
-    await user.type(
-      screen.getByPlaceholderText('Verification Code'),
-      '123456'
-    );
+    await user.type(screen.getByPlaceholderText('Verification Code'), '123456');
     await user.click(screen.getByRole('button', { name: /verify/i }));
 
     await waitFor(() => {
@@ -596,17 +518,14 @@ describe('AuthVerifyForm', () => {
 
     render(<AuthVerifyForm {...defaultProps} />);
 
-    await user.type(
-      screen.getByPlaceholderText('Verification Code'),
-      '000000'
-    );
+    await user.type(screen.getByPlaceholderText('Verification Code'), '000000');
     await user.click(screen.getByRole('button', { name: /verify/i }));
 
     await waitFor(() => {
       expect(defaultProps.onIncorrectCredentials).toHaveBeenCalled();
     });
     expect(notifyError).toHaveBeenCalledWith(
-      expect.objectContaining({ message: INVALID_CREDENTIALS_MESSAGE })
+      expect.objectContaining({ message: INVALID_CREDENTIALS_MESSAGE }),
     );
   });
 });
@@ -640,7 +559,7 @@ describe('AuthResendOTPBtn', () => {
 
     await waitFor(() => {
       const btn = screen.getByRole('button', { name: /resend code/i });
-      expect(btn).not.toBeDisabled();
+      expect(btn).toBeEnabled();
     });
 
     await user.click(screen.getByRole('button', { name: /resend code/i }));
@@ -656,15 +575,13 @@ describe('AuthResendOTPBtn', () => {
     (resetPassword as jest.Mock).mockResolvedValueOnce({});
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
 
-    render(
-      <AuthResendOTPBtn username='user@test.com' resetPasswordCode />
-    );
+    render(<AuthResendOTPBtn username='user@test.com' resetPasswordCode />);
 
     jest.advanceTimersByTime(65000);
 
     await waitFor(() => {
       const btn = screen.getByRole('button', { name: /resend code/i });
-      expect(btn).not.toBeDisabled();
+      expect(btn).toBeEnabled();
     });
 
     await user.click(screen.getByRole('button', { name: /resend code/i }));
@@ -684,23 +601,13 @@ describe('AuthInitForgotPassword', () => {
   const handleVerificationCode = jest.fn();
 
   it('renders email field and send code button', () => {
-    render(
-      <AuthInitForgotPassword
-        handleVerificationCode={handleVerificationCode}
-      />
-    );
+    render(<AuthInitForgotPassword handleVerificationCode={handleVerificationCode} />);
     expect(screen.getByPlaceholderText('Email address')).toBeInTheDocument();
-    expect(
-      screen.getByRole('button', { name: /send code/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /send code/i })).toBeInTheDocument();
   });
 
   it('renders the forgot password header', () => {
-    render(
-      <AuthInitForgotPassword
-        handleVerificationCode={handleVerificationCode}
-      />
-    );
+    render(<AuthInitForgotPassword handleVerificationCode={handleVerificationCode} />);
     expect(screen.getByText('Forgot Password?')).toBeInTheDocument();
     expect(screen.getByText('Reset your password')).toBeInTheDocument();
   });
@@ -709,21 +616,13 @@ describe('AuthInitForgotPassword', () => {
     const user = userEvent.setup();
     (resetPassword as jest.Mock).mockResolvedValueOnce({
       nextStep: {
-        resetPasswordStep:
-          FORM_STATE.CONFIRM_RESET_PASSWORD_WITH_CODE,
+        resetPasswordStep: FORM_STATE.CONFIRM_RESET_PASSWORD_WITH_CODE,
       },
     });
 
-    render(
-      <AuthInitForgotPassword
-        handleVerificationCode={handleVerificationCode}
-      />
-    );
+    render(<AuthInitForgotPassword handleVerificationCode={handleVerificationCode} />);
 
-    await user.type(
-      screen.getByPlaceholderText('Email address'),
-      'user@test.com'
-    );
+    await user.type(screen.getByPlaceholderText('Email address'), 'user@test.com');
     await user.click(screen.getByRole('button', { name: /send code/i }));
 
     await waitFor(() => {
@@ -738,16 +637,9 @@ describe('AuthInitForgotPassword', () => {
     const user = userEvent.setup();
     (resetPassword as jest.Mock).mockRejectedValueOnce(new Error('fail'));
 
-    render(
-      <AuthInitForgotPassword
-        handleVerificationCode={handleVerificationCode}
-      />
-    );
+    render(<AuthInitForgotPassword handleVerificationCode={handleVerificationCode} />);
 
-    await user.type(
-      screen.getByPlaceholderText('Email address'),
-      'user@test.com'
-    );
+    await user.type(screen.getByPlaceholderText('Email address'), 'user@test.com');
     await user.click(screen.getByRole('button', { name: /send code/i }));
 
     await waitFor(() => {
@@ -763,43 +655,20 @@ describe('AuthFinishForgotPassword', () => {
   const handleResetDone = jest.fn();
 
   it('renders verification code, new password, repeat password fields', () => {
-    render(
-      <AuthFinishForgotPassword
-        username='user@test.com'
-        handleResetDone={handleResetDone}
-      />
-    );
-    expect(
-      screen.getByPlaceholderText('Verification Code')
-    ).toBeInTheDocument();
-    expect(
-      screen.getByPlaceholderText('New Password')
-    ).toBeInTheDocument();
-    expect(
-      screen.getByPlaceholderText('Repeat Password')
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole('button', { name: /submit/i })
-    ).toBeInTheDocument();
+    render(<AuthFinishForgotPassword username='user@test.com' handleResetDone={handleResetDone} />);
+    expect(screen.getByPlaceholderText('Verification Code')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('New Password')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Repeat Password')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();
   });
 
   it('displays the email the code was sent to', () => {
-    render(
-      <AuthFinishForgotPassword
-        username='user@test.com'
-        handleResetDone={handleResetDone}
-      />
-    );
+    render(<AuthFinishForgotPassword username='user@test.com' handleResetDone={handleResetDone} />);
     expect(screen.getByText('user@test.com')).toBeInTheDocument();
   });
 
   it('renders the "Almost Done" header', () => {
-    render(
-      <AuthFinishForgotPassword
-        username='user@test.com'
-        handleResetDone={handleResetDone}
-      />
-    );
+    render(<AuthFinishForgotPassword username='user@test.com' handleResetDone={handleResetDone} />);
     expect(screen.getByText('Almost Done')).toBeInTheDocument();
     expect(screen.getByText('one last step')).toBeInTheDocument();
   });
@@ -808,25 +677,11 @@ describe('AuthFinishForgotPassword', () => {
     const user = userEvent.setup();
     (confirmResetPassword as jest.Mock).mockResolvedValueOnce({});
 
-    render(
-      <AuthFinishForgotPassword
-        username='user@test.com'
-        handleResetDone={handleResetDone}
-      />
-    );
+    render(<AuthFinishForgotPassword username='user@test.com' handleResetDone={handleResetDone} />);
 
-    await user.type(
-      screen.getByPlaceholderText('Verification Code'),
-      '123456'
-    );
-    await user.type(
-      screen.getByPlaceholderText('New Password'),
-      'NewPass123'
-    );
-    await user.type(
-      screen.getByPlaceholderText('Repeat Password'),
-      'NewPass123'
-    );
+    await user.type(screen.getByPlaceholderText('Verification Code'), '123456');
+    await user.type(screen.getByPlaceholderText('New Password'), 'NewPass123');
+    await user.type(screen.getByPlaceholderText('Repeat Password'), 'NewPass123');
     await user.click(screen.getByRole('button', { name: /submit/i }));
 
     await waitFor(() => {
@@ -841,29 +696,13 @@ describe('AuthFinishForgotPassword', () => {
 
   it('calls notifyAxiosError on confirmResetPassword failure', async () => {
     const user = userEvent.setup();
-    (confirmResetPassword as jest.Mock).mockRejectedValueOnce(
-      new Error('fail')
-    );
+    (confirmResetPassword as jest.Mock).mockRejectedValueOnce(new Error('fail'));
 
-    render(
-      <AuthFinishForgotPassword
-        username='user@test.com'
-        handleResetDone={handleResetDone}
-      />
-    );
+    render(<AuthFinishForgotPassword username='user@test.com' handleResetDone={handleResetDone} />);
 
-    await user.type(
-      screen.getByPlaceholderText('Verification Code'),
-      '123456'
-    );
-    await user.type(
-      screen.getByPlaceholderText('New Password'),
-      'NewPass123'
-    );
-    await user.type(
-      screen.getByPlaceholderText('Repeat Password'),
-      'NewPass123'
-    );
+    await user.type(screen.getByPlaceholderText('Verification Code'), '123456');
+    await user.type(screen.getByPlaceholderText('New Password'), 'NewPass123');
+    await user.type(screen.getByPlaceholderText('Repeat Password'), 'NewPass123');
     await user.click(screen.getByRole('button', { name: /submit/i }));
 
     await waitFor(() => {
@@ -886,24 +725,18 @@ describe('ForgotPassword', () => {
     const user = userEvent.setup();
     (resetPassword as jest.Mock).mockResolvedValueOnce({
       nextStep: {
-        resetPasswordStep:
-          FORM_STATE.CONFIRM_RESET_PASSWORD_WITH_CODE,
+        resetPasswordStep: FORM_STATE.CONFIRM_RESET_PASSWORD_WITH_CODE,
       },
     });
 
     render(<ForgotPassword />);
 
-    await user.type(
-      screen.getByPlaceholderText('Email address'),
-      'user@test.com'
-    );
+    await user.type(screen.getByPlaceholderText('Email address'), 'user@test.com');
     await user.click(screen.getByRole('button', { name: /send code/i }));
 
     await waitFor(() => {
       expect(screen.getByText('Almost Done')).toBeInTheDocument();
-      expect(
-        screen.getByPlaceholderText('Verification Code')
-      ).toBeInTheDocument();
+      expect(screen.getByPlaceholderText('Verification Code')).toBeInTheDocument();
     });
   });
 });
@@ -916,8 +749,6 @@ describe('Signup', () => {
     render(<Signup />);
     expect(screen.getByPlaceholderText('First Name')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Last Name')).toBeInTheDocument();
-    expect(
-      screen.getByText('Signup/Login to Neurodiversity Academy')
-    ).toBeInTheDocument();
+    expect(screen.getByText('Signup/Login to Neurodiversity Academy')).toBeInTheDocument();
   });
 });

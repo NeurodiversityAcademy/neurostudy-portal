@@ -19,25 +19,15 @@ const Handbook: React.FC = () => {
   return (
     <div className={styles.container} id='handbook-container'>
       <div className={styles.textContainer}>
-        <Image
-          src={handbookGraphSrc}
-          alt='Handbook Sample Graph'
-          className={styles.graph}
-        />
+        <Image src={handbookGraphSrc} alt='Handbook Sample Graph' className={styles.graph} />
         <div className={styles.textContent}>
           <div className={styles.innerTextContent}>
-            <Typography
-              variant={TypographyVariant.H3}
-              className={styles.header}
-            >
+            <Typography variant={TypographyVariant.H3} className={styles.header}>
               Neuro-Inclusion in Vocational Education
             </Typography>
-            <Typography
-              variant={TypographyVariant.Body3}
-              className={styles.subtext}
-            >
-              Explore key strategies for building neuro-inclusive vocational
-              education organizations in our <b>free</b> handbook.
+            <Typography variant={TypographyVariant.Body3} className={styles.subtext}>
+              Explore key strategies for building neuro-inclusive vocational education organizations
+              in our <b>free</b> handbook.
             </Typography>
           </div>
           <ActionButton
@@ -48,11 +38,7 @@ const Handbook: React.FC = () => {
         </div>
       </div>
       <div className={styles.mobileContainer}>
-        <Image
-          src={handbookMobileSrc}
-          alt='Handbook Mobile Screenshot'
-          className={styles.mobile}
-        />
+        <Image src={handbookMobileSrc} alt='Handbook Mobile Screenshot' className={styles.mobile} />
       </div>
       <HandbookPopup open={popupOpen} onClose={onPopupClose} />
     </div>

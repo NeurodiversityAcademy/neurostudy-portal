@@ -5,12 +5,7 @@ jest.mock('next/image', () => ({
   __esModule: true,
   default: (props: Record<string, unknown>) => {
     const { onClick, ...rest } = props;
-    return (
-      <img
-        {...rest}
-        onClick={onClick as React.MouseEventHandler<HTMLImageElement>}
-      />
-    );
+    return <img {...rest} onClick={onClick as React.MouseEventHandler<HTMLImageElement>} />;
   },
 }));
 

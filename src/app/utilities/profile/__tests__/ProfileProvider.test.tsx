@@ -80,7 +80,7 @@ describe('ProfileProvider', () => {
 
   it('throws when useProfileContext is used outside the provider', () => {
     expect(() => renderHook(() => useProfileContext())).toThrow(
-      'deviseContext()[1](derivative of `useContext`) does not have proper context.'
+      'deviseContext()[1](derivative of `useContext`) does not have proper context.',
     );
   });
 

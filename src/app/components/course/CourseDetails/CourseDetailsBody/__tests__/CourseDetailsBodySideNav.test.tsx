@@ -4,13 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 jest.mock('../../../ApplyNowPopup/ApplyNowPopup', () => ({
   __esModule: true,
-  default: ({
-    open,
-    onClose,
-  }: {
-    open: boolean;
-    onClose: () => void;
-  }) =>
+  default: ({ open, onClose }: { open: boolean; onClose: () => void }) =>
     open ? (
       <div data-testid='apply-now-popup'>
         <button type='button' onClick={onClose}>
@@ -37,24 +31,21 @@ describe('CourseDetailsBodySideNav', () => {
     render(<CourseDetailsBodySideNav sections={sections} />);
 
     expect(screen.getByRole('navigation')).toBeInTheDocument();
-    expect(
-      screen.getByRole('link', { name: 'Course Overview' })
-    ).toHaveAttribute('href', '#courseOverview');
-    expect(
-      screen.getByRole('link', { name: 'Course Structure' })
-    ).toHaveAttribute('href', '#courseStructure');
-    expect(screen.getByRole('link', { name: 'FAQs' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Course Overview' })).toHaveAttribute(
       'href',
-      '#faq'
+      '#courseOverview',
     );
+    expect(screen.getByRole('link', { name: 'Course Structure' })).toHaveAttribute(
+      'href',
+      '#courseStructure',
+    );
+    expect(screen.getByRole('link', { name: 'FAQs' })).toHaveAttribute('href', '#faq');
   });
 
   it('renders Apply Now button in the actions area', () => {
     render(<CourseDetailsBodySideNav sections={sections} />);
 
-    expect(
-      screen.getByRole('button', { name: /apply now/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /apply now/i })).toBeInTheDocument();
   });
 
   it('opens Apply Now popup when Apply Now is clicked', async () => {
@@ -73,9 +64,7 @@ describe('CourseDetailsBodySideNav', () => {
     render(<CourseDetailsBodySideNav sections={sections} />);
 
     await user.click(screen.getByRole('button', { name: /apply now/i }));
-    await user.click(
-      screen.getByRole('button', { name: /close apply now/i })
-    );
+    await user.click(screen.getByRole('button', { name: /close apply now/i }));
 
     expect(screen.queryByTestId('apply-now-popup')).not.toBeInTheDocument();
   });

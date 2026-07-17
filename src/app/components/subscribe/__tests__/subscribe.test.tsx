@@ -57,9 +57,7 @@ describe('Subscribe', () => {
     fireEvent.change(screen.getByPlaceholderText('Email address'), {
       target: { value: 'user@example.com' },
     });
-    expect(screen.getByPlaceholderText('Email address')).toHaveValue(
-      'user@example.com',
-    );
+    expect(screen.getByPlaceholderText('Email address')).toHaveValue('user@example.com');
   });
 
   it('shows success message after successful submission', async () => {
@@ -75,9 +73,7 @@ describe('Subscribe', () => {
         email: 'user@example.com',
         hs_persona: 'persona_3',
       });
-      expect(
-        screen.getByText('Thank you for subscribing to'),
-      ).toBeInTheDocument();
+      expect(screen.getByText('Thank you for subscribing to')).toBeInTheDocument();
       expect(screen.getByText('Neurodiversity Academy!')).toBeInTheDocument();
     });
   });

@@ -8,10 +8,7 @@ interface Props {
   value: string | number | boolean | unknown[] | undefined;
 }
 
-export default function ProfileAttribute({
-  label,
-  value: _value,
-}: Props): ReactNode {
+export default function ProfileAttribute({ label, value: _value }: Props): ReactNode {
   const value = ((val) => {
     if (typeof val === 'boolean') {
       return val ? 'Yes' : 'No';

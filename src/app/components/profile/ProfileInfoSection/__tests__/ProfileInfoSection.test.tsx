@@ -9,13 +9,9 @@ jest.mock('next/image', () => ({
 
 jest.mock('next/link', () => ({
   __esModule: true,
-  default: ({
-    children,
-    href,
-  }: {
-    children: React.ReactNode;
-    href: string;
-  }) => <a href={href}>{children}</a>,
+  default: ({ children, href }: { children: React.ReactNode; href: string }) => (
+    <a href={href}>{children}</a>
+  ),
 }));
 
 jest.mock('@/app/utilities/common', () => ({
@@ -66,9 +62,7 @@ describe('ProfileInfoSection', () => {
     expect(screen.getByPlaceholderText('First Name')).toHaveValue('John');
     expect(screen.getByPlaceholderText('Last Name')).toHaveValue('Doe');
     expect(screen.getByPlaceholderText('Age')).toHaveValue(25);
-    expect(screen.getByPlaceholderText('Email Address')).toHaveValue(
-      'john@example.com',
-    );
+    expect(screen.getByPlaceholderText('Email Address')).toHaveValue('john@example.com');
   });
 
   it('disables email field', () => {
@@ -135,9 +129,7 @@ describe('ProfileInfoSection', () => {
     await ref.current?.methods.trigger('Age');
 
     await waitFor(() => {
-      expect(
-        screen.getByText('Value should be greater than 0.')
-      ).toBeInTheDocument();
+      expect(screen.getByText('Value should be greater than 0.')).toBeInTheDocument();
     });
   });
 });

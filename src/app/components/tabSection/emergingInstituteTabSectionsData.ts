@@ -6,9 +6,7 @@ import type {
 
 const data = raw as EmergingInstituteTabSectionsFile;
 
-export function getStudentSuitabilitySection(
-  instituteSlug: string
-): InstituteTabSectionConfig {
+export function getStudentSuitabilitySection(instituteSlug: string): InstituteTabSectionConfig {
   const override = data.byInstituteSlug?.[instituteSlug]?.studentSuitability;
   return override ?? data.studentSuitabilityDefault;
 }

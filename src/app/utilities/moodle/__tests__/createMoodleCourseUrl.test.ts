@@ -18,8 +18,8 @@ jest.mock('../getMoodleCoursesByUser', () => ({
 }));
 
 jest.mock('../helper', () => ({
-  getMoodleCourseUrl: jest.fn((courseid: number) =>
-    `https://moodle.example.com/course/view.php?id=${courseid}`
+  getMoodleCourseUrl: jest.fn(
+    (courseid: number) => `https://moodle.example.com/course/view.php?id=${courseid}`,
   ),
 }));
 
@@ -41,9 +41,7 @@ describe('createMoodleCourseUrl', () => {
   });
 
   it('returns undefined when user is not authenticated', async () => {
-    mockIsAuthenticated.mockResolvedValue(
-      new AuthErrorResponse(null, { status: 401 })
-    );
+    mockIsAuthenticated.mockResolvedValue(new AuthErrorResponse(null, { status: 401 }));
 
     const result = await createMoodleCourseUrl(req, { courseid: 5 });
 

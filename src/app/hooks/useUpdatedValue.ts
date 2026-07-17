@@ -5,7 +5,7 @@ const DEFAULT_VALUE = Symbol('default useUpdatedValue');
 
 export default function useUpdatedValue<Value = unknown, DS = unknown>(
   dependentState: DS,
-  setter: (curState: DS) => Value
+  setter: (curState: DS) => Value,
 ): Value {
   const previousStateRef = useRef<DS | undefined>(undefined);
   // NOTE: DEFAULT_VALUE is not necessarily type Value, it is made

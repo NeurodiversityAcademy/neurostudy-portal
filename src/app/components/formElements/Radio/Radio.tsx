@@ -1,25 +1,11 @@
 'use client';
 
-import {
-  Controller,
-  FieldValues,
-  Path,
-  PathValue,
-  useFormContext,
-} from 'react-hook-form';
+import { Controller, FieldValues, Path, PathValue, useFormContext } from 'react-hook-form';
 import { RadioProps } from '@/app/interfaces/FormElements';
 import RadioInput from './RadioInput';
 
-const Radio = <TFieldValues extends FieldValues>(
-  rootProps: RadioProps<TFieldValues>
-) => {
-  const {
-    name,
-    defaultValue,
-    required = false,
-    disabled,
-    rules: _rules,
-  } = rootProps;
+const Radio = <TFieldValues extends FieldValues>(rootProps: RadioProps<TFieldValues>) => {
+  const { name, defaultValue, required = false, disabled, rules: _rules } = rootProps;
   const methods = useFormContext<TFieldValues>();
   const rules = { required, ..._rules };
 

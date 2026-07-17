@@ -7,11 +7,7 @@ import AuthLeftBanner from './AuthLeftBanner';
 import AuthFormFooter from './AuthFormFooter';
 import { FieldValues, UseFormReturn, useForm } from 'react-hook-form';
 import TextBox from '@/app/components/formElements/TextBox/TextBox';
-import {
-  BUTTON_STYLE,
-  EMAIL_REGEX,
-  TOAST_UNKNOWN_ERROR_MESSAGE,
-} from '@/app/utilities/constants';
+import { BUTTON_STYLE, EMAIL_REGEX, TOAST_UNKNOWN_ERROR_MESSAGE } from '@/app/utilities/constants';
 import classNames from 'classnames';
 import Form from '@/app/components/formElements/Form';
 import AuthFormHeader from './AuthFormHeader';
@@ -40,9 +36,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [formState, setFormState] = useState<FORM_STATE>(
-    FORM_STATE.INITIALIZED
-  );
+  const [formState, setFormState] = useState<FORM_STATE>(FORM_STATE.INITIALIZED);
 
   const isConfirming = formState === FORM_STATE.CONFIRM_SIGN_UP;
 
@@ -61,7 +55,7 @@ const Login = () => {
           password,
           redirect: false,
         },
-        { method: 'signIn' }
+        { method: 'signIn' },
       );
 
       if (!res) {
@@ -115,9 +109,7 @@ const Login = () => {
                 password={password}
                 setIsLoading={setIsLoading}
                 onSuccess={() => router.replace(getCallbackUrlOnSignIn())}
-                onIncorrectCredentials={() =>
-                  setFormState(FORM_STATE.INITIALIZED)
-                }
+                onIncorrectCredentials={() => setFormState(FORM_STATE.INITIALIZED)}
               />
             )}
             <Form
@@ -144,19 +136,10 @@ const Login = () => {
                 <Link href='/forgotpassword'>Forgot Password?</Link>
               </div>
               <div className='mb-3'>
-                <ActionButton
-                  type='submit'
-                  label='Login'
-                  style={BUTTON_STYLE.Primary}
-                  fullWidth
-                />
+                <ActionButton type='submit' label='Login' style={BUTTON_STYLE.Primary} fullWidth />
               </div>
             </Form>
-            <AuthFormFooter
-              text='New to Neurodiversity Academy? '
-              to='/signup'
-              toText='Sign Up'
-            />
+            <AuthFormFooter text='New to Neurodiversity Academy? ' to='/signup' toText='Sign Up' />
           </LoaderWrapper>
         </div>
       </div>

@@ -5,12 +5,7 @@ jest.mock('next/image', () => ({
   __esModule: true,
   default: (props: Record<string, unknown>) => {
     const { onClick, ...rest } = props;
-    return (
-      <img
-        {...rest}
-        onClick={onClick as React.MouseEventHandler<HTMLImageElement>}
-      />
-    );
+    return <img {...rest} onClick={onClick as React.MouseEventHandler<HTMLImageElement>} />;
   },
 }));
 
@@ -102,9 +97,7 @@ describe('ProfileBodyHeader', () => {
 
   it('renders email and age', () => {
     render(<ProfileBodyHeader />);
-    expect(
-      screen.getByText('john@example.com | 25 Years'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('john@example.com | 25 Years')).toBeInTheDocument();
   });
 
   it('renders Edit Profile button when not editing', () => {
@@ -121,7 +114,7 @@ describe('ProfileBodyHeader', () => {
   it('hides Edit Profile when isEditing is true', () => {
     mockProfileContext.isEditing = true;
     render(<ProfileBodyHeader />);
-    expect(screen.queryByText('Edit Profile')).toBeNull();
+    expect(screen.queryByText('Edit Profile')).not.toBeInTheDocument();
   });
 
   it('renders edit image icon', () => {
@@ -161,18 +154,14 @@ describe('ProfileCard', () => {
 
   it('renders with custom header', () => {
     render(
-      <ProfileCard header={<div data-testid='custom-header'>Header</div>}>
-        Content
-      </ProfileCard>,
+      <ProfileCard header={<div data-testid='custom-header'>Header</div>}>Content</ProfileCard>,
     );
-    expect(screen.queryByTestId('custom-header')).toBeNull();
+    expect(screen.queryByTestId('custom-header')).not.toBeInTheDocument();
     expect(screen.getByText('Content')).toBeInTheDocument();
   });
 
   it('renders with null header (no header rendered)', () => {
-    render(
-      <ProfileCard header={null}>Body Only</ProfileCard>,
-    );
+    render(<ProfileCard header={null}>Body Only</ProfileCard>);
     expect(screen.getByText('Body Only')).toBeInTheDocument();
   });
 
@@ -200,20 +189,14 @@ describe('ProfileCard', () => {
   });
 
   it('does not have role=button when not collapsible', () => {
-    render(
-      <ProfileCard title='Not Collapsible'>Static</ProfileCard>,
-    );
+    render(<ProfileCard title='Not Collapsible'>Static</ProfileCard>);
     const header = screen.getByText('Not Collapsible').closest('[role="button"]');
     expect(header).toBeNull();
   });
 
   it('shows left icon when provided', () => {
     render(
-      <ProfileCard
-        title='With Icon'
-        leftIconSrc='/icon.svg'
-        leftIconAlt='Section Icon'
-      >
+      <ProfileCard title='With Icon' leftIconSrc='/icon.svg' leftIconAlt='Section Icon'>
         Content
       </ProfileCard>,
     );
@@ -222,16 +205,11 @@ describe('ProfileCard', () => {
 
   it('hides left icon in popup mode', () => {
     render(
-      <ProfileCard
-        title='Popup'
-        leftIconSrc='/icon.svg'
-        leftIconAlt='Icon'
-        popup
-      >
+      <ProfileCard title='Popup' leftIconSrc='/icon.svg' leftIconAlt='Icon' popup>
         Content
       </ProfileCard>,
     );
-    expect(screen.queryByAltText('Icon')).toBeNull();
+    expect(screen.queryByAltText('Icon')).not.toBeInTheDocument();
   });
 
   it('shows loader when isLoading', () => {
@@ -255,7 +233,7 @@ describe('ProfileCourses', () => {
   it('renders nothing when no courses', () => {
     mockProfileContext.courses = [];
     const { container } = render(<ProfileCourses />);
-    expect(container.innerHTML).toBe('');
+    expect(container).toBeEmptyDOMElement();
   });
 });
 
@@ -304,9 +282,7 @@ describe('ProfileFormFooter', () => {
   });
 
   it('applies custom className', () => {
-    const { container } = render(
-      <ProfileFormFooter className='custom-footer' />,
-    );
+    const { container } = render(<ProfileFormFooter className='custom-footer' />);
     expect(container.firstChild).toHaveClass('custom-footer');
   });
 });
@@ -329,8 +305,6 @@ describe('ProfileRightSidebar', () => {
 
   it('renders progress text', () => {
     render(<ProfileRightSidebar />);
-    expect(
-      screen.getByText('Complete 1 Step to reach Level 2'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Complete 1 Step to reach Level 2')).toBeInTheDocument();
   });
 });

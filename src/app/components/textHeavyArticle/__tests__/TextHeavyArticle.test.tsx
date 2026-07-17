@@ -57,10 +57,7 @@ describe('TextHeavyArticle', () => {
   it('renders breadcrumb links and header', () => {
     render(<TextHeavyArticle {...defaultProps} />);
     expect(screen.getByRole('link', { name: 'Home' })).toHaveAttribute('href', '/');
-    expect(screen.getByRole('link', { name: 'Articles' })).toHaveAttribute(
-      'href',
-      '/articles',
-    );
+    expect(screen.getByRole('link', { name: 'Articles' })).toHaveAttribute('href', '/articles');
     expect(screen.getByText('Test Article Header')).toBeInTheDocument();
   });
 
@@ -83,13 +80,9 @@ describe('TextHeavyArticle', () => {
 
   it('does not render author block when author details are missing', () => {
     render(
-      <TextHeavyArticle
-        {...defaultProps}
-        authorName={undefined}
-        authorImageUrl={undefined}
-      />,
+      <TextHeavyArticle {...defaultProps} authorName={undefined} authorImageUrl={undefined} />,
     );
-    expect(screen.queryByText('Jane Author')).toBeNull();
+    expect(screen.queryByText('Jane Author')).not.toBeInTheDocument();
   });
 
   it('uses smaller breadcrumb typography on narrow screens', () => {

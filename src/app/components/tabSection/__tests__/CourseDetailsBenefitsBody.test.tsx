@@ -3,13 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 
 jest.mock('@/app/components/accordion/Accordian', () => ({
   __esModule: true,
-  default: ({
-    title,
-    children,
-  }: {
-    title: React.ReactNode;
-    children: React.ReactNode;
-  }) => (
+  default: ({ title, children }: { title: React.ReactNode; children: React.ReactNode }) => (
     <div data-testid='accordion'>
       <div data-testid='accordion-title'>{title}</div>
       <div>{children}</div>
@@ -17,32 +11,23 @@ jest.mock('@/app/components/accordion/Accordian', () => ({
   ),
 }));
 
-jest.mock(
-  '@/app/utilities/course/CourseDetailsProvider',
-  () => {
-    const React = require('react');
-    const ctx = React.createContext(undefined);
-    return {
-      __esModule: true,
-      default: ({
-        children,
-        data,
-      }: {
-        children: React.ReactNode;
-        data: unknown;
-      }) => <ctx.Provider value={{ data, isLoading: false }}>{children}</ctx.Provider>,
-      useCourseDetailsContext: () => React.useContext(ctx),
-    };
-  },
-);
+jest.mock('@/app/utilities/course/CourseDetailsProvider', () => {
+  const React = require('react');
+  const ctx = React.createContext(undefined);
+  return {
+    __esModule: true,
+    default: ({ children, data }: { children: React.ReactNode; data: unknown }) => (
+      <ctx.Provider value={{ data, isLoading: false }}>{children}</ctx.Provider>
+    ),
+    useCourseDetailsContext: () => React.useContext(ctx),
+  };
+});
 
 import CourseDetailsProvider from '@/app/utilities/course/CourseDetailsProvider';
 import CourseDetailsBenefitsBody from '../CourseDetailsBenefitsBody';
 import type { CourseDetailsProps } from '@/app/interfaces/Course';
 
-const makeCourseData = (
-  overrides: Partial<CourseDetailsProps> = {},
-): CourseDetailsProps =>
+const makeCourseData = (overrides: Partial<CourseDetailsProps> = {}): CourseDetailsProps =>
   ({
     SupportAvailable: ['PeerMentoring', 'CounsellingServices'],
     AdjustmentsAvailable: {
@@ -61,10 +46,7 @@ const makeCourseData = (
     ...overrides,
   }) as CourseDetailsProps;
 
-const renderWithData = (
-  source: 'support' | 'adjustment' | 'jobs',
-  data?: CourseDetailsProps,
-) =>
+const renderWithData = (source: 'support' | 'adjustment' | 'jobs', data?: CourseDetailsProps) =>
   render(
     <CourseDetailsProvider data={data ?? makeCourseData()}>
       <CourseDetailsBenefitsBody source={source} />
@@ -78,7 +60,7 @@ describe('CourseDetailsBenefitsBody', () => {
         <CourseDetailsBenefitsBody source='support' />
       </CourseDetailsProvider>,
     );
-    expect(container.firstChild).toBeNull();
+    expect(container).toBeEmptyDOMElement();
   });
 
   it('renders support available items with prettified labels', () => {
@@ -90,9 +72,7 @@ describe('CourseDetailsBenefitsBody', () => {
   it('renders adjustment accordion categories and items', () => {
     renderWithData('adjustment');
     expect(screen.getByText('Assessment Adjustments')).toBeInTheDocument();
-    expect(
-      screen.getByText('Learning Delivery Adjustments'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Learning Delivery Adjustments')).toBeInTheDocument();
     expect(screen.getByText('Extended Time')).toBeInTheDocument();
     expect(screen.getByText('Recorded Lectures')).toBeInTheDocument();
   });

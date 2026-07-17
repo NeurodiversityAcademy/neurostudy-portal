@@ -8,13 +8,9 @@ jest.mock('next/image', () => ({
 
 jest.mock('next/link', () => ({
   __esModule: true,
-  default: ({
-    children,
-    href,
-  }: {
-    children: React.ReactNode;
-    href: string;
-  }) => <a href={href}>{children}</a>,
+  default: ({ children, href }: { children: React.ReactNode; href: string }) => (
+    <a href={href}>{children}</a>
+  ),
 }));
 
 const mockPush = jest.fn();
@@ -60,39 +56,37 @@ type SectionMockProps = {
 };
 
 const createSectionMock = (testId: string) =>
-  forwardRef<unknown, SectionMockProps>(
-    ({ onSectionEdit, popup, onSubmit, onCancel }, ref) => {
-      useImperativeHandle(ref, () => ({
-        methods: {
-          trigger: mockTrigger,
-          getValues: mockGetValues,
-        },
-      }));
+  forwardRef<unknown, SectionMockProps>(({ onSectionEdit, popup, onSubmit, onCancel }, ref) => {
+    useImperativeHandle(ref, () => ({
+      methods: {
+        trigger: mockTrigger,
+        getValues: mockGetValues,
+      },
+    }));
 
-      if (popup) {
-        return (
-          <div data-testid={`${testId}-popup`}>
-            <button type='button' onClick={() => onSubmit?.({ saved: testId })}>
-              Submit {testId}
-            </button>
-            <button type='button' onClick={onCancel}>
-              Cancel {testId}
-            </button>
-          </div>
-        );
-      }
-
+    if (popup) {
       return (
-        <div data-testid={testId}>
-          {onSectionEdit && (
-            <button type='button' onClick={onSectionEdit}>
-              Edit {testId}
-            </button>
-          )}
+        <div data-testid={`${testId}-popup`}>
+          <button type='button' onClick={() => onSubmit?.({ saved: testId })}>
+            Submit {testId}
+          </button>
+          <button type='button' onClick={onCancel}>
+            Cancel {testId}
+          </button>
         </div>
       );
-    },
-  );
+    }
+
+    return (
+      <div data-testid={testId}>
+        {onSectionEdit && (
+          <button type='button' onClick={onSectionEdit}>
+            Edit {testId}
+          </button>
+        )}
+      </div>
+    );
+  });
 
 jest.mock('../ProfileBodyHeader', () => ({
   __esModule: true,
@@ -157,9 +151,9 @@ describe('ProfileBody', () => {
 
   it('hides info section and footer when not editing', () => {
     render(<ProfileBody />);
-    expect(screen.queryByTestId('info-section')).toBeNull();
-    expect(screen.queryByText('Cancel')).toBeNull();
-    expect(screen.queryByText('Save')).toBeNull();
+    expect(screen.queryByTestId('info-section')).not.toBeInTheDocument();
+    expect(screen.queryByText('Cancel')).not.toBeInTheDocument();
+    expect(screen.queryByText('Save')).not.toBeInTheDocument();
   });
 
   it('shows info section and footer when editing', () => {
@@ -210,7 +204,7 @@ describe('ProfileBody', () => {
     act(() => {
       jest.advanceTimersByTime(300);
     });
-    expect(screen.queryByTestId('goal-section-popup')).toBeNull();
+    expect(screen.queryByTestId('goal-section-popup')).not.toBeInTheDocument();
     jest.useRealTimers();
   });
 
@@ -226,7 +220,7 @@ describe('ProfileBody', () => {
     act(() => {
       jest.advanceTimersByTime(300);
     });
-    expect(screen.queryByTestId('preference-section-popup')).toBeNull();
+    expect(screen.queryByTestId('preference-section-popup')).not.toBeInTheDocument();
     jest.useRealTimers();
   });
 

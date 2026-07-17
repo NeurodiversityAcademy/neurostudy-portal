@@ -16,10 +16,8 @@ describe('VisitTrackerWrapper', () => {
   });
 
   it('renders nothing', () => {
-    const { container } = render(
-      <VisitTrackerWrapper id='article-1' type='article' />,
-    );
-    expect(container.firstChild).toBeNull();
+    const { container } = render(<VisitTrackerWrapper id='article-1' type='article' />);
+    expect(container).toBeEmptyDOMElement();
   });
 
   it('calls useVisitTracker with article id and type', () => {

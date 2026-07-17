@@ -33,9 +33,7 @@ describe('ContactUsLeftBanner', () => {
 
   it('renders description text', () => {
     render(<ContactUsLeftBanner />);
-    expect(
-      screen.getByText(/We will try our best to get back to you/),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/We will try our best to get back to you/)).toBeInTheDocument();
   });
 
   it('renders as a div', () => {

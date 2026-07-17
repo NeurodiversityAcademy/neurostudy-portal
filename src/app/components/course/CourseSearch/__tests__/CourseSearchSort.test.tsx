@@ -14,13 +14,7 @@ jest.mock('@/app/utilities/course/CourseProvider', () => ({
 
 jest.mock('../../../formElements/Dropdown/Dropdown', () => ({
   __esModule: true,
-  default: ({
-    name,
-    onChange,
-  }: {
-    name: string;
-    onChange?: (values: string[]) => void;
-  }) => (
+  default: ({ name, onChange }: { name: string; onChange?: (values: string[]) => void }) => (
     <select
       aria-label='Sort courses dropdown'
       data-testid={`dropdown-${name}`}
@@ -47,10 +41,7 @@ beforeEach(() => {
 describe('CourseSearchSort', () => {
   it('renders sort form with aria label', () => {
     render(<CourseSearchSort />);
-    expect(screen.getByRole('search')).toHaveAttribute(
-      'aria-label',
-      'Sort courses',
-    );
+    expect(screen.getByRole('search')).toHaveAttribute('aria-label', 'Sort courses');
   });
 
   it('calls loadData with sort config when selection changes', () => {

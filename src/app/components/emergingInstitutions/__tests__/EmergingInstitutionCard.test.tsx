@@ -27,17 +27,9 @@ import EmergingInstitutionCard from '../EmergingInstitutionCard';
 
 describe('EmergingInstitutionCard', () => {
   it('renders institution name with link', () => {
-    render(
-      <EmergingInstitutionCard
-        name='Example College'
-        href='/institutions/example-college'
-      />,
-    );
+    render(<EmergingInstitutionCard name='Example College' href='/institutions/example-college' />);
 
     expect(screen.getByText('Example College')).toBeInTheDocument();
-    expect(screen.getByRole('link')).toHaveAttribute(
-      'href',
-      '/institutions/example-college',
-    );
+    expect(screen.getByRole('link')).toHaveAttribute('href', '/institutions/example-college');
   });
 });

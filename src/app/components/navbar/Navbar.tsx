@@ -21,10 +21,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         closeDropdown();
       }
     };
@@ -48,37 +45,27 @@ export default function Navbar() {
           <ul className={styles.ul}>
             <li className={styles.li}>
               <Link href='/endorsements'>
-                <Typography variant={TypographyVariant.Body2}>
-                  Endorsements
-                </Typography>
+                <Typography variant={TypographyVariant.Body2}>Endorsements</Typography>
               </Link>
             </li>
             <li className={styles.li}>
               <Link href='/profile'>
-                <Typography variant={TypographyVariant.Body2}>
-                  Profile
-                </Typography>
+                <Typography variant={TypographyVariant.Body2}>Profile</Typography>
               </Link>
             </li>
             <li className={styles.li}>
               <Link href='/neurodivergentmates'>
-                <Typography variant={TypographyVariant.Body2}>
-                  Neurodivergent Mates
-                </Typography>
+                <Typography variant={TypographyVariant.Body2}>Neurodivergent Mates</Typography>
               </Link>
             </li>
             <li className={styles.li}>
               <Link href='/about'>
-                <Typography variant={TypographyVariant.Body2}>
-                  About Us
-                </Typography>
+                <Typography variant={TypographyVariant.Body2}>About Us</Typography>
               </Link>
             </li>
             <li className={styles.li}>
               <Link href='/contact'>
-                <Typography variant={TypographyVariant.Body2}>
-                  Contact
-                </Typography>
+                <Typography variant={TypographyVariant.Body2}>Contact</Typography>
               </Link>
             </li>
             {<UserOutlet />}
@@ -95,37 +82,27 @@ export default function Navbar() {
             <ul className={`${styles.dropdownMenu}`}>
               <li className={styles.li}>
                 <Link href='/profile' onClick={toggleDropdown}>
-                  <Typography variant={TypographyVariant.Body2}>
-                    Profile
-                  </Typography>
+                  <Typography variant={TypographyVariant.Body2}>Profile</Typography>
                 </Link>
               </li>
               <li className={styles.li}>
                 <Link href='/neurodivergentmates' onClick={toggleDropdown}>
-                  <Typography variant={TypographyVariant.Body2}>
-                    Neurodivergent Mates
-                  </Typography>
+                  <Typography variant={TypographyVariant.Body2}>Neurodivergent Mates</Typography>
                 </Link>
               </li>
               <li className={styles.li}>
                 <Link href='/endorsements' onClick={toggleDropdown}>
-                  <Typography variant={TypographyVariant.Body2}>
-                    Endorsements
-                  </Typography>
+                  <Typography variant={TypographyVariant.Body2}>Endorsements</Typography>
                 </Link>
               </li>
               <li className={styles.li}>
                 <Link href='/about' onClick={toggleDropdown}>
-                  <Typography variant={TypographyVariant.Body2}>
-                    About Us
-                  </Typography>
+                  <Typography variant={TypographyVariant.Body2}>About Us</Typography>
                 </Link>
               </li>
               <li className={styles.li}>
                 <Link href='/contact' onClick={toggleDropdown}>
-                  <Typography variant={TypographyVariant.Body2}>
-                    Contact
-                  </Typography>
+                  <Typography variant={TypographyVariant.Body2}>Contact</Typography>
                 </Link>
               </li>
               {<UserOutlet />}

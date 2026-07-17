@@ -14,11 +14,8 @@ jest.mock('@/app/utilities/moodle/getMoodleCoursesByUser', () => ({
 jest.mock('@/app/utilities/db/processCourseAPIError', () =>
   jest.fn().mockImplementation((ex: unknown) => {
     const status = (ex as { status?: number })?.status || 500;
-    return new Response(
-      JSON.stringify({ message: (ex as Error)?.message || 'Error' }),
-      { status }
-    );
-  })
+    return new Response(JSON.stringify({ message: (ex as Error)?.message || 'Error' }), { status });
+  }),
 );
 
 import isAuthenticated from '@/app/utilities/auth/isAuthenticated';
@@ -43,9 +40,7 @@ describe('GET /api/course/moodle', () => {
   it('returns courses when user is authenticated and has moodle account', async () => {
     mockIsAuth.mockResolvedValue({ email: 'user@test.com' });
     mockGetMoodleUser.mockResolvedValue({ id: 42, username: 'user' });
-    mockGetMoodleCourses.mockResolvedValue([
-      { id: 1, fullname: 'Course A' },
-    ]);
+    mockGetMoodleCourses.mockResolvedValue([{ id: 1, fullname: 'Course A' }]);
 
     const res = await GET(makeRequest());
     const body = await res.json();

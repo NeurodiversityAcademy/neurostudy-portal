@@ -1,11 +1,7 @@
 /**
  * @jest-environment node
  */
-import {
-  installFetchMock,
-  mockJsonResponse,
-  restoreFetch,
-} from '@/testUtils/mockFetch';
+import { installFetchMock, mockJsonResponse, restoreFetch } from '@/testUtils/mockFetch';
 
 jest.mock('../helper', () => ({
   getMoodleAPIInfo: () => ({
@@ -50,7 +46,7 @@ describe('createMoodleUser', () => {
     expect(result).toEqual(moodleUser);
     expect(fetchMock).toHaveBeenCalledWith(
       'https://moodle.example.com/webservice/rest/server.php',
-      expect.objectContaining({ method: 'POST' })
+      expect.objectContaining({ method: 'POST' }),
     );
 
     const formData = fetchMock.mock.calls[0][1].body as FormData;
@@ -74,7 +70,7 @@ describe('createMoodleUser', () => {
           lastname: 'Madonna',
           email: 'solo@test.com',
         },
-      ])
+      ]),
     );
 
     await createMoodleUser({ email: 'solo@test.com', name: 'Madonna' });
@@ -90,19 +86,19 @@ describe('createMoodleUser', () => {
         exception: 'dml_exception',
         errorcode: 'invaliduser',
         message: 'Invalid user data',
-      })
+      }),
     );
 
-    await expect(
-      createMoodleUser({ email: 'bad@test.com', name: 'Bad User' })
-    ).rejects.toThrow('Failed to create the moodle user.');
+    await expect(createMoodleUser({ email: 'bad@test.com', name: 'Bad User' })).rejects.toThrow(
+      'Failed to create the moodle user.',
+    );
   });
 
   it('throws when fetch fails', async () => {
     fetchMock.mockRejectedValue(new Error('Network error'));
 
-    await expect(
-      createMoodleUser({ email: 'fail@test.com', name: 'Fail User' })
-    ).rejects.toThrow('Failed to create the moodle user.');
+    await expect(createMoodleUser({ email: 'fail@test.com', name: 'Fail User' })).rejects.toThrow(
+      'Failed to create the moodle user.',
+    );
   });
 });

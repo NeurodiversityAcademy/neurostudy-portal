@@ -31,9 +31,7 @@ import Handbook from '../index';
 describe('Handbook', () => {
   it('renders handbook heading and description', () => {
     render(<Handbook />);
-    expect(
-      screen.getByText('Neuro-Inclusion in Vocational Education'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Neuro-Inclusion in Vocational Education')).toBeInTheDocument();
     expect(
       screen.getByText(/Explore key strategies for building neuro-inclusive/),
     ).toBeInTheDocument();
@@ -48,9 +46,7 @@ describe('Handbook', () => {
   it('opens popup when Free Download is clicked', () => {
     render(<Handbook />);
     fireEvent.click(screen.getByText('Free Download'));
-    expect(
-      screen.getByText('Subscribe to our Newsletter!'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Subscribe to our Newsletter!')).toBeInTheDocument();
   });
 
   it('has handbook container id', () => {

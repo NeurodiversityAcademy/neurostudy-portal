@@ -6,20 +6,18 @@ import processCourseAPIError from '@/app/utilities/db/processCourseAPIError';
 
 jest.mock('@/app/utilities/db/responses', () => ({
   returnDBError: jest.fn().mockImplementation((ex: DynamoDBServiceException) => {
-    return new Response(
-      JSON.stringify({ message: ex.message }),
-      { status: ex.$metadata.httpStatusCode || 500 }
-    );
+    return new Response(JSON.stringify({ message: ex.message }), {
+      status: ex.$metadata.httpStatusCode || 500,
+    });
   }),
 }));
 
 jest.mock('@/app/utilities/api/processAPIError', () =>
   jest.fn().mockImplementation((err: Error | null, status?: number) => {
-    return new Response(
-      JSON.stringify({ message: err?.message || 'Server error' }),
-      { status: status || 500 }
-    );
-  })
+    return new Response(JSON.stringify({ message: err?.message || 'Server error' }), {
+      status: status || 500,
+    });
+  }),
 );
 
 import { returnDBError } from '@/app/utilities/db/responses';
@@ -73,7 +71,7 @@ describe('processCourseAPIError', () => {
     mockReturnDBError.mockReturnValue(
       new Response(JSON.stringify({ message: 'Validation error' }), {
         status: 400,
-      })
+      }),
     );
 
     const result = processCourseAPIError(dbError);

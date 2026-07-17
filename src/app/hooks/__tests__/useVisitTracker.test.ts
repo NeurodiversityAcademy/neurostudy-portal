@@ -60,9 +60,7 @@ describe('useVisitTracker', () => {
   });
 
   it('clears timeout on unmount', () => {
-    const { unmount } = renderHook(() =>
-      useVisitTracker('article-1', 'article')
-    );
+    const { unmount } = renderHook(() => useVisitTracker('article-1', 'article'));
 
     unmount();
     jest.advanceTimersByTime(5000);

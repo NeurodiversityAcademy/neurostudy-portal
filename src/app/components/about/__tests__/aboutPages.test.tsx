@@ -58,8 +58,6 @@ describe('Vision', () => {
   it('renders vision section', () => {
     render(<Vision />);
     expect(screen.getByText('Our Vision')).toBeInTheDocument();
-    expect(
-      screen.getByText(/To set the standard around Neurodiversity/),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/To set the standard around Neurodiversity/)).toBeInTheDocument();
   });
 });

@@ -53,14 +53,10 @@ const sessionStorageMock = (() => {
     },
     resetMocks: () => {
       store = {};
-      sessionStorageMock.getItem.mockImplementation(
-        (key: string) => store[key] ?? null,
-      );
-      sessionStorageMock.setItem.mockImplementation(
-        (key: string, value: string) => {
-          store[key] = value;
-        },
-      );
+      sessionStorageMock.getItem.mockImplementation((key: string) => store[key] ?? null);
+      sessionStorageMock.setItem.mockImplementation((key: string, value: string) => {
+        store[key] = value;
+      });
     },
   };
 })();
@@ -85,9 +81,7 @@ describe('CourseEnrolPrompt', () => {
     render(<CourseEnrolPrompt />);
 
     await waitFor(() => {
-      expect(
-        screen.getByRole('button', { name: /enrol now/i }),
-      ).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /enrol now/i })).toBeInTheDocument();
     });
   });
 
@@ -97,13 +91,9 @@ describe('CourseEnrolPrompt', () => {
     render(<CourseEnrolPrompt />);
 
     await waitFor(() => {
-      expect(
-        screen.getByRole('button', { name: /^enrol$/i }),
-      ).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /^enrol$/i })).toBeInTheDocument();
     });
-    expect(
-      screen.queryByRole('button', { name: /enrol now/i }),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /enrol now/i })).not.toBeInTheDocument();
   });
 
   it('does not open popup when user is authenticated', async () => {
@@ -115,13 +105,9 @@ describe('CourseEnrolPrompt', () => {
     render(<CourseEnrolPrompt />);
 
     await waitFor(() => {
-      expect(
-        screen.getByRole('button', { name: /^enrol$/i }),
-      ).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /^enrol$/i })).toBeInTheDocument();
     });
-    expect(
-      screen.queryByRole('button', { name: /enrol now/i }),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /enrol now/i })).not.toBeInTheDocument();
   });
 
   it('closes popup and persists flag when checkout is requested successfully', async () => {
@@ -131,25 +117,16 @@ describe('CourseEnrolPrompt', () => {
     render(<CourseEnrolPrompt />);
 
     await waitFor(() => {
-      expect(
-        screen.getByRole('button', { name: /enrol now/i }),
-      ).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /enrol now/i })).toBeInTheDocument();
     });
 
     await user.click(screen.getByRole('button', { name: /enrol now/i }));
 
     await waitFor(() => {
       expect(mockCreateCheckoutUrl).toHaveBeenCalled();
-      expect(sessionStorageMock.setItem).toHaveBeenCalledWith(
-        COURSE_ENROL_POPUP_CLOSED_KEY,
-        '1',
-      );
-      expect(
-        screen.queryByRole('button', { name: /enrol now/i }),
-      ).not.toBeInTheDocument();
-      expect(
-        screen.getByRole('button', { name: /^enrol$/i }),
-      ).toBeInTheDocument();
+      expect(sessionStorageMock.setItem).toHaveBeenCalledWith(COURSE_ENROL_POPUP_CLOSED_KEY, '1');
+      expect(screen.queryByRole('button', { name: /enrol now/i })).not.toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /^enrol$/i })).toBeInTheDocument();
     });
   });
 
@@ -160,9 +137,7 @@ describe('CourseEnrolPrompt', () => {
     render(<CourseEnrolPrompt />);
 
     await waitFor(() => {
-      expect(
-        screen.getByRole('button', { name: /enrol now/i }),
-      ).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /enrol now/i })).toBeInTheDocument();
     });
 
     await user.click(screen.getByRole('button', { name: /enrol now/i }));
@@ -185,10 +160,9 @@ describe('CourseEnrolPrompt', () => {
       jest.runAllTimers();
     });
 
-    expect(mockNotifyError).toHaveBeenCalledWith(
-      expect.stringContaining('Payment declined'),
-      { duration: -1 },
-    );
+    expect(mockNotifyError).toHaveBeenCalledWith(expect.stringContaining('Payment declined'), {
+      duration: -1,
+    });
 
     jest.useRealTimers();
   });

@@ -11,12 +11,9 @@ jest.mock('@/app/utilities/register/registerSenderContact', () => ({
   registerSenderContact: jest.fn().mockResolvedValue({ ok: true }),
 }));
 
-jest.mock(
-  '@/app/utilities/validation/validateContactUsFormData',
-  () => ({
-    isValidContactUsFormData: jest.fn(),
-  })
-);
+jest.mock('@/app/utilities/validation/validateContactUsFormData', () => ({
+  isValidContactUsFormData: jest.fn(),
+}));
 
 import { registerCRMContact } from '@/app/utilities/register/registerCRMContact';
 import { registerSenderContact } from '@/app/utilities/register/registerSenderContact';
@@ -65,7 +62,7 @@ describe('POST /api/contactUsSubmission', () => {
         lastname: validData.lastname,
         phone: validData.phone,
       },
-      'persona_1'
+      'persona_1',
     );
   });
 
@@ -85,10 +82,7 @@ describe('POST /api/contactUsSubmission', () => {
 
     await POST(makeRequest(dataWithoutPersona));
 
-    expect(mockRegisterSender).toHaveBeenCalledWith(
-      expect.any(Object),
-      'persona_1'
-    );
+    expect(mockRegisterSender).toHaveBeenCalledWith(expect.any(Object), 'persona_1');
   });
 
   it('returns 400 when registerCRMContact throws', async () => {

@@ -38,28 +38,22 @@ const dataPoints: VetKeyDataPoint[] = [
 describe('EndorsedVetKeyDataPoints', () => {
   it('returns null when dataPoints is empty', () => {
     const { container } = render(<EndorsedVetKeyDataPoints dataPoints={[]} />);
-    expect(container.firstChild).toBeNull();
+    expect(container).toBeEmptyDOMElement();
   });
 
   it('renders section title and intro', () => {
     render(<EndorsedVetKeyDataPoints dataPoints={dataPoints} />);
 
     expect(screen.getByText('6 Key Data Points –')).toBeInTheDocument();
-    expect(
-      screen.getByText('Neurodiversity & Disability in VET'),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Insights into vocational education/),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Neurodiversity & Disability in VET')).toBeInTheDocument();
+    expect(screen.getByText(/Insights into vocational education/)).toBeInTheDocument();
   });
 
   it('renders each data point card', () => {
     render(<EndorsedVetKeyDataPoints dataPoints={dataPoints} />);
 
     expect(screen.getByText('4-5%')).toBeInTheDocument();
-    expect(
-      screen.getByText('of VET students report having a disability'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('of VET students report having a disability')).toBeInTheDocument();
     expect(
       screen.getByText('representing over 180,000 enrolments nationally.'),
     ).toBeInTheDocument();

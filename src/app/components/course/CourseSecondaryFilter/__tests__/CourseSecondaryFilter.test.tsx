@@ -19,13 +19,7 @@ jest.mock('@/app/utilities/course/CourseProvider', () => ({
 
 jest.mock('../../../formElements/Dropdown/Dropdown', () => ({
   __esModule: true,
-  default: ({
-    name,
-    label,
-  }: {
-    name: string;
-    label: string;
-  }) => (
+  default: ({ name, label }: { name: string; label: string }) => (
     <div data-testid={`dropdown-${name}`}>
       <label htmlFor={name}>{label}</label>
       <input id={name} name={name} aria-label={label} />

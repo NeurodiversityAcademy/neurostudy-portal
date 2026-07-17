@@ -70,9 +70,7 @@ describe('useTimeOnPageTracking', () => {
   });
 
   it('reports on unmount via cleanup', () => {
-    const { unmount } = renderHook(() =>
-      useTimeOnPageTracking(mockReporter)
-    );
+    const { unmount } = renderHook(() => useTimeOnPageTracking(mockReporter));
 
     jest.advanceTimersByTime(7000);
 
@@ -85,20 +83,12 @@ describe('useTimeOnPageTracking', () => {
     const removeWindowSpy = jest.spyOn(window, 'removeEventListener');
     const removeDocSpy = jest.spyOn(document, 'removeEventListener');
 
-    const { unmount } = renderHook(() =>
-      useTimeOnPageTracking(mockReporter)
-    );
+    const { unmount } = renderHook(() => useTimeOnPageTracking(mockReporter));
 
     unmount();
 
-    expect(removeWindowSpy).toHaveBeenCalledWith(
-      'beforeunload',
-      expect.any(Function)
-    );
-    expect(removeDocSpy).toHaveBeenCalledWith(
-      'visibilitychange',
-      expect.any(Function)
-    );
+    expect(removeWindowSpy).toHaveBeenCalledWith('beforeunload', expect.any(Function));
+    expect(removeDocSpy).toHaveBeenCalledWith('visibilitychange', expect.any(Function));
 
     removeWindowSpy.mockRestore();
     removeDocSpy.mockRestore();

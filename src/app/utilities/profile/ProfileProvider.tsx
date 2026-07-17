@@ -19,10 +19,7 @@ export interface ProfileContent {
   data: UserWithEmailProps | undefined;
   courses: MoodleCourse[];
   isLoading: boolean;
-  saveData: (
-    data: Record<string, unknown>,
-    onSuccess?: () => void
-  ) => Promise<void>;
+  saveData: (data: Record<string, unknown>, onSuccess?: () => void) => Promise<void>;
   isEditing: boolean;
 }
 
@@ -38,13 +35,11 @@ function ProfileProviderContent({ children }: PropType) {
   const [data, setData] = useState<UserWithEmailProps>();
   const [courses, setCourses] = useState<MoodleCourse[]>([]);
 
-  const [isEditing, setIsEditing] = useState<boolean>(
-    () => searchParams.get('edit') === '1'
-  );
+  const [isEditing, setIsEditing] = useState<boolean>(() => searchParams.get('edit') === '1');
 
   const saveData: ProfileContent['saveData'] = async (
     _data: Record<string, unknown>,
-    onSuccess?: () => void
+    onSuccess?: () => void,
   ) => {
     setIsLoading(true);
 
@@ -87,14 +82,11 @@ function ProfileProviderContent({ children }: PropType) {
   }, [isEditing, searchParams]);
 
   return (
-    <ProfileContext.Provider
-      value={{ data, courses, isLoading, saveData, isEditing }}
-    >
+    <ProfileContext.Provider value={{ data, courses, isLoading, saveData, isEditing }}>
       {children}
     </ProfileContext.Provider>
   );
 }
-
 
 export default function ProfileProvider({ children }: PropType) {
   return (

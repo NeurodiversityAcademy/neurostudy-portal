@@ -10,9 +10,9 @@ jest.mock('@/app/utilities/api/processAPIError', () =>
       JSON.stringify({
         message: (err as Error)?.message || 'Server error',
       }),
-      { status: s }
+      { status: s },
     );
-  })
+  }),
 );
 
 jest.mock('@/app/utilities/api/constants', () => ({
@@ -65,7 +65,7 @@ describe('returnDBError', () => {
         name: 'Request Failure',
         message: 'Server failed to handle the response.',
       },
-      400
+      400,
     );
   });
 

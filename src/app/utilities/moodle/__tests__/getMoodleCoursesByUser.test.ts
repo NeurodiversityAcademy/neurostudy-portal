@@ -1,11 +1,7 @@
 /**
  * @jest-environment node
  */
-import {
-  installFetchMock,
-  mockJsonResponse,
-  restoreFetch,
-} from '@/testUtils/mockFetch';
+import { installFetchMock, mockJsonResponse, restoreFetch } from '@/testUtils/mockFetch';
 
 jest.mock('../helper', () => ({
   getMoodleAPIInfo: () => ({
@@ -52,14 +48,14 @@ describe('getMoodleCoursesByUser', () => {
           enddate: 0,
           visible: true,
         },
-      ])
+      ]),
     );
 
     const courses = await getMoodleCoursesByUser(99);
 
     expect(fetchMock).toHaveBeenCalledWith(
       'https://moodle.example.com/webservice/rest/server.php',
-      expect.objectContaining({ method: 'POST' })
+      expect.objectContaining({ method: 'POST' }),
     );
 
     const formData = fetchMock.mock.calls[0][1].body as FormData;
@@ -86,11 +82,11 @@ describe('getMoodleCoursesByUser', () => {
         exception: 'invalid_parameter_exception',
         errorcode: 'invaliduserid',
         message: 'Invalid user id',
-      })
+      }),
     );
 
     await expect(getMoodleCoursesByUser(0)).rejects.toThrow(
-      "Failed to fetch the user's enrolled courses."
+      "Failed to fetch the user's enrolled courses.",
     );
   });
 
@@ -98,7 +94,7 @@ describe('getMoodleCoursesByUser', () => {
     fetchMock.mockRejectedValue(new Error('Network error'));
 
     await expect(getMoodleCoursesByUser(1)).rejects.toThrow(
-      "Failed to fetch the user's enrolled courses."
+      "Failed to fetch the user's enrolled courses.",
     );
   });
 });

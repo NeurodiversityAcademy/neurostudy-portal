@@ -26,18 +26,13 @@ const CourseEnrolPrompt: React.FC = () => {
   const onPopupClose = () => {
     setPopupOpen(false);
     setBannerOpen(true);
-    window[COURSE_ENROL_CACHE_STORAGE].setItem(
-      COURSE_ENROL_POPUP_CLOSED_KEY,
-      '1'
-    );
+    window[COURSE_ENROL_CACHE_STORAGE].setItem(COURSE_ENROL_POPUP_CLOSED_KEY, '1');
   };
 
   useEffect(() => {
     const searchObj = queryString.parse();
 
-    if (
-      ['failure', 'canceled'].includes(searchObj['checkout_status']?.toString())
-    ) {
+    if (['failure', 'canceled'].includes(searchObj['checkout_status']?.toString())) {
       setTimeout(() => {
         const { error } = searchObj;
         notifyError(
@@ -46,7 +41,7 @@ const CourseEnrolPrompt: React.FC = () => {
             : DEFAULT_STRIPE_ERROR_MESSAGE,
           {
             duration: -1,
-          }
+          },
         );
       });
       return;
@@ -58,10 +53,7 @@ const CourseEnrolPrompt: React.FC = () => {
       return;
     }
 
-    const open =
-      window[COURSE_ENROL_CACHE_STORAGE].getItem(
-        COURSE_ENROL_POPUP_CLOSED_KEY
-      ) !== '1';
+    const open = window[COURSE_ENROL_CACHE_STORAGE].getItem(COURSE_ENROL_POPUP_CLOSED_KEY) !== '1';
     setPopupOpen(open);
   }, [session, isSessionLoading]);
 
@@ -89,11 +81,7 @@ const CourseEnrolPrompt: React.FC = () => {
         onClose={onPopupClose}
         onRequestCheckout={onRequestCheckout}
       />
-      <CourseBanner
-        open={bannerOpen}
-        isLoading={isLoading}
-        onRequestCheckout={onRequestCheckout}
-      />
+      <CourseBanner open={bannerOpen} isLoading={isLoading} onRequestCheckout={onRequestCheckout} />
     </>
   );
 };

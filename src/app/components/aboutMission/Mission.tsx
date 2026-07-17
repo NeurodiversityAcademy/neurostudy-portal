@@ -13,13 +13,9 @@ export default function Mission() {
           </Typography>
         </div>
         <div>
-          <Typography
-            variant={TypographyVariant.Body1}
-            color='var(--GhostWhiteVariant)'
-          >
-            To connect Neurodivergent people with the right education and jobs,
-            where they know they will be supported, understood and given the
-            opportunity to progress in their careers.
+          <Typography variant={TypographyVariant.Body1} color='var(--GhostWhiteVariant)'>
+            To connect Neurodivergent people with the right education and jobs, where they know they
+            will be supported, understood and given the opportunity to progress in their careers.
           </Typography>
         </div>
       </div>

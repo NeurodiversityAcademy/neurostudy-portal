@@ -36,9 +36,7 @@ describe('Partner', () => {
 
   it('renders section heading', () => {
     render(<Partner />);
-    expect(
-      screen.getByText('Leading organisations supporting us'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Leading organisations supporting us')).toBeInTheDocument();
   });
 
   it('renders partner logos', () => {

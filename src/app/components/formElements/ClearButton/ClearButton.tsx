@@ -6,8 +6,9 @@ import styles from './clearButton.module.css';
 import { FieldValues, Path, PathValue, UseFormReturn } from 'react-hook-form';
 import CloseButton from '../../buttons/CloseButton';
 
-interface ClearButtonProps<TFieldValues extends FieldValues>
-  extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ClearButtonProps<
+  TFieldValues extends FieldValues,
+> extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   name: Path<TFieldValues>;
   methods: UseFormReturn<TFieldValues>;

@@ -3,13 +3,9 @@ import { NAME_REGEX, PHONE_REGEX, EMAIL_REGEX } from '../constants';
 
 export function isValidTeacherRegistrationData(
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  obj: any
+  obj: any,
 ): obj is TeacherRegistrationType {
-  const requiredKeys: (keyof TeacherRegistrationType)[] = [
-    'firstname',
-    'lastname',
-    'email',
-  ];
+  const requiredKeys: (keyof TeacherRegistrationType)[] = ['firstname', 'lastname', 'email'];
   const keys = Object.keys(obj) as (keyof TeacherRegistrationType)[];
 
   return (

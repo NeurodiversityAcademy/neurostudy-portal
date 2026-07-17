@@ -73,9 +73,7 @@ describe('ContactUsForm', () => {
     });
     expect(screen.getByPlaceholderText('Enter your first name')).toHaveValue('Jane');
     expect(screen.getByPlaceholderText('Enter your last name')).toHaveValue('Doe');
-    expect(screen.getByPlaceholderText('Enter your email address')).toHaveValue(
-      'jane@example.com',
-    );
+    expect(screen.getByPlaceholderText('Enter your email address')).toHaveValue('jane@example.com');
   });
 
   it('submits valid form data successfully', async () => {

@@ -29,11 +29,7 @@ function parseDemoAccessMapFromEnv(): DemoAccessMap {
 
   try {
     const parsed: unknown = JSON.parse(raw);
-    if (
-      parsed === null ||
-      typeof parsed !== 'object' ||
-      Array.isArray(parsed)
-    ) {
+    if (parsed === null || typeof parsed !== 'object' || Array.isArray(parsed)) {
       return {};
     }
 
@@ -78,9 +74,7 @@ export function resolveGuidToSlug(guid: string): string | null {
   return map[guid];
 }
 
-export function readDemoGuidFromSearchParams(
-  searchParams: SearchParams
-): string | null {
+export function readDemoGuidFromSearchParams(searchParams: SearchParams): string | null {
   return readFirstSearchParamValue(searchParams, DEMO_PASS_PARAM);
 }
 
@@ -117,9 +111,7 @@ export type HomeDemoAccess = {
   demoSlug: string;
 };
 
-export function resolveHomeDemoAccess(
-  searchParams: SearchParams
-): HomeDemoAccess | null {
+export function resolveHomeDemoAccess(searchParams: SearchParams): HomeDemoAccess | null {
   const demoGuid = readDemoGuidFromSearchParams(searchParams);
   if (demoGuid === null) {
     return null;
@@ -147,7 +139,7 @@ function resolveInternalSlugFromDemoGuid(demoGuid: string): string | null {
 
 export function resolveDetailDemoAccess(
   pathGuid: string,
-  searchParams: SearchParams
+  searchParams: SearchParams,
 ): DetailDemoAccess | null {
   if (pathGuid === '') {
     return null;

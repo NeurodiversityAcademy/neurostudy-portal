@@ -9,9 +9,7 @@ jest.mock('next/image', () => ({
 
 jest.mock('../Blog', () => ({
   __esModule: true,
-  default: ({ title }: { title: string }) => (
-    <div data-testid='blog-card'>{title}</div>
-  ),
+  default: ({ title }: { title: string }) => <div data-testid='blog-card'>{title}</div>,
 }));
 
 import BlogCardList from '../BlogCardList';
@@ -21,21 +19,15 @@ const createSearchParams = (params: Record<string, string>) =>
 
 describe('BlogCardList', () => {
   it('renders up to three blog cards', () => {
-    render(
-      <BlogCardList
-        searchParams={createSearchParams({})}
-        visitedBlogIds={[]}
-      />,
-    );
-    expect(screen.getAllByTestId('blog-card').length).toBe(3);
+    render(<BlogCardList searchParams={createSearchParams({})} visitedBlogIds={[]} />);
+    expect(screen.getAllByTestId('blog-card')).toHaveLength(3);
   });
 
   it('excludes the current blog from the title query param', () => {
     render(
       <BlogCardList
         searchParams={createSearchParams({
-          title:
-            'neurodiversity-and-safety-creating-inclusive-workplaces-for-diverse-thinkers',
+          title: 'neurodiversity-and-safety-creating-inclusive-workplaces-for-diverse-thinkers',
         })}
         visitedBlogIds={[]}
       />,
@@ -47,12 +39,7 @@ describe('BlogCardList', () => {
   });
 
   it('excludes visited blogs', () => {
-    render(
-      <BlogCardList
-        searchParams={createSearchParams({})}
-        visitedBlogIds={['1', '2', '3']}
-      />,
-    );
+    render(<BlogCardList searchParams={createSearchParams({})} visitedBlogIds={['1', '2', '3']} />);
     const titles = screen.getAllByTestId('blog-card').map((el) => el.textContent);
     expect(titles).not.toContain(
       'Neurodiversity and Safety - Creating Inclusive Workplaces for Diverse Thinkers',
@@ -66,6 +53,6 @@ describe('BlogCardList', () => {
         visitedBlogIds={['1', '2', '3', '4', '5']}
       />,
     );
-    expect(screen.getAllByTestId('blog-card').length).toBe(3);
+    expect(screen.getAllByTestId('blog-card')).toHaveLength(3);
   });
 });

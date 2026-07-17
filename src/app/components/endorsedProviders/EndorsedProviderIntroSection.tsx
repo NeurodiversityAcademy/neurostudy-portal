@@ -11,10 +11,7 @@ export default function EndorsedProviderIntroSection({
   body,
 }: EndorsedProviderIntroSectionProps) {
   return (
-    <section
-      className={styles.section}
-      aria-labelledby='endorsed-provider-intro-heading'
-    >
+    <section className={styles.section} aria-labelledby='endorsed-provider-intro-heading'>
       <Typography
         id='endorsed-provider-intro-heading'
         variant={TypographyVariant.H2}

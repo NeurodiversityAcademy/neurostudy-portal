@@ -32,11 +32,7 @@ describe('getProfileSectionData', () => {
   });
 
   it('copies all specified fields preserving values', () => {
-    const result = getProfileSectionData(mockUser, [
-      'FirstName',
-      'LastName',
-      'Age',
-    ]);
+    const result = getProfileSectionData(mockUser, ['FirstName', 'LastName', 'Age']);
     expect(result).toEqual({
       FirstName: 'Alice',
       LastName: 'Smith',

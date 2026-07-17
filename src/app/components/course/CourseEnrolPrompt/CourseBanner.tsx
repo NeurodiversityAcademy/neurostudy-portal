@@ -10,11 +10,7 @@ import classNames from 'classnames';
 import Loader from '../../loader/Loader';
 import { CourseBannerProps } from '@/app/interfaces/Course';
 
-export default function CourseBanner({
-  open,
-  isLoading,
-  onRequestCheckout,
-}: CourseBannerProps) {
+export default function CourseBanner({ open, isLoading, onRequestCheckout }: CourseBannerProps) {
   return (
     <div className={styles.courseBannerContainer}>
       <Image
@@ -22,12 +18,7 @@ export default function CourseBanner({
         alt='Neurodiversity Academy Course'
         className={classNames(styles.courseBanner, !open && styles.hide)}
       />
-      <div
-        className={classNames(
-          styles.bannerEnrolBtnContainer,
-          !open && styles.hide
-        )}
-      >
+      <div className={classNames(styles.bannerEnrolBtnContainer, !open && styles.hide)}>
         <Loader isLoading={isLoading} className={styles.loader} />
         <ActionButton
           style={BUTTON_STYLE.Primary}

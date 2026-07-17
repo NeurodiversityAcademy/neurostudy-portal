@@ -11,10 +11,7 @@ jest.mock('next/script', () => ({
 }));
 
 import TabNavEmbed from '../TabNavEmbed';
-import {
-  TABNAV_WIDGET_SCRIPT_SRC,
-  TABNAV_WIDGET_CONFIG_JSON,
-} from '../tabNavConstants';
+import { TABNAV_WIDGET_SCRIPT_SRC, TABNAV_WIDGET_CONFIG_JSON } from '../tabNavConstants';
 
 describe('TabNavEmbed', () => {
   it('renders a script element with correct src', () => {
@@ -27,10 +24,7 @@ describe('TabNavEmbed', () => {
   it('passes the config JSON as tnv-data-config', () => {
     const { container } = render(<TabNavEmbed />);
     const script = container.querySelector('script');
-    expect(script).toHaveAttribute(
-      'tnv-data-config',
-      TABNAV_WIDGET_CONFIG_JSON,
-    );
+    expect(script).toHaveAttribute('tnv-data-config', TABNAV_WIDGET_CONFIG_JSON);
   });
 
   it('renders a noscript fallback element', () => {

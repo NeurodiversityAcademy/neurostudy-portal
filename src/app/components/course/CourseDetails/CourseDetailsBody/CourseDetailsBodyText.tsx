@@ -10,19 +10,13 @@ interface CourseDetailsBodyTextProps {
   data: string | undefined;
 }
 
-const CourseDetailsBodyText: React.FC<CourseDetailsBodyTextProps> = ({
-  id,
-  data,
-}) => {
+const CourseDetailsBodyText: React.FC<CourseDetailsBodyTextProps> = ({ id, data }) => {
   const paragraphs = data?.split('\n').map((paragraph, index) => {
     const sanitizedHTML = DOMPurify.sanitize?.(paragraph);
     return (
       <div key={index} className={styles.courseDetailsBodyText}>
         <Typography variant={TypographyVariant.Body2}>
-          <div
-            className={styles.paragraph}
-            dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
-          />
+          <div className={styles.paragraph} dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
         </Typography>
         <br></br>
         {id === 'tuitionFees' && (

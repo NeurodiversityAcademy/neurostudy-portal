@@ -37,8 +37,7 @@ describe('parseDemoAccessMap', () => {
   });
 
   it('parses valid JSON guid-to-slug map', () => {
-    process.env[ENDORSED_DEMO_ACCESS_ENV_KEY] =
-      '{"guid-1":"collarts","guid-2":"bond-university"}';
+    process.env[ENDORSED_DEMO_ACCESS_ENV_KEY] = '{"guid-1":"collarts","guid-2":"bond-university"}';
     expect(parseDemoAccessMap()).toEqual({
       'guid-1': 'collarts',
       'guid-2': 'bond-university',
@@ -108,7 +107,7 @@ describe('readDemoGuidFromSearchParams', () => {
 describe('buildEndorsedDemoDetailHref', () => {
   it('returns guid path with matching demo query param', () => {
     expect(buildEndorsedDemoDetailHref('abc-guid')).toBe(
-      `${ENDORSED_PROVIDERS_BASE_PATH}/abc-guid?demo=abc-guid`
+      `${ENDORSED_PROVIDERS_BASE_PATH}/abc-guid?demo=abc-guid`,
     );
   });
 
@@ -119,9 +118,7 @@ describe('buildEndorsedDemoDetailHref', () => {
 
 describe('buildEndorsedLiveDetailHref', () => {
   it('returns slug path without demo query param', () => {
-    expect(buildEndorsedLiveDetailHref('hsh')).toBe(
-      `${ENDORSED_PROVIDERS_BASE_PATH}/hsh`
-    );
+    expect(buildEndorsedLiveDetailHref('hsh')).toBe(`${ENDORSED_PROVIDERS_BASE_PATH}/hsh`);
   });
 
   it('returns empty string for empty slug', () => {

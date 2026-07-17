@@ -49,9 +49,7 @@ describe('BuzzsproutEmbed', () => {
         embedAvailable={true}
       />,
     );
-    expect(
-      screen.getByText('Explore more of our Podcast'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Explore more of our Podcast')).toBeInTheDocument();
   });
 
   it('renders podcast header for single-blog view', () => {
@@ -67,9 +65,7 @@ describe('BuzzsproutEmbed', () => {
         embedAvailable={true}
       />,
     );
-    expect(
-      screen.getByText('Listen to our Podcast'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Listen to our Podcast')).toBeInTheDocument();
   });
 
   it('shows fallback when embedAvailable is false', () => {
@@ -81,9 +77,7 @@ describe('BuzzsproutEmbed', () => {
         embedAvailable={false}
       />,
     );
-    expect(
-      screen.getByText(/temporarily unavailable/),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/temporarily unavailable/)).toBeInTheDocument();
   });
 
   it('shows fallback after timeout when player not rendered', () => {
@@ -104,9 +98,7 @@ describe('BuzzsproutEmbed', () => {
       jest.advanceTimersByTime(8000);
     });
 
-    expect(
-      screen.getByText(/temporarily unavailable/),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/temporarily unavailable/)).toBeInTheDocument();
   });
 
   it('creates and appends a script element to body', () => {
@@ -148,9 +140,7 @@ describe('BuzzsproutEmbed', () => {
 describe('PodcastUnavailableMessage', () => {
   it('renders single blog unavailable message', () => {
     render(<PodcastUnavailableMessage singleBlog={true} />);
-    expect(
-      screen.getByText(/This episode is temporarily unavailable/),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/This episode is temporarily unavailable/)).toBeInTheDocument();
   });
 
   it('renders multi-blog unavailable message', () => {
@@ -167,27 +157,19 @@ describe('PodcastUnavailableMessage', () => {
 
   it('renders Explore more of our Podcast header for multi', () => {
     render(<PodcastUnavailableMessage singleBlog={false} />);
-    expect(
-      screen.getByText('Explore more of our Podcast'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Explore more of our Podcast')).toBeInTheDocument();
   });
 
   it('renders link to Neurodivergent Mates page', () => {
     render(<PodcastUnavailableMessage singleBlog={false} />);
     const link = screen.getByText('Neurodivergent Mates page');
-    expect(link.closest('a')).toHaveAttribute(
-      'href',
-      '/neurodivergentmates',
-    );
+    expect(link.closest('a')).toHaveAttribute('href', '/neurodivergentmates');
   });
 
   it('renders link to Buzzsprout', () => {
     render(<PodcastUnavailableMessage singleBlog={false} />);
     const link = screen.getByText('View on Buzzsprout');
-    expect(link.closest('a')).toHaveAttribute(
-      'href',
-      'https://www.buzzsprout.com/2132579',
-    );
+    expect(link.closest('a')).toHaveAttribute('href', 'https://www.buzzsprout.com/2132579');
     expect(link.closest('a')).toHaveAttribute('target', '_blank');
   });
 

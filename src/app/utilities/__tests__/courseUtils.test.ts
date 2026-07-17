@@ -190,9 +190,7 @@ describe('filterCourses', () => {
   });
 
   it('matches partial multi-word queries', () => {
-    const result = filterCourses(courses, [
-      ['Title', ['bachelor computer']],
-    ]);
+    const result = filterCourses(courses, [['Title', ['bachelor computer']]]);
     expect(result).toHaveLength(1);
     expect(result[0].CourseId).toBe('1');
   });

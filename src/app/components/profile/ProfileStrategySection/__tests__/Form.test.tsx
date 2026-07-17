@@ -9,13 +9,9 @@ jest.mock('next/image', () => ({
 
 jest.mock('next/link', () => ({
   __esModule: true,
-  default: ({
-    children,
-    href,
-  }: {
-    children: React.ReactNode;
-    href: string;
-  }) => <a href={href}>{children}</a>,
+  default: ({ children, href }: { children: React.ReactNode; href: string }) => (
+    <a href={href}>{children}</a>
+  ),
 }));
 
 const mockProfileContext = {
@@ -53,22 +49,14 @@ describe('ProfileStrategyForm', () => {
   it('renders strategy form field labels', () => {
     render(<ProfileStrategyForm />);
     expect(
-      screen.getByText(
-        'What strategies do you use to manage your time effectively?',
-      ),
+      screen.getByText('What strategies do you use to manage your time effectively?'),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(
-        'How do you manage sensory overload in learning environments?',
-      ),
+      screen.getByText('How do you manage sensory overload in learning environments?'),
     ).toBeInTheDocument();
+    expect(screen.getByText(/Would access to fidget toys/)).toBeInTheDocument();
     expect(
-      screen.getByText(/Would access to fidget toys/),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        'Would you be interested in meeting/collaborating with other ND learners?*',
-      ),
+      screen.getByText('Would you be interested in meeting/collaborating with other ND learners?*'),
     ).toBeInTheDocument();
     expect(
       screen.getByText(
@@ -79,23 +67,19 @@ describe('ProfileStrategyForm', () => {
 
   it('does not render footer when onSubmit is not provided', () => {
     render(<ProfileStrategyForm />);
-    expect(screen.queryByText('Cancel')).toBeNull();
-    expect(screen.queryByText('Save')).toBeNull();
+    expect(screen.queryByText('Cancel')).not.toBeInTheDocument();
+    expect(screen.queryByText('Save')).not.toBeInTheDocument();
   });
 
   it('renders footer when onSubmit is provided', () => {
-    render(
-      <ProfileStrategyForm onSubmit={jest.fn()} onCancel={jest.fn()} />,
-    );
+    render(<ProfileStrategyForm onSubmit={jest.fn()} onCancel={jest.fn()} />);
     expect(screen.getByText('Cancel')).toBeInTheDocument();
     expect(screen.getByText('Save')).toBeInTheDocument();
   });
 
   it('calls onCancel when Cancel is clicked in popup mode', () => {
     const onCancel = jest.fn();
-    render(
-      <ProfileStrategyForm onSubmit={jest.fn()} onCancel={onCancel} />,
-    );
+    render(<ProfileStrategyForm onSubmit={jest.fn()} onCancel={onCancel} />);
     fireEvent.click(screen.getByText('Cancel'));
     expect(onCancel).toHaveBeenCalledTimes(1);
   });
@@ -111,19 +95,12 @@ describe('ProfileStrategyForm', () => {
     mockProfileContext.data = undefined;
     render(<ProfileStrategyForm />);
     expect(
-      screen.getByText(
-        'What strategies do you use to manage your time effectively?',
-      ),
+      screen.getByText('What strategies do you use to manage your time effectively?'),
     ).toBeInTheDocument();
   });
 
   it('wires Save button as form submit in popup mode', () => {
-    render(
-      <ProfileStrategyForm onSubmit={jest.fn()} onCancel={jest.fn()} />,
-    );
-    expect(screen.getByText('Save').closest('button')).toHaveAttribute(
-      'type',
-      'submit',
-    );
+    render(<ProfileStrategyForm onSubmit={jest.fn()} onCancel={jest.fn()} />);
+    expect(screen.getByText('Save').closest('button')).toHaveAttribute('type', 'submit');
   });
 });

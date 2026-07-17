@@ -26,11 +26,8 @@ jest.mock('@/app/utilities/stripe/constants', () => ({
 jest.mock('@/app/utilities/db/processCourseAPIError', () =>
   jest.fn().mockImplementation((ex: unknown) => {
     const status = (ex as { status?: number })?.status || 500;
-    return new Response(
-      JSON.stringify({ message: (ex as Error)?.message || 'Error' }),
-      { status }
-    );
-  })
+    return new Response(JSON.stringify({ message: (ex as Error)?.message || 'Error' }), { status });
+  }),
 );
 
 import { consumeRateWithIp } from '@/app/utilities/api/rateLimiter';
@@ -83,7 +80,7 @@ describe('POST /api/course/createCheckoutUrl', () => {
       expect.objectContaining({
         customer_email: 'buyer@test.com',
         mode: 'payment',
-      })
+      }),
     );
   });
 
@@ -125,9 +122,7 @@ describe('POST /api/course/createCheckoutUrl', () => {
 
   it('returns error when rate limited', async () => {
     const APIError = (await import('@/app/interfaces/APIError')).default;
-    mockConsumeRate.mockRejectedValue(
-      new APIError({ status: 429, error: 'Too Many Requests.' })
-    );
+    mockConsumeRate.mockRejectedValue(new APIError({ status: 429, error: 'Too Many Requests.' }));
 
     const res = await POST(makeRequest());
 

@@ -3,18 +3,14 @@ import useUpdatedValue from '@/app/hooks/useUpdatedValue';
 
 describe('useUpdatedValue', () => {
   it('computes the initial value from the setter', () => {
-    const { result } = renderHook(() =>
-      useUpdatedValue(5, (n) => n * 2)
-    );
+    const { result } = renderHook(() => useUpdatedValue(5, (n) => n * 2));
 
     expect(result.current).toBe(10);
   });
 
   it('recomputes when the dependent state changes', () => {
     let dep = 3;
-    const { result, rerender } = renderHook(() =>
-      useUpdatedValue(dep, (n) => n + 1)
-    );
+    const { result, rerender } = renderHook(() => useUpdatedValue(dep, (n) => n + 1));
 
     expect(result.current).toBe(4);
 
@@ -26,9 +22,7 @@ describe('useUpdatedValue', () => {
 
   it('does not recompute when the dependent state is the same', () => {
     const setter = jest.fn((n: number) => n * 3);
-    const { result, rerender } = renderHook(() =>
-      useUpdatedValue(4, setter)
-    );
+    const { result, rerender } = renderHook(() => useUpdatedValue(4, setter));
 
     expect(result.current).toBe(12);
     expect(setter).toHaveBeenCalledTimes(1);
@@ -41,9 +35,7 @@ describe('useUpdatedValue', () => {
 
   it('handles object state changes via deep comparison', () => {
     let dep = { a: 1 };
-    const { result, rerender } = renderHook(() =>
-      useUpdatedValue(dep, (d) => d.a)
-    );
+    const { result, rerender } = renderHook(() => useUpdatedValue(dep, (d) => d.a));
 
     expect(result.current).toBe(1);
 
@@ -58,9 +50,7 @@ describe('useUpdatedValue', () => {
 
   it('handles array state changes via deep comparison', () => {
     let dep = [1, 2, 3];
-    const { result, rerender } = renderHook(() =>
-      useUpdatedValue(dep, (d) => d.length)
-    );
+    const { result, rerender } = renderHook(() => useUpdatedValue(dep, (d) => d.length));
 
     expect(result.current).toBe(3);
 

@@ -5,10 +5,7 @@ jest.mock('@/app/utilities/db/configure', () => require('@/testUtils/mockDb'));
 
 import { UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 import { mockSend, resetDbMocks } from '@/testUtils/mockDb';
-import {
-  USER_TABLE_NAME,
-  USER_TABLE_PARTITION_ID,
-} from '@/app/utilities/auth/constants';
+import { USER_TABLE_NAME, USER_TABLE_PARTITION_ID } from '@/app/utilities/auth/constants';
 import updateUser from '../updateUser';
 
 describe('updateUser', () => {
@@ -41,7 +38,7 @@ describe('updateUser', () => {
       S: 'user@test.com',
     });
     expect(command.input.UpdateExpression).toBe(
-      'set #FirstName = :FirstName, #LastName = :LastName, #Age = :Age'
+      'set #FirstName = :FirstName, #LastName = :LastName, #Age = :Age',
     );
     expect(command.input.ExpressionAttributeNames).toEqual({
       '#FirstName': 'FirstName',
@@ -77,8 +74,6 @@ describe('updateUser', () => {
   it('propagates DynamoDB errors', async () => {
     mockSend.mockRejectedValue(new Error('Update failed'));
 
-    await expect(
-      updateUser({ FirstName: 'Fail' }, mockUserToken)
-    ).rejects.toThrow('Update failed');
+    await expect(updateUser({ FirstName: 'Fail' }, mockUserToken)).rejects.toThrow('Update failed');
   });
 });

@@ -1,9 +1,7 @@
 import { MoodleCourse, MoodleException } from '@/app/interfaces/Moodle';
 import { getMoodleAPIInfo } from './helper';
 
-export async function getMoodleCoursesByUser(
-  userid: number
-): Promise<MoodleCourse[]> {
+export async function getMoodleCoursesByUser(userid: number): Promise<MoodleCourse[]> {
   try {
     const { src, secret } = getMoodleAPIInfo();
 
@@ -17,8 +15,7 @@ export async function getMoodleCoursesByUser(
       method: 'POST',
       body: formData,
     });
-    const json: Omit<MoodleCourse, 'href'>[] | MoodleException =
-      await res.json();
+    const json: Omit<MoodleCourse, 'href'>[] | MoodleException = await res.json();
 
     if ('exception' in json) {
       throw new Error(json.message);

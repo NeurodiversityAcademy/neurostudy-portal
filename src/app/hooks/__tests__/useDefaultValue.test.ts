@@ -40,7 +40,7 @@ describe('useDefaultValue', () => {
         renderProps: renderProps as never,
         defaultValue: 'hello' as never,
         setValue: mockSetValue,
-      })
+      }),
     );
 
     jest.runAllTimers();
@@ -56,7 +56,7 @@ describe('useDefaultValue', () => {
         renderProps: renderProps as never,
         defaultValue: 'hello' as never,
         setValue: mockSetValue,
-      })
+      }),
     );
 
     jest.runAllTimers();
@@ -72,7 +72,7 @@ describe('useDefaultValue', () => {
         renderProps: renderProps as never,
         defaultValue: undefined,
         setValue: mockSetValue,
-      })
+      }),
     );
 
     jest.runAllTimers();
@@ -88,7 +88,7 @@ describe('useDefaultValue', () => {
         renderProps: renderProps as never,
         defaultValue: 'same' as never,
         setValue: mockSetValue,
-      })
+      }),
     );
 
     jest.runAllTimers();
@@ -104,7 +104,7 @@ describe('useDefaultValue', () => {
         renderProps: renderProps as never,
         defaultValue: ['a', 'b'] as never,
         setValue: mockSetValue,
-      })
+      }),
     );
 
     jest.runAllTimers();
@@ -120,7 +120,7 @@ describe('useDefaultValue', () => {
         renderProps: renderProps as never,
         defaultValue: ['a', 'b'] as never,
         setValue: mockSetValue,
-      })
+      }),
     );
 
     jest.runAllTimers();

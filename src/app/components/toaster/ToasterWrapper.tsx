@@ -27,15 +27,13 @@ const ToasterWrapper: React.FC = () => {
 
   const hideToastItem = (id: ToastItemProps['id']) => {
     let toastItemFound = false;
-    const newToasts: ToastItemProps[] = toastsRef.current.map(
-      (item: ToastItemProps) => {
-        if (item.id === id) {
-          toastItemFound = true;
-          return { ...item, hide: true };
-        }
-        return item;
+    const newToasts: ToastItemProps[] = toastsRef.current.map((item: ToastItemProps) => {
+      if (item.id === id) {
+        toastItemFound = true;
+        return { ...item, hide: true };
       }
-    );
+      return item;
+    });
     if (toastItemFound) {
       toastsRef.current = newToasts;
       setToken(Math.random());
@@ -43,9 +41,7 @@ const ToasterWrapper: React.FC = () => {
   };
 
   const removeToastItem = (id: ToastItemProps['id']) => {
-    const newToasts: ToastItemProps[] = toastsRef.current.filter(
-      ({ id: itemId }) => id !== itemId
-    );
+    const newToasts: ToastItemProps[] = toastsRef.current.filter(({ id: itemId }) => id !== itemId);
     if (newToasts.length !== toastsRef.current.length) {
       toastsRef.current = newToasts;
       setToken(Math.random());
@@ -53,15 +49,11 @@ const ToasterWrapper: React.FC = () => {
   };
 
   useEffect(() => {
-    const addToast = (
-      type: ToastItemProps['type'],
-      ...rest: Parameters<ToastFunction>
-    ) => {
+    const addToast = (type: ToastItemProps['type'], ...rest: Parameters<ToastFunction>) => {
       const id = getUniqueID();
       const message: ToastItemProps['message'] = rest[0];
       const options: ToastOptions = rest[1] || {};
-      const duration: ToastItemProps['duration'] =
-        options.duration || ToastDefaultDuration[type];
+      const duration: ToastItemProps['duration'] = options.duration || ToastDefaultDuration[type];
       const newToast: ToastItemProps = {
         ...options,
         id,
@@ -107,15 +99,11 @@ const ToasterWrapper: React.FC = () => {
             key={id}
             className={classNames(styles.containerItem, hide && styles.hide)}
             onAnimationEnd={({ animationName }) => {
-              animationName === styles['containerItemHide'] &&
-                removeToastItem(id);
+              animationName === styles['containerItemHide'] && removeToastItem(id);
             }}
           >
             <div
-              className={classNames(
-                styles.containerBody,
-                styles[ToastContainerItemClass[type]]
-              )}
+              className={classNames(styles.containerBody, styles[ToastContainerItemClass[type]])}
             >
               {iconClassName && <div className={iconClassName} />}
               <div>{item.message}</div>

@@ -246,10 +246,7 @@ describe('createMetadata', () => {
 describe('notifyError', () => {
   it('calls toast.error with a string message', () => {
     notifyError('Something went wrong');
-    expect(mockedToast.error).toHaveBeenCalledWith(
-      'Something went wrong',
-      undefined,
-    );
+    expect(mockedToast.error).toHaveBeenCalledWith('Something went wrong', undefined);
   });
 
   it('calls toast.error with message from an Error object', () => {
@@ -259,10 +256,7 @@ describe('notifyError', () => {
 
   it('falls back to unknown error for non-Error objects', () => {
     notifyError({});
-    expect(mockedToast.error).toHaveBeenCalledWith(
-      TOAST_UNKNOWN_ERROR_MESSAGE,
-      undefined,
-    );
+    expect(mockedToast.error).toHaveBeenCalledWith(TOAST_UNKNOWN_ERROR_MESSAGE, undefined);
   });
 
   it('passes through toast options', () => {
@@ -282,9 +276,7 @@ describe('notifySuccess', () => {
 describe('notifyInProgress', () => {
   it('calls toast.info with the dev in-progress message', () => {
     notifyInProgress();
-    expect(mockedToast.info).toHaveBeenCalledWith(
-      TOAST_DEV_IN_PROGRESS_MESSAGE,
-    );
+    expect(mockedToast.info).toHaveBeenCalledWith(TOAST_DEV_IN_PROGRESS_MESSAGE);
   });
 });
 
@@ -302,19 +294,13 @@ describe('getAxiosErrorMessage', () => {
   });
 
   it('falls back to AxiosError.message when response.data.message is missing', () => {
-    const err = new AxiosError(
-      'Network Error',
-      'ERR_NETWORK',
-      undefined,
-      undefined,
-      {
-        data: {},
-        status: 500,
-        statusText: 'Internal Server Error',
-        headers: {},
-        config: { headers: new AxiosHeaders() },
-      },
-    );
+    const err = new AxiosError('Network Error', 'ERR_NETWORK', undefined, undefined, {
+      data: {},
+      status: 500,
+      statusText: 'Internal Server Error',
+      headers: {},
+      config: { headers: new AxiosHeaders() },
+    });
 
     expect(getAxiosErrorMessage(err)).toBe('Network Error');
   });
@@ -326,19 +312,13 @@ describe('getAxiosErrorMessage', () => {
 
 describe('notifyAxiosError', () => {
   it('calls notifyError with the extracted axios message', () => {
-    const err = new AxiosError(
-      'Server error',
-      '500',
-      undefined,
-      undefined,
-      {
-        data: { message: 'DB down' },
-        status: 500,
-        statusText: 'Internal Server Error',
-        headers: {},
-        config: { headers: new AxiosHeaders() },
-      },
-    );
+    const err = new AxiosError('Server error', '500', undefined, undefined, {
+      data: { message: 'DB down' },
+      status: 500,
+      statusText: 'Internal Server Error',
+      headers: {},
+      config: { headers: new AxiosHeaders() },
+    });
 
     notifyAxiosError(err);
     expect(mockedToast.error).toHaveBeenCalledWith('DB down', undefined);
@@ -448,10 +428,7 @@ describe('getSearchQuery', () => {
   });
 
   it('respects a custom filter', () => {
-    const result = getSearchQuery(
-      { a: 1, b: 2, c: 3 },
-      (_key, value) => value > 1,
-    );
+    const result = getSearchQuery({ a: 1, b: 2, c: 3 }, (_key, value) => value > 1);
     expect(result).toBe('b=2&c=3');
   });
 
@@ -572,9 +549,7 @@ describe('downloadContent', () => {
       .spyOn(document, 'createElement')
       .mockReturnValue(mockAnchor as unknown as HTMLElement);
 
-    appendChildSpy = jest
-      .spyOn(document.body, 'appendChild')
-      .mockImplementation((node) => node);
+    appendChildSpy = jest.spyOn(document.body, 'appendChild').mockImplementation((node) => node);
 
     window.URL.createObjectURL = jest.fn(() => 'blob:mock-url');
     window.URL.revokeObjectURL = jest.fn();

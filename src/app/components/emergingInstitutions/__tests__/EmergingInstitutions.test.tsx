@@ -38,9 +38,7 @@ import InstitutionHero from '../InstitutionHero';
 import { InstitutionHeroVariant } from '../institutionHeroVariant';
 import InstitutionStats from '../InstitutionStats';
 import EmergingProviderHero from '../EmergingProviderHero';
-import EmergingProviderStats, {
-  ProviderStatItem,
-} from '../EmergingProviderStats';
+import EmergingProviderStats, { ProviderStatItem } from '../EmergingProviderStats';
 import EmergingProvidersFAQs from '../EmergingProvidersFAQs';
 
 jest.mock('../EmergingInstitutionCard', () => ({
@@ -52,34 +50,23 @@ jest.mock('../EmergingInstitutionCard', () => ({
   ),
 }));
 
-jest.mock('../../course/CourseDetails/CourseDetailsMiddleBanner/CourseDetailsMiddleBannerIcon', () => ({
-  __esModule: true,
-  default: ({
-    title,
-    description,
-  }: {
-    title: string;
-    description: string;
-  }) => (
-    <div data-testid='banner-icon'>
-      {title}: {description}
-    </div>
-  ),
-}));
+jest.mock(
+  '../../course/CourseDetails/CourseDetailsMiddleBanner/CourseDetailsMiddleBannerIcon',
+  () => ({
+    __esModule: true,
+    default: ({ title, description }: { title: string; description: string }) => (
+      <div data-testid='banner-icon'>
+        {title}: {description}
+      </div>
+    ),
+  }),
+);
 
 jest.mock('../../accordion/Accordian', () => ({
   __esModule: true,
-  default: ({
-    title,
-    children,
-  }: {
-    title: React.ReactNode;
-    children: React.ReactNode;
-  }) => (
+  default: ({ title, children }: { title: React.ReactNode; children: React.ReactNode }) => (
     <div data-testid='accordion'>
-      <div data-testid='accordion-title'>
-        {typeof title === 'string' ? title : title}
-      </div>
+      <div data-testid='accordion-title'>{typeof title === 'string' ? title : title}</div>
       <div>{children}</div>
     </div>
   ),
@@ -111,16 +98,12 @@ const mockStats: ProviderStatItem[] = [
 describe('EmergingInstitutions', () => {
   it('renders the section heading', () => {
     render(<EmergingInstitutions />);
-    expect(
-      screen.getByText('NDA Emerging Providers'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('NDA Emerging Providers')).toBeInTheDocument();
   });
 
   it('renders the subtitle description', () => {
     render(<EmergingInstitutions />);
-    expect(
-      screen.getByText(/Emerging Providers are organisations/),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Emerging Providers are organisations/)).toBeInTheDocument();
   });
 
   it('renders institution cards from JSON data', () => {
@@ -131,45 +114,27 @@ describe('EmergingInstitutions', () => {
 
   it('renders graduation cap icon', () => {
     render(<EmergingInstitutions />);
-    expect(
-      screen.getByAltText('Graduation cap icon'),
-    ).toBeInTheDocument();
+    expect(screen.getByAltText('Graduation cap icon')).toBeInTheDocument();
   });
 });
 
 describe('EmergingInstitutionCtaButton', () => {
   it('renders Explore More button', () => {
-    render(
-      <EmergingInstitutionCtaButton
-        ctaHref='/test-path'
-        className='test'
-      />,
-    );
+    render(<EmergingInstitutionCtaButton ctaHref='/test-path' className='test' />);
     expect(screen.getByText('Explore More')).toBeInTheDocument();
   });
 
   it('renders as a link to ctaHref', () => {
-    render(
-      <EmergingInstitutionCtaButton
-        ctaHref='/test-path'
-        className='test'
-      />,
-    );
+    render(<EmergingInstitutionCtaButton ctaHref='/test-path' className='test' />);
     const link = screen.getByText('Explore More').closest('a');
     expect(link).toHaveAttribute('href', '/test-path');
   });
 
   it('fires gtag event on click', () => {
     const gtagMock = jest.fn();
-    (window as Window & { gtag?: (...args: unknown[]) => void }).gtag =
-      gtagMock;
+    (window as Window & { gtag?: (...args: unknown[]) => void }).gtag = gtagMock;
 
-    render(
-      <EmergingInstitutionCtaButton
-        ctaHref='/analytics-test'
-        className='test'
-      />,
-    );
+    render(<EmergingInstitutionCtaButton ctaHref='/analytics-test' className='test' />);
     fireEvent.click(screen.getByText('Explore More'));
     expect(gtagMock).toHaveBeenCalledWith(
       'event',
@@ -186,8 +151,7 @@ describe('EmergingInstitutionCtaButton', () => {
 
   it('uses custom analytics params when provided', () => {
     const gtagMock = jest.fn();
-    (window as Window & { gtag?: (...args: unknown[]) => void }).gtag =
-      gtagMock;
+    (window as Window & { gtag?: (...args: unknown[]) => void }).gtag = gtagMock;
 
     render(
       <EmergingInstitutionCtaButton
@@ -214,13 +178,7 @@ describe('EmergingInstitutionCtaButton', () => {
   });
 
   it('opens in new tab when openInNewTab is true', () => {
-    render(
-      <EmergingInstitutionCtaButton
-        ctaHref='/new-tab'
-        className='test'
-        openInNewTab
-      />,
-    );
+    render(<EmergingInstitutionCtaButton ctaHref='/new-tab' className='test' openInNewTab />);
     const link = screen.getByText('Explore More').closest('a');
     expect(link).toHaveAttribute('target', '_blank');
   });
@@ -251,9 +209,7 @@ describe('InstitutionHero', () => {
         heroInfoItems={heroItems}
       />,
     );
-    expect(
-      screen.getByText(/Organisations Showing/),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Organisations Showing/)).toBeInTheDocument();
   });
 
   it('renders Endorsed tagline for Endorsed variant', () => {
@@ -298,9 +254,7 @@ describe('InstitutionHero', () => {
         heroInfoItems={heroItems}
       />,
     );
-    expect(
-      screen.getByAltText('Endorsed Learning Organisation'),
-    ).toBeInTheDocument();
+    expect(screen.getByAltText('Endorsed Learning Organisation')).toBeInTheDocument();
   });
 
   it('renders without location item', () => {
@@ -311,27 +265,19 @@ describe('InstitutionHero', () => {
         heroInfoItems={[heroItems[1]]}
       />,
     );
-    expect(
-      screen.queryByText(/Location:/),
-    ).toBeNull();
+    expect(screen.queryByText(/Location:/)).not.toBeInTheDocument();
   });
 });
 
 describe('InstitutionStats', () => {
   it('delegates to EmergingProviderStats', () => {
     render(<InstitutionStats stats={mockStats} />);
-    expect(
-      screen.getByText(/Student Delivery Signals/),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Student Delivery Signals/)).toBeInTheDocument();
   });
 
   it('passes isAlignedWithPageColumn prop', () => {
-    render(
-      <InstitutionStats stats={mockStats} isAlignedWithPageColumn />,
-    );
-    expect(
-      screen.getByText(/Student Delivery Signals/),
-    ).toBeInTheDocument();
+    render(<InstitutionStats stats={mockStats} isAlignedWithPageColumn />);
+    expect(screen.getByText(/Student Delivery Signals/)).toBeInTheDocument();
   });
 });
 
@@ -340,9 +286,7 @@ describe('EmergingProviderHero', () => {
     render(
       <EmergingProviderHero
         title='Provider Name'
-        heroInfoItems={[
-          { icon: mockStatIcon, value: 'Sydney', label: 'Location' },
-        ]}
+        heroInfoItems={[{ icon: mockStatIcon, value: 'Sydney', label: 'Location' }]}
       />,
     );
     expect(screen.getByText('(Provider Name)')).toBeInTheDocument();
@@ -352,9 +296,7 @@ describe('EmergingProviderHero', () => {
 describe('EmergingProviderStats', () => {
   it('renders the heading', () => {
     render(<EmergingProviderStats stats={mockStats} />);
-    expect(
-      screen.getByText(/Student Delivery Signals/),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Student Delivery Signals/)).toBeInTheDocument();
   });
 
   it('renders stat cards', () => {
@@ -389,19 +331,13 @@ describe('EmergingProviderStats', () => {
   it('renders disclaimer link pointing to compared.edu.au', () => {
     render(<EmergingProviderStats stats={mockStats} />);
     const link = screen.getByText('Quilt survey 2024').closest('a');
-    expect(link).toHaveAttribute(
-      'href',
-      expect.stringContaining('compared.edu.au'),
-    );
+    expect(link).toHaveAttribute('href', expect.stringContaining('compared.edu.au'));
     expect(link).toHaveAttribute('target', '_blank');
   });
 
   it('applies aligned class when isAlignedWithPageColumn is true', () => {
     const { container } = render(
-      <EmergingProviderStats
-        stats={mockStats}
-        isAlignedWithPageColumn
-      />,
+      <EmergingProviderStats stats={mockStats} isAlignedWithPageColumn />,
     );
     expect(container.querySelector('section')).toBeInTheDocument();
   });
@@ -430,8 +366,6 @@ describe('EmergingProvidersFAQs', () => {
 
   it('renders disclaimer accordion', () => {
     render(<EmergingProvidersFAQs />);
-    expect(
-      screen.getByText(/compiled from publicly available sources/),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/compiled from publicly available sources/)).toBeInTheDocument();
   });
 });

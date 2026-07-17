@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  MouseEventHandler,
-  ReactNode,
-  useEffect,
-  useId,
-  useState,
-} from 'react';
+import { MouseEventHandler, ReactNode, useEffect, useId, useState } from 'react';
 import Image from 'next/image';
 import styles from './profileCard.module.css';
 import Typography, { TypographyVariant } from '../typography/Typography';
@@ -82,11 +76,7 @@ const ProfileCard: React.FC<Props> = ({
 
   return (
     <div
-      className={classNames(
-        styles.container,
-        !expanded && styles.collapsed,
-        popup && styles.popup
-      )}
+      className={classNames(styles.container, !expanded && styles.collapsed, popup && styles.popup)}
     >
       {header !== null &&
         (header === undefined ? (
@@ -99,13 +89,8 @@ const ProfileCard: React.FC<Props> = ({
               onClick: toggleContent,
             })}
           >
-            {!popup && leftIconSrc && (
-              <Image src={leftIconSrc} alt={leftIconAlt} />
-            )}
-            <Typography
-              variant={TypographyVariant.Body2Strong}
-              className={styles.title}
-            >
+            {!popup && leftIconSrc && <Image src={leftIconSrc} alt={leftIconAlt} />}
+            <Typography variant={TypographyVariant.Body2Strong} className={styles.title}>
               {title}
             </Typography>
             {!popup && collapsible && (
@@ -120,11 +105,7 @@ const ProfileCard: React.FC<Props> = ({
           </div>
         ) : null)}
       <div className={styles.content} id={contentId} aria-hidden={!expanded}>
-        <LoaderWrapper
-          isLoading={isLoading}
-          loaderAlignTop
-          className={styles.formWrapper}
-        >
+        <LoaderWrapper isLoading={isLoading} loaderAlignTop className={styles.formWrapper}>
           {children}
         </LoaderWrapper>
       </div>

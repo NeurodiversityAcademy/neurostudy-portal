@@ -12,26 +12,22 @@ jest.mock('@/app/utilities/auth/isAuthenticated', () => jest.fn());
 jest.mock('@/app/utilities/db/course/describeCourseTable', () => jest.fn());
 jest.mock('@/app/utilities/db/course/createCourseTable', () => jest.fn());
 jest.mock('@/app/utilities/db/course/insertCourseRows', () => jest.fn());
-jest.mock('@/app/utilities/validation/assertCourseWithoutIdData', () =>
-  jest.fn()
-);
+jest.mock('@/app/utilities/validation/assertCourseWithoutIdData', () => jest.fn());
 jest.mock('@/app/utilities/api/throwAssertionError', () =>
   jest.fn().mockImplementation((msg: string) => {
-    const APIError =
-      jest.requireActual<typeof import('@/app/interfaces/APIError')>(
-        '@/app/interfaces/APIError'
-      ).default;
+    const APIError = jest.requireActual<typeof import('@/app/interfaces/APIError')>(
+      '@/app/interfaces/APIError',
+    ).default;
     throw new APIError({ error: msg, status: 400 });
-  })
+  }),
 );
 jest.mock('@/app/utilities/db/processCourseAPIError', () =>
   jest.fn().mockImplementation((ex: unknown) => {
     const status = (ex as { status?: number })?.status || 500;
-    return new Response(
-      JSON.stringify({ message: (ex as Error)?.message || 'DB error' }),
-      { status }
-    );
-  })
+    return new Response(JSON.stringify({ message: (ex as Error)?.message || 'DB error' }), {
+      status,
+    });
+  }),
 );
 jest.mock('@/app/utilities/api/constants', () => ({
   ADMIN_EMAILS: ['admin@test.com'],
@@ -186,7 +182,7 @@ describe('PUT /api/db/course (insertCourseRows)', () => {
           CourseId: expect.any(String),
           InstitutionName: 'Test Uni',
         }),
-      ])
+      ]),
     );
   });
 

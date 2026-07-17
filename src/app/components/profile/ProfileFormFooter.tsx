@@ -13,11 +13,7 @@ interface Props {
   onCancel?: MouseEventHandler<HTMLButtonElement>;
 }
 
-const ProfileFormFooter: React.FC<Props> = ({
-  className,
-  onCancel,
-  onSubmit,
-}) => {
+const ProfileFormFooter: React.FC<Props> = ({ className, onCancel, onSubmit }) => {
   const { isLoading } = useProfileContext();
 
   return (

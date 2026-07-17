@@ -5,25 +5,17 @@ import { NextRequest } from 'next/server';
 import AuthErrorResponse from '@/app/interfaces/AuthErrorResponse';
 
 jest.mock('@/app/utilities/auth/isAuthenticated', () => jest.fn());
-jest.mock('@/app/utilities/db/course/describeCourseDetailsTable', () =>
-  jest.fn()
-);
-jest.mock('@/app/utilities/db/course/createCourseDetailsTable', () =>
-  jest.fn()
-);
+jest.mock('@/app/utilities/db/course/describeCourseDetailsTable', () => jest.fn());
+jest.mock('@/app/utilities/db/course/createCourseDetailsTable', () => jest.fn());
 jest.mock('@/app/utilities/db/course/insertCourseDetails', () => jest.fn());
-jest.mock(
-  '@/app/utilities/validation/assertCourseDetailsData',
-  () => jest.fn()
-);
+jest.mock('@/app/utilities/validation/assertCourseDetailsData', () => jest.fn());
 jest.mock('@/app/utilities/db/processCourseAPIError', () =>
   jest.fn().mockImplementation((ex: unknown) => {
     const status = (ex as { status?: number })?.status || 500;
-    return new Response(
-      JSON.stringify({ message: (ex as Error)?.message || 'DB error' }),
-      { status }
-    );
-  })
+    return new Response(JSON.stringify({ message: (ex as Error)?.message || 'DB error' }), {
+      status,
+    });
+  }),
 );
 jest.mock('@/app/utilities/api/constants', () => ({
   ADMIN_EMAILS: ['admin@test.com'],

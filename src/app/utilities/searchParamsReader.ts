@@ -4,7 +4,7 @@ export const EMPTY_SEARCH_PARAMS: SearchParams = {};
 
 export function readFirstSearchParamValue(
   searchParams: SearchParams,
-  paramKey: string
+  paramKey: string,
 ): string | null {
   if (paramKey === '') {
     return null;

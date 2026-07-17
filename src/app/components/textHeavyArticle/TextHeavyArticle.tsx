@@ -25,10 +25,7 @@ export default function TextHeavyArticle({
     return (
       <div key={index}>
         <Typography key={index} variant={TypographyVariant.Body2}>
-          <div
-            className={styles.paragraph}
-            dangerouslySetInnerHTML={{ __html: sanitizedHTML }}
-          />
+          <div className={styles.paragraph} dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
         </Typography>
         <br></br>
       </div>
@@ -40,13 +37,10 @@ export default function TextHeavyArticle({
       <div>
         <Typography
           variant={
-            windowWidth <= 430
-              ? TypographyVariant.Body3Strong
-              : TypographyVariant.Body2Strong
+            windowWidth <= 430 ? TypographyVariant.Body3Strong : TypographyVariant.Body2Strong
           }
         >
-          <Link href='/'>Home</Link> {'>'}{' '}
-          <Link href='/articles'>Articles</Link> {'>'} {header}
+          <Link href='/'>Home</Link> {'>'} <Link href='/articles'>Articles</Link> {'>'} {header}
         </Typography>
       </div>
       <Typography variant={TypographyVariant.H2}>{header}</Typography>
@@ -56,9 +50,7 @@ export default function TextHeavyArticle({
       <div className={styles.articleText}>{paragraphs}</div>
       {authorName && authorImageUrl && (
         <div className={styles.authorBlock}>
-          <Typography variant={TypographyVariant.Body2Strong}>
-            {authorName}
-          </Typography>
+          <Typography variant={TypographyVariant.Body2Strong}>{authorName}</Typography>
           <Image
             src={authorImageUrl}
             alt={`Author Image: ${authorName}`}

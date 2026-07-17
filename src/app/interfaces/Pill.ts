@@ -10,5 +10,5 @@ export interface FocusProps {
 
 export type PillFocusEventHandler = (
   focusProps: FocusProps,
-  event: FocusEvent<HTMLButtonElement>
+  event: FocusEvent<HTMLButtonElement>,
 ) => void;

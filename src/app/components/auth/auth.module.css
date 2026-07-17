@@ -3,17 +3,23 @@
   padding: 0px 1.5rem;
 }
 
-.container>div:first-child {
+.container > div:first-child {
   background: var(--GhostWhiteSub);
   max-width: 960px;
   margin: auto;
-  box-shadow: -2px 2px 8px 0px #0000001F;
+  box-shadow: -2px 2px 8px 0px #0000001f;
 }
 
 .bannerColumn {
   display: flex;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
-    linear-gradient(194.75deg, rgba(102, 0, 204, 0) -78.84%, rgba(102, 0, 204, 0.4) 36.62%, #4A4AFF 102.62%);
+  background:
+    linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+    linear-gradient(
+      194.75deg,
+      rgba(102, 0, 204, 0) -78.84%,
+      rgba(102, 0, 204, 0.4) 36.62%,
+      #4a4aff 102.62%
+    );
   color: var(--GhostWhite);
   padding: 24px;
   align-content: space-between;
@@ -21,7 +27,7 @@
   border-radius: 0px 8px 8px 0px;
   word-break: break-word;
   gap: 144px;
-  box-shadow: -2px 2px 8px 0px #0000001F;
+  box-shadow: -2px 2px 8px 0px #0000001f;
 }
 
 .forgotPassword {
@@ -29,7 +35,7 @@
   text-decoration: underline;
 }
 
-.forgotPassword>a {
+.forgotPassword > a {
   font-weight: 600;
   font-size: 16px;
   color: var(--cherryPieVariant);
@@ -61,7 +67,7 @@
   color: var(--cherryPieVariant);
 }
 
-.callToAction>a {
+.callToAction > a {
   font-weight: 600;
 }
 
@@ -69,7 +75,7 @@
   display: flex;
   justify-content: center;
   padding: 24px;
-  box-shadow: 0px 2px 8px 0px #0000001F;
+  box-shadow: 0px 2px 8px 0px #0000001f;
 }
 
 .formColumnWrapper {
@@ -87,7 +93,7 @@
   display: flex;
 }
 
-.dobInputContainer>* {
+.dobInputContainer > * {
   flex: 1 0 0;
 }
 
@@ -120,7 +126,7 @@
   margin-bottom: 1.5rem;
 }
 
-.loginProviderContainer>button {
+.loginProviderContainer > button {
   flex: 1;
   width: 100%;
   gap: 16px;

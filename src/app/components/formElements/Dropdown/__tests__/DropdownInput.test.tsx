@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  render,
-  screen,
-  fireEvent,
-  waitFor,
-  act,
-} from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import { useForm, FormProvider, FieldValues } from 'react-hook-form';
 import Dropdown from '../Dropdown';
 
@@ -49,13 +43,8 @@ describe('DropdownInput advanced behaviour', () => {
   it('closes dropdown and refocuses input on Escape', () => {
     render(
       <TestWrapper>
-        <Dropdown
-          name='fruit'
-          label='Fruit'
-          options={options}
-          placeholder='Select'
-        />
-      </TestWrapper>
+        <Dropdown name='fruit' label='Fruit' options={options} placeholder='Select' />
+      </TestWrapper>,
     );
 
     const combobox = screen.getByRole('combobox');
@@ -81,7 +70,7 @@ describe('DropdownInput advanced behaviour', () => {
           creatable
           onChange={handleChange}
         />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     const input = screen.getByPlaceholderText('Search');
@@ -89,9 +78,7 @@ describe('DropdownInput advanced behaviour', () => {
     fireEvent.change(input, { target: { value: 'Dragonfruit' } });
     fireEvent.keyDown(input, { key: 'Enter' });
 
-    expect(
-      document.querySelector('input[type="hidden"][name="fruit"]')
-    ).toHaveValue('Dragonfruit');
+    expect(document.querySelector('input[type="hidden"][name="fruit"]')).toHaveValue('Dragonfruit');
     expect(handleChange).toHaveBeenCalledWith(['Dragonfruit']);
   });
 
@@ -106,7 +93,7 @@ describe('DropdownInput advanced behaviour', () => {
           creatable
           closeOnSelect
         />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     const input = screen.getByPlaceholderText('Search');
@@ -115,22 +102,14 @@ describe('DropdownInput advanced behaviour', () => {
 
     fireEvent.click(screen.getByText('Add "Mango"'));
 
-    expect(
-      document.querySelector('input[type="hidden"][name="fruit"]')
-    ).toHaveValue('Mango');
+    expect(document.querySelector('input[type="hidden"][name="fruit"]')).toHaveValue('Mango');
   });
 
   it('does not create duplicate creatable options', () => {
     render(
       <TestWrapper defaultValues={{ fruit: 'apple' }}>
-        <Dropdown
-          name='fruit'
-          label='Fruit'
-          options={options}
-          placeholder='Search'
-          creatable
-        />
-      </TestWrapper>
+        <Dropdown name='fruit' label='Fruit' options={options} placeholder='Search' creatable />
+      </TestWrapper>,
     );
 
     const input = screen.getByPlaceholderText('Search');
@@ -153,7 +132,7 @@ describe('DropdownInput advanced behaviour', () => {
           creatable={false}
           onChange={handleChange}
         />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     const input = screen.getByPlaceholderText('Search');
@@ -162,9 +141,7 @@ describe('DropdownInput advanced behaviour', () => {
     fireEvent.keyDown(input, { key: 'Enter' });
 
     expect(handleChange).not.toHaveBeenCalled();
-    expect(
-      document.querySelector('input[type="hidden"][name="fruit"]')
-    ).not.toBeInTheDocument();
+    expect(document.querySelector('input[type="hidden"][name="fruit"]')).not.toBeInTheDocument();
   });
 
   it('skips adding creatable value that is already selected', () => {
@@ -180,7 +157,7 @@ describe('DropdownInput advanced behaviour', () => {
           creatable
           onChange={handleChange}
         />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     const input = screen.getByPlaceholderText('Search');
@@ -201,7 +178,7 @@ describe('DropdownInput advanced behaviour', () => {
           placeholder='Select'
           searchable={false}
         />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     const input = screen.getByPlaceholderText('Select');
@@ -215,14 +192,8 @@ describe('DropdownInput advanced behaviour', () => {
   it('clears single selection when typing in searchable mode', () => {
     render(
       <TestWrapper defaultValues={{ fruit: 'apple' }}>
-        <Dropdown
-          name='fruit'
-          label='Fruit'
-          options={options}
-          placeholder='Search'
-          searchable
-        />
-      </TestWrapper>
+        <Dropdown name='fruit' label='Fruit' options={options} placeholder='Search' searchable />
+      </TestWrapper>,
     );
 
     const input = screen.getByPlaceholderText('Search');
@@ -236,14 +207,8 @@ describe('DropdownInput advanced behaviour', () => {
   it('removes a pill in multiple selection mode', () => {
     render(
       <TestWrapper defaultValues={{ fruits: ['apple', 'banana'] }}>
-        <Dropdown
-          name='fruits'
-          label='Fruits'
-          options={options}
-          multiple
-          placeholder='Select'
-        />
-      </TestWrapper>
+        <Dropdown name='fruits' label='Fruits' options={options} multiple placeholder='Select' />
+      </TestWrapper>,
     );
 
     const clearButtons = screen.getAllByLabelText('Clear');
@@ -256,14 +221,8 @@ describe('DropdownInput advanced behaviour', () => {
   it('deselects an option in multiple selection mode', () => {
     render(
       <TestWrapper defaultValues={{ fruits: ['apple', 'banana'] }}>
-        <Dropdown
-          name='fruits'
-          label='Fruits'
-          options={options}
-          multiple
-          placeholder='Select'
-        />
-      </TestWrapper>
+        <Dropdown name='fruits' label='Fruits' options={options} multiple placeholder='Select' />
+      </TestWrapper>,
     );
 
     fireEvent.focus(screen.getByPlaceholderText('Select'));
@@ -279,13 +238,8 @@ describe('DropdownInput advanced behaviour', () => {
   it('shows label fallback for values not in options', () => {
     render(
       <TestWrapper defaultValues={{ fruit: 'unknown-value' }}>
-        <Dropdown
-          name='fruit'
-          label='Fruit'
-          options={options}
-          placeholder='Select'
-        />
-      </TestWrapper>
+        <Dropdown name='fruit' label='Fruit' options={options} placeholder='Select' />
+      </TestWrapper>,
     );
 
     expect(screen.getByPlaceholderText('Select')).toHaveValue('unknown-value');
@@ -295,15 +249,10 @@ describe('DropdownInput advanced behaviour', () => {
     render(
       <TestWrapper>
         <div>
-          <Dropdown
-            name='fruit'
-            label='Fruit'
-            options={options}
-            placeholder='Select'
-          />
+          <Dropdown name='fruit' label='Fruit' options={options} placeholder='Select' />
           <button type='button'>Outside</button>
         </div>
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     const combobox = screen.getByRole('combobox');
@@ -319,13 +268,8 @@ describe('DropdownInput advanced behaviour', () => {
   it('focuses input on wrapper mousedown', () => {
     render(
       <TestWrapper>
-        <Dropdown
-          name='fruit'
-          label='Fruit'
-          options={options}
-          placeholder='Select'
-        />
-      </TestWrapper>
+        <Dropdown name='fruit' label='Fruit' options={options} placeholder='Select' />
+      </TestWrapper>,
     );
 
     const input = screen.getByPlaceholderText('Select');
@@ -336,19 +280,14 @@ describe('DropdownInput advanced behaviour', () => {
       jest.runAllTimers();
     });
 
-    expect(document.activeElement).toBe(input);
+    expect(input).toHaveFocus();
   });
 
   it('prevents default when wrapper mousedown targets already focused input', () => {
     render(
       <TestWrapper>
-        <Dropdown
-          name='fruit'
-          label='Fruit'
-          options={options}
-          placeholder='Select'
-        />
-      </TestWrapper>
+        <Dropdown name='fruit' label='Fruit' options={options} placeholder='Select' />
+      </TestWrapper>,
     );
 
     const input = screen.getByPlaceholderText('Select');
@@ -357,19 +296,14 @@ describe('DropdownInput advanced behaviour', () => {
     input.focus();
     fireEvent.mouseDown(wrapper);
 
-    expect(document.activeElement).toBe(input);
+    expect(input).toHaveFocus();
   });
 
   it('clears input value via clear button in single-select mode', () => {
     render(
       <TestWrapper defaultValues={{ fruit: 'apple' }}>
-        <Dropdown
-          name='fruit'
-          label='Fruit'
-          options={options}
-          placeholder='Select'
-        />
-      </TestWrapper>
+        <Dropdown name='fruit' label='Fruit' options={options} placeholder='Select' />
+      </TestWrapper>,
     );
 
     expect(screen.getByLabelText('Clear')).toBeInTheDocument();
@@ -380,39 +314,26 @@ describe('DropdownInput advanced behaviour', () => {
   it('toggles input focus via expand icon mousedown', () => {
     render(
       <TestWrapper>
-        <Dropdown
-          name='fruit'
-          label='Fruit'
-          options={options}
-          placeholder='Select'
-        />
-      </TestWrapper>
+        <Dropdown name='fruit' label='Fruit' options={options} placeholder='Select' />
+      </TestWrapper>,
     );
 
     const input = screen.getByPlaceholderText('Select');
-    const expandIcon = input
-      .closest('.dropdown-input-wrapper')!
-      .querySelector('svg')!;
+    const expandIcon = input.closest('.dropdown-input-wrapper')!.querySelector('svg')!;
 
     fireEvent.mouseDown(expandIcon);
-    expect(document.activeElement).toBe(input);
+    expect(input).toHaveFocus();
 
     fireEvent.focus(input);
     fireEvent.mouseDown(expandIcon);
-    expect(document.activeElement).not.toBe(input);
+    expect(input).not.toHaveFocus();
   });
 
   it('clears search input on transition end when collapsed', () => {
     render(
       <TestWrapper>
-        <Dropdown
-          name='fruit'
-          label='Fruit'
-          options={options}
-          placeholder='Search'
-          searchable
-        />
-      </TestWrapper>
+        <Dropdown name='fruit' label='Fruit' options={options} placeholder='Search' searchable />
+      </TestWrapper>,
     );
 
     const input = screen.getByPlaceholderText('Search');
@@ -432,14 +353,8 @@ describe('DropdownInput advanced behaviour', () => {
   it('shows No options when filter matches nothing', () => {
     render(
       <TestWrapper>
-        <Dropdown
-          name='fruit'
-          label='Fruit'
-          options={options}
-          placeholder='Search'
-          searchable
-        />
-      </TestWrapper>
+        <Dropdown name='fruit' label='Fruit' options={options} placeholder='Search' searchable />
+      </TestWrapper>,
     );
 
     const input = screen.getByPlaceholderText('Search');
@@ -458,13 +373,7 @@ describe('DropdownInput advanced behaviour', () => {
 
       return (
         <FormProvider {...methods}>
-          <Dropdown
-            name='fruit'
-            label='Fruit'
-            options={options}
-            placeholder='Select'
-            disabled
-          />
+          <Dropdown name='fruit' label='Fruit' options={options} placeholder='Select' disabled />
         </FormProvider>
       );
     }
@@ -472,10 +381,7 @@ describe('DropdownInput advanced behaviour', () => {
     render(<DisabledDropdown />);
 
     await waitFor(() => {
-      expect(screen.getByRole('combobox')).toHaveAttribute(
-        'aria-expanded',
-        'false'
-      );
+      expect(screen.getByRole('combobox')).toHaveAttribute('aria-expanded', 'false');
     });
   });
 
@@ -491,7 +397,7 @@ describe('DropdownInput advanced behaviour', () => {
           placeholder='Select'
           onChange={handleChange}
         />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     fireEvent.focus(screen.getByPlaceholderText('Select'));
@@ -503,13 +409,8 @@ describe('DropdownInput advanced behaviour', () => {
   it('deselects in single-select mode when option is toggled off', () => {
     render(
       <TestWrapper defaultValues={{ fruit: 'apple' }}>
-        <Dropdown
-          name='fruit'
-          label='Fruit'
-          options={options}
-          placeholder='Select'
-        />
-      </TestWrapper>
+        <Dropdown name='fruit' label='Fruit' options={options} placeholder='Select' />
+      </TestWrapper>,
     );
 
     fireEvent.focus(screen.getByPlaceholderText('Select'));
@@ -524,13 +425,8 @@ describe('DropdownInput advanced behaviour', () => {
   it('renders showInputAsText mode', () => {
     render(
       <TestWrapper>
-        <Dropdown
-          name='fruit'
-          label='Fruit'
-          options={options}
-          showInputAsText
-        />
-      </TestWrapper>
+        <Dropdown name='fruit' label='Fruit' options={options} showInputAsText />
+      </TestWrapper>,
     );
 
     expect(screen.getByRole('combobox')).toBeInTheDocument();
@@ -540,14 +436,8 @@ describe('DropdownInput advanced behaviour', () => {
   it('stores next pill sibling when pill close button receives focus', () => {
     render(
       <TestWrapper defaultValues={{ fruits: ['apple', 'banana'] }}>
-        <Dropdown
-          name='fruits'
-          label='Fruits'
-          options={options}
-          multiple
-          placeholder='Select'
-        />
-      </TestWrapper>
+        <Dropdown name='fruits' label='Fruits' options={options} multiple placeholder='Select' />
+      </TestWrapper>,
     );
 
     const pillClearButtons = screen

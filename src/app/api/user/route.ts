@@ -54,10 +54,7 @@ export async function PUT(req: NextRequest) {
     const Item: UserProps = await req.json();
     assertUserProps(Item);
 
-    const updateResponse: UpdateItemCommandOutput = await updateUser(
-      Item,
-      user
-    );
+    const updateResponse: UpdateItemCommandOutput = await updateUser(Item, user);
 
     if (updateResponse instanceof Response) {
       return updateResponse;

@@ -2,7 +2,6 @@ import Image from 'next/image';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import { TypographyColorToken } from '../typography/typographyColorToken';
 import vetHeaderIcon from '@/app/images/emergingInstitutions/survey-icon.png';
-import strengthStyles from './endorsedNdExperienceStrengths.module.css';
 import type { VetKeyDataPoint } from './endorsedProviderPageData';
 import styles from './endorsedVetKeyDataPoints.module.css';
 
@@ -15,8 +14,8 @@ const VET_TITLE_LINE_2 = 'Neurodiversity & Disability in VET';
 
 const VET_SECTION_INTRO = (
   <>
-    Insights into vocational education to help neurodivergent students
-    understand why endorsed organisations may be a good fit.
+    Insights into vocational education to help neurodivergent students understand why endorsed
+    organisations may be a good fit.
     <br />
     <span className={styles.bottomLine}>
       Source: NCVER, AIHW, and ABS education and disability data.
@@ -24,18 +23,13 @@ const VET_SECTION_INTRO = (
   </>
 );
 
-export default function EndorsedVetKeyDataPoints({
-  dataPoints,
-}: EndorsedVetKeyDataPointsProps) {
+export default function EndorsedVetKeyDataPoints({ dataPoints }: EndorsedVetKeyDataPointsProps) {
   if (dataPoints.length === 0) {
     return null;
   }
 
   return (
-    <section
-      className={styles.vetSection}
-      aria-labelledby='vet-key-data-heading'
-    >
+    <section className={styles.vetSection} aria-labelledby='vet-key-data-heading'>
       <div className={styles.vetInner}>
         <header className={styles.headerBlock}>
           <div className={styles.titleRow}>
@@ -66,14 +60,10 @@ export default function EndorsedVetKeyDataPoints({
             {VET_SECTION_INTRO}
           </Typography>
         </header>
-        <ul
-          className={`${strengthStyles.strengthsGrid} ${styles.vetStrengthsGrid}`}
-        >
+        <ul className={styles.vetStrengthsGrid}>
           {dataPoints.map((point) => (
             <li key={point.id} className={styles.vetStatCard}>
-              <div
-                className={`${strengthStyles.strengthCardIcon} ${styles.vetStatCardIcon}`}
-              >
+              <div className={styles.vetStatCardIcon}>
                 <Image
                   src={point.icon}
                   alt=''

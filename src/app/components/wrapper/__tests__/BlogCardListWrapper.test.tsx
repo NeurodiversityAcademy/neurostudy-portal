@@ -11,14 +11,8 @@ jest.mock('@/app/hooks/useVisitedItems', () => ({
 
 jest.mock('../../blog/BlogCardList', () => ({
   __esModule: true,
-  default: ({
-    visitedBlogIds,
-  }: {
-    visitedBlogIds: (number | string)[];
-  }) => (
-    <div data-testid='blog-card-list'>
-      Visited: {visitedBlogIds.join(',')}
-    </div>
+  default: ({ visitedBlogIds }: { visitedBlogIds: (number | string)[] }) => (
+    <div data-testid='blog-card-list'>Visited: {visitedBlogIds.join(',')}</div>
   ),
 }));
 
@@ -39,9 +33,6 @@ describe('BlogCardListWrapper', () => {
     render(<BlogCardListWrapper />);
     expect(screen.getByTestId('blog-card-list')).toHaveTextContent('Visited: 1,2');
     expect(mockUseSearchParams).toHaveBeenCalled();
-    expect(mockUseVisitedItems).toHaveBeenCalledWith(
-      'blog',
-      expect.any(URLSearchParams),
-    );
+    expect(mockUseVisitedItems).toHaveBeenCalledWith('blog', expect.any(URLSearchParams));
   });
 });

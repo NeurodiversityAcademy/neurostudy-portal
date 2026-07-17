@@ -25,9 +25,7 @@ describe('moodle/helper', () => {
   });
 
   it('getMoodleAPIUrl appends API path to host', () => {
-    expect(getMoodleAPIUrl()).toBe(
-      'https://moodle.example.com/webservice/rest/server.php'
-    );
+    expect(getMoodleAPIUrl()).toBe('https://moodle.example.com/webservice/rest/server.php');
   });
 
   it('getMoodleAPIInfo returns src + secret object', () => {
@@ -39,14 +37,10 @@ describe('moodle/helper', () => {
   });
 
   it('getMoodleCourseUrl builds correct course view URL', () => {
-    expect(getMoodleCourseUrl(42)).toBe(
-      'https://moodle.example.com/course/view.php?id=42'
-    );
+    expect(getMoodleCourseUrl(42)).toBe('https://moodle.example.com/course/view.php?id=42');
   });
 
   it('getMoodleCourseUrl handles course ID 0', () => {
-    expect(getMoodleCourseUrl(0)).toBe(
-      'https://moodle.example.com/course/view.php?id=0'
-    );
+    expect(getMoodleCourseUrl(0)).toBe('https://moodle.example.com/course/view.php?id=0');
   });
 });

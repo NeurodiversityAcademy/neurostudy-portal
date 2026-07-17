@@ -14,13 +14,9 @@ jest.mock('next/image', () => ({
 
 jest.mock('next/link', () => ({
   __esModule: true,
-  default: ({
-    children,
-    href,
-  }: {
-    children: React.ReactNode;
-    href: string;
-  }) => <a href={href}>{children}</a>,
+  default: ({ children, href }: { children: React.ReactNode; href: string }) => (
+    <a href={href}>{children}</a>
+  ),
 }));
 
 const mockProfileContext = {
@@ -49,14 +45,12 @@ describe('ProfileAttributes', () => {
       Interests: [],
       Contents: [],
     };
-    const { container, rerender } = render(
-      <ProfileAttributes fields={GOAL_FIELDS} />,
-    );
+    const { container, rerender } = render(<ProfileAttributes fields={GOAL_FIELDS} />);
     expect(screen.getByText('Get a Job')).toBeInTheDocument();
 
     mockProfileContext.data = undefined;
     rerender(<ProfileAttributes fields={GOAL_FIELDS} />);
-    expect(container.innerHTML).toBe('');
+    expect(container).toBeEmptyDOMElement();
   });
 
   it('renders populated goal attributes with labels', () => {
@@ -80,16 +74,9 @@ describe('ProfileAttributes', () => {
       Interests: [],
       Contents: [],
     };
-    render(
-      <ProfileAttributes
-        fields={GOAL_FIELDS}
-        onSectionEdit={jest.fn()}
-      />,
-    );
+    render(<ProfileAttributes fields={GOAL_FIELDS} onSectionEdit={jest.fn()} />);
     expect(screen.getByText('Answer few questions')).toBeInTheDocument();
-    expect(
-      screen.getByText('Tell us about your Goals & Interests'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Tell us about your Goals & Interests')).toBeInTheDocument();
     expect(screen.getByText('Goals & Interests')).toBeInTheDocument();
   });
 
@@ -100,9 +87,7 @@ describe('ProfileAttributes', () => {
       Interests: [],
       Contents: [],
     };
-    render(
-      <ProfileAttributes fields={GOAL_FIELDS} onSectionEdit={onSectionEdit} />,
-    );
+    render(<ProfileAttributes fields={GOAL_FIELDS} onSectionEdit={onSectionEdit} />);
     fireEvent.click(screen.getByText('Goals & Interests'));
     expect(onSectionEdit).toHaveBeenCalledTimes(1);
   });
@@ -130,9 +115,7 @@ describe('ProfileAttributes', () => {
       Challenges: [],
     };
     render(<ProfileAttributes fields={CHALLENGE_FIELDS} />);
-    expect(
-      screen.getByText('Tell us about your Comfort & Challenges'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Tell us about your Comfort & Challenges')).toBeInTheDocument();
     expect(screen.getByText('Comfort & Challenges')).toBeInTheDocument();
   });
 

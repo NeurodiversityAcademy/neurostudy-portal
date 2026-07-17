@@ -46,16 +46,12 @@ export default function InstitutionProviderCard({
 }: InstitutionProviderCardProps) {
   const topClass = classNames(
     styles.cardTop,
-    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT &&
-      styles.cardTopEmerging,
-    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.YELLOW &&
-      styles.cardTopYellow,
-    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.CHERRY_PIE_SUB &&
-      styles.cardTopCherryPieSub
+    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT && styles.cardTopEmerging,
+    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.YELLOW && styles.cardTopYellow,
+    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.CHERRY_PIE_SUB && styles.cardTopCherryPieSub,
   );
 
-  const showRemoteImage =
-    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.REMOTE_IMAGE;
+  const showRemoteImage = header.kind === INSTITUTION_PROVIDER_HEADER_KIND.REMOTE_IMAGE;
 
   return (
     <div
@@ -63,26 +59,15 @@ export default function InstitutionProviderCard({
         styles.card,
         equalWidth && styles.cardEqual,
         elevatedOnDark && styles.cardElevatedOnDark,
-        ndaCertified && styles.cardNdaCertified
+        ndaCertified && styles.cardNdaCertified,
       )}
     >
       <div className={topClass}>
         {showRemoteImage ? (
-          <Image
-            src={header.src}
-            alt=''
-            fill
-            className={styles.cardTopImage}
-            priority={false}
-          />
+          <Image src={header.src} alt='' fill className={styles.cardTopImage} priority={false} />
         ) : null}
         {badge ? (
-          <div
-            className={classNames(
-              styles.badgeSlot,
-              ndaCertified && styles.badgeSlotCertified
-            )}
-          >
+          <div className={classNames(styles.badgeSlot, ndaCertified && styles.badgeSlotCertified)}>
             {badge}
           </div>
         ) : null}

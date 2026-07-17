@@ -16,9 +16,7 @@ describe('HowItWorks', () => {
 
   it('renders introductory description', () => {
     render(<HowItWorks />);
-    expect(
-      screen.getByText(/challenges neurodivergent students face/),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/challenges neurodivergent students face/)).toBeInTheDocument();
   });
 
   it('renders all five step titles', () => {
@@ -32,21 +30,13 @@ describe('HowItWorks', () => {
 
   it('renders step descriptions', () => {
     render(<HowItWorks />);
-    expect(
-      screen.getByText('You search for learning organisations'),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText('You send an inquiry, we promptly respond'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('You search for learning organisations')).toBeInTheDocument();
+    expect(screen.getByText('You send an inquiry, we promptly respond')).toBeInTheDocument();
     expect(
       screen.getByText('You fill out a profile for the learning provider'),
     ).toBeInTheDocument();
-    expect(
-      screen.getByText('We improve experience with great materials'),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText('We regularly monitor & support learning'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('We improve experience with great materials')).toBeInTheDocument();
+    expect(screen.getByText('We regularly monitor & support learning')).toBeInTheDocument();
   });
 
   it('renders step icons', () => {

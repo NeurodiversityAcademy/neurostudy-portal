@@ -28,10 +28,7 @@ describe('rateLimiter', () => {
 
     const result = await consumeRateWithIp(req, 2);
 
-    expect(mockConsume).toHaveBeenCalledWith(
-      '203.0.113.1-/api/contact',
-      2
-    );
+    expect(mockConsume).toHaveBeenCalledWith('203.0.113.1-/api/contact', 2);
     expect(result.ip).toBe('203.0.113.1');
     expect(result.data).toEqual({ remainingPoints: 9 });
   });
@@ -46,10 +43,7 @@ describe('rateLimiter', () => {
 
     const result = await consumeRateWithIp(req);
 
-    expect(mockConsume).toHaveBeenCalledWith(
-      '198.51.100.42-/api/user',
-      undefined
-    );
+    expect(mockConsume).toHaveBeenCalledWith('198.51.100.42-/api/user', undefined);
     expect(result.ip).toBe('198.51.100.42');
   });
 

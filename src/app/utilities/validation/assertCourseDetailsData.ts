@@ -4,13 +4,9 @@ import { DEFAULT_COURSE_DETAILS } from '../db/constants';
 
 const throwError = throwAssertionError;
 
-export default function assertCourseDetails(
-  data: unknown
-): asserts data is CourseDetailsProps {
+export default function assertCourseDetails(data: unknown): asserts data is CourseDetailsProps {
   if (!data || typeof data !== 'object') {
-    throwError(
-      `Invalid prop 'courseDetails' supplied, expected an object with key-value pairs.`
-    );
+    throwError(`Invalid prop 'courseDetails' supplied, expected an object with key-value pairs.`);
   }
 
   const dataObj = data as Record<string, unknown>;
@@ -25,7 +21,7 @@ export default function assertCourseDetails(
       const providedType: unknown = typeof data[key];
       if (expectedType !== providedType) {
         throwError(
-          `Invalid prop 'courseDetails["${key}"]' of type '${providedType}' supplied, expected '${expectedType}'.`
+          `Invalid prop 'courseDetails["${key}"]' of type '${providedType}' supplied, expected '${expectedType}'.`,
         );
       }
     } else {

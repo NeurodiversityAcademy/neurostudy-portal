@@ -34,10 +34,8 @@ const supportFramework: SupportFrameworkSection[] = [
 
 describe('EndorsedProviderEnhancements', () => {
   it('returns null when all sections are empty', () => {
-    const { container } = render(
-      <EndorsedProviderEnhancements supportFramework={[]} />,
-    );
-    expect(container.firstChild).toBeNull();
+    const { container } = render(<EndorsedProviderEnhancements supportFramework={[]} />);
+    expect(container).toBeEmptyDOMElement();
   });
 
   it('returns null when items have no supported statuses', () => {
@@ -51,13 +49,11 @@ describe('EndorsedProviderEnhancements', () => {
         ]}
       />,
     );
-    expect(container.firstChild).toBeNull();
+    expect(container).toBeEmptyDOMElement();
   });
 
   it('renders heading and framework rows', () => {
-    render(
-      <EndorsedProviderEnhancements supportFramework={supportFramework} />,
-    );
+    render(<EndorsedProviderEnhancements supportFramework={supportFramework} />);
 
     expect(screen.getByText('Endorsed Provider Insights')).toBeInTheDocument();
     expect(screen.getByText('Staff Training')).toBeInTheDocument();
@@ -68,9 +64,7 @@ describe('EndorsedProviderEnhancements', () => {
   });
 
   it('renders column headers when both status types exist', () => {
-    render(
-      <EndorsedProviderEnhancements supportFramework={supportFramework} />,
-    );
+    render(<EndorsedProviderEnhancements supportFramework={supportFramework} />);
 
     expect(screen.getByText('Area')).toBeInTheDocument();
     expect(screen.getAllByText('Supports in place').length).toBeGreaterThan(0);
@@ -78,20 +72,13 @@ describe('EndorsedProviderEnhancements', () => {
   });
 
   it('shows NDA Certified mark when ndaCertified is true', () => {
-    render(
-      <EndorsedProviderEnhancements
-        supportFramework={supportFramework}
-        ndaCertified
-      />,
-    );
+    render(<EndorsedProviderEnhancements supportFramework={supportFramework} ndaCertified />);
 
     expect(screen.getByText('★ NDA Certified')).toBeInTheDocument();
   });
 
   it('does not show NDA Certified mark when ndaCertified is false', () => {
-    render(
-      <EndorsedProviderEnhancements supportFramework={supportFramework} />,
-    );
+    render(<EndorsedProviderEnhancements supportFramework={supportFramework} />);
 
     expect(screen.queryByText('★ NDA Certified')).not.toBeInTheDocument();
   });

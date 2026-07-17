@@ -54,7 +54,7 @@ module.exports = {
     '!src/app/robots.txt/route.ts',
   ],
   coverageDirectory: 'coverage',
-  coverageReporters: ['text', 'text-summary', 'html', 'lcov', 'json-summary'],
+  coverageReporters: ['text', 'text-summary', 'html', 'lcov', 'json', 'json-summary'],
   coverageThreshold: {
     global: {
       statements: 90,

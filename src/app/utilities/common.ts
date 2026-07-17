@@ -20,7 +20,7 @@ type AnyFunction = (...args: any) => any;
 export const debounce = <T extends AnyFunction>(
   fn: T,
   threshold: number = 500,
-  context: object | null = null
+  context: object | null = null,
 ): ((...args: Parameters<T>) => void) => {
   let timer: ReturnType<typeof setTimeout>;
 
@@ -35,7 +35,7 @@ export const debounce = <T extends AnyFunction>(
 export const throttle = <T extends AnyFunction>(
   fn: T,
   threshold: number = 500,
-  context: object | null = null
+  context: object | null = null,
 ): ((...args: Parameters<T>) => void) => {
   let last: number = -1,
     timer: ReturnType<typeof setTimeout>;
@@ -68,7 +68,7 @@ export const slugify = (text: string) =>
 
 export const createMetadata = (
   key: META_KEY,
-  customMetadata?: Partial<MetadataParams>
+  customMetadata?: Partial<MetadataParams>,
 ): Metadata => {
   const { canonical, type, images, ...rest } = {
     ...metadata[key],
@@ -123,7 +123,7 @@ export const notifyAxiosError = (ex: unknown) => {
 export const createRequestConfig = <D = unknown>(
   path: string,
   data?: D,
-  rest?: Partial<AxiosRequestConfig<D>>
+  rest?: Partial<AxiosRequestConfig<D>>,
 ): AxiosRequestConfig<D> => {
   return {
     method: rest?.method || 'POST',
@@ -140,9 +140,7 @@ export const getUniqueID = (): string => {
   return 'u' + Math.random().toString(32).substring(2);
 };
 
-export const isObjEmpty = (
-  data: Record<string | number | symbol, unknown>
-): boolean => {
+export const isObjEmpty = (data: Record<string | number | symbol, unknown>): boolean => {
   for (const _ in data) {
     return false;
   }
@@ -157,12 +155,10 @@ export const getLabelOption = (option: string | SelectOption): SelectOption => {
 
 export const getSearchQuery = <T>(
   params: Record<string, T>,
-  filter?: (key: string, value: T) => boolean
+  filter?: (key: string, value: T) => boolean,
 ): string => {
   return Object.entries(params)
-    .filter(
-      ([key, value]) => value !== undefined && (!filter || filter(key, value))
-    )
+    .filter(([key, value]) => value !== undefined && (!filter || filter(key, value)))
     .map(([key, value]) => `${key}=${encodeURIComponent(String(value))}`)
     .join('&');
 };
@@ -187,10 +183,7 @@ export const compare = (fstValue: unknown, sndValue: unknown): boolean => {
     const val1 = fstValue as unknown[];
     const val2 = sndValue as unknown[];
 
-    return (
-      val1.length === val2.length &&
-      !val1.some((item, index) => !compare(item, val2[index]))
-    );
+    return val1.length === val2.length && !val1.some((item, index) => !compare(item, val2[index]));
   } else if (typeof fstValue === 'object' && typeof sndValue === 'object') {
     const val1 = fstValue as Record<string, unknown>;
     const val2 = sndValue as Record<string, unknown>;

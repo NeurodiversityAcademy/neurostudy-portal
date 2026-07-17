@@ -34,14 +34,11 @@ describe('Pill', () => {
         selected
         onClose={handleClose}
         button-aria-label='Remove'
-      />
+      />,
     );
 
     fireEvent.click(screen.getByLabelText('Remove'));
-    expect(handleClose).toHaveBeenCalledWith(
-      'banana',
-      expect.objectContaining({ type: 'click' })
-    );
+    expect(handleClose).toHaveBeenCalledWith('banana', expect.objectContaining({ type: 'click' }));
   });
 
   it('calls onFocus with parent container when close button is focused', () => {
@@ -54,43 +51,28 @@ describe('Pill', () => {
         selected
         onFocus={handleFocus}
         button-aria-label='Remove'
-      />
+      />,
     );
 
     fireEvent.focus(screen.getByLabelText('Remove'));
 
     expect(handleFocus).toHaveBeenCalledWith(
       expect.objectContaining({ parent: expect.any(HTMLDivElement) }),
-      expect.objectContaining({ type: 'focus' })
+      expect.objectContaining({ type: 'focus' }),
     );
   });
 
   it('exposes focus via ref imperative handle', () => {
     const ref = createRef<PillRef>();
 
-    render(
-      <Pill
-        ref={ref}
-        label='Apple'
-        value='apple'
-        selected
-        button-aria-label='Remove'
-      />
-    );
+    render(<Pill ref={ref} label='Apple' value='apple' selected button-aria-label='Remove' />);
 
     ref.current?.focus();
-    expect(document.activeElement).toBe(screen.getByLabelText('Remove'));
+    expect(screen.getByLabelText('Remove')).toHaveFocus();
   });
 
   it('disables close button when disabled', () => {
-    render(
-      <Pill
-        label='Apple'
-        selected
-        disabled
-        button-aria-label='Remove'
-      />
-    );
+    render(<Pill label='Apple' selected disabled button-aria-label='Remove' />);
 
     expect(screen.getByLabelText('Remove')).toBeDisabled();
   });

@@ -11,12 +11,9 @@ jest.mock('@/app/utilities/register/registerSenderContact', () => ({
   registerSenderContact: jest.fn().mockResolvedValue({ ok: true }),
 }));
 
-jest.mock(
-  '@/app/utilities/validation/validateTeacherRegistrationData',
-  () => ({
-    isValidTeacherRegistrationData: jest.fn(),
-  })
-);
+jest.mock('@/app/utilities/validation/validateTeacherRegistrationData', () => ({
+  isValidTeacherRegistrationData: jest.fn(),
+}));
 
 import { registerCRMContact } from '@/app/utilities/register/registerCRMContact';
 import { registerSenderContact } from '@/app/utilities/register/registerSenderContact';
@@ -67,7 +64,7 @@ describe('POST /api/teacherRegistration', () => {
         industry: 'teacher',
         company: 'individual',
         hs_persona: 'persona_3',
-      })
+      }),
     );
   });
 
@@ -83,7 +80,7 @@ describe('POST /api/teacherRegistration', () => {
         lastname: validData.lastname,
         phone: validData.phone,
       },
-      'persona_3'
+      'persona_3',
     );
   });
 

@@ -72,7 +72,7 @@ describe('MyPrimary', () => {
   it('renders Search labels', () => {
     render(<MyPrimary />);
     const labels = screen.getAllByText('Search');
-    expect(labels.length).toBe(4);
+    expect(labels).toHaveLength(4);
   });
 
   it('renders Default, Full Width, and disabled variants', () => {
@@ -99,7 +99,7 @@ describe('MySecondary', () => {
   it('renders four Search buttons', () => {
     render(<MySecondary />);
     const labels = screen.getAllByText('Search');
-    expect(labels.length).toBe(4);
+    expect(labels).toHaveLength(4);
   });
 
   it('invokes onClick handler when a button is clicked', () => {
@@ -120,7 +120,7 @@ describe('MyTertiary', () => {
   it('renders four Learn more buttons', () => {
     render(<MyTertiary />);
     const labels = screen.getAllByText('Learn more');
-    expect(labels.length).toBe(4);
+    expect(labels).toHaveLength(4);
   });
 
   it('invokes onClick handler when a button is clicked', () => {

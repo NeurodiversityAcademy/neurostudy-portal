@@ -34,8 +34,7 @@ module.exports = {
         headers: [
           {
             key: 'X-Robots-Tag',
-            value:
-              'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
+            value: 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
           },
           {
             key: 'Cache-Control',

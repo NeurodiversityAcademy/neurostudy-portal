@@ -22,19 +22,11 @@ jest.mock('@/app/utilities/auth/createUser', () => jest.fn());
 jest.mock('@/app/utilities/auth/responses', () => ({
   returnAuthError: jest.fn().mockImplementation((ex: unknown) => {
     const message = ex instanceof Error ? ex.message : 'Auth error';
-    return new Response(
-      JSON.stringify({ error: 'Bad Request', message }),
-      { status: 400 }
-    );
+    return new Response(JSON.stringify({ error: 'Bad Request', message }), { status: 400 });
   }),
 }));
 
-import {
-  signUp,
-  resetPassword,
-  confirmResetPassword,
-  resendSignUpCode,
-} from 'aws-amplify/auth';
+import { signUp, resetPassword, confirmResetPassword, resendSignUpCode } from 'aws-amplify/auth';
 import createUser from '@/app/utilities/auth/createUser';
 
 const mockSignUp = signUp as jest.Mock;
@@ -85,7 +77,7 @@ describe('POST /api/auth/signUp', () => {
     expect(data).toEqual({ isSignUpComplete: true });
     expect(mockCreateUser).toHaveBeenCalledWith(
       { email: 'new@test.com', family_name: 'Doe', given_name: 'John' },
-      { birthdate: '1990-01-01', subscribed: true }
+      { birthdate: '1990-01-01', subscribed: true },
     );
   });
 
@@ -138,7 +130,7 @@ describe('POST /api/auth/signUp', () => {
     expect(mockSignUp).toHaveBeenCalledWith(
       expect.objectContaining({
         options: expect.objectContaining({ autoSignIn: false }),
-      })
+      }),
     );
   });
 
@@ -176,23 +168,17 @@ describe('POST /api/auth/resetPassword', () => {
       nextStep: { resetPasswordStep: 'CONFIRM_RESET_PASSWORD_WITH_CODE' },
     });
 
-    const res = await POST(
-      makeRequest('/api/auth/resetPassword', { username: 'user@test.com' })
-    );
+    const res = await POST(makeRequest('/api/auth/resetPassword', { username: 'user@test.com' }));
     const data = await res.json();
 
     expect(res.status).toBe(200);
-    expect(data.nextStep.resetPasswordStep).toBe(
-      'CONFIRM_RESET_PASSWORD_WITH_CODE'
-    );
+    expect(data.nextStep.resetPasswordStep).toBe('CONFIRM_RESET_PASSWORD_WITH_CODE');
   });
 
   it('returns error when resetPassword throws', async () => {
     mockResetPassword.mockRejectedValue(new Error('User not found'));
 
-    const res = await POST(
-      makeRequest('/api/auth/resetPassword', { username: 'bad@test.com' })
-    );
+    const res = await POST(makeRequest('/api/auth/resetPassword', { username: 'bad@test.com' }));
 
     expect(res.status).toBe(400);
   });
@@ -218,17 +204,13 @@ describe('POST /api/auth/confirmResetPassword', () => {
       newPassword: 'NewPass123!',
     };
 
-    const res = await POST(
-      makeRequest('/api/auth/confirmResetPassword', body)
-    );
+    const res = await POST(makeRequest('/api/auth/confirmResetPassword', body));
 
     expect(res.status).toBe(200);
   });
 
   it('returns error when confirmResetPassword throws', async () => {
-    mockConfirmResetPassword.mockRejectedValue(
-      new Error('Invalid code')
-    );
+    mockConfirmResetPassword.mockRejectedValue(new Error('Invalid code'));
 
     const body = {
       username: 'user@test.com',
@@ -236,9 +218,7 @@ describe('POST /api/auth/confirmResetPassword', () => {
       newPassword: 'NewPass123!',
     };
 
-    const res = await POST(
-      makeRequest('/api/auth/confirmResetPassword', body)
-    );
+    const res = await POST(makeRequest('/api/auth/confirmResetPassword', body));
 
     expect(res.status).toBeGreaterThanOrEqual(400);
   });
@@ -262,7 +242,7 @@ describe('POST /api/auth/resendSignUpCode', () => {
     });
 
     const res = await POST(
-      makeRequest('/api/auth/resendSignUpCode', { username: 'user@test.com' })
+      makeRequest('/api/auth/resendSignUpCode', { username: 'user@test.com' }),
     );
     const data = await res.json();
 
@@ -273,9 +253,7 @@ describe('POST /api/auth/resendSignUpCode', () => {
   it('returns error when resendSignUpCode throws', async () => {
     mockResendSignUpCode.mockRejectedValue(new Error('User not found'));
 
-    const res = await POST(
-      makeRequest('/api/auth/resendSignUpCode', { username: 'bad@test.com' })
-    );
+    const res = await POST(makeRequest('/api/auth/resendSignUpCode', { username: 'bad@test.com' }));
 
     expect(res.status).toBe(400);
   });

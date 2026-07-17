@@ -18,22 +18,15 @@ import { updateCourseDropdownFilter } from '@/app/utilities/course/helper';
 
 interface PropType extends FormHTMLAttributes<HTMLFormElement> {}
 
-const DROPDOWN_KEYS: (keyof CoursePrimaryFilterType)[] = [
-  'Neurotypes',
-  'InterestArea',
-  'Location',
-];
+const DROPDOWN_KEYS: (keyof CoursePrimaryFilterType)[] = ['Neurotypes', 'InterestArea', 'Location'];
 
 const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
   const { isLoading, filter, updateFilter } = useCourseContext();
   const router = useRouter();
-  const methods: UseFormReturn<CoursePrimaryFilterType> =
-    useForm<CoursePrimaryFilterType>({
-      mode: 'onBlur',
-      defaultValues: Object.fromEntries(
-        DROPDOWN_KEYS.map((key) => [key, filter[key]])
-      ),
-    });
+  const methods: UseFormReturn<CoursePrimaryFilterType> = useForm<CoursePrimaryFilterType>({
+    mode: 'onBlur',
+    defaultValues: Object.fromEntries(DROPDOWN_KEYS.map((key) => [key, filter[key]])),
+  });
 
   useUpdatedValue(filter, () => {
     DROPDOWN_KEYS.forEach((name) => {
@@ -52,11 +45,7 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
   return (
     <Form
       methods={methods}
-      className={classNames(
-        styles.container,
-        className,
-        isLoading && styles.disabled
-      )}
+      className={classNames(styles.container, className, isLoading && styles.disabled)}
       onSubmit={methods.handleSubmit(() => {
         router.push('/courses');
       })}

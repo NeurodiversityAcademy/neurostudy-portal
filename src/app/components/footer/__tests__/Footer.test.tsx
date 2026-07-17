@@ -38,9 +38,7 @@ describe('Footer', () => {
 
   it('renders the acknowledgement text', () => {
     render(<Footer />);
-    expect(
-      screen.getByText(/Traditional Owners/i),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Traditional Owners/i)).toBeInTheDocument();
   });
 
   it('renders social media links', () => {
@@ -70,14 +68,8 @@ describe('Footer', () => {
 
   it('renders navigation links with correct hrefs', () => {
     render(<Footer />);
-    expect(screen.getByText('Articles').closest('a')).toHaveAttribute(
-      'href',
-      '/articles',
-    );
-    expect(screen.getByText('Endorsements').closest('a')).toHaveAttribute(
-      'href',
-      '/endorsements',
-    );
+    expect(screen.getByText('Articles').closest('a')).toHaveAttribute('href', '/articles');
+    expect(screen.getByText('Endorsements').closest('a')).toHaveAttribute('href', '/endorsements');
   });
 
   it('renders contact email link', () => {
@@ -109,10 +101,7 @@ describe('Footer', () => {
   it('renders Privacy Policy link', () => {
     render(<Footer />);
     const privacyLink = screen.getByText('Privacy Policy').closest('a');
-    expect(privacyLink).toHaveAttribute(
-      'href',
-      expect.stringContaining('Privacy+Policy'),
-    );
+    expect(privacyLink).toHaveAttribute('href', expect.stringContaining('Privacy+Policy'));
     expect(privacyLink).toHaveAttribute('target', '_blank');
   });
 

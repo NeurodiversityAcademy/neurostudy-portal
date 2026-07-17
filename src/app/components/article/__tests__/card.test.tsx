@@ -16,9 +16,7 @@ jest.mock('@/app/hooks/useVisitedItems', () => ({
 
 jest.mock('../Article', () => ({
   __esModule: true,
-  default: ({ title }: { title: string }) => (
-    <div data-testid='article-card'>{title}</div>
-  ),
+  default: ({ title }: { title: string }) => <div data-testid='article-card'>{title}</div>,
 }));
 
 import { useSearchParams } from 'next/navigation';
@@ -37,14 +35,13 @@ describe('CardList', () => {
   it('renders up to three article cards', () => {
     render(<CardList />);
     const cards = screen.getAllByTestId('article-card');
-    expect(cards.length).toBe(3);
+    expect(cards).toHaveLength(3);
   });
 
   it('excludes the current article from the title query param', () => {
     mockUseSearchParams.mockReturnValue(
       new URLSearchParams({
-        title:
-          '6-steps-to-enhancing-accessibility-for-neurodivergent-students-in-higher-education',
+        title: '6-steps-to-enhancing-accessibility-for-neurodivergent-students-in-higher-education',
       }),
     );
     render(<CardList />);
@@ -66,6 +63,6 @@ describe('CardList', () => {
   it('fills remaining slots when fewer than three unvisited articles remain', () => {
     mockUseVisitedItems.mockReturnValue(['1', '2', '3', '4', '5']);
     render(<CardList />);
-    expect(screen.getAllByTestId('article-card').length).toBe(3);
+    expect(screen.getAllByTestId('article-card')).toHaveLength(3);
   });
 });

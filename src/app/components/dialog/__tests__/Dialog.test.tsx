@@ -14,7 +14,7 @@ describe('Dialog', () => {
         <p>Dialog content</p>
       </Dialog>,
     );
-    expect(container.innerHTML).toBe('');
+    expect(container).toBeEmptyDOMElement();
   });
 
   it('renders children when open is true', () => {
@@ -57,9 +57,7 @@ describe('Dialog', () => {
       </Dialog>,
     );
     expect(screen.getByText('Portal content')).toBeInTheDocument();
-    expect(
-      document.body.querySelector('dialog'),
-    ).toBeInTheDocument();
+    expect(document.body.querySelector('dialog')).toBeInTheDocument();
   });
 
   it('hides content after close with animation delay', () => {
@@ -81,7 +79,7 @@ describe('Dialog', () => {
       jest.advanceTimersByTime(300);
     });
 
-    expect(screen.queryByRole('dialog')).toBeNull();
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     jest.useRealTimers();
   });
 

@@ -40,12 +40,11 @@ jest.mock('@/app/utilities/moodle/helper', () => ({
 }));
 
 jest.mock('@/app/utilities/common', () => ({
-  getSearchQuery: jest.fn().mockImplementation(
-    (params: Record<string, unknown>) =>
-      Object.entries(params)
-        .filter(([, v]) => v !== undefined)
-        .map(([k, v]) => `${k}=${encodeURIComponent(String(v))}`)
-        .join('&')
+  getSearchQuery: jest.fn().mockImplementation((params: Record<string, unknown>) =>
+    Object.entries(params)
+      .filter(([, v]) => v !== undefined)
+      .map(([k, v]) => `${k}=${encodeURIComponent(String(v))}`)
+      .join('&'),
   ),
 }));
 
@@ -125,7 +124,7 @@ describe('GET /api/course/checkoutCallback', () => {
       'sess_123',
       expect.objectContaining({
         expand: expect.arrayContaining(['customer', 'line_items']),
-      })
+      }),
     );
   });
 
@@ -150,9 +149,7 @@ describe('GET /api/course/checkoutCallback', () => {
     mockStripe.checkout.sessions.retrieve.mockResolvedValue(makePaidSession());
     mockGetMoodleUser.mockResolvedValue({ id: 42 });
     mockEnrolUser.mockResolvedValue(undefined);
-    mockIsAuth.mockResolvedValue(
-      new AuthErrorResponse(null, { status: 401 })
-    );
+    mockIsAuth.mockResolvedValue(new AuthErrorResponse(null, { status: 401 }));
     mockGetUser.mockResolvedValue(null);
 
     const res = await GET(makeRequest({ session_id: 'sess_123' }));
@@ -187,7 +184,7 @@ describe('GET /api/course/checkoutCallback', () => {
     mockStripe.checkout.sessions.retrieve.mockResolvedValue(
       makePaidSession({
         customer_details: { email: null, name: 'No Email' },
-      })
+      }),
     );
 
     const res = await GET(makeRequest({ session_id: 'sess_123' }));
@@ -199,9 +196,7 @@ describe('GET /api/course/checkoutCallback', () => {
 
   it('redirects to failure when rate limited', async () => {
     const APIError = (await import('@/app/interfaces/APIError')).default;
-    mockConsumeRate.mockRejectedValue(
-      new APIError({ status: 429, error: 'Too Many Requests.' })
-    );
+    mockConsumeRate.mockRejectedValue(new APIError({ status: 429, error: 'Too Many Requests.' }));
 
     const res = await GET(makeRequest({ session_id: 'sess_123' }));
 

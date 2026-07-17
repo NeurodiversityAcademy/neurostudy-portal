@@ -9,13 +9,9 @@ jest.mock('next/image', () => ({
 
 jest.mock('next/link', () => ({
   __esModule: true,
-  default: ({
-    children,
-    href,
-  }: {
-    children: React.ReactNode;
-    href: string;
-  }) => <a href={href}>{children}</a>,
+  default: ({ children, href }: { children: React.ReactNode; href: string }) => (
+    <a href={href}>{children}</a>
+  ),
 }));
 
 const mockProfileContext = {
@@ -54,20 +50,12 @@ describe('ProfilePreferenceForm', () => {
 
   it('renders preference form field labels', () => {
     render(<ProfilePreferenceForm />);
-    expect(
-      screen.getByText('Tell us about your Neuro-Condition'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Tell us about your Neuro-Condition')).toBeInTheDocument();
     expect(screen.getByText('Learning Institutions')).toBeInTheDocument();
+    expect(screen.getByText('Select your preferred learning style')).toBeInTheDocument();
+    expect(screen.getByText('If you need any adjustments, add them here')).toBeInTheDocument();
     expect(
-      screen.getByText('Select your preferred learning style'),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText('If you need any adjustments, add them here'),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        'Tell us about any accessibility tools you’ve used in the past',
-      ),
+      screen.getByText('Tell us about any accessibility tools you’ve used in the past'),
     ).toBeInTheDocument();
     expect(
       screen.getByText('Describe a learning environment that you find ideal*'),
@@ -76,23 +64,19 @@ describe('ProfilePreferenceForm', () => {
 
   it('does not render footer when onSubmit is not provided', () => {
     render(<ProfilePreferenceForm />);
-    expect(screen.queryByText('Cancel')).toBeNull();
-    expect(screen.queryByText('Save')).toBeNull();
+    expect(screen.queryByText('Cancel')).not.toBeInTheDocument();
+    expect(screen.queryByText('Save')).not.toBeInTheDocument();
   });
 
   it('renders footer when onSubmit is provided', () => {
-    render(
-      <ProfilePreferenceForm onSubmit={jest.fn()} onCancel={jest.fn()} />,
-    );
+    render(<ProfilePreferenceForm onSubmit={jest.fn()} onCancel={jest.fn()} />);
     expect(screen.getByText('Cancel')).toBeInTheDocument();
     expect(screen.getByText('Save')).toBeInTheDocument();
   });
 
   it('calls onCancel when Cancel is clicked in popup mode', () => {
     const onCancel = jest.fn();
-    render(
-      <ProfilePreferenceForm onSubmit={jest.fn()} onCancel={onCancel} />,
-    );
+    render(<ProfilePreferenceForm onSubmit={jest.fn()} onCancel={onCancel} />);
     fireEvent.click(screen.getByText('Cancel'));
     expect(onCancel).toHaveBeenCalledTimes(1);
   });
@@ -107,18 +91,11 @@ describe('ProfilePreferenceForm', () => {
   it('handles missing profile data', () => {
     mockProfileContext.data = undefined;
     render(<ProfilePreferenceForm />);
-    expect(
-      screen.getByText('Tell us about your Neuro-Condition'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Tell us about your Neuro-Condition')).toBeInTheDocument();
   });
 
   it('wires Save button as form submit in popup mode', () => {
-    render(
-      <ProfilePreferenceForm onSubmit={jest.fn()} onCancel={jest.fn()} />,
-    );
-    expect(screen.getByText('Save').closest('button')).toHaveAttribute(
-      'type',
-      'submit',
-    );
+    render(<ProfilePreferenceForm onSubmit={jest.fn()} onCancel={jest.fn()} />);
+    expect(screen.getByText('Save').closest('button')).toHaveAttribute('type', 'submit');
   });
 });

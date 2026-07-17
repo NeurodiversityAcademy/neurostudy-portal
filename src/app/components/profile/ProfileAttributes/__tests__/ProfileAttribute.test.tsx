@@ -8,13 +8,9 @@ jest.mock('next/image', () => ({
 
 jest.mock('next/link', () => ({
   __esModule: true,
-  default: ({
-    children,
-    href,
-  }: {
-    children: React.ReactNode;
-    href: string;
-  }) => <a href={href}>{children}</a>,
+  default: ({ children, href }: { children: React.ReactNode; href: string }) => (
+    <a href={href}>{children}</a>
+  ),
 }));
 
 import ProfileAttribute from '../ProfileAttribute';
@@ -62,9 +58,7 @@ describe('ProfileAttribute', () => {
   });
 
   it('renders empty label when label prop is empty', () => {
-    const { container } = render(
-      <ProfileAttribute label='' value='Value' />,
-    );
+    const { container } = render(<ProfileAttribute label='' value='Value' />);
     expect(container.querySelector('label')).toBeInTheDocument();
     expect(screen.getByText('Value')).toBeInTheDocument();
   });

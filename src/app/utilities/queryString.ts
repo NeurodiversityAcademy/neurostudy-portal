@@ -9,13 +9,11 @@ const queryString = {
     config: Partial<{
       useLocationSearch: boolean;
       addDelimiter: boolean;
-    }> = {}
+    }> = {},
   ) => {
     const { useLocationSearch = false, addDelimiter = true } = config;
 
-    const searchParams = new URLSearchParams(
-      useLocationSearch ? location.search : ''
-    );
+    const searchParams = new URLSearchParams(useLocationSearch ? location.search : '');
 
     for (const key in record) {
       const value = record[key];

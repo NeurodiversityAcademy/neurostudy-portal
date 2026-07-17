@@ -51,7 +51,6 @@
 }
 
 @media (max-width: 480px) {
-
   /* mobile view */
   .heading1 {
     font-size: var(--mobile-heading1-font-size);
@@ -84,7 +83,6 @@
   .body3 {
     font-size: var(--mobile-body3-font-size);
   }
-
 }
 
 /* Typography `color` prop maps here — never use inline `style` for text color */

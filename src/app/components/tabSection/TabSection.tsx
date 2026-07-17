@@ -65,9 +65,7 @@ export default function TabSection({
         {children(activeTab)}
         {disclaimer ? (
           <div className={tabStyles.adjustmentDisclaimer}>
-            <Typography variant={TypographyVariant.Body3}>
-              {disclaimer}
-            </Typography>
+            <Typography variant={TypographyVariant.Body3}>{disclaimer}</Typography>
           </div>
         ) : null}
       </div>

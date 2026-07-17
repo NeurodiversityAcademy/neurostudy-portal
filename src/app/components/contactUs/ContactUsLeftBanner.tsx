@@ -1,8 +1,6 @@
 import classNames from 'classnames';
 import styles from './contactUs.module.css';
-import Typography, {
-  TypographyVariant,
-} from '@/app/components/typography/Typography';
+import Typography, { TypographyVariant } from '@/app/components/typography/Typography';
 
 const ContactUsLeftBanner = () => {
   return (

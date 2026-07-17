@@ -6,9 +6,7 @@ import StudentFacts from '../StudentFacts';
 describe('StudentFacts', () => {
   it('renders section title', () => {
     render(<StudentFacts />);
-    expect(
-      screen.getByText('Neurodiversity in Adult Education'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('Neurodiversity in Adult Education')).toBeInTheDocument();
   });
 
   it('renders statistic values', () => {
@@ -20,12 +18,8 @@ describe('StudentFacts', () => {
 
   it('renders statistic descriptions', () => {
     render(<StudentFacts />);
-    expect(
-      screen.getByText(/Increase in students starting university/),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Improvement in retention is linked to access/),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Increase in students starting university/)).toBeInTheDocument();
+    expect(screen.getByText(/Improvement in retention is linked to access/)).toBeInTheDocument();
     expect(
       screen.getByText(/Neurodivergent students do not formally disclose/),
     ).toBeInTheDocument();
@@ -33,8 +27,6 @@ describe('StudentFacts', () => {
 
   it('renders reference footnote', () => {
     render(<StudentFacts />);
-    expect(
-      screen.getByText('*People with Disability in Australia 2022'),
-    ).toBeInTheDocument();
+    expect(screen.getByText('*People with Disability in Australia 2022')).toBeInTheDocument();
   });
 });
