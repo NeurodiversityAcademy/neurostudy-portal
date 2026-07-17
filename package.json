@@ -5,7 +5,7 @@
   "scripts": {
     "predev": "eslint src --quiet",
     "dev": "next dev",
-    "prebuild": "npm run security:audit",
+    "prebuild": "npm run verify:quality",
     "build": "next build",
     "start": "next start",
     "format": "prettier --write .",
@@ -18,8 +18,10 @@
     "test:coverage": "jest --coverage --passWithNoTests --maxWorkers=75%",
     "test:ci": "jest --ci --coverage --passWithNoTests --maxWorkers=75% --workerIdleMemoryLimit=512MB",
     "coverage:changed": "node scripts/check-changed-coverage.mjs",
-    "verify:deploy": "npm run security:audit && npm run format:check && npm run lint && npm run typecheck && npm run test:ci && npm run coverage:changed && npm run build",
-    "deploy": "npm run verify:deploy"
+    "verify:quality": "npm run security:audit && npm run format:check && npm run lint && npm run typecheck && npm run test:ci && npm run coverage:changed",
+    "vercel:build": "npm run verify:quality && next build",
+    "verify:deploy": "npm run vercel:build",
+    "deploy": "npm run vercel:build"
   },
   "engines": {
     "node": "24.x"
