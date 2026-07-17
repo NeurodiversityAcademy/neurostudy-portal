@@ -5,8 +5,8 @@ import Typography, { TypographyVariant } from '../typography/Typography';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './textHeavyBlog.module.css';
-import DOMPurify from 'isomorphic-dompurify';
 import useWindowWidth from '@/app/hooks/useWindowWidth';
+import { sanitizeHtml } from '@/app/utilities/sanitizeHtml';
 
 export default function TextHeavyBlog({
   header,
@@ -16,8 +16,8 @@ export default function TextHeavyBlog({
   const windowWidth = useWindowWidth();
 
   const paragraphs = bodyText.split('\n').map((paragraph, index) => {
-    const sanitizedHTML = DOMPurify.sanitize?.(paragraph, {
-      ADD_ATTR: ['target'],
+    const sanitizedHTML = sanitizeHtml(paragraph, {
+      allowTargetAttr: true,
     });
     return (
       <div key={index}>
