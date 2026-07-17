@@ -28,11 +28,8 @@ jest.mock('@/app/hooks/useWindowWidth', () => ({
   default: jest.fn(),
 }));
 
-jest.mock('isomorphic-dompurify', () => ({
-  __esModule: true,
-  default: {
-    sanitize: (html: string) => html,
-  },
+jest.mock('@/app/utilities/sanitizeHtml', () => ({
+  sanitizeHtml: (html: string) => html,
 }));
 
 import useWindowWidth from '@/app/hooks/useWindowWidth';
