@@ -1,50 +1,11 @@
-/* eslint-disable */
-/* tslint:disable */
 import { type NextRequest } from 'next/server';
-import { slugify } from '@/app/utilities/common';
-import blogData from '@/app/blogs/blogData.json';
-import articleData from '@/app/articles/articleData.json';
+import { buildSitemapUrls, buildSitemapXml } from './buildSitemapUrls';
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   const baseUrl = 'https://neurodiversityacademy.com';
-
-  const staticPages = [
-    '/',
-    '/endorsements',
-    '/contact',
-    '/about',
-    '/neurodivergentmates',
-    '/login',
-    '/signup',
-    '/articles',
-    '/blogs',
-  ];
-
-  const staticUrls = staticPages.map((page) => `${baseUrl}${page}`);
-
-  const articleUrls = articleData.articles.map((article) => {
-    return `${baseUrl}/articles/${slugify(article.title)}`;
-  });
-
-  const blogUrls = blogData.blogs.map((blog) => {
-    return `${baseUrl}/blogs/${slugify(blog.title)}`;
-  });
-
-  const urls = [...staticUrls, ...articleUrls, ...blogUrls];
-
+  const urls = buildSitemapUrls({ baseUrl });
   const lastmod = new Date().toISOString();
-
-  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls
-  .map(
-    (url) => `<url>
-  <loc>${url}</loc>
-  <lastmod>${lastmod}</lastmod>
-</url>`,
-  )
-  .join('\n')}
-</urlset>`;
+  const sitemap = buildSitemapXml(urls, lastmod);
 
   return new Response(sitemap, {
     headers: {
