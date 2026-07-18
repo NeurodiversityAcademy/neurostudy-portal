@@ -128,9 +128,7 @@ describe('PageEngagementTracker', () => {
     render(
       <PageEngagementTracker providerSlug='bond-university'>
         <div {...{ [DATA_SECTION_ATTRIBUTE]: EMERGING_PAGE_SECTION.HERO }}>Hero</div>
-        <div {...{ [DATA_SECTION_ATTRIBUTE]: EMERGING_PAGE_SECTION.SUITABILITY }}>
-          Suitability
-        </div>
+        <div {...{ [DATA_SECTION_ATTRIBUTE]: EMERGING_PAGE_SECTION.SUITABILITY }}>Suitability</div>
         <div {...{ [DATA_SECTION_ATTRIBUTE]: EMERGING_PAGE_SECTION.STATS }}>Stats</div>
         <div {...{ [DATA_SECTION_ATTRIBUTE]: EMERGING_PAGE_SECTION.FAQS }}>FAQs</div>
       </PageEngagementTracker>,
