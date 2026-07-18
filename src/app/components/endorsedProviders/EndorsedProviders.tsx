@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image, { type StaticImageData } from 'next/image';
 import classNames from 'classnames';
 import InstitutionProviderCard from '../institutionProviderCard/InstitutionProviderCard';
 import cardStyles from '../institutionProviderCard/institutionProviderCard.module.css';
@@ -24,6 +24,20 @@ import { ENDORSED_PROVIDER_LOGO_BY_SLUG } from './endorsedProviderBrandAssets';
 import EndorsedCertifiedBadge from './EndorsedCertifiedBadge';
 import endorsedData from './endorsedProviders.json';
 import { providerNameFromId } from './providerName';
+
+/** Intrinsic size for public fallback `/images/AcademiaLogoLong.png`. */
+const FALLBACK_LOGO_WIDTH = 921;
+const FALLBACK_LOGO_HEIGHT = 271;
+
+const getLogoDimensions = (
+  logoSrc: string | StaticImageData,
+): { width: number; height: number } => {
+  if (typeof logoSrc === 'string') {
+    return { width: FALLBACK_LOGO_WIDTH, height: FALLBACK_LOGO_HEIGHT };
+  }
+
+  return { width: logoSrc.width, height: logoSrc.height };
+};
 
 type EndorsedProviderRawRow = {
   id: string;
@@ -146,6 +160,7 @@ export default function EndorsedProviders({
               provider.logo,
               ENDORSED_PROVIDER_LOGO_BY_SLUG,
             );
+            const { width: logoWidth, height: logoHeight } = getLogoDimensions(cardLogoSrc);
             const ctaHref = buildEndorsedProviderDetailHref(providerSlug, demoGuid);
 
             return (
@@ -179,7 +194,12 @@ export default function EndorsedProviders({
                 }}
                 center={
                   <div className={cardStyles.logoWrap}>
-                    <Image src={cardLogoSrc} alt={`${providerName} logo`} width={280} height={72} />
+                    <Image
+                      src={cardLogoSrc}
+                      alt={`${providerName} logo`}
+                      width={logoWidth}
+                      height={logoHeight}
+                    />
                   </div>
                 }
               />

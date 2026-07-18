@@ -5,6 +5,7 @@ import { TABNAV_WIDGET_CONFIG_JSON, TABNAV_WIDGET_SCRIPT_SRC } from './tabNavCon
 /**
  * TabNav accessibility widget loader (third-party).
  * Props match TabNav dashboard snippet; see tabNavConstants for regression-locked values.
+ * Production layout uses DeferredTabNavEmbed to defer load past first paint.
  */
 export default function TabNavEmbed(): ReactElement {
   return (

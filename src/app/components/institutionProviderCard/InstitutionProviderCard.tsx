@@ -53,6 +53,7 @@ export default function InstitutionProviderCard({
     isEmergingDefault && styles.cardTopEmerging,
     header.kind === INSTITUTION_PROVIDER_HEADER_KIND.YELLOW && styles.cardTopYellow,
     header.kind === INSTITUTION_PROVIDER_HEADER_KIND.CHERRY_PIE_SUB && styles.cardTopCherryPieSub,
+    showRemoteImage && styles.cardTopWithRemoteImage,
   );
 
   return (
@@ -79,7 +80,8 @@ export default function InstitutionProviderCard({
           <Image
             src={header.src}
             alt=''
-            fill
+            width={1536}
+            height={1024}
             sizes='(max-width: 768px) 100vw, 320px'
             className={styles.cardTopImage}
             loading='lazy'

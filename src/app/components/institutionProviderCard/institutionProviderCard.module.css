@@ -68,8 +68,14 @@
   background-color: var(--cherryPieSub);
 }
 
+.cardTopWithRemoteImage {
+  height: auto;
+}
+
 .cardTopImage {
-  object-fit: cover;
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .badgeSlot {
