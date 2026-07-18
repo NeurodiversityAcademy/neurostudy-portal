@@ -29,7 +29,14 @@ const asWarnings = (rules) =>
 /** @type {import('eslint').Linter.Config[]} */
 const eslintConfig = [
   {
-    ignores: ['node_modules/**', '.next/**', 'out/**', 'deliverables/**', 'coverage/**'],
+    ignores: [
+      'node_modules/**',
+      '.next/**',
+      '.netlify/**',
+      'out/**',
+      'deliverables/**',
+      'coverage/**',
+    ],
   },
   js.configs.recommended,
   ...nextVitals,
