@@ -27,7 +27,7 @@ const CardListContent: React.FC = () => {
     const fallbackArticles = articleData.articles
       .filter((article) => slugify(article.title) !== titleSlug)
       .filter((article) => !articleIdsToShow.includes(article.id))
-      .sort(() => 0.5 - Math.random())
+      .sort((a, b) => a.id.localeCompare(b.id))
       .slice(0, needed);
 
     articles.push(...fallbackArticles);

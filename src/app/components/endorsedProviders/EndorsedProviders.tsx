@@ -124,7 +124,7 @@ export default function EndorsedProviders({
               alt={ENDORSED_PROVIDERS_BADGE_ALT}
               width={54}
               height={54}
-              unoptimized
+              sizes='54px'
               className={endorseStyles.headerBadgeImg}
             />
           </div>

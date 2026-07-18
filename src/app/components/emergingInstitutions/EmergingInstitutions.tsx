@@ -20,6 +20,8 @@ export default function EmergingInstitutions() {
           <Image
             src={graduationCap}
             alt='Graduation cap icon'
+            width={40}
+            height={40}
             className={styles.icon}
           />
           <Typography variant={TypographyVariant.H2} color='var(--BondBlack)'>

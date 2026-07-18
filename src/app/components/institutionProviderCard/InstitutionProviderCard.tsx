@@ -4,6 +4,7 @@ import EmergingInstitutionCtaButton from '../emergingInstitutions/EmergingInstit
 import styles from './institutionProviderCard.module.css';
 import classNames from 'classnames';
 import type { InstitutionCtaAnalytics } from '../emergingInstitutions/EmergingInstitutionCtaButton';
+import emergingCardHeader from '@/app/images/emergingCardHeader.webp';
 
 export const INSTITUTION_PROVIDER_HEADER_KIND = {
   EMERGING_DEFAULT: 'emergingDefault',
@@ -44,18 +45,19 @@ export default function InstitutionProviderCard({
   gaEvent,
   ctaOpenInNewTab,
 }: InstitutionProviderCardProps) {
+  const isEmergingDefault =
+    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT;
+  const showRemoteImage =
+    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.REMOTE_IMAGE;
+
   const topClass = classNames(
     styles.cardTop,
-    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT &&
-      styles.cardTopEmerging,
+    isEmergingDefault && styles.cardTopEmerging,
     header.kind === INSTITUTION_PROVIDER_HEADER_KIND.YELLOW &&
       styles.cardTopYellow,
     header.kind === INSTITUTION_PROVIDER_HEADER_KIND.CHERRY_PIE_SUB &&
       styles.cardTopCherryPieSub
   );
-
-  const showRemoteImage =
-    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.REMOTE_IMAGE;
 
   return (
     <div
@@ -67,13 +69,24 @@ export default function InstitutionProviderCard({
       )}
     >
       <div className={topClass}>
+        {isEmergingDefault ? (
+          <Image
+            src={emergingCardHeader}
+            alt=''
+            fill
+            sizes='(max-width: 768px) 100vw, 320px'
+            className={styles.cardTopImageEmerging}
+            loading='lazy'
+          />
+        ) : null}
         {showRemoteImage ? (
           <Image
             src={header.src}
             alt=''
             fill
+            sizes='(max-width: 768px) 100vw, 320px'
             className={styles.cardTopImage}
-            priority={false}
+            loading='lazy'
           />
         ) : null}
         {badge ? (

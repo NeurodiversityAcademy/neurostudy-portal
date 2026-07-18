@@ -52,10 +52,12 @@
 }
 
 .cardTopEmerging {
-  background-image: url('../../images/emergingCardHeader.png');
-  background-size: cover;
-  background-position: center -10px;
-  background-repeat: no-repeat;
+  background-color: #e8e4f5;
+}
+
+.cardTopImageEmerging {
+  object-fit: cover;
+  object-position: center -10px;
 }
 
 .cardTopYellow {

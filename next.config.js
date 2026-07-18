@@ -4,6 +4,7 @@ module.exports = {
   images: {
     // Next 16 defaults qualities to [75]; keep 100 for existing hero/cover images.
     qualities: [75, 100],
+    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
         protocol: 'https',

@@ -81,7 +81,7 @@ const DialogPopUp: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               alt='Subscribe to our Newsletter'
               title='Subscribe to our Newsletter'
               fill={true}
-              quality={100}
+              quality={75}
             />
           </div>
           <LoaderWrapper

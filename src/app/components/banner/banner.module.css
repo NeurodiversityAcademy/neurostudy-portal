@@ -4,14 +4,36 @@
   padding: 5vw;
   height: 70vh;
   gap: 1vw;
-  background-image: url('../../images/bg.svg');
-  background-repeat: no-repeat;
-  background-size: cover;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative; /* allow absolutely positioned filter to sit inside the picture */
+  overflow: hidden;
+  /* Fallback while hero image loads — matches previous SVG gradient tint */
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, #6600cc 40%, transparent),
+    color-mix(in srgb, #4a4aff 40%, transparent)
+  );
+}
+
+.bannerBackground {
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+.bannerOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, #6600cc 40%, transparent),
+    color-mix(in srgb, #4a4aff 40%, transparent)
+  );
 }
 
 .bannerTextAndBadge {
@@ -20,10 +42,17 @@
   gap: 2.5vw;
   flex-wrap: wrap;
   max-width: 100%;
+  position: relative;
+  z-index: 2;
 }
 
 .textContainer {
   flex: 1;
+}
+
+.form {
+  position: relative;
+  z-index: 2;
 }
 
 .form > :first-child {
@@ -34,7 +63,7 @@
   display: none;
 }
 
-.buttonContainer{
+.buttonContainer {
   display: flex;
   justify-content: center;
   width: 100%;

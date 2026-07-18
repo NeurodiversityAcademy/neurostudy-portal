@@ -31,7 +31,7 @@ export default function HowItWorks() {
 
       <div className={styles.stepsGrid}>
         <div className={styles.gridItem1}>
-          <Image src={explore} alt='explore'></Image>
+          <Image src={explore} alt='explore' width={109} height={108} />
 
           <div className={styles.stepsText}>
             <Typography
@@ -50,7 +50,7 @@ export default function HowItWorks() {
         </div>
 
         <div className={styles.gridItem}>
-          <Image src={enquire} alt='enquire'></Image>
+          <Image src={enquire} alt='enquire' width={109} height={108} />
           <div className={styles.stepsText}>
             {' '}
             <Typography
@@ -69,7 +69,7 @@ export default function HowItWorks() {
         </div>
 
         <div className={styles.gridItem}>
-          <Image src={profile} alt='profile'></Image>
+          <Image src={profile} alt='profile' width={109} height={108} />
           <div className={styles.stepsText}>
             {' '}
             <Typography
@@ -88,7 +88,7 @@ export default function HowItWorks() {
         </div>
 
         <div className={styles.gridItem}>
-          <Image src={quality} alt='quality'></Image>
+          <Image src={quality} alt='quality' width={109} height={108} />
           <div className={styles.stepsText}>
             <Typography
               variant={TypographyVariant.Body1}
@@ -106,7 +106,7 @@ export default function HowItWorks() {
         </div>
 
         <div className={styles.gridItem5}>
-          <Image src={guide} alt='guide'></Image>
+          <Image src={guide} alt='guide' width={109} height={108} />
           <div className={styles.stepsText}>
             <Typography
               variant={TypographyVariant.Body1}

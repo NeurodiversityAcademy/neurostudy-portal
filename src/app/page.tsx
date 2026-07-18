@@ -7,6 +7,7 @@ import Subscribe from './components/subscribe/subscribe';
 import HomeBanner from './components/banner/HomeBanner';
 import { Suspense } from 'react';
 import HowItWorks from './components/howItWorks/HowItWorks';
+
 import StudentFacts from './components/studentFacts/StudentFacts';
 import isFeatureEnabled from './utilities/featureToggle';
 import ArticleList from './components/articleList/articleList';
@@ -63,31 +64,31 @@ export default async function Home({
   const showSearchBar = isFeatureEnabled(resolvedSearchParams, 'searchBar');
   const demoAccess = resolveHomeDemoAccess(resolvedSearchParams);
   return (
-    <Suspense fallback={<h1>Loading...</h1>}>
-      <main className={styles.main}>
-        <HomeBanner
-          title='A Home for Neurodivergent Learners'
-          subtitle='Find neuroinclusive courses, supportive institutions, and tools to thrive in academic life'
-          displayBadges={true}
-          showButton={false}
-          displayFilter={true}
-          showSearchBar={showSearchBar}
-        />
-        <StudentFacts />
-        <EndorsedProviders
-          demoGuid={demoAccess?.demoGuid}
-          demoSlug={demoAccess?.demoSlug}
-        />
-        <EmergingInstitutions />
-        <HowItWorks />
+    <main className={styles.main}>
+      <HomeBanner
+        title='A Home for Neurodivergent Learners'
+        subtitle='Find neuroinclusive courses, supportive institutions, and tools to thrive in academic life'
+        displayBadges={true}
+        showButton={false}
+        displayFilter={true}
+        showSearchBar={showSearchBar}
+      />
+      <StudentFacts />
+      <EndorsedProviders
+        demoGuid={demoAccess?.demoGuid}
+        demoSlug={demoAccess?.demoSlug}
+      />
+      <EmergingInstitutions />
+      <HowItWorks />
+      <Suspense fallback={null}>
         <DisplayPodcast
           scriptSrc='https://www.buzzsprout.com/2132579.js?container_id=buzzsprout-large-player&player=large'
           containerId='buzzsprout-large-player'
           singleBlog={false}
         />
-        <ArticleList />
-        <Subscribe />
-      </main>
-    </Suspense>
+      </Suspense>
+      <ArticleList />
+      <Subscribe />
+    </main>
   );
 }

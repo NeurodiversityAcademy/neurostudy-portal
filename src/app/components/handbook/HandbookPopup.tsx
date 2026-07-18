@@ -66,7 +66,7 @@ export default function HandbookPopup({ open, onClose }: HandbookPopupProps) {
           src={mailBoxLadySrc}
           alt='Subscribe to our Newsletter'
           className={styles.mailBoxImg}
-          quality={100}
+          quality={75}
         />
 
         <Form
