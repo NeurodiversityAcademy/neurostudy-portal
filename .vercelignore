@@ -1,0 +1,8 @@
+deliverables
+tmp-*.png
+tmp-*.jpg
+tmp-*.jpeg
+lighthouse-*.json
+coverage
+.cursor
+openspec
