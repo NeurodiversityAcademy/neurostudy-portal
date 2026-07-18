@@ -102,19 +102,13 @@ export const pickSeeded = <T>(items: readonly T[], count: number, seed: string):
   return copy.slice(0, count);
 };
 
-const getTwitterImages = (
-  ogImages: MetadataParams['images'],
-): string | string[] | undefined => {
+const getTwitterImages = (ogImages: MetadataParams['images']): string | string[] | undefined => {
   if (!ogImages) {
     return undefined;
   }
 
   const toUrl = (image: string | URL | { url: string | URL }): string =>
-    typeof image === 'string'
-      ? image
-      : image instanceof URL
-        ? image.toString()
-        : String(image.url);
+    typeof image === 'string' ? image : image instanceof URL ? image.toString() : String(image.url);
 
   return Array.isArray(ogImages) ? ogImages.map(toUrl) : toUrl(ogImages);
 };
