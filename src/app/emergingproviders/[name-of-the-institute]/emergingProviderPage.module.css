@@ -4,8 +4,33 @@
   gap: 30px;
 }
 
+.pageLinks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 24px;
+  padding: 0 24px 48px;
+}
+
+.pageLink {
+  color: var(--cherryPie);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.pageLink:hover {
+  color: var(--cherryPieVariant);
+}
+
 @media (max-width: 767px) {
   .pageMain {
     gap: 5px;
+  }
+
+  .pageLinks {
+    padding: 0 12px 36px;
   }
 }

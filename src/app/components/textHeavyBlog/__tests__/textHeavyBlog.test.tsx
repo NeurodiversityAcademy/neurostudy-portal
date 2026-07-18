@@ -70,4 +70,12 @@ describe('TextHeavyBlog', () => {
     render(<TextHeavyBlog {...defaultProps} />);
     expect(screen.getByRole('link', { name: 'Home' })).toBeInTheDocument();
   });
+
+  it('links to endorsements from the related CTA', () => {
+    render(<TextHeavyBlog {...defaultProps} />);
+    expect(screen.getByRole('link', { name: 'endorsed providers' })).toHaveAttribute(
+      'href',
+      '/endorsements',
+    );
+  });
 });

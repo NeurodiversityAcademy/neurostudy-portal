@@ -47,4 +47,13 @@ describe('Endorsements page', () => {
     expect(screen.getByText('NDA Endorsed Providers')).toBeInTheDocument();
     expect(screen.getAllByRole('link', { name: 'Explore More' })).toHaveLength(4);
   });
+
+  it('links to courses from the endorsements hub', () => {
+    render(<Page />);
+
+    expect(screen.getByRole('link', { name: 'Browse neuroinclusive courses' })).toHaveAttribute(
+      'href',
+      '/courses',
+    );
+  });
 });

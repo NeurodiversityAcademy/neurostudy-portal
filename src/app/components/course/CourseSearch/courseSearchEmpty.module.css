@@ -12,3 +12,22 @@
   text-align: center;
   color: var(--bond-black-light);
 }
+
+.helpText {
+  margin-top: 16px;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  color: var(--bond-black-light);
+}
+
+.helpLink {
+  color: var(--cherryPie);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.helpLink:hover {
+  color: var(--cherryPieVariant);
+}

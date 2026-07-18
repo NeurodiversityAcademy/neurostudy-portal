@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import styles from './howItWorks.module.css';
 import Image from 'next/image';
 import explore from '../../images/stepsExplore.svg';
@@ -101,6 +102,21 @@ export default function HowItWorks() {
           </div>
         </div>
       </div>
+      <Typography
+        variant={TypographyVariant.Body1}
+        color={TypographyColorToken.BondBlackVariant}
+        className={styles.exploreLinks}
+      >
+        <Link href='/endorsements' className={styles.exploreLink}>
+          Browse endorsed providers
+        </Link>
+        <span className={styles.exploreLinkDivider} aria-hidden='true'>
+          ·
+        </span>
+        <Link href='/courses' className={styles.exploreLink}>
+          Find neuroinclusive courses
+        </Link>
+      </Typography>
     </div>
   );
 }

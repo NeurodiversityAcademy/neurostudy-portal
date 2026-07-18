@@ -341,6 +341,15 @@ describe('CourseSearchEmpty', () => {
     render(<CourseSearchEmpty />);
     expect(screen.getByAltText('No courses found.')).toBeInTheDocument();
   });
+
+  it('links to contact and endorsements from help text', () => {
+    render(<CourseSearchEmpty />);
+    expect(screen.getByRole('link', { name: 'Contact us' })).toHaveAttribute('href', '/contact');
+    expect(screen.getByRole('link', { name: 'endorsed providers' })).toHaveAttribute(
+      'href',
+      '/endorsements',
+    );
+  });
 });
 
 // ---------------------------------------------------------------------------

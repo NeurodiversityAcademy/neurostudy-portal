@@ -43,3 +43,19 @@
     margin-top: 30vh;
   }
 }
+
+.pageLinks {
+  padding: 48px 24px 64px;
+  text-align: center;
+}
+
+.pageLink {
+  color: var(--cherryPie);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.pageLink:hover {
+  color: var(--cherryPieVariant);
+}
