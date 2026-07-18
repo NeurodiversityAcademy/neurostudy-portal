@@ -3,6 +3,23 @@ import { render, screen } from '@testing-library/react';
 
 jest.mock('next/image', () => require('@/testUtils/mockNextImage'));
 
+jest.mock('next/link', () => ({
+  __esModule: true,
+  default: ({
+    children,
+    href,
+    ...rest
+  }: {
+    children: React.ReactNode;
+    href: string;
+    [key: string]: unknown;
+  }) => (
+    <a href={href} {...rest}>
+      {children}
+    </a>
+  ),
+}));
+
 import HowItWorks from '../HowItWorks';
 
 describe('HowItWorks', () => {
@@ -43,5 +60,17 @@ describe('HowItWorks', () => {
     expect(screen.getByAltText('profile')).toBeInTheDocument();
     expect(screen.getByAltText('quality')).toBeInTheDocument();
     expect(screen.getByAltText('guide')).toBeInTheDocument();
+  });
+
+  it('links to endorsements and courses', () => {
+    render(<HowItWorks />);
+    expect(screen.getByRole('link', { name: 'Browse endorsed providers' })).toHaveAttribute(
+      'href',
+      '/endorsements',
+    );
+    expect(screen.getByRole('link', { name: 'Find neuroinclusive courses' })).toHaveAttribute(
+      'href',
+      '/courses',
+    );
   });
 });

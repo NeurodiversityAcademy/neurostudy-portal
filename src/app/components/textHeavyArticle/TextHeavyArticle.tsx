@@ -60,6 +60,13 @@ export default function TextHeavyArticle({
           />
         </div>
       )}
+      <Typography variant={TypographyVariant.Body2} className={styles.relatedCta}>
+        Ready to explore options?{' '}
+        <Link href='/courses' className={styles.relatedLink}>
+          Browse neuroinclusive courses
+        </Link>
+        .
+      </Typography>
     </div>
   );
 }

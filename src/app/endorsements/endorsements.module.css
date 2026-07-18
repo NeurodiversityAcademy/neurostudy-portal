@@ -234,3 +234,19 @@
     margin-bottom: 1em;
   }
 }
+
+.coursesPrompt {
+  margin: 0 24px 48px;
+  text-align: center;
+}
+
+.inlineLink {
+  color: var(--cherryPie);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.inlineLink:hover {
+  color: var(--cherryPieVariant);
+}

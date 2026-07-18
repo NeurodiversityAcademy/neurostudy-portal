@@ -30,6 +30,17 @@ export default function Page() {
       <Fact />
       <EndorsementProcess />
       <EndorsedProviders />
+      <Typography
+        variant={TypographyVariant.Body1}
+        color='var(--BondBlackVariant)'
+        className={styles.coursesPrompt}
+      >
+        Looking for study options?{' '}
+        <Link href='/courses' className={styles.inlineLink}>
+          Browse neuroinclusive courses
+        </Link>
+        .
+      </Typography>
       <Partner />
       <DisplayPodcast
         scriptSrc='https://www.buzzsprout.com/2132579.js?container_id=buzzsprout-large-player&player=large'

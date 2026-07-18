@@ -96,3 +96,29 @@
     background-image: url('../../images/stepsline1MobileOnLight.svg');
   }
 }
+
+.exploreLinks {
+  margin: 0 30px 80px;
+}
+
+.exploreLink {
+  color: var(--cherryPie);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.exploreLink:hover {
+  color: var(--cherryPieVariant);
+}
+
+.exploreLinkDivider {
+  margin: 0 0.35em;
+}
+
+@media (max-width: 480px) {
+  .exploreLinks {
+    margin: 0 3vw 48px;
+    text-align: center;
+  }
+}

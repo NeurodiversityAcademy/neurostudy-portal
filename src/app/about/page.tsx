@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import styles from './about.module.css';
 import Typography, { TypographyVariant } from '../components/typography/Typography';
 import Journey from '../components/aboutJourney/Journey';
@@ -56,6 +57,19 @@ export default function Page() {
       </div>
       <div id='advisors'>
         <Advisors />
+      </div>
+      <div className={styles.pageLinks}>
+        <Typography variant={TypographyVariant.Body1} color='var(--BondBlackVariant)'>
+          Explore our{' '}
+          <Link href='/endorsements' className={styles.pageLink}>
+            endorsement program
+          </Link>{' '}
+          or{' '}
+          <Link href='/contact' className={styles.pageLink}>
+            contact us
+          </Link>
+          .
+        </Typography>
       </div>
     </div>
   );

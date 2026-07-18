@@ -47,6 +47,13 @@ export default function TextHeavyBlog({
         </div>
       </div>
       <div className={styles.blogText}>{paragraphs}</div>
+      <Typography variant={TypographyVariant.Body2} className={styles.relatedCta}>
+        Learn about our{' '}
+        <Link href='/endorsements' className={styles.relatedLink}>
+          endorsed providers
+        </Link>
+        .
+      </Typography>
     </div>
   );
 }

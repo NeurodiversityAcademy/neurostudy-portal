@@ -26,6 +26,21 @@
   font-size: var(--Body1);
 }
 
+.relatedCta {
+  margin-top: 2rem;
+}
+
+.relatedLink {
+  color: var(--cherryPie);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.relatedLink:hover {
+  color: var(--cherryPieVariant);
+}
+
 @media (max-width: 1024px) and (min-width: 480px) {
   .imageWrapper {
     height: 400px;

@@ -85,4 +85,12 @@ describe('TextHeavyArticle', () => {
     render(<TextHeavyArticle {...defaultProps} />);
     expect(screen.getByRole('link', { name: 'Home' })).toBeInTheDocument();
   });
+
+  it('links to courses from the related CTA', () => {
+    render(<TextHeavyArticle {...defaultProps} />);
+    expect(screen.getByRole('link', { name: 'Browse neuroinclusive courses' })).toHaveAttribute(
+      'href',
+      '/courses',
+    );
+  });
 });

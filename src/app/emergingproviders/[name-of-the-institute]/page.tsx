@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import cardData from '@/app/components/emergingInstitutions/emergingInstitutions.json';
 import EmergingProviderHero from '@/app/components/emergingInstitutions/EmergingProviderHero';
 import EmergingProviderStudentSuitability from '@/app/components/emergingInstitutions/EmergingProviderStudentSuitability';
@@ -44,6 +45,14 @@ export default async function EmergingProviderPage({ params }: { params: Promise
       <EmergingProviderStudentSuitability instituteSlug={institutionSlug} />
       <EmergingProviderStats stats={providerStats} />
       <EmergingProvidersFAQs />
+      <nav className={pageStyles.pageLinks} aria-label='Related pages'>
+        <Link href='/endorsements' className={pageStyles.pageLink}>
+          NDA endorsements
+        </Link>
+        <Link href='/' className={pageStyles.pageLink}>
+          Home
+        </Link>
+      </nav>
     </main>
   );
 }
