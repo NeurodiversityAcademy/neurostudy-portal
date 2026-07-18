@@ -5,6 +5,7 @@
   "scripts": {
     "predev": "eslint src --quiet",
     "dev": "next dev",
+    "prebuild": "npm run verify:quality",
     "build": "next build",
     "start": "next start",
     "format": "prettier --write .",
@@ -18,9 +19,9 @@
     "test:ci": "NODE_ENV=test SILENT_TEST_CONSOLE=1 jest --ci --silent --coverage --passWithNoTests --maxWorkers=75% --workerIdleMemoryLimit=512MB",
     "coverage:changed": "node scripts/check-changed-coverage.mjs",
     "verify:quality": "npm run security:audit && npm run format:check && npm run lint && npm run typecheck && npm run test:ci && npm run coverage:changed",
-    "vercel:build": "next build",
-    "verify:deploy": "npm run verify:quality && next build",
-    "deploy": "npm run verify:deploy"
+    "vercel:build": "git fetch --depth=50 origin main 2>/dev/null || true; npm run verify:quality && next build",
+    "verify:deploy": "npm run vercel:build",
+    "deploy": "npm run vercel:build"
   },
   "engines": {
     "node": "24.x"
