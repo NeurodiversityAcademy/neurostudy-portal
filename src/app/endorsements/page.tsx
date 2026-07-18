@@ -5,6 +5,7 @@ import EndorsementProcess from '../components/endorsements/EndorsementProcess';
 import Teacher from '../components/teacherSection/Teacher';
 import Handbook from '../components/handbook';
 import Fact from '../components/fact/Fact';
+import EndorsedProviders from '../components/endorsedProviders/EndorsedProviders';
 import Partner from '../components/partnerSection/Partner';
 import DisplayPodcast from '../components/podcast/DisplayPodcast';
 import ArticleList from '../components/articleList/articleList';
@@ -28,6 +29,7 @@ export default function Page() {
       <Handbook />
       <Fact />
       <EndorsementProcess />
+      <EndorsedProviders />
       <Partner />
       <DisplayPodcast
         scriptSrc='https://www.buzzsprout.com/2132579.js?container_id=buzzsprout-large-player&player=large'
