@@ -2,10 +2,7 @@ import { render } from '@testing-library/react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import Script from 'next/script';
 import TabNavEmbed from './TabNavEmbed';
-import {
-  TABNAV_WIDGET_CONFIG_JSON,
-  TABNAV_WIDGET_SCRIPT_SRC,
-} from './tabNavConstants';
+import { TABNAV_WIDGET_CONFIG_JSON, TABNAV_WIDGET_SCRIPT_SRC } from './tabNavConstants';
 
 jest.mock('next/script', () => ({
   __esModule: true,
@@ -29,7 +26,7 @@ describe('TabNavEmbed (contract: stable embed strings)', () => {
         src: TABNAV_WIDGET_SCRIPT_SRC,
         strategy: 'lazyOnload',
         'tnv-data-config': TABNAV_WIDGET_CONFIG_JSON,
-      })
+      }),
     );
   });
 

@@ -4,10 +4,7 @@ import ActionButton from '../buttons/ActionButton';
 import { analyticsFileNameFromUrl } from '@/app/utilities/analyticsFileName';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 
-export type AnalyticsEventParams = Record<
-  string,
-  string | number | boolean | null | undefined
->;
+export type AnalyticsEventParams = Record<string, string | number | boolean | null | undefined>;
 
 export type InstitutionCtaAnalytics = {
   eventName?: string;

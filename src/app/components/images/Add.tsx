@@ -1,8 +1,6 @@
 import { ReactElement } from 'react';
 
-export default function AddIcon(
-  props: React.SVGProps<SVGSVGElement>
-): ReactElement<SVGElement> {
+export default function AddIcon(props: React.SVGProps<SVGSVGElement>): ReactElement<SVGElement> {
   return (
     <svg
       width='24'

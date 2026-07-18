@@ -12,10 +12,7 @@ import userExperienceIcon from '@/app/images/emergingInstitutions/user-experienc
 import { slugify } from '@/app/utilities/common';
 import { ENDORSED_PROVIDER_LOGO_BY_SLUG } from './endorsedProviderBrandAssets';
 import endorsedData from './endorsedProviders.json';
-import {
-  VET_KEY_DATA_POINT_ICONS,
-  type VetKeyDataPointIconKey,
-} from './vetStatIcons';
+import { VET_KEY_DATA_POINT_ICONS, type VetKeyDataPointIconKey } from './vetStatIcons';
 
 export type EndorsedInstitutionType = 'higherEducation' | 'VET';
 
@@ -36,10 +33,7 @@ const QILT_STAT_SECTIONS = [
   { title: 'Support & services', icon: supportServicesIcon },
 ] as const;
 
-type StatNumbers = Pick<
-  ProviderStatItem,
-  'value' | 'nationalAverage' | 'responses'
->;
+type StatNumbers = Pick<ProviderStatItem, 'value' | 'nationalAverage' | 'responses'>;
 
 /** Placeholder QILT-style stats per endorsed slug; replace with provider-specific data when available. */
 const STAT_NUMBERS_BY_SLUG: Record<string, StatNumbers[]> = {
@@ -89,16 +83,14 @@ const VET_KEY_DATA_POINTS_CONTENT: VetKeyDataPointContent[] = [
     iconKey: 'completionRates',
     headline: '10-15%',
     title: 'lower completion rates are reported',
-    description:
-      'for students with disability compared with students without disability',
+    description: 'for students with disability compared with students without disability',
   },
   {
     id: 'vet-graduate-employment',
     iconKey: 'graduateEmployment',
     headline: '59%',
     title: 'of VET graduates with disability',
-    description:
-      'gain employment after training, compared with 79% without disability.',
+    description: 'gain employment after training, compared with 79% without disability.',
   },
   {
     id: 'vet-neurodivergent-prevalence',
@@ -110,15 +102,13 @@ const VET_KEY_DATA_POINTS_CONTENT: VetKeyDataPointContent[] = [
   },
 ];
 
-const VET_KEY_DATA_POINTS: VetKeyDataPoint[] = VET_KEY_DATA_POINTS_CONTENT.map(
-  (point) => ({
-    id: point.id,
-    icon: VET_KEY_DATA_POINT_ICONS[point.iconKey],
-    headline: point.headline,
-    title: point.title,
-    description: point.description,
-  })
-);
+const VET_KEY_DATA_POINTS: VetKeyDataPoint[] = VET_KEY_DATA_POINTS_CONTENT.map((point) => ({
+  id: point.id,
+  icon: VET_KEY_DATA_POINT_ICONS[point.iconKey],
+  headline: point.headline,
+  title: point.title,
+  description: point.description,
+}));
 
 const INSTITUTION_TYPE_BY_SLUG: Record<string, EndorsedInstitutionType> = {
   hsh: 'VET',
@@ -149,7 +139,7 @@ function buildQiltStatsForSlug(slug: string): ProviderStatItem[] {
 
 function buildStatsForSlug(
   slug: string,
-  institutionType: EndorsedInstitutionType
+  institutionType: EndorsedInstitutionType,
 ): ProviderStatItem[] {
   if (institutionType === 'VET') {
     return [];
@@ -161,10 +151,7 @@ export const HERO_INFO_LABEL_LOCATION = 'Location' as const;
 export const HERO_INFO_LABEL_STUDY_MODE = 'Study Mode' as const;
 export const HERO_INFO_LABEL_TYPE = 'Type' as const;
 
-export function findHeroInfoValueByLabel(
-  items: HeroInfoItem[],
-  label: string
-): string {
+export function findHeroInfoValueByLabel(items: HeroInfoItem[], label: string): string {
   for (let i = 0; i < items.length; i += 1) {
     const item = items[i];
     if (item.label === label) {
@@ -287,8 +274,7 @@ export const ENDORSED_FAQ_SECTIONS_DEFAULT: EndorsedFaqSection[] = [
     sectionTitle: 'About the Endorsement',
     items: [
       {
-        question:
-          'How does an organisation become endorsed by Neurodiversity Academy?',
+        question: 'How does an organisation become endorsed by Neurodiversity Academy?',
         answer:
           'Organisations endorsed by Neurodiversity Academy undergo an endorsement assessment to verify their commitment to neuro-inclusive practices.',
       },
@@ -323,8 +309,7 @@ export const ENDORSED_FAQ_SECTIONS_DEFAULT: EndorsedFaqSection[] = [
           'Yes, absolutely. We understand how important it is to find the right place for your child to study, so feedback from parents and carers is vital for the community.',
       },
       {
-        question:
-          'Are endorsed organisations required to maintain their standards?',
+        question: 'Are endorsed organisations required to maintain their standards?',
         answer:
           'Yes, this is vital. Regular feedback helps ensure endorsed organisations are delivering the supports they say they provide.',
       },
@@ -344,8 +329,7 @@ export const ENDORSED_FAQ_SECTIONS_DEFAULT: EndorsedFaqSection[] = [
           'Each organisation is unique and may offer different supports. Reviewing and comparing these can help you find the best fit for your needs.',
       },
       {
-        question:
-          'How do I request support or reasonable adjustments when studying?',
+        question: 'How do I request support or reasonable adjustments when studying?',
         answer:
           "If you require support or reasonable adjustments, contact the organisation's student support or support services team. They can discuss your learning needs and help arrange appropriate adjustments.",
       },
@@ -355,8 +339,7 @@ export const ENDORSED_FAQ_SECTIONS_DEFAULT: EndorsedFaqSection[] = [
     sectionTitle: 'About Student Feedback',
     items: [
       {
-        question:
-          'What does “Neurodivergent Student Experience - Top 4 Areas of Strength” show?',
+        question: 'What does “Neurodivergent Student Experience - Top 4 Areas of Strength” show?',
         answer:
           'This section combines student experience outcomes with feedback from neurodivergent learners (including student and parent/carer responses) to highlight where an organisation is currently performing strongly. The seven survey areas include overall experience, clear support information, effective adjustments, genuine institutional support, psychological safety, responsiveness to individual needs, and clear communication. The “Top 4 Areas of Strength” are the highest-performing areas from these results and provide a practical snapshot of where support is currently most consistent. Performance bands are interpreted as Low (below 60%), Medium (60-79%), and High (80%+), and all featured strengths meet the high-performance threshold.',
       },
@@ -366,8 +349,7 @@ export const ENDORSED_FAQ_SECTIONS_DEFAULT: EndorsedFaqSection[] = [
           'Student feedback helps organisations maintain their endorsement by ensuring the student experience matches the supports offered and guiding continuous improvement.',
       },
       {
-        question:
-          'Can students share their experiences with endorsed organisations?',
+        question: 'Can students share their experiences with endorsed organisations?',
         answer:
           'Yes, all feedback is shared with the organisation and is anonymous unless you choose to identify yourself.',
       },
@@ -387,8 +369,7 @@ export const ENDORSED_FAQ_SECTIONS_DEFAULT: EndorsedFaqSection[] = [
           'No. While we aim for every student to have a positive experience, we cannot guarantee that it will always be perfect.',
       },
       {
-        question:
-          'What happens if an organisation stops meeting endorsement standards?',
+        question: 'What happens if an organisation stops meeting endorsement standards?',
         answer:
           'If an organisation no longer meets endorsement standards, their endorsement may be reviewed or removed.',
       },
@@ -396,43 +377,7 @@ export const ENDORSED_FAQ_SECTIONS_DEFAULT: EndorsedFaqSection[] = [
   },
 ];
 
-export const ENDORSED_FAQ_SECTIONS_BY_SLUG: Record<
-  string,
-  EndorsedFaqSection[]
-> = {};
-
-export type EndorsedNdExperience = {
-  heading: string;
-  summary: string;
-  surveyAreas: string[];
-  contextNote: string;
-  responseSummary: string;
-  methodology?: string;
-  performanceBands?: {
-    low: string;
-    medium: string;
-    high: string;
-  };
-};
-
-export type TopStrengthIconKind =
-  | 'supportInformation'
-  | 'adjustments'
-  | 'overallExperience'
-  | 'communication';
-
-export type TopStrengthArea = {
-  title: string;
-  iconKind: TopStrengthIconKind;
-  description?: string;
-  scoreBand?: 'Low' | 'Medium' | 'High';
-};
-
-export type StaffNomination = {
-  name: string;
-  role: string;
-  nominations: number;
-};
+export const ENDORSED_FAQ_SECTIONS_BY_SLUG: Record<string, EndorsedFaqSection[]> = {};
 
 export type SupportFrameworkItem = {
   label: string;
@@ -442,112 +387,6 @@ export type SupportFrameworkItem = {
 export type SupportFrameworkSection = {
   section: string;
   items: SupportFrameworkItem[];
-};
-
-const ENDORSED_SURVEY_AREAS = [
-  'Overall experience',
-  'Clear information about support options',
-  'Adjustments implemented effectively',
-  'Organisation genuinely supports neurodivergent students',
-  'Feel safe being open about learning needs',
-  "Organisation takes the learner's individual needs seriously",
-  'Communication is clear and responsive',
-] as const;
-
-const DEFAULT_PERFORMANCE_BANDS: EndorsedNdExperience['performanceBands'] = {
-  low: 'Low — below 60%',
-  medium: 'Medium — 60–79%',
-  high: 'High — 80%+',
-};
-
-const DEFAULT_RESPONSE_SUMMARY =
-  'Based on 5 total survey responses from students and parents collected over a three-month period.';
-
-const VET_ND_EXPERIENCE: EndorsedNdExperience = {
-  heading: 'Neurodivergent Student Experience - Top 4 Areas of Strength',
-  summary:
-    'With higher education, endorsement insights are informed by student surveys such as QILT, conducted by the Australian Government and neurodivergent student feedback. As vocational education does not currently have an equivalent national report, Neurodiversity Academy collects independent student feedback to help organisations maintain their endorsement, monitor student experiences, and identify areas for improvement. See how this organisation is performing below.',
-  surveyAreas: [...ENDORSED_SURVEY_AREAS],
-  contextNote:
-    'This information supports continuous improvement and ongoing Neuroinclusion Endorsement. Below, we have shared the top four areas of strength based on these results. All areas shown below meet the High performance threshold.',
-  responseSummary: DEFAULT_RESPONSE_SUMMARY,
-  performanceBands: DEFAULT_PERFORMANCE_BANDS,
-};
-
-const COLLARTS_ND_EXPERIENCE: EndorsedNdExperience = {
-  heading: 'Neurodivergent Student Experience - Top 4 Areas of Strength',
-  summary:
-    'Higher education providers publish data on student experience and outcomes, including the national QILT (Quality Indicators for Learning and Teaching) Student Experience Survey. This profile combines QILT data with feedback from neurodivergent learners, including both student and parent/carer responses, to provide insight into the learning environment and support provided.',
-  surveyAreas: [...ENDORSED_SURVEY_AREAS],
-  contextNote:
-    'This information supports continuous improvement and ongoing Neuroinclusion Endorsement. Below, we have shared the top four areas of strength based on these results. All areas shown below meet the high performance threshold.',
-  responseSummary: DEFAULT_RESPONSE_SUMMARY,
-  performanceBands: DEFAULT_PERFORMANCE_BANDS,
-};
-
-const COLLARTS_TOP_STRENGTH_AREAS: TopStrengthArea[] = [
-  {
-    title: 'Clear information about support options',
-    iconKind: 'supportInformation',
-    scoreBand: 'High',
-  },
-  {
-    title: 'Overall experience',
-    iconKind: 'overallExperience',
-    scoreBand: 'High',
-  },
-  {
-    title: 'Adjustments implemented effectively',
-    iconKind: 'adjustments',
-    scoreBand: 'High',
-  },
-  {
-    title: 'Communication is clear and responsive',
-    iconKind: 'communication',
-    scoreBand: 'High',
-  },
-];
-
-const DEFAULT_TOP_STRENGTH_AREAS: TopStrengthArea[] = [
-  {
-    title: 'Clear information about support options',
-    iconKind: 'supportInformation',
-    scoreBand: 'High',
-  },
-  {
-    title: 'Adjustments implemented effectively',
-    iconKind: 'adjustments',
-    scoreBand: 'High',
-  },
-  {
-    title: 'Overall experience',
-    iconKind: 'overallExperience',
-    scoreBand: 'High',
-  },
-  {
-    title: 'Communication is clear and responsive',
-    iconKind: 'communication',
-    scoreBand: 'High',
-  },
-];
-
-export const ENDORSED_ND_EXPERIENCE_BY_SLUG: Record<
-  string,
-  EndorsedNdExperience
-> = {
-  hsh: VET_ND_EXPERIENCE,
-  academia: VET_ND_EXPERIENCE,
-  'blueprint-career-development': VET_ND_EXPERIENCE,
-  collarts: COLLARTS_ND_EXPERIENCE,
-  'nepean-community-college': VET_ND_EXPERIENCE,
-};
-
-export const TOP_STRENGTH_AREAS_BY_SLUG: Record<string, TopStrengthArea[]> = {
-  hsh: DEFAULT_TOP_STRENGTH_AREAS,
-  academia: COLLARTS_TOP_STRENGTH_AREAS,
-  'blueprint-career-development': DEFAULT_TOP_STRENGTH_AREAS,
-  collarts: COLLARTS_TOP_STRENGTH_AREAS,
-  'nepean-community-college': DEFAULT_TOP_STRENGTH_AREAS,
 };
 
 export const STUDY_AREAS_BY_SLUG: Record<string, string[]> = {
@@ -602,31 +441,7 @@ export const STUDY_AREAS_BY_SLUG: Record<string, string[]> = {
   ],
 };
 
-export const STAFF_NOMINATIONS_BY_SLUG: Record<string, StaffNomination[]> = {
-  hsh: [
-    { name: 'Name', role: 'Job title · slot 1', nominations: 0 },
-    { name: 'Name', role: 'Job title · slot 2', nominations: 0 },
-    { name: 'Name', role: 'Job title · slot 3', nominations: 0 },
-    { name: 'Name', role: 'Job title · slot 4', nominations: 0 },
-  ],
-  collarts: [
-    {
-      name: 'Support Team Member 1',
-      role: 'Student Support',
-      nominations: 0,
-    },
-    {
-      name: 'Support Team Member 2',
-      role: 'Learning Support',
-      nominations: 0,
-    },
-  ],
-};
-
-export const SUPPORT_FRAMEWORK_BY_SLUG: Record<
-  string,
-  SupportFrameworkSection[]
-> = {
+export const SUPPORT_FRAMEWORK_BY_SLUG: Record<string, SupportFrameworkSection[]> = {
   hsh: [
     {
       section: 'Staff Training',
@@ -1587,34 +1402,30 @@ type EndorsedJsonRow = {
 
 const rows = endorsedData as EndorsedJsonRow[];
 
-const INSTITUTION_COURSES_URL_BY_SLUG: Record<string, string> =
-  Object.fromEntries(
-    rows.map((row) => [slugify(row.id), row.institutionCoursesUrl.trim()])
-  );
+const INSTITUTION_COURSES_URL_BY_SLUG: Record<string, string> = Object.fromEntries(
+  rows.map((row) => [slugify(row.id), row.institutionCoursesUrl.trim()]),
+);
 
-const META_STRIP_INSTITUTION_ICON_BY_SLUG: Record<string, string> =
-  Object.fromEntries(
-    rows
-      .map((row) => {
-        const slug = slugify(row.id);
-        const explicit = row.metaStripInstitutionIconSrc?.trim();
-        const fallback = row.logo?.trim();
-        const src = explicit || fallback || '';
-        return [slug, src];
-      })
-      .filter(([, src]) => src.length > 0)
-  );
+const META_STRIP_INSTITUTION_ICON_BY_SLUG: Record<string, string> = Object.fromEntries(
+  rows
+    .map((row) => {
+      const slug = slugify(row.id);
+      const explicit = row.metaStripInstitutionIconSrc?.trim();
+      const fallback = row.logo?.trim();
+      const src = explicit || fallback || '';
+      return [slug, src];
+    })
+    .filter(([, src]) => src.length > 0),
+);
 
 const TOP_BACKGROUND_IMAGE_BY_SLUG: Record<string, string> = Object.fromEntries(
   rows
     .map((row) => [slugify(row.id), row.topBackgroundImage?.trim() ?? ''])
-    .filter(([, src]) => src.length > 0)
+    .filter(([, src]) => src.length > 0),
 );
 
 /** Slugs derived the same way as future home card links: `slugify(provider.id)`. */
-export const ENDORSED_SLUGS: readonly string[] = rows.map((row) =>
-  slugify(row.id)
-);
+export const ENDORSED_SLUGS: readonly string[] = rows.map((row) => slugify(row.id));
 
 export const ENDORSED_LIVE_SLUGS: readonly string[] = rows
   .filter((row) => row.live === true)
@@ -1625,24 +1436,16 @@ export function isLiveEndorsedSlug(slug: string): boolean {
 }
 
 export function isNdaCertifiedEndorsedSlug(slug: string): boolean {
-  return rows.some(
-    (row) => row.ndaCertified === true && slugify(row.id) === slug
-  );
+  return rows.some((row) => row.ndaCertified === true && slugify(row.id) === slug);
 }
 
-export function getInstitutionTypeForSlug(
-  slug: string
-): EndorsedInstitutionType {
+export function getInstitutionTypeForSlug(slug: string): EndorsedInstitutionType {
   return INSTITUTION_TYPE_BY_SLUG[slug] ?? 'higherEducation';
 }
 
-export const STATS_BY_SLUG: Record<string, ProviderStatItem[]> =
-  Object.fromEntries(
-    ENDORSED_SLUGS.map((slug) => [
-      slug,
-      buildStatsForSlug(slug, getInstitutionTypeForSlug(slug)),
-    ])
-  );
+export const STATS_BY_SLUG: Record<string, ProviderStatItem[]> = Object.fromEntries(
+  ENDORSED_SLUGS.map((slug) => [slug, buildStatsForSlug(slug, getInstitutionTypeForSlug(slug))]),
+);
 
 export function getVetKeyDataPointsForSlug(slug: string): VetKeyDataPoint[] {
   if (getInstitutionTypeForSlug(slug) !== 'VET') {
@@ -1670,18 +1473,14 @@ function displayNameForEndorsedId(id: string): string {
 }
 
 const DISPLAY_NAME_BY_SLUG: Record<string, string> = Object.fromEntries(
-  rows.map((row) => [slugify(row.id), displayNameForEndorsedId(row.id)])
+  rows.map((row) => [slugify(row.id), displayNameForEndorsedId(row.id)]),
 );
 
-export function getEndorsedDisplayNameForSlug(
-  slug: string
-): string | undefined {
+export function getEndorsedDisplayNameForSlug(slug: string): string | undefined {
   return DISPLAY_NAME_BY_SLUG[slug];
 }
 
-export function getEndorsedFaqSectionsForSlug(
-  slug: string
-): EndorsedFaqSection[] {
+export function getEndorsedFaqSectionsForSlug(slug: string): EndorsedFaqSection[] {
   const overrideSections = ENDORSED_FAQ_SECTIONS_BY_SLUG[slug];
   if (overrideSections && overrideSections.length > 0) {
     return overrideSections;
@@ -1690,28 +1489,11 @@ export function getEndorsedFaqSectionsForSlug(
   return ENDORSED_FAQ_SECTIONS_DEFAULT;
 }
 
-export function getEndorsedNdExperienceForSlug(
-  slug: string
-): EndorsedNdExperience | undefined {
-  return ENDORSED_ND_EXPERIENCE_BY_SLUG[slug];
-}
-
-export function getTopStrengthAreasForSlug(slug: string): TopStrengthArea[] {
-  const items = TOP_STRENGTH_AREAS_BY_SLUG[slug] ?? [];
-  return items.slice(0, 4);
-}
-
 export function getStudyAreasForSlug(slug: string): string[] {
   return STUDY_AREAS_BY_SLUG[slug] ?? [];
 }
 
-export function getStaffNominationsForSlug(slug: string): StaffNomination[] {
-  return STAFF_NOMINATIONS_BY_SLUG[slug] ?? [];
-}
-
-export function getSupportFrameworkForSlug(
-  slug: string
-): SupportFrameworkSection[] {
+export function getSupportFrameworkForSlug(slug: string): SupportFrameworkSection[] {
   return SUPPORT_FRAMEWORK_BY_SLUG[slug] ?? [];
 }
 
@@ -1719,24 +1501,18 @@ export function isKnownEndorsedSlug(slug: string): boolean {
   return ENDORSED_SLUGS.includes(slug);
 }
 
-export function getEndorsedInstitutionCoursesUrl(
-  slug: string
-): string | undefined {
+export function getEndorsedInstitutionCoursesUrl(slug: string): string | undefined {
   const url = INSTITUTION_COURSES_URL_BY_SLUG[slug];
   return url && url.length > 0 ? url : undefined;
 }
 
-export function getEndorsedEndorsementIdForSlug(
-  slug: string
-): string | undefined {
+export function getEndorsedEndorsementIdForSlug(slug: string): string | undefined {
   const endorsementId = ENDORSEMENT_ID_BY_SLUG[slug];
-  return endorsementId && endorsementId.length === 5
-    ? endorsementId
-    : undefined;
+  return endorsementId && endorsementId.length === 5 ? endorsementId : undefined;
 }
 
 export function getEndorsedMetaStripInstitutionIconSrc(
-  slug: string
+  slug: string,
 ): string | StaticImageData | undefined {
   const bundled = ENDORSED_PROVIDER_LOGO_BY_SLUG[slug];
   if (bundled) {
@@ -1746,9 +1522,7 @@ export function getEndorsedMetaStripInstitutionIconSrc(
   return src && src.length > 0 ? src : undefined;
 }
 
-export function getEndorsedTopBackgroundImageForSlug(
-  slug: string
-): string | undefined {
+export function getEndorsedTopBackgroundImageForSlug(slug: string): string | undefined {
   const src = TOP_BACKGROUND_IMAGE_BY_SLUG[slug];
   return src && src.length > 0 ? src : undefined;
 }

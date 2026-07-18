@@ -11,9 +11,7 @@ export default function extractCourseSortConfig({
 }) {
   sortBy = sortBy && sortBy in DEFAULT_COURSE ? sortBy : undefined;
   sortOrder = +(sortOrder ?? '0');
-  sortOrder = [1, -1].includes(sortOrder)
-    ? sortOrder
-    : DEFAULT_COURSE_SORT_ORDER;
+  sortOrder = [1, -1].includes(sortOrder) ? sortOrder : DEFAULT_COURSE_SORT_ORDER;
 
   sortBy = sortBy || DEFAULT_COURSE_SORT_BY;
   sortOrder = sortOrder || DEFAULT_COURSE_SORT_ORDER;

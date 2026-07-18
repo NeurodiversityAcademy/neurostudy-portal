@@ -1,24 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import { throttle } from '../utilities/common';
 
+const subscribe = (onStoreChange: () => void): (() => void) => {
+  const updateWidth = throttle(onStoreChange);
+  window.addEventListener('resize', updateWidth);
+  return () => {
+    window.removeEventListener('resize', updateWidth);
+  };
+};
+
+const getSnapshot = (): number => window.innerWidth;
+
 const useWindowWidth = (defaultWidth: number = 1150): number => {
-  const [windowWidth, setWindowWidth] = useState(defaultWidth);
-
-  useEffect(() => {
-    setWindowWidth(window.innerWidth);
-
-    const updateWidth = throttle(() => {
-      setWindowWidth(window.innerWidth);
-    });
-
-    window.addEventListener('resize', updateWidth);
-
-    return () => {
-      window.removeEventListener('resize', updateWidth);
-    };
-  }, []);
-
-  return windowWidth;
+  return useSyncExternalStore(subscribe, getSnapshot, () => defaultWidth);
 };
 
 export default useWindowWidth;

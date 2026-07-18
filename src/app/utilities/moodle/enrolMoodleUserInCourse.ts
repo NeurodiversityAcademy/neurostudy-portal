@@ -29,7 +29,7 @@ export async function enrolMoodleUserInCourse({
     if (json && 'exception' in json) {
       throw new Error(json.message);
     }
-  } catch (_) {
+  } catch {
     throw new Error('Failed to enrol the moodle user into the course.');
   }
 }

@@ -6,18 +6,13 @@ interface EndorsedStudyAreasProps {
   studyAreas: string[];
 }
 
-export default function EndorsedStudyAreas({
-  studyAreas,
-}: EndorsedStudyAreasProps) {
+export default function EndorsedStudyAreas({ studyAreas }: EndorsedStudyAreasProps) {
   if (studyAreas.length === 0) {
     return null;
   }
 
   return (
-    <section
-      className={styles.studyAreasSection}
-      aria-labelledby='endorsed-study-areas-heading'
-    >
+    <section className={styles.studyAreasSection} aria-labelledby='endorsed-study-areas-heading'>
       <Typography
         id='endorsed-study-areas-heading'
         variant={TypographyVariant.H3}

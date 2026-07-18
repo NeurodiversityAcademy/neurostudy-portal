@@ -29,17 +29,10 @@ describe('resolveDetailDemoAccess', () => {
     expect(resolveDetailDemoAccess('hsh', EMPTY_SEARCH_PARAMS)).toEqual({
       internalSlug: 'hsh',
     });
-    expect(
-      resolveDetailDemoAccess(
-        'blueprint-career-development',
-        EMPTY_SEARCH_PARAMS
-      )
-    ).toEqual({
+    expect(resolveDetailDemoAccess('blueprint-career-development', EMPTY_SEARCH_PARAMS)).toEqual({
       internalSlug: 'blueprint-career-development',
     });
-    expect(
-      resolveDetailDemoAccess('nepean-community-college', EMPTY_SEARCH_PARAMS)
-    ).toEqual({
+    expect(resolveDetailDemoAccess('nepean-community-college', EMPTY_SEARCH_PARAMS)).toEqual({
       internalSlug: 'nepean-community-college',
     });
     expect(resolveDetailDemoAccess('collarts', EMPTY_SEARCH_PARAMS)).toEqual({
@@ -55,7 +48,7 @@ describe('resolveDetailDemoAccess', () => {
     expect(
       resolveDetailDemoAccess(VALID_GUID, {
         demo: '00000000-0000-0000-0000-000000000002',
-      })
+      }),
     ).toBeNull();
   });
 
@@ -66,14 +59,10 @@ describe('resolveDetailDemoAccess', () => {
   });
 
   it('returns null for non-live known slug path even with valid demo param', () => {
-    expect(
-      resolveDetailDemoAccess('academia', { demo: VALID_GUID })
-    ).toBeNull();
+    expect(resolveDetailDemoAccess('academia', { demo: VALID_GUID })).toBeNull();
   });
 
   it('returns null for invalid guid with matching param', () => {
-    expect(
-      resolveDetailDemoAccess('invalid-guid', { demo: 'invalid-guid' })
-    ).toBeNull();
+    expect(resolveDetailDemoAccess('invalid-guid', { demo: 'invalid-guid' })).toBeNull();
   });
 });

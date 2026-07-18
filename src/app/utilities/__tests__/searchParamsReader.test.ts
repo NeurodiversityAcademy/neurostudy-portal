@@ -1,7 +1,4 @@
-import {
-  EMPTY_SEARCH_PARAMS,
-  readFirstSearchParamValue,
-} from '@/app/utilities/searchParamsReader';
+import { EMPTY_SEARCH_PARAMS, readFirstSearchParamValue } from '@/app/utilities/searchParamsReader';
 
 describe('searchParamsReader', () => {
   it('EMPTY_SEARCH_PARAMS is an empty object', () => {
@@ -9,9 +6,7 @@ describe('searchParamsReader', () => {
   });
 
   it('readFirstSearchParamValue returns string value', () => {
-    expect(readFirstSearchParamValue({ demo: 'guid-1' }, 'demo')).toBe(
-      'guid-1'
-    );
+    expect(readFirstSearchParamValue({ demo: 'guid-1' }, 'demo')).toBe('guid-1');
   });
 
   it('readFirstSearchParamValue returns null when param absent', () => {

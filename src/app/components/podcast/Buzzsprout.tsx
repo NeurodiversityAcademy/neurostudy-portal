@@ -29,10 +29,7 @@ function isPlayerRendered(containerId: string): boolean {
     return true;
   }
 
-  return (
-    container.childElementCount > 0 &&
-    container.offsetHeight >= MIN_PLAYER_HEIGHT_PX
-  );
+  return container.childElementCount > 0 && container.offsetHeight >= MIN_PLAYER_HEIGHT_PX;
 }
 
 const BuzzsproutEmbed: React.FC<BuzzsproutEmbedProps> = ({

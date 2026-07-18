@@ -29,8 +29,9 @@ export default function Loader({
       }
 
       parentNode.classList.add(styles.loaderContainer);
-      getComputedStyle(parentNode).position === 'static' &&
+      if (getComputedStyle(parentNode).position === 'static') {
         parentNode.classList.add(styles.loaderContainerRelative);
+      }
 
       return () => {
         parentNode.classList.remove(styles.loaderContainerRelative);
@@ -47,7 +48,7 @@ export default function Loader({
           className,
           styles.loader,
           expand && styles.expand,
-          alignTop && styles.alignTop
+          alignTop && styles.alignTop,
         )}
         aria-hidden
         {...rest}

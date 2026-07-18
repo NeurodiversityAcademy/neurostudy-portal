@@ -26,19 +26,14 @@ const CourseEnrolPrompt: React.FC = () => {
   const onPopupClose = () => {
     setPopupOpen(false);
     setBannerOpen(true);
-    window[COURSE_ENROL_CACHE_STORAGE].setItem(
-      COURSE_ENROL_POPUP_CLOSED_KEY,
-      '1'
-    );
+    window[COURSE_ENROL_CACHE_STORAGE].setItem(COURSE_ENROL_POPUP_CLOSED_KEY, '1');
   };
 
   useEffect(() => {
     const searchObj = queryString.parse();
 
-    if (
-      ['failure', 'canceled'].includes(searchObj['checkout_status']?.toString())
-    ) {
-      setTimeout(() => {
+    if (['failure', 'canceled'].includes(searchObj['checkout_status']?.toString())) {
+      const timer = setTimeout(() => {
         const { error } = searchObj;
         notifyError(
           error
@@ -46,23 +41,26 @@ const CourseEnrolPrompt: React.FC = () => {
             : DEFAULT_STRIPE_ERROR_MESSAGE,
           {
             duration: -1,
-          }
+          },
         );
       });
+      return () => clearTimeout(timer);
+    }
+
+    if (isSessionLoading) {
       return;
     }
 
-    setBannerOpen(true);
+    const shouldOpenPopup =
+      !session && window[COURSE_ENROL_CACHE_STORAGE].getItem(COURSE_ENROL_POPUP_CLOSED_KEY) !== '1';
 
-    if (isSessionLoading || !!session) {
-      return;
-    }
+    // Defer state updates so we only sync after reading external session/storage.
+    const frame = requestAnimationFrame(() => {
+      setBannerOpen(true);
+      setPopupOpen(shouldOpenPopup);
+    });
 
-    const open =
-      window[COURSE_ENROL_CACHE_STORAGE].getItem(
-        COURSE_ENROL_POPUP_CLOSED_KEY
-      ) !== '1';
-    setPopupOpen(open);
+    return () => cancelAnimationFrame(frame);
   }, [session, isSessionLoading]);
 
   const onRequestCheckout = async () => {
@@ -89,11 +87,7 @@ const CourseEnrolPrompt: React.FC = () => {
         onClose={onPopupClose}
         onRequestCheckout={onRequestCheckout}
       />
-      <CourseBanner
-        open={bannerOpen}
-        isLoading={isLoading}
-        onRequestCheckout={onRequestCheckout}
-      />
+      <CourseBanner open={bannerOpen} isLoading={isLoading} onRequestCheckout={onRequestCheckout} />
     </>
   );
 };

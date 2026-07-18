@@ -3,7 +3,7 @@ import { TeacherRegistrationType } from '../../interfaces/TeacherRegistrationTyp
 import CRMCreateResponseInterface from '../../interfaces/CRMCreateResponseInterface';
 
 export const registerTeacherData = async (
-  teacherRegistrationData: TeacherRegistrationType
+  teacherRegistrationData: TeacherRegistrationType,
 ): Promise<CRMCreateResponseInterface> => {
   const data = JSON.stringify(teacherRegistrationData);
 

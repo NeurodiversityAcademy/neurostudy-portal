@@ -21,19 +21,9 @@ export default function LoaderWrapper({
   loaderAlignTop = false,
 }: LoaderWrapperProps) {
   return (
-    <div
-      className={classNames(
-        styles.container,
-        className,
-        isLoading && styles.loaderContainer
-      )}
-    >
+    <div className={classNames(styles.container, className, isLoading && styles.loaderContainer)}>
       {children}
-      <Loader
-        isLoading={isLoading}
-        expand={expandLoaderWidth}
-        alignTop={loaderAlignTop}
-      />
+      <Loader isLoading={isLoading} expand={expandLoaderWidth} alignTop={loaderAlignTop} />
     </div>
   );
 }

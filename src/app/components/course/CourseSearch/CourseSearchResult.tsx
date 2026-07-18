@@ -16,11 +16,7 @@ const CourseSearchResult: React.FC = () => {
     <section className={styles.container} aria-live='polite' role='list'>
       {data && (
         <div className={styles.header}>
-          <Typography
-            variant={TypographyVariant.Body1}
-            role='status'
-            aria-atomic
-          >
+          <Typography variant={TypographyVariant.Body1} role='status' aria-atomic>
             {data.length} Course{data.length > 1 ? 's' : ''} Found
           </Typography>
           <CourseSearchSort />

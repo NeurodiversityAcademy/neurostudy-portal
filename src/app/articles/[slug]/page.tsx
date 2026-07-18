@@ -4,9 +4,7 @@ import TextHeavyArticle from '../../components/textHeavyArticle/TextHeavyArticle
 import styles from '../article.module.css';
 import articleData from '../articleData.json';
 import ArticleList from '@/app/components/articleList/articleList';
-import Typography, {
-  TypographyVariant,
-} from '../../components/typography/Typography';
+import Typography, { TypographyVariant } from '../../components/typography/Typography';
 import Subscribe from '@/app/components/subscribe/subscribe';
 import { HOST_URL, META_KEY } from '@/app/utilities/constants';
 import { createMetadata, slugify } from '@/app/utilities/common';
@@ -53,13 +51,10 @@ export default async function OneArticle({ params }: Props) {
   const article = articles.find((article) => slugify(article.title) === slug);
 
   if (!article) {
-    return (
-      <Typography variant={TypographyVariant.H1}>Article not found</Typography>
-    );
+    return <Typography variant={TypographyVariant.H1}>Article not found</Typography>;
   }
 
-  const { id, header, imageUrl, bodyText, authorName, authorImageUrl } =
-    article;
+  const { id, header, imageUrl, bodyText, authorName, authorImageUrl } = article;
 
   return (
     <div className={styles.container}>

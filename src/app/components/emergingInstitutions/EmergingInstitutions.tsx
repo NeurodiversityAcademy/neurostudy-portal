@@ -17,11 +17,7 @@ export default function EmergingInstitutions() {
     <section className={styles.section} id='emerging-institutions'>
       <div className={styles.container}>
         <div className={styles.header}>
-          <Image
-            src={graduationCap}
-            alt='Graduation cap icon'
-            className={styles.icon}
-          />
+          <Image src={graduationCap} alt='Graduation cap icon' className={styles.icon} />
           <Typography variant={TypographyVariant.H2} color='var(--BondBlack)'>
             NDA Emerging Providers
           </Typography>
@@ -31,8 +27,8 @@ export default function EmergingInstitutions() {
           color='var(--BondBlackVariant)'
           className={styles.subtitle}
         >
-          Emerging Providers are organisations with developing practices and
-          strong potential for neuro-inclusive education.
+          Emerging Providers are organisations with developing practices and strong potential for
+          neuro-inclusive education.
         </Typography>
 
         <div className={styles.cards}>

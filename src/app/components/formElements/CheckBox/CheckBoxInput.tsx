@@ -1,9 +1,6 @@
 import React, { FocusEvent } from 'react';
 import styles from './checkBox.module.css';
-import {
-  SelectOption,
-  CheckBoxInputProps,
-} from '@/app/interfaces/FormElements';
+import { SelectOption, CheckBoxInputProps } from '@/app/interfaces/FormElements';
 import CheckBoxItem from '../CheckBoxItem/CheckBoxItem';
 import { FieldValues } from 'react-hook-form';
 import Label from '../Label/Label';
@@ -35,8 +32,7 @@ const CheckBoxInput = <TFieldValues extends FieldValues>({
   const error = errors[name];
   const { disabled, onBlur } = field;
 
-  const selectedOptions: SelectOption['value'][] =
-    field.value || DEFAULT_SELECTED_OPTIONS;
+  const selectedOptions: SelectOption['value'][] = field.value || DEFAULT_SELECTED_OPTIONS;
 
   useDefaultValue<TFieldValues>({
     renderProps,
@@ -56,8 +52,7 @@ const CheckBoxInput = <TFieldValues extends FieldValues>({
       obj[item.toString().toLowerCase()] = true;
     }
 
-    return (value: SelectOption['value']): boolean =>
-      value.toString().toLowerCase() in obj;
+    return (value: SelectOption['value']): boolean => value.toString().toLowerCase() in obj;
   })();
 
   return (
@@ -66,21 +61,13 @@ const CheckBoxInput = <TFieldValues extends FieldValues>({
       role='group'
       aria-disabled={disabled}
       onBlurCapture={(e: FocusEvent<HTMLDivElement, Element>) => {
-        !(e.currentTarget as Node)?.contains(e.relatedTarget as Node) &&
+        if (!(e.currentTarget as Node)?.contains(e.relatedTarget as Node)) {
           onBlur();
+        }
       }}
     >
-      {showLabel && (
-        <Label
-          name={name}
-          color={error && 'red'}
-          label={label}
-          required={required}
-        />
-      )}
-      <div
-        className={classNames(styles.checkBoxContainer, styles[orientation])}
-      >
+      {showLabel && <Label name={name} color={error && 'red'} label={label} required={required} />}
+      <div className={classNames(styles.checkBoxContainer, styles[orientation])}>
         {options.map(({ label, value }) => (
           <CheckBoxItem
             key={value.toString()}
@@ -91,7 +78,7 @@ const CheckBoxInput = <TFieldValues extends FieldValues>({
               setSelectedOptions(
                 selected
                   ? [...selectedOptions, value]
-                  : selectedOptions.filter((item) => item !== value)
+                  : selectedOptions.filter((item) => item !== value),
               );
             }}
           />
@@ -99,10 +86,7 @@ const CheckBoxInput = <TFieldValues extends FieldValues>({
       </div>
       <HelperText>{helperText}</HelperText>
       {error && (
-        <ErrorBox
-          message={error.message?.toString() || defaultErrorMessage}
-          label={label}
-        />
+        <ErrorBox message={error.message?.toString() || defaultErrorMessage} label={label} />
       )}
       {selectedOptions.map((value) => (
         <input

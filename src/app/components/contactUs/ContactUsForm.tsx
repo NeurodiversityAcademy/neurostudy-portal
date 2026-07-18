@@ -44,8 +44,9 @@ interface ContactFieldValues extends FieldValues {
 const ContactUsForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const methods: UseFormReturn<ContactFieldValues> =
-    useForm<ContactFieldValues>({ mode: 'onBlur' });
+  const methods: UseFormReturn<ContactFieldValues> = useForm<ContactFieldValues>({
+    mode: 'onBlur',
+  });
 
   const onSubmit = async (data: ContactFieldValues) => {
     const { firstname, lastname, email, phone, message, hs_persona } = data;
@@ -62,7 +63,7 @@ const ContactUsForm: React.FC = () => {
 
     try {
       const outcome = (await registerContactData(
-        userRegistrationData
+        userRegistrationData,
       )) as CRMCreateResponseInterface;
       if (outcome.id) {
         notifySuccess('Successfully sent');
@@ -148,12 +149,7 @@ const ContactUsForm: React.FC = () => {
                 }}
               ></TextArea>
               <div className='my-3'>
-                <ActionButton
-                  type='submit'
-                  label='Submit'
-                  style={BUTTON_STYLE.Primary}
-                  fullWidth
-                />
+                <ActionButton type='submit' label='Submit' style={BUTTON_STYLE.Primary} fullWidth />
               </div>
             </Form>
           </LoaderWrapper>

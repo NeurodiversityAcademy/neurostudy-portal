@@ -8,7 +8,7 @@
   flex-direction: column;
 }
 
-.container>img {
+.container > img {
   width: 100%;
   max-width: 381px;
   height: auto;
@@ -28,7 +28,7 @@
   overflow: hidden;
 }
 
-.slider>div {
+.slider > div {
   width: 20%;
   height: 16px;
   background-color: var(--cherryPieSub);

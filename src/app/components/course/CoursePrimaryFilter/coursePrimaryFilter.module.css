@@ -5,7 +5,7 @@
   margin: 0;
 }
 
-.buttonContainer{
+.buttonContainer {
   display: flex;
   align-items: flex-end;
 }

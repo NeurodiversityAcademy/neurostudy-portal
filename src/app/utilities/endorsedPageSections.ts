@@ -14,9 +14,7 @@ export const ENDORSED_INSTITUTION_TYPE = {
   VET: 'VET',
 } as const;
 
-export function resolveStatsSectionId(
-  institutionType: string
-): EndorsedPageSectionId {
+export function resolveStatsSectionId(institutionType: string): EndorsedPageSectionId {
   if (institutionType === ENDORSED_INSTITUTION_TYPE.VET) {
     return ENDORSED_PAGE_SECTION.KEY_DATA_POINTS;
   }

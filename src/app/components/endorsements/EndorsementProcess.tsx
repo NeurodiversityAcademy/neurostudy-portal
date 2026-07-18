@@ -87,10 +87,7 @@ const ENDORSEMENT_PROCESS_STEPS: EndorsementProcessStep[] = [
 
 export default function EndorsementProcess() {
   return (
-    <section
-      className={styles.section}
-      aria-labelledby='endorsement-process-heading'
-    >
+    <section className={styles.section} aria-labelledby='endorsement-process-heading'>
       <Typography
         id='endorsement-process-heading'
         variant={TypographyVariant.H2}
@@ -114,13 +111,7 @@ export default function EndorsementProcess() {
                 />
               </div>
             ) : (
-              <Image
-                src={step.icon}
-                alt=''
-                className={styles.stepIcon}
-                width={109}
-                height={109}
-              />
+              <Image src={step.icon} alt='' className={styles.stepIcon} width={109} height={109} />
             )}
             <div className={styles.stepText}>
               <Typography

@@ -34,7 +34,7 @@
 
 .primary:hover {
   background-color: var(--cherryPieVariant);
-  box-shadow: 0px 2px 8px 0px #0000001F;
+  box-shadow: 0px 2px 8px 0px #0000001f;
 }
 
 .secondary {

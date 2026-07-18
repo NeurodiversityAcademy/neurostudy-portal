@@ -1,8 +1,6 @@
 import { ReactElement } from 'react';
 
-export default function CheckIcon(
-  props: React.SVGProps<SVGSVGElement>
-): ReactElement<SVGElement> {
+export default function CheckIcon(props: React.SVGProps<SVGSVGElement>): ReactElement<SVGElement> {
   return (
     <svg
       width='12'

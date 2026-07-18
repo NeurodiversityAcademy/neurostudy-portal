@@ -58,9 +58,7 @@ function ComponentsContent() {
   return (
     <main ref={containerRef} className={styles.main}>
       <Typography variant={TypographyVariant.H1}>Components</Typography>
-      <Typography variant={TypographyVariant.H2}>
-        Background & Badges
-      </Typography>
+      <Typography variant={TypographyVariant.H2}>Background & Badges</Typography>
       <BadgeDisplay />
       <div className={styles.border}>
         <Typography variant={TypographyVariant.H2}>Buttons</Typography>
@@ -74,25 +72,19 @@ function ComponentsContent() {
         <Example />
       </div>
       <div>
-        <Typography variant={TypographyVariant.H2}>
-          Cards/Articles/Blog posts
-        </Typography>
+        <Typography variant={TypographyVariant.H2}>Cards/Articles/Blog posts</Typography>
         <CardList />
       </div>
       <CourseProvider data={[DEFAULT_COURSE]}>
         <div className={styles.courseComponentContainer}>
           <Typography variant={TypographyVariant.H2}>Course</Typography>
           <div>
-            <Typography variant={TypographyVariant.H3}>
-              Primary Filter
-            </Typography>
+            <Typography variant={TypographyVariant.H3}>Primary Filter</Typography>
             <CoursePrimaryFilter />
           </div>
           <div className={styles.flexRow}>
             <div>
-              <Typography variant={TypographyVariant.H3}>
-                Secondary Filter
-              </Typography>
+              <Typography variant={TypographyVariant.H3}>Secondary Filter</Typography>
               <CourseSecondaryFilter />
             </div>
             <div>
@@ -225,8 +217,7 @@ function ComponentsContent() {
             multiple
             rules={{
               validate: {
-                limit3: (value: string[]) =>
-                  (value?.length || 0) <= 3 || 'Choose at most 3.',
+                limit3: (value: string[]) => (value?.length || 0) <= 3 || 'Choose at most 3.',
               },
             }}
           />

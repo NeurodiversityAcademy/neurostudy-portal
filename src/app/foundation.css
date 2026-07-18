@@ -14,10 +14,10 @@
 .main-container::before,
 .row::before,
 .col::before,
-.main-container>*,
-.row>*,
+.main-container > *,
+.row > *,
 .border-box-parent,
-.border-box-parent>* {
+.border-box-parent > * {
   box-sizing: border-box;
 }
 
@@ -36,7 +36,7 @@
   margin-right: -15px;
 }
 
-.row>* {
+.row > * {
   flex-shrink: 0;
   width: 100%;
   max-width: 100%;
@@ -44,7 +44,7 @@
   padding-left: 15px;
 }
 
-*[class*="col-"] {
+*[class*='col-'] {
   width: 100%;
   position: relative;
   min-height: 1px;

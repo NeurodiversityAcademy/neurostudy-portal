@@ -40,8 +40,7 @@ export const metadata: Metadata = createMetadata(META_KEY.HOME, {
     'Leading platform for neurodiversity in vocational education. Learn what neurodivergent means, access endorsements, and connect with neurodivergent mates.',
   openGraph: {
     title: 'Neurodiversity Academy - Neurodiversity in Vocational Education',
-    description:
-      'Explore neurodiversity meaning, access endorsements, articles.',
+    description: 'Explore neurodiversity meaning, access endorsements, articles.',
     type: 'website',
     url: 'https://neurodiversityacademy.com',
     siteName: 'Neurodiversity Academy',
@@ -54,11 +53,7 @@ export const metadata: Metadata = createMetadata(META_KEY.HOME, {
     ],
   },
 });
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParams>;
-}) {
+export default async function Home({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const resolvedSearchParams = await searchParams;
   const showSearchBar = isFeatureEnabled(resolvedSearchParams, 'searchBar');
   const demoAccess = resolveHomeDemoAccess(resolvedSearchParams);
@@ -74,10 +69,7 @@ export default async function Home({
           showSearchBar={showSearchBar}
         />
         <StudentFacts />
-        <EndorsedProviders
-          demoGuid={demoAccess?.demoGuid}
-          demoSlug={demoAccess?.demoSlug}
-        />
+        <EndorsedProviders demoGuid={demoAccess?.demoGuid} demoSlug={demoAccess?.demoSlug} />
         <EmergingInstitutions />
         <HowItWorks />
         <DisplayPodcast

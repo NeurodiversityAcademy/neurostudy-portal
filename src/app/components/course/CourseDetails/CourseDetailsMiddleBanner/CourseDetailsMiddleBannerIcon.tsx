@@ -10,9 +10,12 @@ interface CourseDetailMiddleBannerIconProps {
   description?: string;
 }
 
-const CourseDetailsMiddleBannerIcon: React.FC<
-  CourseDetailMiddleBannerIconProps
-> = ({ src, alt, title, description }) => {
+const CourseDetailsMiddleBannerIcon: React.FC<CourseDetailMiddleBannerIconProps> = ({
+  src,
+  alt,
+  title,
+  description,
+}) => {
   return (
     <div className={styles.middleBannerIconContainer}>
       <div className={styles.middleBannerIconImageWrapper}>

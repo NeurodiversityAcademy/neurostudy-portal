@@ -55,8 +55,7 @@ export interface TextBoxProps<TFieldValues extends FieldValues> {
 }
 
 export interface TextBoxInputProps<TFieldValues extends FieldValues>
-  extends BaseInputProps<TFieldValues>,
-    TextBoxProps<TFieldValues> {}
+  extends BaseInputProps<TFieldValues>, TextBoxProps<TFieldValues> {}
 
 export type TextAreaProps<TFieldValues extends FieldValues> = Omit<
   TextBoxProps<TFieldValues>,
@@ -67,8 +66,7 @@ export type TextAreaProps<TFieldValues extends FieldValues> = Omit<
 };
 
 export interface TextAreaInputProps<TFieldValues extends FieldValues>
-  extends BaseInputProps<TFieldValues>,
-    TextAreaProps<TFieldValues> {}
+  extends BaseInputProps<TFieldValues>, TextAreaProps<TFieldValues> {}
 
 export interface DropdownProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>;
@@ -95,8 +93,7 @@ export interface DropdownProps<TFieldValues extends FieldValues> {
 }
 
 export interface DropdownInputProps<TFieldValues extends FieldValues>
-  extends BaseInputProps<TFieldValues>,
-    DropdownProps<TFieldValues> {}
+  extends BaseInputProps<TFieldValues>, DropdownProps<TFieldValues> {}
 
 export type CheckBoxProps<TFieldValues extends FieldValues> = {
   name: Path<TFieldValues>;
@@ -117,8 +114,7 @@ export type CheckBoxProps<TFieldValues extends FieldValues> = {
 };
 
 export interface CheckBoxInputProps<TFieldValues extends FieldValues>
-  extends BaseInputProps<TFieldValues>,
-    CheckBoxProps<TFieldValues> {}
+  extends BaseInputProps<TFieldValues>, CheckBoxProps<TFieldValues> {}
 
 export type RadioProps<TFieldValues extends FieldValues> = Omit<
   CheckBoxProps<TFieldValues>,
@@ -128,8 +124,7 @@ export type RadioProps<TFieldValues extends FieldValues> = Omit<
 };
 
 export interface RadioInputProps<TFieldValues extends FieldValues>
-  extends BaseInputProps<TFieldValues>,
-    RadioProps<TFieldValues> {}
+  extends BaseInputProps<TFieldValues>, RadioProps<TFieldValues> {}
 
 export type ToggleProps<TFieldValues extends FieldValues> = Omit<
   RadioProps<TFieldValues>,
@@ -142,8 +137,7 @@ export type ToggleProps<TFieldValues extends FieldValues> = Omit<
 };
 
 export interface ToggleInputProps<TFieldValues extends FieldValues>
-  extends BaseInputProps<TFieldValues>,
-    ToggleProps<TFieldValues> {}
+  extends BaseInputProps<TFieldValues>, ToggleProps<TFieldValues> {}
 
 export type SliderProps<TFieldValues extends FieldValues> = Omit<
   TextBoxProps<TFieldValues>,
@@ -157,8 +151,7 @@ export type SliderProps<TFieldValues extends FieldValues> = Omit<
 };
 
 export interface SliderInputProps<TFieldValues extends FieldValues>
-  extends BaseInputProps<TFieldValues>,
-    SliderProps<TFieldValues> {
+  extends BaseInputProps<TFieldValues>, SliderProps<TFieldValues> {
   min: number;
   max: number;
   step: number;

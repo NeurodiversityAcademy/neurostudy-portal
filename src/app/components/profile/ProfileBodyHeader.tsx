@@ -21,11 +21,7 @@ const ProfileBodyHeader: React.FC = () => {
     <ProfileCard header={null} isLoading={isLoading}>
       <div className={styles.container}>
         <div className={styles.imageContainer}>
-          <Image
-            src={editImageIconSrc}
-            alt='Edit Image'
-            onClick={() => notifyInProgress()}
-          />
+          <Image src={editImageIconSrc} alt='Edit Image' onClick={() => notifyInProgress()} />
         </div>
         <div className={styles.content}>
           <Typography variant={TypographyVariant.H3} className='m-0'>

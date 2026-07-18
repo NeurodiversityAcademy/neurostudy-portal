@@ -7,7 +7,7 @@ const saveUserProfile = async (data: UserProps): Promise<void> => {
     .request(
       createRequestConfig('/user', data, {
         method: 'PUT',
-      })
+      }),
     )
     .then((res) => res.data);
 };

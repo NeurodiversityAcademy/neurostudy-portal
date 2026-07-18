@@ -1,25 +1,11 @@
 'use client';
 
-import {
-  Controller,
-  FieldValues,
-  Path,
-  PathValue,
-  useFormContext,
-} from 'react-hook-form';
+import { Controller, FieldValues, Path, PathValue, useFormContext } from 'react-hook-form';
 import { CheckBoxProps } from '@/app/interfaces/FormElements';
 import CheckBoxInput from './CheckBoxInput';
 
-const CheckBox = <TFieldValues extends FieldValues>(
-  rootProps: CheckBoxProps<TFieldValues>
-) => {
-  const {
-    name,
-    defaultValue = [],
-    required = false,
-    disabled,
-    rules: _rules,
-  } = rootProps;
+const CheckBox = <TFieldValues extends FieldValues>(rootProps: CheckBoxProps<TFieldValues>) => {
+  const { name, defaultValue = [], required = false, disabled, rules: _rules } = rootProps;
   const methods = useFormContext<TFieldValues>();
   const rules = { required, ..._rules };
 
@@ -28,10 +14,7 @@ const CheckBox = <TFieldValues extends FieldValues>(
       control={methods.control}
       name={name}
       defaultValue={
-        (defaultValue.length ? defaultValue : '') as PathValue<
-          TFieldValues,
-          Path<TFieldValues>
-        >
+        (defaultValue.length ? defaultValue : '') as PathValue<TFieldValues, Path<TFieldValues>>
       }
       rules={rules}
       // NOTE
@@ -39,12 +22,7 @@ const CheckBox = <TFieldValues extends FieldValues>(
       // the input in a weird way if `disabled` is set as a non-undefined value
       disabled={disabled || undefined}
       render={(props) => (
-        <CheckBoxInput
-          {...rootProps}
-          methods={methods}
-          rules={rules}
-          renderProps={props}
-        />
+        <CheckBoxInput {...rootProps} methods={methods} rules={rules} renderProps={props} />
       )}
     ></Controller>
   );

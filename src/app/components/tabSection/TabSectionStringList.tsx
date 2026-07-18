@@ -25,12 +25,8 @@ export default function TabSectionStringList({
     <ul className={listClassName}>
       {items.map((item) => (
         <li key={item} className={itemClassName}>
-          {iconType === 'check' ? (
-            <CheckIcon className={positiveIconClassName} />
-          ) : null}
-          {iconType === 'close' ? (
-            <Image src={closeIcon} alt='' width={30} height={30} />
-          ) : null}
+          {iconType === 'check' ? <CheckIcon className={positiveIconClassName} /> : null}
+          {iconType === 'close' ? <Image src={closeIcon} alt='' width={30} height={30} /> : null}
           <Typography variant={TypographyVariant.Body3}>{item}</Typography>
         </li>
       ))}

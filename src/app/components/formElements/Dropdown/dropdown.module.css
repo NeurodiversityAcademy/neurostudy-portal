@@ -46,9 +46,7 @@
   margin-right: 5px;
 }
 
-.container[aria-disabled='true']
-  .pillAndInput
-  > [role='button']:nth-last-of-type(1) {
+.container[aria-disabled='true'] .pillAndInput > [role='button']:nth-last-of-type(1) {
   margin-bottom: 5px;
 }
 

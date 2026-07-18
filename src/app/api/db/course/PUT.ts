@@ -39,9 +39,7 @@ export default async function PUT(req: NextRequest): Promise<Response> {
 
     const { length } = data;
     if (length < 1 || length > 25) {
-      throwAssertionError(
-        `Length of the data should be between 1 & 25, inclusive.`
-      );
+      throwAssertionError(`Length of the data should be between 1 & 25, inclusive.`);
     }
 
     const res = await insertCourseRows(data);

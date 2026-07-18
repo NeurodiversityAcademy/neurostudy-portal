@@ -10,7 +10,7 @@ export async function proxy(req: NextRequest) {
 
     const redirectUrl = new URL(
       `/login?error=AuthRequired&callbackUrl=${encodeURIComponent(callbackPath)}`,
-      requestUrl
+      requestUrl,
     );
 
     return NextResponse.redirect(redirectUrl);

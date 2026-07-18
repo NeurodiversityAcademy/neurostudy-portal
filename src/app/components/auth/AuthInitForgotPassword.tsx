@@ -17,13 +17,10 @@ import AuthFormFooter from './AuthFormFooter';
 import { InitForgotPasswordProps } from '@/app/interfaces/ForgotPasswordInterface';
 import resetPassword from '@/app/utilities/auth/resetPassword';
 
-const AuthInitForgotPassword: React.FC<InitForgotPasswordProps> = ({
-  handleVerificationCode,
-}) => {
-  const methods: UseFormReturn<ForgotPasswordFieldValues> =
-    useForm<ForgotPasswordFieldValues>({
-      mode: 'onBlur',
-    });
+const AuthInitForgotPassword: React.FC<InitForgotPasswordProps> = ({ handleVerificationCode }) => {
+  const methods: UseFormReturn<ForgotPasswordFieldValues> = useForm<ForgotPasswordFieldValues>({
+    mode: 'onBlur',
+  });
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -54,11 +51,7 @@ const AuthInitForgotPassword: React.FC<InitForgotPasswordProps> = ({
   };
 
   return (
-    <LoaderWrapper
-      isLoading={isLoading}
-      className={styles.formColumnWrapper}
-      expandLoaderWidth
-    >
+    <LoaderWrapper isLoading={isLoading} className={styles.formColumnWrapper} expandLoaderWidth>
       <AuthFormHeader title='Forgot Password?' subText='Reset your password' />
       <Form methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
         <TextBox
@@ -70,12 +63,7 @@ const AuthInitForgotPassword: React.FC<InitForgotPasswordProps> = ({
           pattern={EMAIL_REGEX}
         />
         <div className='mt-2 mb-3'>
-          <ActionButton
-            type='submit'
-            label='Send Code'
-            style={BUTTON_STYLE.Primary}
-            fullWidth
-          />
+          <ActionButton type='submit' label='Send Code' style={BUTTON_STYLE.Primary} fullWidth />
         </div>
       </Form>
       <AuthFormFooter />

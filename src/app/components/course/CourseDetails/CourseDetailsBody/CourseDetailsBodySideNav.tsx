@@ -21,9 +21,7 @@ const CourseDetailsBodySideNav: React.FC<OverviewProps> = ({ sections }) => {
         {sections.map((section) => (
           <li key={section.id}>
             <a href={`#${section.id}`}>
-              <Typography variant={TypographyVariant.Body2Strong}>
-                {section.title}
-              </Typography>
+              <Typography variant={TypographyVariant.Body2Strong}>{section.title}</Typography>
             </a>
           </li>
         ))}
@@ -52,10 +50,7 @@ const CourseDetailsBodySideNav: React.FC<OverviewProps> = ({ sections }) => {
         </li>
       </ul>
 
-      <ApplyNowPopup
-        open={isApplyNowOpen}
-        onClose={() => setIsApplyNowOpen(false)}
-      />
+      <ApplyNowPopup open={isApplyNowOpen} onClose={() => setIsApplyNowOpen(false)} />
     </nav>
   );
 };

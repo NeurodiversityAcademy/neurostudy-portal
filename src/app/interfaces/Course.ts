@@ -8,9 +8,7 @@ import {
 export type CourseProps = typeof DEFAULT_COURSE;
 export type CourseWithoutIdProps = typeof DEFAULT_COURSE_WITHOUT_ID;
 export type CourseDetailsProps = typeof DEFAULT_COURSE_DETAILS;
-export type CourseDetailsWithoutIdProps = Partial<
-  typeof DEFAULT_COURSE_DETAILS_WITHOUT_ID
->;
+export type CourseDetailsWithoutIdProps = Partial<typeof DEFAULT_COURSE_DETAILS_WITHOUT_ID>;
 
 export type CoursePrimaryFilterType = {
   Neurotypes: CourseProps['Neurotypes'];
@@ -24,8 +22,7 @@ export type CourseSecondaryFilterType = {
   Mode: CourseProps['Mode'][];
 };
 
-export type FilterCourseProps = CoursePrimaryFilterType &
-  CourseSecondaryFilterType;
+export type FilterCourseProps = CoursePrimaryFilterType & CourseSecondaryFilterType;
 
 export interface CourseSortConfig {
   sortBy: keyof CourseProps;

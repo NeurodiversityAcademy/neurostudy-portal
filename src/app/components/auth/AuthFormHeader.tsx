@@ -1,6 +1,4 @@
-import Typography, {
-  TypographyVariant,
-} from '@/app/components/typography/Typography';
+import Typography, { TypographyVariant } from '@/app/components/typography/Typography';
 import styles from './auth.module.css';
 
 type AuthFormHeaderProps = {

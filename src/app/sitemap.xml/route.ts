@@ -7,7 +7,7 @@ import articleData from '@/app/articles/articleData.json';
 
 export async function GET(request: NextRequest) {
   const baseUrl = 'https://neurodiversityacademy.com';
-  
+
   const staticPages = [
     '/',
     '/endorsements',
@@ -20,13 +20,13 @@ export async function GET(request: NextRequest) {
     '/blogs',
   ];
 
-  const staticUrls = staticPages.map(page => `${baseUrl}${page}`);
+  const staticUrls = staticPages.map((page) => `${baseUrl}${page}`);
 
-  const articleUrls = articleData.articles.map(article => {
+  const articleUrls = articleData.articles.map((article) => {
     return `${baseUrl}/articles/${slugify(article.title)}`;
   });
 
-  const blogUrls = blogData.blogs.map(blog => {
+  const blogUrls = blogData.blogs.map((blog) => {
     return `${baseUrl}/blogs/${slugify(blog.title)}`;
   });
 
@@ -41,7 +41,7 @@ ${urls
     (url) => `<url>
   <loc>${url}</loc>
   <lastmod>${lastmod}</lastmod>
-</url>`
+</url>`,
   )
   .join('\n')}
 </urlset>`;

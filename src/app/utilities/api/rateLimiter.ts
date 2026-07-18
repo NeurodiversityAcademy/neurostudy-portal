@@ -1,8 +1,5 @@
 import { RateLimiterMemory } from 'rate-limiter-flexible';
-import {
-  API_CONSUMPTION_INTERVAL,
-  API_POINT_CONSUMPTION_LIMIT,
-} from './constants';
+import { API_CONSUMPTION_INTERVAL, API_POINT_CONSUMPTION_LIMIT } from './constants';
 import { NextRequest } from 'next/server';
 import APIError from '@/app/interfaces/APIError';
 
@@ -23,10 +20,7 @@ const getClientIp = (req: NextRequest): string => {
   return req.headers.get('x-real-ip') || 'unknown';
 };
 
-export const consumeRateWithIp = async (
-  req: NextRequest,
-  pointsToConsume?: number
-) => {
+export const consumeRateWithIp = async (req: NextRequest, pointsToConsume?: number) => {
   const ip = getClientIp(req);
   const pathname = new URL(req.url).pathname;
 

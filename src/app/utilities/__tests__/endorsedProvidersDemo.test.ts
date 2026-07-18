@@ -6,9 +6,7 @@ import {
 
 describe('endorsedProvidersDemo', () => {
   it('resolveEndorsedProviderLogoSrc returns fallback when slug missing', () => {
-    expect(resolveEndorsedProviderLogoSrc('unknown', '/fallback.png', {})).toBe(
-      '/fallback.png'
-    );
+    expect(resolveEndorsedProviderLogoSrc('unknown', '/fallback.png', {})).toBe('/fallback.png');
   });
 
   it('resolveEndorsedProviderLogoSrc returns override when slug present', () => {
@@ -16,7 +14,7 @@ describe('endorsedProvidersDemo', () => {
     expect(
       resolveEndorsedProviderLogoSrc('collarts', '/fallback.png', {
         collarts: override,
-      })
+      }),
     ).toBe(override);
   });
 
@@ -26,7 +24,7 @@ describe('endorsedProvidersDemo', () => {
 
   it('NDA_CERTIFIED_LEGEND uses accredited training wording', () => {
     expect(NDA_CERTIFIED_LEGEND).toBe(
-      'NDA Certified — completed Neurodiversity Academy accredited training'
+      'NDA Certified — completed Neurodiversity Academy accredited training',
     );
   });
 });

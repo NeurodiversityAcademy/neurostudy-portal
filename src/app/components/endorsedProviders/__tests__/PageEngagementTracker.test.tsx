@@ -15,9 +15,7 @@ beforeEach(() => {
   installGtagMock();
   installTestPagePath('/endorsedproviders/collarts');
 
-  global.IntersectionObserver = class MockIntersectionObserver
-    implements IntersectionObserver
-  {
+  global.IntersectionObserver = class MockIntersectionObserver implements IntersectionObserver {
     readonly root: Element | Document | null = null;
     readonly rootMargin = '';
     readonly thresholds: ReadonlyArray<number> = [];
@@ -44,7 +42,7 @@ function fireIntersection(target: HTMLElement): void {
         target,
       } as unknown as IntersectionObserverEntry,
     ],
-    {} as IntersectionObserver
+    {} as IntersectionObserver,
   );
 }
 
@@ -53,7 +51,7 @@ describe('PageEngagementTracker', () => {
     const { getByText } = render(
       <PageEngagementTracker providerSlug='collarts'>
         <div>hello</div>
-      </PageEngagementTracker>
+      </PageEngagementTracker>,
     );
     expect(getByText('hello')).toBeInTheDocument();
   });
@@ -79,7 +77,7 @@ describe('PageEngagementTracker', () => {
     render(
       <PageEngagementTracker providerSlug='collarts'>
         <div>content</div>
-      </PageEngagementTracker>
+      </PageEngagementTracker>,
     );
 
     window.scrollY = 1000;
@@ -93,7 +91,7 @@ describe('PageEngagementTracker', () => {
         provider_slug: 'collarts',
         page_path: '/endorsedproviders/collarts',
         category: 'Engagement',
-      })
+      }),
     );
   });
 
@@ -101,14 +99,12 @@ describe('PageEngagementTracker', () => {
     const mockGtag = installGtagMock();
     render(
       <PageEngagementTracker providerSlug='collarts'>
-        <div {...{ [DATA_SECTION_ATTRIBUTE]: ENDORSED_PAGE_SECTION.FAQS }}>
-          FAQs
-        </div>
-      </PageEngagementTracker>
+        <div {...{ [DATA_SECTION_ATTRIBUTE]: ENDORSED_PAGE_SECTION.FAQS }}>FAQs</div>
+      </PageEngagementTracker>,
     );
 
     const target = document.querySelector(
-      `[${DATA_SECTION_ATTRIBUTE}="${ENDORSED_PAGE_SECTION.FAQS}"]`
+      `[${DATA_SECTION_ATTRIBUTE}="${ENDORSED_PAGE_SECTION.FAQS}"]`,
     ) as HTMLElement;
     fireIntersection(target);
 
@@ -120,7 +116,7 @@ describe('PageEngagementTracker', () => {
         provider_slug: 'collarts',
         page_path: '/endorsedproviders/collarts',
         category: 'Engagement',
-      })
+      }),
     );
   });
 });
@@ -139,7 +135,7 @@ describe('PageEngagementTracker time_on_page', () => {
     render(
       <PageEngagementTracker providerSlug='collarts'>
         <div>content</div>
-      </PageEngagementTracker>
+      </PageEngagementTracker>,
     );
 
     jest.advanceTimersByTime(45_000);
@@ -152,7 +148,7 @@ describe('PageEngagementTracker time_on_page', () => {
         seconds: 45,
         provider_slug: 'collarts',
         category: 'Engagement',
-      })
+      }),
     );
   });
 
@@ -167,7 +163,7 @@ describe('PageEngagementTracker time_on_page', () => {
     render(
       <PageEngagementTracker providerSlug='collarts'>
         <div>content</div>
-      </PageEngagementTracker>
+      </PageEngagementTracker>,
     );
 
     jest.advanceTimersByTime(30_000);
@@ -179,7 +175,7 @@ describe('PageEngagementTracker time_on_page', () => {
       expect.objectContaining({
         seconds: 30,
         provider_slug: 'collarts',
-      })
+      }),
     );
   });
 
@@ -188,7 +184,7 @@ describe('PageEngagementTracker time_on_page', () => {
     const { unmount } = render(
       <PageEngagementTracker providerSlug='collarts'>
         <div>content</div>
-      </PageEngagementTracker>
+      </PageEngagementTracker>,
     );
 
     jest.advanceTimersByTime(10_000);
@@ -200,7 +196,7 @@ describe('PageEngagementTracker time_on_page', () => {
       expect.objectContaining({
         seconds: 10,
         provider_slug: 'collarts',
-      })
+      }),
     );
   });
 
@@ -209,16 +205,14 @@ describe('PageEngagementTracker time_on_page', () => {
     render(
       <PageEngagementTracker providerSlug='collarts'>
         <div>content</div>
-      </PageEngagementTracker>
+      </PageEngagementTracker>,
     );
 
     jest.advanceTimersByTime(20_000);
     window.dispatchEvent(new Event('beforeunload'));
     document.dispatchEvent(new Event('visibilitychange'));
 
-    const timeOnPageCalls = mockGtag.mock.calls.filter(
-      (call) => call[1] === 'time_on_page'
-    );
+    const timeOnPageCalls = mockGtag.mock.calls.filter((call) => call[1] === 'time_on_page');
     expect(timeOnPageCalls).toHaveLength(1);
   });
 });

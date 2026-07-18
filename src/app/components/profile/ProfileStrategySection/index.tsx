@@ -3,16 +3,8 @@
 import strategyIcon from '@/app/images/strategyIcon.svg';
 import ProfileCard from '../ProfileCard';
 import { useProfileContext } from '@/app/utilities/profile/ProfileProvider';
-import {
-  forwardRef,
-  ForwardRefExoticComponent,
-  PropsWithoutRef,
-  RefAttributes,
-} from 'react';
-import {
-  ProfileSectionProps,
-  ProfileSectionRef,
-} from '@/app/interfaces/Profile';
+import { forwardRef, ForwardRefExoticComponent, PropsWithoutRef, RefAttributes } from 'react';
+import { ProfileSectionProps, ProfileSectionRef } from '@/app/interfaces/Profile';
 import { STRATEGY_FIELDS } from '@/app/utilities/profile/constants';
 import ProfileStrategyForm from './Form';
 import ProfileAttributes from '../ProfileAttributes';
@@ -33,19 +25,13 @@ const ProfileStrategySection: ForwardRefExoticComponent<
         popup={popup}
       >
         {isEditing || popup ? (
-          <ProfileStrategyForm
-            ref={formRef}
-            {...(popup ? { onSubmit, onCancel } : null)}
-          />
+          <ProfileStrategyForm ref={formRef} {...(popup ? { onSubmit, onCancel } : null)} />
         ) : (
-          <ProfileAttributes
-            fields={STRATEGY_FIELDS}
-            onSectionEdit={onSectionEdit}
-          />
+          <ProfileAttributes fields={STRATEGY_FIELDS} onSectionEdit={onSectionEdit} />
         )}
       </ProfileCard>
     );
-  }
+  },
 );
 
 ProfileStrategySection.displayName = 'ProfileStrategySection';

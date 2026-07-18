@@ -13,8 +13,7 @@ export async function createMoodleUser({
     const { src, secret } = getMoodleAPIInfo();
 
     const splitName = name.split(/\s+/);
-    const firstname =
-      splitName.length > 1 ? splitName.slice(0, -1).join(' ') : name;
+    const firstname = splitName.length > 1 ? splitName.slice(0, -1).join(' ') : name;
     const lastname = splitName.slice(-1).join('') || firstname;
     const username = email;
 
@@ -44,7 +43,7 @@ export async function createMoodleUser({
     const user: MoodleUser = json[0];
 
     return user;
-  } catch (_) {
+  } catch {
     throw new Error('Failed to create the moodle user.');
   }
 }

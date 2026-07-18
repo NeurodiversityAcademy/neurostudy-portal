@@ -151,8 +151,7 @@
   height: auto;
   object-fit: contain;
   /* Extra lift for transparent PNG wordmarks on GhostWhite */
-  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.14))
-    drop-shadow(0 2px 6px rgb(0 0 0 / 0.08));
+  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.14)) drop-shadow(0 2px 6px rgb(0 0 0 / 0.08));
 }
 
 /*

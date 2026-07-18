@@ -19,7 +19,7 @@ export function useVisitTracker(id: string, type: 'article' | 'blog'): void {
       } catch (error) {
         console.error(
           `Failed to parse or update visited items for key "${storageKey}". Resetting with current item.`,
-          error
+          error,
         );
         // If storage is corrupted or not an array, overwrite it.
         localStorage.setItem(storageKey, JSON.stringify([id]));

@@ -16,18 +16,12 @@ jest.mock(
   '@/app/components/course/CourseDetails/CourseDetailsMiddleBanner/CourseDetailsMiddleBannerIcon',
   () => ({
     __esModule: true,
-    default: ({
-      title,
-      description,
-    }: {
-      title: string;
-      description: string;
-    }) => (
+    default: ({ title, description }: { title: string; description: string }) => (
       <div>
         {title}: {description}
       </div>
     ),
-  })
+  }),
 );
 
 describe('EndorsedInstitutionCoverHero analytics', () => {
@@ -46,29 +40,23 @@ describe('EndorsedInstitutionCoverHero analytics', () => {
     const mockGtag = installGtagMock();
     const coursesUrl = 'https://example.com/courses';
     const { getByRole } = render(
-      <EndorsedInstitutionCoverHero {...baseProps} coursesUrl={coursesUrl} />
+      <EndorsedInstitutionCoverHero {...baseProps} coursesUrl={coursesUrl} />,
     );
 
     fireEvent.click(getByRole('link', { name: 'Explore' }));
 
-    expect(mockGtag).toHaveBeenCalledWith(
-      GA_EVENT_COMMAND,
-      'endorsed_explore_click',
-      {
-        destination_url: coursesUrl,
-        page_path: '/endorsedproviders/collarts',
-        provider_slug: 'collarts',
-        link_text: 'Explore',
-        category: 'Endorsed',
-      }
-    );
+    expect(mockGtag).toHaveBeenCalledWith(GA_EVENT_COMMAND, 'endorsed_explore_click', {
+      destination_url: coursesUrl,
+      page_path: '/endorsedproviders/collarts',
+      provider_slug: 'collarts',
+      link_text: 'Explore',
+      category: 'Endorsed',
+    });
   });
 
   it('does not render Explore link when coursesUrl is absent', () => {
     const mockGtag = installGtagMock();
-    const { queryByRole } = render(
-      <EndorsedInstitutionCoverHero {...baseProps} />
-    );
+    const { queryByRole } = render(<EndorsedInstitutionCoverHero {...baseProps} />);
 
     expect(queryByRole('link', { name: 'Explore' })).not.toBeInTheDocument();
     expect(mockGtag).not.toHaveBeenCalled();
@@ -77,7 +65,7 @@ describe('EndorsedInstitutionCoverHero analytics', () => {
   it('preserves href and target on Explore link', () => {
     const coursesUrl = 'https://example.com/courses';
     const { getByRole } = render(
-      <EndorsedInstitutionCoverHero {...baseProps} coursesUrl={coursesUrl} />
+      <EndorsedInstitutionCoverHero {...baseProps} coursesUrl={coursesUrl} />,
     );
 
     const link = getByRole('link', { name: 'Explore' });
@@ -87,7 +75,7 @@ describe('EndorsedInstitutionCoverHero analytics', () => {
 
   it('shows NDA certified legend below the meta strip when certified', () => {
     const { getByText, getByRole } = render(
-      <EndorsedInstitutionCoverHero {...baseProps} ndaCertified />
+      <EndorsedInstitutionCoverHero {...baseProps} ndaCertified />,
     );
 
     const legend = getByText(NDA_CERTIFIED_LEGEND);
@@ -103,7 +91,7 @@ describe('EndorsedInstitutionCoverHero analytics', () => {
 
   it('does not show NDA certified legend when not certified', () => {
     const { queryByText } = render(
-      <EndorsedInstitutionCoverHero {...baseProps} ndaCertified={false} />
+      <EndorsedInstitutionCoverHero {...baseProps} ndaCertified={false} />,
     );
 
     expect(queryByText(NDA_CERTIFIED_LEGEND)).not.toBeInTheDocument();

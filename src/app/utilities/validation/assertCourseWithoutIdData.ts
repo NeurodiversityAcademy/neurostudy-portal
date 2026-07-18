@@ -5,7 +5,7 @@ import { DEFAULT_COURSE_WITHOUT_ID } from '../db/constants';
 const throwError = throwAssertionError;
 
 export default function assertCourseWithoutIdData(
-  data: CourseWithoutIdProps[]
+  data: CourseWithoutIdProps[],
 ): asserts data is CourseWithoutIdProps[] {
   if (!Array.isArray(data)) {
     throwError(`Invalid request payload, expected a JSON array.`);
@@ -29,7 +29,7 @@ export default function assertCourseWithoutIdData(
         const providedType: unknown = typeof item[key];
         if (expectedType !== providedType) {
           throwError(
-            `Invalid prop 'item[${index}]["${key}"]' of type '${providedType}' supplied, expected '${expectedType}'.`
+            `Invalid prop 'item[${index}]["${key}"]' of type '${providedType}' supplied, expected '${expectedType}'.`,
           );
         }
       } else {

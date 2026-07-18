@@ -4,16 +4,8 @@ import { Controller, FieldValues, useFormContext } from 'react-hook-form';
 import { ToggleProps } from '@/app/interfaces/FormElements';
 import ToggleInput from './ToggleInput';
 
-const Toggle = <TFieldValues extends FieldValues>(
-  rootProps: ToggleProps<TFieldValues>
-) => {
-  const {
-    name,
-    defaultValue,
-    required = false,
-    disabled,
-    rules: _rules,
-  } = rootProps;
+const Toggle = <TFieldValues extends FieldValues>(rootProps: ToggleProps<TFieldValues>) => {
+  const { name, defaultValue, required = false, disabled, rules: _rules } = rootProps;
   const methods = useFormContext<TFieldValues>();
   const rules = { required, ..._rules };
 

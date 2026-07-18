@@ -23,9 +23,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    HOST_URL.includes('localhost')
-      ? 'https://neurodiversityacademy.com'
-      : HOST_URL
+    HOST_URL.includes('localhost') ? 'https://neurodiversityacademy.com' : HOST_URL,
   ),
   robots: {
     index: true,
@@ -42,18 +40,11 @@ export const metadata: Metadata = {
   description: 'Neurodiversity in vet',
 };
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='en' className={poppins.variable}>
       <head>
-        <meta
-          name='viewport'
-          content='width=device-width, initial-scale=1.0, viewport-fit=cover'
-        />
+        <meta name='viewport' content='width=device-width, initial-scale=1.0, viewport-fit=cover' />
         <meta
           name='google-site-verification'
           content='djfPTzD9D2f3d1fmQBIqJqV_H7SQFbPHimsnYKBI66s'
@@ -62,10 +53,7 @@ export default async function RootLayout({
       </head>
       <body className={poppins.className}>
         {process.env.NODE_ENV === 'production' && <MetaPixel />}
-        <GoogleAnalytics
-          gaId='G-5YMLVTTK45'
-          debugMode={process.env.NODE_ENV !== 'production'}
-        />
+        <GoogleAnalytics gaId='G-5YMLVTTK45' debugMode={process.env.NODE_ENV !== 'production'} />
         <NextAuthProvider>
           <Navbar />
           {children}

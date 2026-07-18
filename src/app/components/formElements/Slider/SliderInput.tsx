@@ -43,13 +43,7 @@ const SliderInput = <TFieldValues extends FieldValues>({
   };
 
   return (
-    <div
-      className={classNames(
-        styles.sliderRoot,
-        'border-box-parent',
-        cols && 'col-md-' + cols
-      )}
-    >
+    <div className={classNames(styles.sliderRoot, 'border-box-parent', cols && 'col-md-' + cols)}>
       {showLabel && <Label name={name} color={error && 'red'} label={label} />}
       <input
         type='range'
@@ -69,10 +63,7 @@ const SliderInput = <TFieldValues extends FieldValues>({
       />
       <HelperText>{helperText}</HelperText>
       {error && (
-        <ErrorBox
-          message={error.message?.toString() || defaultErrorMessage}
-          label={label}
-        />
+        <ErrorBox message={error.message?.toString() || defaultErrorMessage} label={label} />
       )}
     </div>
   );

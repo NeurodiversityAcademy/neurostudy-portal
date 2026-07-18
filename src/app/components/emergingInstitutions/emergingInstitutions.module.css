@@ -72,7 +72,6 @@
     width: 272px;
     max-width: 100%;
   }
-
 }
 
 .providerHeroSection {
@@ -226,7 +225,6 @@
   object-fit: contain;
 }
 
-
 /* Tighter icon + label stacks so Type / Location fit beside the logo on narrow widths */
 .providerHeroStats .providerHeroStatSlotLeft > div,
 .providerHeroStats .providerHeroStatSlotRight > div {
@@ -369,7 +367,6 @@
     padding: 3px 3px;
     min-height: 132px;
   }
-
 
   .providerHeroStats .providerHeroStatSlotLeft > div,
   .providerHeroStats .providerHeroStatSlotRight > div {
@@ -755,7 +752,6 @@
   gap: 24px;
   max-width: 80vw;
   margin: 0 auto;
-
 }
 
 .emergingFAQAccordion {

@@ -42,11 +42,7 @@ const CourseDetailsBody: React.FC = () => {
       <CourseDetailsBodySideNav sections={sections} />
       <div className={styles.courseDetailsBodyTextContainer}>
         {sections.map((section, index) => (
-          <CourseDetailsBodyText
-            key={index}
-            id={section.id}
-            data={section.data}
-          />
+          <CourseDetailsBodyText key={index} id={section.id} data={section.data} />
         ))}
       </div>
     </div>

@@ -31,8 +31,7 @@ const CourseCard: React.FC<PropType> = ({ course, ...rest }) => {
   } = course;
 
   const _years: number | undefined = Duration ? Duration / 12 : undefined;
-  const years =
-    _years && (_years % 1 === 0 ? _years.toString() : _years.toFixed(1));
+  const years = _years && (_years % 1 === 0 ? _years.toString() : _years.toFixed(1));
   return (
     <Link
       href={CourseId ? `/courses/${CourseId}` : ''}
@@ -54,12 +53,7 @@ const CourseCard: React.FC<PropType> = ({ course, ...rest }) => {
             className={styles.institutionTitle}
           >
             {InstitutionLogoUrl ? (
-              <Image
-                src={InstitutionLogoUrl}
-                alt='logo'
-                width={80}
-                height={80}
-              />
+              <Image src={InstitutionLogoUrl} alt='logo' width={80} height={80} />
             ) : (
               <Image src={cardHeaderBackgroundSrc} alt='logo' />
             )}
