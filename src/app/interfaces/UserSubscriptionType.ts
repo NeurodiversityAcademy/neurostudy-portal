@@ -1,10 +1,5 @@
 export type HSPersona =
-  | 'persona_1'
-  | 'persona_2'
-  | 'persona_3'
-  | 'persona_4'
-  | 'persona_5'
-  | 'other';
+  'persona_1' | 'persona_2' | 'persona_3' | 'persona_4' | 'persona_5' | 'other';
 
 export interface UserSubscriptionType {
   email: string;

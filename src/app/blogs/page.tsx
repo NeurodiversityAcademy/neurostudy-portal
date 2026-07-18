@@ -1,9 +1,7 @@
 import React from 'react';
 import blogData from './blogData.json';
 import styles from './blogs.module.css';
-import Typography, {
-  TypographyVariant,
-} from '../components/typography/Typography';
+import Typography, { TypographyVariant } from '../components/typography/Typography';
 import { BlogInterface } from '../interfaces/BlogInterface';
 import Blog from '../components/blog/Blog';
 import { Metadata } from 'next';

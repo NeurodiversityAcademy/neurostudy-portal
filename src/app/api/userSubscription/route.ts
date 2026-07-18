@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
             lastname: subscriptionData.lastName,
           }),
         },
-        hs_persona
+        hs_persona,
       );
 
       if (getHandbook === true) {
@@ -50,9 +50,7 @@ export async function POST(request: NextRequest) {
         });
       }
 
-      return new Response(
-        JSON.stringify({ crm: crmResponse, sender: senderResponse })
-      );
+      return new Response(JSON.stringify({ crm: crmResponse, sender: senderResponse }));
     }
 
     return returnBadResponse();

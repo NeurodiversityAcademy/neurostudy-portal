@@ -43,20 +43,8 @@ const TextBoxInput = <TFieldValues extends FieldValues>({
   });
 
   return (
-    <div
-      className={classNames(
-        'border-box-parent col-md-' + cols,
-        styles.container
-      )}
-    >
-      {showLabel && (
-        <Label
-          name={name}
-          color={error && 'red'}
-          label={label}
-          required={required}
-        />
-      )}
+    <div className={classNames('border-box-parent col-md-' + cols, styles.container)}>
+      {showLabel && <Label name={name} color={error && 'red'} label={label} required={required} />}
       <div
         className={classNames(styles.inputWrapper, error && styles.error)}
         aria-disabled={disabled}

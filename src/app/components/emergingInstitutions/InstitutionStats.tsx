@@ -13,10 +13,5 @@ export default function InstitutionStats({
   stats,
   isAlignedWithPageColumn = false,
 }: InstitutionStatsProps) {
-  return (
-    <EmergingProviderStats
-      stats={stats}
-      isAlignedWithPageColumn={isAlignedWithPageColumn}
-    />
-  );
+  return <EmergingProviderStats stats={stats} isAlignedWithPageColumn={isAlignedWithPageColumn} />;
 }

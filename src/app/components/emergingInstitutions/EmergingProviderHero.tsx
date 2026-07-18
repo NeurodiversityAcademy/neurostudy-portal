@@ -1,7 +1,4 @@
-import InstitutionHero, {
-  InstitutionHeroVariant,
-  type HeroInfoItem,
-} from './InstitutionHero';
+import InstitutionHero, { InstitutionHeroVariant, type HeroInfoItem } from './InstitutionHero';
 
 export type { HeroInfoItem };
 
@@ -10,10 +7,7 @@ type EmergingProviderHeroProps = {
   heroInfoItems: HeroInfoItem[];
 };
 
-export default function EmergingProviderHero({
-  title,
-  heroInfoItems,
-}: EmergingProviderHeroProps) {
+export default function EmergingProviderHero({ title, heroInfoItems }: EmergingProviderHeroProps) {
   return (
     <InstitutionHero
       variant={InstitutionHeroVariant.Emerging}

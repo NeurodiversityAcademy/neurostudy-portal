@@ -53,10 +53,9 @@ export default function InstitutionProviderCard({
   const topClass = classNames(
     styles.cardTop,
     isEmergingDefault && styles.cardTopEmerging,
-    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.YELLOW &&
-      styles.cardTopYellow,
+    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.YELLOW && styles.cardTopYellow,
     header.kind === INSTITUTION_PROVIDER_HEADER_KIND.CHERRY_PIE_SUB &&
-      styles.cardTopCherryPieSub
+      styles.cardTopCherryPieSub,
   );
 
   return (
@@ -65,7 +64,7 @@ export default function InstitutionProviderCard({
         styles.card,
         equalWidth && styles.cardEqual,
         elevatedOnDark && styles.cardElevatedOnDark,
-        ndaCertified && styles.cardNdaCertified
+        ndaCertified && styles.cardNdaCertified,
       )}
     >
       <div className={topClass}>
@@ -90,12 +89,7 @@ export default function InstitutionProviderCard({
           />
         ) : null}
         {badge ? (
-          <div
-            className={classNames(
-              styles.badgeSlot,
-              ndaCertified && styles.badgeSlotCertified
-            )}
-          >
+          <div className={classNames(styles.badgeSlot, ndaCertified && styles.badgeSlotCertified)}>
             {badge}
           </div>
         ) : null}

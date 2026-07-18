@@ -3,7 +3,7 @@
   padding: 0px 1.5rem;
 }
 
-.container>div:first-child {
+.container > div:first-child {
   max-width: 960px;
   margin: auto;
 }
@@ -16,14 +16,14 @@
   word-break: break-word;
   border-right: 1px solid var(--grey-300);
   border-radius: 0px 8px 8px 0px;
-  box-shadow: -2px 2px 8px 0px #0000001F;
+  box-shadow: -2px 2px 8px 0px #0000001f;
 }
 
 .formColumn {
   display: flex;
   justify-content: center;
   padding: 24px;
-  box-shadow: 0px 2px 8px 0px #0000001F;
+  box-shadow: 0px 2px 8px 0px #0000001f;
 }
 
 .formColumnWrapper {

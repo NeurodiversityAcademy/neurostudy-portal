@@ -1,17 +1,11 @@
 'use client';
 
-import Typography, {
-  TypographyVariant,
-} from '@/app/components/typography/Typography';
+import Typography, { TypographyVariant } from '@/app/components/typography/Typography';
 import styles from './auth.module.css';
 import Form from '@/app/components/formElements/Form';
 import { FieldValues, UseFormReturn, useForm } from 'react-hook-form';
 import TextBox from '@/app/components/formElements/TextBox/TextBox';
-import {
-  BUTTON_STYLE,
-  EMAIL_REGEX,
-  FORM_ELEMENT_COL_WIDTH,
-} from '@/app/utilities/constants';
+import { BUTTON_STYLE, EMAIL_REGEX, FORM_ELEMENT_COL_WIDTH } from '@/app/utilities/constants';
 import classNames from 'classnames';
 import Link from 'next/link';
 import ActionButton from '@/app/components/buttons/ActionButton';
@@ -26,11 +20,7 @@ import {
 } from '@/app/utilities/auth/constants';
 import { useState } from 'react';
 import LoaderWrapper from '../loader/LoaderWrapper';
-import {
-  formatDate,
-  notifyAxiosError,
-  notifyInProgress,
-} from '@/app/utilities/common';
+import { formatDate, notifyAxiosError, notifyInProgress } from '@/app/utilities/common';
 import AuthVerifyForm from './AuthVerifyForm';
 import signUp from '@/app/utilities/auth/signUp';
 import { useSearchParams } from 'next/navigation';
@@ -59,23 +49,12 @@ const AuthInitSignUp: React.FC = () => {
   });
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [formState, setFormState] = useState<FORM_STATE>(
-    FORM_STATE.INITIALIZED
-  );
+  const [formState, setFormState] = useState<FORM_STATE>(FORM_STATE.INITIALIZED);
   const [username, setUsername] = useState<string>(readOnlyEmail || '');
   const [password, setPassword] = useState<string>('');
 
   const onSubmit = async (data: SignUpFieldValues) => {
-    const {
-      firstName,
-      lastName,
-      email,
-      password,
-      date,
-      month,
-      year,
-      subscribed,
-    } = data;
+    const { firstName, lastName, email, password, date, month, year, subscribed } = data;
 
     const birthdate = formatDate(year[0], month[0] + 1, date[0]);
 
@@ -115,18 +94,10 @@ const AuthInitSignUp: React.FC = () => {
   const isConfirming = formState === FORM_STATE.CONFIRM_SIGN_UP;
 
   return (
-    <LoaderWrapper
-      isLoading={isLoading}
-      className={styles.formColumnWrapper}
-      expandLoaderWidth
-    >
+    <LoaderWrapper isLoading={isLoading} className={styles.formColumnWrapper} expandLoaderWidth>
       <AuthFormHeader />
       {isConfirming && (
-        <AuthVerifyForm
-          username={username}
-          password={password}
-          setIsLoading={setIsLoading}
-        />
+        <AuthVerifyForm username={username} password={password} setIsLoading={setIsLoading} />
       )}
       <Form
         methods={methods}
@@ -174,10 +145,7 @@ const AuthInitSignUp: React.FC = () => {
           autoComplete='new-password'
           rules={{
             validate: (value) => {
-              return (
-                value == methods.getValues('password') ||
-                'Should match the password field'
-              );
+              return value === methods.getValues('password') || 'Should match the password field';
             },
           }}
         />
@@ -214,12 +182,8 @@ const AuthInitSignUp: React.FC = () => {
           radioMode
           required
         />
-        <Typography
-          variant={TypographyVariant.Body2}
-          className='pt-2 text-center'
-        >
-          By signing up, you agree to our{' '}
-          <Link href='#'>Terms and Conditions</Link>
+        <Typography variant={TypographyVariant.Body2} className='pt-2 text-center'>
+          By signing up, you agree to our <Link href='#'>Terms and Conditions</Link>
         </Typography>
         <CheckBox
           name='subscribed'
@@ -233,19 +197,10 @@ const AuthInitSignUp: React.FC = () => {
           ]}
         />
         <div className='mt-2 mb-3'>
-          <ActionButton
-            type='submit'
-            label='Sign Up'
-            style={BUTTON_STYLE.Primary}
-            fullWidth
-          />
+          <ActionButton type='submit' label='Sign Up' style={BUTTON_STYLE.Primary} fullWidth />
         </div>
       </Form>
-      <AuthFormFooter
-        text='Already have an account? '
-        toText='Login'
-        to='/login'
-      />
+      <AuthFormFooter text='Already have an account? ' toText='Login' to='/login' />
     </LoaderWrapper>
   );
 };

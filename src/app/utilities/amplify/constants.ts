@@ -2,10 +2,8 @@ import { ResourcesConfig } from 'aws-amplify';
 import { isNextProductionBuildPhase } from '@/app/utilities/nextBuildPhase';
 
 const COGNITO_USER_POOL_ID: string = process.env.COGNITO_USER_POOL_ID ?? '';
-const COGNITO_PUBLIC_CLIENT_ID: string =
-  process.env.COGNITO_PUBLIC_CLIENT_ID ?? '';
-const COGNITO_CONFIDENTIAL_CLIENT_ID: string =
-  process.env.COGNITO_CONFIDENTIAL_CLIENT_ID ?? '';
+const COGNITO_PUBLIC_CLIENT_ID: string = process.env.COGNITO_PUBLIC_CLIENT_ID ?? '';
+const COGNITO_CONFIDENTIAL_CLIENT_ID: string = process.env.COGNITO_CONFIDENTIAL_CLIENT_ID ?? '';
 const COGNITO_CONFIDENTIAL_CLIENT_SECRET: string =
   process.env.COGNITO_CONFIDENTIAL_CLIENT_SECRET ?? '';
 const COGNITO_ISSUER: string = process.env.COGNITO_ISSUER ?? '';

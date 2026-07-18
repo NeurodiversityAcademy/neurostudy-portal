@@ -9,9 +9,7 @@ const BlogCardListWrapperContent = () => {
   const searchParams = useSearchParams();
   const visitedBlogIds = useVisitedItems('blog', searchParams);
 
-  return (
-    <BlogCardList searchParams={searchParams} visitedBlogIds={visitedBlogIds} />
-  );
+  return <BlogCardList searchParams={searchParams} visitedBlogIds={visitedBlogIds} />;
 };
 
 const BlogCardListWrapper = () => {

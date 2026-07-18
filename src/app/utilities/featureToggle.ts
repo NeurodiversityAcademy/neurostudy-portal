@@ -9,7 +9,7 @@ export type SearchParams = { [key: string]: string | string[] | undefined };
 export function isFeatureEnabled(
   searchParams: SearchParams | undefined,
   key: string,
-  options?: { trueValues?: string[] }
+  options?: { trueValues?: string[] },
 ): boolean {
   if (!key) return false;
   const raw = searchParams?.[key];

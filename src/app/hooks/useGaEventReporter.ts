@@ -12,21 +12,21 @@ export function useGaEventReporter(providerSlug: string) {
     (percent: number) => {
       sendScrollDepthEvent(providerSlug, percent);
     },
-    [providerSlug]
+    [providerSlug],
   );
 
   const reportSectionVisible = useCallback(
     (section: string) => {
       sendSectionVisibleEvent(providerSlug, section);
     },
-    [providerSlug]
+    [providerSlug],
   );
 
   const reportTimeOnPage = useCallback(
     (seconds: number) => {
       sendTimeOnPageEvent(providerSlug, seconds);
     },
-    [providerSlug]
+    [providerSlug],
   );
 
   return {

@@ -24,13 +24,15 @@ const SignUp: React.FC = () => {
         router.replace(
           `${queryString.stringify(
             { checkout_status: undefined },
-            { useLocationSearch: true }
-          )}${window.location.hash}`
+            { useLocationSearch: true },
+          )}${window.location.hash}`,
         );
         return;
       }
 
-      status === 'authenticated' && router.push(getCallbackUrlOnSignIn());
+      if (status === 'authenticated') {
+        router.push(getCallbackUrlOnSignIn());
+      }
     })();
   }, [status, router]);
 

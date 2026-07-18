@@ -5,10 +5,8 @@ export enum COMPANY {
   INDIVIDUAL = 'individual',
 }
 
-export const EMAIL_REGEX =
-  /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?$/;
+export const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?$/;
 
-export const MOBILE_REGEX = /^(?:\+61|0)[2-478](?:\d{8})$/;
 export const PHONE_REGEX = /^(?:\+61|0)?[2-9]\d{8}$/;
 
 export const NAME_REGEX = /^[a-zA-Z0-9. -]+$/;
@@ -61,8 +59,7 @@ export enum META_KEY {
   ENDORSEMENTS = 'endorsements',
 }
 
-export const TOAST_UNKNOWN_ERROR_MESSAGE =
-  'Unknown error occurred, please try back again later.';
+export const TOAST_UNKNOWN_ERROR_MESSAGE = 'Unknown error occurred, please try back again later.';
 
 export const TOAST_DEV_IN_PROGRESS_MESSAGE =
   'This (or part of this) feature is currently under development. Please check back later.';
@@ -85,11 +82,6 @@ export const DEFAULT_TOGGLE_OPTIONS = {
 };
 
 export const INFO_EMAIL_ADDRESS = 'info@neurodiversityacademy.com';
-
-export enum INTERNAL_MODE {
-  PROD = 'PROD',
-  DEV = 'DEV',
-}
 
 export const PERSONA_OPTIONS = [
   { label: 'Student', value: 'persona_1' },

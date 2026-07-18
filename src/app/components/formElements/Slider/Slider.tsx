@@ -9,9 +9,7 @@ import {
   DEFAULT_SLIDER_STEP,
 } from '@/app/utilities/constants';
 
-const Slider = <TFieldValues extends FieldValues>(
-  rootProps: SliderProps<TFieldValues>
-) => {
+const Slider = <TFieldValues extends FieldValues>(rootProps: SliderProps<TFieldValues>) => {
   const {
     name,
     disabled,

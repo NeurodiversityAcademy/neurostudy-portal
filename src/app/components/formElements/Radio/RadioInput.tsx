@@ -47,18 +47,12 @@ const RadioInput = <TFieldValues extends FieldValues>({
       role='group'
       aria-disabled={disabled}
       onBlurCapture={(e: FocusEvent<HTMLDivElement, Element>) => {
-        !(e.currentTarget as Node)?.contains(e.relatedTarget as Node) &&
+        if (!(e.currentTarget as Node)?.contains(e.relatedTarget as Node)) {
           onBlur();
+        }
       }}
     >
-      {showLabel && (
-        <Label
-          name={name}
-          color={error && 'red'}
-          label={label}
-          required={required}
-        />
-      )}
+      {showLabel && <Label name={name} color={error && 'red'} label={label} required={required} />}
       <div className={classNames(styles.radioContainer, styles[orientation])}>
         {options.map(({ label, value: itemValue }) => (
           <CheckBoxItem
@@ -75,12 +69,9 @@ const RadioInput = <TFieldValues extends FieldValues>({
       </div>
       <HelperText>{helperText}</HelperText>
       {error && (
-        <ErrorBox
-          message={error.message?.toString() || defaultErrorMessage}
-          label={label}
-        />
+        <ErrorBox message={error.message?.toString() || defaultErrorMessage} label={label} />
       )}
-      {value != undefined && (
+      {value != null && (
         <input
           key={value.toString()}
           type='hidden'

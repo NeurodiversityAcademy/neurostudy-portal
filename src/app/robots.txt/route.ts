@@ -9,6 +9,6 @@ Sitemap: https://neurodiversityacademy.com/sitemap.xml
       headers: {
         'Content-Type': 'text/plain',
       },
-    }
+    },
   );
 }

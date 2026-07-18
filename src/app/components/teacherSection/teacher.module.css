@@ -34,7 +34,6 @@
     width: 100%;
     max-width: var(--primary-button-width);
   }
-
 }
 
 @media (max-width: 480px) {
@@ -50,5 +49,4 @@
     margin-bottom: 30px;
     padding: 0px 10px;
   }
-
 }

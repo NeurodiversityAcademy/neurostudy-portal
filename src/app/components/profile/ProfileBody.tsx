@@ -37,8 +37,7 @@ const ProfileBody: React.FC = () => {
     };
   };
 
-  const [popupSection, setPopupSection] =
-    useState<keyof typeof POPUP_SECTION_MAPPER>();
+  const [popupSection, setPopupSection] = useState<keyof typeof POPUP_SECTION_MAPPER>();
 
   const onCancel = () => {
     // TODO
@@ -112,14 +111,10 @@ const ProfileBody: React.FC = () => {
           setPopupSection('strategy');
         }}
       />
-      {isEditing && (
-        <ProfileFormFooter onCancel={onCancel} onSubmit={onSubmit} />
-      )}
+      {isEditing && <ProfileFormFooter onCancel={onCancel} onSubmit={onSubmit} />}
 
       <Dialog open={!!popupSection} onClose={onClosePopup}>
-        {PopupComp && (
-          <PopupComp popup onSubmit={onSectionSubmit} onCancel={onClosePopup} />
-        )}
+        {PopupComp && <PopupComp popup onSubmit={onSectionSubmit} onCancel={onClosePopup} />}
       </Dialog>
     </div>
   );

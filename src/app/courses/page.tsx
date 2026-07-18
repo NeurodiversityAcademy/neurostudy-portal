@@ -18,9 +18,7 @@ import { META_COURSES_DEFAULT_CANONICAL_URL } from '../utilities/metadata/metada
 // const isQueryComplex = (searchParams: MetadataProps['searchParams']) =>
 //   getFetchQuery(searchParams) !== getPartialFetchQuery(searchParams);
 
-export async function generateMetadata({
-  searchParams,
-}: MetadataProps): Promise<Metadata> {
+export async function generateMetadata({ searchParams }: MetadataProps): Promise<Metadata> {
   // const shouldIndex = !(
   //   COURSE_TEST_DATA_QUERY_KEY in searchParams || isQueryComplex(searchParams)
   // );
@@ -38,14 +36,11 @@ export async function generateMetadata({
 //     [...COURSE_FILTER_KEYS, COURSE_TEST_DATA_QUERY_KEY].includes(key)
 //   );
 
-const getPartialFetchQuery = (
-  searchParams: Record<string, string | string[] | undefined>
-) =>
+const getPartialFetchQuery = (searchParams: Record<string, string | string[] | undefined>) =>
   getSearchQuery(
     searchParams,
     (key, value) =>
-      [...COURSE_FILTER_KEYS, COURSE_TEST_DATA_QUERY_KEY].includes(key) &&
-      !Array.isArray(value)
+      [...COURSE_FILTER_KEYS, COURSE_TEST_DATA_QUERY_KEY].includes(key) && !Array.isArray(value),
   );
 
 const CoursesPage: React.FC<{
@@ -58,10 +53,7 @@ const CoursesPage: React.FC<{
   const data: CourseProps[] | undefined = await new Promise((resolve) => {
     fetch(HOST_URL + '/api/course' + (query ? '?' + query : ''), {
       next: {
-        revalidate:
-          process.env.NODE_ENV === 'development'
-            ? 0
-            : COURSE_FETCH_REVALIDATE_PERIOD,
+        revalidate: process.env.NODE_ENV === 'development' ? 0 : COURSE_FETCH_REVALIDATE_PERIOD,
       },
       // NOTE: Current next version 14.0.3 fails to revalidate cached data
       // properly without this. Newer versions don't require this.

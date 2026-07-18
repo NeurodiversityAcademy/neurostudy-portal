@@ -57,13 +57,7 @@ const getUser = async () => {
   };
 };
 
-const applySignIn = async ({
-  username,
-  password,
-}: {
-  username: string;
-  password: string;
-}) => {
+const applySignIn = async ({ username, password }: { username: string; password: string }) => {
   let signInOutput: SignInOutput;
   try {
     signInOutput = await signIn({ username, password });
@@ -121,14 +115,10 @@ const credentialsProvider = CredentialsProvider({
       throw new Error('No credentials found!');
     }
 
-    const username =
-      typeof credentials.username === 'string' ? credentials.username : '';
-    const password =
-      typeof credentials.password === 'string' ? credentials.password : '';
+    const username = typeof credentials.username === 'string' ? credentials.username : '';
+    const password = typeof credentials.password === 'string' ? credentials.password : '';
     const confirmationCode =
-      typeof credentials.confirmationCode === 'string'
-        ? credentials.confirmationCode
-        : '';
+      typeof credentials.confirmationCode === 'string' ? credentials.confirmationCode : '';
 
     if (getAuthMethod(request) === 'confirmSignUp') {
       const confirmSignUpOutput = await confirmSignUp({
@@ -148,73 +138,74 @@ const credentialsProvider = CredentialsProvider({
   },
 });
 
-export const { handlers, auth, signIn: authSignIn, signOut: authSignOut } =
-  NextAuth({
-    providers: [
-      // Skip Cognito OAuth when issuer/client env is unset — Auth.js v5 throws
-      // InvalidEndpoints and breaks /api/auth/session for the whole site.
-      ...(isCognitoConfigured
-        ? [
-            CognitoProvider({
-              clientId: COGNITO_CONFIDENTIAL_CLIENT_ID,
-              clientSecret: COGNITO_CONFIDENTIAL_CLIENT_SECRET,
-              issuer: COGNITO_ISSUER,
-              checks: ['nonce'],
-            }),
-          ]
-        : []),
-      credentialsProvider,
-    ],
-    pages: {
-      signIn: '/login',
-      newUser: '/signup',
-    },
-    session: {
-      strategy: 'jwt',
-      maxAge: DEFAULT_SESSION_AGE_IN_SECONDS,
-    },
-    jwt: {
-      maxAge: DEFAULT_SESSION_AGE_IN_SECONDS,
-    },
-    callbacks: {
-      async jwt({ token, user, profile }) {
-        if (user) {
-          token.id = user.id;
-          token.email = user.email;
-        }
+export const {
+  handlers,
+  auth,
+  signIn: authSignIn,
+  signOut: authSignOut,
+} = NextAuth({
+  providers: [
+    // Skip Cognito OAuth when issuer/client env is unset — Auth.js v5 throws
+    // InvalidEndpoints and breaks /api/auth/session for the whole site.
+    ...(isCognitoConfigured
+      ? [
+          CognitoProvider({
+            clientId: COGNITO_CONFIDENTIAL_CLIENT_ID,
+            clientSecret: COGNITO_CONFIDENTIAL_CLIENT_SECRET,
+            issuer: COGNITO_ISSUER,
+            checks: ['nonce'],
+          }),
+        ]
+      : []),
+    credentialsProvider,
+  ],
+  pages: {
+    signIn: '/login',
+    newUser: '/signup',
+  },
+  session: {
+    strategy: 'jwt',
+    maxAge: DEFAULT_SESSION_AGE_IN_SECONDS,
+  },
+  jwt: {
+    maxAge: DEFAULT_SESSION_AGE_IN_SECONDS,
+  },
+  callbacks: {
+    async jwt({ token, user, profile }) {
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+      }
 
-        if (profile) {
-          if ('given_name' in profile && typeof profile.given_name === 'string') {
-            token.given_name = profile.given_name;
-          }
-          if (
-            'family_name' in profile &&
-            typeof profile.family_name === 'string'
-          ) {
-            token.family_name = profile.family_name;
-          }
+      if (profile) {
+        if ('given_name' in profile && typeof profile.given_name === 'string') {
+          token.given_name = profile.given_name;
         }
-        return token as JWT;
-      },
-      async session({ session, token }) {
-        if (session.user) {
-          if (token.id) {
-            session.user.id = token.id;
-          }
-          if (token.email) {
-            session.user.email = token.email;
-          }
-          session.user.given_name = token.given_name;
-          session.user.family_name = token.family_name;
+        if ('family_name' in profile && typeof profile.family_name === 'string') {
+          token.family_name = profile.family_name;
         }
-        return session;
-      },
+      }
+      return token as JWT;
     },
-    events: {
-      signIn: () => {
-        signOut().catch(() => undefined);
-      },
+    async session({ session, token }) {
+      if (session.user) {
+        if (token.id) {
+          session.user.id = token.id;
+        }
+        if (token.email) {
+          session.user.email = token.email;
+        }
+        session.user.given_name = token.given_name;
+        session.user.family_name = token.family_name;
+      }
+      return session;
     },
-    secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
-    trustHost: true,
-  });
+  },
+  events: {
+    signIn: () => {
+      signOut().catch(() => undefined);
+    },
+  },
+  secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
+  trustHost: true,
+});

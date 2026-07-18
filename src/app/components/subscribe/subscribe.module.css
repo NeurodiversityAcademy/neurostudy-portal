@@ -57,7 +57,6 @@
 }
 
 @media (max-width: 480px) {
-
   .main {
     width: auto;
     margin: 0px 0px;
@@ -101,11 +100,9 @@
     display: block;
     text-wrap: nowrap;
   }
-
 }
 
 @media (min-width: 480px) and (max-width: 1024px) {
-
   .main {
     width: 100%;
     margin: 0px 0px;
@@ -140,7 +137,6 @@
     margin-bottom: -1px;
   }
 
-
   .successTitle {
     margin-top: 2.4rem;
   }
@@ -153,11 +149,9 @@
     font-size: 1.3rem;
     line-height: 1.8rem;
   }
-
 }
 
 @media (min-width: 1024px) {
-
   .main {
     width: 100%;
     margin: 0px 0px;
@@ -203,11 +197,9 @@
     font-size: 1.6rem;
     line-height: 1.8rem;
   }
-
 }
 
 @media (min-width: 1280px) {
-
   .main {
     width: 63%;
     margin: 0px auto;
@@ -255,5 +247,4 @@
     margin-top: 0rem;
     line-height: 2.8rem;
   }
-
 }

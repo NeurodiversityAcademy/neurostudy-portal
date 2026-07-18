@@ -9,13 +9,11 @@ const queryString = {
     config: Partial<{
       useLocationSearch: boolean;
       addDelimiter: boolean;
-    }> = {}
+    }> = {},
   ) => {
     const { useLocationSearch = false, addDelimiter = true } = config;
 
-    const searchParams = new URLSearchParams(
-      useLocationSearch ? location.search : ''
-    );
+    const searchParams = new URLSearchParams(useLocationSearch ? location.search : '');
 
     for (const key in record) {
       const value = record[key];
@@ -48,7 +46,9 @@ const queryString = {
           obj[key] = [prevValue];
         }
 
-        Array.isArray(obj[key]) && (obj[key] as string[]).push(value);
+        if (Array.isArray(obj[key])) {
+          (obj[key] as string[]).push(value);
+        }
       } else {
         obj[key] = value;
       }

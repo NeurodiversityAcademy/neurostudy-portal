@@ -4,6 +4,6 @@ import { COURSE_DETAILS_TABLE_NAME } from '../constants';
 
 export default async function describeCourseDetailsTable() {
   return await dbDocumentClient.send(
-    new DescribeTableCommand({ TableName: COURSE_DETAILS_TABLE_NAME })
+    new DescribeTableCommand({ TableName: COURSE_DETAILS_TABLE_NAME }),
   );
 }

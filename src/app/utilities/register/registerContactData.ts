@@ -3,7 +3,7 @@ import { UserFormSubmissionType } from '../../interfaces/UserFormSubmissionType'
 import CRMCreateResponseInterface from '../../interfaces/CRMCreateResponseInterface';
 
 export const registerContactData = async (
-  contactRegistrationData: UserFormSubmissionType
+  contactRegistrationData: UserFormSubmissionType,
 ): Promise<CRMCreateResponseInterface> => {
   const data = JSON.stringify(contactRegistrationData);
 

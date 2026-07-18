@@ -23,9 +23,7 @@ export async function buzzsproutFeedHasEpisodes(): Promise<boolean> {
   }
 }
 
-async function buzzsproutScriptIsAvailable(
-  scriptSrc: string
-): Promise<boolean> {
+async function buzzsproutScriptIsAvailable(scriptSrc: string): Promise<boolean> {
   try {
     const response = await fetch(scriptSrc, {
       method: 'HEAD',
@@ -40,7 +38,7 @@ async function buzzsproutScriptIsAvailable(
 
 export async function getBuzzsproutEmbedAvailability(
   scriptSrc: string,
-  singleBlog: boolean
+  singleBlog: boolean,
 ): Promise<boolean> {
   if (singleBlog) {
     return buzzsproutScriptIsAvailable(scriptSrc);

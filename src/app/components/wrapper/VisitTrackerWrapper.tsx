@@ -5,10 +5,7 @@ interface VisitTrackerWrapperProps {
   type: 'article' | 'blog';
 }
 
-export default function VisitTrackerWrapper({
-  id,
-  type,
-}: VisitTrackerWrapperProps) {
+export default function VisitTrackerWrapper({ id, type }: VisitTrackerWrapperProps) {
   useVisitTracker(id, type);
   return null;
 }

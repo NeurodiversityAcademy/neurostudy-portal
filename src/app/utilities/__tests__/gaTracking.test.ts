@@ -11,10 +11,7 @@ import {
   buildProviderScopedParams,
 } from '@/app/utilities/gaTracking';
 import { GA_EVENTS } from '@/app/utilities/constants';
-import {
-  installGtagMock,
-  installTestPagePath,
-} from '@/app/utilities/__tests__/gaTestHelpers';
+import { installGtagMock, installTestPagePath } from '@/app/utilities/__tests__/gaTestHelpers';
 
 describe('gaTracking', () => {
   beforeEach(() => {
@@ -23,9 +20,7 @@ describe('gaTracking', () => {
 
   it('sendGaEvent is a no-op when gtag is missing', () => {
     (window as unknown as { gtag: null }).gtag = null;
-    expect(() =>
-      sendGaEvent('test_event', { [GA_PARAM.CATEGORY]: 'Test' })
-    ).not.toThrow();
+    expect(() => sendGaEvent('test_event', { [GA_PARAM.CATEGORY]: 'Test' })).not.toThrow();
   });
 
   it('buildProviderScopedParams includes slug and page path', () => {
@@ -50,7 +45,7 @@ describe('gaTracking', () => {
         provider_slug: 'collarts',
         page_path: '/endorsedproviders/collarts',
         category: GA_EVENTS.SCROLL_DEPTH.category,
-      })
+      }),
     );
   });
 
@@ -64,7 +59,7 @@ describe('gaTracking', () => {
         section: 'faqs',
         provider_slug: 'collarts',
         category: GA_EVENTS.SECTION_VISIBLE.category,
-      })
+      }),
     );
   });
 
@@ -78,7 +73,7 @@ describe('gaTracking', () => {
         seconds: 42,
         provider_slug: 'collarts',
         category: GA_EVENTS.TIME_ON_PAGE.category,
-      })
+      }),
     );
   });
 
@@ -87,17 +82,13 @@ describe('gaTracking', () => {
     sendAccordionToggleEvent(
       GA_EVENTS.ACCORDION_TOGGLE.eventName,
       GA_EVENTS.ACCORDION_TOGGLE.category,
-      'Question?'
+      'Question?',
     );
-    expect(mockGtag).toHaveBeenCalledWith(
-      GA_EVENT_COMMAND,
-      GA_EVENTS.ACCORDION_TOGGLE.eventName,
-      {
-        accordion_title: 'Question?',
-        category: GA_EVENTS.ACCORDION_TOGGLE.category,
-        page_path: '/endorsedproviders/collarts',
-      }
-    );
+    expect(mockGtag).toHaveBeenCalledWith(GA_EVENT_COMMAND, GA_EVENTS.ACCORDION_TOGGLE.eventName, {
+      accordion_title: 'Question?',
+      category: GA_EVENTS.ACCORDION_TOGGLE.category,
+      page_path: '/endorsedproviders/collarts',
+    });
   });
 
   it('sendEndorsedExploreClickEvent dispatches endorsed_explore_click', () => {
@@ -113,7 +104,7 @@ describe('gaTracking', () => {
         provider_slug: 'collarts',
         link_text: ENDORSED_EXPLORE_LINK_TEXT,
         category: GA_EVENTS.ENDORSED_EXPLORE_CLICK.category,
-      }
+      },
     );
   });
 });

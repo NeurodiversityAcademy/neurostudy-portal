@@ -4,7 +4,7 @@ import { COURSE_DETAILS_TABLE_NAME } from '../constants';
 import { dbDocumentClient } from '../configure';
 
 export default async function insertCourseDetails(
-  courseDetails: CourseDetailsProps
+  courseDetails: CourseDetailsProps,
 ): Promise<void> {
   const commandParams: PutCommandInput = {
     TableName: COURSE_DETAILS_TABLE_NAME,

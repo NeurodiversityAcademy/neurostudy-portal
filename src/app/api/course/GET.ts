@@ -29,7 +29,7 @@ export default async function GET(req: NextRequest): Promise<Response> {
 
     if (searchParams.has(COURSE_TEST_DATA_QUERY_KEY)) {
       const res = await fetch(
-        'https://nda-test-2.s3.us-west-1.amazonaws.com/temp/good-sample.json.gz'
+        'https://nda-test-2.s3.us-west-1.amazonaws.com/temp/good-sample.json.gz',
       );
       const data = await res.json();
       assertCourseData(data);
@@ -39,24 +39,20 @@ export default async function GET(req: NextRequest): Promise<Response> {
     const partitionKeyValue = searchParams.get(COURSE_TABLE_PARTITION_KEY);
     const indexKeyValueObj: Record<string, string> = {};
 
-    COURSE_TABLE_INDEX_KEY_DEFINITIONS.forEach(
-      ({ AttributeName, AttributeType }) => {
-        AttributeName = AttributeName as string;
-        if (AttributeType !== 'S') {
-          return;
-        }
-        const value = searchParams.get(AttributeName);
-        if (value) {
-          indexKeyValueObj[AttributeName] = value;
-        }
+    COURSE_TABLE_INDEX_KEY_DEFINITIONS.forEach(({ AttributeName, AttributeType }) => {
+      AttributeName = AttributeName as string;
+      if (AttributeType !== 'S') {
+        return;
       }
-    );
+      const value = searchParams.get(AttributeName);
+      if (value) {
+        indexKeyValueObj[AttributeName] = value;
+      }
+    });
 
     let params: QueryCommandInput | ScanCommandInput;
-    const ExpressionAttributeNames: QueryCommandInput['ExpressionAttributeNames'] =
-      {};
-    const ExpressionAttributeValues: QueryCommandInput['ExpressionAttributeNames'] =
-      {};
+    const ExpressionAttributeNames: QueryCommandInput['ExpressionAttributeNames'] = {};
+    const ExpressionAttributeValues: QueryCommandInput['ExpressionAttributeNames'] = {};
     const FilterExpressionObj: Record<string, string> = {};
 
     const updateExpressionAttributes = (key: string, value: string): void => {
@@ -67,15 +63,18 @@ export default async function GET(req: NextRequest): Promise<Response> {
 
     COURSE_TABLE_FILTERABLE_NON_INDEX_KEYS.forEach((key) => {
       const value = searchParams.get(key);
-      value && updateExpressionAttributes(key, value);
+      if (value) {
+        updateExpressionAttributes(key, value);
+      }
     });
 
     for (const indexKey in indexKeyValueObj) {
       updateExpressionAttributes(indexKey, indexKeyValueObj[indexKey]);
     }
 
-    partitionKeyValue &&
+    if (partitionKeyValue) {
       updateExpressionAttributes(COURSE_TABLE_PARTITION_KEY, partitionKeyValue);
+    }
 
     const applyQuery = partitionKeyValue || !isObjEmpty(indexKeyValueObj);
 
@@ -84,9 +83,7 @@ export default async function GET(req: NextRequest): Promise<Response> {
       let IndexName: QueryCommandInput['IndexName'] = undefined;
 
       if (partitionKeyValue) {
-        KeyConditionExpression.push(
-          FilterExpressionObj[COURSE_TABLE_PARTITION_KEY]
-        );
+        KeyConditionExpression.push(FilterExpressionObj[COURSE_TABLE_PARTITION_KEY]);
         delete FilterExpressionObj[COURSE_TABLE_PARTITION_KEY];
       } else {
         for (const indexKey in indexKeyValueObj) {
@@ -109,8 +106,7 @@ export default async function GET(req: NextRequest): Promise<Response> {
       };
 
       if (!isObjEmpty(FilterExpressionObj)) {
-        params.FilterExpression =
-          Object.values(FilterExpressionObj).join(' AND ');
+        params.FilterExpression = Object.values(FilterExpressionObj).join(' AND ');
       }
     } else {
       params = {

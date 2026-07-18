@@ -33,8 +33,8 @@ export default function EmergingInstitutions() {
           color='var(--BondBlackVariant)'
           className={styles.subtitle}
         >
-          Emerging Providers are organisations with developing practices and
-          strong potential for neuro-inclusive education.
+          Emerging Providers are organisations with developing practices and strong potential for
+          neuro-inclusive education.
         </Typography>
 
         <div className={styles.cards}>

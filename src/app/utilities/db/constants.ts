@@ -82,8 +82,7 @@ export const COURSE_TABLE_FILTERABLE_NON_INDEX_KEYS = [
 export const COURSE_DETAILS_TABLE_NAME =
   process.env.COURSE_DETAILS_TABLE_NAME || 'NDACourseDetails';
 export const COURSE_DETAILS_TABLE_PARTITION_KEY = COURSE_TABLE_PARTITION_KEY;
-export const COURSE_DETAILS_TABLE_INDEX_KEY_DEFINITIONS: AttributeDefinition[] =
-  [];
+export const COURSE_DETAILS_TABLE_INDEX_KEY_DEFINITIONS: AttributeDefinition[] = [];
 
 // NOTE
 // These will be here until we utilize `zod` or similar validation library

@@ -26,9 +26,7 @@ export const TYPOGRAPHY_COLOR_CLASS_BY_TOKEN: Record<string, string> = {
   red: styles.colorError,
 };
 
-export function typographyColorClassForToken(
-  color: string | undefined
-): string | undefined {
+export function typographyColorClassForToken(color: string | undefined): string | undefined {
   if (!color) {
     return undefined;
   }

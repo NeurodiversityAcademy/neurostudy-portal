@@ -8,10 +8,7 @@ const DisplayPodcast: React.FC<BuzzsproutEmbedProps> = async ({
   containerId,
   singleBlog,
 }) => {
-  const embedAvailable = await getBuzzsproutEmbedAvailability(
-    scriptSrc,
-    singleBlog
-  );
+  const embedAvailable = await getBuzzsproutEmbedAvailability(scriptSrc, singleBlog);
 
   return (
     <BuzzsproutEmbed

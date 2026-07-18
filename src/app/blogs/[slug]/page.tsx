@@ -1,9 +1,7 @@
 import React from 'react';
 import styles from '../blog.module.css';
 import blogData from '../blogData.json';
-import Typography, {
-  TypographyVariant,
-} from '../../components/typography/Typography';
+import Typography, { TypographyVariant } from '../../components/typography/Typography';
 import TextHeavyBlog from '../../components/textHeavyBlog/textHeavyBlog';
 import DisplayPodcast from '@/app/components/podcast/DisplayPodcast';
 import Subscribe from '@/app/components/subscribe/subscribe';
@@ -47,20 +45,13 @@ export default async function OneBlog({ params }: Props) {
   const blog = blogs.find((blog) => slugify(blog.title) === slug);
 
   if (!blog) {
-    return (
-      <Typography variant={TypographyVariant.H1}>Blog not found</Typography>
-    );
+    return <Typography variant={TypographyVariant.H1}>Blog not found</Typography>;
   }
   const { id, header, imageUrl, bodyText, scriptSrc, containerId } = blog;
   return (
     <div className={styles.container}>
       <VisitTrackerWrapper id={id} type='blog' />
-      <TextHeavyBlog
-        id={id}
-        header={header}
-        imageUrl={imageUrl}
-        bodyText={bodyText}
-      />{' '}
+      <TextHeavyBlog id={id} header={header} imageUrl={imageUrl} bodyText={bodyText} />{' '}
       {scriptSrc !== '' && containerId !== '' && (
         <DisplayPodcast
           scriptSrc={blog.scriptSrc}

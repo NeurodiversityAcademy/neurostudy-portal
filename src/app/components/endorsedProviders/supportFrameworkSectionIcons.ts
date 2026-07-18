@@ -24,8 +24,6 @@ const SUPPORT_FRAMEWORK_SECTION_ICONS: Record<string, StaticImageData> = {
   'Policy & Compliance': policyComplianceIcon,
 };
 
-export function getSupportFrameworkSectionIcon(
-  sectionTitle: string
-): StaticImageData | undefined {
+export function getSupportFrameworkSectionIcon(sectionTitle: string): StaticImageData | undefined {
   return SUPPORT_FRAMEWORK_SECTION_ICONS[sectionTitle];
 }

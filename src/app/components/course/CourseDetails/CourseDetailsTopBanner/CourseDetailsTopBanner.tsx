@@ -19,17 +19,10 @@ const CourseDetailsTopBanner: React.FC = () => {
   return (
     <div className={classNames('row', styles.topBannerMainContainer)}>
       <div className='col-md-7'>
-        <div
-          className={classNames('col-md-12', styles.topBannerInstituteTitle)}
-        >
+        <div className={classNames('col-md-12', styles.topBannerInstituteTitle)}>
           <div className={styles.topBannerInstituteLogo}>
             {data?.InstitutionLogoUrl ? (
-              <Image
-                src={data.InstitutionLogoUrl}
-                alt='logo'
-                width={80}
-                height={80}
-              />
+              <Image src={data.InstitutionLogoUrl} alt='logo' width={80} height={80} />
             ) : (
               <Image src={Logo} alt='logo' width={179} height={40} />
             )}
@@ -40,23 +33,14 @@ const CourseDetailsTopBanner: React.FC = () => {
         </div>
         <div className={classNames('col-md-12', styles.topBannerCourseTitle)}>
           <Typography variant={TypographyVariant.H1}>{data?.Title}</Typography>
-          <Typography variant={TypographyVariant.H2}>
-            {data?.Subtitle}
-          </Typography>
-          <Typography variant={TypographyVariant.Body1}>
-            {data?.Description}
-          </Typography>
+          <Typography variant={TypographyVariant.H2}>{data?.Subtitle}</Typography>
+          <Typography variant={TypographyVariant.Body1}>{data?.Description}</Typography>
         </div>
       </div>
       <div className='col-md-5'>
         <div className={classNames('row', styles.topBannerAdmissions)}>
-          <Typography variant={TypographyVariant.Body1}>
-            2026 Admissions are open now
-          </Typography>
-          <Typography
-            variant={TypographyVariant.Body3}
-            className={styles.topBannerAdmissionsDesc}
-          >
+          <Typography variant={TypographyVariant.Body1}>2026 Admissions are open now</Typography>
+          <Typography variant={TypographyVariant.Body3} className={styles.topBannerAdmissionsDesc}>
             Get started today or request more info about the MADS degree.
           </Typography>
           <div className={classNames(styles.topBannerAdmissionsBtnGroup)}>
@@ -77,10 +61,7 @@ const CourseDetailsTopBanner: React.FC = () => {
         </div>
       </div>
       <CourseDetailsMiddleBanner />
-      <ApplyNowPopup
-        open={isApplyNowOpen}
-        onClose={() => setIsApplyNowOpen(false)}
-      />
+      <ApplyNowPopup open={isApplyNowOpen} onClose={() => setIsApplyNowOpen(false)} />
     </div>
   );
 };

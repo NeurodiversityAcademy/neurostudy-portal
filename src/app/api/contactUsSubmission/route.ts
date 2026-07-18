@@ -16,14 +16,14 @@ export async function POST(request: Request) {
 
     const senderResponse = await registerSenderContact(
       { email, firstname, lastname, phone },
-      hs_persona || 'persona_1'
+      hs_persona || 'persona_1',
     );
 
-    return new Response(
-      JSON.stringify({ crm: crmResponse, sender: senderResponse }),
-      { status: 200, headers: { 'Content-Type': 'application/json' } }
-    );
-  } catch (error) {
+    return new Response(JSON.stringify({ crm: crmResponse, sender: senderResponse }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  } catch {
     return returnBadResponse();
   }
 }

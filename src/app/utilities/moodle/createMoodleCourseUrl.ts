@@ -12,7 +12,7 @@ type GetMoodleCourseUrl = {
 
 export async function createMoodleCourseUrl(
   req: NextRequest,
-  { courseid, userid }: GetMoodleCourseUrl
+  { courseid, userid }: GetMoodleCourseUrl,
 ): Promise<string | undefined> {
   const authResponse = await isAuthenticated({ req });
 

@@ -20,10 +20,9 @@ const AuthFinishForgotPassword: React.FC<FinishForgotPasswordProps> = ({
   username,
   handleResetDone,
 }) => {
-  const methods: UseFormReturn<ForgotPasswordFieldValues> =
-    useForm<ForgotPasswordFieldValues>({
-      mode: 'onBlur',
-    });
+  const methods: UseFormReturn<ForgotPasswordFieldValues> = useForm<ForgotPasswordFieldValues>({
+    mode: 'onBlur',
+  });
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -50,11 +49,7 @@ const AuthFinishForgotPassword: React.FC<FinishForgotPasswordProps> = ({
   };
 
   return (
-    <LoaderWrapper
-      isLoading={isLoading}
-      className={styles.formColumnWrapper}
-      expandLoaderWidth
-    >
+    <LoaderWrapper isLoading={isLoading} className={styles.formColumnWrapper} expandLoaderWidth>
       <AuthFormHeader title='Almost Done' subText='one last step' />
       <Form methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
         <Typography variant={TypographyVariant.Body3}>
@@ -83,18 +78,13 @@ const AuthFinishForgotPassword: React.FC<FinishForgotPasswordProps> = ({
           rules={{
             validate: (value) => {
               return (
-                value == methods.getValues('newPassword') ||
-                'Should match the password field'
+                value === methods.getValues('newPassword') || 'Should match the password field'
               );
             },
           }}
         />
         <div className={styles.verifyFormBtnContainer}>
-          <ActionButton
-            type='submit'
-            label='Submit'
-            style={BUTTON_STYLE.Primary}
-          />
+          <ActionButton type='submit' label='Submit' style={BUTTON_STYLE.Primary} />
           <AuthResendOTPBtn username={username} resetPasswordCode />
         </div>
       </Form>

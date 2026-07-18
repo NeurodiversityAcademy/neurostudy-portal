@@ -8,10 +8,7 @@ import { marshall } from '@aws-sdk/util-dynamodb';
 import { UserProps, UserToken } from '@/app/interfaces/User';
 import { dbDocumentClient } from '../db/configure';
 
-const updateUser = async (
-  Item: UserProps,
-  user: UserToken
-): Promise<UpdateItemCommandOutput> => {
+const updateUser = async (Item: UserProps, user: UserToken): Promise<UpdateItemCommandOutput> => {
   let updateExpression = 'set';
   const expressionAttributeValues: Record<string, unknown> = {};
   const expressionAttributeNames: Record<string, string> = {};

@@ -17,9 +17,7 @@ export async function GET(req: NextRequest): Promise<Response> {
       return authResponse;
     }
 
-    const user: MoodleUserBasic | null = await getMoodleUserByEmail(
-      authResponse.email
-    );
+    const user: MoodleUserBasic | null = await getMoodleUserByEmail(authResponse.email);
     let courses: MoodleCourse[] = [];
 
     if (user) {

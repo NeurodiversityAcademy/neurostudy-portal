@@ -3,7 +3,7 @@ import { PHONE_REGEX, EMAIL_REGEX } from '../constants';
 
 export function isValidContactUsFormData(
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  obj: any
+  obj: any,
 ): obj is UserFormSubmissionType {
   const requiredKeys: (keyof UserFormSubmissionType)[] = [
     'firstname',

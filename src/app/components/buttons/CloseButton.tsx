@@ -8,7 +8,7 @@ interface CloseButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
 
 const CloseButton = (
   { className, ...rest }: CloseButtonProps,
-  ref: ForwardedRef<HTMLButtonElement>
+  ref: ForwardedRef<HTMLButtonElement>,
 ) => {
   return (
     <button

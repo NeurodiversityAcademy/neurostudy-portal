@@ -77,9 +77,7 @@ export default function EmergingProviderStats({
                   color='var(--BondBlack)'
                   className={styles.providerStatsResponses}
                 >
-                  <span className={styles.providerStatsResponsesLabel}>
-                    Responses
-                  </span>{' '}
+                  <span className={styles.providerStatsResponsesLabel}>Responses</span>{' '}
                   {stat.responses}
                 </Typography>
               </div>

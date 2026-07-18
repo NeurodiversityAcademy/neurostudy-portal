@@ -9,7 +9,6 @@ export const returnAuthError = (ex: Error | unknown) => {
     return returnBadResponse({ name: ex.name, message: ex.message });
   } else if (ex instanceof DynamoDBServiceException) {
     return returnDBError(ex);
-  } else {
-    return processAPIError(ex instanceof Error ? ex : null);
   }
+  return processAPIError(ex instanceof Error ? ex : null);
 };

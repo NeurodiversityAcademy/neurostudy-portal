@@ -1,8 +1,6 @@
 import React from 'react';
 import styles from './about.module.css';
-import Typography, {
-  TypographyVariant,
-} from '../components/typography/Typography';
+import Typography, { TypographyVariant } from '../components/typography/Typography';
 import Journey from '../components/aboutJourney/Journey';
 import Values from '../components/aboutValues/Values';
 import Mission from '../components/aboutMission/Mission';

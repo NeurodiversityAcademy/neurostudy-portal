@@ -2,9 +2,7 @@ import { MoodleException, MoodleUserBasic } from '@/app/interfaces/Moodle';
 import { getMoodleAPIInfo } from './helper';
 import { getSearchQuery } from '../common';
 
-export async function getMoodleUserByEmail(
-  email: string
-): Promise<MoodleUserBasic | null> {
+export async function getMoodleUserByEmail(email: string): Promise<MoodleUserBasic | null> {
   try {
     const { src, secret } = getMoodleAPIInfo();
 
@@ -25,7 +23,7 @@ export async function getMoodleUserByEmail(
     const user: MoodleUserBasic | null = json[0] || null;
 
     return user;
-  } catch (_) {
+  } catch {
     throw new Error('Failed to fetch the moodle user.');
   }
 }

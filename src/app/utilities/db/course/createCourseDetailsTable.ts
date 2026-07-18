@@ -1,7 +1,4 @@
-import {
-  CreateTableCommand,
-  GlobalSecondaryIndex,
-} from '@aws-sdk/client-dynamodb';
+import { CreateTableCommand, GlobalSecondaryIndex } from '@aws-sdk/client-dynamodb';
 import { dbDocumentClient } from '../configure';
 import {
   COURSE_DETAILS_TABLE_INDEX_KEY_DEFINITIONS,
@@ -13,14 +10,13 @@ import { createDefaultGSI } from '../common';
 export default async function createCourseDetailsTable() {
   let GlobalSecondaryIndexes: GlobalSecondaryIndex[] | undefined = undefined;
   if (COURSE_DETAILS_TABLE_INDEX_KEY_DEFINITIONS.length) {
-    GlobalSecondaryIndexes = COURSE_DETAILS_TABLE_INDEX_KEY_DEFINITIONS.map(
-      ({ AttributeName }) =>
-        createDefaultGSI(AttributeName as string, {
-          ProvisionedThroughput: {
-            ReadCapacityUnits: 1,
-            WriteCapacityUnits: 1,
-          },
-        })
+    GlobalSecondaryIndexes = COURSE_DETAILS_TABLE_INDEX_KEY_DEFINITIONS.map(({ AttributeName }) =>
+      createDefaultGSI(AttributeName as string, {
+        ProvisionedThroughput: {
+          ReadCapacityUnits: 1,
+          WriteCapacityUnits: 1,
+        },
+      }),
     );
   }
 
@@ -34,14 +30,12 @@ export default async function createCourseDetailsTable() {
         },
         ...COURSE_DETAILS_TABLE_INDEX_KEY_DEFINITIONS,
       ],
-      KeySchema: [
-        { AttributeName: COURSE_DETAILS_TABLE_PARTITION_KEY, KeyType: 'HASH' },
-      ],
+      KeySchema: [{ AttributeName: COURSE_DETAILS_TABLE_PARTITION_KEY, KeyType: 'HASH' }],
       ProvisionedThroughput: {
         ReadCapacityUnits: 1,
         WriteCapacityUnits: 1,
       },
       GlobalSecondaryIndexes,
-    })
+    }),
   );
 }

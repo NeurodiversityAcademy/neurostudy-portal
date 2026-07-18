@@ -35,7 +35,7 @@ const Accordion: React.FC<Props> = ({
         sendAccordionToggleEvent(
           GA_EVENTS.ACCORDION_TOGGLE.eventName,
           GA_EVENTS.ACCORDION_TOGGLE.category,
-          accordionToggleLabel
+          accordionToggleLabel,
         );
       }
       return next;
@@ -43,13 +43,7 @@ const Accordion: React.FC<Props> = ({
   };
 
   return (
-    <div
-      className={classNames(
-        styles.container,
-        !expanded && styles.collapsed,
-        className
-      )}
-    >
+    <div className={classNames(styles.container, !expanded && styles.collapsed, className)}>
       <button
         type='button'
         className={styles.header}

@@ -17,13 +17,9 @@ export default function Footer() {
         <div className={styles.topLeft}>
           <Image src={footerLogo} alt='logo' />
           <div className={styles.footerDescription}>
-            <Typography
-              variant={TypographyVariant.Body2}
-              color='var(--GhostWhite)'
-            >
-              Neurodiversity Academy acknowledges the Traditional Owners of
-              Country throughout Australia. We pay our respects to Elders past,
-              present and emerging.
+            <Typography variant={TypographyVariant.Body2} color='var(--GhostWhite)'>
+              Neurodiversity Academy acknowledges the Traditional Owners of Country throughout
+              Australia. We pay our respects to Elders past, present and emerging.
             </Typography>
           </div>
           <div className={styles.socials}>
@@ -127,10 +123,7 @@ export default function Footer() {
           </ul>
         </div>
         <div className={styles.topFoot}>
-          <Typography
-            variant={TypographyVariant.Body1}
-            color='var(--GhostWhite)'
-          >
+          <Typography variant={TypographyVariant.Body1} color='var(--GhostWhite)'>
             Contact Us
           </Typography>
           <ul>
@@ -156,18 +149,12 @@ export default function Footer() {
       </div>
       <div className={styles.footprint}>
         <div className={styles.leftFootprint}>
-          <Typography
-            variant={TypographyVariant.Body2}
-            color='var(--GhostWhite)'
-          >
+          <Typography variant={TypographyVariant.Body2} color='var(--GhostWhite)'>
             &copy; 2024 All Rights Reserved
           </Typography>
         </div>
         <div className={styles.rightFootprint}>
-          <Typography
-            variant={TypographyVariant.Body2}
-            color='var(--GhostWhite)'
-          >
+          <Typography variant={TypographyVariant.Body2} color='var(--GhostWhite)'>
             Terms of Service
           </Typography>
           <a
@@ -176,10 +163,7 @@ export default function Footer() {
             aria-label='Privacy policy (opens in new tab)'
             title='Visit Privacy policy page'
           >
-            <Typography
-              variant={TypographyVariant.Body2}
-              color='var(--GhostWhite)'
-            >
+            <Typography variant={TypographyVariant.Body2} color='var(--GhostWhite)'>
               Privacy Policy
             </Typography>
           </a>

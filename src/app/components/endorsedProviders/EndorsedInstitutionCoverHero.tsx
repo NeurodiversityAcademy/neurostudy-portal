@@ -34,12 +34,7 @@ interface MetaStripFieldProps {
   secondaryDescription?: string;
 }
 
-function MetaStripField({
-  src,
-  title,
-  description,
-  secondaryDescription,
-}: MetaStripFieldProps) {
+function MetaStripField({ src, title, description, secondaryDescription }: MetaStripFieldProps) {
   return (
     <div className={styles.metaField}>
       <div className={styles.metaFieldIconWrap}>
@@ -103,25 +98,15 @@ export default function EndorsedInstitutionCoverHero({
   return (
     <section className={styles.section} aria-label='Endorsed provider cover'>
       <div
-        className={classNames(
-          styles.banner,
-          hasCoverImage && styles.bannerWithCover
-        )}
-        style={
-          hasCoverImage
-            ? { backgroundImage: `url(${coverImageSrc})` }
-            : undefined
-        }
+        className={classNames(styles.banner, hasCoverImage && styles.bannerWithCover)}
+        style={hasCoverImage ? { backgroundImage: `url(${coverImageSrc})` } : undefined}
       >
         <div className={styles.bannerContent}>
           <div className={styles.textContainer}>
             <Typography
               variant={TypographyVariant.H1}
               color={titleColor}
-              className={classNames(
-                styles.title,
-                hasCoverImage && styles.titleOnCover
-              )}
+              className={classNames(styles.title, hasCoverImage && styles.titleOnCover)}
             >
               Neurodiversity Academy Endorsed Provider
             </Typography>
@@ -165,19 +150,10 @@ export default function EndorsedInstitutionCoverHero({
         ) : null}
       </div>
       <div className={styles.metaStripWrap}>
-        <div
-          className={classNames(
-            styles.metaStrip,
-            ndaCertified && styles.metaStripNdaCertified
-          )}
-        >
+        <div className={classNames(styles.metaStrip, ndaCertified && styles.metaStripNdaCertified)}>
           <div className={styles.metaSlot}>
             {typeValue ? (
-              <MetaStripField
-                src={iconByLabel.Type}
-                title='Type'
-                description={typeValue}
-              />
+              <MetaStripField src={iconByLabel.Type} title='Type' description={typeValue} />
             ) : null}
           </div>
 
@@ -205,9 +181,7 @@ export default function EndorsedInstitutionCoverHero({
                 src={iconByLabel.Location}
                 title='Location'
                 description={locationValue ?? studyModeValue ?? ''}
-                secondaryDescription={
-                  locationValue && studyModeValue ? studyModeValue : undefined
-                }
+                secondaryDescription={locationValue && studyModeValue ? studyModeValue : undefined}
               />
             ) : null}
           </div>

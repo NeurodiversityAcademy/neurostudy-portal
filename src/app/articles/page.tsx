@@ -3,9 +3,7 @@ import Article from '../components/article/Article';
 import articleData from './articleData.json';
 import styles from './articles.module.css';
 import { ArticleInterface } from '@/app/interfaces/ArticleInterface';
-import Typography, {
-  TypographyVariant,
-} from '../components/typography/Typography';
+import Typography, { TypographyVariant } from '../components/typography/Typography';
 import { Metadata } from 'next';
 import { META_KEY } from '../utilities/constants';
 import { createMetadata } from '../utilities/common';

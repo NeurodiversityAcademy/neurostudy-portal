@@ -1,9 +1,6 @@
 import Script from 'next/script';
 import type { ReactElement } from 'react';
-import {
-  TABNAV_WIDGET_CONFIG_JSON,
-  TABNAV_WIDGET_SCRIPT_SRC,
-} from './tabNavConstants';
+import { TABNAV_WIDGET_CONFIG_JSON, TABNAV_WIDGET_SCRIPT_SRC } from './tabNavConstants';
 
 /**
  * TabNav accessibility widget loader (third-party).
@@ -20,10 +17,7 @@ export default function TabNavEmbed(): ReactElement {
       />
       <noscript>
         JavaScript is required for{' '}
-        <a href='https://tabnav.com/accessibility-widget'>
-          accessibility widget
-        </a>{' '}
-        to work properly.
+        <a href='https://tabnav.com/accessibility-widget'>accessibility widget</a> to work properly.
       </noscript>
     </>
   );

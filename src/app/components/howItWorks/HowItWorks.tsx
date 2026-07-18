@@ -13,19 +13,12 @@ export default function HowItWorks() {
   return (
     <div className={styles.stepsContainer}>
       <div className={styles.stepsTitle}>
-        <Typography
-          variant={TypographyVariant.H2}
-          color={TypographyColorToken.BondBlack}
-        >
+        <Typography variant={TypographyVariant.H2} color={TypographyColorToken.BondBlack}>
           How it works?
         </Typography>
-        <Typography
-          variant={TypographyVariant.Body1}
-          color={TypographyColorToken.BondBlackVariant}
-        >
-          Neurodiversity Academy understands the challenges neurodivergent
-          students face and provides support at every stage of the study
-          journey.
+        <Typography variant={TypographyVariant.Body1} color={TypographyColorToken.BondBlackVariant}>
+          Neurodiversity Academy understands the challenges neurodivergent students face and
+          provides support at every stage of the study journey.
         </Typography>
       </div>
 
@@ -34,10 +27,7 @@ export default function HowItWorks() {
           <Image src={explore} alt='explore' width={109} height={108} />
 
           <div className={styles.stepsText}>
-            <Typography
-              variant={TypographyVariant.Body1}
-              color={TypographyColorToken.BondBlack}
-            >
+            <Typography variant={TypographyVariant.Body1} color={TypographyColorToken.BondBlack}>
               Explore
             </Typography>
             <Typography
@@ -53,10 +43,7 @@ export default function HowItWorks() {
           <Image src={enquire} alt='enquire' width={109} height={108} />
           <div className={styles.stepsText}>
             {' '}
-            <Typography
-              variant={TypographyVariant.Body1}
-              color={TypographyColorToken.BondBlack}
-            >
+            <Typography variant={TypographyVariant.Body1} color={TypographyColorToken.BondBlack}>
               Enquire
             </Typography>
             <Typography
@@ -72,10 +59,7 @@ export default function HowItWorks() {
           <Image src={profile} alt='profile' width={109} height={108} />
           <div className={styles.stepsText}>
             {' '}
-            <Typography
-              variant={TypographyVariant.Body1}
-              color={TypographyColorToken.BondBlack}
-            >
+            <Typography variant={TypographyVariant.Body1} color={TypographyColorToken.BondBlack}>
               Profile
             </Typography>
             <Typography
@@ -90,10 +74,7 @@ export default function HowItWorks() {
         <div className={styles.gridItem}>
           <Image src={quality} alt='quality' width={109} height={108} />
           <div className={styles.stepsText}>
-            <Typography
-              variant={TypographyVariant.Body1}
-              color={TypographyColorToken.BondBlack}
-            >
+            <Typography variant={TypographyVariant.Body1} color={TypographyColorToken.BondBlack}>
               Quality
             </Typography>
             <Typography
@@ -108,10 +89,7 @@ export default function HowItWorks() {
         <div className={styles.gridItem5}>
           <Image src={guide} alt='guide' width={109} height={108} />
           <div className={styles.stepsText}>
-            <Typography
-              variant={TypographyVariant.Body1}
-              color={TypographyColorToken.BondBlack}
-            >
+            <Typography variant={TypographyVariant.Body1} color={TypographyColorToken.BondBlack}>
               Guide
             </Typography>
             <Typography

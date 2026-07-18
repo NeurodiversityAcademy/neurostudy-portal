@@ -15,16 +15,14 @@ export default async function createCourseTable() {
         { AttributeName: COURSE_TABLE_PARTITION_KEY, AttributeType: 'S' },
         ...COURSE_TABLE_INDEX_KEY_DEFINITIONS,
       ],
-      KeySchema: [
-        { AttributeName: COURSE_TABLE_PARTITION_KEY, KeyType: 'HASH' },
-      ],
+      KeySchema: [{ AttributeName: COURSE_TABLE_PARTITION_KEY, KeyType: 'HASH' }],
       ProvisionedThroughput: {
         ReadCapacityUnits: 5,
         WriteCapacityUnits: 5,
       },
-      GlobalSecondaryIndexes: COURSE_TABLE_INDEX_KEY_DEFINITIONS.map(
-        ({ AttributeName }) => createDefaultGSI(AttributeName as string)
+      GlobalSecondaryIndexes: COURSE_TABLE_INDEX_KEY_DEFINITIONS.map(({ AttributeName }) =>
+        createDefaultGSI(AttributeName as string),
       ),
-    })
+    }),
   );
 }

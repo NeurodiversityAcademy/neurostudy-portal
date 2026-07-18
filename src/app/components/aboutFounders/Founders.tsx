@@ -19,28 +19,18 @@ export default function Founders() {
       <div className={styles.grid}>
         <div className={styles.gridItem}>
           <div>
-            <Image
-              src={Will}
-              alt={'Will photo'}
-              className={styles.image}
-            ></Image>
+            <Image src={Will} alt={'Will photo'} className={styles.image}></Image>
           </div>
           <div className={styles.textBox}>
             {' '}
             <div>
               {' '}
-              <Typography
-                variant={TypographyVariant.Body1}
-                color='var(--GhostWhite)'
-              >
+              <Typography variant={TypographyVariant.Body1} color='var(--GhostWhite)'>
                 Will Wheeler
               </Typography>
             </div>
             <div className={styles.role}>
-              <Typography
-                variant={TypographyVariant.Body2}
-                color='var(--GhostWhite)'
-              >
+              <Typography variant={TypographyVariant.Body2} color='var(--GhostWhite)'>
                 Founder and Director
               </Typography>
             </div>
@@ -57,28 +47,18 @@ export default function Founders() {
         </div>
         <div className={styles.gridItem}>
           <div>
-            <Image
-              src={Pratik}
-              alt={'Pratik photo'}
-              className={styles.image}
-            ></Image>
+            <Image src={Pratik} alt={'Pratik photo'} className={styles.image}></Image>
           </div>
           <div className={styles.textBox}>
             <div>
-              <Typography
-                variant={TypographyVariant.Body1}
-                color='var(--GhostWhite)'
-              >
+              <Typography variant={TypographyVariant.Body1} color='var(--GhostWhite)'>
                 Pratik Bhumkar
               </Typography>
             </div>
 
             <div className={styles.role}>
               {' '}
-              <Typography
-                variant={TypographyVariant.Body2}
-                color='var(--GhostWhite)'
-              >
+              <Typography variant={TypographyVariant.Body2} color='var(--GhostWhite)'>
                 Head of IT
               </Typography>
             </div>
