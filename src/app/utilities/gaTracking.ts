@@ -1,4 +1,4 @@
-import { GA_EVENTS } from '@/app/utilities/constants';
+import { ENDORSEMENTS_CTA_LABELS, GA_EVENTS } from '@/app/utilities/constants';
 
 export const GA_EVENT_COMMAND = 'event' as const;
 
@@ -110,6 +110,36 @@ export function sendEndorsedExploreClickEvent(providerSlug: string, destinationU
       [GA_PARAM.DESTINATION_URL]: destinationUrl,
       [GA_PARAM.LINK_TEXT]: ENDORSED_EXPLORE_LINK_TEXT,
       [GA_PARAM.CATEGORY]: GA_EVENTS.ENDORSED_EXPLORE_CLICK.category,
+    }),
+  );
+}
+
+export function buildPageScopedParams(extra: GaEventParams): GaEventParams {
+  return {
+    ...extra,
+    [GA_PARAM.PAGE_PATH]: window.location.pathname,
+  };
+}
+
+export function sendHandbookCtaClickEvent(section: string): void {
+  sendGaEvent(
+    GA_EVENTS.HANDBOOK_CTA_CLICK.eventName,
+    buildPageScopedParams({
+      [GA_PARAM.CATEGORY]: GA_EVENTS.HANDBOOK_CTA_CLICK.category,
+      [GA_PARAM.LINK_TEXT]: ENDORSEMENTS_CTA_LABELS.HANDBOOK,
+      [GA_PARAM.SECTION]: section,
+    }),
+  );
+}
+
+export function sendContactCtaClickEvent(destinationUrl: string, section: string): void {
+  sendGaEvent(
+    GA_EVENTS.CONTACT_CTA_CLICK.eventName,
+    buildPageScopedParams({
+      [GA_PARAM.CATEGORY]: GA_EVENTS.CONTACT_CTA_CLICK.category,
+      [GA_PARAM.LINK_TEXT]: ENDORSEMENTS_CTA_LABELS.CONTACT,
+      [GA_PARAM.DESTINATION_URL]: destinationUrl,
+      [GA_PARAM.SECTION]: section,
     }),
   );
 }

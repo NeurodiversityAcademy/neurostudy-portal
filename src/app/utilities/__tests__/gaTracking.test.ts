@@ -3,19 +3,22 @@ import {
   GA_PARAM,
   ENDORSED_EXPLORE_LINK_TEXT,
   sendAccordionToggleEvent,
+  sendContactCtaClickEvent,
   sendEndorsedExploreClickEvent,
   sendGaEvent,
+  sendHandbookCtaClickEvent,
   sendScrollDepthEvent,
   sendSectionVisibleEvent,
   sendTimeOnPageEvent,
   buildProviderScopedParams,
+  buildPageScopedParams,
 } from '@/app/utilities/gaTracking';
-import { GA_EVENTS } from '@/app/utilities/constants';
+import { ENDORSEMENTS_CTA_LABELS, GA_EVENTS } from '@/app/utilities/constants';
 import { installGtagMock, installTestPagePath } from '@/app/utilities/__tests__/gaTestHelpers';
 
 describe('gaTracking', () => {
   beforeEach(() => {
-    installTestPagePath('/endorsedproviders/collarts');
+    installTestPagePath('/endorsements');
   });
 
   it('sendGaEvent is a no-op when gtag is missing', () => {
@@ -24,6 +27,7 @@ describe('gaTracking', () => {
   });
 
   it('buildProviderScopedParams includes slug and page path', () => {
+    installTestPagePath('/endorsedproviders/collarts');
     const params = buildProviderScopedParams('collarts', {
       [GA_PARAM.CATEGORY]: 'Engagement',
     });
@@ -35,6 +39,7 @@ describe('gaTracking', () => {
   });
 
   it('sendScrollDepthEvent dispatches scroll_depth', () => {
+    installTestPagePath('/endorsedproviders/collarts');
     const mockGtag = installGtagMock();
     sendScrollDepthEvent('collarts', 50);
     expect(mockGtag).toHaveBeenCalledWith(
@@ -50,6 +55,7 @@ describe('gaTracking', () => {
   });
 
   it('sendSectionVisibleEvent dispatches section_visible', () => {
+    installTestPagePath('/endorsedproviders/collarts');
     const mockGtag = installGtagMock();
     sendSectionVisibleEvent('collarts', 'faqs');
     expect(mockGtag).toHaveBeenCalledWith(
@@ -64,6 +70,7 @@ describe('gaTracking', () => {
   });
 
   it('sendTimeOnPageEvent dispatches time_on_page', () => {
+    installTestPagePath('/endorsedproviders/collarts');
     const mockGtag = installGtagMock();
     sendTimeOnPageEvent('collarts', 42);
     expect(mockGtag).toHaveBeenCalledWith(
@@ -78,6 +85,7 @@ describe('gaTracking', () => {
   });
 
   it('sendAccordionToggleEvent dispatches accordion_toggle params', () => {
+    installTestPagePath('/endorsedproviders/collarts');
     const mockGtag = installGtagMock();
     sendAccordionToggleEvent(
       GA_EVENTS.ACCORDION_TOGGLE.eventName,
@@ -92,6 +100,7 @@ describe('gaTracking', () => {
   });
 
   it('sendEndorsedExploreClickEvent dispatches endorsed_explore_click', () => {
+    installTestPagePath('/endorsedproviders/collarts');
     const mockGtag = installGtagMock();
     const destinationUrl = 'https://example.com/courses';
     sendEndorsedExploreClickEvent('collarts', destinationUrl);
@@ -104,6 +113,45 @@ describe('gaTracking', () => {
         provider_slug: 'collarts',
         link_text: ENDORSED_EXPLORE_LINK_TEXT,
         category: GA_EVENTS.ENDORSED_EXPLORE_CLICK.category,
+      },
+    );
+  });
+
+  it('buildPageScopedParams includes page path', () => {
+    const params = buildPageScopedParams({ [GA_PARAM.CATEGORY]: 'Conversion' });
+    expect(params).toEqual({
+      category: 'Conversion',
+      page_path: '/endorsements',
+    });
+  });
+
+  it('sendHandbookCtaClickEvent dispatches handbook_cta_click', () => {
+    const mockGtag = installGtagMock();
+    sendHandbookCtaClickEvent('handbook');
+    expect(mockGtag).toHaveBeenCalledWith(
+      GA_EVENT_COMMAND,
+      GA_EVENTS.HANDBOOK_CTA_CLICK.eventName,
+      {
+        category: GA_EVENTS.HANDBOOK_CTA_CLICK.category,
+        link_text: ENDORSEMENTS_CTA_LABELS.HANDBOOK,
+        page_path: '/endorsements',
+        section: 'handbook',
+      },
+    );
+  });
+
+  it('sendContactCtaClickEvent dispatches contact_cta_click', () => {
+    const mockGtag = installGtagMock();
+    sendContactCtaClickEvent('/contact', 'endorsements_faq');
+    expect(mockGtag).toHaveBeenCalledWith(
+      GA_EVENT_COMMAND,
+      GA_EVENTS.CONTACT_CTA_CLICK.eventName,
+      {
+        category: GA_EVENTS.CONTACT_CTA_CLICK.category,
+        link_text: ENDORSEMENTS_CTA_LABELS.CONTACT,
+        destination_url: '/contact',
+        page_path: '/endorsements',
+        section: 'endorsements_faq',
       },
     );
   });
