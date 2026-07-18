@@ -1,65 +1,35 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
-import { useEffect, type ReactElement } from 'react';
+import ReactPixel from 'react-facebook-pixel';
+import { useDeferredActivation } from '../../hooks/useDeferredActivation';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let ReactPixel: undefined | Record<string, any>;
-
-const loadPixel = (pixelId: string): Promise<void> =>
-  import('react-facebook-pixel')
-    .then((pixelModule) => pixelModule.default)
-    .then((pixel) => {
-      ReactPixel = pixel;
-      ReactPixel.init(pixelId);
-      ReactPixel.pageView();
-    });
-
-export default function MetaPixel(): ReactElement | null {
+const MetaPixel = (): null => {
   const pathname = usePathname();
+  const isActivated = useDeferredActivation();
+  const isLoadedRef = useRef(false);
+  const facebookPixelId = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID;
 
   useEffect(() => {
-    const pixelId = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID ?? '';
-    if (!pixelId) {
+    if (!facebookPixelId || !isActivated || isLoadedRef.current) {
       return;
     }
 
-    const trackPageView = () => {
-      ReactPixel?.pageView();
-    };
+    ReactPixel.init(facebookPixelId);
+    ReactPixel.pageView();
+    isLoadedRef.current = true;
+  }, [facebookPixelId, isActivated]);
 
-    if (ReactPixel) {
-      trackPageView();
+  useEffect(() => {
+    if (!isLoadedRef.current) {
       return;
     }
 
-    // Defer Meta Pixel until the browser is idle so it does not compete with LCP.
-    let idleId: number | undefined;
-    let timeoutId: ReturnType<typeof setTimeout> | undefined;
-
-    const scheduleLoad = () => {
-      if (typeof window.requestIdleCallback === 'function') {
-        idleId = window.requestIdleCallback(() => {
-          void loadPixel(pixelId);
-        });
-      } else {
-        timeoutId = setTimeout(() => {
-          void loadPixel(pixelId);
-        }, 2000);
-      }
-    };
-
-    scheduleLoad();
-
-    return () => {
-      if (idleId !== undefined && typeof window.cancelIdleCallback === 'function') {
-        window.cancelIdleCallback(idleId);
-      }
-      if (timeoutId !== undefined) {
-        clearTimeout(timeoutId);
-      }
-    };
+    ReactPixel.pageView();
   }, [pathname]);
 
   return null;
-}
+};
+
+export default MetaPixel;
