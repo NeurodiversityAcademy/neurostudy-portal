@@ -46,12 +46,12 @@
 
 .cardTop {
   position: relative;
-  height: 84px;
   flex: 0 0 auto;
   overflow: hidden;
 }
 
 .cardTopEmerging {
+  height: 84px;
   background-image: url('../../images/emergingCardHeader.png');
   background-size: cover;
   background-position: center -10px;
@@ -59,15 +59,19 @@
 }
 
 .cardTopYellow {
+  height: 84px;
   background-color: #f5e6a3;
 }
 
 .cardTopCherryPieSub {
+  height: 84px;
   background-color: var(--cherryPieSub);
 }
 
 .cardTopImage {
-  object-fit: cover;
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .badgeSlot {

@@ -7,10 +7,14 @@
 }
 
 .imageWrapper {
-  position: relative;
   width: 380px;
-  height: 400px;
-  object-fit: contain;
+  max-width: 100%;
+}
+
+.mailboxImage {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .contentWrapper {
@@ -72,7 +76,6 @@
 
   .imageWrapper {
     width: 280px;
-    height: 300px;
   }
 
   .contentWrapper {
@@ -119,7 +122,6 @@
 
   .imageWrapper {
     width: 230px;
-    height: 250px;
   }
 
   .contentWrapper {
@@ -171,7 +173,6 @@
 
   .imageWrapper {
     width: 270px;
-    height: 300px;
   }
 
   .contentWrapper {
@@ -220,7 +221,6 @@
 
   .imageWrapper {
     width: 380px;
-    height: 400px;
     margin-right: -1.4rem;
   }
 

@@ -67,7 +67,9 @@ export default function Subscribe() {
             src={MailboxLady}
             alt='Subscribe to our Newsletter'
             title='Subscribe to out Newsletter'
-            fill={true}
+            width={922}
+            height={1034}
+            className={styles.mailboxImage}
             quality={100}
           />
         </div>

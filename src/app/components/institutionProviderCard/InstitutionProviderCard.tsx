@@ -71,7 +71,8 @@ export default function InstitutionProviderCard({
           <Image
             src={header.src}
             alt=''
-            fill
+            width={1536}
+            height={1024}
             className={styles.cardTopImage}
             priority={false}
           />
