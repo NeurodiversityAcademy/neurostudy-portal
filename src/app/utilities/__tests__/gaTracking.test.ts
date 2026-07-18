@@ -143,16 +143,12 @@ describe('gaTracking', () => {
   it('sendContactCtaClickEvent dispatches contact_cta_click', () => {
     const mockGtag = installGtagMock();
     sendContactCtaClickEvent('/contact', 'endorsements_faq');
-    expect(mockGtag).toHaveBeenCalledWith(
-      GA_EVENT_COMMAND,
-      GA_EVENTS.CONTACT_CTA_CLICK.eventName,
-      {
-        category: GA_EVENTS.CONTACT_CTA_CLICK.category,
-        link_text: ENDORSEMENTS_CTA_LABELS.CONTACT,
-        destination_url: '/contact',
-        page_path: '/endorsements',
-        section: 'endorsements_faq',
-      },
-    );
+    expect(mockGtag).toHaveBeenCalledWith(GA_EVENT_COMMAND, GA_EVENTS.CONTACT_CTA_CLICK.eventName, {
+      category: GA_EVENTS.CONTACT_CTA_CLICK.category,
+      link_text: ENDORSEMENTS_CTA_LABELS.CONTACT,
+      destination_url: '/contact',
+      page_path: '/endorsements',
+      section: 'endorsements_faq',
+    });
   });
 });
