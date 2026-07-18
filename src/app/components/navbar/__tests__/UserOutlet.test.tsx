@@ -85,13 +85,13 @@ describe('UserOutlet', () => {
     });
   });
 
-  it('shows loader state while session is loading', () => {
+  it('shows Login immediately while session is loading', () => {
     mockedUseSession.mockReturnValue({
       data: null,
       status: 'loading',
     });
-    const { container } = render(<UserOutlet />);
-    expect(container.querySelector('[aria-hidden]')).toBeInTheDocument();
+    render(<UserOutlet />);
+    expect(screen.getByText('Login')).toBeInTheDocument();
   });
 
   it('handles signOut error gracefully', async () => {

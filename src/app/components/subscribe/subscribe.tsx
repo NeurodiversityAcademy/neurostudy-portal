@@ -59,8 +59,10 @@ export default function Subscribe() {
             src={MailboxLady}
             alt='Subscribe to our Newsletter'
             title='Subscribe to out Newsletter'
-            fill={true}
-            quality={100}
+            fill
+            sizes='(max-width: 768px) 100vw, 400px'
+            quality={75}
+            loading='lazy'
           />
         </div>
         <LoaderWrapper isLoading={isLoading} className={styles.contentWrapper} expandLoaderWidth>

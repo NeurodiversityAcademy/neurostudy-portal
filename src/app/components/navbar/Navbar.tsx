@@ -3,7 +3,7 @@ import styles from './navbar.module.css';
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import Logo from '../../images/Logo-navbar.svg';
+import Logo from '../../images/Logo-navbar.webp';
 import Hamburger from '../../images/hamburgerMenu.svg';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import UserOutlet from './UserOutlet';
@@ -39,7 +39,7 @@ export default function Navbar() {
     <nav className={styles.nav}>
       <div className={styles.wrapper}>
         <Link className={styles.logo} href='/'>
-          <Image src={Logo} alt='logo' />
+          <Image src={Logo} alt='logo' width={179} height={40} />
         </Link>
         <div className={styles.innerWrapper}>
           <ul className={styles.ul}>
@@ -75,6 +75,8 @@ export default function Navbar() {
           className={styles.hamburger}
           src={Hamburger}
           alt='hamburger menu'
+          width={24}
+          height={25}
           onClick={toggleDropdown}
         />
         <div className={styles.dropdownContainer} ref={dropdownRef}>

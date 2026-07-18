@@ -26,7 +26,25 @@ export default function HomeBanner({
 }: PropType) {
   return (
     <>
+      {/* Preload LCP-adjacent hero so CSS background discovers early on mobile. */}
+      <link
+        rel='preload'
+        as='image'
+        href='/images/hero-mobile.webp'
+        type='image/webp'
+        media='(max-width: 768px)'
+        fetchPriority='high'
+      />
+      <link
+        rel='preload'
+        as='image'
+        href='/images/hero-desktop.webp'
+        type='image/webp'
+        media='(min-width: 769px)'
+        fetchPriority='high'
+      />
       <div className={styles.bannerContainer}>
+        <div className={styles.bannerOverlay} aria-hidden='true' />
         <div className={styles.bannerTextAndBadge}>
           <div className={styles.textContainer}>
             <Typography variant={TypographyVariant.H1} className='m-0' color='var(--GhostWhite)'>

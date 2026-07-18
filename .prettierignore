@@ -4,6 +4,7 @@ node_modules
 out
 coverage
 deliverables
+.netlify
 
 # Generated / lock artifacts
 package-lock.json

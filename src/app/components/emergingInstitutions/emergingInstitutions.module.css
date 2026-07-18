@@ -78,7 +78,7 @@
   width: 100%;
 }
 
-/* Do not compose banner.bannerContainer here: its bg.svg can override this cover in the cascade. */
+/* Do not compose banner.bannerContainer here: its hero background can override this cover in the cascade. */
 .providerHeroBanner {
   box-sizing: border-box;
   width: 100%;

@@ -8,7 +8,7 @@ import CourseDetailsMiddleBannerIcon from '@/app/components/course/CourseDetails
 import mapPin from '@/app/images/MapPin.png';
 import notebook from '@/app/images/Notebook.png';
 import emergingProvidersBadge from '@/app/images/emergingInstitutions/emgerging-badge.png';
-import endorsedProvidersBadge from '@/app/images/badgeGeneric.png';
+import endorsedProvidersBadge from '@/app/images/badgeGeneric.webp';
 
 export type HeroInfoItem = {
   icon: StaticImageData;

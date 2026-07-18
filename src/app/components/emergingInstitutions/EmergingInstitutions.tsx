@@ -17,7 +17,13 @@ export default function EmergingInstitutions() {
     <section className={styles.section} id='emerging-institutions'>
       <div className={styles.container}>
         <div className={styles.header}>
-          <Image src={graduationCap} alt='Graduation cap icon' className={styles.icon} />
+          <Image
+            src={graduationCap}
+            alt='Graduation cap icon'
+            width={40}
+            height={40}
+            className={styles.icon}
+          />
           <Typography variant={TypographyVariant.H2} color='var(--BondBlack)'>
             NDA Emerging Providers
           </Typography>

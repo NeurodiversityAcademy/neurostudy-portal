@@ -4,7 +4,6 @@ import { resolve } from 'node:path';
 
 const COVERAGE_FILE = resolve('coverage/coverage-final.json');
 const COVERAGE_THRESHOLD = Number(process.env.CHANGED_COVERAGE_THRESHOLD ?? '90');
-const BASE_REF = process.env.COVERAGE_BASE_REF ?? 'origin/main';
 const SOURCE_FILE_PATTERN = /^src\/.*\.(?:ts|tsx)$/;
 const TEST_FILE_PATTERN = /(?:__tests__|\.test\.|\.spec\.)/;
 const DECLARATION_FILE_PATTERN = /\.d\.ts$/;
@@ -37,16 +36,30 @@ const runGit = (args) =>
   execFileSync('git', args, {
     encoding: 'utf8',
     stdio: ['ignore', 'pipe', 'pipe'],
+    // Image/binary diffs under src/ can exceed the default 1MB buffer.
+    maxBuffer: 64 * 1024 * 1024,
   });
 
 const resolveBaseRef = () => {
-  if (!BASE_REF || BASE_REF === ZERO_SHA) {
-    return 'HEAD^';
+  if (process.env.COVERAGE_BASE_REF && process.env.COVERAGE_BASE_REF !== ZERO_SHA) {
+    return process.env.COVERAGE_BASE_REF;
+  }
+
+  // Prefer the PR/base branch when CI provides it (GitHub Actions / Vercel).
+  const githubBase = process.env.GITHUB_BASE_REF;
+  if (githubBase) {
+    const remoteBase = `origin/${githubBase}`;
+    try {
+      runGit(['rev-parse', '--verify', remoteBase]);
+      return remoteBase;
+    } catch {
+      // Fall through to origin/main / HEAD^.
+    }
   }
 
   try {
-    runGit(['rev-parse', '--verify', BASE_REF]);
-    return BASE_REF;
+    runGit(['rev-parse', '--verify', 'origin/main']);
+    return 'origin/main';
   } catch {
     return 'HEAD^';
   }
@@ -95,14 +108,15 @@ const mergeChangedLines = (target, source) => {
 
 const getChangedLines = () => {
   const baseRef = resolveBaseRef();
+  const sourcePathspecs = [':(glob)src/**/*.ts', ':(glob)src/**/*.tsx'];
   const changedLines = parseChangedLines(
-    runGit(['diff', '--unified=0', `${baseRef}...HEAD`, '--', 'src']),
+    runGit(['diff', '--unified=0', `${baseRef}...HEAD`, '--', ...sourcePathspecs]),
   );
 
   // Include staged and unstaged local edits when this runs before a commit.
   mergeChangedLines(
     changedLines,
-    parseChangedLines(runGit(['diff', '--unified=0', 'HEAD', '--', 'src'])),
+    parseChangedLines(runGit(['diff', '--unified=0', 'HEAD', '--', ...sourcePathspecs])),
   );
 
   return changedLines;

@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import Image, { type StaticImageData } from 'next/image';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import { TypographyColorToken } from '../typography/typographyColorToken';
-import badgeGeneric from '../../images/badgeGeneric.png';
+import badgeGeneric from '../../images/badgeGeneric.webp';
 import graduationCap from '../../images/graduationCap.png';
 import stepAssessed from '../../images/stepsEnquire.svg';
 import stepIdentified from '../../images/stepsExplore.svg';

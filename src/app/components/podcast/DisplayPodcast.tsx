@@ -8,7 +8,9 @@ const DisplayPodcast: React.FC<BuzzsproutEmbedProps> = async ({
   containerId,
   singleBlog,
 }) => {
-  const embedAvailable = await getBuzzsproutEmbedAvailability(scriptSrc, singleBlog);
+  // Homepage/list players are intersection-lazy — skip blocking RSS feed checks.
+  // Single-blog embeds still verify the script is reachable before painting.
+  const embedAvailable = singleBlog ? await getBuzzsproutEmbedAvailability(scriptSrc, true) : true;
 
   return (
     <BuzzsproutEmbed

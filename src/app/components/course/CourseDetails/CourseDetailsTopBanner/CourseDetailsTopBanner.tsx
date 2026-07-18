@@ -5,7 +5,7 @@ import styles from '../../CourseDetails/courseDetails.module.css';
 import Typography, { TypographyVariant } from '../../../typography/Typography';
 import classNames from 'classnames';
 import Image from 'next/image';
-import Logo from '@/app/images/Logo-navbar.svg';
+import Logo from '@/app/images/Logo-navbar.webp';
 import ActionButton from '../../../buttons/ActionButton';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 import { useCourseDetailsContext } from '@/app/utilities/course/CourseDetailsProvider';
@@ -24,7 +24,7 @@ const CourseDetailsTopBanner: React.FC = () => {
             {data?.InstitutionLogoUrl ? (
               <Image src={data.InstitutionLogoUrl} alt='logo' width={80} height={80} />
             ) : (
-              <Image src={Logo} alt='logo' />
+              <Image src={Logo} alt='logo' width={179} height={40} />
             )}
           </div>
           <Typography variant={TypographyVariant.Body1} className='mx-2'>

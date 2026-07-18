@@ -10,7 +10,7 @@ import { signOut, useSession } from 'next-auth/react';
 import classNames from 'classnames';
 
 const UserOutlet: React.FC = () => {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const [isSigningOut, setIsSigningOut] = useState<boolean>(false);
 
   const onSignOut = () => {
@@ -27,11 +27,9 @@ const UserOutlet: React.FC = () => {
     })();
   };
 
-  const isSessionLoading = status === 'loading';
-
   return (
     <li className={classNames(styles.userOutletWrapper)}>
-      <LoaderWrapper isLoading={isSigningOut || isSessionLoading}>
+      <LoaderWrapper isLoading={isSigningOut}>
         {session ? (
           <ActionButton
             label='Sign Out'
