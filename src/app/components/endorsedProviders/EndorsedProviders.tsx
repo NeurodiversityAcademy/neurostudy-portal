@@ -30,7 +30,7 @@ const FALLBACK_LOGO_WIDTH = 921;
 const FALLBACK_LOGO_HEIGHT = 271;
 
 const getLogoDimensions = (
-  logoSrc: string | StaticImageData
+  logoSrc: string | StaticImageData,
 ): { width: number; height: number } => {
   if (typeof logoSrc === 'string') {
     return { width: FALLBACK_LOGO_WIDTH, height: FALLBACK_LOGO_HEIGHT };
@@ -160,8 +160,7 @@ export default function EndorsedProviders({
               provider.logo,
               ENDORSED_PROVIDER_LOGO_BY_SLUG,
             );
-            const { width: logoWidth, height: logoHeight } =
-              getLogoDimensions(cardLogoSrc);
+            const { width: logoWidth, height: logoHeight } = getLogoDimensions(cardLogoSrc);
             const ctaHref = buildEndorsedProviderDetailHref(providerSlug, demoGuid);
 
             return (

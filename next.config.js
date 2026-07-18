@@ -3,12 +3,10 @@
 const isProdCachingEnabled = process.env.NODE_ENV === 'production';
 
 /** CDN-friendly: edge caches for 1h, soft-while-revalidate for a day. */
-const MARKETING_CDN_CACHE_CONTROL =
-  'public, s-maxage=3600, stale-while-revalidate=86400';
+const MARKETING_CDN_CACHE_CONTROL = 'public, s-maxage=3600, stale-while-revalidate=86400';
 
 /** Course listing can change more often than marketing pages. */
-const COURSE_CDN_CACHE_CONTROL =
-  'public, s-maxage=1800, stale-while-revalidate=86400';
+const COURSE_CDN_CACHE_CONTROL = 'public, s-maxage=1800, stale-while-revalidate=86400';
 
 const HOME_ROBOTS_TAG =
   'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1';

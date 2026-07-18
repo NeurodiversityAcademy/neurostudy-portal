@@ -52,8 +52,7 @@ export default function InstitutionProviderCard({
     styles.cardTop,
     isEmergingDefault && styles.cardTopEmerging,
     header.kind === INSTITUTION_PROVIDER_HEADER_KIND.YELLOW && styles.cardTopYellow,
-    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.CHERRY_PIE_SUB &&
-      styles.cardTopCherryPieSub,
+    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.CHERRY_PIE_SUB && styles.cardTopCherryPieSub,
     showRemoteImage && styles.cardTopWithRemoteImage,
   );
 
