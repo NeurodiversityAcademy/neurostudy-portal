@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 
 module.exports = {
+  experimental: {
+    // Speeds repeat production builds when the Turbopack FS cache is warm.
+    turbopackFileSystemCacheForBuild: true,
+  },
   images: {
     // Next 16 defaults qualities to [75]; keep 100 for existing hero/cover images.
     qualities: [75, 100],

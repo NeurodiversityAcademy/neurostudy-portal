@@ -1,0 +1,10 @@
+deliverables
+tmp-*.png
+tmp-*.jpg
+tmp-*.jpeg
+lighthouse-*.json
+coverage
+.jest-cache
+.eslintcache
+.cursor
+openspec

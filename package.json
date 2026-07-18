@@ -10,7 +10,7 @@
     "start": "next start",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "eslint . --max-warnings=0",
+    "lint": "eslint . --max-warnings=0 --cache --cache-location .eslintcache",
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc --noEmit",
     "security:audit": "npm audit --audit-level=low",
@@ -18,7 +18,7 @@
     "test:coverage": "NODE_ENV=test jest --coverage --passWithNoTests --maxWorkers=75%",
     "test:ci": "NODE_ENV=test SILENT_TEST_CONSOLE=1 jest --ci --silent --coverage --passWithNoTests --maxWorkers=75% --workerIdleMemoryLimit=512MB",
     "coverage:changed": "node scripts/check-changed-coverage.mjs",
-    "verify:quality": "npm run security:audit && npm run format:check && npm run lint && npm run typecheck && npm run test:ci && npm run coverage:changed",
+    "verify:quality": "node scripts/verify-quality.mjs",
     "vercel:build": "git fetch --depth=50 origin main 2>/dev/null || true; npm run verify:quality && next build",
     "verify:deploy": "npm run vercel:build",
     "deploy": "npm run vercel:build"
@@ -30,7 +30,6 @@
     "@aws-sdk/client-dynamodb": "^3.1088.0",
     "@aws-sdk/lib-dynamodb": "^3.1088.0",
     "@aws-sdk/util-dynamodb": "^3.996.7",
-    "@netlify/plugin-nextjs": "^5.15.12",
     "@next/third-parties": "^16.2.10",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
@@ -45,7 +44,6 @@
     "react-dom": "^19.2.7",
     "react-facebook-pixel": "^1.0.4",
     "react-hook-form": "^7.81.0",
-    "react-icons": "^5.7.0",
     "stripe": "^22.3.1",
     "uuid": "^14.0.1",
     "xss": "^1.0.15"
