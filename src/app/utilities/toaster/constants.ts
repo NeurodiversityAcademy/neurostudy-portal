@@ -8,14 +8,9 @@ export interface ToastItemProps {
   duration: number;
 }
 
-export type ToastOptions = Partial<
-  Omit<ToastItemProps, 'id' | 'type' | 'hide'>
->;
+export type ToastOptions = Partial<Omit<ToastItemProps, 'id' | 'type' | 'hide'>>;
 
-export type ToastFunction = (
-  message: ToastItemProps['message'],
-  options?: ToastOptions
-) => void;
+export type ToastFunction = (message: ToastItemProps['message'], options?: ToastOptions) => void;
 
 export interface ToastType {
   error: ToastFunction;
@@ -24,19 +19,19 @@ export interface ToastType {
 }
 
 export enum ToastContainerItemClass {
-  'error' = 'errorBody',
-  'success' = 'successBody',
-  'info' = '',
+  error = 'errorBody',
+  success = 'successBody',
+  info = '',
 }
 
 export enum ToastIconClass {
-  'error' = 'errorIcon',
-  'success' = 'successIcon',
-  'info' = '',
+  error = 'errorIcon',
+  success = 'successIcon',
+  info = '',
 }
 
 export enum ToastDefaultDuration {
-  'error' = 5000,
-  'info' = 4000,
-  'success' = 2000,
+  error = 5000,
+  info = 4000,
+  success = 2000,
 }

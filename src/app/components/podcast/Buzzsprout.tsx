@@ -1,5 +1,6 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './podcast.module.css';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import PodcastUnavailableMessage from './PodcastUnavailableMessage';
@@ -29,10 +30,7 @@ function isPlayerRendered(containerId: string): boolean {
     return true;
   }
 
-  return (
-    container.childElementCount > 0 &&
-    container.offsetHeight >= MIN_PLAYER_HEIGHT_PX
-  );
+  return container.childElementCount > 0 && container.offsetHeight >= MIN_PLAYER_HEIGHT_PX;
 }
 
 const BuzzsproutEmbed: React.FC<BuzzsproutEmbedProps> = ({
@@ -42,9 +40,37 @@ const BuzzsproutEmbed: React.FC<BuzzsproutEmbedProps> = ({
   embedAvailable = true,
 }) => {
   const [showFallback, setShowFallback] = useState(!embedAvailable);
+  const [shouldLoadPlayer, setShouldLoadPlayer] = useState(
+    () => typeof window !== 'undefined' && typeof window.IntersectionObserver !== 'function',
+  );
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!embedAvailable) {
+    if (!embedAvailable || shouldLoadPlayer) {
+      return;
+    }
+
+    const target = sectionRef.current;
+    if (target === null || typeof window.IntersectionObserver !== 'function') {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setShouldLoadPlayer(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '200px 0px' },
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [embedAvailable, shouldLoadPlayer]);
+
+  useEffect(() => {
+    if (!embedAvailable || !shouldLoadPlayer) {
       return;
     }
 
@@ -76,14 +102,14 @@ const BuzzsproutEmbed: React.FC<BuzzsproutEmbedProps> = ({
       script.remove();
       container.innerHTML = '';
     };
-  }, [scriptSrc, containerId, embedAvailable]);
+  }, [scriptSrc, containerId, embedAvailable, shouldLoadPlayer]);
 
   if (showFallback) {
     return <PodcastUnavailableMessage singleBlog={singleBlog} />;
   }
 
   return (
-    <div className={styles.podcastContainer}>
+    <div className={styles.podcastContainer} ref={sectionRef}>
       <div className={styles.podcastHeader}>
         <Typography variant={TypographyVariant.H2}>
           {singleBlog ? 'Listen to our Podcast' : 'Explore more of our Podcast'}

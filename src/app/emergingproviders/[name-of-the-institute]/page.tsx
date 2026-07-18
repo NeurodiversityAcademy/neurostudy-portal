@@ -19,15 +19,11 @@ type RouteParams = {
   'name-of-the-institute': string;
 };
 
-export default async function EmergingProviderPage({
-  params,
-}: {
-  params: Promise<RouteParams>;
-}) {
+export default async function EmergingProviderPage({ params }: { params: Promise<RouteParams> }) {
   const resolvedParams = await params;
   const institutions = cardData as InstitutionCard[];
   const institution = institutions.find(
-    (item) => slugify(item.name) === resolvedParams['name-of-the-institute']
+    (item) => slugify(item.name) === resolvedParams['name-of-the-institute'],
   );
 
   if (!institution) {
@@ -44,10 +40,7 @@ export default async function EmergingProviderPage({
 
   return (
     <main className={pageStyles.pageMain}>
-      <EmergingProviderHero
-        title={institution.name}
-        heroInfoItems={heroInfoItems}
-      />
+      <EmergingProviderHero title={institution.name} heroInfoItems={heroInfoItems} />
       <EmergingProviderStudentSuitability instituteSlug={institutionSlug} />
       <EmergingProviderStats stats={providerStats} />
       <EmergingProvidersFAQs />

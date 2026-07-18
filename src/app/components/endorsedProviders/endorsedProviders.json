@@ -4,34 +4,34 @@
     "live": true,
     "ndaCertified": true,
     "logo": "/images/AcademiaLogoLong.png",
-    "topBackgroundImage": "/images/NepeanCover.jpeg",
+    "topBackgroundImage": "/images/NepeanCover.webp",
     "institutionCoursesUrl": "https://ncc.nsw.edu.au/our-courses/"
   },
   {
     "id": "HSH",
     "live": true,
     "logo": "/images/AcademiaLogoLong.png",
-    "topBackgroundImage": "/images/HSHCover.png",
+    "topBackgroundImage": "/images/HSHCover.webp",
     "institutionCoursesUrl": "https://www.hsh.edu.au"
   },
   {
     "id": "academia",
     "logo": "/images/AcademiaLogoLong.png",
-    "topBackgroundImage": "/images/AcademiaCover.jpeg",
+    "topBackgroundImage": "/images/AcademiaCover.webp",
     "institutionCoursesUrl": "https://www.studyacademia.edu.au"
   },
   {
     "id": "Blueprint Career Development",
     "live": true,
     "logo": "/images/AcademiaLogoLong.png",
-    "topBackgroundImage": "/images/BlueprintCover.png",
+    "topBackgroundImage": "/images/BlueprintCover.webp",
     "institutionCoursesUrl": "https://www.blueprintcd.com.au/"
   },
   {
     "id": "Collarts",
     "live": true,
     "logo": "/images/AcademiaLogoLong.png",
-    "topBackgroundImage": "/images/CollartsCover.png",
+    "topBackgroundImage": "/images/CollartsCover.webp",
     "institutionCoursesUrl": "https://www.collarts.edu.au/courses"
   }
 ]

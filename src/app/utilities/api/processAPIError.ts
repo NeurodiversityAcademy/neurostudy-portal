@@ -5,10 +5,7 @@ import {
   DEFAULT_SERVER_ERROR_RES,
 } from './constants';
 
-export default function processAPIError(
-  error: Error | null,
-  status?: number
-): Response {
+export default function processAPIError(error: Error | null, status?: number): Response {
   if (!status) {
     status = (error instanceof APIError && error.status) || 500;
   }

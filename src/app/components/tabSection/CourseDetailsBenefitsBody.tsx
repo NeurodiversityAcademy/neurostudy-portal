@@ -16,9 +16,7 @@ export interface CourseDetailsBenefitsBodyProps {
   source: CourseBenefitsContentSource;
 }
 
-export default function CourseDetailsBenefitsBody({
-  source,
-}: CourseDetailsBenefitsBodyProps) {
+export default function CourseDetailsBenefitsBody({ source }: CourseDetailsBenefitsBodyProps) {
   const { data } = useCourseDetailsContext();
   const courseData = data as CourseDetailsProps | undefined;
 
@@ -34,10 +32,7 @@ export default function CourseDetailsBenefitsBody({
             const label = prettifyLabel(item);
             return (
               <li key={index} className={styles.supportAvailableListItem}>
-                <CheckIcon
-                  className={styles.adjustmentIcon}
-                  aria-hidden='true'
-                />
+                <CheckIcon className={styles.adjustmentIcon} aria-hidden='true' />
                 <p>{label}</p>
               </li>
             );
@@ -49,36 +44,28 @@ export default function CourseDetailsBenefitsBody({
       return (
         <div className={styles.adjustmentAccordionContainer}>
           {courseData.AdjustmentsAvailable &&
-            Object.entries(courseData.AdjustmentsAvailable).map(
-              ([category, items]) => (
-                <div className={styles.supportContainer} key={category}>
-                  <Accordion
-                    title={prettifyLabel(category)}
-                    accordionToggleLabel={ACCORDION_TRACKING_DISABLED}
-                  >
-                    <div className={styles.adjustmentCategory}>
-                      <ul className={styles.adjustmentAvailableList}>
-                        {items.map((item: string, index: number) => {
-                          const label = prettifyLabel(item);
-                          return (
-                            <li
-                              key={index}
-                              className={styles.adjustmentAvailableListItem}
-                            >
-                              <CheckIcon
-                                className={styles.adjustmentIcon}
-                                aria-hidden='true'
-                              />
-                              <div>{label}</div>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  </Accordion>
-                </div>
-              )
-            )}
+            Object.entries(courseData.AdjustmentsAvailable).map(([category, items]) => (
+              <div className={styles.supportContainer} key={category}>
+                <Accordion
+                  title={prettifyLabel(category)}
+                  accordionToggleLabel={ACCORDION_TRACKING_DISABLED}
+                >
+                  <div className={styles.adjustmentCategory}>
+                    <ul className={styles.adjustmentAvailableList}>
+                      {items.map((item: string, index: number) => {
+                        const label = prettifyLabel(item);
+                        return (
+                          <li key={index} className={styles.adjustmentAvailableListItem}>
+                            <CheckIcon className={styles.adjustmentIcon} aria-hidden='true' />
+                            <div>{label}</div>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </Accordion>
+              </div>
+            ))}
         </div>
       );
 
@@ -94,29 +81,23 @@ export default function CourseDetailsBenefitsBody({
               >
                 <div className={styles.jobCard}>
                   <ul className={styles.adjustmentAvailableList}>
-                    {Object.entries(jobData.requirements).flatMap(
-                      ([level, reqs]) =>
-                        Object.entries(reqs).map(([req, levelValue]) => {
-                          const levelLabel = String(levelValue);
-                          const levelClass =
-                            styles[`level${levelLabel}` as keyof typeof styles];
-                          return (
-                            <li
-                              key={`${level}-${req}`}
-                              className={styles.adjustmentAvailableListItem}
-                            >
-                              <CheckIcon
-                                className={styles.adjustmentIcon}
-                                aria-hidden='true'
-                              />
-                              <div>
-                                {prettifyLabel(req)} —{' '}
-                                <span className={levelClass}>{levelLabel}</span>{' '}
-                                ({level})
-                              </div>
-                            </li>
-                          );
-                        })
+                    {Object.entries(jobData.requirements).flatMap(([level, reqs]) =>
+                      Object.entries(reqs).map(([req, levelValue]) => {
+                        const levelLabel = String(levelValue);
+                        const levelClass = styles[`level${levelLabel}` as keyof typeof styles];
+                        return (
+                          <li
+                            key={`${level}-${req}`}
+                            className={styles.adjustmentAvailableListItem}
+                          >
+                            <CheckIcon className={styles.adjustmentIcon} aria-hidden='true' />
+                            <div>
+                              {prettifyLabel(req)} —{' '}
+                              <span className={levelClass}>{levelLabel}</span> ({level})
+                            </div>
+                          </li>
+                        );
+                      }),
                     )}
                   </ul>
                 </div>

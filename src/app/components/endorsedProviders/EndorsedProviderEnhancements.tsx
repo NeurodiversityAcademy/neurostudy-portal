@@ -12,12 +12,8 @@ interface EndorsedProviderEnhancementsProps {
 }
 
 function partitionSupportItems(section: SupportFrameworkSection) {
-  const supportsInPlace = section.items.filter(
-    (item) => item.status === 'Supports in place'
-  );
-  const inTheWorks = section.items.filter(
-    (item) => item.status === 'In the works'
-  );
+  const supportsInPlace = section.items.filter((item) => item.status === 'Supports in place');
+  const inTheWorks = section.items.filter((item) => item.status === 'In the works');
   return { supportsInPlace, inTheWorks };
 }
 
@@ -31,25 +27,18 @@ export default function EndorsedProviderEnhancements({
       ...partitionSupportItems(frameworkSection),
     }))
     .filter(
-      ({ supportsInPlace, inTheWorks }) =>
-        supportsInPlace.length > 0 || inTheWorks.length > 0
+      ({ supportsInPlace, inTheWorks }) => supportsInPlace.length > 0 || inTheWorks.length > 0,
     );
 
   if (rows.length === 0) {
     return null;
   }
 
-  const showSupportsColumn = rows.some(
-    ({ supportsInPlace }) => supportsInPlace.length > 0
-  );
-  const showInWorksColumn = rows.some(
-    ({ inTheWorks }) => inTheWorks.length > 0
-  );
+  const showSupportsColumn = rows.some(({ supportsInPlace }) => supportsInPlace.length > 0);
+  const showInWorksColumn = rows.some(({ inTheWorks }) => inTheWorks.length > 0);
   const useThreeColumns = showSupportsColumn && showInWorksColumn;
 
-  const gridColsClass = useThreeColumns
-    ? styles.frameworkGridCols3
-    : styles.frameworkGridCols2;
+  const gridColsClass = useThreeColumns ? styles.frameworkGridCols3 : styles.frameworkGridCols2;
 
   return (
     <section className={styles.section} aria-labelledby='endorsed-more-heading'>
@@ -87,113 +76,97 @@ export default function EndorsedProviderEnhancements({
             </Typography>
           ) : null}
         </div>
-        {rows.map(
-          ({ frameworkSection, supportsInPlace, inTheWorks }, index) => {
-            const sectionIcon = getSupportFrameworkSectionIcon(
-              frameworkSection.section
-            );
-            const showSupportsCell = supportsInPlace.length > 0;
-            const showInWorksCell = inTheWorks.length > 0;
-            const supportsCellFirst = showSupportsCell;
-            const inWorksCellFirst = !showSupportsCell && showInWorksCell;
+        {rows.map(({ frameworkSection, supportsInPlace, inTheWorks }, index) => {
+          const sectionIcon = getSupportFrameworkSectionIcon(frameworkSection.section);
+          const showSupportsCell = supportsInPlace.length > 0;
+          const showInWorksCell = inTheWorks.length > 0;
+          const supportsCellFirst = showSupportsCell;
+          const inWorksCellFirst = !showSupportsCell && showInWorksCell;
 
-            return (
-              <div
-                key={frameworkSection.section}
-                className={`${styles.frameworkRow} ${gridColsClass} ${
-                  index % 2 === 1 ? styles.frameworkRowAlt : ''
-                }`}
-              >
-                <div className={styles.frameworkAreaCell}>
-                  {sectionIcon ? (
-                    <div className={styles.frameworkAreaIconWrap}>
-                      <Image
-                        src={sectionIcon}
-                        alt=''
-                        fill
-                        className={styles.frameworkAreaIconImage}
-                        sizes='(max-width: 767px) 80px, 72px'
-                        unoptimized
-                      />
-                    </div>
-                  ) : null}
-                  <Typography
-                    variant={TypographyVariant.Body2Strong}
-                    color={TypographyColorToken.BondBlack}
-                    className={styles.frameworkAreaTitle}
-                  >
-                    {frameworkSection.section}
-                  </Typography>
-                </div>
-                {showSupportsColumn ? (
-                  showSupportsCell ? (
-                    <div
-                      className={`${styles.frameworkItemsCell} ${
-                        supportsCellFirst ? styles.frameworkItemsCellFirst : ''
-                      }`}
-                    >
-                      <Typography
-                        variant={TypographyVariant.Body2Strong}
-                        color={TypographyColorToken.BondBlack}
-                        className={styles.frameworkColumnHeadingMobile}
-                      >
-                        Supports in place
-                      </Typography>
-                      <ul className={styles.frameworkList}>
-                        {supportsInPlace.map((item) => (
-                          <li
-                            key={item.label}
-                            className={styles.frameworkListItem}
-                          >
-                            {item.label}
-                            {ndaCertified &&
-                            item.label === 'NDA-approved training' ? (
-                              <span className={styles.ndaCertifiedMark}>
-                                ★ NDA Certified
-                              </span>
-                            ) : null}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ) : useThreeColumns ? (
-                    <div
-                      className={styles.frameworkItemsCellPlaceholder}
-                      aria-hidden='true'
+          return (
+            <div
+              key={frameworkSection.section}
+              className={`${styles.frameworkRow} ${gridColsClass} ${
+                index % 2 === 1 ? styles.frameworkRowAlt : ''
+              }`}
+            >
+              <div className={styles.frameworkAreaCell}>
+                {sectionIcon ? (
+                  <div className={styles.frameworkAreaIconWrap}>
+                    <Image
+                      src={sectionIcon}
+                      alt=''
+                      fill
+                      className={styles.frameworkAreaIconImage}
+                      sizes='(max-width: 767px) 80px, 72px'
+                      unoptimized
                     />
-                  ) : null
+                  </div>
                 ) : null}
-                {showInWorksColumn ? (
-                  showInWorksCell ? (
-                    <div
-                      className={`${styles.frameworkItemsCell} ${
-                        inWorksCellFirst ? styles.frameworkItemsCellFirst : ''
-                      }`}
-                    >
-                      <Typography
-                        variant={TypographyVariant.Body2Strong}
-                        color={TypographyColorToken.BondBlack}
-                        className={styles.frameworkColumnHeadingMobile}
-                      >
-                        In the works
-                      </Typography>
-                      <ul className={styles.frameworkList}>
-                        {inTheWorks.map((item) => (
-                          <li key={item.label}>{item.label}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  ) : useThreeColumns ? (
-                    <div
-                      className={styles.frameworkItemsCellPlaceholder}
-                      aria-hidden='true'
-                    />
-                  ) : null
-                ) : null}
+                <Typography
+                  variant={TypographyVariant.Body2Strong}
+                  color={TypographyColorToken.BondBlack}
+                  className={styles.frameworkAreaTitle}
+                >
+                  {frameworkSection.section}
+                </Typography>
               </div>
-            );
-          }
-        )}
+              {showSupportsColumn ? (
+                showSupportsCell ? (
+                  <div
+                    className={`${styles.frameworkItemsCell} ${
+                      supportsCellFirst ? styles.frameworkItemsCellFirst : ''
+                    }`}
+                  >
+                    <Typography
+                      variant={TypographyVariant.Body2Strong}
+                      color={TypographyColorToken.BondBlack}
+                      className={styles.frameworkColumnHeadingMobile}
+                    >
+                      Supports in place
+                    </Typography>
+                    <ul className={styles.frameworkList}>
+                      {supportsInPlace.map((item) => (
+                        <li key={item.label} className={styles.frameworkListItem}>
+                          {item.label}
+                          {ndaCertified && item.label === 'NDA-approved training' ? (
+                            <span className={styles.ndaCertifiedMark}>★ NDA Certified</span>
+                          ) : null}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : useThreeColumns ? (
+                  <div className={styles.frameworkItemsCellPlaceholder} aria-hidden='true' />
+                ) : null
+              ) : null}
+              {showInWorksColumn ? (
+                showInWorksCell ? (
+                  <div
+                    className={`${styles.frameworkItemsCell} ${
+                      inWorksCellFirst ? styles.frameworkItemsCellFirst : ''
+                    }`}
+                  >
+                    <Typography
+                      variant={TypographyVariant.Body2Strong}
+                      color={TypographyColorToken.BondBlack}
+                      className={styles.frameworkColumnHeadingMobile}
+                    >
+                      In the works
+                    </Typography>
+                    <ul className={styles.frameworkList}>
+                      {inTheWorks.map((item) => (
+                        <li key={item.label}>{item.label}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : useThreeColumns ? (
+                  <div className={styles.frameworkItemsCellPlaceholder} aria-hidden='true' />
+                ) : null
+              ) : null}
+            </div>
+          );
+        })}
       </article>
 
       {/* Staff nominations section intentionally hidden for now; data is retained. */}

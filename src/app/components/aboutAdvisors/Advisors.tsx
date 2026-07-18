@@ -112,7 +112,7 @@ export default function Advisors() {
       acc[advisor.type].push(advisor);
       return acc;
     },
-    {} as Record<string, typeof advisors>
+    {} as Record<string, typeof advisors>,
   );
 
   return (
@@ -136,10 +136,7 @@ export default function Advisors() {
                 />
                 <div className={styles.cardBody}>
                   <div>
-                    <Typography
-                      variant={TypographyVariant.Body1}
-                      color='var(--GhostWhite)'
-                    >
+                    <Typography variant={TypographyVariant.Body1} color='var(--GhostWhite)'>
                       {advisor.name}
                     </Typography>
                   </div>

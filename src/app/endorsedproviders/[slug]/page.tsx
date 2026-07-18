@@ -55,16 +55,10 @@ interface PageProps {
   searchParams: Promise<SearchParams>;
 }
 
-export async function generateMetadata({
-  params,
-  searchParams,
-}: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
   const resolvedParams = await params;
   const resolvedSearchParams = (await searchParams) ?? EMPTY_SEARCH_PARAMS;
-  const demoAccess = resolveDetailDemoAccess(
-    resolvedParams.slug,
-    resolvedSearchParams
-  );
+  const demoAccess = resolveDetailDemoAccess(resolvedParams.slug, resolvedSearchParams);
   if (demoAccess === null) {
     return { title: 'Not found' };
   }
@@ -96,16 +90,10 @@ export async function generateMetadata({
   };
 }
 
-export default async function EndorsedProviderDetailPage({
-  params,
-  searchParams,
-}: PageProps) {
+export default async function EndorsedProviderDetailPage({ params, searchParams }: PageProps) {
   const resolvedParams = await params;
   const resolvedSearchParams = (await searchParams) ?? EMPTY_SEARCH_PARAMS;
-  const demoAccess = resolveDetailDemoAccess(
-    resolvedParams.slug,
-    resolvedSearchParams
-  );
+  const demoAccess = resolveDetailDemoAccess(resolvedParams.slug, resolvedSearchParams);
   if (demoAccess === null) {
     notFound();
   }
@@ -114,11 +102,7 @@ export default async function EndorsedProviderDetailPage({
   const displayName = getEndorsedDisplayNameForSlug(internalSlug);
   const heroInfoItems = HERO_DETAILS_BY_SLUG[internalSlug];
 
-  if (
-    !displayName ||
-    !heroInfoItems ||
-    !hasEndorsedDeliverySignals(internalSlug)
-  ) {
+  if (!displayName || !heroInfoItems || !hasEndorsedDeliverySignals(internalSlug)) {
     notFound();
   }
 
@@ -129,25 +113,15 @@ export default async function EndorsedProviderDetailPage({
   const faqSections = getEndorsedFaqSectionsForSlug(internalSlug);
   const studyAreas = getStudyAreasForSlug(internalSlug);
   const supportFramework = getSupportFrameworkForSlug(internalSlug);
-  const institutionIconSrc =
-    getEndorsedMetaStripInstitutionIconSrc(internalSlug);
+  const institutionIconSrc = getEndorsedMetaStripInstitutionIconSrc(internalSlug);
   const coverImageSrc = getEndorsedTopBackgroundImageForSlug(internalSlug);
   const coursesUrl = getEndorsedInstitutionCoursesUrl(internalSlug);
   const endorsementId = getEndorsedEndorsementIdForSlug(internalSlug);
   const ndaCertified = isNdaCertifiedEndorsedSlug(internalSlug);
 
-  const locationValue = findHeroInfoValueByLabel(
-    heroInfoItems,
-    HERO_INFO_LABEL_LOCATION
-  );
-  const studyModeValue = findHeroInfoValueByLabel(
-    heroInfoItems,
-    HERO_INFO_LABEL_STUDY_MODE
-  );
-  const typeValue = findHeroInfoValueByLabel(
-    heroInfoItems,
-    HERO_INFO_LABEL_TYPE
-  );
+  const locationValue = findHeroInfoValueByLabel(heroInfoItems, HERO_INFO_LABEL_LOCATION);
+  const studyModeValue = findHeroInfoValueByLabel(heroInfoItems, HERO_INFO_LABEL_STUDY_MODE);
+  const typeValue = findHeroInfoValueByLabel(heroInfoItems, HERO_INFO_LABEL_TYPE);
 
   return (
     <PageEngagementTracker providerSlug={internalSlug}>
@@ -164,22 +138,15 @@ export default async function EndorsedProviderDetailPage({
         />
         <div className={pageStyles.endorsedPageColumn}>
           <div className={pageStyles.endorsedPageColumnInner}>
-            <section
-              {...{ [DATA_SECTION_ATTRIBUTE]: ENDORSED_PAGE_SECTION.INTRO }}
-            >
+            <section {...{ [DATA_SECTION_ATTRIBUTE]: ENDORSED_PAGE_SECTION.INTRO }}>
               {intro ? (
-                <EndorsedProviderIntroSection
-                  heading={intro.heading}
-                  body={intro.body}
-                />
+                <EndorsedProviderIntroSection heading={intro.heading} body={intro.body} />
               ) : null}
             </section>
             {endorsementId ? (
               <section className={pageStyles.endorsementIdSection}>
                 <p className={pageStyles.endorsementIdText}>
-                  <span className={pageStyles.endorsementIdLabel}>
-                    Endorsement ID:
-                  </span>{' '}
+                  <span className={pageStyles.endorsementIdLabel}>Endorsement ID:</span>{' '}
                   {endorsementId}
                 </p>
               </section>
@@ -193,17 +160,13 @@ export default async function EndorsedProviderDetailPage({
             </section>
             <section
               {...{
-                [DATA_SECTION_ATTRIBUTE]:
-                  resolveStatsSectionId(institutionType),
+                [DATA_SECTION_ATTRIBUTE]: resolveStatsSectionId(institutionType),
               }}
             >
               {institutionType === ENDORSED_INSTITUTION_TYPE.VET ? (
                 <EndorsedVetKeyDataPoints dataPoints={vetKeyDataPoints} />
               ) : (
-                <InstitutionStats
-                  stats={providerStats}
-                  isAlignedWithPageColumn
-                />
+                <InstitutionStats stats={providerStats} isAlignedWithPageColumn />
               )}
             </section>
             <section
@@ -216,9 +179,7 @@ export default async function EndorsedProviderDetailPage({
                 ndaCertified={ndaCertified}
               />
             </section>
-            <section
-              {...{ [DATA_SECTION_ATTRIBUTE]: ENDORSED_PAGE_SECTION.FAQS }}
-            >
+            <section {...{ [DATA_SECTION_ATTRIBUTE]: ENDORSED_PAGE_SECTION.FAQS }}>
               <EndorsedProvidersFAQs sections={faqSections} />
             </section>
           </div>

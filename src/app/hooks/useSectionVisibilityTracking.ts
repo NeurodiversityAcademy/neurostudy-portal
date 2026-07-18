@@ -1,10 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import {
-  DATA_SECTION_ATTRIBUTE,
-  SECTION_INTERSECTION_THRESHOLD,
-} from '@/app/utilities/gaTracking';
+import { DATA_SECTION_ATTRIBUTE, SECTION_INTERSECTION_THRESHOLD } from '@/app/utilities/gaTracking';
 
 type SectionVisibilityReporter = (section: string) => void;
 
@@ -19,7 +16,7 @@ function readSectionId(element: Element): string | null {
 function handleIntersectionEntries(
   entries: IntersectionObserverEntry[],
   seenSections: Set<string>,
-  reportSectionVisible: SectionVisibilityReporter
+  reportSectionVisible: SectionVisibilityReporter,
 ): void {
   for (const entry of entries) {
     if (!entry.isIntersecting) {
@@ -35,19 +32,14 @@ function handleIntersectionEntries(
 }
 
 export function useSectionVisibilityTracking(
-  reportSectionVisible: SectionVisibilityReporter
+  reportSectionVisible: SectionVisibilityReporter,
 ): void {
   const seenSections = useRef(new Set<string>());
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) =>
-        handleIntersectionEntries(
-          entries,
-          seenSections.current,
-          reportSectionVisible
-        ),
-      { threshold: SECTION_INTERSECTION_THRESHOLD }
+      (entries) => handleIntersectionEntries(entries, seenSections.current, reportSectionVisible),
+      { threshold: SECTION_INTERSECTION_THRESHOLD },
     );
 
     const sections = document.querySelectorAll(`[${DATA_SECTION_ATTRIBUTE}]`);

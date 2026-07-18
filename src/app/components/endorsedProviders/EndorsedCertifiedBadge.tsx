@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import classNames from 'classnames';
-import badgeGeneric from '@/app/images/badgeGeneric.png';
+import badgeGeneric from '@/app/images/badgeGeneric.webp';
 import { ENDORSED_PROVIDERS_BADGE_ALT } from '@/app/utilities/endorsedProvidersDemo';
 import styles from './endorsedCertifiedBadge.module.css';
 

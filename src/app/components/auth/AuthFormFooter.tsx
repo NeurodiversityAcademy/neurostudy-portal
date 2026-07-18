@@ -2,9 +2,7 @@ import Link from 'next/link';
 import styles from './auth.module.css';
 import ActionButton from '@/app/components/buttons/ActionButton';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
-import Typography, {
-  TypographyVariant,
-} from '@/app/components/typography/Typography';
+import Typography, { TypographyVariant } from '@/app/components/typography/Typography';
 import GoogleLogo from '@/app/images/googleLogo.svg';
 import FacebookLogo from '@/app/images/facebookLogo.svg';
 import { notifyError } from '@/app/utilities/common';
@@ -27,7 +25,7 @@ const AuthFormFooter: React.FC<AuthFormFooterProps> = ({
       await signIn(
         'cognito',
         { redirect: false, callbackUrl: getCallbackUrlOnSignIn() },
-        { identity_provider: 'Google' }
+        { identity_provider: 'Google' },
       );
     } catch (ex) {
       notifyError(ex as object);
@@ -59,10 +57,7 @@ const AuthFormFooter: React.FC<AuthFormFooterProps> = ({
           style={BUTTON_STYLE.Secondary}
         />
       </div>
-      <Typography
-        variant={TypographyVariant.Body2}
-        className={styles.callToAction}
-      >
+      <Typography variant={TypographyVariant.Body2} className={styles.callToAction}>
         {text}
         <Link href={to ?? '#'}>{toText}</Link>
       </Typography>

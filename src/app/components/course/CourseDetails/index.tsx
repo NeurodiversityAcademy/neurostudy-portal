@@ -12,9 +12,7 @@ interface CourseDetailsProps {
 }
 
 const CourseDetails: React.FC<CourseDetailsProps> = ({ id }) => {
-  const [courseDetails, setCourseDetails] = useState<
-    CourseDetailsType | undefined
-  >(undefined);
+  const [courseDetails, setCourseDetails] = useState<CourseDetailsType | undefined>(undefined);
   const [loading, setLoading] = useState(true);
 
   // Fetch full course details

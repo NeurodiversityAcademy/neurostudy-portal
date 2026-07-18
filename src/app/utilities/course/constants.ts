@@ -1,8 +1,4 @@
-import {
-  FilterCourseProps,
-  CourseProps,
-  CourseSortConfig,
-} from '@/app/interfaces/Course';
+import { FilterCourseProps, CourseProps, CourseSortConfig } from '@/app/interfaces/Course';
 import { HOST_URL } from '../constants';
 
 export const MAX_COURSE_RATING = 5;
@@ -189,7 +185,6 @@ export const COURSE_FETCH_REVALIDATE_PERIOD = 60 * 30; // In seconds
 
 export const COURSE_TEST_DATA_QUERY_KEY = 'test';
 
-export const COURSE_CHECKOUT_CALLBACK_URL =
-  HOST_URL + '/api/course/checkoutCallback';
+export const COURSE_CHECKOUT_CALLBACK_URL = HOST_URL + '/api/course/checkoutCallback';
 export const COURSE_ENROL_POPUP_CLOSED_KEY = 'cepck-';
 export const COURSE_ENROL_CACHE_STORAGE = 'sessionStorage';

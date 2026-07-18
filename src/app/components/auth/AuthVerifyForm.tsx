@@ -5,10 +5,7 @@ import { FieldValues, UseFormReturn, useForm } from 'react-hook-form';
 import Form from '../formElements/Form';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import ActionButton from '../buttons/ActionButton';
-import {
-  BUTTON_STYLE,
-  TOAST_UNKNOWN_ERROR_MESSAGE,
-} from '@/app/utilities/constants';
+import { BUTTON_STYLE, TOAST_UNKNOWN_ERROR_MESSAGE } from '@/app/utilities/constants';
 import { notifyError, notifyInProgress } from '@/app/utilities/common';
 import TextBox from '../formElements/TextBox/TextBox';
 import AuthResendOTPBtn from './AuthResendOTPBtn';
@@ -36,8 +33,9 @@ const AuthVerifyForm: React.FC<PropType> = ({
   onSuccess,
   onIncorrectCredentials,
 }: PropType) => {
-  const methods: UseFormReturn<VerificationFieldValues> =
-    useForm<VerificationFieldValues>({ mode: 'onBlur' });
+  const methods: UseFormReturn<VerificationFieldValues> = useForm<VerificationFieldValues>({
+    mode: 'onBlur',
+  });
 
   const onSubmit = async (data: VerificationFieldValues) => {
     const { confirmationCode } = data;
@@ -54,7 +52,7 @@ const AuthVerifyForm: React.FC<PropType> = ({
           redirect: false,
           callbackUrl: getCallbackUrlOnSignIn(),
         },
-        { method: 'confirmSignUp' }
+        { method: 'confirmSignUp' },
       );
 
       if (!res) {
@@ -77,9 +75,10 @@ const AuthVerifyForm: React.FC<PropType> = ({
           } else {
             throw new Error(TOAST_UNKNOWN_ERROR_MESSAGE);
           }
-        } catch (ex) {
-          res.error === INVALID_CREDENTIALS_MESSAGE &&
+        } catch {
+          if (res.error === INVALID_CREDENTIALS_MESSAGE) {
             onIncorrectCredentials?.();
+          }
 
           throw new Error(res.error);
         }
@@ -103,11 +102,7 @@ const AuthVerifyForm: React.FC<PropType> = ({
         placeholder='Verification Code'
       />
       <div className={classNames(styles.verifyFormBtnContainer, 'mt-2 mb-3')}>
-        <ActionButton
-          type='submit'
-          label='Verify'
-          style={BUTTON_STYLE.Primary}
-        />
+        <ActionButton type='submit' label='Verify' style={BUTTON_STYLE.Primary} />
         <AuthResendOTPBtn username={username} />
       </div>
     </Form>

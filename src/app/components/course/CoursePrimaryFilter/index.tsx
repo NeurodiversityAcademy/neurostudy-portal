@@ -3,7 +3,7 @@
 import { FormHTMLAttributes, useEffect } from 'react';
 import styles from './coursePrimaryFilter.module.css';
 import classNames from 'classnames';
-import { useForm, UseFormReturn } from 'react-hook-form';
+import { useForm, useWatch, UseFormReturn } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import Form from '../../formElements/Form';
 import Dropdown from '../../formElements/Dropdown/Dropdown';
@@ -18,22 +18,16 @@ import { updateCourseDropdownFilter } from '@/app/utilities/course/helper';
 
 interface PropType extends FormHTMLAttributes<HTMLFormElement> {}
 
-const DROPDOWN_KEYS: (keyof CoursePrimaryFilterType)[] = [
-  'Neurotypes',
-  'InterestArea',
-  'Location',
-];
+const DROPDOWN_KEYS: (keyof CoursePrimaryFilterType)[] = ['Neurotypes', 'InterestArea', 'Location'];
 
 const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
   const { isLoading, filter, updateFilter } = useCourseContext();
   const router = useRouter();
-  const methods: UseFormReturn<CoursePrimaryFilterType> =
-    useForm<CoursePrimaryFilterType>({
-      mode: 'onBlur',
-      defaultValues: Object.fromEntries(
-        DROPDOWN_KEYS.map((key) => [key, filter[key]])
-      ),
-    });
+  const methods: UseFormReturn<CoursePrimaryFilterType> = useForm<CoursePrimaryFilterType>({
+    mode: 'onBlur',
+    defaultValues: Object.fromEntries(DROPDOWN_KEYS.map((key) => [key, filter[key]])),
+  });
+  const watchedValues = useWatch({ control: methods.control });
 
   useUpdatedValue(filter, () => {
     DROPDOWN_KEYS.forEach((name) => {
@@ -42,21 +36,13 @@ const CoursePrimaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
   });
 
   useEffect(() => {
-    const listener = methods.watch(() => {
-      updateFilter(methods.getValues());
-    });
-
-    return () => listener.unsubscribe();
-  }, [methods, updateFilter]);
+    updateFilter(watchedValues);
+  }, [watchedValues, updateFilter]);
 
   return (
     <Form
       methods={methods}
-      className={classNames(
-        styles.container,
-        className,
-        isLoading && styles.disabled
-      )}
+      className={classNames(styles.container, className, isLoading && styles.disabled)}
       onSubmit={methods.handleSubmit(() => {
         router.push('/courses');
       })}

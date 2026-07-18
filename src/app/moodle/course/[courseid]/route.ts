@@ -6,7 +6,7 @@ import { createMoodleCourseUrl } from '@/app/utilities/moodle/createMoodleCourse
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: Promise<{ courseid: string }> }
+  { params }: { params: Promise<{ courseid: string }> },
 ): Promise<Response> {
   try {
     await consumeRateWithIp(req);
@@ -28,7 +28,7 @@ export async function GET(
       `${HOST_URL}?${getSearchQuery({
         moodle_redirection_status: 'failure',
         error: error && 'message' in error ? error.message : undefined,
-      })}`
+      })}`,
     );
   }
 }

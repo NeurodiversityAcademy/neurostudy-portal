@@ -7,7 +7,7 @@ import CRMCreateResponseInterface from '../../interfaces/CRMCreateResponseInterf
 import { downloadContent } from '../common';
 
 export const registerSubscriptionData = async (
-  userSubscriptionData: UserSubscriptionType | UserSubscriptionHandbookType
+  userSubscriptionData: UserSubscriptionType | UserSubscriptionHandbookType,
 ): Promise<CRMCreateResponseInterface> => {
   const data = JSON.stringify(userSubscriptionData);
 

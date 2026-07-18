@@ -12,15 +12,12 @@ export function useScrollDepth(onThreshold: (percent: number) => void) {
 
   useEffect(() => {
     const handleScroll = () => {
-      const docHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       if (docHeight <= MIN_SCROLLABLE_HEIGHT) {
         return;
       }
 
-      const percent = Math.round(
-        (window.scrollY / docHeight) * SCROLL_PERCENT_SCALE
-      );
+      const percent = Math.round((window.scrollY / docHeight) * SCROLL_PERCENT_SCALE);
 
       for (const threshold of SCROLL_THRESHOLDS) {
         if (percent >= threshold && !fired.current.has(threshold)) {

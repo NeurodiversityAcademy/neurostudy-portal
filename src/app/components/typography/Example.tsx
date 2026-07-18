@@ -11,9 +11,7 @@ const ExampleComponent = () => {
       <br />
       <Typography variant={TypographyVariant.Body1}>Body 1 Text</Typography>
       <br />
-      <Typography variant={TypographyVariant.Body2Strong}>
-        Body 2 Strong Text
-      </Typography>
+      <Typography variant={TypographyVariant.Body2Strong}>Body 2 Strong Text</Typography>
       <br />
       <Typography variant={TypographyVariant.Body2}>Body 2 Text</Typography>
     </div>

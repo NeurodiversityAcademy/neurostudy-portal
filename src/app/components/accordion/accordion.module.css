@@ -24,7 +24,9 @@
   position: relative;
   background-color: var(--accordion-header-bg);
   color: var(--accordion-header-text-color);
-  transition: background-color 0.2s ease-in-out, margin-bottom 150ms linear,
+  transition:
+    background-color 0.2s ease-in-out,
+    margin-bottom 150ms linear,
     border-color 150ms linear;
   border-bottom: 1px solid var(--grey-100); /* Using global grey variable */
   margin-bottom: 0;
@@ -81,11 +83,11 @@
   font-weight: var(--body2-font-weight);
 }
 
-/* This will override the font size of Typography components used inside the accordion -- SEE Accordion.tsx*/ 
+/* This will override the font size of Typography components used inside the accordion -- SEE Accordion.tsx*/
 .contentPadding > * {
   font-size: inherit;
-  font-weight: inherit; 
-  line-height: inherit ;
+  font-weight: inherit;
+  line-height: inherit;
 }
 
 .collapsed > .header {

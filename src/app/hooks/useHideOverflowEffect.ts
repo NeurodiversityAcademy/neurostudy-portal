@@ -1,17 +1,14 @@
 import { useCallback } from 'react';
 
+export const HIDE_OVERFLOW_CLASS = 'nda-hide-overflow';
+
 const useHideOverflowEffect = (elem?: HTMLElement) => {
   return useCallback(() => {
-    const { style } = elem || document.body;
-    const oldOverflow = style.overflow;
-    style.overflow = 'hidden';
+    const target = elem ?? document.body;
+    target.classList.add(HIDE_OVERFLOW_CLASS);
 
     return () => {
-      if (oldOverflow) {
-        style.overflow = oldOverflow;
-      } else {
-        style.removeProperty('overflow');
-      }
+      target.classList.remove(HIDE_OVERFLOW_CLASS);
     };
   }, [elem]);
 };

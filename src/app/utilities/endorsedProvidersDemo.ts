@@ -14,8 +14,7 @@ export const ENDORSED_PROVIDERS_HEADING = 'NDA Endorsed Providers' as const;
 export const ENDORSED_PROVIDERS_SUBTITLE =
   'Endorsed Providers meet Neurodiversity Academy standards for neuro-inclusive education and practice.' as const;
 
-export const ENDORSED_PROVIDERS_BADGE_ALT =
-  'Endorsed Learning Organisation' as const;
+export const ENDORSED_PROVIDERS_BADGE_ALT = 'Endorsed Learning Organisation' as const;
 
 export const NDA_CERTIFIED_LEGEND =
   'NDA Certified — completed Neurodiversity Academy accredited training' as const;
@@ -31,7 +30,7 @@ export const ENDORSED_PROVIDERS_GA = {
 export function resolveEndorsedProviderLogoSrc(
   providerSlug: string,
   fallbackLogo: string,
-  logoBySlug: Record<string, StaticImageData>
+  logoBySlug: Record<string, StaticImageData>,
 ): string | StaticImageData {
   if (!Object.prototype.hasOwnProperty.call(logoBySlug, providerSlug)) {
     return fallbackLogo;
@@ -39,10 +38,7 @@ export function resolveEndorsedProviderLogoSrc(
   return logoBySlug[providerSlug];
 }
 
-export function buildEndorsedProviderDetailHref(
-  providerSlug: string,
-  demoGuid: string
-): string {
+export function buildEndorsedProviderDetailHref(providerSlug: string, demoGuid: string): string {
   if (isLiveEndorsedSlug(providerSlug)) {
     return buildEndorsedLiveDetailHref(providerSlug);
   }

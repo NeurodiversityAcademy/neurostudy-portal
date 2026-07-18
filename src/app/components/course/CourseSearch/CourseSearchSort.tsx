@@ -41,12 +41,7 @@ const CourseSearchSort: React.FC = () => {
   });
 
   return (
-    <Form
-      methods={methods}
-      className={styles.sortForm}
-      aria-label='Sort courses'
-      role='search'
-    >
+    <Form methods={methods} className={styles.sortForm} aria-label='Sort courses' role='search'>
       <Dropdown<SortFieldValues>
         name='sort'
         className={styles.sortByDropdown}

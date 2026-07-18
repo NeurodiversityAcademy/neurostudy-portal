@@ -80,9 +80,8 @@
 
 .favouriteIcon {
   border: 0;
-  margin: calc(-4px - var(--course-y-gap)) var(--course-y-gap) -4px calc(var(
-          --course-y-gap
-        ) - var(--course-x-gap));
+  margin: calc(-4px - var(--course-y-gap)) var(--course-y-gap) -4px
+    calc(var(--course-y-gap) - var(--course-x-gap));
   padding: 4px;
   border-radius: 100%;
   background-color: var(--pure-white);

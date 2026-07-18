@@ -9,7 +9,6 @@ import {
   FocusEvent,
   KeyboardEventHandler,
   useId,
-  useEffect,
   useMemo,
 } from 'react';
 import styles from './dropdown.module.css';
@@ -18,10 +17,7 @@ import { FieldValues } from 'react-hook-form';
 import CheckBoxItem from '../CheckBoxItem/CheckBoxItem';
 import Label from '../Label/Label';
 import { PillFocusEventHandler } from '@/app/interfaces/Pill';
-import {
-  SelectOption,
-  DropdownInputProps,
-} from '@/app/interfaces/FormElements';
+import { SelectOption, DropdownInputProps } from '@/app/interfaces/FormElements';
 import ErrorBox from '../ErrorBox/ErrorBox';
 import Pill from '../Pill/Pill';
 import HelperText from '../HelperText/HelperText';
@@ -64,13 +60,11 @@ const DropdownInput = <TFieldValues extends FieldValues>({
   const error = errors[name];
   const { disabled, onBlur, value } = field;
 
-  const inputRef = useRef<HTMLInputElement | HTMLSpanElement | undefined>(
-    undefined
-  );
+  const inputRef = useRef<HTMLInputElement | HTMLSpanElement | undefined>(undefined);
   const nextFocusElemRef = useRef<HTMLElement | undefined>(undefined);
   const selectedOptions = useMemo(
     () => (value != null ? (Array.isArray(value) ? value : [value]) : []),
-    [value]
+    [value],
   );
   const listId = useId();
   const [expanded, setExpanded] = useState(false);
@@ -102,17 +96,14 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     }
 
     return {
-      getLabel: (val: SelectValue): SelectOption['label'] =>
-        obj[String(val)]?.label || String(val),
+      getLabel: (val: SelectValue): SelectOption['label'] => obj[String(val)]?.label || String(val),
       exists: (val: SelectValue): boolean => String(val) in obj,
     };
   })();
 
   const [_inputValue, setInputValue] = useState('');
   const inputValue =
-    !multiple && selectedOptions.length
-      ? getLabel(selectedOptions[0])
-      : _inputValue;
+    !multiple && selectedOptions.length ? getLabel(selectedOptions[0]) : _inputValue;
 
   const isSelected = (() => {
     const obj: Record<string, true> = {};
@@ -129,10 +120,10 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     }
     const valLowerCase = val.toLowerCase();
     setInputValue('');
-    const option = selectedOptions.find(
-      (option) => String(option).toLowerCase() === valLowerCase
-    );
-    !option && setSelectedOptions([...selectedOptions, val]);
+    const option = selectedOptions.find((option) => String(option).toLowerCase() === valLowerCase);
+    if (!option) {
+      setSelectedOptions([...selectedOptions, val]);
+    }
     inputRef.current?.focus();
   };
 
@@ -141,7 +132,9 @@ const DropdownInput = <TFieldValues extends FieldValues>({
       return;
     }
     setInputValue(e.target.value);
-    !multiple && selectedOptions.length && setSelectedOptions([]);
+    if (!multiple && selectedOptions.length) {
+      setSelectedOptions([]);
+    }
   };
 
   const onInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -183,9 +176,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     nextFocusElemRef.current?.focus();
   }, [selectedOptions]);
 
-  useEffect(() => {
-    disabled && setExpanded(false);
-  }, [disabled]);
+  const isExpanded = !disabled && expanded;
 
   const filteredOptions = searchable
     ? options.filter((option) => {
@@ -205,11 +196,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
   };
 
   const hasCreateItem =
-    !disabled &&
-    creatable &&
-    inputValue.trim() &&
-    !exists(inputValue) &&
-    !isSelected(inputValue);
+    !disabled && creatable && inputValue.trim() && !exists(inputValue) && !isSelected(inputValue);
 
   return (
     <div
@@ -217,13 +204,13 @@ const DropdownInput = <TFieldValues extends FieldValues>({
         styles.container,
         'border-box-parent',
         cols && 'col-md-' + cols,
-        className
+        className,
       )}
       role='combobox'
       aria-controls={listId}
-      aria-expanded={expanded}
+      aria-expanded={isExpanded}
       aria-disabled={disabled}
-      onFocusCapture={() => !expanded && setExpanded(true)}
+      onFocusCapture={() => !disabled && !expanded && setExpanded(true)}
       onBlurCapture={(e: FocusEvent<HTMLDivElement, Element>) => {
         if (!(e.currentTarget as Node)?.contains(e.relatedTarget as Node)) {
           onBlur();
@@ -232,20 +219,13 @@ const DropdownInput = <TFieldValues extends FieldValues>({
       }}
       onKeyDown={onKeyDown}
     >
-      {showLabel && (
-        <Label
-          name={name}
-          color={error && 'red'}
-          label={label}
-          required={required}
-        />
-      )}
+      {showLabel && <Label name={name} color={error && 'red'} label={label} required={required} />}
       <div
         className={classNames(
           styles.inputWrapper,
           error && styles.error,
           // NOTE: Exposing for CSS Selectors
-          'dropdown-input-wrapper'
+          'dropdown-input-wrapper',
         )}
         onBlurCapture={() => {
           nextFocusElemRef.current = undefined;
@@ -253,10 +233,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
         onMouseDown={focusInput}
       >
         <div
-          className={classNames(
-            styles.pillAndInput,
-            selectedOptions.length && styles.hasValue
-          )}
+          className={classNames(styles.pillAndInput, selectedOptions.length && styles.hasValue)}
           onMouseDown={focusInput}
         >
           {multiple &&
@@ -274,11 +251,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
             ))}
           {(!disabled || !selectedOptions.length) &&
             (showInputAsText ? (
-              <span
-                ref={attachInputRef}
-                className={styles.inputAsText}
-                tabIndex={0}
-              >
+              <span ref={attachInputRef} className={styles.inputAsText} tabIndex={0}>
                 {inputValue}
               </span>
             ) : (
@@ -310,7 +283,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
           aria-hidden
           className={styles.expandIcon}
           onMouseDown={(e) => {
-            inputRef.current?.[expanded ? 'blur' : 'focus']();
+            inputRef.current?.[isExpanded ? 'blur' : 'focus']();
             e.preventDefault();
           }}
         />
@@ -322,10 +295,13 @@ const DropdownInput = <TFieldValues extends FieldValues>({
           role='listbox'
           aria-multiselectable={multiple}
           onTransitionEnd={(e) => {
-            e.target === e.currentTarget &&
-              !expanded &&
-              (multiple || !selectedOptions.length) &&
+            if (
+              e.target === e.currentTarget &&
+              !isExpanded &&
+              (multiple || !selectedOptions.length)
+            ) {
               setInputValue('');
+            }
           }}
         >
           {hasCreateItem && (
@@ -352,7 +328,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
                   setSelectedOptions(
                     selected
                       ? [...selectedOptions, value]
-                      : selectedOptions.filter((item) => item !== value)
+                      : selectedOptions.filter((item) => item !== value),
                   );
                 } else {
                   setSelectedOptions(selected ? [value] : []);
@@ -378,19 +354,11 @@ const DropdownInput = <TFieldValues extends FieldValues>({
       </div>
       <HelperText>{helperText}</HelperText>
       {error && (
-        <ErrorBox
-          message={error.message?.toString() || defaultErrorMessage}
-          label={label}
-        />
+        <ErrorBox message={error.message?.toString() || defaultErrorMessage} label={label} />
       )}
       {multiple &&
         selectedOptions.map((option) => (
-          <input
-            key={String(option)}
-            type='hidden'
-            name={name}
-            value={option}
-          />
+          <input key={String(option)} type='hidden' name={name} value={option} />
         ))}
       {!multiple && selectedOptions.length > 0 && (
         <input type='hidden' name={name} value={selectedOptions[0]} />

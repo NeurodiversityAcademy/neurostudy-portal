@@ -4,16 +4,8 @@ import { Controller, FieldValues, useFormContext } from 'react-hook-form';
 import DropdownInput from './DropdownInput';
 import { DropdownProps } from '@/app/interfaces/FormElements';
 
-const Dropdown = <TFieldValues extends FieldValues>(
-  rootProps: DropdownProps<TFieldValues>
-) => {
-  const {
-    name,
-    defaultValue,
-    required = false,
-    disabled,
-    rules: _rules,
-  } = rootProps;
+const Dropdown = <TFieldValues extends FieldValues>(rootProps: DropdownProps<TFieldValues>) => {
+  const { name, defaultValue, required = false, disabled, rules: _rules } = rootProps;
   const methods = useFormContext<TFieldValues>();
   const rules = {
     required: required ? 'Please make a selection' : false,

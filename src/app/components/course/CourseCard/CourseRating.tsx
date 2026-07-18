@@ -39,19 +39,12 @@ const CourseRating: React.FC<PropType> = ({ Rating, Tier }) => {
             <StarPercentage key={index} aria-hidden />
           ))}
         {Rating - floorRating ? (
-          <StarPercentage
-            percentage={(Rating - floorRating) * 100}
-            aria-hidden
-          />
+          <StarPercentage percentage={(Rating - floorRating) * 100} aria-hidden />
         ) : null}
       </div>
       {Tier && (
         <div className={classNames(styles.tier, styles[Tier.toLowerCase()])}>
-          <Image
-            src={logoSmallSrc}
-            alt='Neurodiversity Academy Logo (Small)'
-            width={20}
-          />
+          <Image src={logoSmallSrc} alt='Neurodiversity Academy Logo (Small)' width={20} />
           <span>{Tier}</span>
         </div>
       )}

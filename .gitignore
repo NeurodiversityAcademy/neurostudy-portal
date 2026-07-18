@@ -8,6 +8,9 @@
 
 # testing
 /coverage
+/.jest-cache
+.eslintcache
+.prettiercache
 
 # next.js
 /.next/
@@ -37,3 +40,6 @@ next-env.d.ts
 
 # VS Code
 .vscode/
+
+# Local Lighthouse reports
+lighthouse-*.json

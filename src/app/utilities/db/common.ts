@@ -4,7 +4,7 @@ export const getIndexName = (AttributeName: string) => 'GSI_' + AttributeName;
 
 export const createDefaultGSI = (
   AttributeName: string,
-  props?: Partial<GlobalSecondaryIndex>
+  props?: Partial<GlobalSecondaryIndex>,
 ): GlobalSecondaryIndex => {
   return {
     IndexName: getIndexName(AttributeName),

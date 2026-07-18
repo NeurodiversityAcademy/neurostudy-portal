@@ -227,9 +227,14 @@ const globalSecurityHeaders = [
 ];
 
 module.exports = {
+  experimental: {
+    // Speeds repeat production builds when the Turbopack FS cache is warm.
+    turbopackFileSystemCacheForBuild: true,
+  },
   images: {
     // Next 16 defaults qualities to [75]; keep 100 for existing hero/cover images.
     qualities: [75, 100],
+    formats: ['image/avif', 'image/webp'],
     // S3/Cloudinary assets rarely change; longer TTL cuts image optimizer origin hits in prod.
     minimumCacheTTL: isProdCachingEnabled ? 60 * 60 * 24 : 60,
     remotePatterns: [

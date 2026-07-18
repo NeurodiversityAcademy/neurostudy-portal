@@ -1,11 +1,5 @@
-/* eslint-disable react/no-children-prop */
 'use client';
-import React, {
-  isValidElement,
-  ReactElement,
-  ReactEventHandler,
-  CSSProperties,
-} from 'react';
+import React, { isValidElement, ReactElement, ReactEventHandler, CSSProperties } from 'react';
 import styles from './button.module.css';
 import Image from 'next/image';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
@@ -49,8 +43,7 @@ export default function ActionButton({
     [styles.fullWidth]: fullWidth,
   });
 
-  const iconElem =
-    icon && (isValidElement(icon) ? icon : <Image src={icon} alt='icon' />);
+  const iconElem = icon && (isValidElement(icon) ? icon : <Image src={icon} alt='icon' />);
 
   const children = (
     <>

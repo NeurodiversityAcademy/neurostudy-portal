@@ -4,7 +4,7 @@ import { FormHTMLAttributes, useEffect, useId } from 'react';
 import styles from './courseSecondaryFilter.module.css';
 import classNames from 'classnames';
 import Typography, { TypographyVariant } from '../../typography/Typography';
-import { useForm, UseFormReturn } from 'react-hook-form';
+import { useForm, useWatch, UseFormReturn } from 'react-hook-form';
 import Form from '../../formElements/Form';
 import Dropdown from '../../formElements/Dropdown/Dropdown';
 import { CourseSecondaryFilterType } from '@/app/interfaces/Course';
@@ -15,23 +15,17 @@ import { updateCourseDropdownFilter } from '@/app/utilities/course/helper';
 
 interface PropType extends FormHTMLAttributes<HTMLFormElement> {}
 
-const DROPDOWN_KEYS: (keyof CourseSecondaryFilterType)[] = [
-  'Level',
-  'InstitutionName',
-  'Mode',
-];
+const DROPDOWN_KEYS: (keyof CourseSecondaryFilterType)[] = ['Level', 'InstitutionName', 'Mode'];
 
 const CourseSecondaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
   const labelId = useId();
   const { loadData, filter } = useCourseContext();
 
-  const methods: UseFormReturn<CourseSecondaryFilterType> =
-    useForm<CourseSecondaryFilterType>({
-      mode: 'onBlur',
-      defaultValues: Object.fromEntries(
-        DROPDOWN_KEYS.map((key) => [key, filter[key]])
-      ),
-    });
+  const methods: UseFormReturn<CourseSecondaryFilterType> = useForm<CourseSecondaryFilterType>({
+    mode: 'onBlur',
+    defaultValues: Object.fromEntries(DROPDOWN_KEYS.map((key) => [key, filter[key]])),
+  });
+  const watchedValues = useWatch({ control: methods.control });
 
   useUpdatedValue(filter, () => {
     DROPDOWN_KEYS.forEach((name) => {
@@ -40,12 +34,12 @@ const CourseSecondaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
   });
 
   useEffect(() => {
-    const listener = methods.watch(() => {
-      loadData(methods.getValues(), { shouldDebounce: true });
+    const frame = requestAnimationFrame(() => {
+      loadData(watchedValues, { shouldDebounce: true });
     });
 
-    return () => listener.unsubscribe();
-  }, [methods, loadData]);
+    return () => cancelAnimationFrame(frame);
+  }, [watchedValues, loadData]);
 
   return (
     <Form
@@ -58,11 +52,7 @@ const CourseSecondaryFilter: React.FC<PropType> = ({ className, ...rest }) => {
       role='search'
       {...rest}
     >
-      <Typography
-        variant={TypographyVariant.Body1}
-        id={labelId}
-        color='var(--cherryPie)'
-      >
+      <Typography variant={TypographyVariant.Body1} id={labelId} color='var(--cherryPie)'>
         Filters
       </Typography>
       <Dropdown<CourseSecondaryFilterType>

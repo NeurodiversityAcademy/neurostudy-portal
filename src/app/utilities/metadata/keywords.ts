@@ -1,8 +1,7 @@
 export const KEYWORDS_HOME =
   'homepage, neurodiversity, neurodiversityacademy, neurodiversity academy, ';
 
-export const KEYWORDS_NEURODIVERGENT_MATES =
-  'neurodivergentmates, neurodivergent mates, ';
+export const KEYWORDS_NEURODIVERGENT_MATES = 'neurodivergentmates, neurodivergent mates, ';
 
 export const KEYWORDS_NEURODIVERSITY_TRAINING =
   'Neurodiversity Learning/Training Partnerships, Neurodiversity Learning, Learning/Training Partnerships, Neurodiversity Training, ';

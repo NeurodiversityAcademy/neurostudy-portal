@@ -3,7 +3,7 @@ import Blog from './Blog';
 import blogData from '../../blogs/blogData.json';
 import styles from './blog.module.css';
 import { BlogInterface } from '@/app/interfaces/BlogInterface';
-import { slugify } from '@/app/utilities/common';
+import { pickSeeded, slugify } from '@/app/utilities/common';
 import { ReadonlyURLSearchParams } from 'next/navigation';
 
 interface BlogCardListProps {
@@ -15,8 +15,8 @@ const BlogCardList = ({ searchParams, visitedBlogIds }: BlogCardListProps) => {
   const titleSlug = searchParams.get('title');
 
   const blogs: BlogInterface[] = blogData.blogs
-    .filter((blog) => slugify(blog.title) !== titleSlug) // Filter out current blog
-    .filter((blog) => !visitedBlogIds.includes(blog.id)) // Filter out visited blogs
+    .filter((blog) => slugify(blog.title) !== titleSlug)
+    .filter((blog) => !visitedBlogIds.includes(blog.id))
     .reverse()
     .slice(0, 3);
 
@@ -24,11 +24,13 @@ const BlogCardList = ({ searchParams, visitedBlogIds }: BlogCardListProps) => {
     const needed = 3 - blogs.length;
     const blogIdsToShow = blogs.map((blog) => blog.id);
 
-    const fallbackBlogs = blogData.blogs
-      .filter((blog) => slugify(blog.title) !== titleSlug) // Exclude current
-      .filter((blog) => !blogIdsToShow.includes(blog.id)) // Exclude already selected
-      .sort(() => 0.5 - Math.random()) // Shuffle to get random blogs
-      .slice(0, needed);
+    const fallbackBlogs = pickSeeded(
+      blogData.blogs
+        .filter((blog) => slugify(blog.title) !== titleSlug)
+        .filter((blog) => !blogIdsToShow.includes(blog.id)),
+      needed,
+      `blog-fallback:${titleSlug ?? 'home'}:${visitedBlogIds.join(',')}`,
+    );
 
     blogs.push(...fallbackBlogs);
   }

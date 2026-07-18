@@ -16,8 +16,7 @@ export async function POST(request: Request) {
       options.autoSignIn = false;
     }
 
-    const { given_name, family_name, birthdate, subscribed } =
-      options?.userAttributes || {};
+    const { given_name, family_name, birthdate, subscribed } = options?.userAttributes || {};
 
     delete options?.userAttributes?.subscribed;
 
@@ -32,7 +31,7 @@ export async function POST(request: Request) {
     const res = await signUp(data);
     await createUser(
       { email, family_name, given_name },
-      { birthdate, subscribed: subscribed === '1' }
+      { birthdate, subscribed: subscribed === '1' },
     );
 
     return new Response(JSON.stringify(res));

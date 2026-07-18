@@ -4,7 +4,7 @@ import { ReadonlyURLSearchParams } from 'next/navigation';
 
 export function useVisitedItems(
   type: 'article' | 'blog',
-  searchParams: ReadonlyURLSearchParams
+  searchParams: ReadonlyURLSearchParams,
 ): string[] {
   const [visitedIds, setVisitedIds] = useState<string[]>([]);
   const storageKey = type === 'article' ? 'visitedArticles' : 'visitedBlogs';

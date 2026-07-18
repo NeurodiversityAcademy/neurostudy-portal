@@ -14,18 +14,14 @@ import CloseButton from '../../buttons/CloseButton';
 
 type DefaultValue = string | number;
 
-interface PillProps<Value = DefaultValue>
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'onFocus'> {
+interface PillProps<Value = DefaultValue> extends Omit<HTMLAttributes<HTMLDivElement>, 'onFocus'> {
   label: string;
   value?: Value | DefaultValue;
   selected?: boolean;
   canClose?: boolean;
   onFocus?: PillFocusEventHandler;
   disabled?: boolean;
-  onClose?: (
-    value: Value | DefaultValue,
-    e: SyntheticEvent<HTMLButtonElement>
-  ) => void;
+  onClose?: (value: Value | DefaultValue, e: SyntheticEvent<HTMLButtonElement>) => void;
   'button-aria-label'?: string | null;
 }
 
@@ -41,16 +37,12 @@ const Pill = <Value,>(
     'button-aria-label': buttonAriaLabel = null,
     ...rest
   }: PillProps<Value>,
-  ref: ForwardedRef<PillRef>
+  ref: ForwardedRef<PillRef>,
 ) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
   const labelId = useId();
-  useImperativeHandle(
-    ref,
-    () => ({ focus: () => btnRef.current?.focus() }),
-    []
-  );
+  useImperativeHandle(ref, () => ({ focus: () => btnRef.current?.focus() }), []);
 
   const onFocus =
     _onFocus &&
@@ -86,5 +78,5 @@ const Pill = <Value,>(
 };
 
 export default forwardRef(Pill) as <Value = DefaultValue>(
-  props: PillProps<Value> & { ref?: ForwardedRef<PillRef> }
+  props: PillProps<Value> & { ref?: ForwardedRef<PillRef> },
 ) => React.ReactElement;

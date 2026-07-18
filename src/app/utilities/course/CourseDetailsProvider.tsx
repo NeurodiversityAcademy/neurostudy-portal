@@ -14,24 +14,25 @@ export interface CourseDetailsContent {
   isLoading: boolean;
 }
 
-const [CourseDetailsContext, useCourseDetailsContext] =
-  deviseContext<CourseDetailsContent>();
+const [CourseDetailsContext, useCourseDetailsContext] = deviseContext<CourseDetailsContent>();
 
 export { CourseDetailsContext };
 export { useCourseDetailsContext };
 
 export default function CourseDetailsProvider({ children, data }: PropType) {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [prevData, setPrevData] = useState(data);
+
+  if (data !== prevData) {
+    setPrevData(data);
+    setIsLoading(false);
+  }
 
   useEffect(() => {
     const onPopState = () => setIsLoading(true);
     window.addEventListener('popstate', onPopState);
     return () => window.removeEventListener('popstate', onPopState);
   }, []);
-
-  useEffect(() => {
-    setIsLoading(false);
-  }, [data]);
 
   return (
     <CourseDetailsContext.Provider

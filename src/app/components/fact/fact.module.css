@@ -2,10 +2,10 @@
   .factContainer {
     text-align: center;
     width: 100%;
-    margin: 0px;   
+    margin: 0px;
   }
   .factTitle {
-    padding-top: 20px;    
+    padding-top: 20px;
   }
   .factGrid {
     display: flex;
@@ -42,7 +42,7 @@
 @media (max-width: 480px) {
   .factContainer {
     text-align: center;
-    margin: 0px;   
+    margin: 0px;
   }
   .factTitle {
     padding-top: 2rem;

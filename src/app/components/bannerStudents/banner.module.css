@@ -4,7 +4,7 @@
   padding: 5vw;
   height: 70vh;
   gap: 1vw;
-  background-image: url('../../images/homePageBanner.png');
+  background-image: url('../../images/homePageBanner.webp');
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
@@ -34,7 +34,7 @@
   display: none;
 }
 
-.buttonContainer{
+.buttonContainer {
   display: flex;
   justify-content: center;
   width: 100%;

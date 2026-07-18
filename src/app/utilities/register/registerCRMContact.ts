@@ -6,10 +6,7 @@ import { UserFormSubmissionType } from '../../interfaces/UserFormSubmissionType'
 import { UserSubscriptionType } from '../../interfaces/UserSubscriptionType';
 
 export const registerCRMContact = async (
-  contact:
-    | TeacherCRMContactInterface
-    | UserFormSubmissionType
-    | UserSubscriptionType
+  contact: TeacherCRMContactInterface | UserFormSubmissionType | UserSubscriptionType,
 ): Promise<CRMCreateResponseInterface | boolean> => {
   const data = JSON.stringify({
     properties: {

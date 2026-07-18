@@ -20,7 +20,7 @@ type AnyFunction = (...args: any) => any;
 export const debounce = <T extends AnyFunction>(
   fn: T,
   threshold: number = 500,
-  context: object | null = null
+  context: object | null = null,
 ): ((...args: Parameters<T>) => void) => {
   let timer: ReturnType<typeof setTimeout>;
 
@@ -35,7 +35,7 @@ export const debounce = <T extends AnyFunction>(
 export const throttle = <T extends AnyFunction>(
   fn: T,
   threshold: number = 500,
-  context: object | null = null
+  context: object | null = null,
 ): ((...args: Parameters<T>) => void) => {
   let last: number = -1,
     timer: ReturnType<typeof setTimeout>;
@@ -66,9 +66,45 @@ export const slugify = (text: string) =>
     .replace(/^-+/, '') // Trim - from start of text
     .replace(/-+$/, ''); // Trim - from end of text
 
+/** FNV-1a style hash for deterministic seeded picks during render. */
+export const hashString = (value: string): number => {
+  let hash = 2166136261;
+  for (let i = 0; i < value.length; i += 1) {
+    hash ^= value.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
+};
+
+/**
+ * Pure Fisher–Yates pick. Same seed + items always yields the same result,
+ * so it is safe to call during render (unlike Math.random).
+ */
+export const pickSeeded = <T>(items: readonly T[], count: number, seed: string): T[] => {
+  if (count <= 0 || items.length === 0) {
+    return [];
+  }
+
+  const copy = [...items];
+  let state = hashString(seed) || 1;
+  const next = (): number => {
+    state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+    return state / 0x100000000;
+  };
+
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(next() * (i + 1));
+    const current = copy[i];
+    copy[i] = copy[j] as T;
+    copy[j] = current as T;
+  }
+
+  return copy.slice(0, count);
+};
+
 export const createMetadata = (
   key: META_KEY,
-  customMetadata?: Partial<MetadataParams>
+  customMetadata?: Partial<MetadataParams>,
 ): Metadata => {
   const { canonical, type, images, ...rest } = {
     ...metadata[key],
@@ -116,14 +152,16 @@ export const getAxiosErrorMessage = (ex: object): string => {
 };
 
 export const notifyAxiosError = (ex: unknown) => {
-  process.env.NODE_ENV === 'development' && console.error(ex);
+  if (process.env.NODE_ENV === 'development') {
+    console.error(ex);
+  }
   notifyError(getAxiosErrorMessage(ex as object));
 };
 
 export const createRequestConfig = <D = unknown>(
   path: string,
   data?: D,
-  rest?: Partial<AxiosRequestConfig<D>>
+  rest?: Partial<AxiosRequestConfig<D>>,
 ): AxiosRequestConfig<D> => {
   return {
     method: rest?.method || 'POST',
@@ -140,9 +178,7 @@ export const getUniqueID = (): string => {
   return 'u' + Math.random().toString(32).substring(2);
 };
 
-export const isObjEmpty = (
-  data: Record<string | number | symbol, unknown>
-): boolean => {
+export const isObjEmpty = (data: Record<string | number | symbol, unknown>): boolean => {
   for (const _ in data) {
     return false;
   }
@@ -157,12 +193,10 @@ export const getLabelOption = (option: string | SelectOption): SelectOption => {
 
 export const getSearchQuery = <T>(
   params: Record<string, T>,
-  filter?: (key: string, value: T) => boolean
+  filter?: (key: string, value: T) => boolean,
 ): string => {
   return Object.entries(params)
-    .filter(
-      ([key, value]) => value !== undefined && (!filter || filter(key, value))
-    )
+    .filter(([key, value]) => value !== undefined && (!filter || filter(key, value)))
     .map(([key, value]) => `${key}=${encodeURIComponent(String(value))}`)
     .join('&');
 };
@@ -187,10 +221,7 @@ export const compare = (fstValue: unknown, sndValue: unknown): boolean => {
     const val1 = fstValue as unknown[];
     const val2 = sndValue as unknown[];
 
-    return (
-      val1.length === val2.length &&
-      !val1.some((item, index) => !compare(item, val2[index]))
-    );
+    return val1.length === val2.length && !val1.some((item, index) => !compare(item, val2[index]));
   } else if (typeof fstValue === 'object' && typeof sndValue === 'object') {
     const val1 = fstValue as Record<string, unknown>;
     const val2 = sndValue as Record<string, unknown>;

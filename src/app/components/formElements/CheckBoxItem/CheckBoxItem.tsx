@@ -3,8 +3,7 @@ import styles from './checkBoxItem.module.css';
 import classNames from 'classnames';
 import CheckIcon from '../../images/Check';
 
-interface PropType
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'type'> {
+interface PropType extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onChange' | 'type'> {
   label: string;
   checked: boolean;
   onChange: (selected: boolean, e: MouseEvent<HTMLButtonElement>) => void;
@@ -31,7 +30,9 @@ const CheckBoxItem: React.FC<PropType> = ({
 
   const onClick = (e: MouseEvent<HTMLButtonElement>) => {
     const newSelected = isTypeRadio ? true : !checked;
-    newSelected !== checked && onChange(newSelected, e);
+    if (newSelected !== checked) {
+      onChange(newSelected, e);
+    }
     _onClick?.(e);
   };
 
@@ -48,11 +49,7 @@ const CheckBoxItem: React.FC<PropType> = ({
       {isTypeCheckbox || isTypeRadio ? (
         <div
           aria-disabled={disabled}
-          className={classNames(
-            styles.input,
-            styles[type],
-            checked && styles.checked
-          )}
+          className={classNames(styles.input, styles[type], checked && styles.checked)}
           {...(role === 'option'
             ? { 'aria-hidden': true }
             : {
@@ -61,9 +58,7 @@ const CheckBoxItem: React.FC<PropType> = ({
                 'aria-labelledby': labelId,
               })}
         >
-          {isTypeCheckbox && checked && (
-            <CheckIcon aria-hidden className={styles.checkmark} />
-          )}
+          {isTypeCheckbox && checked && <CheckIcon aria-hidden className={styles.checkmark} />}
         </div>
       ) : null}
       <label id={labelId}>{label}</label>

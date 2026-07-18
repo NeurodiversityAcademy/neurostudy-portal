@@ -4,9 +4,7 @@ import { Controller, FieldValues, useFormContext } from 'react-hook-form';
 import { DefaultValue, TextAreaProps } from '@/app/interfaces/FormElements';
 import TextAreaInput from './TextAreaInput';
 
-const TextArea = <TFieldValues extends FieldValues>(
-  rootProps: TextAreaProps<TFieldValues>
-) => {
+const TextArea = <TFieldValues extends FieldValues>(rootProps: TextAreaProps<TFieldValues>) => {
   const {
     name,
     defaultValue = '' as DefaultValue<TFieldValues>,

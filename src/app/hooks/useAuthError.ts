@@ -35,10 +35,7 @@ const useAuthError = () => {
           notifyError(TOAST_UNKNOWN_ERROR_MESSAGE);
       }
 
-      const newSearch = queryString.stringify(
-        { error: undefined },
-        { useLocationSearch: true }
-      );
+      const newSearch = queryString.stringify({ error: undefined }, { useLocationSearch: true });
 
       router.replace(newSearch + window.location.hash);
     });

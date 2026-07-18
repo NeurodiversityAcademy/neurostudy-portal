@@ -1,0 +1,29 @@
+# Dependencies and build output
+node_modules
+.next
+out
+coverage
+deliverables
+.netlify
+
+# Generated / lock artifacts
+package-lock.json
+tsconfig.tsbuildinfo
+next-env.d.ts
+
+# Non-Prettier formats / platform-owned config
+.gitattributes
+vercel.json
+
+# Large static content datasets (not hand-formatted source)
+src/app/articles/articleData.json
+src/app/blogs/blogData.json
+
+# Binary / media
+public
+**/*.{png,jpg,jpeg,gif,webp,svg,ico,woff,woff2,ttf,eot}
+
+# OpenSpec and agent artifacts
+openspec
+.cursor
+tmp-*

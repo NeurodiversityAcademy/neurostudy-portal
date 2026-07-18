@@ -27,7 +27,7 @@ describe('Accordion analytics', () => {
         accordionToggleLabel={ACCORDION_TRACKING_DISABLED}
       >
         <p>Answer</p>
-      </Accordion>
+      </Accordion>,
     );
 
     fireEvent.click(getByRole('button'));
@@ -39,20 +39,16 @@ describe('Accordion analytics', () => {
     const { getByRole } = render(
       <Accordion title={label} accordionToggleLabel={label}>
         <p>Answer</p>
-      </Accordion>
+      </Accordion>,
     );
 
     fireEvent.click(getByRole('button'));
 
-    expect(mockGtag).toHaveBeenCalledWith(
-      GA_EVENT_COMMAND,
-      'accordion_toggle',
-      {
-        accordion_title: label,
-        category: 'Content',
-        page_path: '/endorsedproviders/collarts',
-      }
-    );
+    expect(mockGtag).toHaveBeenCalledWith(GA_EVENT_COMMAND, 'accordion_toggle', {
+      accordion_title: label,
+      category: 'Content',
+      page_path: '/endorsedproviders/collarts',
+    });
   });
 
   it('does not fire gtag when accordion is collapsed', () => {
@@ -60,7 +56,7 @@ describe('Accordion analytics', () => {
     const { getByRole } = render(
       <Accordion title={label} accordionToggleLabel={label}>
         <p>Answer</p>
-      </Accordion>
+      </Accordion>,
     );
 
     const button = getByRole('button');
@@ -75,7 +71,7 @@ describe('Accordion analytics', () => {
     render(
       <Accordion title={label} startExpanded accordionToggleLabel={label}>
         <p>Answer</p>
-      </Accordion>
+      </Accordion>,
     );
 
     expect(mockGtag).not.toHaveBeenCalled();

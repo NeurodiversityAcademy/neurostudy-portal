@@ -40,10 +40,7 @@ export async function GET(req: NextRequest): Promise<Response> {
       ],
     });
 
-    if (
-      session &&
-      session.payment_status === STRIPE_SESSION_PAYMENT_STATUS.PAID
-    ) {
+    if (session && session.payment_status === STRIPE_SESSION_PAYMENT_STATUS.PAID) {
       const customer = session.customer_details;
       if (!customer) {
         throw new APIError({ error: 'Invalid customer.' });
@@ -56,9 +53,8 @@ export async function GET(req: NextRequest): Promise<Response> {
       }
 
       const courseid: number = +(
-        session.line_items?.data[0].price?.metadata?.[
-          STRIPE_PRICE_META_MOODLE_COURSE_ID_KEY
-        ] || 'null'
+        session.line_items?.data[0].price?.metadata?.[STRIPE_PRICE_META_MOODLE_COURSE_ID_KEY] ||
+        'null'
       );
 
       if (isNaN(courseid)) {
@@ -67,8 +63,7 @@ export async function GET(req: NextRequest): Promise<Response> {
         });
       }
 
-      let moodleUser: MoodleUserBasic | null =
-        await getMoodleUserByEmail(email);
+      let moodleUser: MoodleUserBasic | null = await getMoodleUserByEmail(email);
 
       if (!moodleUser) {
         moodleUser = await createMoodleUser({
@@ -85,8 +80,7 @@ export async function GET(req: NextRequest): Promise<Response> {
 
       const userExists = await (async () => {
         const isSameUserLoggedIn =
-          !(authResponse instanceof AuthErrorResponse) &&
-          authResponse.email === email;
+          !(authResponse instanceof AuthErrorResponse) && authResponse.email === email;
 
         if (isSameUserLoggedIn) {
           return true;
@@ -116,9 +110,8 @@ export async function GET(req: NextRequest): Promise<Response> {
       })();
 
       return NextResponse.redirect(url);
-    } else {
-      throw new APIError({ error: 'Payment not completed.' });
     }
+    throw new APIError({ error: 'Payment not completed.' });
   } catch (ex) {
     const error = ex as object;
 
@@ -126,7 +119,7 @@ export async function GET(req: NextRequest): Promise<Response> {
       `${HOST_URL}?${getSearchQuery({
         checkout_status: 'failure',
         error: error && 'message' in error ? error.message : undefined,
-      })}`
+      })}`,
     );
   }
 }

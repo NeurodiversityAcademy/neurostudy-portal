@@ -8,7 +8,7 @@ import CourseDetailsMiddleBannerIcon from '@/app/components/course/CourseDetails
 import mapPin from '@/app/images/MapPin.png';
 import notebook from '@/app/images/Notebook.png';
 import emergingProvidersBadge from '@/app/images/emergingInstitutions/emgerging-badge.png';
-import endorsedProvidersBadge from '@/app/images/badgeGeneric.png';
+import endorsedProvidersBadge from '@/app/images/badgeGeneric.webp';
 
 export type HeroInfoItem = {
   icon: StaticImageData;
@@ -24,11 +24,7 @@ export interface InstitutionHeroProps {
   heroInfoItems: HeroInfoItem[];
 }
 
-export default function InstitutionHero({
-  variant,
-  title,
-  heroInfoItems,
-}: InstitutionHeroProps) {
+export default function InstitutionHero({ variant, title, heroInfoItems }: InstitutionHeroProps) {
   const iconByLabel: Record<string, StaticImageData> = {
     Location: mapPin,
     Type: notebook,
@@ -39,8 +35,7 @@ export default function InstitutionHero({
 
   const bannerClass = classNames(
     styles.providerHeroBanner,
-    variant === InstitutionHeroVariant.Endorsed &&
-      styles.providerHeroBannerEndorsed
+    variant === InstitutionHeroVariant.Endorsed && styles.providerHeroBannerEndorsed,
   );
 
   const heroTextColor = TypographyColorToken.GhostWhite;

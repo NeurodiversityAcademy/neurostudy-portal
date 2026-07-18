@@ -6,10 +6,7 @@ import Image from 'next/image';
 import LearnMore from '../LearnMore/LearnMore';
 import { slugify } from '@/app/utilities/common';
 
-export default function Article({
-  title,
-  imageUrl,
-}: ArticleInterface): React.ReactElement {
+export default function Article({ title, imageUrl }: ArticleInterface): React.ReactElement {
   const articleSlug = slugify(title);
   return (
     <div className={styles.card}>

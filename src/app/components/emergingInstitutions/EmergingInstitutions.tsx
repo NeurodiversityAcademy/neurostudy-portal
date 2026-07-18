@@ -20,6 +20,8 @@ export default function EmergingInstitutions() {
           <Image
             src={graduationCap}
             alt='Graduation cap icon'
+            width={40}
+            height={40}
             className={styles.icon}
           />
           <Typography variant={TypographyVariant.H2} color='var(--BondBlack)'>
@@ -31,8 +33,8 @@ export default function EmergingInstitutions() {
           color='var(--BondBlackVariant)'
           className={styles.subtitle}
         >
-          Emerging Providers are organisations with developing practices and
-          strong potential for neuro-inclusive education.
+          Emerging Providers are organisations with developing practices and strong potential for
+          neuro-inclusive education.
         </Typography>
 
         <div className={styles.cards}>

@@ -9,10 +9,7 @@ type EmergingInstitutionCardProps = {
   href: string;
 };
 
-export default function EmergingInstitutionCard({
-  name,
-  href,
-}: EmergingInstitutionCardProps) {
+export default function EmergingInstitutionCard({ name, href }: EmergingInstitutionCardProps) {
   return (
     <InstitutionProviderCard
       ctaHref={href}

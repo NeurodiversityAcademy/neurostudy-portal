@@ -39,23 +39,15 @@ export const metadata: Record<string, Partial<MetadataParams>> = {
   },
   [META_KEY.NEURODIVERSITY_TRAINING]: {
     title: 'Learning/Training Partnerships',
-    description:
-      'Learning/Training Partnerships services from Neurodiversity Academy',
-    keywords:
-      KEYWORDS_HOME +
-      KEYWORDS_NEURODIVERGENT_MATES +
-      KEYWORDS_NEURODIVERSITY_TRAINING,
+    description: 'Learning/Training Partnerships services from Neurodiversity Academy',
+    keywords: KEYWORDS_HOME + KEYWORDS_NEURODIVERGENT_MATES + KEYWORDS_NEURODIVERSITY_TRAINING,
     canonical: `${HOST_URL}/services/neurodiversitytraining`,
     type: META_TYPE.WEBSITE,
   },
   [META_KEY.ADVISORY_CONSULTING]: {
     title: 'Advisory Neurodiversity Consulting',
-    description:
-      'Advisory Neurodiversity Consulting services from Neurodiversity Academy',
-    keywords:
-      KEYWORDS_HOME +
-      KEYWORDS_NEURODIVERGENT_MATES +
-      KEYWORDS_ADVISORY_CONSULTING,
+    description: 'Advisory Neurodiversity Consulting services from Neurodiversity Academy',
+    keywords: KEYWORDS_HOME + KEYWORDS_NEURODIVERGENT_MATES + KEYWORDS_ADVISORY_CONSULTING,
     canonical: `${HOST_URL}/services/advisoryconsulting`,
     type: META_TYPE.WEBSITE,
   },
@@ -63,8 +55,7 @@ export const metadata: Record<string, Partial<MetadataParams>> = {
     title: 'Host Neurodiversity Workshops & Networking (Awareness/Education)',
     description:
       'Hosting Neurodiversity Workshops & Networking services from Neurodiversity Academy',
-    keywords:
-      KEYWORDS_HOME + KEYWORDS_NEURODIVERGENT_MATES + KEYWORDS_NETWORKING,
+    keywords: KEYWORDS_HOME + KEYWORDS_NEURODIVERGENT_MATES + KEYWORDS_NETWORKING,
     canonical: `${HOST_URL}/services/networking`,
     type: META_TYPE.WEBSITE,
   },
@@ -77,10 +68,8 @@ export const metadata: Record<string, Partial<MetadataParams>> = {
   },
   [META_KEY.PLACEMENTS]: {
     title: 'Placements (Internships/Employment)',
-    description:
-      'Placements (Internships/Employment) services from Neurodiversity Academy',
-    keywords:
-      KEYWORDS_HOME + KEYWORDS_NEURODIVERGENT_MATES + KEYWORDS_PLACEMENTS,
+    description: 'Placements (Internships/Employment) services from Neurodiversity Academy',
+    keywords: KEYWORDS_HOME + KEYWORDS_NEURODIVERGENT_MATES + KEYWORDS_PLACEMENTS,
     canonical: `${HOST_URL}/services/placements`,
     type: META_TYPE.WEBSITE,
   },
@@ -93,8 +82,7 @@ export const metadata: Record<string, Partial<MetadataParams>> = {
   },
   [META_KEY.CONTACT]: {
     title: 'Contact',
-    description:
-      'Contact page allows customers to contact Neurodiversity Academy',
+    description: 'Contact page allows customers to contact Neurodiversity Academy',
     keywords: KEYWORDS_CONTACT,
     canonical: `${HOST_URL}/contact`,
     type: META_TYPE.WEBSITE,

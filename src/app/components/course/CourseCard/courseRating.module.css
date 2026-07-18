@@ -15,12 +15,7 @@
 }
 
 .tier.silver {
-  background: linear-gradient(
-    96.63deg,
-    #a19cb4 6.35%,
-    #ffffff 38.41%,
-    #93a1d7 94.28%
-  );
+  background: linear-gradient(96.63deg, #a19cb4 6.35%, #ffffff 38.41%, #93a1d7 94.28%);
 }
 
 .tier.bronze {

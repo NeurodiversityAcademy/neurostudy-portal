@@ -13,11 +13,8 @@ const ForgotPassword = () => {
   const router = useRouter();
 
   const [username, setUsername] = useState<string>('');
-  const [formState, setFormState] = useState<FORM_STATE>(
-    FORM_STATE.INITIALIZED
-  );
-  const isConfirming =
-    formState === FORM_STATE.CONFIRM_RESET_PASSWORD_WITH_CODE;
+  const [formState, setFormState] = useState<FORM_STATE>(FORM_STATE.INITIALIZED);
+  const isConfirming = formState === FORM_STATE.CONFIRM_RESET_PASSWORD_WITH_CODE;
 
   const handleVerificationCode = (username: string) => {
     setUsername(username);

@@ -2,11 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import {
-  BUTTON_STYLE,
-  EMAIL_REGEX,
-  PERSONA_OPTIONS,
-} from '@/app/utilities/constants';
+import { BUTTON_STYLE, EMAIL_REGEX, PERSONA_OPTIONS } from '@/app/utilities/constants';
 import styles from './handbookPopup.module.css';
 import Dialog from '../dialog';
 import ActionButton from '../buttons/ActionButton';
@@ -66,14 +62,10 @@ export default function HandbookPopup({ open, onClose }: HandbookPopupProps) {
           src={mailBoxLadySrc}
           alt='Subscribe to our Newsletter'
           className={styles.mailBoxImg}
-          quality={100}
+          quality={75}
         />
 
-        <Form
-          methods={methods}
-          onSubmit={methods.handleSubmit(onSubmit)}
-          className={styles.form}
-        >
+        <Form methods={methods} onSubmit={methods.handleSubmit(onSubmit)} className={styles.form}>
           <Typography variant={TypographyVariant.H3} className='m-0'>
             Subscribe to our Newsletter!
           </Typography>
@@ -106,10 +98,7 @@ export default function HandbookPopup({ open, onClose }: HandbookPopupProps) {
             />
           </div>
           {isDownloadComplete && (
-            <Typography
-              variant={TypographyVariant.Body2}
-              className={styles.fileReadyText}
-            >
+            <Typography variant={TypographyVariant.Body2} className={styles.fileReadyText}>
               Your file is ready to be downloaded...
             </Typography>
           )}

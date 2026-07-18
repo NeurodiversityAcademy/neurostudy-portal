@@ -23,20 +23,13 @@ export default function Values() {
           </div>
           <div className={styles.gridTextBox}>
             <div>
-              <Typography
-                variant={TypographyVariant.Body1}
-                color='var(--GhostWhiteVariant)'
-              >
+              <Typography variant={TypographyVariant.Body1} color='var(--GhostWhiteVariant)'>
                 Support
               </Typography>
             </div>
             <div className={styles.gridText}>
-              <Typography
-                variant={TypographyVariant.Body2}
-                color='var(--GhostWhiteVariant)'
-              >
-                Supporting individuals to feel comfortable and confident in
-                their identity
+              <Typography variant={TypographyVariant.Body2} color='var(--GhostWhiteVariant)'>
+                Supporting individuals to feel comfortable and confident in their identity
               </Typography>
             </div>
           </div>
@@ -47,20 +40,13 @@ export default function Values() {
           </div>
           <div className={styles.gridTextBox}>
             <div>
-              <Typography
-                variant={TypographyVariant.Body1}
-                color='var(--GhostWhiteVariant)'
-              >
+              <Typography variant={TypographyVariant.Body1} color='var(--GhostWhiteVariant)'>
                 Respect
               </Typography>
             </div>
             <div className={styles.gridText}>
-              <Typography
-                variant={TypographyVariant.Body2}
-                color='var(--GhostWhiteVariant)'
-              >
-                Encouraging respect for everyone and the diverse ideas they wish
-                to share
+              <Typography variant={TypographyVariant.Body2} color='var(--GhostWhiteVariant)'>
+                Encouraging respect for everyone and the diverse ideas they wish to share
               </Typography>
             </div>
           </div>
@@ -72,20 +58,14 @@ export default function Values() {
           </div>
           <div className={styles.gridTextBox}>
             <div>
-              <Typography
-                variant={TypographyVariant.Body1}
-                color='var(--GhostWhiteVariant)'
-              >
+              <Typography variant={TypographyVariant.Body1} color='var(--GhostWhiteVariant)'>
                 Safety
               </Typography>
             </div>
             <div className={styles.gridText}>
-              <Typography
-                variant={TypographyVariant.Body2}
-                color='var(--GhostWhiteVariant)'
-              >
-                Everyone should feel safe in the environment they are in and the
-                people they interact with.
+              <Typography variant={TypographyVariant.Body2} color='var(--GhostWhiteVariant)'>
+                Everyone should feel safe in the environment they are in and the people they
+                interact with.
               </Typography>
             </div>
           </div>
@@ -96,21 +76,14 @@ export default function Values() {
           </div>
           <div className={styles.gridTextBox}>
             <div>
-              <Typography
-                variant={TypographyVariant.Body1}
-                color='var(--GhostWhiteVariant)'
-              >
+              <Typography variant={TypographyVariant.Body1} color='var(--GhostWhiteVariant)'>
                 Innovation
               </Typography>
             </div>
             <div className={styles.gridText}>
-              <Typography
-                variant={TypographyVariant.Body2}
-                color='var(--GhostWhiteVariant)'
-              >
+              <Typography variant={TypographyVariant.Body2} color='var(--GhostWhiteVariant)'>
                 {' '}
-                Innovation and standing out while supporting the Neurodiversity
-                community
+                Innovation and standing out while supporting the Neurodiversity community
               </Typography>
             </div>
           </div>
@@ -121,20 +94,13 @@ export default function Values() {
           </div>
           <div className={styles.gridTextBox}>
             <div>
-              <Typography
-                variant={TypographyVariant.Body1}
-                color='var(--GhostWhiteVariant)'
-              >
+              <Typography variant={TypographyVariant.Body1} color='var(--GhostWhiteVariant)'>
                 Fun
               </Typography>
             </div>
             <div className={styles.gridText}>
-              <Typography
-                variant={TypographyVariant.Body2}
-                color='var(--GhostWhiteVariant)'
-              >
-                Everything we do should be all about having fun and working
-                together as a team.
+              <Typography variant={TypographyVariant.Body2} color='var(--GhostWhiteVariant)'>
+                Everything we do should be all about having fun and working together as a team.
               </Typography>
             </div>
           </div>
@@ -145,20 +111,13 @@ export default function Values() {
           </div>
           <div className={styles.gridTextBox}>
             <div>
-              <Typography
-                variant={TypographyVariant.Body1}
-                color='var(--GhostWhiteVariant)'
-              >
+              <Typography variant={TypographyVariant.Body1} color='var(--GhostWhiteVariant)'>
                 Leadership
               </Typography>
             </div>
             <div className={styles.gridText}>
-              <Typography
-                variant={TypographyVariant.Body2}
-                color='var(--GhostWhiteVariant)'
-              >
-                We embody leadership in all we do, while actively fostering
-                tomorrow&apos;s leaders
+              <Typography variant={TypographyVariant.Body2} color='var(--GhostWhiteVariant)'>
+                We embody leadership in all we do, while actively fostering tomorrow&apos;s leaders
               </Typography>
             </div>
           </div>

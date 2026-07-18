@@ -1,41 +1,51 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
-import { useEffect, type ReactElement } from 'react';
-import useDeferredThirdPartyLoad from '@/app/hooks/useDeferredThirdPartyLoad';
+import { useDeferredActivation } from '../../hooks/useDeferredActivation';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let ReactPixel: undefined | Record<string, any>;
-const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID ?? '';
+interface FacebookPixelApi {
+  init: (pixelId: string) => void;
+  pageView: () => void;
+}
 
-export default function MetaPixel(): ReactElement | null {
+const MetaPixel = (): null => {
   const pathname = usePathname();
-  const shouldLoad = useDeferredThirdPartyLoad();
+  const isActivated = useDeferredActivation();
+  const pixelRef = useRef<FacebookPixelApi | null>(null);
+  const facebookPixelId = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID;
 
   useEffect(() => {
-    if (!shouldLoad || !FB_PIXEL_ID) {
+    if (!facebookPixelId || !isActivated || pixelRef.current) {
       return;
     }
 
-    const pageView = () => {
-      ReactPixel?.pageView();
+    let isCancelled = false;
+
+    const loadPixel = async (): Promise<void> => {
+      const pixelModule = await import('react-facebook-pixel');
+      if (isCancelled) {
+        return;
+      }
+
+      const ReactPixel = pixelModule.default as FacebookPixelApi;
+      ReactPixel.init(facebookPixelId);
+      ReactPixel.pageView();
+      pixelRef.current = ReactPixel;
     };
 
-    if (ReactPixel) {
-      pageView();
-    } else {
-      import('react-facebook-pixel')
-        .then((x) => x.default)
-        .then((res) => {
-          ReactPixel = res;
-          ReactPixel.init(FB_PIXEL_ID);
-          pageView();
-        })
-        .catch((error: unknown) => {
-          console.error('Failed to load Meta Pixel', error);
-        });
-    }
-  }, [pathname, shouldLoad]);
+    void loadPixel();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [facebookPixelId, isActivated]);
+
+  useEffect(() => {
+    pixelRef.current?.pageView();
+  }, [pathname]);
 
   return null;
-}
+};
+
+export default MetaPixel;
