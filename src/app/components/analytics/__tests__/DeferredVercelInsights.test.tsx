@@ -1,6 +1,7 @@
 import React from 'react';
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import DeferredVercelInsights from '../DeferredVercelInsights';
+import { DEFERRED_ACTIVATION_MS } from '../../../hooks/useDeferredActivation';
 
 jest.mock('@vercel/analytics/react', () => ({
   Analytics: () => <div data-testid='vercel-analytics' />,
@@ -11,23 +12,25 @@ jest.mock('@vercel/speed-insights/next', () => ({
 }));
 
 describe('DeferredVercelInsights', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
   afterEach(() => {
-    delete (window as { requestIdleCallback?: unknown }).requestIdleCallback;
-    delete (window as { cancelIdleCallback?: unknown }).cancelIdleCallback;
     jest.useRealTimers();
   });
 
-  it('loads insights after requestIdleCallback', async () => {
-    window.requestIdleCallback = ((callback: IdleRequestCallback) => {
-      callback({
-        didTimeout: false,
-        timeRemaining: () => 50,
-      });
-      return 1;
-    }) as typeof window.requestIdleCallback;
-    window.cancelIdleCallback = jest.fn() as typeof window.cancelIdleCallback;
-
+  it('does not load insights on initial render', () => {
     render(<DeferredVercelInsights />);
+    expect(screen.queryByTestId('vercel-analytics')).not.toBeInTheDocument();
+  });
+
+  it('loads insights after the first user interaction', async () => {
+    render(<DeferredVercelInsights />);
+
+    act(() => {
+      fireEvent.pointerDown(window);
+    });
 
     await waitFor(() => {
       expect(screen.getByTestId('vercel-analytics')).toBeInTheDocument();
@@ -35,31 +38,17 @@ describe('DeferredVercelInsights', () => {
     expect(screen.getByTestId('vercel-speed-insights')).toBeInTheDocument();
   });
 
-  it('falls back to a timeout when requestIdleCallback is unavailable', async () => {
-    jest.useFakeTimers();
-    delete (window as { requestIdleCallback?: unknown }).requestIdleCallback;
-
+  it('loads insights after the hard timeout when there is no interaction', async () => {
     render(<DeferredVercelInsights />);
     expect(screen.queryByTestId('vercel-analytics')).not.toBeInTheDocument();
 
     act(() => {
-      jest.advanceTimersByTime(3000);
+      jest.advanceTimersByTime(DEFERRED_ACTIVATION_MS);
     });
 
     await waitFor(() => {
       expect(screen.getByTestId('vercel-analytics')).toBeInTheDocument();
     });
     expect(screen.getByTestId('vercel-speed-insights')).toBeInTheDocument();
-  });
-
-  it('cancels a pending idle callback on unmount', () => {
-    const cancelIdleCallback = jest.fn();
-    window.requestIdleCallback = (() => 42) as typeof window.requestIdleCallback;
-    window.cancelIdleCallback = cancelIdleCallback as typeof window.cancelIdleCallback;
-
-    const { unmount } = render(<DeferredVercelInsights />);
-    unmount();
-
-    expect(cancelIdleCallback).toHaveBeenCalledWith(42);
   });
 });

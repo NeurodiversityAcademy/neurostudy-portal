@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, render } from '@testing-library/react';
+import { act, fireEvent, render } from '@testing-library/react';
 
 jest.mock('next/script', () => ({
   __esModule: true,
@@ -11,6 +11,7 @@ jest.mock('next/script', () => ({
 
 import DeferredTabNavEmbed from '../DeferredTabNavEmbed';
 import { TABNAV_WIDGET_SCRIPT_SRC } from '../tabNavConstants';
+import { DEFERRED_ACTIVATION_MS } from '../../../hooks/useDeferredActivation';
 
 describe('DeferredTabNavEmbed', () => {
   beforeEach(() => {
@@ -26,10 +27,20 @@ describe('DeferredTabNavEmbed', () => {
     expect(container.querySelector('script')).not.toBeInTheDocument();
   });
 
-  it('loads TabNav after idle fallback timeout', () => {
+  it('loads TabNav after the first user interaction', () => {
     const { container } = render(<DeferredTabNavEmbed />);
     act(() => {
-      jest.advanceTimersByTime(6000);
+      fireEvent.pointerDown(window);
+    });
+    const script = container.querySelector('script');
+    expect(script).toBeInTheDocument();
+    expect(script).toHaveAttribute('src', TABNAV_WIDGET_SCRIPT_SRC);
+  });
+
+  it('loads TabNav after the hard timeout when there is no interaction', () => {
+    const { container } = render(<DeferredTabNavEmbed />);
+    act(() => {
+      jest.advanceTimersByTime(DEFERRED_ACTIVATION_MS);
     });
     const script = container.querySelector('script');
     expect(script).toBeInTheDocument();
