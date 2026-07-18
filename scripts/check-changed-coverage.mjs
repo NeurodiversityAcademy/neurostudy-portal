@@ -37,6 +37,8 @@ const runGit = (args) =>
   execFileSync('git', args, {
     encoding: 'utf8',
     stdio: ['ignore', 'pipe', 'pipe'],
+    // Image/binary diffs under src/ can exceed the default 1MB buffer.
+    maxBuffer: 64 * 1024 * 1024,
   });
 
 const resolveBaseRef = () => {
@@ -95,14 +97,15 @@ const mergeChangedLines = (target, source) => {
 
 const getChangedLines = () => {
   const baseRef = resolveBaseRef();
+  const sourcePathspecs = [':(glob)src/**/*.ts', ':(glob)src/**/*.tsx'];
   const changedLines = parseChangedLines(
-    runGit(['diff', '--unified=0', `${baseRef}...HEAD`, '--', 'src']),
+    runGit(['diff', '--unified=0', `${baseRef}...HEAD`, '--', ...sourcePathspecs]),
   );
 
   // Include staged and unstaged local edits when this runs before a commit.
   mergeChangedLines(
     changedLines,
-    parseChangedLines(runGit(['diff', '--unified=0', 'HEAD', '--', 'src'])),
+    parseChangedLines(runGit(['diff', '--unified=0', 'HEAD', '--', ...sourcePathspecs])),
   );
 
   return changedLines;

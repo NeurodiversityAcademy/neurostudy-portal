@@ -45,17 +45,14 @@ export default function InstitutionProviderCard({
   gaEvent,
   ctaOpenInNewTab,
 }: InstitutionProviderCardProps) {
-  const isEmergingDefault =
-    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT;
-  const showRemoteImage =
-    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.REMOTE_IMAGE;
+  const isEmergingDefault = header.kind === INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT;
+  const showRemoteImage = header.kind === INSTITUTION_PROVIDER_HEADER_KIND.REMOTE_IMAGE;
 
   const topClass = classNames(
     styles.cardTop,
     isEmergingDefault && styles.cardTopEmerging,
     header.kind === INSTITUTION_PROVIDER_HEADER_KIND.YELLOW && styles.cardTopYellow,
-    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.CHERRY_PIE_SUB &&
-      styles.cardTopCherryPieSub,
+    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.CHERRY_PIE_SUB && styles.cardTopCherryPieSub,
   );
 
   return (

@@ -40,7 +40,12 @@ const BuzzsproutEmbed: React.FC<BuzzsproutEmbedProps> = ({
   embedAvailable = true,
 }) => {
   const [showFallback, setShowFallback] = useState(!embedAvailable);
-  const [shouldLoadPlayer, setShouldLoadPlayer] = useState(false);
+  const [shouldLoadPlayer, setShouldLoadPlayer] = useState(() => {
+    if (typeof window === 'undefined') {
+      return false;
+    }
+    return typeof window.IntersectionObserver !== 'function';
+  });
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -49,12 +54,7 @@ const BuzzsproutEmbed: React.FC<BuzzsproutEmbedProps> = ({
     }
 
     const target = sectionRef.current;
-    if (target === null) {
-      return;
-    }
-
-    if (!('IntersectionObserver' in window)) {
-      setShouldLoadPlayer(true);
+    if (target === null || typeof window.IntersectionObserver !== 'function') {
       return;
     }
 
@@ -65,7 +65,7 @@ const BuzzsproutEmbed: React.FC<BuzzsproutEmbedProps> = ({
           observer.disconnect();
         }
       },
-      { rootMargin: '200px 0px' }
+      { rootMargin: '200px 0px' },
     );
 
     observer.observe(target);

@@ -5,14 +5,13 @@ import { useEffect, type ReactElement } from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let ReactPixel: undefined | Record<string, any>;
-const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID ?? '';
 
-const loadPixel = (): Promise<void> =>
+const loadPixel = (pixelId: string): Promise<void> =>
   import('react-facebook-pixel')
     .then((module) => module.default)
     .then((pixel) => {
       ReactPixel = pixel;
-      ReactPixel.init(FB_PIXEL_ID);
+      ReactPixel.init(pixelId);
       ReactPixel.pageView();
     });
 
@@ -20,7 +19,8 @@ export default function MetaPixel(): ReactElement | null {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (!FB_PIXEL_ID) {
+    const pixelId = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID ?? '';
+    if (!pixelId) {
       return;
     }
 
@@ -38,13 +38,13 @@ export default function MetaPixel(): ReactElement | null {
     let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
     const scheduleLoad = () => {
-      if ('requestIdleCallback' in window) {
+      if (typeof window.requestIdleCallback === 'function') {
         idleId = window.requestIdleCallback(() => {
-          void loadPixel();
+          void loadPixel(pixelId);
         });
       } else {
         timeoutId = setTimeout(() => {
-          void loadPixel();
+          void loadPixel(pixelId);
         }, 2000);
       }
     };
@@ -52,7 +52,7 @@ export default function MetaPixel(): ReactElement | null {
     scheduleLoad();
 
     return () => {
-      if (idleId !== undefined && 'cancelIdleCallback' in window) {
+      if (idleId !== undefined && typeof window.cancelIdleCallback === 'function') {
         window.cancelIdleCallback(idleId);
       }
       if (timeoutId !== undefined) {

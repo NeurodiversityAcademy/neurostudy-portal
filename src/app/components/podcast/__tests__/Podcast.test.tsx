@@ -27,13 +27,66 @@ import BuzzsproutEmbed from '../Buzzsprout';
 import PodcastUnavailableMessage from '../PodcastUnavailableMessage';
 
 describe('BuzzsproutEmbed', () => {
+  const originalIntersectionObserver = window.IntersectionObserver;
+
   beforeEach(() => {
     jest.useFakeTimers();
+    Reflect.deleteProperty(window, 'IntersectionObserver');
   });
 
   afterEach(() => {
     jest.useRealTimers();
     document.body.innerHTML = '';
+    if (originalIntersectionObserver) {
+      window.IntersectionObserver = originalIntersectionObserver;
+    } else {
+      Reflect.deleteProperty(window, 'IntersectionObserver');
+    }
+  });
+
+  it('loads the player when IntersectionObserver reports the section is visible', () => {
+    let observerCallback: IntersectionObserverCallback = () => undefined;
+    const observe = jest.fn();
+    const disconnect = jest.fn();
+
+    window.IntersectionObserver = jest.fn((callback: IntersectionObserverCallback) => {
+      observerCallback = callback;
+      return {
+        observe,
+        unobserve: jest.fn(),
+        disconnect,
+        root: null,
+        rootMargin: '',
+        thresholds: [],
+        takeRecords: () => [],
+      };
+    }) as unknown as typeof IntersectionObserver;
+
+    const container = document.createElement('div');
+    container.id = 'observer-test';
+    document.body.appendChild(container);
+
+    render(
+      <BuzzsproutEmbed
+        scriptSrc='https://buzzsprout.com/observer.js'
+        containerId='observer-test'
+        singleBlog={false}
+        embedAvailable={true}
+      />,
+    );
+
+    expect(document.getElementById('observer-test-embed-script')).not.toBeInTheDocument();
+    expect(observe).toHaveBeenCalled();
+
+    act(() => {
+      observerCallback(
+        [{ isIntersecting: true } as IntersectionObserverEntry],
+        {} as IntersectionObserver,
+      );
+    });
+
+    expect(document.getElementById('observer-test-embed-script')).toBeInTheDocument();
+    expect(disconnect).toHaveBeenCalled();
   });
 
   it('renders podcast header for multi-blog view', () => {
