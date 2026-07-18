@@ -1,48 +1,41 @@
 import { notFound } from 'next/navigation';
-import cardData from '@/app/components/emergingInstitutions/emergingInstitutions.json';
+import type { Metadata } from 'next';
 import EmergingProviderHero from '@/app/components/emergingInstitutions/EmergingProviderHero';
 import EmergingProviderStudentSuitability from '@/app/components/emergingInstitutions/EmergingProviderStudentSuitability';
 import EmergingProviderStats from '@/app/components/emergingInstitutions/EmergingProviderStats';
 import EmergingProvidersFAQs from '@/app/components/emergingInstitutions/EmergingProvidersFAQs';
-import { slugify } from '@/app/utilities/common';
 import {
-  HERO_DETAILS_BY_SLUG,
-  STATS_BY_SLUG,
-} from '@/app/components/emergingInstitutions/emergingProviderPageData';
+  buildEmergingProviderMetadata,
+  resolveEmergingProviderForSlug,
+} from '@/app/emergingproviders/emergingProviderMetadata';
 import pageStyles from './emergingProviderPage.module.css';
-
-type InstitutionCard = {
-  name: string;
-};
 
 type RouteParams = {
   'name-of-the-institute': string;
 };
 
-export default async function EmergingProviderPage({ params }: { params: Promise<RouteParams> }) {
+interface PageProps {
+  params: Promise<RouteParams>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const resolvedParams = await params;
-  const institutions = cardData as InstitutionCard[];
-  const institution = institutions.find(
-    (item) => slugify(item.name) === resolvedParams['name-of-the-institute'],
-  );
+  return buildEmergingProviderMetadata(resolvedParams['name-of-the-institute']);
+}
 
-  if (!institution) {
-    notFound();
-  }
+export default async function EmergingProviderPage({ params }: PageProps) {
+  const resolvedParams = await params;
+  const provider = resolveEmergingProviderForSlug(resolvedParams['name-of-the-institute']);
 
-  const institutionSlug = resolvedParams['name-of-the-institute'];
-  const heroInfoItems = HERO_DETAILS_BY_SLUG[institutionSlug];
-  const providerStats = STATS_BY_SLUG[institutionSlug];
-
-  if (!heroInfoItems || !providerStats) {
+  if (!provider) {
     notFound();
   }
 
   return (
     <main className={pageStyles.pageMain}>
-      <EmergingProviderHero title={institution.name} heroInfoItems={heroInfoItems} />
-      <EmergingProviderStudentSuitability instituteSlug={institutionSlug} />
-      <EmergingProviderStats stats={providerStats} />
+      <EmergingProviderHero title={provider.name} heroInfoItems={provider.heroInfoItems} />
+      <EmergingProviderStudentSuitability instituteSlug={provider.slug} />
+      <EmergingProviderStats stats={provider.providerStats} />
       <EmergingProvidersFAQs />
     </main>
   );

@@ -18,6 +18,8 @@ import { registerContactData } from '@/app/utilities/register/registerContactDat
 import Form from '@/app/components/formElements/Form';
 import { FieldValues, UseFormReturn, useForm } from 'react-hook-form';
 import { notifyError, notifySuccess } from '@/app/utilities/common';
+import { sendContactSubmitEvent } from '@/app/utilities/gaTracking';
+import { sendMetaContactLeadEvent } from '@/app/utilities/metaPixelTracking';
 import LoaderWrapper from '../loader/LoaderWrapper';
 import ContactUsLeftBanner from './ContactUsLeftBanner';
 import classNames from 'classnames';
@@ -67,6 +69,8 @@ const ContactUsForm: React.FC = () => {
       )) as CRMCreateResponseInterface;
       if (outcome.id) {
         notifySuccess('Successfully sent');
+        sendContactSubmitEvent(hs_persona);
+        sendMetaContactLeadEvent();
       }
     } catch (error) {
       notifyError(error as object);

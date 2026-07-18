@@ -95,4 +95,19 @@ export const GA_EVENTS = {
     eventName: 'endorsed_explore_click',
     category: 'Endorsed',
   },
+  CONTACT_SUBMIT: { eventName: 'contact_submit', category: 'Conversion' },
+  NEWSLETTER_SUBSCRIBE: { eventName: 'newsletter_subscribe', category: 'Conversion' },
+  HANDBOOK_DOWNLOAD: { eventName: 'handbook_download', category: 'Conversion' },
+} as const;
+
+export const CONVERSION_FORM_NAMES = {
+  CONTACT_US: 'contact_us',
+  NEWSLETTER: 'newsletter',
+  HANDBOOK: 'handbook',
+} as const;
+
+export const META_EVENTS = {
+  LEAD: 'Lead',
+  SUBSCRIBE: 'Subscribe',
+  COMPLETE_REGISTRATION: 'CompleteRegistration',
 } as const;
