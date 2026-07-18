@@ -1,4 +1,4 @@
-import { GA_EVENTS } from '@/app/utilities/constants';
+import { CONVERSION_FORM_NAMES, GA_EVENTS } from '@/app/utilities/constants';
 
 export const GA_EVENT_COMMAND = 'event' as const;
 
@@ -12,6 +12,9 @@ export const GA_PARAM = {
   ACCORDION_TITLE: 'accordion_title',
   DESTINATION_URL: 'destination_url',
   LINK_TEXT: 'link_text',
+  FORM_NAME: 'form_name',
+  PERSONA: 'persona',
+  CONTENT_NAME: 'content_name',
 } as const;
 
 export const ENDORSED_EXPLORE_LINK_TEXT = 'Explore' as const;
@@ -110,6 +113,47 @@ export function sendEndorsedExploreClickEvent(providerSlug: string, destinationU
       [GA_PARAM.DESTINATION_URL]: destinationUrl,
       [GA_PARAM.LINK_TEXT]: ENDORSED_EXPLORE_LINK_TEXT,
       [GA_PARAM.CATEGORY]: GA_EVENTS.ENDORSED_EXPLORE_CLICK.category,
+    }),
+  );
+}
+
+export function buildConversionScopedParams(extra: GaEventParams): GaEventParams {
+  return {
+    ...extra,
+    [GA_PARAM.PAGE_PATH]: window.location.pathname,
+  };
+}
+
+export function sendContactSubmitEvent(persona: string): void {
+  sendGaEvent(
+    GA_EVENTS.CONTACT_SUBMIT.eventName,
+    buildConversionScopedParams({
+      [GA_PARAM.CATEGORY]: GA_EVENTS.CONTACT_SUBMIT.category,
+      [GA_PARAM.FORM_NAME]: CONVERSION_FORM_NAMES.CONTACT_US,
+      [GA_PARAM.PERSONA]: persona,
+    }),
+  );
+}
+
+export function sendNewsletterSubscribeEvent(persona: string): void {
+  sendGaEvent(
+    GA_EVENTS.NEWSLETTER_SUBSCRIBE.eventName,
+    buildConversionScopedParams({
+      [GA_PARAM.CATEGORY]: GA_EVENTS.NEWSLETTER_SUBSCRIBE.category,
+      [GA_PARAM.FORM_NAME]: CONVERSION_FORM_NAMES.NEWSLETTER,
+      [GA_PARAM.PERSONA]: persona,
+    }),
+  );
+}
+
+export function sendHandbookDownloadEvent(persona: string): void {
+  sendGaEvent(
+    GA_EVENTS.HANDBOOK_DOWNLOAD.eventName,
+    buildConversionScopedParams({
+      [GA_PARAM.CATEGORY]: GA_EVENTS.HANDBOOK_DOWNLOAD.category,
+      [GA_PARAM.FORM_NAME]: CONVERSION_FORM_NAMES.HANDBOOK,
+      [GA_PARAM.CONTENT_NAME]: CONVERSION_FORM_NAMES.HANDBOOK,
+      [GA_PARAM.PERSONA]: persona,
     }),
   );
 }

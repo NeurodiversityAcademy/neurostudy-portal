@@ -14,6 +14,8 @@ import mailBoxLadySrc from '@/app/images/mailboxLady.png';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import { registerSubscriptionData } from '@/app/utilities/register/registerSubscriptionData';
 import { notifyError } from '@/app/utilities/common';
+import { sendHandbookDownloadEvent } from '@/app/utilities/gaTracking';
+import { sendMetaHandbookDownloadEvent } from '@/app/utilities/metaPixelTracking';
 import Dropdown from '../formElements/Dropdown/Dropdown';
 import { HSPersona } from '@/app/interfaces/UserSubscriptionType';
 
@@ -48,6 +50,8 @@ export default function HandbookPopup({ open, onClose }: HandbookPopupProps) {
       });
 
       setIsDownloadComplete(true);
+      sendHandbookDownloadEvent(data.hs_persona);
+      sendMetaHandbookDownloadEvent();
     } catch (ex) {
       notifyError(ex as object);
     } finally {

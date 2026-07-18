@@ -3,14 +3,18 @@ import {
   GA_PARAM,
   ENDORSED_EXPLORE_LINK_TEXT,
   sendAccordionToggleEvent,
+  sendContactSubmitEvent,
   sendEndorsedExploreClickEvent,
   sendGaEvent,
+  sendHandbookDownloadEvent,
+  sendNewsletterSubscribeEvent,
   sendScrollDepthEvent,
   sendSectionVisibleEvent,
   sendTimeOnPageEvent,
   buildProviderScopedParams,
+  buildConversionScopedParams,
 } from '@/app/utilities/gaTracking';
-import { GA_EVENTS } from '@/app/utilities/constants';
+import { CONVERSION_FORM_NAMES, GA_EVENTS } from '@/app/utilities/constants';
 import { installGtagMock, installTestPagePath } from '@/app/utilities/__tests__/gaTestHelpers';
 
 describe('gaTracking', () => {
@@ -106,5 +110,57 @@ describe('gaTracking', () => {
         category: GA_EVENTS.ENDORSED_EXPLORE_CLICK.category,
       },
     );
+  });
+
+  it('buildConversionScopedParams includes page path only', () => {
+    installTestPagePath('/contact');
+    const params = buildConversionScopedParams({
+      [GA_PARAM.CATEGORY]: 'Conversion',
+    });
+    expect(params).toEqual({
+      category: 'Conversion',
+      page_path: '/contact',
+    });
+  });
+
+  it('sendContactSubmitEvent dispatches contact_submit without PII', () => {
+    installTestPagePath('/contact');
+    const mockGtag = installGtagMock();
+    sendContactSubmitEvent('persona_1');
+    expect(mockGtag).toHaveBeenCalledWith(GA_EVENT_COMMAND, GA_EVENTS.CONTACT_SUBMIT.eventName, {
+      category: GA_EVENTS.CONTACT_SUBMIT.category,
+      form_name: CONVERSION_FORM_NAMES.CONTACT_US,
+      persona: 'persona_1',
+      page_path: '/contact',
+    });
+  });
+
+  it('sendNewsletterSubscribeEvent dispatches newsletter_subscribe', () => {
+    installTestPagePath('/');
+    const mockGtag = installGtagMock();
+    sendNewsletterSubscribeEvent('persona_3');
+    expect(mockGtag).toHaveBeenCalledWith(
+      GA_EVENT_COMMAND,
+      GA_EVENTS.NEWSLETTER_SUBSCRIBE.eventName,
+      {
+        category: GA_EVENTS.NEWSLETTER_SUBSCRIBE.category,
+        form_name: CONVERSION_FORM_NAMES.NEWSLETTER,
+        persona: 'persona_3',
+        page_path: '/',
+      },
+    );
+  });
+
+  it('sendHandbookDownloadEvent dispatches handbook_download', () => {
+    installTestPagePath('/handbook');
+    const mockGtag = installGtagMock();
+    sendHandbookDownloadEvent('persona_2');
+    expect(mockGtag).toHaveBeenCalledWith(GA_EVENT_COMMAND, GA_EVENTS.HANDBOOK_DOWNLOAD.eventName, {
+      category: GA_EVENTS.HANDBOOK_DOWNLOAD.category,
+      form_name: CONVERSION_FORM_NAMES.HANDBOOK,
+      content_name: CONVERSION_FORM_NAMES.HANDBOOK,
+      persona: 'persona_2',
+      page_path: '/handbook',
+    });
   });
 });

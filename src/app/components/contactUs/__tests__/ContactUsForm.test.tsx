@@ -12,13 +12,25 @@ jest.mock('@/app/utilities/common', () => ({
   notifySuccess: jest.fn(),
 }));
 
+jest.mock('@/app/utilities/gaTracking', () => ({
+  sendContactSubmitEvent: jest.fn(),
+}));
+
+jest.mock('@/app/utilities/metaPixelTracking', () => ({
+  sendMetaContactLeadEvent: jest.fn(),
+}));
+
 import { registerContactData } from '@/app/utilities/register/registerContactData';
 import { notifyError, notifySuccess } from '@/app/utilities/common';
+import { sendContactSubmitEvent } from '@/app/utilities/gaTracking';
+import { sendMetaContactLeadEvent } from '@/app/utilities/metaPixelTracking';
 import ContactUsForm from '../ContactUsForm';
 
 const mockRegisterContactData = registerContactData as jest.Mock;
 const mockNotifySuccess = notifySuccess as jest.Mock;
 const mockNotifyError = notifyError as jest.Mock;
+const mockSendContactSubmitEvent = sendContactSubmitEvent as jest.Mock;
+const mockSendMetaContactLeadEvent = sendMetaContactLeadEvent as jest.Mock;
 
 const selectPersona = (label: string) => {
   fireEvent.focus(screen.getByPlaceholderText('Select your role'));
@@ -91,10 +103,12 @@ describe('ContactUsForm', () => {
         hs_persona: 'persona_1',
       });
       expect(mockNotifySuccess).toHaveBeenCalledWith('Successfully sent');
+      expect(mockSendContactSubmitEvent).toHaveBeenCalledWith('persona_1');
+      expect(mockSendMetaContactLeadEvent).toHaveBeenCalled();
     });
   });
 
-  it('shows error notification when submission fails', async () => {
+  it('does not fire conversion events when submission fails', async () => {
     const error = new Error('Submission failed');
     mockRegisterContactData.mockRejectedValue(error);
     render(<ContactUsForm />);
@@ -106,6 +120,25 @@ describe('ContactUsForm', () => {
 
     await waitFor(() => {
       expect(mockNotifyError).toHaveBeenCalledWith(error);
+      expect(mockSendContactSubmitEvent).not.toHaveBeenCalled();
+      expect(mockSendMetaContactLeadEvent).not.toHaveBeenCalled();
+    });
+  });
+
+  it('does not fire conversion events when response has no id', async () => {
+    mockRegisterContactData.mockResolvedValue({});
+    render(<ContactUsForm />);
+    fillRequiredContactFields();
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('Submit'));
+    });
+
+    await waitFor(() => {
+      expect(mockRegisterContactData).toHaveBeenCalled();
+      expect(mockNotifySuccess).not.toHaveBeenCalled();
+      expect(mockSendContactSubmitEvent).not.toHaveBeenCalled();
+      expect(mockSendMetaContactLeadEvent).not.toHaveBeenCalled();
     });
   });
 });
