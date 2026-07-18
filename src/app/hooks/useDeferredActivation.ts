@@ -14,9 +14,7 @@ export const DEFERRED_ACTIVATION_MS = 2000;
  * Prefer this over requestIdleCallback for analytics embeds — idle often fires
  * within ~1s on empty main threads and still tanks Speed Index.
  */
-export const useDeferredActivation = (
-  hardTimeoutMs: number = DEFERRED_ACTIVATION_MS,
-): boolean => {
+export const useDeferredActivation = (hardTimeoutMs: number = DEFERRED_ACTIVATION_MS): boolean => {
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
