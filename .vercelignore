@@ -6,5 +6,6 @@ lighthouse-*.json
 coverage
 .jest-cache
 .eslintcache
+.prettiercache
 .cursor
 openspec

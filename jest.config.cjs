@@ -3,7 +3,8 @@ module.exports = {
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   // Parallelize across CPUs; 75% was fastest on an 8-core machine (100% thrashed).
-  maxWorkers: '75%',
+  // Override with JEST_MAX_WORKERS when sharing the machine with another heavy job.
+  maxWorkers: process.env.JEST_MAX_WORKERS || '75%',
   // Cap idle worker memory so long parallel runs recycle workers instead of hanging.
   workerIdleMemoryLimit: '512MB',
   cacheDirectory: '<rootDir>/.jest-cache',
