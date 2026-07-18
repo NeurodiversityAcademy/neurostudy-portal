@@ -4,11 +4,14 @@ import EmergingProviderHero from '@/app/components/emergingInstitutions/Emerging
 import EmergingProviderStudentSuitability from '@/app/components/emergingInstitutions/EmergingProviderStudentSuitability';
 import EmergingProviderStats from '@/app/components/emergingInstitutions/EmergingProviderStats';
 import EmergingProvidersFAQs from '@/app/components/emergingInstitutions/EmergingProvidersFAQs';
+import PageEngagementTracker from '@/app/components/endorsedProviders/PageEngagementTracker';
 import { slugify } from '@/app/utilities/common';
 import {
   HERO_DETAILS_BY_SLUG,
   STATS_BY_SLUG,
 } from '@/app/components/emergingInstitutions/emergingProviderPageData';
+import { EMERGING_PAGE_SECTION } from '@/app/utilities/emergingPageSections';
+import { DATA_SECTION_ATTRIBUTE } from '@/app/utilities/gaTracking';
 import pageStyles from './emergingProviderPage.module.css';
 
 type InstitutionCard = {
@@ -39,11 +42,21 @@ export default async function EmergingProviderPage({ params }: { params: Promise
   }
 
   return (
-    <main className={pageStyles.pageMain}>
-      <EmergingProviderHero title={institution.name} heroInfoItems={heroInfoItems} />
-      <EmergingProviderStudentSuitability instituteSlug={institutionSlug} />
-      <EmergingProviderStats stats={providerStats} />
-      <EmergingProvidersFAQs />
-    </main>
+    <PageEngagementTracker providerSlug={institutionSlug}>
+      <main className={pageStyles.pageMain}>
+        <div {...{ [DATA_SECTION_ATTRIBUTE]: EMERGING_PAGE_SECTION.HERO }}>
+          <EmergingProviderHero title={institution.name} heroInfoItems={heroInfoItems} />
+        </div>
+        <div {...{ [DATA_SECTION_ATTRIBUTE]: EMERGING_PAGE_SECTION.SUITABILITY }}>
+          <EmergingProviderStudentSuitability instituteSlug={institutionSlug} />
+        </div>
+        <div {...{ [DATA_SECTION_ATTRIBUTE]: EMERGING_PAGE_SECTION.STATS }}>
+          <EmergingProviderStats stats={providerStats} />
+        </div>
+        <div {...{ [DATA_SECTION_ATTRIBUTE]: EMERGING_PAGE_SECTION.FAQS }}>
+          <EmergingProvidersFAQs />
+        </div>
+      </main>
+    </PageEngagementTracker>
   );
 }
