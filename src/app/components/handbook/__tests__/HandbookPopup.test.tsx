@@ -16,12 +16,24 @@ jest.mock('@/app/utilities/common', () => ({
   notifyError: jest.fn(),
 }));
 
+jest.mock('@/app/utilities/gaTracking', () => ({
+  sendHandbookDownloadEvent: jest.fn(),
+}));
+
+jest.mock('@/app/utilities/metaPixelTracking', () => ({
+  sendMetaHandbookDownloadEvent: jest.fn(),
+}));
+
 import { registerSubscriptionData } from '@/app/utilities/register/registerSubscriptionData';
 import { notifyError } from '@/app/utilities/common';
+import { sendHandbookDownloadEvent } from '@/app/utilities/gaTracking';
+import { sendMetaHandbookDownloadEvent } from '@/app/utilities/metaPixelTracking';
 import HandbookPopup from '../HandbookPopup';
 
 const mockRegisterSubscriptionData = registerSubscriptionData as jest.Mock;
 const mockNotifyError = notifyError as jest.Mock;
+const mockSendHandbookDownloadEvent = sendHandbookDownloadEvent as jest.Mock;
+const mockSendMetaHandbookDownloadEvent = sendMetaHandbookDownloadEvent as jest.Mock;
 
 const fillHandbookForm = () => {
   fireEvent.change(screen.getByPlaceholderText('Email address'), {
@@ -62,6 +74,8 @@ describe('HandbookPopup', () => {
         getHandbook: true,
       });
       expect(screen.getByText('Your file is ready to be downloaded...')).toBeInTheDocument();
+      expect(mockSendHandbookDownloadEvent).toHaveBeenCalledWith('persona_2');
+      expect(mockSendMetaHandbookDownloadEvent).toHaveBeenCalled();
     });
   });
 
@@ -84,6 +98,8 @@ describe('HandbookPopup', () => {
 
     await waitFor(() => {
       expect(mockNotifyError).toHaveBeenCalledWith(error);
+      expect(mockSendHandbookDownloadEvent).not.toHaveBeenCalled();
+      expect(mockSendMetaHandbookDownloadEvent).not.toHaveBeenCalled();
     });
   });
 });
