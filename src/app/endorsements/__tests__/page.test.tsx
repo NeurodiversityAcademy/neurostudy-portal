@@ -38,7 +38,16 @@ jest.mock(
 );
 jest.mock('../../components/accordion/Accordian', () => require('@/testUtils/mockAccordion'));
 
+jest.mock('../../components/endorsements/EndorsementsContactCta', () => ({
+  __esModule: true,
+  default: () => {
+    const { ENDORSEMENTS_CTA_LABELS } = require('@/app/utilities/constants');
+    return <a href='/contact'>{ENDORSEMENTS_CTA_LABELS.CONTACT}</a>;
+  },
+}));
+
 import Page from '../page';
+import { ENDORSEMENTS_CTA_LABELS } from '@/app/utilities/constants';
 
 describe('Endorsements page', () => {
   it('renders live endorsed organisations', () => {
@@ -46,5 +55,14 @@ describe('Endorsements page', () => {
 
     expect(screen.getByText('NDA Endorsed Providers')).toBeInTheDocument();
     expect(screen.getAllByRole('link', { name: 'Explore More' })).toHaveLength(4);
+  });
+
+  it('renders tracked contact CTA below FAQs', () => {
+    render(<Page />);
+
+    expect(screen.getByRole('link', { name: ENDORSEMENTS_CTA_LABELS.CONTACT })).toHaveAttribute(
+      'href',
+      '/contact',
+    );
   });
 });

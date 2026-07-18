@@ -100,4 +100,23 @@ export const GA_EVENTS = {
     eventName: 'endorsed_explore_click',
     category: 'Endorsed',
   },
+  HANDBOOK_CTA_CLICK: { eventName: 'handbook_cta_click', category: 'Conversion' },
+  CONTACT_CTA_CLICK: { eventName: 'contact_cta_click', category: 'Conversion' },
+} as const;
+
+export const CONVERSION_CTA_NAMES = {
+  HANDBOOK: 'handbook',
+  CONTACT: 'contact_us',
+} as const;
+
+export const ENDORSEMENTS_CTA_LABELS = {
+  HANDBOOK: 'Get the free handbook',
+  CONTACT: 'Contact us about endorsement',
+} as const;
+
+export const ENDORSEMENTS_HERO_SUBTITLE =
+  'Download our free handbook or contact us to start your organisation’s endorsement journey.' as const;
+
+export const META_EVENTS = {
+  LEAD: 'Lead',
 } as const;

@@ -15,16 +15,19 @@ import Image from 'next/image';
 import bronzeBadge from '../images/bronzeBadge.svg';
 import silverBadge from '../images/silverBadge.svg';
 import goldBadge from '../images/goldBadge.svg';
-import ActionButton from '../components/buttons/ActionButton';
-import { BUTTON_STYLE } from '../utilities/constants';
-import Link from 'next/link';
 import Accordion from '../components/accordion/Accordian';
+import EndorsementsContactCta from '../components/endorsements/EndorsementsContactCta';
 import { ACCORDION_TRACKING_DISABLED } from '@/app/utilities/accordionActions';
+import { ENDORSEMENTS_HERO_SUBTITLE } from '@/app/utilities/constants';
 
 export default function Page() {
   return (
     <div className={styles.container}>
-      <HomeBanner displayBadges={true} displayFilter={false} />
+      <HomeBanner
+        displayBadges={true}
+        displayFilter={false}
+        subtitle={ENDORSEMENTS_HERO_SUBTITLE}
+      />
       <Teacher />
       <Handbook />
       <Fact />
@@ -169,13 +172,7 @@ export default function Page() {
             </Accordion>
           </div>
         </div>
-        <Link href='/contact'>
-          <ActionButton
-            style={BUTTON_STYLE.Primary}
-            label='Contact us for endorsement'
-            className={styles.enrolBtn}
-          />
-        </Link>
+        <EndorsementsContactCta />
       </div>
     </div>
   );

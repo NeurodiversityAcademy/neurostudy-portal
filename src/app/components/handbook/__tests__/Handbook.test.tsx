@@ -16,14 +16,33 @@ jest.mock('@/app/utilities/common', () => ({
   notifyError: jest.fn(),
 }));
 
+jest.mock('@/app/utilities/gaTracking', () => ({
+  sendHandbookCtaClickEvent: jest.fn(),
+}));
+
+jest.mock('@/app/utilities/metaPixelTracking', () => ({
+  sendMetaHandbookCtaLeadEvent: jest.fn(),
+}));
+
 import Handbook from '../index';
+import { ENDORSEMENTS_CTA_LABELS } from '@/app/utilities/constants';
+import { sendHandbookCtaClickEvent } from '@/app/utilities/gaTracking';
+import { sendMetaHandbookCtaLeadEvent } from '@/app/utilities/metaPixelTracking';
+
+const mockSendHandbookCtaClickEvent = sendHandbookCtaClickEvent as jest.Mock;
+const mockSendMetaHandbookCtaLeadEvent = sendMetaHandbookCtaLeadEvent as jest.Mock;
 
 describe('Handbook', () => {
+  beforeEach(() => {
+    mockSendHandbookCtaClickEvent.mockClear();
+    mockSendMetaHandbookCtaLeadEvent.mockClear();
+  });
+
   it('renders handbook heading and description', () => {
     render(<Handbook />);
     expect(screen.getByText('Neuro-Inclusion in Vocational Education')).toBeInTheDocument();
     expect(
-      screen.getByText(/Explore key strategies for building neuro-inclusive/),
+      screen.getByText(/Download our free handbook for practical strategies/),
     ).toBeInTheDocument();
   });
 
@@ -33,9 +52,11 @@ describe('Handbook', () => {
     expect(screen.getByAltText('Handbook Mobile Screenshot')).toBeInTheDocument();
   });
 
-  it('opens popup when Free Download is clicked', () => {
+  it('opens popup and tracks CTA click when handbook button is clicked', () => {
     render(<Handbook />);
-    fireEvent.click(screen.getByText('Free Download'));
+    fireEvent.click(screen.getByText(ENDORSEMENTS_CTA_LABELS.HANDBOOK));
+    expect(mockSendHandbookCtaClickEvent).toHaveBeenCalledWith('handbook');
+    expect(mockSendMetaHandbookCtaLeadEvent).toHaveBeenCalled();
     expect(screen.getByText('Subscribe to our Newsletter!')).toBeInTheDocument();
   });
 
