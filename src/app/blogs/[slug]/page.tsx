@@ -9,6 +9,9 @@ import { Metadata } from 'next';
 import { HOST_URL, META_KEY } from '@/app/utilities/constants';
 import { createMetadata, slugify } from '@/app/utilities/common';
 import VisitTrackerWrapper from '@/app/components/wrapper/VisitTrackerWrapper';
+import JsonLd from '@/app/components/seo/JsonLd';
+import { buildBlogPostingSchema } from '@/app/components/seo/schemaBuilders';
+import { getSiteOrigin } from '@/app/components/seo/siteOrigin';
 import BlogList from '@/app/components/blogList/blogList';
 
 interface Props {
@@ -47,9 +50,20 @@ export default async function OneBlog({ params }: Props) {
   if (!blog) {
     return <Typography variant={TypographyVariant.H1}>Blog not found</Typography>;
   }
-  const { id, header, imageUrl, bodyText, scriptSrc, containerId } = blog;
+  const { id, title, description, header, imageUrl, bodyText, scriptSrc, containerId } = blog;
+  const siteOrigin = getSiteOrigin();
+  const canonical = `${siteOrigin}/blogs/${slug}`;
+
   return (
     <div className={styles.container}>
+      <JsonLd
+        data={buildBlogPostingSchema(siteOrigin, {
+          headline: header ?? title,
+          description,
+          url: canonical,
+          imageUrl,
+        })}
+      />
       <VisitTrackerWrapper id={id} type='blog' />
       <TextHeavyBlog id={id} header={header} imageUrl={imageUrl} bodyText={bodyText} />{' '}
       {scriptSrc !== '' && containerId !== '' && (

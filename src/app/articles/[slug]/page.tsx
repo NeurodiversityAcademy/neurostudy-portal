@@ -9,6 +9,9 @@ import Subscribe from '@/app/components/subscribe/subscribe';
 import { HOST_URL, META_KEY } from '@/app/utilities/constants';
 import { createMetadata, slugify } from '@/app/utilities/common';
 import VisitTrackerWrapper from '@/app/components/wrapper/VisitTrackerWrapper';
+import JsonLd from '@/app/components/seo/JsonLd';
+import { buildArticleSchema } from '@/app/components/seo/schemaBuilders';
+import { getSiteOrigin } from '@/app/components/seo/siteOrigin';
 
 interface Props {
   params: Promise<{
@@ -54,10 +57,22 @@ export default async function OneArticle({ params }: Props) {
     return <Typography variant={TypographyVariant.H1}>Article not found</Typography>;
   }
 
-  const { id, header, imageUrl, bodyText, authorName, authorImageUrl } = article;
+  const { id, header, title, description, imageUrl, bodyText, authorName, authorImageUrl } =
+    article;
+  const siteOrigin = getSiteOrigin();
+  const canonical = `${siteOrigin}/articles/${slug}`;
 
   return (
     <div className={styles.container}>
+      <JsonLd
+        data={buildArticleSchema(siteOrigin, {
+          headline: header ?? title,
+          description,
+          url: canonical,
+          imageUrl,
+          authorName,
+        })}
+      />
       <VisitTrackerWrapper id={id} type='article' />
       <TextHeavyArticle
         id={id}

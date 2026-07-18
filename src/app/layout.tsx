@@ -12,6 +12,9 @@ import MetaPixel from './components/article/MetaPixel';
 import DeferredTabNavEmbed from './components/tabnav/DeferredTabNavEmbed';
 import DeferredGoogleAnalytics from './components/analytics/DeferredGoogleAnalytics';
 import DeferredVercelInsights from './components/analytics/DeferredVercelInsights';
+import JsonLd from './components/seo/JsonLd';
+import { buildSiteGraphSchema } from './components/seo/schemaBuilders';
+import { getSiteOrigin } from './components/seo/siteOrigin';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -42,9 +45,12 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const siteOrigin = getSiteOrigin();
+
   return (
     <html lang='en' className={poppins.variable}>
       <head>
+        <JsonLd data={buildSiteGraphSchema(siteOrigin)} />
         <meta name='viewport' content='width=device-width, initial-scale=1.0, viewport-fit=cover' />
         <meta
           name='google-site-verification'
