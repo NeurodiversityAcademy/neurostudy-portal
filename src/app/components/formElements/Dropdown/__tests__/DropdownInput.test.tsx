@@ -3,17 +3,7 @@ import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
 import { useForm, FormProvider, FieldValues } from 'react-hook-form';
 import Dropdown from '../Dropdown';
 
-jest.mock('next/image', () => ({
-  __esModule: true,
-  default: (props: Record<string, unknown>) => {
-    const { src, ...rest } = props;
-    const imgSrc =
-      typeof src === 'object' && src !== null
-        ? (src as { src?: string }).src || ''
-        : String(src || '');
-    return <img {...rest} src={imgSrc} alt='' />;
-  },
-}));
+jest.mock('next/image', () => require('@/testUtils/mockNextImage'));
 
 interface WrapperProps {
   children: React.ReactNode;

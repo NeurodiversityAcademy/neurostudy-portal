@@ -1,26 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-jest.mock('next/image', () => ({
-  __esModule: true,
-  default: (props: Record<string, unknown>) => <img {...props} />,
-  getImageProps: ({
-    src,
-    alt,
-    className,
-  }: {
-    src?: { src?: string } | string;
-    alt?: string;
-    className?: string;
-  }) => ({
-    props: {
-      src: typeof src === 'string' ? src : (src?.src ?? '/hero.webp'),
-      srcSet: typeof src === 'string' ? src : (src?.src ?? '/hero.webp'),
-      alt: alt ?? '',
-      className,
-    },
-  }),
-}));
+jest.mock('next/image', () => require('@/testUtils/mockNextImage'));
 
 jest.mock('next/link', () => ({
   __esModule: true,

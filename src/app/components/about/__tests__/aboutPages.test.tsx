@@ -1,10 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-jest.mock('next/image', () => ({
-  __esModule: true,
-  default: (props: Record<string, unknown>) => <img {...props} />,
-}));
+jest.mock('next/image', () => require('@/testUtils/mockNextImage'));
 
 import Founders from '../../aboutFounders/Founders';
 import Journey from '../../aboutJourney/Journey';

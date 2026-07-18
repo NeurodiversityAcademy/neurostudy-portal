@@ -3,10 +3,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 
 const mockLoadData = jest.fn();
 
-jest.mock('next/image', () => ({
-  __esModule: true,
-  default: (props: Record<string, unknown>) => <img {...props} />,
-}));
+jest.mock('next/image', () => require('@/testUtils/mockNextImage'));
 
 jest.mock('@/app/hooks/useUpdatedValue', () => ({
   __esModule: true,
