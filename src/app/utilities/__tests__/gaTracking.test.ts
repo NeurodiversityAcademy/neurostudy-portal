@@ -127,16 +127,12 @@ describe('gaTracking', () => {
     installTestPagePath('/contact');
     const mockGtag = installGtagMock();
     sendContactSubmitEvent('persona_1');
-    expect(mockGtag).toHaveBeenCalledWith(
-      GA_EVENT_COMMAND,
-      GA_EVENTS.CONTACT_SUBMIT.eventName,
-      {
-        category: GA_EVENTS.CONTACT_SUBMIT.category,
-        form_name: CONVERSION_FORM_NAMES.CONTACT_US,
-        persona: 'persona_1',
-        page_path: '/contact',
-      },
-    );
+    expect(mockGtag).toHaveBeenCalledWith(GA_EVENT_COMMAND, GA_EVENTS.CONTACT_SUBMIT.eventName, {
+      category: GA_EVENTS.CONTACT_SUBMIT.category,
+      form_name: CONVERSION_FORM_NAMES.CONTACT_US,
+      persona: 'persona_1',
+      page_path: '/contact',
+    });
   });
 
   it('sendNewsletterSubscribeEvent dispatches newsletter_subscribe', () => {
@@ -159,16 +155,12 @@ describe('gaTracking', () => {
     installTestPagePath('/handbook');
     const mockGtag = installGtagMock();
     sendHandbookDownloadEvent('persona_2');
-    expect(mockGtag).toHaveBeenCalledWith(
-      GA_EVENT_COMMAND,
-      GA_EVENTS.HANDBOOK_DOWNLOAD.eventName,
-      {
-        category: GA_EVENTS.HANDBOOK_DOWNLOAD.category,
-        form_name: CONVERSION_FORM_NAMES.HANDBOOK,
-        content_name: CONVERSION_FORM_NAMES.HANDBOOK,
-        persona: 'persona_2',
-        page_path: '/handbook',
-      },
-    );
+    expect(mockGtag).toHaveBeenCalledWith(GA_EVENT_COMMAND, GA_EVENTS.HANDBOOK_DOWNLOAD.eventName, {
+      category: GA_EVENTS.HANDBOOK_DOWNLOAD.category,
+      form_name: CONVERSION_FORM_NAMES.HANDBOOK,
+      content_name: CONVERSION_FORM_NAMES.HANDBOOK,
+      persona: 'persona_2',
+      page_path: '/handbook',
+    });
   });
 });
