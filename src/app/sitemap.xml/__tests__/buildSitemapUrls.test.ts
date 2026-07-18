@@ -4,11 +4,7 @@ import blogData from '@/app/blogs/blogData.json';
 import articleData from '@/app/articles/articleData.json';
 import courseData from '@/app/courses/courseData.json';
 import { slugify } from '@/app/utilities/common';
-import {
-  buildSitemapUrls,
-  buildSitemapXml,
-  SITEMAP_STATIC_PAGES,
-} from '../buildSitemapUrls';
+import { buildSitemapUrls, buildSitemapXml, SITEMAP_STATIC_PAGES } from '../buildSitemapUrls';
 
 const BASE_URL = 'https://neurodiversityacademy.com';
 
