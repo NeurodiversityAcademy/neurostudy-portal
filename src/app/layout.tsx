@@ -9,7 +9,7 @@ import { Metadata } from 'next';
 import ToasterWrapper from './components/toaster/ToasterWrapper';
 import NextAuthProvider from './utilities/auth/NextAuthProvider';
 import MetaPixel from './components/article/MetaPixel';
-import TabNavEmbed from './components/tabnav/TabNavEmbed';
+import DeferredTabNavEmbed from './components/tabnav/DeferredTabNavEmbed';
 import DeferredGoogleAnalytics from './components/analytics/DeferredGoogleAnalytics';
 import DeferredVercelInsights from './components/analytics/DeferredVercelInsights';
 
@@ -65,7 +65,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           debugMode={process.env.NODE_ENV !== 'production'}
         />
         <DeferredVercelInsights />
-        <TabNavEmbed />
+        <DeferredTabNavEmbed />
       </body>
     </html>
   );

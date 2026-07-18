@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import styles from './badgeDisplay.module.css';
-import badgeGeneric from '../../images/badgeGeneric.png';
+import badgeGeneric from '../../images/badgeGeneric.webp';
 
 interface BadgeDisplayProps {
   priority?: boolean;
@@ -17,7 +17,7 @@ export default function BadgeDisplay({ priority = false }: BadgeDisplayProps) {
         height={152}
         sizes='(max-width: 480px) 20vw, 152px'
         priority={priority}
-        fetchPriority={priority ? 'high' : 'auto'}
+        loading={priority ? undefined : 'lazy'}
       />
     </div>
   );

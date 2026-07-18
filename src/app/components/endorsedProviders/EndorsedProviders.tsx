@@ -4,7 +4,7 @@ import InstitutionProviderCard from '../institutionProviderCard/InstitutionProvi
 import cardStyles from '../institutionProviderCard/institutionProviderCard.module.css';
 import sectionStyles from '../emergingInstitutions/emergingInstitutions.module.css';
 import endorseStyles from './endorsedProviders.module.css';
-import badgeGeneric from '../../images/badgeGeneric.png';
+import badgeGeneric from '../../images/badgeGeneric.webp';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import { TypographyColorToken } from '../typography/typographyColorToken';
 import { analyticsFileNameFromUrl } from '@/app/utilities/analyticsFileName';
@@ -114,6 +114,7 @@ export default function EndorsedProviders({
               width={54}
               height={54}
               sizes='54px'
+              loading='lazy'
               className={endorseStyles.headerBadgeImg}
             />
           </div>

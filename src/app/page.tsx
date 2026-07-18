@@ -3,18 +3,24 @@ import DisplayPodcast from './components/podcast/DisplayPodcast';
 import { Metadata } from 'next';
 import { createMetadata } from './utilities/common';
 import { META_KEY } from './utilities/constants';
-import Subscribe from './components/subscribe/subscribe';
 import HomeBanner from './components/banner/HomeBanner';
 import { Suspense } from 'react';
 import HowItWorks from './components/howItWorks/HowItWorks';
+import dynamic from 'next/dynamic';
 
 import StudentFacts from './components/studentFacts/StudentFacts';
 import isFeatureEnabled from './utilities/featureToggle';
-import ArticleList from './components/articleList/articleList';
 import EmergingInstitutions from './components/emergingInstitutions/EmergingInstitutions';
 import EndorsedProviders from './components/endorsedProviders/EndorsedProviders';
 import { resolveHomeDemoAccess } from './utilities/demoAccess';
 import type { SearchParams } from './utilities/featureToggle';
+
+const ArticleList = dynamic(() => import('./components/articleList/articleList'), {
+  loading: () => null,
+});
+const Subscribe = dynamic(() => import('./components/subscribe/subscribe'), {
+  loading: () => null,
+});
 
 export const metadata: Metadata = createMetadata(META_KEY.HOME, {
   images: [
@@ -54,10 +60,12 @@ export const metadata: Metadata = createMetadata(META_KEY.HOME, {
     ],
   },
 });
+
 export default async function Home({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const resolvedSearchParams = await searchParams;
   const showSearchBar = isFeatureEnabled(resolvedSearchParams, 'searchBar');
   const demoAccess = resolveHomeDemoAccess(resolvedSearchParams);
+
   return (
     <main className={styles.main}>
       <HomeBanner

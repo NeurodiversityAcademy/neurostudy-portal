@@ -24,9 +24,7 @@ describe('DisplayPodcast', () => {
     mockGetAvailability.mockReset();
   });
 
-  it('passes embed availability to BuzzsproutEmbed', async () => {
-    mockGetAvailability.mockResolvedValue(true);
-
+  it('skips feed checks for multi-episode embeds and assumes available', async () => {
     const element = await DisplayPodcast({
       scriptSrc: 'https://buzzsprout.com/test.js',
       containerId: 'podcast-container',
@@ -35,11 +33,11 @@ describe('DisplayPodcast', () => {
 
     render(element);
 
-    expect(mockGetAvailability).toHaveBeenCalledWith('https://buzzsprout.com/test.js', false);
+    expect(mockGetAvailability).not.toHaveBeenCalled();
     expect(screen.getByTestId('buzzsprout-embed')).toHaveTextContent('multi-true');
   });
 
-  it('handles unavailable embed', async () => {
+  it('checks script availability for single-blog embeds', async () => {
     mockGetAvailability.mockResolvedValue(false);
 
     const element = await DisplayPodcast({
@@ -50,6 +48,7 @@ describe('DisplayPodcast', () => {
 
     render(element);
 
+    expect(mockGetAvailability).toHaveBeenCalledWith('https://buzzsprout.com/unavailable.js', true);
     expect(screen.getByTestId('buzzsprout-embed')).toHaveTextContent('single-false');
   });
 });

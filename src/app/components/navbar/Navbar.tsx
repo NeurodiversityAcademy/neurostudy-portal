@@ -39,7 +39,7 @@ export default function Navbar() {
     <nav className={styles.nav}>
       <div className={styles.wrapper}>
         <Link className={styles.logo} href='/'>
-          <Image src={Logo} alt='logo' width={179} height={40} priority />
+          <Image src={Logo} alt='logo' width={179} height={40} />
         </Link>
         <div className={styles.innerWrapper}>
           <ul className={styles.ul}>

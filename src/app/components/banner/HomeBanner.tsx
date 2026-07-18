@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import styles from './banner.module.css';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import BadgeDisplay from '../badges/BadgeDisplay';
@@ -7,7 +6,6 @@ import CoursePrimaryFilter from '../course/CoursePrimaryFilter';
 import CourseProvider from '@/app/utilities/course/CourseProvider';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 import ActionButton from '../buttons/ActionButton';
-import heroBackground from '@/app/images/bg-hero.webp';
 
 interface PropType {
   displayBadges?: boolean;
@@ -28,17 +26,24 @@ export default function HomeBanner({
 }: PropType) {
   return (
     <>
+      {/* Preload LCP-adjacent hero so CSS background discovers early on mobile. */}
+      <link
+        rel='preload'
+        as='image'
+        href='/images/hero-mobile.webp'
+        type='image/webp'
+        media='(max-width: 768px)'
+        fetchPriority='high'
+      />
+      <link
+        rel='preload'
+        as='image'
+        href='/images/hero-desktop.webp'
+        type='image/webp'
+        media='(min-width: 769px)'
+        fetchPriority='high'
+      />
       <div className={styles.bannerContainer}>
-        <Image
-          src={heroBackground}
-          alt=''
-          fill
-          priority
-          fetchPriority='high'
-          sizes='100vw'
-          quality={75}
-          className={styles.bannerBackground}
-        />
         <div className={styles.bannerOverlay} aria-hidden='true' />
         <div className={styles.bannerTextAndBadge}>
           <div className={styles.textContainer}>
@@ -61,7 +66,7 @@ export default function HomeBanner({
               </div>
             )}
           </div>
-          {displayBadges && <BadgeDisplay priority />}
+          {displayBadges && <BadgeDisplay />}
         </div>
         {showSearchBar && displayFilter && (
           <CourseProvider redirectToSearchPage>
