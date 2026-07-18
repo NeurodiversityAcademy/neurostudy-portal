@@ -8,7 +8,7 @@ let ReactPixel: undefined | Record<string, any>;
 
 const loadPixel = (pixelId: string): Promise<void> =>
   import('react-facebook-pixel')
-    .then((module) => module.default)
+    .then((pixelModule) => pixelModule.default)
     .then((pixel) => {
       ReactPixel = pixel;
       ReactPixel.init(pixelId);
