@@ -10,7 +10,7 @@
     "start": "next start",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "eslint . --max-warnings=0",
+    "lint": "eslint . --max-warnings=0 --cache --cache-location .eslintcache",
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc --noEmit",
     "security:audit": "npm audit --audit-level=low",
@@ -18,7 +18,7 @@
     "test:coverage": "NODE_ENV=test jest --coverage --passWithNoTests --maxWorkers=75%",
     "test:ci": "NODE_ENV=test SILENT_TEST_CONSOLE=1 jest --ci --silent --coverage --passWithNoTests --maxWorkers=75% --workerIdleMemoryLimit=512MB",
     "coverage:changed": "node scripts/check-changed-coverage.mjs",
-    "verify:quality": "npm run security:audit && npm run format:check && npm run lint && npm run typecheck && npm run test:ci && npm run coverage:changed",
+    "verify:quality": "node scripts/verify-quality.mjs",
     "vercel:build": "git fetch --depth=50 origin main 2>/dev/null || true; npm run verify:quality && next build",
     "verify:deploy": "npm run vercel:build",
     "deploy": "npm run vercel:build"

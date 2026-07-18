@@ -8,6 +8,8 @@
 
 # testing
 /coverage
+/.jest-cache
+.eslintcache
 
 # next.js
 /.next/

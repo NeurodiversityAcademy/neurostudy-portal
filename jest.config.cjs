@@ -2,10 +2,11 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-  // Parallelize across CPUs; 75% was fastest on an 8-core machine (~12s vs ~17s serial).
+  // Parallelize across CPUs; 75% was fastest on an 8-core machine (100% thrashed).
   maxWorkers: '75%',
   // Cap idle worker memory so long parallel runs recycle workers instead of hanging.
   workerIdleMemoryLimit: '512MB',
+  cacheDirectory: '<rootDir>/.jest-cache',
   testMatch: [
     '**/__tests__/**/*.test.ts',
     '**/__tests__/**/*.test.tsx',
@@ -27,6 +28,8 @@ module.exports = {
           target: 'ES2022',
           isolatedModules: true,
         },
+        // Faster: skip type-checking in Jest (tsc runs separately in verify:quality).
+        diagnostics: false,
       },
     ],
   },
@@ -54,7 +57,14 @@ module.exports = {
     '!src/app/robots.txt/route.ts',
   ],
   coverageDirectory: 'coverage',
-  coverageReporters: ['text', 'text-summary', 'html', 'lcov', 'json', 'json-summary'],
+  // CI/Vercel: only reporters needed for gates (json for coverage:changed). Skip html/lcov.
+  coverageReporters:
+    process.env.CI === 'true' ||
+    process.env.CI === '1' ||
+    process.env.VERCEL === '1' ||
+    process.env.SILENT_TEST_CONSOLE === '1'
+      ? ['json', 'text-summary']
+      : ['text', 'text-summary', 'html', 'lcov', 'json', 'json-summary'],
   coverageThreshold: {
     global: {
       statements: 90,
