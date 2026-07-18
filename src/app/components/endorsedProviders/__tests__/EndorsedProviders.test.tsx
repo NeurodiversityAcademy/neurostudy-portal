@@ -6,10 +6,7 @@ import {
 } from '@/app/utilities/demoAccess';
 import { NDA_CERTIFIED_LEGEND } from '@/app/utilities/endorsedProvidersDemo';
 
-jest.mock('next/image', () => ({
-  __esModule: true,
-  default: (props: { alt: string }) => <img alt={props.alt} />,
-}));
+jest.mock('next/image', () => require('@/testUtils/mockNextImage'));
 
 describe('EndorsedProviders demo access', () => {
   it('renders live provider cards without demo props', () => {

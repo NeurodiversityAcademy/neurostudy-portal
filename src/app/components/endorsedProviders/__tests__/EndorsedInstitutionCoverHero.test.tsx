@@ -7,10 +7,7 @@ import {
 } from '@/app/utilities/__tests__/gaTestHelpers';
 import { NDA_CERTIFIED_LEGEND } from '@/app/utilities/endorsedProvidersDemo';
 
-jest.mock('next/image', () => ({
-  __esModule: true,
-  default: (props: { alt: string }) => <img alt={props.alt} />,
-}));
+jest.mock('next/image', () => require('@/testUtils/mockNextImage'));
 
 jest.mock(
   '@/app/components/course/CourseDetails/CourseDetailsMiddleBanner/CourseDetailsMiddleBannerIcon',

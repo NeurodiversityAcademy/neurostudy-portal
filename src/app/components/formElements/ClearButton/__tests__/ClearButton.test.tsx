@@ -3,10 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { useForm, useWatch, FormProvider } from 'react-hook-form';
 import ClearButton from '../ClearButton';
 
-jest.mock('next/image', () => ({
-  __esModule: true,
-  default: (props: Record<string, unknown>) => <img {...props} alt='' />,
-}));
+jest.mock('next/image', () => require('@/testUtils/mockNextImage'));
 
 interface FormValues {
   name: string;

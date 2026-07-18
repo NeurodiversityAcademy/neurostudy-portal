@@ -2,10 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { ReadonlyURLSearchParams } from 'next/navigation';
 
-jest.mock('next/image', () => ({
-  __esModule: true,
-  default: (props: Record<string, unknown>) => <img {...props} />,
-}));
+jest.mock('next/image', () => require('@/testUtils/mockNextImage'));
 
 jest.mock('../Blog', () => ({
   __esModule: true,

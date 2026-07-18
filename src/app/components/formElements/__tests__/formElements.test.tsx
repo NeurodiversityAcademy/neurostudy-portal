@@ -9,17 +9,7 @@ import Radio from '../Radio/Radio';
 import Toggle from '../Toggle/Toggle';
 import Slider from '../Slider/Slider';
 
-jest.mock('next/image', () => ({
-  __esModule: true,
-  default: (props: Record<string, unknown>) => {
-    const { src, ...rest } = props;
-    const imgSrc =
-      typeof src === 'object' && src !== null
-        ? (src as { src?: string }).src || ''
-        : String(src || '');
-    return <img {...rest} src={imgSrc} />;
-  },
-}));
+jest.mock('next/image', () => require('@/testUtils/mockNextImage'));
 
 interface WrapperProps {
   children: React.ReactNode;

@@ -16,13 +16,7 @@ jest.mock('next/navigation', () => ({
   usePathname: () => '/courses',
 }));
 
-jest.mock('next/image', () => ({
-  __esModule: true,
-  default: (props: Record<string, unknown>) => {
-    const { _priority, _fill, _quality, ...rest } = props;
-    return <img {...rest} />;
-  },
-}));
+jest.mock('next/image', () => require('@/testUtils/mockNextImage'));
 
 jest.mock('next/link', () => ({
   __esModule: true,
