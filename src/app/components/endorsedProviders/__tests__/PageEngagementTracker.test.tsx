@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react';
 import PageEngagementTracker from '../PageEngagementTracker';
+import { EMERGING_PAGE_SECTION } from '@/app/utilities/emergingPageSections';
 import { ENDORSED_PAGE_SECTION } from '@/app/utilities/endorsedPageSections';
 import { DATA_SECTION_ATTRIBUTE } from '@/app/utilities/gaTracking';
 import {
@@ -115,6 +116,38 @@ describe('PageEngagementTracker', () => {
         section: ENDORSED_PAGE_SECTION.FAQS,
         provider_slug: 'collarts',
         page_path: '/endorsedproviders/collarts',
+        category: 'Engagement',
+      }),
+    );
+  });
+
+  it('fires section_visible for emerging provider section ids', () => {
+    const mockGtag = installGtagMock();
+    installTestPagePath('/emergingproviders/bond-university');
+
+    render(
+      <PageEngagementTracker providerSlug='bond-university'>
+        <div {...{ [DATA_SECTION_ATTRIBUTE]: EMERGING_PAGE_SECTION.HERO }}>Hero</div>
+        <div {...{ [DATA_SECTION_ATTRIBUTE]: EMERGING_PAGE_SECTION.SUITABILITY }}>
+          Suitability
+        </div>
+        <div {...{ [DATA_SECTION_ATTRIBUTE]: EMERGING_PAGE_SECTION.STATS }}>Stats</div>
+        <div {...{ [DATA_SECTION_ATTRIBUTE]: EMERGING_PAGE_SECTION.FAQS }}>FAQs</div>
+      </PageEngagementTracker>,
+    );
+
+    const heroTarget = document.querySelector(
+      `[${DATA_SECTION_ATTRIBUTE}="${EMERGING_PAGE_SECTION.HERO}"]`,
+    ) as HTMLElement;
+    fireIntersection(heroTarget);
+
+    expect(mockGtag).toHaveBeenCalledWith(
+      GA_EVENT_COMMAND,
+      'section_visible',
+      expect.objectContaining({
+        section: EMERGING_PAGE_SECTION.HERO,
+        provider_slug: 'bond-university',
+        page_path: '/emergingproviders/bond-university',
         category: 'Engagement',
       }),
     );
