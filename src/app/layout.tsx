@@ -51,6 +51,40 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           content='djfPTzD9D2f3d1fmQBIqJqV_H7SQFbPHimsnYKBI66s'
         />
         <link rel='icon' href='/favicon.ico' sizes='any' />
+        {/* Hero preloads in document head so LCP paint is not delayed by body parsing. */}
+        <link
+          rel='preload'
+          as='image'
+          href='/images/hero-mobile.webp'
+          type='image/webp'
+          media='(max-width: 768px)'
+          fetchPriority='high'
+        />
+        <link
+          rel='preload'
+          as='image'
+          href='/images/hero-desktop.webp'
+          type='image/webp'
+          media='(min-width: 769px)'
+          fetchPriority='high'
+        />
+        {/* Stable class paints hero immediately before CSS modules hydrate. */}
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+.home-hero-banner{
+  background-color:#4a2a8a;
+  background-image:url('/images/hero-mobile.webp');
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  min-height:70vh;
+}
+@media (min-width:769px){
+  .home-hero-banner{background-image:url('/images/hero-desktop.webp')}
+}`,
+          }}
+        />
       </head>
       <body className={poppins.className}>
         <NextAuthProvider>
