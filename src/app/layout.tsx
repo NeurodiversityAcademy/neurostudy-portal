@@ -58,7 +58,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           href='/images/hero-mobile.webp'
           type='image/webp'
           media='(max-width: 768px)'
-          // @ts-expect-error fetchPriority is valid on link but missing from React types
           fetchPriority='high'
         />
         <link
@@ -67,7 +66,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           href='/images/hero-desktop.webp'
           type='image/webp'
           media='(min-width: 769px)'
-          // @ts-expect-error fetchPriority is valid on link but missing from React types
           fetchPriority='high'
         />
         {/* Stable class paints hero immediately before CSS modules hydrate. */}
