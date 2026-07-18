@@ -40,12 +40,9 @@ const BuzzsproutEmbed: React.FC<BuzzsproutEmbedProps> = ({
   embedAvailable = true,
 }) => {
   const [showFallback, setShowFallback] = useState(!embedAvailable);
-  const [shouldLoadPlayer, setShouldLoadPlayer] = useState(() => {
-    if (typeof window === 'undefined') {
-      return false;
-    }
-    return typeof window.IntersectionObserver !== 'function';
-  });
+  const [shouldLoadPlayer, setShouldLoadPlayer] = useState(
+    () => typeof window !== 'undefined' && typeof window.IntersectionObserver !== 'function',
+  );
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
