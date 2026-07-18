@@ -1,10 +1,7 @@
 import { render } from '@testing-library/react';
 import EndorsedCertifiedBadge from '../EndorsedCertifiedBadge';
 
-jest.mock('next/image', () => ({
-  __esModule: true,
-  default: (props: { alt: string }) => <img alt={props.alt} />,
-}));
+jest.mock('next/image', () => require('@/testUtils/mockNextImage'));
 
 describe('EndorsedCertifiedBadge', () => {
   it('renders gold star when certified', () => {

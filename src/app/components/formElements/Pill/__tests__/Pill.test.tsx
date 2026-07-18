@@ -3,10 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import Pill from '../Pill';
 import { PillRef } from '@/app/interfaces/Pill';
 
-jest.mock('next/image', () => ({
-  __esModule: true,
-  default: (props: Record<string, unknown>) => <img {...props} alt='' />,
-}));
+jest.mock('next/image', () => require('@/testUtils/mockNextImage'));
 
 describe('Pill', () => {
   it('renders label text', () => {

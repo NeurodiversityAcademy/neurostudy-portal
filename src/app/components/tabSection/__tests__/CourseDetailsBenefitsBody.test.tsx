@@ -1,15 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-jest.mock('@/app/components/accordion/Accordian', () => ({
-  __esModule: true,
-  default: ({ title, children }: { title: React.ReactNode; children: React.ReactNode }) => (
-    <div data-testid='accordion'>
-      <div data-testid='accordion-title'>{title}</div>
-      <div>{children}</div>
-    </div>
-  ),
-}));
+jest.mock('@/app/components/accordion/Accordian', () => require('@/testUtils/mockAccordion'));
 
 jest.mock('@/app/utilities/course/CourseDetailsProvider', () => {
   const React = require('react');
