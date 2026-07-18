@@ -45,6 +45,12 @@ import {
 } from '@/app/utilities/endorsedPageSections';
 import { DATA_SECTION_ATTRIBUTE } from '@/app/utilities/gaTracking';
 import pageStyles from './endorsedProviderPage.module.css';
+import JsonLd from '@/app/components/seo/JsonLd';
+import {
+  buildEducationalOrganizationSchema,
+  buildFaqPageSchema,
+} from '@/app/components/seo/schemaBuilders';
+import { getSiteOrigin } from '@/app/components/seo/siteOrigin';
 
 type RouteParams = {
   slug: string;
@@ -122,9 +128,28 @@ export default async function EndorsedProviderDetailPage({ params, searchParams 
   const locationValue = findHeroInfoValueByLabel(heroInfoItems, HERO_INFO_LABEL_LOCATION);
   const studyModeValue = findHeroInfoValueByLabel(heroInfoItems, HERO_INFO_LABEL_STUDY_MODE);
   const typeValue = findHeroInfoValueByLabel(heroInfoItems, HERO_INFO_LABEL_TYPE);
+  const isLivePage = isLiveEndorsedSlug(internalSlug);
+  const siteOrigin = getSiteOrigin();
+  const liveCanonical = `${siteOrigin}${buildEndorsedLiveDetailHref(internalSlug)}`;
 
   return (
     <PageEngagementTracker providerSlug={internalSlug}>
+      {isLivePage ? (
+        <>
+          <JsonLd
+            data={buildEducationalOrganizationSchema({
+              name: displayName,
+              url: liveCanonical,
+            })}
+          />
+          <JsonLd
+            data={buildFaqPageSchema({
+              pageUrl: liveCanonical,
+              sections: faqSections,
+            })}
+          />
+        </>
+      ) : null}
       <main className={pageStyles.pageMain}>
         <EndorsedInstitutionCoverHero
           locationValue={locationValue}
