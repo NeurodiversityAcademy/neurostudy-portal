@@ -6,7 +6,9 @@ import { createMetadata } from '@/app/utilities/common';
 import ProfileContainer from '../components/profile/ProfileContainer';
 import ProfileProvider from '../utilities/profile/ProfileProvider';
 
-export const metadata: Metadata = createMetadata(META_KEY.PROFILE);
+export const metadata: Metadata = createMetadata(META_KEY.PROFILE, {
+  robots: { index: false, follow: false },
+});
 
 const Page = async () => {
   return (
