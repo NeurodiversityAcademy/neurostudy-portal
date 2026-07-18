@@ -1,17 +1,13 @@
 import { HOST_URL, META_KEY, META_TYPE } from '../constants';
 import {
   KEYWORDS_ABOUT,
-  KEYWORDS_ADVISORY_CONSULTING,
   KEYWORDS_ARTICLES,
   KEYWORDS_BLOGS,
-  KEYWORDS_COACHING,
   KEYWORDS_CONTACT,
+  KEYWORDS_ENDORSEMENTS,
   KEYWORDS_HOME,
   KEYWORDS_LOGIN,
-  KEYWORDS_NETWORKING,
   KEYWORDS_NEURODIVERGENT_MATES,
-  KEYWORDS_NEURODIVERSITY_TRAINING,
-  KEYWORDS_PLACEMENTS,
   KEYWORDS_SIGNUP,
   KEYWORDS_FORGOT_PASSWORD,
   KEYWORDS_PROFILE,
@@ -35,42 +31,6 @@ export const metadata: Record<string, Partial<MetadataParams>> = {
       'Neurodivergent Mates is two neurodivergent mates from Australia who get together with different members of the community to talk and have in-depth conversations',
     keywords: KEYWORDS_HOME + KEYWORDS_NEURODIVERGENT_MATES,
     canonical: `${HOST_URL}/neurodivergentmates`,
-    type: META_TYPE.WEBSITE,
-  },
-  [META_KEY.NEURODIVERSITY_TRAINING]: {
-    title: 'Learning/Training Partnerships',
-    description: 'Learning/Training Partnerships services from Neurodiversity Academy',
-    keywords: KEYWORDS_HOME + KEYWORDS_NEURODIVERGENT_MATES + KEYWORDS_NEURODIVERSITY_TRAINING,
-    canonical: `${HOST_URL}/services/neurodiversitytraining`,
-    type: META_TYPE.WEBSITE,
-  },
-  [META_KEY.ADVISORY_CONSULTING]: {
-    title: 'Advisory Neurodiversity Consulting',
-    description: 'Advisory Neurodiversity Consulting services from Neurodiversity Academy',
-    keywords: KEYWORDS_HOME + KEYWORDS_NEURODIVERGENT_MATES + KEYWORDS_ADVISORY_CONSULTING,
-    canonical: `${HOST_URL}/services/advisoryconsulting`,
-    type: META_TYPE.WEBSITE,
-  },
-  [META_KEY.NETWORKING]: {
-    title: 'Host Neurodiversity Workshops & Networking (Awareness/Education)',
-    description:
-      'Hosting Neurodiversity Workshops & Networking services from Neurodiversity Academy',
-    keywords: KEYWORDS_HOME + KEYWORDS_NEURODIVERGENT_MATES + KEYWORDS_NETWORKING,
-    canonical: `${HOST_URL}/services/networking`,
-    type: META_TYPE.WEBSITE,
-  },
-  [META_KEY.COACHING]: {
-    title: 'Career Coaching',
-    description: 'Neurodiversity Career Coaching from Neurodiversity Academy',
-    keywords: KEYWORDS_HOME + KEYWORDS_NEURODIVERGENT_MATES + KEYWORDS_COACHING,
-    canonical: `${HOST_URL}/services/coaching`,
-    type: META_TYPE.WEBSITE,
-  },
-  [META_KEY.PLACEMENTS]: {
-    title: 'Placements (Internships/Employment)',
-    description: 'Placements (Internships/Employment) services from Neurodiversity Academy',
-    keywords: KEYWORDS_HOME + KEYWORDS_NEURODIVERGENT_MATES + KEYWORDS_PLACEMENTS,
-    canonical: `${HOST_URL}/services/placements`,
     type: META_TYPE.WEBSITE,
   },
   [META_KEY.ABOUT]: {
@@ -148,6 +108,14 @@ export const metadata: Record<string, Partial<MetadataParams>> = {
     description: 'Search courses associated with Neurodiversity Academy',
     keywords: KEYWORDS_COURSES,
     canonical: META_COURSES_DEFAULT_CANONICAL_URL,
+    type: META_TYPE.WEBSITE,
+  },
+  [META_KEY.ENDORSEMENTS]: {
+    title: 'Endorsements - Neurodiversity Academy',
+    description:
+      "Endorsement ensures that learning organisations meet the Neurodiversity Academy's (NDA) neuro-inclusion standards. Only endorsed providers are eligible to appear on our platform, giving students confidence that these organisations are prepared to support neurodivergent learners effectively.",
+    keywords: KEYWORDS_ENDORSEMENTS,
+    canonical: `${HOST_URL}/endorsements`,
     type: META_TYPE.WEBSITE,
   },
 };

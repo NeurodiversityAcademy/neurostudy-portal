@@ -3,20 +3,6 @@ export const KEYWORDS_HOME =
 
 export const KEYWORDS_NEURODIVERGENT_MATES = 'neurodivergentmates, neurodivergent mates, ';
 
-export const KEYWORDS_NEURODIVERSITY_TRAINING =
-  'Neurodiversity Learning/Training Partnerships, Neurodiversity Learning, Learning/Training Partnerships, Neurodiversity Training, ';
-
-export const KEYWORDS_ADVISORY_CONSULTING =
-  'Advisory Neurodiversity Consulting, advisoryneurodiversityconsulting, ';
-
-export const KEYWORDS_NETWORKING =
-  'Host Neurodiversity Workshops & Networking, Neurodiversity Workshops, Neurodiversity Networking, ';
-
-export const KEYWORDS_COACHING =
-  'Neurodiversity Coaching & Placements, Neurodiversity Coaching, Career coaching, ';
-
-export const KEYWORDS_PLACEMENTS = 'Training Partnerships, placements, ';
-
 export const KEYWORDS_ABOUT =
   'About, about us, neurodiversity, neurodiversityacademy, neurodiversity academy, ';
 
@@ -43,3 +29,6 @@ export const KEYWORDS_PROFILE =
 
 export const KEYWORDS_COURSES =
   'course, courses, search, neurodiversity, neurodiversityacademy, neurodiversity academy';
+
+export const KEYWORDS_ENDORSEMENTS =
+  'endorsements, endorsed providers, neuro-inclusion standards, neurodiverse, neurodiverse meaning, neurodiversity, neurodiversityacademy, neurodiversity academy, ';

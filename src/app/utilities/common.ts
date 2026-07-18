@@ -102,6 +102,23 @@ export const pickSeeded = <T>(items: readonly T[], count: number, seed: string):
   return copy.slice(0, count);
 };
 
+const getTwitterImages = (
+  ogImages: MetadataParams['images'],
+): string | string[] | undefined => {
+  if (!ogImages) {
+    return undefined;
+  }
+
+  const toUrl = (image: string | URL | { url: string | URL }): string =>
+    typeof image === 'string'
+      ? image
+      : image instanceof URL
+        ? image.toString()
+        : String(image.url);
+
+  return Array.isArray(ogImages) ? ogImages.map(toUrl) : toUrl(ogImages);
+};
+
 export const createMetadata = (
   key: META_KEY,
   customMetadata?: Partial<MetadataParams>,
@@ -110,6 +127,7 @@ export const createMetadata = (
     ...metadata[key],
     ...customMetadata,
   };
+  const twitterImages = getTwitterImages(images);
 
   return {
     alternates: {
@@ -124,6 +142,12 @@ export const createMetadata = (
       ...(type && { type }),
       siteName: SITE_NAME,
       locale: LOCALE,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: rest.title || undefined,
+      description: rest.description || undefined,
+      ...(twitterImages && { images: twitterImages }),
     },
     ...rest,
   };
