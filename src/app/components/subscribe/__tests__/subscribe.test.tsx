@@ -11,12 +11,24 @@ jest.mock('@/app/utilities/common', () => ({
   notifyError: jest.fn(),
 }));
 
+jest.mock('@/app/utilities/gaTracking', () => ({
+  sendNewsletterSubscribeEvent: jest.fn(),
+}));
+
+jest.mock('@/app/utilities/metaPixelTracking', () => ({
+  sendMetaNewsletterSubscribeEvent: jest.fn(),
+}));
+
 import { registerSubscriptionData } from '@/app/utilities/register/registerSubscriptionData';
 import { notifyError } from '@/app/utilities/common';
+import { sendNewsletterSubscribeEvent } from '@/app/utilities/gaTracking';
+import { sendMetaNewsletterSubscribeEvent } from '@/app/utilities/metaPixelTracking';
 import Subscribe from '../subscribe';
 
 const mockRegisterSubscriptionData = registerSubscriptionData as jest.Mock;
 const mockNotifyError = notifyError as jest.Mock;
+const mockSendNewsletterSubscribeEvent = sendNewsletterSubscribeEvent as jest.Mock;
+const mockSendMetaNewsletterSubscribeEvent = sendMetaNewsletterSubscribeEvent as jest.Mock;
 
 const fillSubscribeForm = () => {
   fireEvent.change(screen.getByPlaceholderText('Email address'), {
@@ -65,6 +77,8 @@ describe('Subscribe', () => {
       });
       expect(screen.getByText('Thank you for subscribing to')).toBeInTheDocument();
       expect(screen.getByText('Neurodiversity Academy!')).toBeInTheDocument();
+      expect(mockSendNewsletterSubscribeEvent).toHaveBeenCalledWith('persona_3');
+      expect(mockSendMetaNewsletterSubscribeEvent).toHaveBeenCalled();
     });
   });
 
@@ -80,6 +94,8 @@ describe('Subscribe', () => {
 
     await waitFor(() => {
       expect(mockNotifyError).toHaveBeenCalledWith(error);
+      expect(mockSendNewsletterSubscribeEvent).not.toHaveBeenCalled();
+      expect(mockSendMetaNewsletterSubscribeEvent).not.toHaveBeenCalled();
     });
   });
 });

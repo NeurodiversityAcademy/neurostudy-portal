@@ -13,6 +13,8 @@ import Typography, { TypographyVariant } from '@/app/components/typography/Typog
 import { FieldValues, UseFormReturn, useForm } from 'react-hook-form';
 import Form from '@/app/components/formElements/Form';
 import { notifyError } from '@/app/utilities/common';
+import { sendNewsletterSubscribeEvent } from '@/app/utilities/gaTracking';
+import { sendMetaNewsletterSubscribeEvent } from '@/app/utilities/metaPixelTracking';
 import LoaderWrapper from '../loader/LoaderWrapper';
 import Dropdown from '../formElements/Dropdown/Dropdown';
 
@@ -43,6 +45,8 @@ export default function Subscribe() {
 
       if (outcome.id || !outcome) {
         setSubmissionSuccess(true);
+        sendNewsletterSubscribeEvent(data.hs_persona);
+        sendMetaNewsletterSubscribeEvent();
       }
     } catch (error) {
       notifyError(error as object);
