@@ -1,10 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 
-jest.mock('next/image', () => ({
-  __esModule: true,
-  default: (props: Record<string, unknown>) => <img {...props} />,
-}));
+jest.mock('next/image', () => require('@/testUtils/mockNextImage'));
 
 jest.mock('next/link', () => ({
   __esModule: true,
@@ -62,15 +59,7 @@ jest.mock(
   }),
 );
 
-jest.mock('../../accordion/Accordian', () => ({
-  __esModule: true,
-  default: ({ title, children }: { title: React.ReactNode; children: React.ReactNode }) => (
-    <div data-testid='accordion'>
-      <div data-testid='accordion-title'>{typeof title === 'string' ? title : title}</div>
-      <div>{children}</div>
-    </div>
-  ),
-}));
+jest.mock('../../accordion/Accordian', () => require('@/testUtils/mockAccordion'));
 
 const mockStatIcon = {
   src: '/test.png',

@@ -1,13 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 
-jest.mock('next/image', () => ({
-  __esModule: true,
-  default: (props: Record<string, unknown>) => {
-    const { onClick, ...rest } = props;
-    return <img {...rest} onClick={onClick as React.MouseEventHandler<HTMLImageElement>} />;
-  },
-}));
+jest.mock('next/image', () => require('@/testUtils/mockNextImage'));
 
 jest.mock('next/link', () => ({
   __esModule: true,

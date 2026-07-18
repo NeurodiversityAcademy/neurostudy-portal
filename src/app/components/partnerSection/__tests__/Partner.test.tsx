@@ -1,17 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 
-jest.mock('next/image', () => ({
-  __esModule: true,
-  default: (props: Record<string, unknown>) => {
-    const { src, alt, ...rest } = props;
-    const imgSrc =
-      typeof src === 'object' && src !== null
-        ? (src as { src?: string }).src || ''
-        : String(src || '');
-    return <img {...rest} src={imgSrc} alt={alt as string} />;
-  },
-}));
+jest.mock('next/image', () => require('@/testUtils/mockNextImage'));
 
 const mockScrollPrev = jest.fn();
 const mockScrollNext = jest.fn();

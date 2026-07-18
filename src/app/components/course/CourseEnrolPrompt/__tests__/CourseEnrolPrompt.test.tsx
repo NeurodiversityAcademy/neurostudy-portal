@@ -26,13 +26,7 @@ jest.mock('@/app/utilities/course/createCheckoutUrl', () => ({
   default: (...args: unknown[]) => mockCreateCheckoutUrl(...args),
 }));
 
-jest.mock('next/image', () => ({
-  __esModule: true,
-  default: (props: Record<string, unknown>) => {
-    const { _priority, _fill, _quality, ...rest } = props;
-    return <img {...rest} />;
-  },
-}));
+jest.mock('next/image', () => require('@/testUtils/mockNextImage'));
 
 import { useSession } from 'next-auth/react';
 import CourseEnrolPrompt from '../index';
