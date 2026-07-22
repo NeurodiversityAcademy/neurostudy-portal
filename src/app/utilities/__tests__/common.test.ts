@@ -274,6 +274,48 @@ describe('createMetadata', () => {
     const result = createMetadata(META_KEY.HOME);
     expect(result.keywords).toBe(metadata[META_KEY.HOME].keywords);
   });
+
+  it('includes summary_large_image twitter card with title and description', () => {
+    const result = createMetadata(META_KEY.HOME);
+    const homeData = metadata[META_KEY.HOME];
+
+    expect(result.twitter).toEqual(
+      expect.objectContaining({
+        card: 'summary_large_image',
+        title: homeData.title,
+        description: homeData.description,
+      }),
+    );
+  });
+
+  it('includes twitter images when custom images are provided', () => {
+    const imageUrl = 'https://example.com/share.jpg';
+    const result = createMetadata(META_KEY.HOME, {
+      images: [{ url: imageUrl, width: 1200, height: 630 }],
+    });
+
+    expect(result.twitter).toEqual(
+      expect.objectContaining({
+        card: 'summary_large_image',
+        images: [imageUrl],
+      }),
+    );
+  });
+
+  it('registers endorsements metadata with canonical /endorsements', () => {
+    const endorsementsData = metadata[META_KEY.ENDORSEMENTS];
+
+    expect(endorsementsData).toEqual(
+      expect.objectContaining({
+        title: 'Endorsements - Neurodiversity Academy',
+        canonical: expect.stringMatching(/\/endorsements$/),
+      }),
+    );
+
+    const result = createMetadata(META_KEY.ENDORSEMENTS);
+    expect(result.alternates?.canonical).toBe(endorsementsData.canonical);
+    expect(result.title).toBe('Endorsements - Neurodiversity Academy');
+  });
 });
 
 describe('notifyError', () => {
