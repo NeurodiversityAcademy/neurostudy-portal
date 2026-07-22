@@ -23,8 +23,6 @@ describe('endorsedProvidersDemo', () => {
   });
 
   it('NDA_CERTIFIED_LEGEND uses training wording', () => {
-    expect(NDA_CERTIFIED_LEGEND).toBe(
-      'NDA Certified — completed Neurodiversity Academy training',
-    );
+    expect(NDA_CERTIFIED_LEGEND).toBe('NDA Certified — completed Neurodiversity Academy training');
   });
 });
