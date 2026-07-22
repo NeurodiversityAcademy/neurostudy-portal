@@ -22,9 +22,7 @@ describe('endorsedProvidersDemo', () => {
     expect(ENDORSED_PROVIDERS_HEADING.length).toBeGreaterThan(0);
   });
 
-  it('NDA_CERTIFIED_LEGEND uses accredited training wording', () => {
-    expect(NDA_CERTIFIED_LEGEND).toBe(
-      'NDA Certified — completed Neurodiversity Academy accredited training',
-    );
+  it('NDA_CERTIFIED_LEGEND uses training wording', () => {
+    expect(NDA_CERTIFIED_LEGEND).toBe('NDA Certified — completed Neurodiversity Academy training');
   });
 });

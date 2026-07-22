@@ -17,7 +17,7 @@ export const ENDORSED_PROVIDERS_SUBTITLE =
 export const ENDORSED_PROVIDERS_BADGE_ALT = 'Endorsed Learning Organisation' as const;
 
 export const NDA_CERTIFIED_LEGEND =
-  'NDA Certified — completed Neurodiversity Academy accredited training' as const;
+  'NDA Certified — completed Neurodiversity Academy training' as const;
 
 export const ENDORSED_PROVIDERS_GA = {
   ctaClick: {
