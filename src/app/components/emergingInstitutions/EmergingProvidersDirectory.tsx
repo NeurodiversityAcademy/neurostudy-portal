@@ -22,9 +22,7 @@ const INSTITUTIONS = cardData as EmergingInstitution[];
 const DESKTOP_STICKY_OFFSET_PX = 87;
 const MOBILE_STICKY_OFFSET_PX = 143;
 
-function shuffleGroups(
-  groups: EmergingInstitutionsByState[],
-): EmergingInstitutionsByState[] {
+function shuffleGroups(groups: EmergingInstitutionsByState[]): EmergingInstitutionsByState[] {
   return groups.map((group) => ({
     ...group,
     institutions: shuffleInstitutions(group.institutions),
@@ -66,10 +64,7 @@ function stateFromSectionElement(element: Element): AustralianState | null {
 }
 
 function stickyNavOffsetPx(): number {
-  if (
-    typeof window === 'undefined' ||
-    typeof window.matchMedia !== 'function'
-  ) {
+  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
     return DESKTOP_STICKY_OFFSET_PX;
   }
   return window.matchMedia('(max-width: 768px)').matches
@@ -79,9 +74,7 @@ function stickyNavOffsetPx(): number {
 
 export default function EmergingProvidersDirectory() {
   // Shuffle once per client mount so order varies per visit without post-mount CLS.
-  const [groups] = useState(() =>
-    shuffleGroups(groupEmergingInstitutionsByState(INSTITUTIONS)),
-  );
+  const [groups] = useState(() => shuffleGroups(groupEmergingInstitutionsByState(INSTITUTIONS)));
   const [activeState, setActiveState] = useState<AustralianState | null>(null);
   const deepLinkTrackedRef = useRef(false);
 
@@ -173,9 +166,7 @@ export default function EmergingProvidersDirectory() {
                 onClick={() => handleStateJump(state)}
               >
                 <span>{state}</span>
-                <span className={styles.directoryJumpCount}>
-                  {stateCounts[state] ?? 0}
-                </span>
+                <span className={styles.directoryJumpCount}>{stateCounts[state] ?? 0}</span>
               </a>
             ))}
           </nav>

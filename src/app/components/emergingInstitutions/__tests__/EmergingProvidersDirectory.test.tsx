@@ -38,25 +38,14 @@ jest.mock('../EmergingInstitutionCard', () => {
 
   return {
     __esModule: true,
-    default: ({
-      name,
-      state,
-      demo,
-    }: {
-      name: string;
-      state: string;
-      demo?: boolean;
-    }) => {
+    default: ({ name, state, demo }: { name: string; state: string; demo?: boolean }) => {
       const isComingSoon = demo || !hasEmergingProviderProfile(slugify(name));
       return isComingSoon ? (
         <div data-testid='institution-card'>
           {name} · {state} · Coming soon
         </div>
       ) : (
-        <a
-          href={`/emergingproviders/${slugify(name)}`}
-          data-testid='institution-card'
-        >
+        <a href={`/emergingproviders/${slugify(name)}`} data-testid='institution-card'>
           {name} · {state} · Explore More
         </a>
       );

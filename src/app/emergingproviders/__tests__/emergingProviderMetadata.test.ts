@@ -32,8 +32,7 @@ describe('resolveEmergingProviderForSlug', () => {
       expect.objectContaining({
         slug: 'bond-university',
         name: 'Bond University',
-        qiltSourceHref:
-          'https://www.compared.edu.au/institution/bond-university/undergraduate',
+        qiltSourceHref: 'https://www.compared.edu.au/institution/bond-university/undergraduate',
       }),
     );
     expect(provider?.heroInfoItems.length).toBeGreaterThan(0);

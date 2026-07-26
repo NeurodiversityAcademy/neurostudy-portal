@@ -1492,9 +1492,7 @@
             "id": "challenge",
             "label": "May Be Challenging For Students Who",
             "iconType": "close",
-            "items": [
-              "Want broad multi-discipline uni vs specialist Business/Accounting school"
-            ]
+            "items": ["Want broad multi-discipline uni vs specialist Business/Accounting school"]
           }
         ]
       }
@@ -1575,9 +1573,7 @@
             "id": "challenge",
             "label": "May Be Challenging For Students Who",
             "iconType": "close",
-            "items": [
-              "Want strong peers: below avg (-2.5), only metric below avg here"
-            ]
+            "items": ["Want strong peers: below avg (-2.5), only metric below avg here"]
           }
         ]
       }
@@ -1602,9 +1598,7 @@
             "id": "challenge",
             "label": "May Be Challenging For Students Who",
             "iconType": "close",
-            "items": [
-              "Support & services thin (+1.9) relative to UOW's other results"
-            ]
+            "items": ["Support & services thin (+1.9) relative to UOW's other results"]
           }
         ]
       }
@@ -1629,9 +1623,7 @@
             "id": "challenge",
             "label": "May Be Challenging For Students Who",
             "iconType": "close",
-            "items": [
-              "Want differentiated results: skills +0.1, tying ACU/UTS, thinnest in set"
-            ]
+            "items": ["Want differentiated results: skills +0.1, tying ACU/UTS, thinnest in set"]
           }
         ]
       }

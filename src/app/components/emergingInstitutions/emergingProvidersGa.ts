@@ -10,8 +10,7 @@ export const EMERGING_GA_SURFACE = {
   emergingDirectory: 'emerging_directory',
 } as const;
 
-export type EmergingGaSurface =
-  (typeof EMERGING_GA_SURFACE)[keyof typeof EMERGING_GA_SURFACE];
+export type EmergingGaSurface = (typeof EMERGING_GA_SURFACE)[keyof typeof EMERGING_GA_SURFACE];
 
 export const EMERGING_PROVIDERS_GA = {
   stateAutoSelect: {

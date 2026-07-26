@@ -109,8 +109,8 @@ export default function EmergingInstitutions() {
             color='var(--BondBlackVariant)'
             className={styles.subtitle}
           >
-            Emerging Providers are organisations with developing practices and strong
-            potential for neuro-inclusive education — across Australia.
+            Emerging Providers are organisations with developing practices and strong potential for
+            neuro-inclusive education — across Australia.
           </Typography>
 
           <div
@@ -147,7 +147,10 @@ export default function EmergingInstitutions() {
                     <li key={institution.name} className={styles.teaserChipItem}>
                       {isComingSoon ? (
                         <span className={classNames(styles.teaserChip, styles.teaserChipDemo)}>
-                          <Typography variant={TypographyVariant.Body2} color='var(--BondBlackVariant)'>
+                          <Typography
+                            variant={TypographyVariant.Body2}
+                            color='var(--BondBlackVariant)'
+                          >
                             {institution.name}
                           </Typography>
                         </span>

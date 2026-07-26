@@ -56,9 +56,7 @@ describe('EmergingInstitutionCard', () => {
   });
 
   it('applies a state tint on the card header', () => {
-    const { container } = render(
-      <EmergingInstitutionCard name='Bond University' state='QLD' />,
-    );
+    const { container } = render(<EmergingInstitutionCard name='Bond University' state='QLD' />);
     expect(container.querySelector('[data-state-tint="QLD"]')).toBeInTheDocument();
   });
 });

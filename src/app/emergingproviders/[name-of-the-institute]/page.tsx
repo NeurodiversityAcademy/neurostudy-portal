@@ -42,10 +42,7 @@ export default async function EmergingProviderPage({ params }: PageProps) {
     <main className={pageStyles.pageMain}>
       <EmergingProviderHero title={provider.name} heroInfoItems={provider.heroInfoItems} />
       <EmergingProviderStudentSuitability instituteSlug={provider.slug} />
-      <EmergingProviderStats
-        stats={provider.providerStats}
-        sourceHref={provider.qiltSourceHref}
-      />
+      <EmergingProviderStats stats={provider.providerStats} sourceHref={provider.qiltSourceHref} />
       <EmergingProvidersFAQs />
     </main>
   );

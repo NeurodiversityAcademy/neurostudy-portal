@@ -66,8 +66,7 @@ export default function InstitutionProviderCard({
   comingSoonLabel,
 }: InstitutionProviderCardProps) {
   const isEmergingDefault = header.kind === INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT;
-  const emergingStateTint =
-    isEmergingDefault && header.stateTint ? header.stateTint : undefined;
+  const emergingStateTint = isEmergingDefault && header.stateTint ? header.stateTint : undefined;
   const showRemoteImage = header.kind === INSTITUTION_PROVIDER_HEADER_KIND.REMOTE_IMAGE;
 
   const topClass = classNames(

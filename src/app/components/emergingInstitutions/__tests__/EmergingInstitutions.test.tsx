@@ -143,9 +143,7 @@ describe('EmergingInstitutions', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'QLD' }));
 
-    expect(trackStateSelectMock).toHaveBeenCalledWith(
-      expect.objectContaining({ state: 'QLD' }),
-    );
+    expect(trackStateSelectMock).toHaveBeenCalledWith(expect.objectContaining({ state: 'QLD' }));
     expect(screen.getByText('Bond University')).toBeInTheDocument();
   });
 
@@ -418,8 +416,7 @@ describe('EmergingProviderStats', () => {
   });
 
   it('renders disclaimer link when sourceHref is provided', () => {
-    const sourceHref =
-      'https://www.compared.edu.au/institution/bond-university/undergraduate';
+    const sourceHref = 'https://www.compared.edu.au/institution/bond-university/undergraduate';
     render(<EmergingProviderStats stats={mockStats} sourceHref={sourceHref} />);
     const link = screen.getByRole('link', { name: 'QILT survey 2024' });
     expect(link).toHaveAttribute('href', sourceHref);
