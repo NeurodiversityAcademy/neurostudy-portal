@@ -103,7 +103,7 @@ export default function EmergingProvidersDirectory() {
 
     const section = document.getElementById(stateSectionId(deepLinkedState));
     section?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    setActiveState(deepLinkedState);
+    // Active pill is set by IntersectionObserver after scroll — avoid sync setState in effect.
 
     if (!deepLinkTrackedRef.current) {
       deepLinkTrackedRef.current = true;

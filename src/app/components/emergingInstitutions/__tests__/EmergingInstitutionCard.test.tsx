@@ -52,7 +52,7 @@ describe('EmergingInstitutionCard', () => {
     render(<EmergingInstitutionCard name='Demo College' state='VIC' demo />);
     expect(screen.getByText('Demo College')).toBeInTheDocument();
     expect(screen.getByText('Coming soon')).toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: 'Explore More' })).toBeNull();
+    expect(screen.queryByRole('link', { name: 'Explore More' })).not.toBeInTheDocument();
   });
 
   it('applies a state tint on the card header', () => {

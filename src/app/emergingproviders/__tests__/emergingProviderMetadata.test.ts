@@ -61,7 +61,7 @@ describe('emerging provider SEO keywords', () => {
     const keywords = buildEmergingProvidersDirectoryKeywords();
     const names = listEmergingProviderNames();
 
-    expect(names.length).toBe(cardData.length);
+    expect(names).toHaveLength(cardData.length);
     expect(keywords).toEqual(expect.arrayContaining(names));
     expect(keywords).toEqual(
       expect.arrayContaining([
@@ -81,7 +81,7 @@ describe('emerging provider SEO keywords', () => {
 
   it('lists a static param slug for every profile-ready institute', () => {
     const slugs = listEmergingProviderSlugsWithProfiles();
-    expect(slugs.length).toBe(cardData.length);
+    expect(slugs).toHaveLength(cardData.length);
     expect(slugs).toContain('bond-university');
     expect(slugs).toContain('deakin-university');
   });
@@ -123,7 +123,7 @@ describe('buildEmergingProviderMetadata', () => {
       hasEmergingProviderProfile(slugify(institution.name)),
     );
 
-    expect(profileReady.length).toBe(cardData.length);
+    expect(profileReady).toHaveLength(cardData.length);
 
     for (const { name } of profileReady) {
       const metadata = buildEmergingProviderMetadata(slugify(name));

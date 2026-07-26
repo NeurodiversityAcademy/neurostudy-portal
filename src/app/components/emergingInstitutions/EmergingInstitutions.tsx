@@ -43,14 +43,18 @@ export default function EmergingInstitutions() {
 
   useEffect(() => {
     if (availableStates.length === 0) {
-      return;
+      return undefined;
     }
 
-    const initialState = pickRandomState(availableStates);
-    const group = groups.find((item) => item.state === initialState);
-    setSelectedState(initialState);
-    setVisibleInstitutions(shuffleInstitutions(group?.institutions ?? []));
-    trackEmergingStateAutoSelect(initialState);
+    const frame = requestAnimationFrame(() => {
+      const initialState = pickRandomState(availableStates);
+      const group = groups.find((item) => item.state === initialState);
+      setSelectedState(initialState);
+      setVisibleInstitutions(shuffleInstitutions(group?.institutions ?? []));
+      trackEmergingStateAutoSelect(initialState);
+    });
+
+    return () => cancelAnimationFrame(frame);
   }, [availableStates, groups]);
 
   const handleStateSelect = (state: AustralianState) => {

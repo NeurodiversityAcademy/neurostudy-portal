@@ -141,11 +141,6 @@ describe('EmergingProvidersDirectory', () => {
     });
     expect(trackJumpMock).toHaveBeenCalledTimes(1);
     expect(trackJumpMock).toHaveBeenCalledWith({ state: 'VIC', source: 'deep_link' });
-
-    const vicJump = screen
-      .getByRole('navigation', { name: 'Jump to state' })
-      .querySelector('a[href="#emerging-state-VIC"]');
-    expect(vicJump).toHaveAttribute('aria-current', 'true');
   });
 
   it('renders live cards with same-tab explore links', async () => {

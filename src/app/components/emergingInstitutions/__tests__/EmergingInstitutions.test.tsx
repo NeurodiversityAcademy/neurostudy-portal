@@ -191,9 +191,9 @@ describe('EmergingInstitutions', () => {
     expect(screen.getByRole('button', { name: 'SA' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'VIC' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'WA' })).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: 'ACT' })).toBeNull();
-    expect(screen.queryByRole('button', { name: 'TAS' })).toBeNull();
-    expect(screen.queryByRole('button', { name: 'NT' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'ACT' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'TAS' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'NT' })).not.toBeInTheDocument();
   });
 
   it('links View all to the directory', async () => {
