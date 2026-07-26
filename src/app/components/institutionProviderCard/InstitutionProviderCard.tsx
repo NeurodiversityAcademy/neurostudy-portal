@@ -5,6 +5,7 @@ import styles from './institutionProviderCard.module.css';
 import classNames from 'classnames';
 import type { InstitutionCtaAnalytics } from '../emergingInstitutions/EmergingInstitutionCtaButton';
 import emergingCardHeader from '@/app/images/emergingCardHeader.webp';
+import type { AustralianState } from '../emergingInstitutions/emergingInstitutionTypes';
 
 export const INSTITUTION_PROVIDER_HEADER_KIND = {
   EMERGING_DEFAULT: 'emergingDefault',
@@ -14,13 +15,29 @@ export const INSTITUTION_PROVIDER_HEADER_KIND = {
 } as const;
 
 export type InstitutionProviderHeader =
-  | { kind: typeof INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT }
+  | {
+      kind: typeof INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT;
+      /** Soft header tint so dense grids scan by state. */
+      stateTint?: AustralianState;
+    }
   | { kind: typeof INSTITUTION_PROVIDER_HEADER_KIND.YELLOW }
   | { kind: typeof INSTITUTION_PROVIDER_HEADER_KIND.CHERRY_PIE_SUB }
   | { kind: typeof INSTITUTION_PROVIDER_HEADER_KIND.REMOTE_IMAGE; src: string };
 
+const EMERGING_STATE_TINT_CLASS: Record<AustralianState, string> = {
+  NSW: styles.cardTopEmergingNSW,
+  VIC: styles.cardTopEmergingVIC,
+  QLD: styles.cardTopEmergingQLD,
+  SA: styles.cardTopEmergingSA,
+  WA: styles.cardTopEmergingWA,
+  TAS: styles.cardTopEmergingTAS,
+  NT: styles.cardTopEmergingNT,
+  ACT: styles.cardTopEmergingACT,
+};
+
 export interface InstitutionProviderCardProps {
-  ctaHref: string;
+  /** When omitted, the Explore More CTA is hidden (e.g. demo listings). */
+  ctaHref?: string;
   center: ReactNode;
   header: InstitutionProviderHeader;
   badge?: ReactNode;
@@ -32,6 +49,8 @@ export interface InstitutionProviderCardProps {
   ndaCertified?: boolean;
   gaEvent?: InstitutionCtaAnalytics;
   ctaOpenInNewTab?: boolean;
+  /** Shown instead of the CTA when there is no detail page yet. */
+  comingSoonLabel?: string;
 }
 
 export default function InstitutionProviderCard({
@@ -44,13 +63,18 @@ export default function InstitutionProviderCard({
   ndaCertified,
   gaEvent,
   ctaOpenInNewTab,
+  comingSoonLabel,
 }: InstitutionProviderCardProps) {
   const isEmergingDefault = header.kind === INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT;
+  const emergingStateTint =
+    isEmergingDefault && header.stateTint ? header.stateTint : undefined;
   const showRemoteImage = header.kind === INSTITUTION_PROVIDER_HEADER_KIND.REMOTE_IMAGE;
 
   const topClass = classNames(
     styles.cardTop,
     isEmergingDefault && styles.cardTopEmerging,
+    emergingStateTint && styles.cardTopEmergingWithStateTint,
+    emergingStateTint && EMERGING_STATE_TINT_CLASS[emergingStateTint],
     header.kind === INSTITUTION_PROVIDER_HEADER_KIND.YELLOW && styles.cardTopYellow,
     header.kind === INSTITUTION_PROVIDER_HEADER_KIND.CHERRY_PIE_SUB && styles.cardTopCherryPieSub,
     showRemoteImage && styles.cardTopWithRemoteImage,
@@ -65,7 +89,7 @@ export default function InstitutionProviderCard({
         ndaCertified && styles.cardNdaCertified,
       )}
     >
-      <div className={topClass}>
+      <div className={topClass} data-state-tint={emergingStateTint}>
         {isEmergingDefault ? (
           <Image
             src={emergingCardHeader}
@@ -95,12 +119,16 @@ export default function InstitutionProviderCard({
       </div>
       <div className={styles.cardBody}>
         {center}
-        <EmergingInstitutionCtaButton
-          ctaHref={ctaHref}
-          className={styles.ctaButton}
-          analytics={gaEvent}
-          openInNewTab={ctaOpenInNewTab}
-        />
+        {ctaHref ? (
+          <EmergingInstitutionCtaButton
+            ctaHref={ctaHref}
+            className={styles.ctaButton}
+            analytics={gaEvent}
+            openInNewTab={ctaOpenInNewTab}
+          />
+        ) : comingSoonLabel ? (
+          <span className={styles.comingSoon}>{comingSoonLabel}</span>
+        ) : null}
       </div>
     </div>
   );

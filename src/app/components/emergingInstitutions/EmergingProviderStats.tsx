@@ -1,6 +1,7 @@
 import Image, { StaticImageData } from 'next/image';
 import Typography, { TypographyVariant } from '../typography/Typography';
-import styles from './emergingInstitutions.module.css';
+import { QILT_SURVEY_2024_LABEL } from './emergingProviderQiltSource';
+import styles from './emergingProviderDetail.module.css';
 
 export type ProviderStatItem = {
   icon: StaticImageData;
@@ -13,11 +14,14 @@ export type ProviderStatItem = {
 type EmergingProviderStatsProps = {
   stats: ProviderStatItem[];
   isAlignedWithPageColumn?: boolean;
+  /** Compared.edu (or other) QILT source page; omit to show plain-text attribution. */
+  sourceHref?: string;
 };
 
 export default function EmergingProviderStats({
   stats,
   isAlignedWithPageColumn = false,
+  sourceHref,
 }: EmergingProviderStatsProps) {
   const sectionClassName = isAlignedWithPageColumn
     ? styles.providerStatsSectionAligned
@@ -98,14 +102,18 @@ export default function EmergingProviderStats({
             className={styles.providerStatsDisclaimerLine}
           >
             Source:{' '}
-            <a
-              href='https://www.compared.edu.au/institution/bond-university/undergraduate'
-              target='_blank'
-              rel='noopener noreferrer'
-              className={styles.providerStatsDisclaimerLink}
-            >
-              Quilt survey 2024
-            </a>
+            {sourceHref ? (
+              <a
+                href={sourceHref}
+                target='_blank'
+                rel='noopener noreferrer'
+                className={styles.providerStatsDisclaimerLink}
+              >
+                {QILT_SURVEY_2024_LABEL}
+              </a>
+            ) : (
+              QILT_SURVEY_2024_LABEL
+            )}
           </Typography>
         </div>
       </div>

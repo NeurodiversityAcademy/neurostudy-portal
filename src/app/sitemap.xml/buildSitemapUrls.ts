@@ -1,5 +1,7 @@
 import { ENDORSED_LIVE_SLUGS } from '@/app/components/endorsedProviders/endorsedProviderPageData';
 import emergingInstitutions from '@/app/components/emergingInstitutions/emergingInstitutions.json';
+import { hasEmergingProviderProfile } from '@/app/components/emergingInstitutions/emergingProviderPageData';
+import { EMERGING_PROVIDERS_DIRECTORY_PATH } from '@/app/components/emergingInstitutions/emergingProvidersPaths';
 import blogData from '@/app/blogs/blogData.json';
 import articleData from '@/app/articles/articleData.json';
 import courseData from '@/app/courses/courseData.json';
@@ -8,6 +10,7 @@ import { slugify } from '@/app/utilities/common';
 export const SITEMAP_STATIC_PAGES = [
   '/',
   '/endorsements',
+  EMERGING_PROVIDERS_DIRECTORY_PATH,
   '/contact',
   '/about',
   '/neurodivergentmates',
@@ -27,9 +30,17 @@ export const buildSitemapUrls = ({ baseUrl }: BuildSitemapUrlsParams): string[] 
     (slug) => `${baseUrl}/endorsedproviders/${slug}`,
   );
 
-  const emergingProviderUrls = emergingInstitutions.map(
-    (institution) => `${baseUrl}/emergingproviders/${slugify(institution.name)}`,
-  );
+  const emergingProviderUrls = emergingInstitutions
+    .filter((institution) => {
+      if ('demo' in institution && institution.demo === true) {
+        return false;
+      }
+      return hasEmergingProviderProfile(slugify(institution.name));
+    })
+    .map(
+      (institution) =>
+        `${baseUrl}${EMERGING_PROVIDERS_DIRECTORY_PATH}/${slugify(institution.name)}`,
+    );
 
   const courseUrls = courseData.courses
     .filter((course) => course.CourseId)

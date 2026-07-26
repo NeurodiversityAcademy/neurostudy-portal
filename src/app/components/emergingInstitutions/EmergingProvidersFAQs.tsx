@@ -1,7 +1,7 @@
 import Accordion from '@/app/components/accordion/Accordian';
 import { ACCORDION_TRACKING_DISABLED } from '@/app/utilities/accordionActions';
 import Typography, { TypographyVariant } from '../typography/Typography';
-import styles from './emergingInstitutions.module.css';
+import styles from './emergingProviderDetail.module.css';
 
 const QILT_AREAS = [
   'Overall student experience',

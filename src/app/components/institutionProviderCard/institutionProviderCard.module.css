@@ -55,6 +55,43 @@
   background-color: #e8e4f5;
 }
 
+/* Muted state header tints — distinct enough to scan, soft enough for dense grids */
+.cardTopEmergingNSW {
+  background-color: #d7e3f4;
+}
+
+.cardTopEmergingVIC {
+  background-color: #c2ddd2;
+}
+
+.cardTopEmergingQLD {
+  background-color: #f3d9b8;
+}
+
+.cardTopEmergingSA {
+  background-color: #eadce8;
+}
+
+.cardTopEmergingWA {
+  background-color: #e2d4b0;
+}
+
+.cardTopEmergingTAS {
+  background-color: #dde5ec;
+}
+
+.cardTopEmergingNT {
+  background-color: #f0ddd4;
+}
+
+.cardTopEmergingACT {
+  background-color: #e4dff5;
+}
+
+.cardTopEmergingWithStateTint .cardTopImageEmerging {
+  opacity: 0.28;
+}
+
 .cardTopImageEmerging {
   object-fit: cover;
   object-position: center -10px;
@@ -126,6 +163,14 @@
   overflow: hidden;
 }
 
+.nameStack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
 /* Body2 is a <span>; scale with card width (cqi) so long names fit the name pill */
 .card .nameWrap span {
   font-size: clamp(10px, 5.85cqi, 16px);
@@ -134,6 +179,13 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   overflow: hidden;
+}
+
+.card .nameStack span:last-child {
+  font-size: clamp(9px, 4.2cqi, 12px);
+  -webkit-line-clamp: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .logoWrap {
@@ -176,6 +228,24 @@
 .card .ctaButton:hover {
   background-color: var(--cherryPieVariantSub);
   box-shadow: 0px 2px 8px 0px var(--color-shadow-pressed);
+}
+
+.comingSoon {
+  margin-top: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  width: 80%;
+  max-width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px dashed rgb(102 0 204 / 0.35);
+  color: var(--cherryPieVariant);
+  font-family: var(--poppins-font);
+  font-size: var(--body3-font-size);
+  font-weight: var(--body2-strong-font-weight);
+  box-sizing: border-box;
 }
 
 @media (max-width: 768px) {
