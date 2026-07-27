@@ -59,6 +59,91 @@ export interface InstitutionProviderCardProps {
   comingSoonLabel?: string;
 }
 
+function resolveEmergingStateTint(header: InstitutionProviderHeader): AustralianState | undefined {
+  if (header.kind !== INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT) {
+    return undefined;
+  }
+  return header.stateTint;
+}
+
+function getCardTopClassName(
+  header: InstitutionProviderHeader,
+  emergingStateTint: AustralianState | undefined,
+): string {
+  return classNames(
+    styles.cardTop,
+    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT && styles.cardTopEmerging,
+    emergingStateTint && styles.cardTopEmergingWithStateTint,
+    emergingStateTint && EMERGING_STATE_TINT_CLASS[emergingStateTint],
+    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.YELLOW && styles.cardTopYellow,
+    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.CHERRY_PIE_SUB && styles.cardTopCherryPieSub,
+    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.REMOTE_IMAGE && styles.cardTopWithRemoteImage,
+  );
+}
+
+function renderCardTopMedia(header: InstitutionProviderHeader): ReactNode {
+  if (header.kind === INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT) {
+    return (
+      <Image
+        src={emergingCardHeader}
+        alt=''
+        fill
+        sizes='(max-width: 768px) 100vw, 320px'
+        className={styles.cardTopImageEmerging}
+        loading='lazy'
+      />
+    );
+  }
+
+  if (header.kind === INSTITUTION_PROVIDER_HEADER_KIND.REMOTE_IMAGE) {
+    return (
+      <Image
+        src={header.src}
+        alt=''
+        width={1536}
+        height={1024}
+        sizes='(max-width: 768px) 100vw, 320px'
+        className={styles.cardTopImage}
+        loading='lazy'
+      />
+    );
+  }
+
+  return null;
+}
+
+interface CardBodyActionParams {
+  ctaHref?: string;
+  comingSoonLabel?: string;
+  gaEvent?: InstitutionCtaAnalytics;
+  ctaOpenInNewTab?: boolean;
+}
+
+function renderCardBodyAction({
+  ctaHref,
+  comingSoonLabel,
+  gaEvent,
+  ctaOpenInNewTab,
+}: CardBodyActionParams): ReactNode {
+  if (ctaHref) {
+    return (
+      <EmergingInstitutionCtaButton
+        ctaHref={ctaHref}
+        className={styles.ctaButton}
+        analytics={gaEvent}
+        openInNewTab={ctaOpenInNewTab}
+        decorative
+      />
+    );
+  }
+
+  if (comingSoonLabel) {
+    return <span className={styles.comingSoon}>{comingSoonLabel}</span>;
+  }
+
+  return null;
+}
+
 export default function InstitutionProviderCard({
   ctaHref,
   center,
@@ -71,20 +156,8 @@ export default function InstitutionProviderCard({
   ctaOpenInNewTab,
   comingSoonLabel,
 }: InstitutionProviderCardProps) {
-  const isEmergingDefault = header.kind === INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT;
-  const emergingStateTint = isEmergingDefault && header.stateTint ? header.stateTint : undefined;
-  const showRemoteImage = header.kind === INSTITUTION_PROVIDER_HEADER_KIND.REMOTE_IMAGE;
+  const emergingStateTint = resolveEmergingStateTint(header);
   const isClickable = Boolean(ctaHref);
-
-  const topClass = classNames(
-    styles.cardTop,
-    isEmergingDefault && styles.cardTopEmerging,
-    emergingStateTint && styles.cardTopEmergingWithStateTint,
-    emergingStateTint && EMERGING_STATE_TINT_CLASS[emergingStateTint],
-    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.YELLOW && styles.cardTopYellow,
-    header.kind === INSTITUTION_PROVIDER_HEADER_KIND.CHERRY_PIE_SUB && styles.cardTopCherryPieSub,
-    showRemoteImage && styles.cardTopWithRemoteImage,
-  );
 
   const handleCardNavigate = () => {
     if (!ctaHref) {
@@ -117,28 +190,11 @@ export default function InstitutionProviderCard({
           onClick={handleCardNavigate}
         />
       ) : null}
-      <div className={topClass} data-state-tint={emergingStateTint}>
-        {isEmergingDefault ? (
-          <Image
-            src={emergingCardHeader}
-            alt=''
-            fill
-            sizes='(max-width: 768px) 100vw, 320px'
-            className={styles.cardTopImageEmerging}
-            loading='lazy'
-          />
-        ) : null}
-        {showRemoteImage ? (
-          <Image
-            src={header.src}
-            alt=''
-            width={1536}
-            height={1024}
-            sizes='(max-width: 768px) 100vw, 320px'
-            className={styles.cardTopImage}
-            loading='lazy'
-          />
-        ) : null}
+      <div
+        className={getCardTopClassName(header, emergingStateTint)}
+        data-state-tint={emergingStateTint}
+      >
+        {renderCardTopMedia(header)}
         {badge ? (
           <div className={classNames(styles.badgeSlot, ndaCertified && styles.badgeSlotCertified)}>
             {badge}
@@ -147,17 +203,7 @@ export default function InstitutionProviderCard({
       </div>
       <div className={styles.cardBody}>
         {center}
-        {ctaHref ? (
-          <EmergingInstitutionCtaButton
-            ctaHref={ctaHref}
-            className={styles.ctaButton}
-            analytics={gaEvent}
-            openInNewTab={ctaOpenInNewTab}
-            decorative
-          />
-        ) : comingSoonLabel ? (
-          <span className={styles.comingSoon}>{comingSoonLabel}</span>
-        ) : null}
+        {renderCardBodyAction({ ctaHref, comingSoonLabel, gaEvent, ctaOpenInNewTab })}
       </div>
     </div>
   );

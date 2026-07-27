@@ -44,26 +44,25 @@ describe('Navbar', () => {
 
   it('renders main navigation links', () => {
     render(<Navbar />);
-    const endorsementLinks = screen.getAllByText('Endorsements');
-    expect(endorsementLinks.length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Endorsements').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Emerging Providers').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Neurodivergent Mates').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('About Us').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Contact').length).toBeGreaterThanOrEqual(1);
+  });
 
-    const profileLinks = screen.getAllByText('Profile');
-    expect(profileLinks.length).toBeGreaterThanOrEqual(1);
-
-    const matesLinks = screen.getAllByText('Neurodivergent Mates');
-    expect(matesLinks.length).toBeGreaterThanOrEqual(1);
-
-    const aboutLinks = screen.getAllByText('About Us');
-    expect(aboutLinks.length).toBeGreaterThanOrEqual(1);
-
-    const contactLinks = screen.getAllByText('Contact');
-    expect(contactLinks.length).toBeGreaterThanOrEqual(1);
+  it('does not render Profile link', () => {
+    render(<Navbar />);
+    expect(screen.queryByText('Profile')).not.toBeInTheDocument();
   });
 
   it('renders correct link hrefs for main nav', () => {
     render(<Navbar />);
     const endorseLink = screen.getAllByText('Endorsements')[0].closest('a');
     expect(endorseLink).toHaveAttribute('href', '/endorsements');
+
+    const emergingLink = screen.getAllByText('Emerging Providers')[0].closest('a');
+    expect(emergingLink).toHaveAttribute('href', '/emergingproviders');
   });
 
   it('renders hamburger menu image', () => {
@@ -76,31 +75,30 @@ describe('Navbar', () => {
     const hamburger = screen.getByAltText('hamburger menu');
     fireEvent.click(hamburger);
 
-    const dropdownProfileLinks = screen.getAllByText('Profile');
-    expect(dropdownProfileLinks.length).toBeGreaterThanOrEqual(2);
+    expect(screen.getAllByText('Emerging Providers').length).toBeGreaterThanOrEqual(2);
   });
 
   it('hides dropdown when a link is clicked', () => {
     render(<Navbar />);
     fireEvent.click(screen.getByAltText('hamburger menu'));
-    expect(screen.getAllByText('Profile').length).toBeGreaterThanOrEqual(2);
+    expect(screen.getAllByText('Emerging Providers').length).toBeGreaterThanOrEqual(2);
 
-    const profileLinks = screen.getAllByText('Profile');
-    const dropdownLink = profileLinks[profileLinks.length - 1].closest('a');
+    const emergingLinks = screen.getAllByText('Emerging Providers');
+    const dropdownLink = emergingLinks[emergingLinks.length - 1].closest('a');
     expect(dropdownLink).not.toBeNull();
     fireEvent.click(dropdownLink!);
 
-    expect(screen.getAllByText('Profile')).toHaveLength(1);
+    expect(screen.getAllByText('Emerging Providers')).toHaveLength(1);
   });
 
   it('closes dropdown on outside click', () => {
     render(<Navbar />);
     fireEvent.click(screen.getByAltText('hamburger menu'));
-    expect(screen.getAllByText('Profile').length).toBeGreaterThanOrEqual(2);
+    expect(screen.getAllByText('Emerging Providers').length).toBeGreaterThanOrEqual(2);
 
     fireEvent.click(document.body);
 
-    expect(screen.getAllByText('Profile')).toHaveLength(1);
+    expect(screen.getAllByText('Emerging Providers')).toHaveLength(1);
   });
 
   it('does not render Login button when not authenticated', () => {

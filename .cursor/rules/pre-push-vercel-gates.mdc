@@ -1,0 +1,28 @@
+---
+description: Run full Vercel deploy gates locally before every git push
+alwaysApply: true
+---
+
+# Pre-push: match Vercel gates
+
+Before **any** `git push` on this repo, run the same checks Vercel runs and **only push if they pass**.
+
+## Required command
+
+```bash
+npm run vercel:build
+```
+
+This is the deploy gate (`scripts/vercel-build.mjs`): `security:audit`, `format:check`, `lint`, `next build`, `test:ci`, and `coverage:changed`.
+
+## Workflow
+
+1. Finish code changes and stage/commit as requested.
+2. Run `npm run vercel:build` locally.
+3. If it fails, fix the failures (do not push).
+4. Re-run until it passes, then push.
+5. Do **not** skip with `--no-verify` or push “to see if Vercel passes.”
+
+## Faster local loop (optional)
+
+While iterating, you may run individual scripts (`format:check`, `lint`, targeted Jest). A push still requires a green `npm run vercel:build` immediately beforehand.
