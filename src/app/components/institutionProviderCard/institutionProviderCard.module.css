@@ -278,13 +278,27 @@
     min-width: 0;
     max-width: 100%;
     flex: 0 0 auto;
+    min-height: 240px;
   }
 
-  /* Two-column grids (endorsed / emerging): fill cell, allow shrink below 220px */
+  /* Two-column grids (endorsed): fill cell, allow shrink below 220px */
   .cardEqual {
     width: 100%;
     min-width: 0;
     max-width: 100%;
+  }
+
+  .nameWrap {
+    width: min(78%, 280px);
+    min-height: 64px;
+  }
+
+  .card .nameWrap span {
+    font-size: clamp(14px, 4.2vw, 16px);
+  }
+
+  .card .ctaButton {
+    width: min(80%, 280px);
   }
 
   .badgeSlotCertified {

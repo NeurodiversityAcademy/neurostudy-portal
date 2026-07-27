@@ -145,18 +145,28 @@
 }
 
 @media (max-width: 768px) {
+  .directoryContainer {
+    width: min(100% - 32px, 480px);
+  }
+
   .directoryLayout {
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
   }
 
   .directorySideNav {
     position: sticky;
     top: 71px;
+    z-index: 3;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
     width: 100%;
-    padding: 8px 0;
+    padding: 10px 0 12px;
+    /* Keep pills readable over scrolling cards */
+    background: var(--pure-white);
+    box-shadow: 0 8px 12px -8px rgb(0 0 0 / 0.18);
   }
 
   .directoryJumpPill {
@@ -165,29 +175,28 @@
   }
 
   .directoryStateGroup {
-    align-items: center;
-    /* Sticky pills (top 71px) can wrap to two rows on narrow screens */
-    scroll-margin-top: calc(71px + 72px);
+    align-items: stretch;
+    /* Sticky navbar + wrapped pill strip */
+    scroll-margin-top: calc(71px + 96px);
+    gap: 16px;
+  }
+
+  .directoryStateHeading {
+    text-align: center;
   }
 
   .directoryCards {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 20px;
     width: 100%;
-    max-width: 560px;
-    margin-inline: auto;
-    justify-content: stretch;
-  }
-
-  .directoryCards > *:last-child:nth-child(odd) {
-    grid-column: 1 / -1;
-    justify-self: center;
-    width: min(272px, 100%);
-    max-width: 100%;
+    max-width: none;
+    margin-inline: 0;
   }
 
   .directorySection {
-    padding: 32px 0 48px;
+    padding: 24px 0 48px;
   }
 }
