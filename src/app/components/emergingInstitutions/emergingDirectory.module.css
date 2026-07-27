@@ -146,13 +146,13 @@
 
 @media (max-width: 900px) {
   .directoryContainer {
-    width: min(100% - 32px, 520px);
+    width: min(100% - 24px, 100%);
   }
 
   .directoryLayout {
     flex-direction: column;
     align-items: stretch;
-    gap: 16px;
+    gap: 8px;
   }
 
   .directorySideNav {
@@ -162,16 +162,18 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
     width: 100%;
-    padding: 10px 0 12px;
+    padding: 6px 0 8px;
     background: var(--pure-white);
     box-shadow: 0 8px 12px -8px rgb(0 0 0 / 0.18);
   }
 
   .directoryJumpPill {
     justify-content: center;
-    min-width: 4.5rem;
+    min-width: 4rem;
+    padding: 6px 10px;
+    font-size: 12px;
   }
 
   .directoryMain {
@@ -181,34 +183,33 @@
 
   .directoryStateGroup {
     align-items: stretch;
-    scroll-margin-top: calc(71px + 96px);
-    gap: 16px;
+    scroll-margin-top: calc(71px + 80px);
+    gap: 8px;
+    padding-bottom: 20px;
   }
 
   .directoryStateHeading {
     text-align: center;
+    padding-bottom: 4px;
   }
 
   .directoryCards {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: stretch;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
     width: 100%;
     max-width: none;
     margin-inline: 0;
   }
 
-  /* Force full-bleed cards — card module defaults are desktop grid sizes */
   .directoryCards > * {
     width: 100%;
-    max-width: 100%;
+    max-width: none;
     min-width: 0;
-    flex: 0 0 auto;
+    flex: none;
   }
 
   .directorySection {
-    padding: 24px 0 48px;
+    padding: 8px 0 32px;
   }
 }

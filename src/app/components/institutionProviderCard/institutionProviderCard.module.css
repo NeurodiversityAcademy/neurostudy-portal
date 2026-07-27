@@ -163,6 +163,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px 0px;
+  gap: 12px;
 }
 
 .nameWrap {
@@ -272,7 +273,7 @@
   box-sizing: border-box;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .card {
     width: 100%;
     min-width: 0;
@@ -303,5 +304,57 @@
 
   .badgeSlotCertified {
     top: 26px;
+  }
+
+  /* Dense 2-up directory cards — ~3 rows (~6 cards) under a short cover */
+  .card.cardCompact {
+    min-height: 0;
+  }
+
+  .card.cardCompact .cardTop {
+    height: 40px;
+  }
+
+  .card.cardCompact .cardBody {
+    padding: 5px 0 6px;
+    gap: 5px;
+    justify-content: space-between;
+  }
+
+  .card.cardCompact .nameWrap {
+    width: 92%;
+    min-height: 34px;
+    padding: 3px 5px;
+  }
+
+  .card.cardCompact .nameWrap span {
+    font-size: clamp(10px, 2.8vw, 12px);
+    -webkit-line-clamp: 2;
+    line-height: 1.15;
+  }
+
+  .card.cardCompact .nameStack {
+    gap: 1px;
+  }
+
+  .card.cardCompact .nameStack span:last-child {
+    font-size: clamp(8px, 2.3vw, 10px);
+  }
+
+  .card.cardCompact .ctaButton {
+    width: 92%;
+    height: 26px;
+    min-height: 26px;
+    padding: 0;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  .card.cardCompact .comingSoon {
+    margin-top: 2px;
+    min-height: 24px;
+    width: 92%;
+    padding: 2px 4px;
+    font-size: 9px;
   }
 }

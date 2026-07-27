@@ -89,4 +89,11 @@ describe('HomeBanner (students)', () => {
     render(<HomeBanner showSearchBar={false} displayFilter />);
     expect(screen.queryByTestId('course-filter')).not.toBeInTheDocument();
   });
+
+  it('applies compact cover styling when compactCover is set', () => {
+    const { container } = render(<HomeBanner compactCover title='Compact' subtitle='Short' />);
+    expect(container.querySelector('[class*="bannerContainerCompact"]')).toBeInTheDocument();
+    expect(screen.getByText('Compact')).toBeInTheDocument();
+    expect(screen.getByText('Short')).toBeInTheDocument();
+  });
 });

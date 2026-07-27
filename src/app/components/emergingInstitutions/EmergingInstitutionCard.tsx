@@ -37,6 +37,7 @@ export default function EmergingInstitutionCard({
     <InstitutionProviderCard
       ctaHref={href}
       ctaOpenInNewTab
+      compact
       comingSoonLabel={isComingSoon ? 'Coming soon' : undefined}
       gaEvent={
         gaEvent

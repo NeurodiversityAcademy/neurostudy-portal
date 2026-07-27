@@ -57,6 +57,8 @@ export interface InstitutionProviderCardProps {
   ctaOpenInNewTab?: boolean;
   /** Shown instead of the CTA when there is no detail page yet. */
   comingSoonLabel?: string;
+  /** Denser card for 2-up mobile directory grids. */
+  compact?: boolean;
 }
 
 function resolveEmergingStateTint(header: InstitutionProviderHeader): AustralianState | undefined {
@@ -155,6 +157,7 @@ export default function InstitutionProviderCard({
   gaEvent,
   ctaOpenInNewTab,
   comingSoonLabel,
+  compact = false,
 }: InstitutionProviderCardProps) {
   const emergingStateTint = resolveEmergingStateTint(header);
   const isClickable = Boolean(ctaHref);
@@ -178,6 +181,7 @@ export default function InstitutionProviderCard({
         equalWidth && styles.cardEqual,
         elevatedOnDark && styles.cardElevatedOnDark,
         ndaCertified && styles.cardNdaCertified,
+        compact && styles.cardCompact,
       )}
     >
       {ctaHref ? (

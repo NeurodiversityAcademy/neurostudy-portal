@@ -39,6 +39,7 @@ export default function EmergingProvidersIndexPage() {
       <HomeBanner
         displayBadges={false}
         displayFilter={false}
+        compactCover
         title={TITLE}
         subtitle={BANNER_SUBTITLE}
       />
