@@ -121,10 +121,10 @@ describe('CourseDetailsBody', () => {
     expect(screen.getByText('Tuition info')).toBeInTheDocument();
   });
 
-  it('renders View Tuition Fees button in tuition section', () => {
+  it('renders View Tuition Fees link in tuition section', () => {
     renderWithContext();
 
-    expect(screen.getByRole('button', { name: /view tuition fees/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /view tuition fees/i })).toBeInTheDocument();
   });
 
   it('renders navigation with apply now action', () => {

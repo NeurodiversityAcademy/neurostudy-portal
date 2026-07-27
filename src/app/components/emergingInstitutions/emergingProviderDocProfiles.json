@@ -1,0 +1,2148 @@
+[
+  {
+    "slug": "academies-australasia-polytechnic",
+    "heroLocation": "Melbourne, VIC",
+    "heroType": "Higher Education (dual-sector)",
+    "stats": [
+      {
+        "value": "81.1%",
+        "nationalAverage": "76.6%",
+        "responses": "297"
+      },
+      {
+        "value": "86.7%",
+        "nationalAverage": "81.1%",
+        "responses": "285"
+      },
+      {
+        "value": "72.3%",
+        "nationalAverage": "59.5%",
+        "responses": "296"
+      },
+      {
+        "value": "81.3%",
+        "nationalAverage": "83.3%",
+        "responses": "288"
+      },
+      {
+        "value": "89.4%",
+        "nationalAverage": "80.5%",
+        "responses": "292"
+      },
+      {
+        "value": "84.6%",
+        "nationalAverage": "71.2%",
+        "responses": "266"
+      }
+    ]
+  },
+  {
+    "slug": "acap-university-college",
+    "heroLocation": "Sydney NSW",
+    "heroType": "University College",
+    "stats": [
+      {
+        "value": "82.3%",
+        "nationalAverage": "76.6%",
+        "responses": "1,591"
+      },
+      {
+        "value": "85.3%",
+        "nationalAverage": "81.1%",
+        "responses": "1,553"
+      },
+      {
+        "value": "49.7%",
+        "nationalAverage": "59.5%",
+        "responses": "1,587"
+      },
+      {
+        "value": "82.7%",
+        "nationalAverage": "83.3%",
+        "responses": "1,119"
+      },
+      {
+        "value": "85.3%",
+        "nationalAverage": "80.5%",
+        "responses": "1,578"
+      },
+      {
+        "value": "77.8%",
+        "nationalAverage": "71.2%",
+        "responses": "1,009"
+      }
+    ]
+  },
+  {
+    "slug": "adelaide-central-school-of-art",
+    "heroLocation": "Glenside, SA",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "92.0%",
+        "nationalAverage": "76.6%",
+        "responses": "212"
+      },
+      {
+        "value": "90.0%",
+        "nationalAverage": "81.1%",
+        "responses": "211"
+      },
+      {
+        "value": "84.4%",
+        "nationalAverage": "59.5%",
+        "responses": "212"
+      },
+      {
+        "value": "83.8%",
+        "nationalAverage": "83.3%",
+        "responses": "204"
+      },
+      {
+        "value": "94.4%",
+        "nationalAverage": "80.5%",
+        "responses": "213"
+      },
+      {
+        "value": "90.2%",
+        "nationalAverage": "71.2%",
+        "responses": "122"
+      }
+    ]
+  },
+  {
+    "slug": "adelaide-university",
+    "heroLocation": "Adelaide, SA",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "77.4%",
+        "nationalAverage": "76.6%",
+        "responses": "14,220"
+      },
+      {
+        "value": "82.0%",
+        "nationalAverage": "81.1%",
+        "responses": "13,760"
+      },
+      {
+        "value": "57.8%",
+        "nationalAverage": "59.5%",
+        "responses": "14,234"
+      },
+      {
+        "value": "83.8%",
+        "nationalAverage": "83.3%",
+        "responses": "12,045"
+      },
+      {
+        "value": "81.1%",
+        "nationalAverage": "80.5%",
+        "responses": "14,039"
+      },
+      {
+        "value": "73.6%",
+        "nationalAverage": "71.2%",
+        "responses": "9,362"
+      }
+    ]
+  },
+  {
+    "slug": "alphacrucis-university-college",
+    "heroLocation": "Parramatta, NSW",
+    "heroType": "Higher Education (dual-sector)",
+    "stats": [
+      {
+        "value": "83.8%",
+        "nationalAverage": "76.6%",
+        "responses": "760"
+      },
+      {
+        "value": "83.8%",
+        "nationalAverage": "81.1%",
+        "responses": "735"
+      },
+      {
+        "value": "29.7%",
+        "nationalAverage": "59.5%",
+        "responses": "760"
+      },
+      {
+        "value": "78.9%",
+        "nationalAverage": "83.3%",
+        "responses": "337"
+      },
+      {
+        "value": "84.5%",
+        "nationalAverage": "80.5%",
+        "responses": "749"
+      },
+      {
+        "value": "73.5%",
+        "nationalAverage": "71.2%",
+        "responses": "427"
+      }
+    ]
+  },
+  {
+    "slug": "asa-institute-of-higher-education",
+    "heroLocation": "Sydney, NSW",
+    "heroType": "Institute of Higher Education",
+    "stats": [
+      {
+        "value": "86.3%",
+        "nationalAverage": "76.6%",
+        "responses": "117"
+      },
+      {
+        "value": "88.4%",
+        "nationalAverage": "81.1%",
+        "responses": "112"
+      },
+      {
+        "value": "94.1%",
+        "nationalAverage": "59.5%",
+        "responses": "119"
+      },
+      {
+        "value": "88.4%",
+        "nationalAverage": "83.3%",
+        "responses": "112"
+      },
+      {
+        "value": "94.8%",
+        "nationalAverage": "80.5%",
+        "responses": "115"
+      },
+      {
+        "value": "89.0%",
+        "nationalAverage": "71.2%",
+        "responses": "109"
+      }
+    ]
+  },
+  {
+    "slug": "asia-pacific-international-college-apic",
+    "heroLocation": "Sydney (Parramatta), NSW",
+    "heroType": "Institute of Higher Education",
+    "stats": [
+      {
+        "value": "77.5%",
+        "nationalAverage": "76.6%",
+        "responses": "267"
+      },
+      {
+        "value": "85.3%",
+        "nationalAverage": "81.1%",
+        "responses": "245"
+      },
+      {
+        "value": "82.7%",
+        "nationalAverage": "59.5%",
+        "responses": "266"
+      },
+      {
+        "value": "80.8%",
+        "nationalAverage": "83.3%",
+        "responses": "250"
+      },
+      {
+        "value": "85.6%",
+        "nationalAverage": "80.5%",
+        "responses": "257"
+      },
+      {
+        "value": "75.0%",
+        "nationalAverage": "71.2%",
+        "responses": "228"
+      }
+    ]
+  },
+  {
+    "slug": "australian-catholic-university-acu",
+    "heroLocation": "Multiple campuses",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "79.1%",
+        "nationalAverage": "76.6%",
+        "responses": "11,536"
+      },
+      {
+        "value": "83.4%",
+        "nationalAverage": "81.1%",
+        "responses": "11,096"
+      },
+      {
+        "value": "63.9%",
+        "nationalAverage": "59.5%",
+        "responses": "11,538"
+      },
+      {
+        "value": "85.3%",
+        "nationalAverage": "83.3%",
+        "responses": "10,814"
+      },
+      {
+        "value": "80.6%",
+        "nationalAverage": "80.5%",
+        "responses": "11,369"
+      },
+      {
+        "value": "72.4%",
+        "nationalAverage": "71.2%",
+        "responses": "8,541"
+      }
+    ]
+  },
+  {
+    "slug": "australian-chiropractic-college-acc",
+    "heroLocation": "Adelaide, SA",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "93.8%",
+        "nationalAverage": "76.6%",
+        "responses": "130"
+      },
+      {
+        "value": "93.0%",
+        "nationalAverage": "81.1%",
+        "responses": "128"
+      },
+      {
+        "value": "86.9%",
+        "nationalAverage": "59.5%",
+        "responses": "130"
+      },
+      {
+        "value": "83.7%",
+        "nationalAverage": "83.3%",
+        "responses": "123"
+      },
+      {
+        "value": "95.3%",
+        "nationalAverage": "80.5%",
+        "responses": "129"
+      },
+      {
+        "value": "93.6%",
+        "nationalAverage": "71.2%",
+        "responses": "94"
+      }
+    ]
+  },
+  {
+    "slug": "australian-college-of-christian-studies-accs",
+    "heroLocation": "Burwood, NSW",
+    "heroType": "University College",
+    "stats": [
+      {
+        "value": "93.8%",
+        "nationalAverage": "76.6%",
+        "responses": "64"
+      },
+      {
+        "value": "90.6%",
+        "nationalAverage": "81.1%",
+        "responses": "64"
+      },
+      {
+        "value": "21.9%",
+        "nationalAverage": "59.5%",
+        "responses": "64"
+      },
+      {
+        "value": "L/N",
+        "nationalAverage": "83.3%",
+        "responses": "\u2014"
+      },
+      {
+        "value": "96.9%",
+        "nationalAverage": "80.5%",
+        "responses": "64"
+      },
+      {
+        "value": "83.3%",
+        "nationalAverage": "71.2%",
+        "responses": "36"
+      }
+    ]
+  },
+  {
+    "slug": "australian-college-of-physical-education",
+    "heroLocation": "Sydney, NSW",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "81.3%",
+        "nationalAverage": "78.6%",
+        "responses": "391"
+      },
+      {
+        "value": "87.5%",
+        "nationalAverage": "81.1%",
+        "responses": "376"
+      },
+      {
+        "value": "62.3%",
+        "nationalAverage": "73.1%",
+        "responses": "390"
+      },
+      {
+        "value": "87.4%",
+        "nationalAverage": "85.3%",
+        "responses": "354"
+      },
+      {
+        "value": "87.6%",
+        "nationalAverage": "80.5%",
+        "responses": "388"
+      },
+      {
+        "value": "84.3%",
+        "nationalAverage": "71.2%",
+        "responses": "313"
+      }
+    ]
+  },
+  {
+    "slug": "australian-institute-of-higher-education-aih",
+    "heroLocation": "Sydney, NSW",
+    "heroType": "Institute of Higher Education",
+    "stats": [
+      {
+        "value": "79.1%",
+        "nationalAverage": "76.6%",
+        "responses": "359"
+      },
+      {
+        "value": "84.4%",
+        "nationalAverage": "81.1%",
+        "responses": "333"
+      },
+      {
+        "value": "84.2%",
+        "nationalAverage": "59.5%",
+        "responses": "361"
+      },
+      {
+        "value": "81.1%",
+        "nationalAverage": "83.3%",
+        "responses": "334"
+      },
+      {
+        "value": "86.0%",
+        "nationalAverage": "80.5%",
+        "responses": "344"
+      },
+      {
+        "value": "83.4%",
+        "nationalAverage": "71.2%",
+        "responses": "313"
+      }
+    ]
+  },
+  {
+    "slug": "australian-university-college-of-divinity-aucd",
+    "heroLocation": "National network of independent Member Colleges across Australia",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "90.3%",
+        "nationalAverage": "76.6%",
+        "responses": "400"
+      },
+      {
+        "value": "87.4%",
+        "nationalAverage": "81.1%",
+        "responses": "389"
+      },
+      {
+        "value": "53.8%",
+        "nationalAverage": "59.5%",
+        "responses": "400"
+      },
+      {
+        "value": "82.6%",
+        "nationalAverage": "83.3%",
+        "responses": "235"
+      },
+      {
+        "value": "91.1%",
+        "nationalAverage": "80.5%",
+        "responses": "393"
+      },
+      {
+        "value": "84.3%",
+        "nationalAverage": "71.2%",
+        "responses": "286"
+      }
+    ]
+  },
+  {
+    "slug": "australian-university-of-theology-aut",
+    "heroLocation": "National network of 16 affiliated colleges across Australia",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "95.1%",
+        "nationalAverage": "76.6%",
+        "responses": "678"
+      },
+      {
+        "value": "90.7%",
+        "nationalAverage": "81.1%",
+        "responses": "665"
+      },
+      {
+        "value": "59.1%",
+        "nationalAverage": "59.5%",
+        "responses": "679"
+      },
+      {
+        "value": "96.3%",
+        "nationalAverage": "83.3%",
+        "responses": "514"
+      },
+      {
+        "value": "96.7%",
+        "nationalAverage": "80.5%",
+        "responses": "674"
+      },
+      {
+        "value": "91.1%",
+        "nationalAverage": "71.2%",
+        "responses": "414"
+      }
+    ]
+  },
+  {
+    "slug": "avondale-university",
+    "heroLocation": "Lake Macquarie / Cooranbong, NSW",
+    "heroType": "Higher Education (dual-sector)",
+    "stats": [
+      {
+        "value": "89.3%",
+        "nationalAverage": "76.6%",
+        "responses": "400"
+      },
+      {
+        "value": "85.4%",
+        "nationalAverage": "81.1%",
+        "responses": "384"
+      },
+      {
+        "value": "76.0%",
+        "nationalAverage": "59.5%",
+        "responses": "400"
+      },
+      {
+        "value": "86.1%",
+        "nationalAverage": "83.3%",
+        "responses": "361"
+      },
+      {
+        "value": "88.7%",
+        "nationalAverage": "80.5%",
+        "responses": "391"
+      },
+      {
+        "value": "85.4%",
+        "nationalAverage": "71.2%",
+        "responses": "323"
+      }
+    ]
+  },
+  {
+    "slug": "bond-university",
+    "heroLocation": "Gold Coast, QLD",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "87.3%",
+        "nationalAverage": "78.6%",
+        "responses": "1,278"
+      },
+      {
+        "value": "91.0%",
+        "nationalAverage": "81.1%",
+        "responses": "1,219"
+      },
+      {
+        "value": "86.1%",
+        "nationalAverage": "73.1%",
+        "responses": "1,281"
+      },
+      {
+        "value": "93.0%",
+        "nationalAverage": "85.3%",
+        "responses": "1,226"
+      },
+      {
+        "value": "90.6%",
+        "nationalAverage": "80.5%",
+        "responses": "1,261"
+      },
+      {
+        "value": "90.6%",
+        "nationalAverage": "71.2%",
+        "responses": "1,035"
+      }
+    ]
+  },
+  {
+    "slug": "bpp-institute",
+    "heroLocation": "Melbourne, VIC",
+    "heroType": "Institute of Higher Education",
+    "stats": [
+      {
+        "value": "79.6%",
+        "nationalAverage": "76.6%",
+        "responses": "49"
+      },
+      {
+        "value": "87.0%",
+        "nationalAverage": "81.1%",
+        "responses": "46"
+      },
+      {
+        "value": "77.6%",
+        "nationalAverage": "59.5%",
+        "responses": "49"
+      },
+      {
+        "value": "85.4%",
+        "nationalAverage": "83.3%",
+        "responses": "48"
+      },
+      {
+        "value": "89.6%",
+        "nationalAverage": "80.5%",
+        "responses": "48"
+      },
+      {
+        "value": "90.7%",
+        "nationalAverage": "71.2%",
+        "responses": "43"
+      }
+    ]
+  },
+  {
+    "slug": "campion-college-australia",
+    "heroLocation": "Toongabbie, NSW",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "94.9%",
+        "nationalAverage": "76.6%",
+        "responses": "98"
+      },
+      {
+        "value": "98.0%",
+        "nationalAverage": "81.1%",
+        "responses": "99"
+      },
+      {
+        "value": "88.0%",
+        "nationalAverage": "59.5%",
+        "responses": "100"
+      },
+      {
+        "value": "93.5%",
+        "nationalAverage": "83.3%",
+        "responses": "93"
+      },
+      {
+        "value": "98.0%",
+        "nationalAverage": "80.5%",
+        "responses": "100"
+      },
+      {
+        "value": "90.0%",
+        "nationalAverage": "71.2%",
+        "responses": "80"
+      }
+    ]
+  },
+  {
+    "slug": "chisholm-institute",
+    "heroLocation": "Multiple campuses across Victoria",
+    "heroType": "Higher Education / TAFE",
+    "stats": [
+      {
+        "value": "86.3%",
+        "nationalAverage": "76.6%",
+        "responses": "124"
+      },
+      {
+        "value": "89.9%",
+        "nationalAverage": "81.1%",
+        "responses": "119"
+      },
+      {
+        "value": "77.6%",
+        "nationalAverage": "59.5%",
+        "responses": "125"
+      },
+      {
+        "value": "83.2%",
+        "nationalAverage": "83.3%",
+        "responses": "113"
+      },
+      {
+        "value": "87.8%",
+        "nationalAverage": "80.5%",
+        "responses": "123"
+      },
+      {
+        "value": "81.0%",
+        "nationalAverage": "71.2%",
+        "responses": "100"
+      }
+    ]
+  },
+  {
+    "slug": "christian-heritage-college-chc",
+    "heroLocation": "Brisbane, QLD",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "92.1%",
+        "nationalAverage": "76.6%",
+        "responses": "292"
+      },
+      {
+        "value": "88.7%",
+        "nationalAverage": "81.1%",
+        "responses": "283"
+      },
+      {
+        "value": "46.2%",
+        "nationalAverage": "59.5%",
+        "responses": "292"
+      },
+      {
+        "value": "84.2%",
+        "nationalAverage": "83.3%",
+        "responses": "190"
+      },
+      {
+        "value": "93.8%",
+        "nationalAverage": "80.5%",
+        "responses": "288"
+      },
+      {
+        "value": "86.9%",
+        "nationalAverage": "71.2%",
+        "responses": "168"
+      }
+    ]
+  },
+  {
+    "slug": "curtin-college",
+    "heroLocation": "Perth, WA",
+    "heroType": "Pathway College",
+    "stats": [
+      {
+        "value": "77.4%",
+        "nationalAverage": "76.6%",
+        "responses": "554"
+      },
+      {
+        "value": "83.7%",
+        "nationalAverage": "81.1%",
+        "responses": "520"
+      },
+      {
+        "value": "73.6%",
+        "nationalAverage": "59.5%",
+        "responses": "554"
+      },
+      {
+        "value": "87.8%",
+        "nationalAverage": "83.3%",
+        "responses": "516"
+      },
+      {
+        "value": "85.0%",
+        "nationalAverage": "80.5%",
+        "responses": "539"
+      },
+      {
+        "value": "84.0%",
+        "nationalAverage": "71.2%",
+        "responses": "450"
+      }
+    ]
+  },
+  {
+    "slug": "deakin-university",
+    "heroLocation": "Multiple campuses",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "80.6%",
+        "nationalAverage": "76.6%",
+        "responses": "11,298"
+      },
+      {
+        "value": "82.7%",
+        "nationalAverage": "81.1%",
+        "responses": "10,868"
+      },
+      {
+        "value": "49.7%",
+        "nationalAverage": "59.5%",
+        "responses": "11,291"
+      },
+      {
+        "value": "90.2%",
+        "nationalAverage": "83.3%",
+        "responses": "9,366"
+      },
+      {
+        "value": "83.1%",
+        "nationalAverage": "80.5%",
+        "responses": "11,109"
+      },
+      {
+        "value": "77.3%",
+        "nationalAverage": "71.2%",
+        "responses": "7,827"
+      }
+    ]
+  },
+  {
+    "slug": "edith-cowan-college-ecc",
+    "heroLocation": "Joondalup, WA",
+    "heroType": "Pathway College",
+    "stats": [
+      {
+        "value": "77.4%",
+        "nationalAverage": "76.6%",
+        "responses": "499"
+      },
+      {
+        "value": "85.3%",
+        "nationalAverage": "81.1%",
+        "responses": "475"
+      },
+      {
+        "value": "81.6%",
+        "nationalAverage": "59.5%",
+        "responses": "495"
+      },
+      {
+        "value": "85.8%",
+        "nationalAverage": "83.3%",
+        "responses": "472"
+      },
+      {
+        "value": "87.8%",
+        "nationalAverage": "80.5%",
+        "responses": "485"
+      },
+      {
+        "value": "83.0%",
+        "nationalAverage": "71.2%",
+        "responses": "441"
+      }
+    ]
+  },
+  {
+    "slug": "edith-cowan-university-ecu",
+    "heroLocation": "Joondalup, WA",
+    "heroType": "Higher Education (dual-sector)",
+    "stats": [
+      {
+        "value": "80.8%",
+        "nationalAverage": "76.6%",
+        "responses": "8,728"
+      },
+      {
+        "value": "86.3%",
+        "nationalAverage": "81.1%",
+        "responses": "8,514"
+      },
+      {
+        "value": "57.5%",
+        "nationalAverage": "59.5%",
+        "responses": "8,732"
+      },
+      {
+        "value": "86.5%",
+        "nationalAverage": "83.3%",
+        "responses": "7,380"
+      },
+      {
+        "value": "83.4%",
+        "nationalAverage": "80.5%",
+        "responses": "8,650"
+      },
+      {
+        "value": "78.5%",
+        "nationalAverage": "71.2%",
+        "responses": "5,650"
+      }
+    ]
+  },
+  {
+    "slug": "engineering-institute-of-technology-eit",
+    "heroLocation": "Perth, WA",
+    "heroType": "Higher Education (dual-sector)",
+    "stats": [
+      {
+        "value": "82.5%",
+        "nationalAverage": "76.6%",
+        "responses": "257"
+      },
+      {
+        "value": "81.2%",
+        "nationalAverage": "81.1%",
+        "responses": "255"
+      },
+      {
+        "value": "44.4%",
+        "nationalAverage": "59.5%",
+        "responses": "259"
+      },
+      {
+        "value": "75.0%",
+        "nationalAverage": "83.3%",
+        "responses": "208"
+      },
+      {
+        "value": "83.6%",
+        "nationalAverage": "80.5%",
+        "responses": "256"
+      },
+      {
+        "value": "76.0%",
+        "nationalAverage": "71.2%",
+        "responses": "183"
+      }
+    ]
+  },
+  {
+    "slug": "equals-international",
+    "heroLocation": "Adelaide, SA",
+    "heroType": "Higher Education (dual-sector)",
+    "stats": [
+      {
+        "value": "89.8%",
+        "nationalAverage": "76.6%",
+        "responses": "127"
+      },
+      {
+        "value": "95.0%",
+        "nationalAverage": "81.1%",
+        "responses": "121"
+      },
+      {
+        "value": "95.3%",
+        "nationalAverage": "59.5%",
+        "responses": "127"
+      },
+      {
+        "value": "81.7%",
+        "nationalAverage": "83.3%",
+        "responses": "120"
+      },
+      {
+        "value": "95.1%",
+        "nationalAverage": "80.5%",
+        "responses": "123"
+      },
+      {
+        "value": "89.9%",
+        "nationalAverage": "71.2%",
+        "responses": "109"
+      }
+    ]
+  },
+  {
+    "slug": "excelsia-university-college",
+    "heroLocation": "Pennant Hills, NSW",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "79.7%",
+        "nationalAverage": "76.6%",
+        "responses": "646"
+      },
+      {
+        "value": "90.7%",
+        "nationalAverage": "81.1%",
+        "responses": "611"
+      },
+      {
+        "value": "84.6%",
+        "nationalAverage": "59.5%",
+        "responses": "650"
+      },
+      {
+        "value": "74.5%",
+        "nationalAverage": "83.3%",
+        "responses": "608"
+      },
+      {
+        "value": "86.2%",
+        "nationalAverage": "80.5%",
+        "responses": "631"
+      },
+      {
+        "value": "80.0%",
+        "nationalAverage": "71.2%",
+        "responses": "575"
+      }
+    ]
+  },
+  {
+    "slug": "federation-university-australia",
+    "heroLocation": "Multiple regional Victorian campuses",
+    "heroType": "Higher Education (dual-sector)",
+    "stats": [
+      {
+        "value": "77.2%",
+        "nationalAverage": "76.6%",
+        "responses": "2,955"
+      },
+      {
+        "value": "83.2%",
+        "nationalAverage": "81.1%",
+        "responses": "2,872"
+      },
+      {
+        "value": "57.6%",
+        "nationalAverage": "59.5%",
+        "responses": "2,957"
+      },
+      {
+        "value": "86.5%",
+        "nationalAverage": "83.3%",
+        "responses": "2,478"
+      },
+      {
+        "value": "81.6%",
+        "nationalAverage": "80.5%",
+        "responses": "2,928"
+      },
+      {
+        "value": "76.8%",
+        "nationalAverage": "71.2%",
+        "responses": "2,106"
+      }
+    ]
+  },
+  {
+    "slug": "flinders-university",
+    "heroLocation": "Adelaide, SA",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "78.7%",
+        "nationalAverage": "78.6%",
+        "responses": "5,615"
+      },
+      {
+        "value": "83.3%",
+        "nationalAverage": "81.1%",
+        "responses": "5,423"
+      },
+      {
+        "value": "64.8%",
+        "nationalAverage": "73.1%",
+        "responses": "5,619"
+      },
+      {
+        "value": "85.7%",
+        "nationalAverage": "85.3%",
+        "responses": "5,071"
+      },
+      {
+        "value": "82.4%",
+        "nationalAverage": "80.5%",
+        "responses": "5,518"
+      },
+      {
+        "value": "75.4%",
+        "nationalAverage": "71.2%",
+        "responses": "3,638"
+      }
+    ]
+  },
+  {
+    "slug": "griffith-college",
+    "heroLocation": "Gold Coast, QLD",
+    "heroType": "Pathway College",
+    "stats": [
+      {
+        "value": "76.8%",
+        "nationalAverage": "76.6%",
+        "responses": "651"
+      },
+      {
+        "value": "82.4%",
+        "nationalAverage": "81.1%",
+        "responses": "620"
+      },
+      {
+        "value": "66.8%",
+        "nationalAverage": "59.5%",
+        "responses": "653"
+      },
+      {
+        "value": "82.8%",
+        "nationalAverage": "83.3%",
+        "responses": "618"
+      },
+      {
+        "value": "81.7%",
+        "nationalAverage": "80.5%",
+        "responses": "641"
+      },
+      {
+        "value": "84.1%",
+        "nationalAverage": "71.2%",
+        "responses": "533"
+      }
+    ]
+  },
+  {
+    "slug": "griffith-university",
+    "heroLocation": "Multiple Campuses, QLD",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "79.1%",
+        "nationalAverage": "78.6%",
+        "responses": "12,043"
+      },
+      {
+        "value": "82.2%",
+        "nationalAverage": "81.1%",
+        "responses": "11,615"
+      },
+      {
+        "value": "56.3%",
+        "nationalAverage": "73.1%",
+        "responses": "12,051"
+      },
+      {
+        "value": "83.8%",
+        "nationalAverage": "85.3%",
+        "responses": "10,564"
+      },
+      {
+        "value": "81.1%",
+        "nationalAverage": "80.5%",
+        "responses": "11,881"
+      },
+      {
+        "value": "72.7%",
+        "nationalAverage": "71.2%",
+        "responses": "8,350"
+      }
+    ]
+  },
+  {
+    "slug": "holmes-institute",
+    "heroLocation": "Multiple campuses",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "80.0%",
+        "nationalAverage": "76.6%",
+        "responses": "260"
+      },
+      {
+        "value": "85.8%",
+        "nationalAverage": "81.1%",
+        "responses": "246"
+      },
+      {
+        "value": "81.9%",
+        "nationalAverage": "59.5%",
+        "responses": "260"
+      },
+      {
+        "value": "74.1%",
+        "nationalAverage": "83.3%",
+        "responses": "243"
+      },
+      {
+        "value": "85.9%",
+        "nationalAverage": "80.5%",
+        "responses": "255"
+      },
+      {
+        "value": "80.6%",
+        "nationalAverage": "71.2%",
+        "responses": "227"
+      }
+    ]
+  },
+  {
+    "slug": "international-college-of-management-sydney-icms",
+    "heroLocation": "Manly, NSW",
+    "heroType": "Institute of Higher Education",
+    "stats": [
+      {
+        "value": "81.9%",
+        "nationalAverage": "76.6%",
+        "responses": "404"
+      },
+      {
+        "value": "88.6%",
+        "nationalAverage": "81.1%",
+        "responses": "387"
+      },
+      {
+        "value": "76.5%",
+        "nationalAverage": "59.5%",
+        "responses": "405"
+      },
+      {
+        "value": "78.1%",
+        "nationalAverage": "83.3%",
+        "responses": "360"
+      },
+      {
+        "value": "86.3%",
+        "nationalAverage": "80.5%",
+        "responses": "400"
+      },
+      {
+        "value": "84.3%",
+        "nationalAverage": "71.2%",
+        "responses": "350"
+      }
+    ]
+  },
+  {
+    "slug": "jazz-music-institute",
+    "heroLocation": "Brisbane, QLD",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "97.7%",
+        "nationalAverage": "78.6%",
+        "responses": "43"
+      },
+      {
+        "value": "97.6%",
+        "nationalAverage": "81.1%",
+        "responses": "42"
+      },
+      {
+        "value": "88.4%",
+        "nationalAverage": "73.1%",
+        "responses": "43"
+      },
+      {
+        "value": "82.5%",
+        "nationalAverage": "85.3%",
+        "responses": "40"
+      },
+      {
+        "value": "97.6%",
+        "nationalAverage": "80.5%",
+        "responses": "42"
+      },
+      {
+        "value": "97.2%",
+        "nationalAverage": "71.2%",
+        "responses": "36"
+      }
+    ]
+  },
+  {
+    "slug": "jmc-academy",
+    "heroLocation": "Sydney, NSW",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "78.9%",
+        "nationalAverage": "76.6%",
+        "responses": "1,452"
+      },
+      {
+        "value": "83.8%",
+        "nationalAverage": "81.1%",
+        "responses": "1,417"
+      },
+      {
+        "value": "74.3%",
+        "nationalAverage": "59.5%",
+        "responses": "1,452"
+      },
+      {
+        "value": "79.2%",
+        "nationalAverage": "83.3%",
+        "responses": "1,372"
+      },
+      {
+        "value": "85.4%",
+        "nationalAverage": "80.5%",
+        "responses": "1,433"
+      },
+      {
+        "value": "76.7%",
+        "nationalAverage": "71.2%",
+        "responses": "1,054"
+      }
+    ]
+  },
+  {
+    "slug": "kaplan-business-school-kbs",
+    "heroLocation": "Multiple Australian campuses (including Perth)",
+    "heroType": "Institute of Higher Education",
+    "stats": [
+      {
+        "value": "81.4%",
+        "nationalAverage": "76.6%",
+        "responses": "671"
+      },
+      {
+        "value": "83.9%",
+        "nationalAverage": "81.1%",
+        "responses": "647"
+      },
+      {
+        "value": "76.5%",
+        "nationalAverage": "59.5%",
+        "responses": "671"
+      },
+      {
+        "value": "80.6%",
+        "nationalAverage": "83.3%",
+        "responses": "625"
+      },
+      {
+        "value": "85.9%",
+        "nationalAverage": "80.5%",
+        "responses": "666"
+      },
+      {
+        "value": "84.7%",
+        "nationalAverage": "71.2%",
+        "responses": "601"
+      }
+    ]
+  },
+  {
+    "slug": "kings-own-institute-koi",
+    "heroLocation": "Sydney CBD (Wynyard Green) and Newcastle, NSW",
+    "heroType": "Institute of Higher Education",
+    "stats": [
+      {
+        "value": "80.6%",
+        "nationalAverage": "76.6%",
+        "responses": "962"
+      },
+      {
+        "value": "82.7%",
+        "nationalAverage": "81.1%",
+        "responses": "904"
+      },
+      {
+        "value": "75.6%",
+        "nationalAverage": "59.5%",
+        "responses": "958"
+      },
+      {
+        "value": "87.4%",
+        "nationalAverage": "83.3%",
+        "responses": "912"
+      },
+      {
+        "value": "86.7%",
+        "nationalAverage": "80.5%",
+        "responses": "931"
+      },
+      {
+        "value": "84.5%",
+        "nationalAverage": "71.2%",
+        "responses": "857"
+      }
+    ]
+  },
+  {
+    "slug": "la-trobe-college-australia",
+    "heroLocation": "Melbourne (Bundoora), VIC",
+    "heroType": "Pathway College",
+    "stats": [
+      {
+        "value": "78.3%",
+        "nationalAverage": "76.6%",
+        "responses": "553"
+      },
+      {
+        "value": "81.9%",
+        "nationalAverage": "81.1%",
+        "responses": "520"
+      },
+      {
+        "value": "65.2%",
+        "nationalAverage": "59.5%",
+        "responses": "552"
+      },
+      {
+        "value": "83.2%",
+        "nationalAverage": "83.3%",
+        "responses": "517"
+      },
+      {
+        "value": "81.7%",
+        "nationalAverage": "80.5%",
+        "responses": "541"
+      },
+      {
+        "value": "78.8%",
+        "nationalAverage": "71.2%",
+        "responses": "471"
+      }
+    ]
+  },
+  {
+    "slug": "leaders-institute",
+    "heroLocation": "Beenleigh, Woolloongabba, and Moorooka (Brisbane/Logan area, QLD)",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "95.8%",
+        "nationalAverage": "76.6%",
+        "responses": "71"
+      },
+      {
+        "value": "100.0%",
+        "nationalAverage": "81.1%",
+        "responses": "69"
+      },
+      {
+        "value": "97.2%",
+        "nationalAverage": "59.5%",
+        "responses": "71"
+      },
+      {
+        "value": "97.1%",
+        "nationalAverage": "83.3%",
+        "responses": "68"
+      },
+      {
+        "value": "98.6%",
+        "nationalAverage": "80.5%",
+        "responses": "69"
+      },
+      {
+        "value": "98.5%",
+        "nationalAverage": "71.2%",
+        "responses": "67"
+      }
+    ]
+  },
+  {
+    "slug": "lyons-college",
+    "heroLocation": "Melbourne, VIC",
+    "heroType": "Higher Education (dual-sector)",
+    "stats": [
+      {
+        "value": "89.7%",
+        "nationalAverage": "76.6%",
+        "responses": "29"
+      },
+      {
+        "value": "93.1%",
+        "nationalAverage": "81.1%",
+        "responses": "29"
+      },
+      {
+        "value": "72.4%",
+        "nationalAverage": "59.5%",
+        "responses": "29"
+      },
+      {
+        "value": "86.2%",
+        "nationalAverage": "83.3%",
+        "responses": "29"
+      },
+      {
+        "value": "93.3%",
+        "nationalAverage": "80.5%",
+        "responses": "30"
+      },
+      {
+        "value": "92.9%",
+        "nationalAverage": "71.2%",
+        "responses": "28"
+      }
+    ]
+  },
+  {
+    "slug": "marcus-oldham-college",
+    "heroLocation": "Victoria (Geelong region)",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "97.8%",
+        "nationalAverage": "76.6%",
+        "responses": "228"
+      },
+      {
+        "value": "95.5%",
+        "nationalAverage": "81.1%",
+        "responses": "224"
+      },
+      {
+        "value": "96.9%",
+        "nationalAverage": "59.5%",
+        "responses": "228"
+      },
+      {
+        "value": "98.2%",
+        "nationalAverage": "83.3%",
+        "responses": "218"
+      },
+      {
+        "value": "96.9%",
+        "nationalAverage": "80.5%",
+        "responses": "227"
+      },
+      {
+        "value": "97.7%",
+        "nationalAverage": "71.2%",
+        "responses": "217"
+      }
+    ]
+  },
+  {
+    "slug": "melbourne-polytechnic",
+    "heroLocation": "Multiple campuses across Melbourne",
+    "heroType": "Higher Education / TAFE",
+    "stats": [
+      {
+        "value": "80.5%",
+        "nationalAverage": "76.6%",
+        "responses": "415"
+      },
+      {
+        "value": "83.0%",
+        "nationalAverage": "81.1%",
+        "responses": "399"
+      },
+      {
+        "value": "77.1%",
+        "nationalAverage": "59.5%",
+        "responses": "411"
+      },
+      {
+        "value": "81.2%",
+        "nationalAverage": "83.3%",
+        "responses": "399"
+      },
+      {
+        "value": "86.6%",
+        "nationalAverage": "80.5%",
+        "responses": "411"
+      },
+      {
+        "value": "77.5%",
+        "nationalAverage": "71.2%",
+        "responses": "346"
+      }
+    ]
+  },
+  {
+    "slug": "moore-theological-college",
+    "heroLocation": "Newtown, NSW",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "93.0%",
+        "nationalAverage": "76.6%",
+        "responses": "329"
+      },
+      {
+        "value": "90.5%",
+        "nationalAverage": "81.1%",
+        "responses": "326"
+      },
+      {
+        "value": "80.9%",
+        "nationalAverage": "59.5%",
+        "responses": "329"
+      },
+      {
+        "value": "95.6%",
+        "nationalAverage": "83.3%",
+        "responses": "274"
+      },
+      {
+        "value": "94.8%",
+        "nationalAverage": "80.5%",
+        "responses": "328"
+      },
+      {
+        "value": "92.8%",
+        "nationalAverage": "71.2%",
+        "responses": "222"
+      }
+    ]
+  },
+  {
+    "slug": "murdoch-university",
+    "heroLocation": "Perth, WA",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "77.2%",
+        "nationalAverage": "76.6%",
+        "responses": "3,296"
+      },
+      {
+        "value": "81.1%",
+        "nationalAverage": "81.1%",
+        "responses": "3,182"
+      },
+      {
+        "value": "60.3%",
+        "nationalAverage": "59.5%",
+        "responses": "3,296"
+      },
+      {
+        "value": "86.2%",
+        "nationalAverage": "83.3%",
+        "responses": "3,042"
+      },
+      {
+        "value": "81.6%",
+        "nationalAverage": "80.5%",
+        "responses": "3,250"
+      },
+      {
+        "value": "74.8%",
+        "nationalAverage": "71.2%",
+        "responses": "2,370"
+      }
+    ]
+  },
+  {
+    "slug": "polytechnic-institute-australia-pia",
+    "heroLocation": "Sydney, NSW",
+    "heroType": "Institute of Higher Education",
+    "stats": [
+      {
+        "value": "85.1%",
+        "nationalAverage": "76.6%",
+        "responses": "74"
+      },
+      {
+        "value": "91.2%",
+        "nationalAverage": "81.1%",
+        "responses": "68"
+      },
+      {
+        "value": "90.5%",
+        "nationalAverage": "59.5%",
+        "responses": "74"
+      },
+      {
+        "value": "79.7%",
+        "nationalAverage": "83.3%",
+        "responses": "69"
+      },
+      {
+        "value": "90.1%",
+        "nationalAverage": "80.5%",
+        "responses": "71"
+      },
+      {
+        "value": "83.3%",
+        "nationalAverage": "71.2%",
+        "responses": "66"
+      }
+    ]
+  },
+  {
+    "slug": "psc-creative-college",
+    "heroLocation": "South Melbourne, VIC",
+    "heroType": "Higher Education (dual-sector)",
+    "stats": [
+      {
+        "value": "91.5%",
+        "nationalAverage": "76.6%",
+        "responses": "106"
+      },
+      {
+        "value": "88.3%",
+        "nationalAverage": "81.1%",
+        "responses": "103"
+      },
+      {
+        "value": "74.5%",
+        "nationalAverage": "59.5%",
+        "responses": "106"
+      },
+      {
+        "value": "83.5%",
+        "nationalAverage": "83.3%",
+        "responses": "103"
+      },
+      {
+        "value": "92.3%",
+        "nationalAverage": "80.5%",
+        "responses": "104"
+      },
+      {
+        "value": "81.7%",
+        "nationalAverage": "71.2%",
+        "responses": "82"
+      }
+    ]
+  },
+  {
+    "slug": "sheridan-institute-of-higher-education",
+    "heroLocation": "Perth, WA",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "93.2%",
+        "nationalAverage": "76.6%",
+        "responses": "73"
+      },
+      {
+        "value": "97.3%",
+        "nationalAverage": "81.1%",
+        "responses": "73"
+      },
+      {
+        "value": "87.7%",
+        "nationalAverage": "59.5%",
+        "responses": "73"
+      },
+      {
+        "value": "87.5%",
+        "nationalAverage": "83.3%",
+        "responses": "72"
+      },
+      {
+        "value": "98.6%",
+        "nationalAverage": "80.5%",
+        "responses": "73"
+      },
+      {
+        "value": "93.5%",
+        "nationalAverage": "71.2%",
+        "responses": "62"
+      }
+    ]
+  },
+  {
+    "slug": "stanley-college",
+    "heroLocation": "West Perth (Outram Street and Hay Street), WA",
+    "heroType": "Higher Education (dual-sector)",
+    "stats": [
+      {
+        "value": "81.2%",
+        "nationalAverage": "76.6%",
+        "responses": "426"
+      },
+      {
+        "value": "88.7%",
+        "nationalAverage": "81.1%",
+        "responses": "398"
+      },
+      {
+        "value": "87.1%",
+        "nationalAverage": "59.5%",
+        "responses": "425"
+      },
+      {
+        "value": "67.7%",
+        "nationalAverage": "83.3%",
+        "responses": "390"
+      },
+      {
+        "value": "87.7%",
+        "nationalAverage": "80.5%",
+        "responses": "414"
+      },
+      {
+        "value": "83.7%",
+        "nationalAverage": "71.2%",
+        "responses": "375"
+      }
+    ]
+  },
+  {
+    "slug": "tabor-college",
+    "heroLocation": "Millswood, SA",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "93.8%",
+        "nationalAverage": "76.6%",
+        "responses": "290"
+      },
+      {
+        "value": "93.0%",
+        "nationalAverage": "81.1%",
+        "responses": "284"
+      },
+      {
+        "value": "69.7%",
+        "nationalAverage": "59.5%",
+        "responses": "290"
+      },
+      {
+        "value": "93.8%",
+        "nationalAverage": "83.3%",
+        "responses": "256"
+      },
+      {
+        "value": "93.8%",
+        "nationalAverage": "80.5%",
+        "responses": "289"
+      },
+      {
+        "value": "92.0%",
+        "nationalAverage": "71.2%",
+        "responses": "200"
+      }
+    ]
+  },
+  {
+    "slug": "tafe-nsw",
+    "heroLocation": "Multiple campuses across New South Wales",
+    "heroType": "Higher Education / TAFE",
+    "stats": [
+      {
+        "value": "80.6%",
+        "nationalAverage": "76.6%",
+        "responses": "1,554"
+      },
+      {
+        "value": "86.8%",
+        "nationalAverage": "81.1%",
+        "responses": "1,507"
+      },
+      {
+        "value": "70.7%",
+        "nationalAverage": "59.5%",
+        "responses": "1,559"
+      },
+      {
+        "value": "75.3%",
+        "nationalAverage": "83.3%",
+        "responses": "1,386"
+      },
+      {
+        "value": "86.5%",
+        "nationalAverage": "80.5%",
+        "responses": "1,536"
+      },
+      {
+        "value": "76.8%",
+        "nationalAverage": "71.2%",
+        "responses": "1,257"
+      }
+    ]
+  },
+  {
+    "slug": "universal-business-school-sydney-ubss",
+    "heroLocation": "Haymarket, Sydney NSW",
+    "heroType": "Institute of Higher Education",
+    "stats": [
+      {
+        "value": "83.0%",
+        "nationalAverage": "76.6%",
+        "responses": "100"
+      },
+      {
+        "value": "87.6%",
+        "nationalAverage": "81.1%",
+        "responses": "97"
+      },
+      {
+        "value": "76.0%",
+        "nationalAverage": "59.5%",
+        "responses": "100"
+      },
+      {
+        "value": "86.2%",
+        "nationalAverage": "83.3%",
+        "responses": "87"
+      },
+      {
+        "value": "92.9%",
+        "nationalAverage": "80.5%",
+        "responses": "99"
+      },
+      {
+        "value": "92.0%",
+        "nationalAverage": "71.2%",
+        "responses": "87"
+      }
+    ]
+  },
+  {
+    "slug": "university-of-divinity",
+    "heroLocation": "Melbourne, VIC",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "90.7%",
+        "nationalAverage": "76.6%",
+        "responses": "193"
+      },
+      {
+        "value": "92.1%",
+        "nationalAverage": "81.1%",
+        "responses": "191"
+      },
+      {
+        "value": "69.9%",
+        "nationalAverage": "59.5%",
+        "responses": "193"
+      },
+      {
+        "value": "94.3%",
+        "nationalAverage": "83.3%",
+        "responses": "159"
+      },
+      {
+        "value": "91.7%",
+        "nationalAverage": "80.5%",
+        "responses": "193"
+      },
+      {
+        "value": "94.9%",
+        "nationalAverage": "71.2%",
+        "responses": "118"
+      }
+    ]
+  },
+  {
+    "slug": "university-of-technology-sydney-uts",
+    "heroLocation": "Ultimo, Sydney NSW",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "76.7%",
+        "nationalAverage": "76.6%",
+        "responses": "11,514"
+      },
+      {
+        "value": "81.5%",
+        "nationalAverage": "81.1%",
+        "responses": "11,088"
+      },
+      {
+        "value": "68.8%",
+        "nationalAverage": "59.5%",
+        "responses": "11,518"
+      },
+      {
+        "value": "86.9%",
+        "nationalAverage": "83.3%",
+        "responses": "10,775"
+      },
+      {
+        "value": "80.5%",
+        "nationalAverage": "80.5%",
+        "responses": "11,351"
+      },
+      {
+        "value": "71.7%",
+        "nationalAverage": "71.2%",
+        "responses": "7,922"
+      }
+    ]
+  },
+  {
+    "slug": "university-of-the-sunshine-coast-unisc",
+    "heroLocation": "Multiple Queensland campuses",
+    "heroType": "Higher Education (dual-sector)",
+    "stats": [
+      {
+        "value": "80.7%",
+        "nationalAverage": "76.6%",
+        "responses": "4,910"
+      },
+      {
+        "value": "84.0%",
+        "nationalAverage": "81.1%",
+        "responses": "4,724"
+      },
+      {
+        "value": "57.0%",
+        "nationalAverage": "59.5%",
+        "responses": "4,911"
+      },
+      {
+        "value": "89.3%",
+        "nationalAverage": "83.3%",
+        "responses": "4,479"
+      },
+      {
+        "value": "82.9%",
+        "nationalAverage": "80.5%",
+        "responses": "4,847"
+      },
+      {
+        "value": "78.5%",
+        "nationalAverage": "71.2%",
+        "responses": "3,235"
+      }
+    ]
+  },
+  {
+    "slug": "university-of-wollongong-uow",
+    "heroLocation": "Wollongong, NSW",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "80.7%",
+        "nationalAverage": "76.6%",
+        "responses": "5,942"
+      },
+      {
+        "value": "83.6%",
+        "nationalAverage": "81.1%",
+        "responses": "5,765"
+      },
+      {
+        "value": "68.7%",
+        "nationalAverage": "59.5%",
+        "responses": "5,946"
+      },
+      {
+        "value": "87.4%",
+        "nationalAverage": "83.3%",
+        "responses": "5,593"
+      },
+      {
+        "value": "82.8%",
+        "nationalAverage": "80.5%",
+        "responses": "5,871"
+      },
+      {
+        "value": "73.1%",
+        "nationalAverage": "71.2%",
+        "responses": "4,210"
+      }
+    ]
+  },
+  {
+    "slug": "uow-college-australia",
+    "heroLocation": "Wollongong, NSW",
+    "heroType": "Pathway College",
+    "stats": [
+      {
+        "value": "80.5%",
+        "nationalAverage": "76.6%",
+        "responses": "87"
+      },
+      {
+        "value": "81.2%",
+        "nationalAverage": "81.1%",
+        "responses": "85"
+      },
+      {
+        "value": "69.3%",
+        "nationalAverage": "59.5%",
+        "responses": "88"
+      },
+      {
+        "value": "91.9%",
+        "nationalAverage": "83.3%",
+        "responses": "86"
+      },
+      {
+        "value": "89.4%",
+        "nationalAverage": "80.5%",
+        "responses": "85"
+      },
+      {
+        "value": "78.5%",
+        "nationalAverage": "71.2%",
+        "responses": "79"
+      }
+    ]
+  },
+  {
+    "slug": "victoria-university-vu",
+    "heroLocation": "Melbourne, VIC",
+    "heroType": "Higher Education / TAFE",
+    "stats": [
+      {
+        "value": "80.0%",
+        "nationalAverage": "76.6%",
+        "responses": "5,557"
+      },
+      {
+        "value": "85.4%",
+        "nationalAverage": "81.1%",
+        "responses": "5,313"
+      },
+      {
+        "value": "76.2%",
+        "nationalAverage": "59.5%",
+        "responses": "5,569"
+      },
+      {
+        "value": "81.9%",
+        "nationalAverage": "83.3%",
+        "responses": "4,956"
+      },
+      {
+        "value": "83.8%",
+        "nationalAverage": "80.5%",
+        "responses": "5,462"
+      },
+      {
+        "value": "72.7%",
+        "nationalAverage": "71.2%",
+        "responses": "4,086"
+      }
+    ]
+  },
+  {
+    "slug": "william-angliss-institute",
+    "heroLocation": "Melbourne, VIC",
+    "heroType": "Higher Education (dual-sector)",
+    "stats": [
+      {
+        "value": "78.3%",
+        "nationalAverage": "76.6%",
+        "responses": "198"
+      },
+      {
+        "value": "86.4%",
+        "nationalAverage": "81.1%",
+        "responses": "191"
+      },
+      {
+        "value": "74.5%",
+        "nationalAverage": "59.5%",
+        "responses": "200"
+      },
+      {
+        "value": "74.5%",
+        "nationalAverage": "83.3%",
+        "responses": "192"
+      },
+      {
+        "value": "82.7%",
+        "nationalAverage": "80.5%",
+        "responses": "196"
+      },
+      {
+        "value": "76.6%",
+        "nationalAverage": "71.2%",
+        "responses": "158"
+      }
+    ]
+  }
+]

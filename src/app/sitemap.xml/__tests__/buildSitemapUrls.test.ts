@@ -1,5 +1,6 @@
 import { ENDORSED_LIVE_SLUGS } from '@/app/components/endorsedProviders/endorsedProviderPageData';
 import emergingInstitutions from '@/app/components/emergingInstitutions/emergingInstitutions.json';
+import { hasEmergingProviderProfile } from '@/app/components/emergingInstitutions/emergingProviderPageData';
 import blogData from '@/app/blogs/blogData.json';
 import articleData from '@/app/articles/articleData.json';
 import courseData from '@/app/courses/courseData.json';
@@ -28,11 +29,16 @@ describe('buildSitemapUrls', () => {
     });
   });
 
-  it('includes emerging provider detail pages', () => {
+  it('includes emerging provider detail pages only when a profile exists', () => {
     const urls = buildSitemapUrls({ baseUrl: BASE_URL });
 
     emergingInstitutions.forEach((institution) => {
-      expect(urls).toContain(`${BASE_URL}/emergingproviders/${slugify(institution.name)}`);
+      const detailUrl = `${BASE_URL}/emergingproviders/${slugify(institution.name)}`;
+      if (hasEmergingProviderProfile(slugify(institution.name))) {
+        expect(urls).toContain(detailUrl);
+        return;
+      }
+      expect(urls).not.toContain(detailUrl);
     });
   });
 

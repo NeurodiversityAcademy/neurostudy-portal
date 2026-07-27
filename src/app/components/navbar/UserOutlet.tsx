@@ -27,26 +27,19 @@ const UserOutlet: React.FC = () => {
     })();
   };
 
+  if (!session) {
+    return null;
+  }
+
   return (
     <li className={classNames(styles.userOutletWrapper)}>
       <LoaderWrapper isLoading={isSigningOut}>
-        {session ? (
-          <ActionButton
-            label='Sign Out'
-            style={BUTTON_STYLE.Primary}
-            className={styles.userOutlet}
-            onClick={onSignOut}
-          />
-        ) : (
-          <ActionButton
-            label='Login'
-            style={BUTTON_STYLE.Primary}
-            className={styles.userOutlet}
-            // TODO
-            // https://trello.com/c/suoF46yg/131-infrastructure-key-constant-based-url-setup
-            to='/login'
-          />
-        )}
+        <ActionButton
+          label='Sign Out'
+          style={BUTTON_STYLE.Primary}
+          className={styles.userOutlet}
+          onClick={onSignOut}
+        />
       </LoaderWrapper>
     </li>
   );

@@ -21,6 +21,7 @@ jest.mock('next/link', () => ({
 }));
 
 import CloseButton from '../CloseButton';
+import ActionButton from '../ActionButton';
 import MyPrimary from '../MyPrimary';
 import MySecondary from '../MySecondary';
 import MyTertiary from '../MyTertiary';
@@ -55,6 +56,38 @@ describe('CloseButton', () => {
     const ref = React.createRef<HTMLButtonElement>();
     render(<CloseButton ref={ref} />);
     expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+  });
+});
+
+describe('ActionButton', () => {
+  it('renders a link with button styles when to is set', () => {
+    render(<ActionButton label='Explore More' to='/emergingproviders/bond-university' />);
+
+    const link = screen.getByRole('link', { name: 'Explore More' });
+    expect(link).toHaveAttribute('href', '/emergingproviders/bond-university');
+    expect(screen.queryByRole('button')).not.toBeInTheDocument();
+  });
+
+  it('calls onClick on the link when to is set', () => {
+    const onClick = jest.fn();
+    render(
+      <ActionButton
+        label='Explore More'
+        to='/emergingproviders/bond-university'
+        onClick={onClick}
+      />,
+    );
+
+    fireEvent.click(screen.getByRole('link', { name: 'Explore More' }));
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('opens link in a new tab when openInNewTab is set', () => {
+    render(<ActionButton label='External' to='https://example.com' openInNewTab />);
+
+    const link = screen.getByRole('link', { name: 'External' });
+    expect(link).toHaveAttribute('target', '_blank');
+    expect(link).toHaveAttribute('rel', 'noopener noreferrer');
   });
 });
 

@@ -1,5 +1,6 @@
 .card {
   container-type: inline-size;
+  position: relative;
   width: 20%;
   min-height: 260px;
   height: auto;
@@ -13,6 +14,24 @@
   background: var(--GhostWhite);
   overflow: clip;
   box-shadow: 0px 1px 20px 0px var(--color-shadow-soft);
+}
+
+.cardClickable {
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+}
+
+.cardClickable:hover {
+  box-shadow: 0px 4px 24px 0px var(--color-shadow-soft);
+}
+
+.cardStretchLink {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  text-decoration: none;
+  color: inherit;
 }
 
 .cardEqual {
@@ -53,6 +72,43 @@
 
 .cardTopEmerging {
   background-color: #e8e4f5;
+}
+
+/* Muted state header tints — distinct enough to scan, soft enough for dense grids */
+.cardTopEmergingNSW {
+  background-color: #d7e3f4;
+}
+
+.cardTopEmergingVIC {
+  background-color: #c2ddd2;
+}
+
+.cardTopEmergingQLD {
+  background-color: #f3d9b8;
+}
+
+.cardTopEmergingSA {
+  background-color: #eadce8;
+}
+
+.cardTopEmergingWA {
+  background-color: #e2d4b0;
+}
+
+.cardTopEmergingTAS {
+  background-color: #dde5ec;
+}
+
+.cardTopEmergingNT {
+  background-color: #f0ddd4;
+}
+
+.cardTopEmergingACT {
+  background-color: #e4dff5;
+}
+
+.cardTopEmergingWithStateTint .cardTopImageEmerging {
+  opacity: 0.28;
 }
 
 .cardTopImageEmerging {
@@ -107,6 +163,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px 0px;
+  gap: 12px;
 }
 
 .nameWrap {
@@ -126,6 +183,14 @@
   overflow: hidden;
 }
 
+.nameStack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
 /* Body2 is a <span>; scale with card width (cqi) so long names fit the name pill */
 .card .nameWrap span {
   font-size: clamp(10px, 5.85cqi, 16px);
@@ -134,6 +199,13 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   overflow: hidden;
+}
+
+.card .nameStack span:last-child {
+  font-size: clamp(9px, 4.2cqi, 12px);
+  -webkit-line-clamp: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .logoWrap {
@@ -164,6 +236,7 @@
 
 /*
   Override ActionButton .primary for this card only: compact size, purple fill, no padding.
+  pointer-events none so the stretch link owns the click (decorative CTA).
 */
 .card .ctaButton {
   width: 80%;
@@ -171,29 +244,117 @@
   height: 41px;
   padding: 0;
   background: var(--cherryPieVariant);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.card .ctaButton:hover {
+.cardClickable:hover .ctaButton {
   background-color: var(--cherryPieVariantSub);
   box-shadow: 0px 2px 8px 0px var(--color-shadow-pressed);
 }
 
-@media (max-width: 768px) {
+.comingSoon {
+  margin-top: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  width: 80%;
+  max-width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px dashed rgb(102 0 204 / 0.35);
+  color: var(--cherryPieVariant);
+  font-family: var(--poppins-font);
+  font-size: var(--body3-font-size);
+  font-weight: var(--body2-strong-font-weight);
+  box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
   .card {
     width: 100%;
     min-width: 0;
     max-width: 100%;
     flex: 0 0 auto;
+    min-height: 240px;
   }
 
-  /* Two-column grids (endorsed / emerging): fill cell, allow shrink below 220px */
+  /* Two-column grids (endorsed): fill cell, allow shrink below 220px */
   .cardEqual {
     width: 100%;
     min-width: 0;
     max-width: 100%;
   }
 
+  .nameWrap {
+    width: min(78%, 280px);
+    min-height: 64px;
+  }
+
+  .card .nameWrap span {
+    font-size: clamp(14px, 4.2vw, 16px);
+  }
+
+  .card .ctaButton {
+    width: min(80%, 280px);
+  }
+
   .badgeSlotCertified {
     top: 26px;
+  }
+
+  /* 2-up directory — ~6 cards per phone screen, with breathing room */
+  .card.cardCompact {
+    min-height: 220px;
+  }
+
+  .card.cardCompact .cardTop {
+    height: 72px;
+  }
+
+  .card.cardCompact .cardBody {
+    padding: 14px 0 16px;
+    gap: 12px;
+    justify-content: space-between;
+  }
+
+  .card.cardCompact .nameWrap {
+    width: 88%;
+    min-height: 56px;
+    padding: 8px 10px;
+  }
+
+  .card.cardCompact .nameWrap span {
+    font-size: clamp(12px, 3.2vw, 14px);
+    -webkit-line-clamp: 2;
+    line-height: 1.25;
+  }
+
+  .card.cardCompact .nameStack {
+    gap: 4px;
+  }
+
+  .card.cardCompact .nameStack span:last-child {
+    font-size: clamp(10px, 2.6vw, 12px);
+  }
+
+  .card.cardCompact .ctaButton {
+    width: 88%;
+    height: 36px;
+    min-height: 36px;
+    padding: 0;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  .card.cardCompact .comingSoon {
+    margin-top: 4px;
+    min-height: 36px;
+    width: 88%;
+    padding: 6px 8px;
+    font-size: 12px;
   }
 }

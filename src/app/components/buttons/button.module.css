@@ -3,6 +3,17 @@
   padding-block: 0px;
   cursor: pointer;
   padding: 8px 12px;
+  /* Link-as-button: reset UA anchor styles so `to` matches <button> look */
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.common:hover,
+.common:focus,
+.common:focus-visible,
+.common:active,
+.common:visited {
+  text-decoration: none;
 }
 
 .a {

@@ -6,6 +6,7 @@ import EmergingProviderStats from '@/app/components/emergingInstitutions/Emergin
 import EmergingProvidersFAQs from '@/app/components/emergingInstitutions/EmergingProvidersFAQs';
 import {
   buildEmergingProviderMetadata,
+  listEmergingProviderSlugsWithProfiles,
   resolveEmergingProviderForSlug,
 } from '@/app/emergingproviders/emergingProviderMetadata';
 import pageStyles from './emergingProviderPage.module.css';
@@ -16,6 +17,12 @@ type RouteParams = {
 
 interface PageProps {
   params: Promise<RouteParams>;
+}
+
+export function generateStaticParams(): RouteParams[] {
+  return listEmergingProviderSlugsWithProfiles().map((slug) => ({
+    'name-of-the-institute': slug,
+  }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -35,7 +42,7 @@ export default async function EmergingProviderPage({ params }: PageProps) {
     <main className={pageStyles.pageMain}>
       <EmergingProviderHero title={provider.name} heroInfoItems={provider.heroInfoItems} />
       <EmergingProviderStudentSuitability instituteSlug={provider.slug} />
-      <EmergingProviderStats stats={provider.providerStats} />
+      <EmergingProviderStats stats={provider.providerStats} sourceHref={provider.qiltSourceHref} />
       <EmergingProvidersFAQs />
     </main>
   );

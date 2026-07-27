@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
 jest.mock('next/image', () => require('@/testUtils/mockNextImage'));
 
@@ -29,22 +29,25 @@ jest.mock('next/navigation', () => ({
   usePathname: () => '/test',
 }));
 
-import EmergingInstitutions from '../EmergingInstitutions';
-import EmergingInstitutionCtaButton from '../EmergingInstitutionCtaButton';
-import InstitutionHero from '../InstitutionHero';
-import { InstitutionHeroVariant } from '../institutionHeroVariant';
-import InstitutionStats from '../InstitutionStats';
-import EmergingProviderHero from '../EmergingProviderHero';
-import EmergingProviderStats, { ProviderStatItem } from '../EmergingProviderStats';
-import EmergingProvidersFAQs from '../EmergingProvidersFAQs';
+jest.mock('../emergingProvidersGa', () => ({
+  VIEW_ALL_LINK_TEXT: 'View all emerging providers',
+  buildEmergingDirectoryViewAllAnalytics: () => ({
+    eventName: 'emerging_directory_cta_click',
+    category: 'Emerging',
+    fileName: 'emergingproviders',
+    params: {
+      surface: 'homepage_teaser',
+      destination_path: '/emergingproviders',
+      link_text: 'View all emerging providers',
+    },
+  }),
+  trackEmergingStateAutoSelect: jest.fn(),
+  trackEmergingStateSelect: jest.fn(),
+  trackEmergingInstitutePillClick: jest.fn(),
+}));
 
-jest.mock('../EmergingInstitutionCard', () => ({
-  __esModule: true,
-  default: ({ name, href }: { name: string; href: string }) => (
-    <a href={href} data-testid='institution-card'>
-      {name}
-    </a>
-  ),
+jest.mock('@/app/utilities/gaTracking', () => ({
+  sendGaEvent: jest.fn(),
 }));
 
 jest.mock(
@@ -60,6 +63,21 @@ jest.mock(
 );
 
 jest.mock('../../accordion/Accordian', () => require('@/testUtils/mockAccordion'));
+
+import EmergingInstitutions from '../EmergingInstitutions';
+import EmergingInstitutionCtaButton from '../EmergingInstitutionCtaButton';
+import InstitutionHero from '../InstitutionHero';
+import { InstitutionHeroVariant } from '../institutionHeroVariant';
+import InstitutionStats from '../InstitutionStats';
+import EmergingProviderHero from '../EmergingProviderHero';
+import EmergingProviderStats, { ProviderStatItem } from '../EmergingProviderStats';
+import EmergingProvidersFAQs from '../EmergingProvidersFAQs';
+import {
+  trackEmergingInstitutePillClick,
+  trackEmergingStateAutoSelect,
+  trackEmergingStateSelect,
+} from '../emergingProvidersGa';
+import { sendGaEvent } from '@/app/utilities/gaTracking';
 
 const mockStatIcon = {
   src: '/test.png',
@@ -84,21 +102,103 @@ const mockStats: ProviderStatItem[] = [
   },
 ];
 
+const trackAutoSelectMock = trackEmergingStateAutoSelect as jest.MockedFunction<
+  typeof trackEmergingStateAutoSelect
+>;
+const trackStateSelectMock = trackEmergingStateSelect as jest.MockedFunction<
+  typeof trackEmergingStateSelect
+>;
+const trackInstitutePillMock = trackEmergingInstitutePillClick as jest.MockedFunction<
+  typeof trackEmergingInstitutePillClick
+>;
+
 describe('EmergingInstitutions', () => {
-  it('renders the section heading', () => {
+  beforeEach(() => {
+    trackAutoSelectMock.mockClear();
+    trackStateSelectMock.mockClear();
+    trackInstitutePillMock.mockClear();
+  });
+
+  it('renders the section heading and state pills', async () => {
     render(<EmergingInstitutions />);
     expect(screen.getByText('NDA Emerging Providers')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'NSW' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'QLD' })).toBeInTheDocument();
+    await waitFor(() => {
+      expect(trackAutoSelectMock).toHaveBeenCalled();
+    });
   });
 
-  it('renders the subtitle description', () => {
+  it('auto-selects a state and shows institute pills', async () => {
     render(<EmergingInstitutions />);
-    expect(screen.getByText(/Emerging Providers are organisations/)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(trackAutoSelectMock).toHaveBeenCalled();
+    });
+    expect(screen.getByLabelText(/emerging providers$/i)).toBeInTheDocument();
   });
 
-  it('renders institution cards from JSON data', () => {
+  it('fires state select GA and swaps institutes when another state is tapped', async () => {
     render(<EmergingInstitutions />);
-    const cards = screen.getAllByTestId('institution-card');
-    expect(cards.length).toBeGreaterThanOrEqual(1);
+    await waitFor(() => expect(trackAutoSelectMock).toHaveBeenCalled());
+
+    fireEvent.click(screen.getByRole('button', { name: 'QLD' }));
+
+    expect(trackStateSelectMock).toHaveBeenCalledWith(expect.objectContaining({ state: 'QLD' }));
+    expect(screen.getByText('Bond University')).toBeInTheDocument();
+  });
+
+  it('re-tapping the selected state still fires GA with was_already_selected', async () => {
+    render(<EmergingInstitutions />);
+    await waitFor(() => expect(trackAutoSelectMock).toHaveBeenCalled());
+
+    const selectedState = trackAutoSelectMock.mock.calls[0]?.[0];
+    expect(selectedState).toBeDefined();
+
+    fireEvent.click(screen.getByRole('button', { name: selectedState! }));
+    expect(trackStateSelectMock).toHaveBeenCalledWith({
+      state: selectedState,
+      wasAlreadySelected: true,
+    });
+  });
+
+  it('opens live institute pills in the same tab and tracks click', async () => {
+    render(<EmergingInstitutions />);
+    await waitFor(() => expect(trackAutoSelectMock).toHaveBeenCalled());
+
+    fireEvent.click(screen.getByRole('button', { name: 'QLD' }));
+    const bondLink = screen.getByRole('link', { name: 'Bond University' });
+    expect(bondLink).not.toHaveAttribute('target', '_blank');
+    expect(bondLink).toHaveAttribute('href', '/emergingproviders/bond-university');
+
+    fireEvent.click(bondLink);
+    expect(trackInstitutePillMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        providerName: 'Bond University',
+        providerSlug: 'bond-university',
+        state: 'QLD',
+      }),
+    );
+  });
+
+  it('only shows state pills for states that have live providers', async () => {
+    render(<EmergingInstitutions />);
+    await waitFor(() => expect(trackAutoSelectMock).toHaveBeenCalled());
+
+    expect(screen.getByRole('button', { name: 'NSW' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'QLD' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'SA' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'VIC' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'WA' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'ACT' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'TAS' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'NT' })).not.toBeInTheDocument();
+  });
+
+  it('links View all to the directory', async () => {
+    render(<EmergingInstitutions />);
+    await waitFor(() => expect(trackAutoSelectMock).toHaveBeenCalled());
+    const link = screen.getByText('View all emerging providers').closest('a');
+    expect(link).toHaveAttribute('href', '/emergingproviders');
   });
 
   it('renders graduation cap icon', () => {
@@ -108,6 +208,10 @@ describe('EmergingInstitutions', () => {
 });
 
 describe('EmergingInstitutionCtaButton', () => {
+  beforeEach(() => {
+    (sendGaEvent as jest.Mock).mockClear();
+  });
+
   it('renders Explore More button', () => {
     render(<EmergingInstitutionCtaButton ctaHref='/test-path' className='test' />);
     expect(screen.getByText('Explore More')).toBeInTheDocument();
@@ -119,14 +223,10 @@ describe('EmergingInstitutionCtaButton', () => {
     expect(link).toHaveAttribute('href', '/test-path');
   });
 
-  it('fires gtag event on click', () => {
-    const gtagMock = jest.fn();
-    (window as Window & { gtag?: (...args: unknown[]) => void }).gtag = gtagMock;
-
+  it('fires sendGaEvent on click', () => {
     render(<EmergingInstitutionCtaButton ctaHref='/analytics-test' className='test' />);
     fireEvent.click(screen.getByText('Explore More'));
-    expect(gtagMock).toHaveBeenCalledWith(
-      'event',
+    expect(sendGaEvent).toHaveBeenCalledWith(
       'emerging_cta_click',
       expect.objectContaining({
         destination_path: '/analytics-test',
@@ -134,14 +234,9 @@ describe('EmergingInstitutionCtaButton', () => {
         category: 'Emerging',
       }),
     );
-
-    delete (window as Window & { gtag?: (...args: unknown[]) => void }).gtag;
   });
 
   it('uses custom analytics params when provided', () => {
-    const gtagMock = jest.fn();
-    (window as Window & { gtag?: (...args: unknown[]) => void }).gtag = gtagMock;
-
     render(
       <EmergingInstitutionCtaButton
         ctaHref='/custom'
@@ -154,22 +249,25 @@ describe('EmergingInstitutionCtaButton', () => {
       />,
     );
     fireEvent.click(screen.getByText('Explore More'));
-    expect(gtagMock).toHaveBeenCalledWith(
-      'event',
+    expect(sendGaEvent).toHaveBeenCalledWith(
       'custom_event',
       expect.objectContaining({
         category: 'Custom',
         extra: 'val',
       }),
     );
-
-    delete (window as Window & { gtag?: (...args: unknown[]) => void }).gtag;
   });
 
   it('opens in new tab when openInNewTab is true', () => {
     render(<EmergingInstitutionCtaButton ctaHref='/new-tab' className='test' openInNewTab />);
     const link = screen.getByText('Explore More').closest('a');
     expect(link).toHaveAttribute('target', '_blank');
+  });
+
+  it('renders a decorative non-link label when decorative is set', () => {
+    render(<EmergingInstitutionCtaButton ctaHref='/test-path' className='test' decorative />);
+    expect(screen.getByText('Explore More')).toBeInTheDocument();
+    expect(screen.queryByRole('link')).not.toBeInTheDocument();
   });
 });
 
@@ -312,15 +410,22 @@ describe('EmergingProviderStats', () => {
     expect(responses.length).toBeGreaterThanOrEqual(2);
   });
 
-  it('renders disclaimer with source link', () => {
+  it('renders disclaimer with QILT source label', () => {
     render(<EmergingProviderStats stats={mockStats} />);
-    expect(screen.getByText('Quilt survey 2024')).toBeInTheDocument();
+    expect(screen.getByText(/QILT survey 2024/)).toBeInTheDocument();
   });
 
-  it('renders disclaimer link pointing to compared.edu.au', () => {
+  it('renders plain-text QILT label when sourceHref is omitted', () => {
     render(<EmergingProviderStats stats={mockStats} />);
-    const link = screen.getByText('Quilt survey 2024').closest('a');
-    expect(link).toHaveAttribute('href', expect.stringContaining('compared.edu.au'));
+    expect(screen.queryByRole('link', { name: 'QILT survey 2024' })).not.toBeInTheDocument();
+    expect(screen.getByText(/QILT survey 2024/)).toBeInTheDocument();
+  });
+
+  it('renders disclaimer link when sourceHref is provided', () => {
+    const sourceHref = 'https://www.compared.edu.au/institution/bond-university/undergraduate';
+    render(<EmergingProviderStats stats={mockStats} sourceHref={sourceHref} />);
+    const link = screen.getByRole('link', { name: 'QILT survey 2024' });
+    expect(link).toHaveAttribute('href', sourceHref);
     expect(link).toHaveAttribute('target', '_blank');
   });
 

@@ -2,7 +2,7 @@ import Image, { StaticImageData } from 'next/image';
 import classNames from 'classnames';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import { TypographyColorToken } from '../typography/typographyColorToken';
-import styles from './emergingInstitutions.module.css';
+import styles from './emergingProviderDetail.module.css';
 import { InstitutionHeroVariant } from './institutionHeroVariant';
 import CourseDetailsMiddleBannerIcon from '@/app/components/course/CourseDetails/CourseDetailsMiddleBanner/CourseDetailsMiddleBannerIcon';
 import mapPin from '@/app/images/MapPin.png';

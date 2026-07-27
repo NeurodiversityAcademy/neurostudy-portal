@@ -1,17 +1,234 @@
 [
   {
-    "name": "Bond University"
+    "name": "Bond University",
+    "state": "QLD"
   },
   {
-    "name": "Australian College of Physical Education"
+    "name": "Australian College of Physical Education",
+    "state": "NSW"
   },
   {
-    "name": "Flinders University"
+    "name": "Flinders University",
+    "state": "SA"
   },
   {
-    "name": "Griffith University"
+    "name": "Griffith University",
+    "state": "QLD"
   },
   {
-    "name": "Jazz Music Institute"
+    "name": "Jazz Music Institute",
+    "state": "QLD"
+  },
+  {
+    "name": "Academies Australasia Polytechnic",
+    "state": "VIC"
+  },
+  {
+    "name": "ACAP University College",
+    "state": "NSW"
+  },
+  {
+    "name": "Adelaide Central School of Art",
+    "state": "SA"
+  },
+  {
+    "name": "Adelaide University",
+    "state": "SA"
+  },
+  {
+    "name": "Alphacrucis University College",
+    "state": "NSW"
+  },
+  {
+    "name": "Asia Pacific International College (APIC)",
+    "state": "NSW"
+  },
+  {
+    "name": "Australian Catholic University (ACU)",
+    "state": "NSW"
+  },
+  {
+    "name": "Australian Chiropractic College (ACC)",
+    "state": "SA"
+  },
+  {
+    "name": "Australian College of Christian Studies (ACCS)",
+    "state": "NSW"
+  },
+  {
+    "name": "Australian Institute of Higher Education (AIH)",
+    "state": "NSW"
+  },
+  {
+    "name": "ASA Institute of Higher Education",
+    "state": "NSW"
+  },
+  {
+    "name": "Australian University College of Divinity (AUCD)",
+    "state": "NSW"
+  },
+  {
+    "name": "Australian University of Theology (AUT)",
+    "state": "NSW"
+  },
+  {
+    "name": "Avondale University",
+    "state": "NSW"
+  },
+  {
+    "name": "BPP Institute",
+    "state": "VIC"
+  },
+  {
+    "name": "Campion College Australia",
+    "state": "NSW"
+  },
+  {
+    "name": "Chisholm Institute",
+    "state": "VIC"
+  },
+  {
+    "name": "Christian Heritage College (CHC)",
+    "state": "QLD"
+  },
+  {
+    "name": "Curtin College",
+    "state": "WA"
+  },
+  {
+    "name": "Deakin University",
+    "state": "VIC"
+  },
+  {
+    "name": "Edith Cowan College (ECC)",
+    "state": "WA"
+  },
+  {
+    "name": "Edith Cowan University (ECU)",
+    "state": "WA"
+  },
+  {
+    "name": "Engineering Institute of Technology (EIT)",
+    "state": "WA"
+  },
+  {
+    "name": "EQUALS International",
+    "state": "SA"
+  },
+  {
+    "name": "Excelsia University College",
+    "state": "NSW"
+  },
+  {
+    "name": "Federation University Australia",
+    "state": "VIC"
+  },
+  {
+    "name": "Griffith College",
+    "state": "QLD"
+  },
+  {
+    "name": "Holmes Institute",
+    "state": "NSW"
+  },
+  {
+    "name": "International College of Management, Sydney (ICMS)",
+    "state": "NSW"
+  },
+  {
+    "name": "JMC Academy",
+    "state": "NSW"
+  },
+  {
+    "name": "Kaplan Business School (KBS)",
+    "state": "WA"
+  },
+  {
+    "name": "King's Own Institute (KOI)",
+    "state": "NSW"
+  },
+  {
+    "name": "La Trobe College Australia",
+    "state": "VIC"
+  },
+  {
+    "name": "Leaders Institute",
+    "state": "QLD"
+  },
+  {
+    "name": "Lyons College",
+    "state": "VIC"
+  },
+  {
+    "name": "Marcus Oldham College",
+    "state": "VIC"
+  },
+  {
+    "name": "Melbourne Polytechnic",
+    "state": "VIC"
+  },
+  {
+    "name": "Moore Theological College",
+    "state": "NSW"
+  },
+  {
+    "name": "Murdoch University",
+    "state": "WA"
+  },
+  {
+    "name": "PSC Creative College",
+    "state": "VIC"
+  },
+  {
+    "name": "Polytechnic Institute Australia (PIA)",
+    "state": "NSW"
+  },
+  {
+    "name": "Sheridan Institute of Higher Education",
+    "state": "WA"
+  },
+  {
+    "name": "Stanley College",
+    "state": "WA"
+  },
+  {
+    "name": "Tabor College",
+    "state": "SA"
+  },
+  {
+    "name": "TAFE NSW",
+    "state": "NSW"
+  },
+  {
+    "name": "Universal Business School Sydney (UBSS)",
+    "state": "NSW"
+  },
+  {
+    "name": "University of Divinity",
+    "state": "VIC"
+  },
+  {
+    "name": "University of Technology Sydney (UTS)",
+    "state": "NSW"
+  },
+  {
+    "name": "University of the Sunshine Coast (UniSC)",
+    "state": "QLD"
+  },
+  {
+    "name": "University of Wollongong (UOW)",
+    "state": "NSW"
+  },
+  {
+    "name": "UOW College Australia",
+    "state": "NSW"
+  },
+  {
+    "name": "Victoria University (VU)",
+    "state": "VIC"
+  },
+  {
+    "name": "William Angliss Institute",
+    "state": "VIC"
   }
 ]

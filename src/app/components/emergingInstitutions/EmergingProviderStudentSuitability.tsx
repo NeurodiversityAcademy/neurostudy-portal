@@ -3,7 +3,7 @@
 import TabSection from '@/app/components/tabSection/TabSection';
 import TabSectionStringList from '@/app/components/tabSection/TabSectionStringList';
 import { getStudentSuitabilitySection } from '@/app/components/tabSection/emergingInstituteTabSectionsData';
-import styles from './emergingInstitutions.module.css';
+import styles from './emergingProviderDetail.module.css';
 
 export interface EmergingProviderStudentSuitabilityProps {
   instituteSlug: string;

@@ -13,6 +13,7 @@
 import { runCommand, runNpmScript } from './run-npm-script.mjs';
 
 const staticQuality = async () => {
+  // security:audit omits devDependencies (prod tree only); run security:audit:all locally for full tree.
   console.log('[quality] parallel: security:audit, format:check, lint');
   await Promise.all([
     runNpmScript('security:audit'),

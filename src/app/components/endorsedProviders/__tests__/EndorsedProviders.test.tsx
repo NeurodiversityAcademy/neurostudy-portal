@@ -9,6 +9,18 @@ import { NDA_CERTIFIED_LEGEND } from '@/app/utilities/endorsedProvidersDemo';
 jest.mock('next/image', () => require('@/testUtils/mockNextImage'));
 
 describe('EndorsedProviders demo access', () => {
+  it('renders live provider cards without React list key warnings', () => {
+    const consoleError = jest.spyOn(console, 'error').mockImplementation(() => undefined);
+
+    render(<EndorsedProviders />);
+
+    const keyWarnings = consoleError.mock.calls.filter((args) =>
+      args.some((arg) => typeof arg === 'string' && arg.includes('unique "key" prop')),
+    );
+    expect(keyWarnings).toHaveLength(0);
+    consoleError.mockRestore();
+  });
+
   it('renders live provider cards without demo props', () => {
     const { getAllByRole, getByText } = render(<EndorsedProviders />);
 

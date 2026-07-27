@@ -7,6 +7,7 @@ import Logo from '../../images/Logo-navbar.webp';
 import Hamburger from '../../images/hamburgerMenu.svg';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import UserOutlet from './UserOutlet';
+import { EMERGING_PROVIDERS_DIRECTORY_PATH } from '../emergingInstitutions/emergingProvidersPaths';
 
 export default function Navbar() {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -49,8 +50,8 @@ export default function Navbar() {
               </Link>
             </li>
             <li className={styles.li}>
-              <Link href='/profile'>
-                <Typography variant={TypographyVariant.Body2}>Profile</Typography>
+              <Link href={EMERGING_PROVIDERS_DIRECTORY_PATH}>
+                <Typography variant={TypographyVariant.Body2}>Emerging Providers</Typography>
               </Link>
             </li>
             <li className={styles.li}>
@@ -83,18 +84,18 @@ export default function Navbar() {
           {isDropdownVisible && (
             <ul className={`${styles.dropdownMenu}`}>
               <li className={styles.li}>
-                <Link href='/profile' onClick={toggleDropdown}>
-                  <Typography variant={TypographyVariant.Body2}>Profile</Typography>
+                <Link href='/endorsements' onClick={toggleDropdown}>
+                  <Typography variant={TypographyVariant.Body2}>Endorsements</Typography>
+                </Link>
+              </li>
+              <li className={styles.li}>
+                <Link href={EMERGING_PROVIDERS_DIRECTORY_PATH} onClick={toggleDropdown}>
+                  <Typography variant={TypographyVariant.Body2}>Emerging Providers</Typography>
                 </Link>
               </li>
               <li className={styles.li}>
                 <Link href='/neurodivergentmates' onClick={toggleDropdown}>
                   <Typography variant={TypographyVariant.Body2}>Neurodivergent Mates</Typography>
-                </Link>
-              </li>
-              <li className={styles.li}>
-                <Link href='/endorsements' onClick={toggleDropdown}>
-                  <Typography variant={TypographyVariant.Body2}>Endorsements</Typography>
                 </Link>
               </li>
               <li className={styles.li}>

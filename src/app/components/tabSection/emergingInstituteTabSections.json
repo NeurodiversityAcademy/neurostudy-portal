@@ -34,5 +34,1656 @@
       }
     ]
   },
-  "byInstituteSlug": {}
+  "byInstituteSlug": {
+    "academies-australasia-polytechnic": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Prefer small, close-knit class environments",
+              "Value direct, personal relationships with teaching staff",
+              "Benefit from mentoring and individual academic/personal counselling",
+              "Prefer hands-on vocational learning (cookery, hospitality, IT, business)",
+              "Value a culturally diverse, international student cohort",
+              "Prefer structured support: special needs at enrolment, case-by-case"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Prefer large prestige-campus facilities: slightly below national avg",
+              "Prefer traditional large-scale uni over smaller private provider",
+              "Need guaranteed adjustments: AAPoly case-by-case; may limit for hardship"
+            ]
+          }
+        ]
+      }
+    },
+    "acap-university-college": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Prefer small classes, highly personalised supportive learning",
+              "Value direct access to industry-experienced practitioner faculty",
+              "Want applied training: psych, counselling, social work, coaching, law",
+              "Value above-avg support (career, wellbeing, academic)",
+              "Prefer flexible study: online, on-campus, blended, full/part-time",
+              "Value structured work placement and industry-connected learning"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Value active peers: interactions below national avg (49.7% vs 59.5%)",
+              "Prefer large campus facilities: marginally below national avg",
+              "Prefer broad uni over specialist college (psychology, mgmt, law)"
+            ]
+          }
+        ]
+      }
+    },
+    "adelaide-central-school-of-art": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Thrive in small tight-knit creative community vs large campus",
+              "Value formal adjustments: ACSA Study Support Plans (Disability Policy)",
+              "Benefit from one-on-one academic support directly from lecturers",
+              "Value peer mentoring and role-modelling with experienced students",
+              "Want free, confidential, qualified personal counselling as standard",
+              "Prefer studio learning in single specialist discipline (visual art)"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want large multidisciplinary uni with many courses outside visual art",
+              "Need multiple campuses: ACSA single site only (Glenside, SA)",
+              "Prefer bigger uni: cross-institutional study, UniSA, Adelaide, Flinders"
+            ]
+          }
+        ]
+      }
+    },
+    "adelaide-university": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want large research uni: Business & Law, Arts, Ed, Eng/IT, Health",
+              "Value campus infra: libraries, gyms, health, childcare, prayer rooms",
+              "Prefer multiple campuses (metro Adelaide, regional SA) or 100% online",
+              "Value Group of Eight research-intensive reputation and prestige"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Prefer close-knit peers: below avg (14,000 responses, robust)",
+              "Want easy 1:1 staff ties: large multi-campus uni harder vs smaller unis",
+              "Want standout results — margins above avg are slimmest in NDA set"
+            ]
+          }
+        ]
+      }
+    },
+    "alphacrucis-university-college": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want faith-based, values-aligned learning in Christian worldview",
+              "Want ministry, theology, chaplaincy, counselling, community services",
+              "Value flexible study: campus, online, blended across smaller metros",
+              "Prefer smaller values-driven community over large secular uni"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want strong peers: below avg (29.7% vs 59.5%), largest gap in NDA set",
+              "Prefer purpose-built campus facilities — facilities below national avg",
+              "Not seeking Pentecostal / Australian Christian Churches environment",
+              "Prefer one large campus over distributed multi-campus, online-heavy"
+            ]
+          }
+        ]
+      }
+    },
+    "asia-pacific-international-college-apic": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want specialist Business, IT or Project Mgmt with intl-student focus",
+              "Prefer project-based vs exams: projects, presentations, teamwork",
+              "Value strong peer interaction and community at smaller college",
+              "Want comprehensive support: mental health, academic, career, wellbeing"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Prefer exam-based assessment over project/presentation evaluation",
+              "Want large purpose-built campus facilities: below national avg",
+              "Want broad uni vs specialist Business/IT/Project Management"
+            ]
+          }
+        ]
+      }
+    },
+    "australian-catholic-university-acu": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want faith-based Catholic uni welcoming students of all faiths and none",
+              "Want broad disciplines: Health, Ed/Arts, Law/Business, Theology, Nursing",
+              "Value disability support plus counselling, campus ministry, advocacy",
+              "Prefer mid-sized campuses across cities vs one large or many tiny"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Not comfortable with values- or faith-based identity, even if inclusive",
+              "Want differentiated results: teaching +0.1pp, thinnest in NDA set",
+              "Prefer single unified campus over 8+ locations across states plus Rome"
+            ]
+          }
+        ]
+      }
+    },
+    "australian-chiropractic-college-acc": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want intimate small-class specialist program: ACC \"people, not numbers\"",
+              "Want chiropractic by practising chiropractors, strong industry focus",
+              "Value close, high-contact relationships with academics and experts",
+              "Want flexible study locations — Adelaide, Melbourne, or blended online",
+              "Benefit from hands-on, practical learning within a close-knit cohort"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want broad uni with many courses outside health sciences",
+              "Prefer large campus facilities: ACC +0.4pp, smallest of six metrics"
+            ]
+          }
+        ]
+      }
+    },
+    "australian-college-of-christian-studies-accs": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want faith-based college: Ministry, Theology, Ed, Christian Counselling",
+              "Value bilingual English and Korean study streams in same institution",
+              "Prefer very small close cohort: survey suggests small student body",
+              "Value affiliation with Australian University College of Divinity network"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want strong peers: 21.9% vs 59.5% (~38pp gap, most extreme in NDA set)",
+              "Want facilities visibility: no reportable data",
+              "Are not seeking a faith-based or denominational learning environment"
+            ]
+          }
+        ]
+      }
+    },
+    "australian-college-of-physical-education": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want sport, fitness, PE, dance, or health-focused higher education",
+              "Value hands-on practical learning with industry-connected teaching",
+              "Prefer specialist Sydney college over broad multi-faculty university",
+              "Benefit from smaller cohort and direct access to teaching staff",
+              "Want support services above the national average for HE providers"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want strong day-to-day peer interaction: below national average",
+              "Want broad uni with many courses outside sport, health, and dance",
+              "Prefer fully online degree over on-campus practical sport programs"
+            ]
+          }
+        ]
+      }
+    },
+    "australian-institute-of-higher-education-aih": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want guaranteed practical learning: Industry Project in every AIH course",
+              "Prefer block-model (one subject at a time) and/or hybrid campus/online",
+              "Value flexible \"Pay As You Learn\" payment options",
+              "Want strong peers: Business, Accounting, IT, Hospitality, Project Mgmt"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want large purpose-built campus facilities: below national avg",
+              "Want broad multidisciplinary uni outside Business/IT/Hospitality"
+            ]
+          }
+        ]
+      }
+    },
+    "asa-institute-of-higher-education": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want a no-traditional-exams, job-ready practical learning model",
+              "Value small close-knit diverse community with collaborative group work",
+              "Prefer studying in Sydney CBD business and innovation hub",
+              "Want confidential wellbeing and counselling in small-institution setting",
+              "Want specialist Accounting, IT (AI, Cyber Security, Software Dev), PM"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want a broad, multidisciplinary university with many course options",
+              "Prefer longer track record: ASA rebranded from ASOA (2024); very new",
+              "Want multiple campus locations vs single Sydney CBD site"
+            ]
+          }
+        ]
+      }
+    },
+    "australian-university-college-of-divinity-aucd": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want theology/ministry in independent Christian college net, self-accred",
+              "Value academic/missional support, flexible pathways diplomas to masters",
+              "Want wellbeing incl. TalkCampus, Health, Wellbeing and Safety services",
+              "Prefer choosing member colleges by denomination, location"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want unified campus: AUCD federation of colleges, not one physical site",
+              "Want strong peer interaction: interactions with students below avg",
+              "Prefer purpose-built dedicated facilities: marginally below avg"
+            ]
+          }
+        ]
+      }
+    },
+    "australian-university-of-theology-aut": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want largest theological provider: 130 yrs, 16 colleges, 30+ courses",
+              "Value flexible choice among colleges, modes (diplomas to doctorates)",
+              "Benefit from very strong facilities & resources and support & services",
+              "Want ministry/pastoral care (incl. Grad Cert Pastoral Care/MH)"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want single unified campus vs federation of 16 separate colleges",
+              "Not seeking faith-based or denominational Christian learning environment"
+            ]
+          }
+        ]
+      }
+    },
+    "avondale-university": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want faith-based (Seventh-day Adventist) uni with Spiritual Life program",
+              "Want Nursing (#1 UG), Teaching (#1 edu exp), Ministry, Arts, Counselling",
+              "Value strong campus community and student support services",
+              "Prefer smaller values-driven uni over large comprehensive one",
+              "Want Lake Macquarie or Sydney Nursing campus, or fully online study"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Not seeking faith-based or denominational (Seventh-day Adventist)",
+              "Want large broad multi-discipline uni with extensive courses beyond core"
+            ]
+          }
+        ]
+      }
+    },
+    "bond-university": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want private uni: small classes, personalised teaching on Gold Coast",
+              "Value trimester model for faster degree completion or flexible start",
+              "Want strong teaching, facilities, and support above national average",
+              "Prefer premium campus experience over large anonymous public uni",
+              "Want broad programs: Law, Business, Health, Communication, Psychology"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Prefer lower-cost public uni over private tuition and premium fees",
+              "Find trimester pace demanding vs traditional two-semester study",
+              "Want large multi-campus choice: Bond single Gold Coast campus only"
+            ]
+          }
+        ]
+      }
+    },
+    "bpp-institute": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want specialist Business: Accounting, Mgmt, Marketing (UG); MBA/MIS (PG)",
+              "Value international multicultural cohort — students from 40+ countries",
+              "Prefer single close-knit Melbourne campus vs sprawling multi-campus uni",
+              "Want cultural/social events: welcome events, movie nights, focus groups",
+              "Want wellbeing incl. accommodation, family schooling help, intl students"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want broad multidisciplinary uni vs specialist Business school",
+              "Prefer long-established brand: rebranded from AIB (Lyceum Ed Group)"
+            ]
+          }
+        ]
+      }
+    },
+    "campion-college-australia": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want small residential liberal arts: humanities (history, lit, philo)",
+              "Value faith-integrated education uniting faith, reason",
+              "Want on-campus residential living as part of the college experience",
+              "Prefer small classes and tight-knit campus vs large commuter uni",
+              "Want classical great-books curriculum vs professional/vocational degree"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want large uni: Campion mainly one BA (Liberal Arts) plus diplomas/certs",
+              "Are not seeking a faith-integrated (Catholic) educational philosophy",
+              "Want a large, non-residential, commuter-friendly campus"
+            ]
+          }
+        ]
+      }
+    },
+    "chisholm-institute": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want large TAFE with HE College: degree pathways alongside voc training",
+              "Value voc training (trades, health, IT, business, hospitality) with HE",
+              "Prefer many suburban/regional Victorian campuses or fully online study",
+              "Value Diversity & Inclusion and Student Support & Engagement services",
+              "Want pathway flexibility: cert/diploma to degree, same institution"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want small boutique vs large multi-campus TAFE with big voc catalogue",
+              "Want uni-first brand: Chisholm TAFE-branded first, HE one of many"
+            ]
+          }
+        ]
+      }
+    },
+    "christian-heritage-college-chc": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want faith-based Christian college integrating faith and learning",
+              "Want Business, Ed, Arts & Humanities, Ministries, Behavioural/Social Sci",
+              "Value small classes, prayer, and community events in student life",
+              "Want a dedicated on-campus Counselling Centre and library support"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want strong peers: 46.2% vs 59.5% (13.3pp gap), 3rd-largest in NDA set",
+              "Not seeking faith-based or denominational Christian learning environment"
+            ]
+          }
+        ]
+      }
+    },
+    "curtin-college": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want Curtin diploma pathway (guaranteed 2nd-yr entry) vs 3–4 yr bachelor",
+              "Did not meet ATAR for direct entry, or returning as mature-age student",
+              "Want disability support, multifaith chaplaincy, accessibility/inclusion",
+              "Prefer Curtin Bentley (Perth), uni facilities in smaller pathway cohort"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want standalone uni from day one vs pathway/diploma-first model",
+              "Want differentiated overall experience: +0.8 margin, thin"
+            ]
+          }
+        ]
+      }
+    },
+    "deakin-university": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want public uni: Deakin #1 Vic for satisfaction, support, facilities",
+              "Value campuses: Burwood, Geelong Waterfront, Warrnambool plus online",
+              "Want strong graduate employability outcomes and career support",
+              "Value modern facilities and resources, well above the national average"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want strong peers: 49.7% vs 59.5% (9.8pp gap; 11,000+ responses, robust)",
+              "Prefer smaller close-knit cohort over very large multi-campus uni"
+            ]
+          }
+        ]
+      }
+    },
+    "edith-cowan-college-ecc": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want direct diploma pathway into ECU degree (guaranteed 2nd-year entry)",
+              "Did not meet ATAR, or want route via Foundation or English courses",
+              "Value embedded on ECU Joondalup: UniSport, ECU fitness centre access",
+              "Want support: counselling, Access & Inclusion, chaplaincy, legal/career"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want standalone uni from day one vs pathway/diploma-first model",
+              "Want differentiated overall experience score: margin (+0.8) is thin"
+            ]
+          }
+        ]
+      }
+    },
+    "edith-cowan-university-ecu": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want large public uni: best overall student experience of 38 public unis",
+              "Value 19 consecutive years 5-star teaching quality (GUG)",
+              "Prefer ECU City (central Perth), Joondalup, or South West (Bunbury)",
+              "Want strong support and skills-development in comprehensive uni setting"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want strong peers: slightly below avg (8,732 responses, robust)",
+              "Prefer smaller closer-knit cohort over large multi-campus public uni"
+            ]
+          }
+        ]
+      }
+    },
+    "engineering-institute-of-technology-eit": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want engineering: civil, electrical, mechanical, automation, renewable",
+              "Prefer flexible online: live tutorials, virtual labs",
+              "Want industry-recognised stackable pathways: cert to doctorate",
+              "Value industry-expert lecturers vs traditional large-campus experience"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want strong peers: 44.4% vs 59.5% (-15.1pp); online/global delivery",
+              "Want strong campus facilities: -8.3pp, largest deficit in NDA set",
+              "Want standout skills development: +0.1 margin"
+            ]
+          }
+        ]
+      }
+    },
+    "equals-international": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want values-driven voc/HE provider: equality, diversity, unity",
+              "Want Nursing/Health, Social Work, Trades, Ayurveda/Integrative Health",
+              "Value strong pastoral care: counselling, social worker, advocacy, tutor",
+              "Want work placements, industry connections incl. quarterly Industry Day",
+              "Prefer smaller close-knit Adelaide CBD campus with strong peer community"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want large purpose-built campus facilities — just below national avg",
+              "Want broad multi-discipline uni vs vocational/allied-health provider"
+            ]
+          }
+        ]
+      }
+    },
+    "excelsia-university-college": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want faith-based Christian uni college integrating faith and purpose",
+              "Want Business, Counselling, Creative & Performing Arts, Ed, Social Work",
+              "Value strong peer interaction and community life",
+              "Want strong grad employment/salary: Excelsia highlights QILT strength"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want strong facilities: -8.8pp largest in NDA set; Pennant Hills 2025",
+              "Not seeking faith-based or denominational Christian learning environment"
+            ]
+          }
+        ]
+      }
+    },
+    "federation-university-australia": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want first co-op uni model, industry placements in every degree",
+              "Value big uni, small-uni values: #1 Australia for first-gen enrolments",
+              "Prefer regional Vic campuses (Ballarat, Gippsland, Berwick) vs big-city",
+              "Want strong graduate salary outcomes: #1 Victoria for UG starting salary"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want standout results: overall +0.6, teaching +1.1, thin like Adelaide",
+              "Want strong peer interaction: marginally below national avg"
+            ]
+          }
+        ]
+      }
+    },
+    "flinders-university": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want public research uni strong in Health, Medicine, and Social Work",
+              "Value Adelaide Bedford Park campus plus regional SA study options",
+              "Want disability and accessibility support through AccessAbility Services",
+              "Prefer mid-sized uni over very large metropolitan multi-campus uni"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want strong peer interaction: marginally below the national average",
+              "Prefer Queensland or east-coast metro over Adelaide-based study",
+              "Want standout teaching differentiation: close to national average"
+            ]
+          }
+        ]
+      }
+    },
+    "griffith-college": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want direct diploma pathway into Griffith degree: no ATAR needed",
+              "Did not meet ATAR, mature-age, or want smaller classes, 1:1 teacher time",
+              "Want a choice of Gold Coast or Brisbane City campus",
+              "Value wellbeing and peer-to-peer support built into student life"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want differentiated overall experience: +0.2",
+              "Want strong campus facilities: marginally below national avg"
+            ]
+          }
+        ]
+      }
+    },
+    "griffith-university": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want large public uni with campuses across Brisbane and Gold Coast",
+              "Value broad study areas: Health, Education, Arts, Law, Business, IT",
+              "Want disability support via Griffith's Disability Service team",
+              "Prefer choice of campus location or online study across Queensland"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want strong peer interaction: well below the national average",
+              "Find navigating multiple campuses and large cohorts overwhelming",
+              "Want small close-knit specialist college over large comprehensive uni"
+            ]
+          }
+        ]
+      }
+    },
+    "holmes-institute": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want 60+ yr institute: biz, accounting, aviation, cyber, fashion, IT",
+              "Value strong peers and multicultural community across metro campuses",
+              "Want a choice of Melbourne, Sydney, Brisbane, or Gold Coast campus",
+              "Want global network: Holmes Education Group in UK, USA, Canada, Ireland"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want strong facilities: -9.2 largest in NDA set; confirm with provider",
+              "Want broad general uni vs specialist career-focused institute"
+            ]
+          }
+        ]
+      }
+    },
+    "international-college-of-management-sydney-icms": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want Business, Events, Hospitality, Property, IT: WIL in every degree",
+              "Value professional mentorship, small classes, 1,000+ industry partners",
+              "Want strong graduate employment: 96% Nov 2024 grads hired pre-graduation",
+              "Want distinctive campus: ICMS Manly \"castle\" or Sydney CBD campus"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want facilities matching marketing: Manly campus vs -5.2pp below avg",
+              "Want broad multidisciplinary uni vs specialist career-focused college"
+            ]
+          }
+        ]
+      }
+    },
+    "jazz-music-institute": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want specialist jazz and contemporary music performance training",
+              "Thrive in small conservatoire-style cohort with mentor musicians",
+              "Value ensemble, gig, and studio learning over lecture-heavy degrees",
+              "Want very high teaching quality and student support in niche field",
+              "Prefer Gold Coast creative community focused on jazz and improvisation"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want broad multidisciplinary uni with many courses outside music",
+              "Prefer structured exam-based assessment over performance portfolios",
+              "Want large peer network: very small specialist student body"
+            ]
+          }
+        ]
+      }
+    },
+    "jmc-academy": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want Creative Industries (music, film/TV, acting, animation): 40+ yrs",
+              "Value small class sizes and industry-connected lecturers",
+              "Want strong peers, creative community: performances, showcases, festival",
+              "Want a choice of Sydney, Melbourne, or Brisbane campus"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want facilities matching marketing: studios vs -4.1pp below avg (ICMS)",
+              "Want broad uni vs specialist creative industries college"
+            ]
+          }
+        ]
+      }
+    },
+    "kaplan-business-school-kbs": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want Business, IT, Accounting, Hospitality/Tourism: 2023 PIEoneer winner",
+              "Value industry-connected career support: Careers Central placements",
+              "Want structured academic support: Academic Success Centre coaching",
+              "Want strong peers and community incl. Student Ambassador Program",
+              "Value being part of a large global education brand (Kaplan)"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want strong campus facilities — sits modestly below national avg (-2.7)",
+              "Want broad multidisciplinary uni vs specialist Business/IT institute"
+            ]
+          }
+        ]
+      }
+    },
+    "kings-own-institute-koi": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want Business, Accounting, IT or TESOL, strong intl-student community",
+              "Value centrally-located campuses: Sydney CBD (Wynyard Green)",
+              "Want a Professional Internship Program and a dedicated student society",
+              "Want strong facilities, resources in compact, well-supported institute"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want broad multi-discipline uni vs Business/IT/Accounting institute",
+              "Want residential or large-campus uni experience vs compact CBD institute"
+            ]
+          }
+        ]
+      }
+    },
+    "la-trobe-college-australia": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want direct diploma pathway into La Trobe degree: 36,000+",
+              "Want uni experience, tailored support at Melbourne (Bundoora) or Sydney",
+              "Value named support: PAL Mentors, disability support, prayer room",
+              "Interested in newer diplomas like Cybersecurity or Business Analytics"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want standout results: skills +0.8, teaching +1.2, both thin margins",
+              "Want strong peers: +5.7, most modest Navitas college in set"
+            ]
+          }
+        ]
+      }
+    },
+    "leaders-institute": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want Business or Agribusiness, Pacific ties: 28+ countries, PNG, Fiji",
+              "Want small campuses: Brisbane/Logan (Beenleigh, Woolloongabba, Moorooka)",
+              "Want institute #1 Australia by student rating (prior QILT data)",
+              "Want Agribusiness via Australian Agribusiness Institute (AAI) brand",
+              "Want flexible study — on campus in Brisbane/Sydney, or Global Online"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want large uni with broad catalogue: Leaders Business/Agribusiness only",
+              "Read results cautiously: small sample (67–71/metric), smaller than most"
+            ]
+          }
+        ]
+      }
+    },
+    "lyons-college": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want small Business, Accounting or IT institute in Melbourne CBD",
+              "Want HE and VET flexibility: Business, IT, Hospitality, PM, Leadership",
+              "Want a compact, closely-supported learning environment"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want a large, comprehensive university with a broad course catalogue",
+              "Treat results cautiously: small sample (28–30/metric)"
+            ]
+          }
+        ]
+      }
+    },
+    "marcus-oldham-college": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want only independent agribusiness/ag management college, since 1962",
+              "Pursuing careers in farm management, agriculture",
+              "Want immersive residential campus, strong peers: Student Living core",
+              "Value the long-running Marcus Oldham Rural Leadership Program",
+              "Want PG options emphasising mgmt and critical thinking in agribusiness"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want broad uni vs specialist agricultural/agribusiness college",
+              "Not interested in farming, rural, or agribusiness careers specifically"
+            ]
+          }
+        ]
+      }
+    },
+    "melbourne-polytechnic": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want large public TAFE with HE arm: pathway flexibility cert to degree",
+              "Value voc training (trades, ag, IT, hospitality, creative) plus HE",
+              "Prefer choice among many suburban Melbourne campus locations",
+              "Want training quality: Large Training Provider of Year, 2024 Vic Awards"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want strong campus facilities — sits modestly below the national average",
+              "Want uni-first brand vs TAFE-first with HE as one of many offerings"
+            ]
+          }
+        ]
+      }
+    },
+    "moore-theological-college": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want theology college, Christian ministry: reformed evangelical Anglican",
+              "Value residential model: face-to-face ministry prep",
+              "Want strong pastoral care, high completion: Moore cites 98% completion",
+              "Want Anglican ordination pathways and world-class theological library"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want broad multidisciplinary uni vs specialist theological college",
+              "Not seeking faith-based (reformed evangelical Anglican) environment"
+            ]
+          }
+        ]
+      }
+    },
+    "murdoch-university": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want large public research uni: #1 WA equity, 5-star support (GUG 2026)",
+              "Prefer Perth, Rockingham, Mandurah, or intl study via Singapore or Dubai",
+              "Want award-winning facilities incl. Boola Katitjin teaching building",
+              "Want broad study (200+ courses): Vet Science, Ag Science, Allied Health"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want standout results: skills at avg (81.1% vs 81.1%, 0.0 margin)",
+              "Want strong day-to-day peer interaction: margin also thin (+0.8)"
+            ]
+          }
+        ]
+      }
+    },
+    "psc-creative-college": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want creative college: #1 Photography & Digital Imaging, Screen Media",
+              "Value hands-on studios: one of Melbourne's largest photo studios",
+              "Want strong industry mentorship via dedicated mentor program",
+              "Want small close-knit creative community, long track record"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want facilities matching marketing: top studio vs +0.2pp above avg",
+              "Want broad multidisciplinary uni vs specialist creative arts college"
+            ]
+          }
+        ]
+      }
+    },
+    "polytechnic-institute-australia-pia": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want specialist Business or ICT with multicultural cohort: 55+ nations",
+              "Want small, close-knit cohorts with strong peer interaction",
+              "Want a choice of Sydney CBD, Geelong, or Melbourne CBD campuses",
+              "Want established IHE (founded 2013) recognised for student support"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want strong campus facilities — this metric below national avg (-3.6)",
+              "Want broad multidisciplinary uni vs specialist Business/ICT institute"
+            ]
+          }
+        ]
+      }
+    },
+    "sheridan-institute-of-higher-education": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want small independent Christian college in Perth CBD",
+              "Want close-knit family-like community: cared for, not lost in crowd",
+              "Want affordable transparent fees with textbooks included in tuition",
+              "Want direct access to lecturers in a collaborative, friendly environment"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want broad uni: Sheridan small/specialist (Business, Science pathway)",
+              "Are not seeking a faith-affiliated learning environment"
+            ]
+          }
+        ]
+      }
+    },
+    "stanley-college": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want multi-award dual-sector (HE + VET) institute",
+              "Want practical courses: Business, Nursing, Health, Early Childhood",
+              "Want strong WIL and employment support: 90%+ graduate job outcome rate",
+              "Want metro campuses: Perth (West Perth, Mirrabooka) plus Adelaide campus",
+              "Value environment explicitly naming support for LGBTQIA+ communities"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want strong facilities: -15.6 largest in NDA set, beyond Holmes (-9.2)",
+              "Want broad uni vs specialist vocational/career-focused college"
+            ]
+          }
+        ]
+      }
+    },
+    "tabor-college": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want multi-denom Christian training: teachers, counsellors",
+              "Want smaller class sizes and an intimate learning environment",
+              "Want heritage Millswood (Adelaide, ex Goodwood Orphanage) or Perth",
+              "Want strong music training through the Tabor Institute of Music"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want top-tier peers: Tabor's weakest metric vs other scores (above avg)",
+              "Not seeking faith-based (multi-denominational Christian) environment"
+            ]
+          }
+        ]
+      }
+    },
+    "tafe-nsw": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want large statewide TAFE with degree pathways & huge voc catalogue",
+              "Value industry-led learning: accounting, business, ed, engineering, ICT",
+              "Want flexible study options, huge range of campus locations across NSW"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want strong facilities: -8.0, 3rd-largest in NDA set (Stanley/Holmes)",
+              "Want uni-first brand vs TAFE-first with degrees as one of many offerings"
+            ]
+          }
+        ]
+      }
+    },
+    "universal-business-school-sydney-ubss": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want Business/Accounting: CPA Australia, Chartered Accountants ANZ, IPA",
+              "Want practical case-based learning connected to real-world business",
+              "Want flexible fully-online MBA options alongside on-campus study",
+              "Want a choice of Sydney (Haymarket), Adelaide, or Melbourne campuses",
+              "Value student-first support and direct teacher-student interaction"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": ["Want broad multi-discipline uni vs specialist Business/Accounting school"]
+          }
+        ]
+      }
+    },
+    "university-of-divinity": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want ministry/theology: 12-college federation (Lutheran, Catholic, etc.)",
+              "Want denomination-aligned college within shared accredited uni structure",
+              "Value very strong facilities and support & services results",
+              "Want specialisations: Clinical Pastoral Ed, Christian Counselling"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want unified campus vs federation of 12 separate denominational colleges",
+              "Are not seeking a faith-based Christian learning environment"
+            ]
+          }
+        ]
+      }
+    },
+    "university-of-technology-sydney-uts": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want highly ranked uni: #7 Australia, QS #87, #1 young uni (THE 2024)",
+              "Want Sydney tech precinct (Ultimo/Broadway, Tech Central)",
+              "Want strong grad employment: 93.3% employed three years post-graduation",
+              "Value modern facilities scoring comfortably above national avg"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want differentiated results: overall +0.1, teaching 0.0/tie",
+              "Support & services thin (+0.5); interactions (+9.3)"
+            ]
+          }
+        ]
+      }
+    },
+    "university-of-the-sunshine-coast-unisc": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want QLD #1 public uni, #2 Australia, overall edu experience (GUG 2026)",
+              "Want large regional uni: multi-campus across Queensland plus online",
+              "Want strong facilities: facilities & resources genuine strength (+6.0)",
+              "Want sustainability (top 4%, THE Impact 2026): Nursing to Engineering"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": ["Want strong peers: below avg (-2.5), only metric below avg here"]
+          }
+        ]
+      }
+    },
+    "university-of-wollongong-uow": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want uni #1 Australia for UG student experience, ranked global top 200",
+              "Want multi-campus: Liverpool Civic Place or UOW (Dubai, HK, India, MY)",
+              "Want strong facilities and solid interactions results",
+              "Want strong sustainability: =41st globally in THE Impact Rankings"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": ["Support & services thin (+1.9) relative to UOW's other results"]
+          }
+        ]
+      }
+    },
+    "uow-college-australia": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want direct UOW pathway college — 35+ years, 38,000+ graduates",
+              "Want Wollongong or Liverpool (Civic Place): close-knit (testimonials)",
+              "Want strong facilities and teaching quality results",
+              "Want broad pathways: Business, Engineering, IT, Nursing, Medical/Health"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": ["Want differentiated results: skills +0.1, tying ACU/UTS, thinnest in set"]
+          }
+        ]
+      }
+    },
+    "victoria-university-vu": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want distinctive teaching: award-winning VU Block Model®",
+              "Want dual-sector uni offering both TAFE and higher education pathways",
+              "Want strong skills development: VU #1 Victoria (QILT Survey 2024)",
+              "Want multiple campuses: Melbourne (Footscray, Werribee), Sydney",
+              "Want strong industry connections: VU reports 4,000+ partnerships"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want strong campus facilities — sits slightly below national avg (-1.4)",
+              "Want strong support & services: margin comparatively thin (+1.5)"
+            ]
+          }
+        ]
+      }
+    },
+    "william-angliss-institute": {
+      "studentSuitability": {
+        "title": "Student Suitability",
+        "disclaimer": null,
+        "tabs": [
+          {
+            "id": "suit",
+            "label": "May Suit Students Who",
+            "iconType": "check",
+            "items": [
+              "Want Food/Tourism/Hospitality/Events: 85+ yrs; largest ASEAN centre",
+              "Want hands-on training in real restaurants (Angliss Restaurant, Bistro)",
+              "Want international multicultural cohort: 60+ nationalities represented",
+              "Want Melbourne or Sydney campus, global network across 10 locations"
+            ]
+          },
+          {
+            "id": "challenge",
+            "label": "May Be Challenging For Students Who",
+            "iconType": "close",
+            "items": [
+              "Want facilities matching marketing: restaurants vs -8.8pp (Excelsia)",
+              "Want standout overall experience result: margin (+1.7)"
+            ]
+          }
+        ]
+      }
+    }
+  }
 }

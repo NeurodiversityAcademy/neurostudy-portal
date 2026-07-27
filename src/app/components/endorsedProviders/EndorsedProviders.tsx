@@ -2,7 +2,7 @@ import Image, { type StaticImageData } from 'next/image';
 import classNames from 'classnames';
 import InstitutionProviderCard from '../institutionProviderCard/InstitutionProviderCard';
 import cardStyles from '../institutionProviderCard/institutionProviderCard.module.css';
-import sectionStyles from '../emergingInstitutions/emergingInstitutions.module.css';
+import sectionStyles from '../emergingInstitutions/emergingTeaser.module.css';
 import endorseStyles from './endorsedProviders.module.css';
 import badgeGeneric from '../../images/badgeGeneric.webp';
 import Typography, { TypographyVariant } from '../typography/Typography';

@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import styles from './banner.module.css';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import BadgeDisplay from '../badges/BadgeDisplay';
@@ -14,6 +15,8 @@ interface PropType {
   title?: string;
   subtitle?: string;
   showSearchBar?: boolean;
+  /** Shorter hero on small screens (e.g. directory listing covers). */
+  compactCover?: boolean;
 }
 
 export default function HomeBanner({
@@ -23,16 +26,30 @@ export default function HomeBanner({
   title,
   subtitle,
   showSearchBar = false,
+  compactCover = false,
 }: PropType) {
   return (
     <>
-      <div className={styles.bannerContainer}>
+      <div
+        className={classNames(
+          styles.bannerContainer,
+          compactCover && styles.bannerContainerCompact,
+        )}
+      >
         <div className={styles.bannerTextAndBadge}>
           <div className={styles.textContainer}>
-            <Typography variant={TypographyVariant.H1} className='m-0' color='var(--GhostWhite)'>
+            <Typography
+              variant={TypographyVariant.H1}
+              className={classNames('m-0', compactCover && styles.compactTitle)}
+              color='var(--GhostWhite)'
+            >
               {title || 'We endorse Neuro-inclusion in tertiary education'}
             </Typography>
-            <Typography variant={TypographyVariant.H2} color='var(--GhostWhite)'>
+            <Typography
+              variant={compactCover ? TypographyVariant.Body2 : TypographyVariant.H2}
+              color='var(--GhostWhite)'
+              className={compactCover ? styles.compactSubtitle : undefined}
+            >
               {subtitle ||
                 'Reach out to learn more about our endorsements and the \
               impact we are creating for Neurodivergent students.'}

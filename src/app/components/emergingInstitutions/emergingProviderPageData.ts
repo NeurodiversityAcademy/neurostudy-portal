@@ -9,6 +9,7 @@ import skillIcon from '@/app/images/emergingInstitutions/skill-icon.png';
 import supportServicesIcon from '@/app/images/emergingInstitutions/support-services-icon.png';
 import teachingQualityIcon from '@/app/images/emergingInstitutions/teaching-quality-icon.png';
 import userExperienceIcon from '@/app/images/emergingInstitutions/user-experience-icon.png';
+import docProfiles from './emergingProviderDocProfiles.json';
 
 /** QILT areas in display order; each `icon` must stay aligned with `title`. */
 const QILT_STAT_SECTIONS = [
@@ -22,84 +23,38 @@ const QILT_STAT_SECTIONS = [
 
 type StatNumbers = Pick<ProviderStatItem, 'value' | 'nationalAverage' | 'responses'>;
 
-const STAT_NUMBERS_BY_SLUG: Record<string, StatNumbers[]> = {
-  'bond-university': [
-    { value: '87.3%', nationalAverage: '78.6%', responses: '1,278' },
-    { value: '91.0%', nationalAverage: '81.1%', responses: '1,219' },
-    { value: '86.1%', nationalAverage: '73.1%', responses: '1,281' },
-    { value: '93.0%', nationalAverage: '85.3%', responses: '1,226' },
-    { value: '90.6%', nationalAverage: '80.5%', responses: '1,261' },
-    { value: '90.6%', nationalAverage: '85.3%', responses: '1,035' },
-  ],
-  'australian-college-of-physical-education': [
-    { value: '81.3%', nationalAverage: '78.6%', responses: '391' },
-    { value: '87.5%', nationalAverage: '81.1%', responses: '376' },
-    { value: '62.3%', nationalAverage: '73.1%', responses: '390' },
-    { value: '87.4%', nationalAverage: '85.3%', responses: '354' },
-    { value: '87.6%', nationalAverage: '80.5%', responses: '388' },
-    { value: '84.3%', nationalAverage: '71.2%', responses: '313' },
-  ],
-  'flinders-university': [
-    { value: '78.7%', nationalAverage: '78.6%', responses: '5,615' },
-    { value: '83.3%', nationalAverage: '81.1%', responses: '5,423' },
-    { value: '64.8%', nationalAverage: '73.1%', responses: '5,619' },
-    { value: '85.7%', nationalAverage: '85.3%', responses: '5,071' },
-    { value: '82.4%', nationalAverage: '80.5%', responses: '5,518' },
-    { value: '75.4%', nationalAverage: '71.2%', responses: '3,638' },
-  ],
-  'griffith-university': [
-    { value: '79.1%', nationalAverage: '78.6%', responses: '12,043' },
-    { value: '82.2%', nationalAverage: '81.1%', responses: '11,615' },
-    { value: '56.3%', nationalAverage: '73.1%', responses: '12,051' },
-    { value: '83.8%', nationalAverage: '85.3%', responses: '10,564' },
-    { value: '81.1%', nationalAverage: '80.5%', responses: '11,881' },
-    { value: '72.7%', nationalAverage: '71.2%', responses: '8,350' },
-  ],
-  'jazz-music-institute': [
-    { value: '97.7%', nationalAverage: '78.6%', responses: '43' },
-    { value: '97.6%', nationalAverage: '81.1%', responses: '42' },
-    { value: '88.4%', nationalAverage: '73.1%', responses: '43' },
-    { value: '82.5%', nationalAverage: '85.3%', responses: '40' },
-    { value: '97.6%', nationalAverage: '80.5%', responses: '42' },
-    { value: '97.2%', nationalAverage: '71.2%', responses: '36' },
-  ],
-};
+interface DocProfile {
+  slug: string;
+  heroLocation: string;
+  heroType: string;
+  stats: StatNumbers[];
+}
 
-function buildStatsForSlug(slug: string): ProviderStatItem[] {
-  const numbers = STAT_NUMBERS_BY_SLUG[slug];
-  if (!numbers || numbers.length !== QILT_STAT_SECTIONS.length) {
+const DOC_PROFILES = docProfiles as DocProfile[];
+
+function buildStatsForSlug(stats: StatNumbers[]): ProviderStatItem[] {
+  if (stats.length !== QILT_STAT_SECTIONS.length) {
     return [];
   }
   return QILT_STAT_SECTIONS.map((section, index) => ({
     icon: section.icon,
     title: section.title,
-    ...numbers[index],
+    ...stats[index],
   }));
 }
 
-export const HERO_DETAILS_BY_SLUG: Record<string, HeroInfoItem[]> = {
-  'bond-university': [
-    { icon: mapPin, value: 'Gold Coast, QLD', label: 'Location' },
-    { icon: graduationCap, value: 'Higher Education', label: 'Type' },
-  ],
-  'australian-college-of-physical-education': [
-    { icon: mapPin, value: 'Sydney, NSW', label: 'Location' },
-    { icon: graduationCap, value: 'Higher Education', label: 'Type' },
-  ],
-  'flinders-university': [
-    { icon: mapPin, value: 'Adelaide, SA', label: 'Location' },
-    { icon: graduationCap, value: 'Higher Education', label: 'Type' },
-  ],
-  'griffith-university': [
-    { icon: mapPin, value: 'Mutiple Campuses, QLD', label: 'Location' },
-    { icon: graduationCap, value: 'Higher Education', label: 'Type' },
-  ],
-  'jazz-music-institute': [
-    { icon: mapPin, value: 'Gold Coast, QLD', label: 'Location' },
-    { icon: graduationCap, value: 'Higher Education', label: 'Type' },
-  ],
-};
+export const HERO_DETAILS_BY_SLUG: Record<string, HeroInfoItem[]> = Object.fromEntries(
+  DOC_PROFILES.map((profile) => [
+    profile.slug,
+    [
+      { icon: mapPin, value: profile.heroLocation, label: 'Location' },
+      { icon: graduationCap, value: profile.heroType, label: 'Type' },
+    ],
+  ]),
+);
 
 export const STATS_BY_SLUG: Record<string, ProviderStatItem[]> = Object.fromEntries(
-  Object.keys(STAT_NUMBERS_BY_SLUG).map((slug) => [slug, buildStatsForSlug(slug)]),
+  DOC_PROFILES.map((profile) => [profile.slug, buildStatsForSlug(profile.stats)]),
 );
+
+export { hasEmergingProviderProfile } from './emergingProviderProfileSlugs';
