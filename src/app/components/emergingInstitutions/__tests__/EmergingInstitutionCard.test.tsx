@@ -38,7 +38,7 @@ jest.mock('../emergingProvidersGa', () => ({
 import EmergingInstitutionCard from '../EmergingInstitutionCard';
 
 describe('EmergingInstitutionCard', () => {
-  it('renders live institution with same-tab detail link', () => {
+  it('renders live institution with same-tab detail link covering the card', () => {
     render(<EmergingInstitutionCard name='Bond University' state='QLD' />);
 
     expect(screen.getByText('Bond University')).toBeInTheDocument();
@@ -46,6 +46,8 @@ describe('EmergingInstitutionCard', () => {
     const link = screen.getByRole('link', { name: 'Explore More' });
     expect(link).toHaveAttribute('href', '/emergingproviders/bond-university');
     expect(link).not.toHaveAttribute('target', '_blank');
+    expect(screen.getByText('Explore More')).toBeInTheDocument();
+    expect(screen.getAllByRole('link')).toHaveLength(1);
   });
 
   it('renders coming soon for demo institutions', () => {

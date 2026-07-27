@@ -42,23 +42,24 @@ describe('UserOutlet', () => {
     jest.clearAllMocks();
   });
 
-  it('shows Login button when not authenticated', () => {
+  it('hides Login button when not authenticated', () => {
     mockedUseSession.mockReturnValue({
       data: null,
       status: 'unauthenticated',
     });
-    render(<UserOutlet />);
-    expect(screen.getByText('Login')).toBeInTheDocument();
+    const { container } = render(<UserOutlet />);
+    expect(screen.queryByText('Login')).not.toBeInTheDocument();
+    expect(container).toBeEmptyDOMElement();
   });
 
-  it('renders Login as a link to /login', () => {
+  it('hides Login while session is loading', () => {
     mockedUseSession.mockReturnValue({
       data: null,
-      status: 'unauthenticated',
+      status: 'loading',
     });
-    render(<UserOutlet />);
-    const link = screen.getByText('Login').closest('a');
-    expect(link).toHaveAttribute('href', '/login');
+    const { container } = render(<UserOutlet />);
+    expect(screen.queryByText('Login')).not.toBeInTheDocument();
+    expect(container).toBeEmptyDOMElement();
   });
 
   it('shows Sign Out button when authenticated', () => {
@@ -80,15 +81,6 @@ describe('UserOutlet', () => {
     await waitFor(() => {
       expect(mockSignOut).toHaveBeenCalledWith({ callbackUrl: '/' });
     });
-  });
-
-  it('shows Login immediately while session is loading', () => {
-    mockedUseSession.mockReturnValue({
-      data: null,
-      status: 'loading',
-    });
-    render(<UserOutlet />);
-    expect(screen.getByText('Login')).toBeInTheDocument();
   });
 
   it('handles signOut error gracefully', async () => {

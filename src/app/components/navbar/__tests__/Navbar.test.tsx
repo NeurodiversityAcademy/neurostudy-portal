@@ -103,9 +103,8 @@ describe('Navbar', () => {
     expect(screen.getAllByText('Profile')).toHaveLength(1);
   });
 
-  it('renders Login button when not authenticated', () => {
+  it('does not render Login button when not authenticated', () => {
     render(<Navbar />);
-    const loginButtons = screen.getAllByText('Login');
-    expect(loginButtons.length).toBeGreaterThanOrEqual(1);
+    expect(screen.queryByText('Login')).not.toBeInTheDocument();
   });
 });

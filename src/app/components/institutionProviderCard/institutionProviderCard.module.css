@@ -1,5 +1,6 @@
 .card {
   container-type: inline-size;
+  position: relative;
   width: 20%;
   min-height: 260px;
   height: auto;
@@ -13,6 +14,24 @@
   background: var(--GhostWhite);
   overflow: clip;
   box-shadow: 0px 1px 20px 0px var(--color-shadow-soft);
+}
+
+.cardClickable {
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+}
+
+.cardClickable:hover {
+  box-shadow: 0px 4px 24px 0px var(--color-shadow-soft);
+}
+
+.cardStretchLink {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  text-decoration: none;
+  color: inherit;
 }
 
 .cardEqual {
@@ -216,6 +235,7 @@
 
 /*
   Override ActionButton .primary for this card only: compact size, purple fill, no padding.
+  pointer-events none so the stretch link owns the click (decorative CTA).
 */
 .card .ctaButton {
   width: 80%;
@@ -223,9 +243,13 @@
   height: 41px;
   padding: 0;
   background: var(--cherryPieVariant);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.card .ctaButton:hover {
+.cardClickable:hover .ctaButton {
   background-color: var(--cherryPieVariantSub);
   box-shadow: 0px 2px 8px 0px var(--color-shadow-pressed);
 }

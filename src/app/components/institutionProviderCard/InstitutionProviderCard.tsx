@@ -1,9 +1,15 @@
+'use client';
+
 import Image from 'next/image';
+import Link from 'next/link';
 import type { ReactNode } from 'react';
-import EmergingInstitutionCtaButton from '../emergingInstitutions/EmergingInstitutionCtaButton';
+import EmergingInstitutionCtaButton, {
+  DEFAULT_INSTITUTION_CTA_LABEL,
+  trackInstitutionCtaClick,
+  type InstitutionCtaAnalytics,
+} from '../emergingInstitutions/EmergingInstitutionCtaButton';
 import styles from './institutionProviderCard.module.css';
 import classNames from 'classnames';
-import type { InstitutionCtaAnalytics } from '../emergingInstitutions/EmergingInstitutionCtaButton';
 import emergingCardHeader from '@/app/images/emergingCardHeader.webp';
 import type { AustralianState } from '../emergingInstitutions/emergingInstitutionTypes';
 
@@ -68,6 +74,7 @@ export default function InstitutionProviderCard({
   const isEmergingDefault = header.kind === INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT;
   const emergingStateTint = isEmergingDefault && header.stateTint ? header.stateTint : undefined;
   const showRemoteImage = header.kind === INSTITUTION_PROVIDER_HEADER_KIND.REMOTE_IMAGE;
+  const isClickable = Boolean(ctaHref);
 
   const topClass = classNames(
     styles.cardTop,
@@ -79,15 +86,37 @@ export default function InstitutionProviderCard({
     showRemoteImage && styles.cardTopWithRemoteImage,
   );
 
+  const handleCardNavigate = () => {
+    if (!ctaHref) {
+      return;
+    }
+    trackInstitutionCtaClick({
+      ctaHref,
+      analytics: gaEvent,
+      label: DEFAULT_INSTITUTION_CTA_LABEL,
+    });
+  };
+
   return (
     <div
       className={classNames(
         styles.card,
+        isClickable && styles.cardClickable,
         equalWidth && styles.cardEqual,
         elevatedOnDark && styles.cardElevatedOnDark,
         ndaCertified && styles.cardNdaCertified,
       )}
     >
+      {ctaHref ? (
+        <Link
+          href={ctaHref}
+          className={styles.cardStretchLink}
+          aria-label={DEFAULT_INSTITUTION_CTA_LABEL}
+          target={ctaOpenInNewTab ? '_blank' : undefined}
+          rel={ctaOpenInNewTab ? 'noopener noreferrer' : undefined}
+          onClick={handleCardNavigate}
+        />
+      ) : null}
       <div className={topClass} data-state-tint={emergingStateTint}>
         {isEmergingDefault ? (
           <Image
@@ -124,6 +153,7 @@ export default function InstitutionProviderCard({
             className={styles.ctaButton}
             analytics={gaEvent}
             openInNewTab={ctaOpenInNewTab}
+            decorative
           />
         ) : comingSoonLabel ? (
           <span className={styles.comingSoon}>{comingSoonLabel}</span>

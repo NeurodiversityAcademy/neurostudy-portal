@@ -263,6 +263,12 @@ describe('EmergingInstitutionCtaButton', () => {
     const link = screen.getByText('Explore More').closest('a');
     expect(link).toHaveAttribute('target', '_blank');
   });
+
+  it('renders a decorative non-link label when decorative is set', () => {
+    render(<EmergingInstitutionCtaButton ctaHref='/test-path' className='test' decorative />);
+    expect(screen.getByText('Explore More')).toBeInTheDocument();
+    expect(screen.queryByRole('link')).not.toBeInTheDocument();
+  });
 });
 
 describe('InstitutionHero', () => {
