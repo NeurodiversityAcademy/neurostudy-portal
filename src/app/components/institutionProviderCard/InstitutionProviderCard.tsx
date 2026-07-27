@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import type { ReactNode } from 'react';
+import { Fragment, type ReactNode } from 'react';
 import EmergingInstitutionCtaButton, {
   DEFAULT_INSTITUTION_CTA_LABEL,
   trackInstitutionCtaClick,
@@ -173,6 +173,13 @@ export default function InstitutionProviderCard({
     });
   };
 
+  const bodyAction = renderCardBodyAction({
+    ctaHref,
+    comingSoonLabel,
+    gaEvent,
+    ctaOpenInNewTab,
+  });
+
   return (
     <div
       className={classNames(
@@ -186,6 +193,7 @@ export default function InstitutionProviderCard({
     >
       {ctaHref ? (
         <Link
+          key='stretch-link'
           href={ctaHref}
           className={styles.cardStretchLink}
           aria-label={DEFAULT_INSTITUTION_CTA_LABEL}
@@ -195,19 +203,23 @@ export default function InstitutionProviderCard({
         />
       ) : null}
       <div
+        key='card-top'
         className={getCardTopClassName(header, emergingStateTint)}
         data-state-tint={emergingStateTint}
       >
-        {renderCardTopMedia(header)}
+        <Fragment key='card-top-media'>{renderCardTopMedia(header)}</Fragment>
         {badge ? (
-          <div className={classNames(styles.badgeSlot, ndaCertified && styles.badgeSlotCertified)}>
+          <div
+            key='card-top-badge'
+            className={classNames(styles.badgeSlot, ndaCertified && styles.badgeSlotCertified)}
+          >
             {badge}
           </div>
         ) : null}
       </div>
-      <div className={styles.cardBody}>
-        {center}
-        {renderCardBodyAction({ ctaHref, comingSoonLabel, gaEvent, ctaOpenInNewTab })}
+      <div key='card-body' className={styles.cardBody}>
+        <Fragment key='card-center'>{center}</Fragment>
+        {bodyAction ? <Fragment key='card-action'>{bodyAction}</Fragment> : null}
       </div>
     </div>
   );
