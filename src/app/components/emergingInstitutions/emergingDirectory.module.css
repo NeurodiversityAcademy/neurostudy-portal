@@ -144,13 +144,14 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .directoryContainer {
-    width: min(100% - 32px, 480px);
+    width: min(100% - 32px, 520px);
   }
 
   .directoryLayout {
     flex-direction: column;
+    align-items: stretch;
     gap: 16px;
   }
 
@@ -164,7 +165,6 @@
     gap: 8px;
     width: 100%;
     padding: 10px 0 12px;
-    /* Keep pills readable over scrolling cards */
     background: var(--pure-white);
     box-shadow: 0 8px 12px -8px rgb(0 0 0 / 0.18);
   }
@@ -174,9 +174,13 @@
     min-width: 4.5rem;
   }
 
+  .directoryMain {
+    width: 100%;
+    min-width: 0;
+  }
+
   .directoryStateGroup {
     align-items: stretch;
-    /* Sticky navbar + wrapped pill strip */
     scroll-margin-top: calc(71px + 96px);
     gap: 16px;
   }
@@ -194,6 +198,14 @@
     width: 100%;
     max-width: none;
     margin-inline: 0;
+  }
+
+  /* Force full-bleed cards — card module defaults are desktop grid sizes */
+  .directoryCards > * {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    flex: 0 0 auto;
   }
 
   .directorySection {

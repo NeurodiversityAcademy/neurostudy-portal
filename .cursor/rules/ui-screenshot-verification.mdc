@@ -1,0 +1,16 @@
+---
+description: Screenshot mobile/desktop UI before claiming visual work is done
+alwaysApply: true
+---
+
+# UI verification: screenshots required
+
+For any **visual / layout / responsive** change (especially mobile):
+
+1. Run the app locally (or open the preview URL).
+2. Set a **phone viewport** (e.g. 390×844) and take a screenshot of the affected screen.
+3. **Read the screenshot** and fix issues you see (cramped columns, overflow, overlap, unreadable text).
+4. Take a **after** screenshot that shows the fix.
+5. Only then say the UI work is done — include that you verified with screenshots.
+
+Do **not** claim a mobile layout is fixed from CSS alone.
