@@ -152,7 +152,7 @@
   .directoryLayout {
     flex-direction: column;
     align-items: stretch;
-    gap: 8px;
+    gap: 12px;
   }
 
   .directorySideNav {
@@ -162,18 +162,18 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 6px;
+    gap: 8px;
     width: 100%;
-    padding: 6px 0 8px;
+    padding: 8px 0 10px;
     background: var(--pure-white);
     box-shadow: 0 8px 12px -8px rgb(0 0 0 / 0.18);
   }
 
   .directoryJumpPill {
     justify-content: center;
-    min-width: 4rem;
-    padding: 6px 10px;
-    font-size: 12px;
+    min-width: 4.25rem;
+    padding: 8px 12px;
+    font-size: 13px;
   }
 
   .directoryMain {
@@ -183,20 +183,21 @@
 
   .directoryStateGroup {
     align-items: stretch;
-    scroll-margin-top: calc(71px + 80px);
-    gap: 8px;
-    padding-bottom: 20px;
+    scroll-margin-top: calc(71px + 88px);
+    gap: 18px;
+    padding-bottom: 28px;
   }
 
   .directoryStateHeading {
     text-align: center;
-    padding-bottom: 4px;
+    padding-bottom: 8px;
   }
 
   .directoryCards {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
+    /* Generous gutters so 2-up cards don’t feel packed */
+    gap: 32px 24px;
     width: 100%;
     max-width: none;
     margin-inline: 0;
@@ -210,6 +211,6 @@
   }
 
   .directorySection {
-    padding: 8px 0 32px;
+    padding: 12px 0 40px;
   }
 }

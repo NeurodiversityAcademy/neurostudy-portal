@@ -306,55 +306,55 @@
     top: 26px;
   }
 
-  /* Dense 2-up directory cards — ~3 rows (~6 cards) under a short cover */
+  /* 2-up directory — ~6 cards per phone screen, with breathing room */
   .card.cardCompact {
-    min-height: 0;
+    min-height: 220px;
   }
 
   .card.cardCompact .cardTop {
-    height: 40px;
+    height: 72px;
   }
 
   .card.cardCompact .cardBody {
-    padding: 5px 0 6px;
-    gap: 5px;
+    padding: 14px 0 16px;
+    gap: 12px;
     justify-content: space-between;
   }
 
   .card.cardCompact .nameWrap {
-    width: 92%;
-    min-height: 34px;
-    padding: 3px 5px;
+    width: 88%;
+    min-height: 56px;
+    padding: 8px 10px;
   }
 
   .card.cardCompact .nameWrap span {
-    font-size: clamp(10px, 2.8vw, 12px);
+    font-size: clamp(12px, 3.2vw, 14px);
     -webkit-line-clamp: 2;
-    line-height: 1.15;
+    line-height: 1.25;
   }
 
   .card.cardCompact .nameStack {
-    gap: 1px;
+    gap: 4px;
   }
 
   .card.cardCompact .nameStack span:last-child {
-    font-size: clamp(8px, 2.3vw, 10px);
+    font-size: clamp(10px, 2.6vw, 12px);
   }
 
   .card.cardCompact .ctaButton {
-    width: 92%;
-    height: 26px;
-    min-height: 26px;
+    width: 88%;
+    height: 36px;
+    min-height: 36px;
     padding: 0;
-    font-size: 11px;
+    font-size: 13px;
     white-space: nowrap;
   }
 
   .card.cardCompact .comingSoon {
-    margin-top: 2px;
-    min-height: 24px;
-    width: 92%;
-    padding: 2px 4px;
-    font-size: 9px;
+    margin-top: 4px;
+    min-height: 36px;
+    width: 88%;
+    padding: 6px 8px;
+    font-size: 12px;
   }
 }
