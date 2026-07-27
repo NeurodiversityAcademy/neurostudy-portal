@@ -5,7 +5,7 @@ import {
 } from '../emergingProviderProfileSlugs';
 
 describe('emergingProviderProfileSlugs', () => {
-  it('includes hardcoded and doc-sourced profile slugs', () => {
+  it('includes doc-sourced profile slugs', () => {
     expect(hasEmergingProviderProfile('bond-university')).toBe(true);
     expect(hasEmergingProviderProfile('deakin-university')).toBe(true);
     expect(hasEmergingProviderProfile('unknown-institute')).toBe(false);

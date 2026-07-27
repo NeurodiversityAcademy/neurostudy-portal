@@ -50,19 +50,18 @@ export function listEmergingProviderNames(): string[] {
   return INSTITUTIONS.map((institution) => institution.name);
 }
 
-/** Directory/index keywords: shared terms + every listed institute name. */
+/** Directory/index keywords: shared brand and topic terms only. */
 export function buildEmergingProvidersDirectoryKeywords(): string[] {
-  return [...EMERGING_PROVIDER_BASE_KEYWORDS, ...listEmergingProviderNames()];
+  return [...EMERGING_PROVIDER_BASE_KEYWORDS];
 }
 
-/** Detail-page keywords: institute name first, then shared + full directory list. */
+/** Detail-page keywords: institute name first, then shared terms only. */
 export function buildEmergingProviderDetailKeywords(providerName: string): string[] {
   return [
     providerName,
     `${providerName} NDA`,
     `${providerName} Emerging Provider`,
     ...EMERGING_PROVIDER_BASE_KEYWORDS,
-    ...listEmergingProviderNames().filter((name) => name !== providerName),
   ];
 }
 

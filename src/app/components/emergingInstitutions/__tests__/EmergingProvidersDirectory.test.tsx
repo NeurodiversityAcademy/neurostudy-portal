@@ -73,10 +73,28 @@ class MockIntersectionObserver implements IntersectionObserver {
   constructor(_callback: IntersectionObserverCallback) {}
 }
 
+function mockMatchMedia(matches = false): void {
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    configurable: true,
+    value: jest.fn().mockImplementation((query: string) => ({
+      matches,
+      media: query,
+      onchange: null,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    })),
+  });
+}
+
 describe('EmergingProvidersDirectory', () => {
   beforeEach(() => {
     trackJumpMock.mockClear();
     window.history.replaceState({}, '', '/emergingproviders');
+    mockMatchMedia(false);
     Object.defineProperty(window, 'IntersectionObserver', {
       writable: true,
       configurable: true,

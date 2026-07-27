@@ -185,8 +185,45 @@
     ]
   },
   {
+    "slug": "asa-institute-of-higher-education",
+    "heroLocation": "Sydney, NSW",
+    "heroType": "Institute of Higher Education",
+    "stats": [
+      {
+        "value": "86.3%",
+        "nationalAverage": "76.6%",
+        "responses": "117"
+      },
+      {
+        "value": "88.4%",
+        "nationalAverage": "81.1%",
+        "responses": "112"
+      },
+      {
+        "value": "94.1%",
+        "nationalAverage": "59.5%",
+        "responses": "119"
+      },
+      {
+        "value": "88.4%",
+        "nationalAverage": "83.3%",
+        "responses": "112"
+      },
+      {
+        "value": "94.8%",
+        "nationalAverage": "80.5%",
+        "responses": "115"
+      },
+      {
+        "value": "89.0%",
+        "nationalAverage": "71.2%",
+        "responses": "109"
+      }
+    ]
+  },
+  {
     "slug": "asia-pacific-international-college-apic",
-    "heroLocation": "Sydney (Parramatta, NSW",
+    "heroLocation": "Sydney (Parramatta), NSW",
     "heroType": "Institute of Higher Education",
     "stats": [
       {
@@ -333,6 +370,43 @@
     ]
   },
   {
+    "slug": "australian-college-of-physical-education",
+    "heroLocation": "Sydney, NSW",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "81.3%",
+        "nationalAverage": "78.6%",
+        "responses": "391"
+      },
+      {
+        "value": "87.5%",
+        "nationalAverage": "81.1%",
+        "responses": "376"
+      },
+      {
+        "value": "62.3%",
+        "nationalAverage": "73.1%",
+        "responses": "390"
+      },
+      {
+        "value": "87.4%",
+        "nationalAverage": "85.3%",
+        "responses": "354"
+      },
+      {
+        "value": "87.6%",
+        "nationalAverage": "80.5%",
+        "responses": "388"
+      },
+      {
+        "value": "84.3%",
+        "nationalAverage": "71.2%",
+        "responses": "313"
+      }
+    ]
+  },
+  {
     "slug": "australian-institute-of-higher-education-aih",
     "heroLocation": "Sydney, NSW",
     "heroType": "Institute of Higher Education",
@@ -370,45 +444,8 @@
     ]
   },
   {
-    "slug": "asa-institute-of-higher-education",
-    "heroLocation": "Sydney, NSW",
-    "heroType": "Institute of Higher Education",
-    "stats": [
-      {
-        "value": "86.3%",
-        "nationalAverage": "76.6%",
-        "responses": "117"
-      },
-      {
-        "value": "88.4%",
-        "nationalAverage": "81.1%",
-        "responses": "112"
-      },
-      {
-        "value": "94.1%",
-        "nationalAverage": "59.5%",
-        "responses": "119"
-      },
-      {
-        "value": "88.4%",
-        "nationalAverage": "83.3%",
-        "responses": "112"
-      },
-      {
-        "value": "94.8%",
-        "nationalAverage": "80.5%",
-        "responses": "115"
-      },
-      {
-        "value": "89.0%",
-        "nationalAverage": "71.2%",
-        "responses": "109"
-      }
-    ]
-  },
-  {
     "slug": "australian-university-college-of-divinity-aucd",
-    "heroLocation": "National network of independent Member Colleges across Australia (e\u2026",
+    "heroLocation": "National network of independent Member Colleges across Australia",
     "heroType": "Higher Education",
     "stats": [
       {
@@ -445,7 +482,7 @@
   },
   {
     "slug": "australian-university-of-theology-aut",
-    "heroLocation": "National network of 16 affiliated colleges across Australia (e.g. M\u2026",
+    "heroLocation": "National network of 16 affiliated colleges across Australia",
     "heroType": "Higher Education",
     "stats": [
       {
@@ -514,6 +551,43 @@
         "value": "85.4%",
         "nationalAverage": "71.2%",
         "responses": "323"
+      }
+    ]
+  },
+  {
+    "slug": "bond-university",
+    "heroLocation": "Gold Coast, QLD",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "87.3%",
+        "nationalAverage": "78.6%",
+        "responses": "1,278"
+      },
+      {
+        "value": "91.0%",
+        "nationalAverage": "81.1%",
+        "responses": "1,219"
+      },
+      {
+        "value": "86.1%",
+        "nationalAverage": "73.1%",
+        "responses": "1,281"
+      },
+      {
+        "value": "93.0%",
+        "nationalAverage": "85.3%",
+        "responses": "1,226"
+      },
+      {
+        "value": "90.6%",
+        "nationalAverage": "80.5%",
+        "responses": "1,261"
+      },
+      {
+        "value": "90.6%",
+        "nationalAverage": "71.2%",
+        "responses": "1,035"
       }
     ]
   },
@@ -962,6 +1036,43 @@
     ]
   },
   {
+    "slug": "flinders-university",
+    "heroLocation": "Adelaide, SA",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "78.7%",
+        "nationalAverage": "78.6%",
+        "responses": "5,615"
+      },
+      {
+        "value": "83.3%",
+        "nationalAverage": "81.1%",
+        "responses": "5,423"
+      },
+      {
+        "value": "64.8%",
+        "nationalAverage": "73.1%",
+        "responses": "5,619"
+      },
+      {
+        "value": "85.7%",
+        "nationalAverage": "85.3%",
+        "responses": "5,071"
+      },
+      {
+        "value": "82.4%",
+        "nationalAverage": "80.5%",
+        "responses": "5,518"
+      },
+      {
+        "value": "75.4%",
+        "nationalAverage": "71.2%",
+        "responses": "3,638"
+      }
+    ]
+  },
+  {
     "slug": "griffith-college",
     "heroLocation": "Gold Coast, QLD",
     "heroType": "Pathway College",
@@ -995,6 +1106,43 @@
         "value": "84.1%",
         "nationalAverage": "71.2%",
         "responses": "533"
+      }
+    ]
+  },
+  {
+    "slug": "griffith-university",
+    "heroLocation": "Multiple Campuses, QLD",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "79.1%",
+        "nationalAverage": "78.6%",
+        "responses": "12,043"
+      },
+      {
+        "value": "82.2%",
+        "nationalAverage": "81.1%",
+        "responses": "11,615"
+      },
+      {
+        "value": "56.3%",
+        "nationalAverage": "73.1%",
+        "responses": "12,051"
+      },
+      {
+        "value": "83.8%",
+        "nationalAverage": "85.3%",
+        "responses": "10,564"
+      },
+      {
+        "value": "81.1%",
+        "nationalAverage": "80.5%",
+        "responses": "11,881"
+      },
+      {
+        "value": "72.7%",
+        "nationalAverage": "71.2%",
+        "responses": "8,350"
       }
     ]
   },
@@ -1069,6 +1217,43 @@
         "value": "84.3%",
         "nationalAverage": "71.2%",
         "responses": "350"
+      }
+    ]
+  },
+  {
+    "slug": "jazz-music-institute",
+    "heroLocation": "Brisbane, QLD",
+    "heroType": "Higher Education",
+    "stats": [
+      {
+        "value": "97.7%",
+        "nationalAverage": "78.6%",
+        "responses": "43"
+      },
+      {
+        "value": "97.6%",
+        "nationalAverage": "81.1%",
+        "responses": "42"
+      },
+      {
+        "value": "88.4%",
+        "nationalAverage": "73.1%",
+        "responses": "43"
+      },
+      {
+        "value": "82.5%",
+        "nationalAverage": "85.3%",
+        "responses": "40"
+      },
+      {
+        "value": "97.6%",
+        "nationalAverage": "80.5%",
+        "responses": "42"
+      },
+      {
+        "value": "97.2%",
+        "nationalAverage": "71.2%",
+        "responses": "36"
       }
     ]
   },
@@ -1443,43 +1628,6 @@
     ]
   },
   {
-    "slug": "psc-creative-college",
-    "heroLocation": "South Melbourne, VIC",
-    "heroType": "Higher Education (dual-sector)",
-    "stats": [
-      {
-        "value": "91.5%",
-        "nationalAverage": "76.6%",
-        "responses": "106"
-      },
-      {
-        "value": "88.3%",
-        "nationalAverage": "81.1%",
-        "responses": "103"
-      },
-      {
-        "value": "74.5%",
-        "nationalAverage": "59.5%",
-        "responses": "106"
-      },
-      {
-        "value": "83.5%",
-        "nationalAverage": "83.3%",
-        "responses": "103"
-      },
-      {
-        "value": "92.3%",
-        "nationalAverage": "80.5%",
-        "responses": "104"
-      },
-      {
-        "value": "81.7%",
-        "nationalAverage": "71.2%",
-        "responses": "82"
-      }
-    ]
-  },
-  {
     "slug": "polytechnic-institute-australia-pia",
     "heroLocation": "Sydney, NSW",
     "heroType": "Institute of Higher Education",
@@ -1513,6 +1661,43 @@
         "value": "83.3%",
         "nationalAverage": "71.2%",
         "responses": "66"
+      }
+    ]
+  },
+  {
+    "slug": "psc-creative-college",
+    "heroLocation": "South Melbourne, VIC",
+    "heroType": "Higher Education (dual-sector)",
+    "stats": [
+      {
+        "value": "91.5%",
+        "nationalAverage": "76.6%",
+        "responses": "106"
+      },
+      {
+        "value": "88.3%",
+        "nationalAverage": "81.1%",
+        "responses": "103"
+      },
+      {
+        "value": "74.5%",
+        "nationalAverage": "59.5%",
+        "responses": "106"
+      },
+      {
+        "value": "83.5%",
+        "nationalAverage": "83.3%",
+        "responses": "103"
+      },
+      {
+        "value": "92.3%",
+        "nationalAverage": "80.5%",
+        "responses": "104"
+      },
+      {
+        "value": "81.7%",
+        "nationalAverage": "71.2%",
+        "responses": "82"
       }
     ]
   },

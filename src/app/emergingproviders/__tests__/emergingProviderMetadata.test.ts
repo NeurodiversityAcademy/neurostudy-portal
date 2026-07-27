@@ -56,26 +56,39 @@ describe('resolveEmergingProviderForSlug', () => {
 });
 
 describe('emerging provider SEO keywords', () => {
-  it('includes every listed institute name in directory keywords', () => {
+  it('includes only shared brand and topic terms in directory keywords', () => {
     const keywords = buildEmergingProvidersDirectoryKeywords();
     const names = listEmergingProviderNames();
 
     expect(names).toHaveLength(cardData.length);
-    expect(keywords).toEqual(expect.arrayContaining(names));
-    expect(keywords).toEqual(
-      expect.arrayContaining([
-        'NDA Emerging Providers',
-        'Neurodiversity Academy',
-        'Bond University',
-        'Deakin University',
-      ]),
-    );
+    expect(keywords).toEqual([
+      'NDA Emerging Providers',
+      'NDA Emerging Provider',
+      'Emerging Providers',
+      'Neurodiversity Academy',
+      'neuro-inclusive education',
+      'neurodiversity',
+    ]);
+    for (const name of names) {
+      expect(keywords).not.toContain(name);
+    }
   });
 
-  it('puts the provider name first in detail keywords and still lists all institutes', () => {
+  it('puts the provider name first in detail keywords with shared terms only', () => {
     const keywords = buildEmergingProviderDetailKeywords('Bond University');
     expect(keywords[0]).toBe('Bond University');
-    expect(keywords).toEqual(expect.arrayContaining(listEmergingProviderNames()));
+    expect(keywords).toEqual([
+      'Bond University',
+      'Bond University NDA',
+      'Bond University Emerging Provider',
+      'NDA Emerging Providers',
+      'NDA Emerging Provider',
+      'Emerging Providers',
+      'Neurodiversity Academy',
+      'neuro-inclusive education',
+      'neurodiversity',
+    ]);
+    expect(keywords).not.toContain('Deakin University');
   });
 
   it('lists a static param slug for every profile-ready institute', () => {
@@ -99,8 +112,9 @@ describe('buildEmergingProviderMetadata', () => {
           'Explore student experience insights and neuro-inclusive profile for Griffith University.',
         keywords: expect.arrayContaining([
           'Griffith University',
+          'Griffith University NDA',
           'NDA Emerging Provider',
-          'Bond University',
+          'Neurodiversity Academy',
         ]),
         alternates: { canonical },
         openGraph: {

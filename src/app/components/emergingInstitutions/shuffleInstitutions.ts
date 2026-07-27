@@ -1,6 +1,8 @@
 /**
  * Fisher–Yates shuffle. Returns a new array; does not mutate the input.
- * Use only on the client after mount (Math.random) so SSR stays deterministic.
+ * Call only after mount (e.g. inside requestAnimationFrame) — Math.random must
+ * not run during SSR or in useState initializers, or server HTML will not match
+ * the first client paint.
  */
 export const shuffleInstitutions = <T>(items: readonly T[]): T[] => {
   const copy = [...items];

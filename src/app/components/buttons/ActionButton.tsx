@@ -11,7 +11,7 @@ interface ActionButtonProps {
   icon?: string | ReactElement<SVGElement>;
   style?: BUTTON_STYLE;
   disabled?: boolean;
-  onClick?: ReactEventHandler<HTMLButtonElement>;
+  onClick?: ReactEventHandler<HTMLButtonElement | HTMLAnchorElement>;
   iconPosition?: 'left' | 'right';
   className?: string;
   type?: 'button' | 'submit' | 'reset' | undefined;
@@ -53,6 +53,29 @@ export default function ActionButton({
     </>
   );
 
+  if (to) {
+    if (disabled) {
+      return (
+        <span className={buttonStyles} aria-disabled='true' style={buttonStyle}>
+          {children}
+        </span>
+      );
+    }
+
+    return (
+      <Link
+        href={to}
+        className={buttonStyles}
+        target={openInNewTab ? '_blank' : undefined}
+        rel={openInNewTab ? 'noopener noreferrer' : undefined}
+        onClick={onClick}
+        style={buttonStyle}
+      >
+        {children}
+      </Link>
+    );
+  }
+
   return (
     <button
       className={buttonStyles}
@@ -61,18 +84,7 @@ export default function ActionButton({
       type={type}
       style={buttonStyle}
     >
-      {to ? (
-        <Link
-          href={to}
-          className={styles.a}
-          target={openInNewTab ? '_blank' : undefined}
-          rel={openInNewTab ? 'noopener noreferrer' : undefined}
-        >
-          {children}
-        </Link>
-      ) : (
-        children
-      )}
+      {children}
     </button>
   );
 }

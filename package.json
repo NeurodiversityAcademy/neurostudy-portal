@@ -14,6 +14,7 @@
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc --noEmit",
     "security:audit": "npm audit --omit=dev --audit-level=low",
+    "security:audit:all": "npm audit --audit-level=low",
     "test": "NODE_ENV=test jest --passWithNoTests",
     "test:coverage": "NODE_ENV=test jest --coverage --passWithNoTests",
     "test:ci": "NODE_ENV=test SILENT_TEST_CONSOLE=1 jest --ci --silent --coverage --passWithNoTests --workerIdleMemoryLimit=512MB",

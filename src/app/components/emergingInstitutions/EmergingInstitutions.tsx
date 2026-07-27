@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import classNames from 'classnames';
 import styles from './emergingTeaser.module.css';
@@ -27,6 +27,9 @@ import {
 import { hasEmergingProviderProfile } from './emergingProviderProfileSlugs';
 
 const INSTITUTIONS = cardData as EmergingInstitution[];
+const GROUPS = groupEmergingInstitutionsByState(INSTITUTIONS);
+const AVAILABLE_STATES = GROUPS.map((group) => group.state);
+const VIEW_ALL_ANALYTICS = buildEmergingDirectoryViewAllAnalytics(VIEW_ALL_LINK_TEXT);
 
 function pickRandomState(states: readonly AustralianState[]): AustralianState {
   const index = Math.floor(Math.random() * states.length);
@@ -34,28 +37,26 @@ function pickRandomState(states: readonly AustralianState[]): AustralianState {
 }
 
 export default function EmergingInstitutions() {
-  const groups = useMemo(() => groupEmergingInstitutionsByState(INSTITUTIONS), []);
-  const availableStates = useMemo(() => groups.map((group) => group.state), [groups]);
   const providerCount = INSTITUTIONS.length;
 
   const [selectedState, setSelectedState] = useState<AustralianState | null>(null);
   const [visibleInstitutions, setVisibleInstitutions] = useState<EmergingInstitution[]>([]);
 
   useEffect(() => {
-    if (availableStates.length === 0) {
+    if (AVAILABLE_STATES.length === 0) {
       return undefined;
     }
 
     const frame = requestAnimationFrame(() => {
-      const initialState = pickRandomState(availableStates);
-      const group = groups.find((item) => item.state === initialState);
+      const initialState = pickRandomState(AVAILABLE_STATES);
+      const group = GROUPS.find((item) => item.state === initialState);
       setSelectedState(initialState);
       setVisibleInstitutions(shuffleInstitutions(group?.institutions ?? []));
       trackEmergingStateAutoSelect(initialState);
     });
 
     return () => cancelAnimationFrame(frame);
-  }, [availableStates, groups]);
+  }, []);
 
   const handleStateSelect = (state: AustralianState) => {
     const wasAlreadySelected = selectedState === state;
@@ -65,7 +66,7 @@ export default function EmergingInstitutions() {
       return;
     }
 
-    const group = groups.find((item) => item.state === state);
+    const group = GROUPS.find((item) => item.state === state);
     setSelectedState(state);
     setVisibleInstitutions(shuffleInstitutions(group?.institutions ?? []));
   };
@@ -85,8 +86,6 @@ export default function EmergingInstitutions() {
       linkText: institution.name,
     });
   };
-
-  const viewAllAnalytics = buildEmergingDirectoryViewAllAnalytics(VIEW_ALL_LINK_TEXT);
 
   return (
     <section className={styles.section} id='emerging-institutions'>
@@ -118,7 +117,7 @@ export default function EmergingInstitutions() {
             role='group'
             aria-label='Filter emerging providers by state'
           >
-            {availableStates.map((state) => {
+            {AVAILABLE_STATES.map((state) => {
               const isSelected = selectedState === state;
               return (
                 <button
@@ -184,12 +183,7 @@ export default function EmergingInstitutions() {
               ctaHref={EMERGING_PROVIDERS_DIRECTORY_PATH}
               className={styles.teaserCta}
               label={VIEW_ALL_LINK_TEXT}
-              analytics={{
-                eventName: viewAllAnalytics.eventName,
-                category: viewAllAnalytics.category,
-                fileName: viewAllAnalytics.fileName,
-                params: viewAllAnalytics.params,
-              }}
+              analytics={VIEW_ALL_ANALYTICS}
             />
           </div>
         </div>
