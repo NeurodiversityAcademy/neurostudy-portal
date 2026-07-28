@@ -19,7 +19,7 @@ import {
   resolveEndorsedProviderLogoSrc,
   NDA_CERTIFIED_LEGEND,
 } from '@/app/utilities/endorsedProvidersDemo';
-import { INSTITUTION_PROVIDER_HEADER_KIND } from '../institutionProviderCard/InstitutionProviderCard';
+import { INSTITUTION_PROVIDER_HEADER_KIND } from '../institutionProviderCard/institutionProviderHeader';
 import { ENDORSED_PROVIDER_LOGO_BY_SLUG } from './endorsedProviderBrandAssets';
 import EndorsedCertifiedBadge from './EndorsedCertifiedBadge';
 import endorsedData from './endorsedProviders.json';
