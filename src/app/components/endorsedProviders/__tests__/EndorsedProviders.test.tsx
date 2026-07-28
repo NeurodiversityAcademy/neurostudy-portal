@@ -5,10 +5,27 @@ import {
   buildEndorsedLiveDetailHref,
 } from '@/app/utilities/demoAccess';
 import { NDA_CERTIFIED_LEGEND } from '@/app/utilities/endorsedProvidersDemo';
+import endorsedData from '../endorsedProviders.json';
 
 jest.mock('next/image', () => require('@/testUtils/mockNextImage'));
 
+const LIVE_COVER_SRCS = (endorsedData as Array<{ live?: boolean; topBackgroundImage?: string }>)
+  .filter((row) => row.live === true && row.topBackgroundImage)
+  .map((row) => row.topBackgroundImage as string);
+
 describe('EndorsedProviders demo access', () => {
+  it('renders cover images for every live endorsed provider', () => {
+    const { container } = render(<EndorsedProviders />);
+    const imageSrcs = Array.from(container.querySelectorAll('img')).map((img) =>
+      img.getAttribute('src'),
+    );
+
+    expect(LIVE_COVER_SRCS.length).toBeGreaterThan(0);
+    for (const coverSrc of LIVE_COVER_SRCS) {
+      expect(imageSrcs).toContain(coverSrc);
+    }
+  });
+
   it('renders live provider cards without React list key warnings', () => {
     const consoleError = jest.spyOn(console, 'error').mockImplementation(() => undefined);
 

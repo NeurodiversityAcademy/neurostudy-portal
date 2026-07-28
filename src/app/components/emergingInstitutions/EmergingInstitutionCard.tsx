@@ -1,6 +1,5 @@
-import InstitutionProviderCard, {
-  INSTITUTION_PROVIDER_HEADER_KIND,
-} from '../institutionProviderCard/InstitutionProviderCard';
+import InstitutionProviderCard from '../institutionProviderCard/InstitutionProviderCard';
+import { INSTITUTION_PROVIDER_HEADER_KIND } from '../institutionProviderCard/institutionProviderHeader';
 import styles from '../institutionProviderCard/institutionProviderCard.module.css';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import type { AustralianState } from './emergingInstitutionTypes';

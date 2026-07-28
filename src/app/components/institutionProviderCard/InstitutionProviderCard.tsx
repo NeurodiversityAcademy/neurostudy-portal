@@ -12,23 +12,15 @@ import styles from './institutionProviderCard.module.css';
 import classNames from 'classnames';
 import emergingCardHeader from '@/app/images/emergingCardHeader.webp';
 import type { AustralianState } from '../emergingInstitutions/emergingInstitutionTypes';
+import {
+  INSTITUTION_PROVIDER_HEADER_KIND,
+  type InstitutionProviderHeader,
+} from './institutionProviderHeader';
 
-export const INSTITUTION_PROVIDER_HEADER_KIND = {
-  EMERGING_DEFAULT: 'emergingDefault',
-  YELLOW: 'yellow',
-  CHERRY_PIE_SUB: 'cherryPieSub',
-  REMOTE_IMAGE: 'remoteImage',
-} as const;
-
-export type InstitutionProviderHeader =
-  | {
-      kind: typeof INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT;
-      /** Soft header tint so dense grids scan by state. */
-      stateTint?: AustralianState;
-    }
-  | { kind: typeof INSTITUTION_PROVIDER_HEADER_KIND.YELLOW }
-  | { kind: typeof INSTITUTION_PROVIDER_HEADER_KIND.CHERRY_PIE_SUB }
-  | { kind: typeof INSTITUTION_PROVIDER_HEADER_KIND.REMOTE_IMAGE; src: string };
+export {
+  INSTITUTION_PROVIDER_HEADER_KIND,
+  type InstitutionProviderHeader,
+} from './institutionProviderHeader';
 
 const EMERGING_STATE_TINT_CLASS: Record<AustralianState, string> = {
   NSW: styles.cardTopEmergingNSW,
