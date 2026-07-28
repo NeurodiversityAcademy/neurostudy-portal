@@ -84,6 +84,7 @@ describe('InstitutionProviderCard', () => {
     );
 
     expect(screen.getByText('Remote')).toBeInTheDocument();
+    expect(document.querySelector('img')).toHaveAttribute('src', '/images/remote-header.webp');
     expect(screen.getByRole('link', { name: 'Explore More' })).toHaveAttribute(
       'href',
       '/endorsedproviders/example',
