@@ -1,7 +1,6 @@
 'use client';
 
 import Image, { type StaticImageData } from 'next/image';
-import classNames from 'classnames';
 import InstitutionProviderCard from '@/app/components/institutionProviderCard/InstitutionProviderCard';
 import { INSTITUTION_PROVIDER_HEADER_KIND } from '@/app/components/institutionProviderCard/institutionProviderHeader';
 import cardStyles from '@/app/components/institutionProviderCard/institutionProviderCard.module.css';
@@ -86,7 +85,6 @@ function renderProviderCard(params: {
   return (
     <InstitutionProviderCard
       key={`${tier}-${provider.slug}`}
-      equalWidth
       ndaCertified={provider.ndaCertified}
       ctaHref={href}
       comingSoonLabel={href ? undefined : 'Profile coming soon'}
@@ -110,13 +108,14 @@ function renderProviderCard(params: {
       }
       center={
         provider.kind === 'endorsed' && logoSrc && logoDimensions ? (
-          <Image
-            src={logoSrc}
-            alt={provider.name}
-            width={logoDimensions.width}
-            height={logoDimensions.height}
-            className={classNames(cardStyles.logo)}
-          />
+          <div className={cardStyles.logoWrap}>
+            <Image
+              src={logoSrc}
+              alt={`${provider.name} logo`}
+              width={logoDimensions.width}
+              height={logoDimensions.height}
+            />
+          </div>
         ) : (
           <Typography
             variant={TypographyVariant.Body2Strong}

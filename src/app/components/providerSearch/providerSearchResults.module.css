@@ -19,8 +19,14 @@
 .cardGrid {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.25rem;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: clamp(18px, 3.6vw, 47px);
   width: 100%;
+}
+
+.cardGrid > * {
+  flex: 0 0 auto;
 }
 
 .emptyState {
@@ -29,4 +35,21 @@
   align-items: flex-start;
   gap: 1rem;
   width: 100%;
+}
+
+@media (max-width: 768px) {
+  .cardGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    width: min(92vw, 560px);
+    max-width: min(92vw, 560px);
+  }
+
+  .cardGrid > *:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc((100% - 16px) / 2);
+    max-width: calc((100% - 16px) / 2);
+  }
 }

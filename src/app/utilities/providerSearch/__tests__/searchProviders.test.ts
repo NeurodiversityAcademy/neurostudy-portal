@@ -162,9 +162,16 @@ describe('provider search matching', () => {
 describe('provider search catalog seeds', () => {
   it('derives interest area catalog from tagged providers only', () => {
     const catalog = getProviderSearchInterestAreaCatalog();
-    expect(catalog).toContain('Music');
-    expect(catalog).toContain('Nursing');
-    expect(catalog).not.toContain('Veterinary Science');
+    expect(catalog).toEqual(
+      expect.arrayContaining([
+        'Music & Audio',
+        'Nursing',
+        'Accredited Qualifications',
+        'Training & Assessment (TAE)',
+        'Fine Arts',
+      ]),
+    );
+    expect(catalog.length).toBeGreaterThan(10);
   });
 
   it('includes emerging states in location catalog', () => {

@@ -3,6 +3,7 @@ import type { EmergingInstitution } from '@/app/components/emergingInstitutions/
 import {
   getEndorsedDisplayNameForSlug,
   getEndorsedJsonRows,
+  getStudyAreasForSlug,
   type EndorsedJsonRow,
   type EndorsedPromotedCourse,
 } from '@/app/components/endorsedProviders/endorsedProviderPageData';
@@ -18,6 +19,17 @@ function endorsedDisplayName(row: EndorsedJsonRow): string {
   return getEndorsedDisplayNameForSlug(slugify(row.id)) ?? row.id;
 }
 
+function resolveEndorsedInterestAreas(
+  row: EndorsedJsonRow,
+  promotedCourses: EndorsedPromotedCourse[],
+): string[] {
+  const slug = slugify(row.id);
+  const profileAreas = getStudyAreasForSlug(slug);
+  const taggedAreas = row.interestAreas ?? [];
+  const promotedAreas = promotedCourses.flatMap((course) => course.interestAreas);
+  return uniqueSortedStrings([...profileAreas, ...taggedAreas, ...promotedAreas]);
+}
+
 function buildEndorsedRecord(
   row: EndorsedJsonRow,
   promotedCoursesOverride?: EndorsedPromotedCourse[],
@@ -28,7 +40,7 @@ function buildEndorsedRecord(
     kind: 'endorsed',
     slug,
     name: endorsedDisplayName(row),
-    interestAreas: row.interestAreas ?? [],
+    interestAreas: resolveEndorsedInterestAreas(row, promotedCourses),
     locations: row.locations ?? [],
     ndaCertified: row.ndaCertified === true,
     hasPromotedCourses: promotedCourses.length > 0,
