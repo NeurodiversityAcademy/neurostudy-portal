@@ -37,6 +37,15 @@ function getComboboxAriaLabel(showLabel: boolean, label?: string): string | unde
   return label || undefined;
 }
 
+/** Clear/deselect paths may store '' instead of []; never treat that as a selected value. */
+function toSelectedOptions(value: unknown): SelectValue[] {
+  if (value == null || value === '') {
+    return [];
+  }
+  const values = Array.isArray(value) ? value : [value];
+  return values.filter((item) => item != null && String(item).trim() !== '');
+}
+
 const DropdownInput = <TFieldValues extends FieldValues>({
   name,
   label,
@@ -70,10 +79,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
 
   const inputRef = useRef<HTMLInputElement | HTMLSpanElement | undefined>(undefined);
   const nextFocusElemRef = useRef<HTMLElement | undefined>(undefined);
-  const selectedOptions = useMemo(
-    () => (value != null ? (Array.isArray(value) ? value : [value]) : []),
-    [value],
-  );
+  const selectedOptions = useMemo(() => toSelectedOptions(value), [value]);
   const listId = useId();
   const [expanded, setExpanded] = useState(false);
 
@@ -86,15 +92,13 @@ const DropdownInput = <TFieldValues extends FieldValues>({
   });
 
   const setSelectedOptions = (val: SelectValue[]) => {
+    const cleaned = toSelectedOptions(val);
     if (multiple) {
-      const newValue = val.length ? val : '';
-      field.onChange(newValue);
+      field.onChange(cleaned);
     } else {
-      const newValue = val.length ? val[0] : '';
-      field.onChange(newValue);
+      field.onChange(cleaned.length ? cleaned[0] : '');
     }
-    // The external onChange prop might expect an array, so we pass the array `val`
-    onChange?.(val);
+    onChange?.(cleaned);
   };
 
   const { getLabel, exists } = (() => {

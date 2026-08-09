@@ -33,7 +33,11 @@ export default function HomeBanner({
 
   return (
     <div className={showSearch ? styles.bannerWithSearch : undefined}>
-      <div className={`home-hero-banner ${styles.bannerContainer}`}>
+      <div
+        className={`home-hero-banner ${styles.bannerContainer}${
+          showSearch ? ` ${styles.bannerContainerWithSearch}` : ''
+        }`}
+      >
         <div className={styles.bannerOverlay} aria-hidden='true' />
         <div className={styles.bannerTextAndBadge}>
           <div className={styles.textContainer}>

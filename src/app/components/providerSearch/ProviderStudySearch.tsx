@@ -28,10 +28,14 @@ export type ProviderStudySearchProps = FormHTMLAttributes<HTMLFormElement> & {
   compact?: boolean;
 };
 
+function asSelectedList(value: unknown): string[] {
+  return Array.isArray(value) ? uniqueSortedStrings(value) : [];
+}
+
 function normalizeFormValues(values: Partial<ProviderStudySearchFormValues>) {
   return {
-    interestAreas: uniqueSortedStrings(values.InterestArea ?? []),
-    locations: uniqueSortedStrings(values.Location ?? []),
+    interestAreas: asSelectedList(values.InterestArea),
+    locations: asSelectedList(values.Location),
   };
 }
 

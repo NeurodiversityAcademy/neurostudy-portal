@@ -274,6 +274,35 @@ describe('DropdownInput advanced behaviour', () => {
     expect(screen.getByDisplayValue('banana')).toBeInTheDocument();
   });
 
+  it('does not render an empty pill after deselecting the last multiple option', () => {
+    render(
+      <TestWrapper defaultValues={{ fruits: ['apple'] }}>
+        <Dropdown name='fruits' label='Fruits' options={options} multiple placeholder='Select' />
+      </TestWrapper>,
+    );
+
+    fireEvent.focus(screen.getByPlaceholderText('Select'));
+    const appleOption = screen
+      .getAllByRole('option')
+      .find((option) => option.textContent?.includes('Apple'))!;
+    fireEvent.click(appleOption);
+
+    expect(screen.queryByDisplayValue('apple')).not.toBeInTheDocument();
+    expect(screen.queryAllByRole('button', { pressed: true })).toHaveLength(0);
+    expect(screen.getByPlaceholderText('Select')).toBeInTheDocument();
+  });
+
+  it('does not render an empty pill when the field value is an empty string', () => {
+    render(
+      <TestWrapper defaultValues={{ fruits: '' }}>
+        <Dropdown name='fruits' label='Fruits' options={options} multiple placeholder='Select' />
+      </TestWrapper>,
+    );
+
+    expect(screen.queryAllByRole('button', { pressed: true })).toHaveLength(0);
+    expect(screen.getByPlaceholderText('Select')).toBeInTheDocument();
+  });
+
   it('shows label fallback for values not in options', () => {
     render(
       <TestWrapper defaultValues={{ fruit: 'unknown-value' }}>
