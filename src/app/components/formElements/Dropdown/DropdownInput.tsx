@@ -30,6 +30,13 @@ const BUTTON_ARIA_LABEL = 'Clear';
 
 type SelectValue = SelectOption['value'];
 
+function getComboboxAriaLabel(showLabel: boolean, label?: string): string | undefined {
+  if (showLabel) {
+    return undefined;
+  }
+  return label || undefined;
+}
+
 const DropdownInput = <TFieldValues extends FieldValues>({
   name,
   label,
@@ -58,6 +65,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     formState: { errors },
   } = renderProps;
   const error = errors[name];
+  const comboboxAriaLabel = getComboboxAriaLabel(showLabel, label);
   const { disabled, onBlur, value } = field;
 
   const inputRef = useRef<HTMLInputElement | HTMLSpanElement | undefined>(undefined);
@@ -210,6 +218,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
       aria-controls={listId}
       aria-expanded={isExpanded}
       aria-disabled={disabled}
+      aria-label={comboboxAriaLabel}
       onFocusCapture={() => !disabled && !expanded && setExpanded(true)}
       onBlurCapture={(e: FocusEvent<HTMLDivElement, Element>) => {
         if (!(e.currentTarget as Node)?.contains(e.relatedTarget as Node)) {

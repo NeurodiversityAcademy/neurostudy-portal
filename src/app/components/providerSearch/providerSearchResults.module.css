@@ -30,9 +30,9 @@
 
 .cardGrid > * {
   flex: 0 0 auto;
-  width: 24%;
-  min-width: 240px;
-  max-width: 340px;
+  width: 28%;
+  min-width: 260px;
+  max-width: 360px;
 }
 
 .emptyState {

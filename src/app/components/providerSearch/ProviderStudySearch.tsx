@@ -85,8 +85,8 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
         <Dropdown<ProviderStudySearchFormValues>
           name='InterestArea'
           label='What do you want to study?'
-          showLabel
-          placeholder='Ex. Nursing or digital'
+          showLabel={!compact}
+          placeholder={compact ? 'What do you want to study?' : 'Ex. Nursing or digital'}
           multiple
           creatable
           options={interestAreaOptions}
@@ -94,8 +94,8 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
         <Dropdown<ProviderStudySearchFormValues>
           name='Location'
           label='Where do you want to study?'
-          showLabel
-          placeholder='Ex. Sydney'
+          showLabel={!compact}
+          placeholder={compact ? 'Where do you want to study?' : 'Ex. Sydney'}
           multiple
           creatable
           options={locationOptions}

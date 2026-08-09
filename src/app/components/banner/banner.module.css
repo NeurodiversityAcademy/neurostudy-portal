@@ -88,8 +88,9 @@
   }
 
   .form {
-    max-height: none;
+    max-height: 15vh;
     order: -1;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
+    padding: 0;
   }
 }
