@@ -7,7 +7,9 @@ import {
 import type { ProviderSearchRecord } from '../constants';
 import {
   filterToKnownCatalogValues,
+  matchesSearchToken,
   parseMultiQueryParam,
+  resolveSearchFilterValues,
   uniqueSortedStrings,
 } from '../normalize';
 import {
@@ -225,5 +227,44 @@ describe('provider search href helpers', () => {
         { interestAreas: ['music'], locations: ['sydney'] },
       ),
     ).toBe(true);
+  });
+
+  it('partial-matches interest areas so digital finds Digital Skills and Digital Technology', () => {
+    const withDigital = [
+      makeProvider({
+        kind: 'endorsed',
+        slug: 'skills-uni',
+        name: 'Skills Uni',
+        interestAreas: ['Digital Skills'],
+      }),
+      makeProvider({
+        kind: 'endorsed',
+        slug: 'tech-uni',
+        name: 'Tech Uni',
+        interestAreas: ['Digital Technology'],
+      }),
+      makeProvider({
+        kind: 'endorsed',
+        slug: 'nursing-uni',
+        name: 'Nursing Uni',
+        interestAreas: ['Nursing'],
+      }),
+    ];
+
+    expect(matchesSearchToken(['Digital Skills', 'Digital Technology'], 'digital')).toBe(true);
+    expect(matchesSearchToken(['Nursing'], 'digital')).toBe(false);
+
+    const results = searchProvidersByFilters(withDigital, {
+      interestAreas: ['digital'],
+      locations: [],
+    });
+    expect(results.endorsed.map((p) => p.slug).sort()).toEqual(['skills-uni', 'tech-uni']);
+  });
+
+  it('resolveSearchFilterValues keeps free-text partial queries', () => {
+    expect(resolveSearchFilterValues(['digital', 'Music', 'a'], ['Music', 'Nursing'])).toEqual([
+      'digital',
+      'Music',
+    ]);
   });
 });

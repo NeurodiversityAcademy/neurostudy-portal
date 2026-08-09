@@ -35,6 +35,16 @@ export default function HomeBanner({
     <div className={showSearch ? styles.bannerWithSearch : undefined}>
       <div className={`home-hero-banner ${styles.bannerContainer}`}>
         <div className={styles.bannerOverlay} aria-hidden='true' />
+        {showSearch && (
+          <ProviderStudySearch
+            className={styles.form}
+            compact
+            surface='homepage'
+            interestAreaOptions={interestAreaOptions}
+            locationOptions={locationOptions}
+            searchDemo={searchDemo}
+          />
+        )}
         <div className={styles.bannerTextAndBadge}>
           <div className={styles.textContainer}>
             <Typography variant={TypographyVariant.H1} className='m-0' color='var(--GhostWhite)'>
@@ -59,15 +69,6 @@ export default function HomeBanner({
           {displayBadges && <BadgeDisplay />}
         </div>
       </div>
-      {showSearch && (
-        <ProviderStudySearch
-          className={styles.form}
-          surface='homepage'
-          interestAreaOptions={interestAreaOptions}
-          locationOptions={locationOptions}
-          searchDemo={searchDemo}
-        />
-      )}
     </div>
   );
 }

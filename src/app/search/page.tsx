@@ -51,17 +51,11 @@ export default async function ProviderSearchPage({ searchParams }: SearchPagePro
 
   return (
     <main className={styles.page}>
-      <header className={styles.header}>
-        <Typography variant={TypographyVariant.H1} color={TypographyColorToken.BondBlack}>
-          Find providers
-        </Typography>
-        <Typography variant={TypographyVariant.Body1} color={TypographyColorToken.BondBlack}>
-          Search by area of study and location to explore neuro-inclusive education providers.
-        </Typography>
-      </header>
-
-      <div className={styles.filterWrap}>
+      <section className={styles.searchBanner} aria-label='Provider search'>
+        <div className={styles.searchBannerOverlay} aria-hidden='true' />
         <ProviderStudySearch
+          className={styles.searchBannerForm}
+          compact
           surface='search_page'
           interestAreaOptions={interestAreaOptions}
           locationOptions={locationOptions}
@@ -69,38 +63,49 @@ export default async function ProviderSearchPage({ searchParams }: SearchPagePro
           defaultLocations={filters.locations}
           searchDemo={searchDemo}
         />
-      </div>
+      </section>
 
-      {hasQuery ? (
-        <>
-          <ProviderSearchResultsTracker
-            interestAreas={filters.interestAreas}
-            locations={filters.locations}
-            resultCountTotal={totalCount}
-            countCourseEndorsed={results.course_endorsed.length}
-            countStarredEndorsed={results.starred_endorsed.length}
-            countEndorsed={results.endorsed.length}
-            countEmerging={results.emerging.length}
-          />
-          <Typography
-            variant={TypographyVariant.Body2}
-            color={TypographyColorToken.BondBlack}
-            className={styles.summary}
-          >
-            {totalCount === 1 ? '1 provider found' : `${totalCount} providers found`}
+      <div className={styles.results}>
+        <header className={styles.header}>
+          <Typography variant={TypographyVariant.H1} color={TypographyColorToken.BondBlack}>
+            Find providers
           </Typography>
-          <ProviderSearchResults
-            results={results}
-            filters={filters}
-            searchDemo={searchDemo}
-            totalCount={totalCount}
-          />
-        </>
-      ) : (
-        <Typography variant={TypographyVariant.Body1} color={TypographyColorToken.BondBlack}>
-          Choose an area of study and/or location to see matching providers.
-        </Typography>
-      )}
+          <Typography variant={TypographyVariant.Body1} color={TypographyColorToken.BondBlack}>
+            Search by area of study and location to explore neuro-inclusive education providers.
+          </Typography>
+        </header>
+
+        {hasQuery ? (
+          <>
+            <ProviderSearchResultsTracker
+              interestAreas={filters.interestAreas}
+              locations={filters.locations}
+              resultCountTotal={totalCount}
+              countCourseEndorsed={results.course_endorsed.length}
+              countStarredEndorsed={results.starred_endorsed.length}
+              countEndorsed={results.endorsed.length}
+              countEmerging={results.emerging.length}
+            />
+            <Typography
+              variant={TypographyVariant.Body2}
+              color={TypographyColorToken.BondBlack}
+              className={styles.summary}
+            >
+              {totalCount === 1 ? '1 provider found' : `${totalCount} providers found`}
+            </Typography>
+            <ProviderSearchResults
+              results={results}
+              filters={filters}
+              searchDemo={searchDemo}
+              totalCount={totalCount}
+            />
+          </>
+        ) : (
+          <Typography variant={TypographyVariant.Body1} color={TypographyColorToken.BondBlack}>
+            Choose an area of study and/or location to see matching providers.
+          </Typography>
+        )}
+      </div>
     </main>
   );
 }

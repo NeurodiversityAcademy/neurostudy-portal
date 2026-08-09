@@ -85,6 +85,17 @@ describe('HomeBanner', () => {
     expect(filters).toHaveLength(1);
   });
 
+  it('places provider search above the hero title when enabled', () => {
+    const { container } = render(<HomeBanner showSearchBar displayFilter title='Hero Title' />);
+    const search = screen.getByTestId('provider-study-search');
+    const title = screen.getByText('Hero Title');
+    const banner = container.querySelector('.home-hero-banner');
+    expect(banner?.contains(search)).toBe(true);
+    expect(Boolean(search.compareDocumentPosition(title) & Node.DOCUMENT_POSITION_FOLLOWING)).toBe(
+      true,
+    );
+  });
+
   it('does not render provider search when showSearchBar is false', () => {
     render(<HomeBanner showSearchBar={false} displayFilter />);
     expect(screen.queryByTestId('provider-study-search')).not.toBeInTheDocument();

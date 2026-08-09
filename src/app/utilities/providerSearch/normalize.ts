@@ -44,11 +44,58 @@ export function joinGaMultiValue(values: readonly string[]): string {
     .join('|');
 }
 
+/** Exact case-insensitive equality. */
 export function includesNormalized(haystack: readonly string[], needle: string): boolean {
   const normalizedNeedle = normalizeSearchToken(needle);
   return haystack.some((item) => normalizeSearchToken(item) === normalizedNeedle);
 }
 
+const MIN_PARTIAL_QUERY_LENGTH = 2;
+
+/**
+ * Partial match: "digital" matches "Digital Skills" and "Digital Technology".
+ * Exact matches still work. Reverse contains only when the catalog token is long enough.
+ */
+export function matchesSearchToken(haystack: readonly string[], needle: string): boolean {
+  const normalizedNeedle = normalizeSearchToken(needle);
+  if (normalizedNeedle.length < MIN_PARTIAL_QUERY_LENGTH) {
+    return false;
+  }
+  return haystack.some((item) => {
+    const normalizedItem = normalizeSearchToken(item);
+    if (normalizedItem === normalizedNeedle) {
+      return true;
+    }
+    if (normalizedItem.includes(normalizedNeedle)) {
+      return true;
+    }
+    return (
+      normalizedItem.length >= MIN_PARTIAL_QUERY_LENGTH && normalizedNeedle.includes(normalizedItem)
+    );
+  });
+}
+
+/** Keep catalog values and free-text queries long enough for partial matching. */
+export function resolveSearchFilterValues(
+  selected: readonly string[],
+  catalog: readonly string[],
+): string[] {
+  return uniqueSortedStrings(
+    selected.filter((value) => {
+      const normalized = normalizeSearchToken(value);
+      if (normalized.length < MIN_PARTIAL_QUERY_LENGTH) {
+        return false;
+      }
+      if (includesNormalized(catalog, value)) {
+        return true;
+      }
+      // Free-text / creatable partial query
+      return true;
+    }),
+  );
+}
+
+/** @deprecated Prefer resolveSearchFilterValues for partial/creatable queries. */
 export function filterToKnownCatalogValues(
   selected: readonly string[],
   catalog: readonly string[],

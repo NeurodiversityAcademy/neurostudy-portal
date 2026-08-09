@@ -1,16 +1,17 @@
 import { resolveProviderSearchFilters } from '../resolveFilters';
 
 describe('resolveProviderSearchFilters', () => {
-  it('keeps only catalog values and detects searchDemo', () => {
+  it('keeps catalog values, free-text partial queries, and detects searchDemo', () => {
     const { filters, searchDemo } = resolveProviderSearchFilters({
-      InterestArea: ['Music', 'NotARealArea'],
-      Location: ['Sydney', 'Atlantis'],
+      InterestArea: ['Music', 'digital', 'x'],
+      Location: ['Sydney', 'pen'],
       searchDemo: '1',
     });
 
     expect(searchDemo).toBe(true);
-    expect(filters.interestAreas).toEqual(['Music']);
-    expect(filters.locations).toEqual(['Sydney']);
+    // Free-text partial queries are kept; tokens shorter than 2 chars are dropped.
+    expect(filters.interestAreas).toEqual(['digital', 'Music']);
+    expect(filters.locations).toEqual(['pen', 'Sydney']);
   });
 
   it('returns empty filters for missing params', () => {

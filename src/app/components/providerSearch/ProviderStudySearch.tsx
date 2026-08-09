@@ -25,6 +25,7 @@ export type ProviderStudySearchProps = FormHTMLAttributes<HTMLFormElement> & {
   defaultLocations?: string[];
   surface: ProviderSearchSurface;
   searchDemo?: boolean;
+  compact?: boolean;
 };
 
 const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
@@ -35,6 +36,7 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
   defaultLocations = [],
   surface,
   searchDemo = false,
+  compact = false,
   ...rest
 }) => {
   const router = useRouter();
@@ -61,7 +63,7 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
   return (
     <Form
       methods={methods}
-      className={classNames(styles.container, className)}
+      className={classNames(styles.container, compact && styles.compact, className)}
       onSubmit={methods.handleSubmit((values) => {
         const interestAreas = uniqueSortedStrings(values.InterestArea ?? []);
         const locations = uniqueSortedStrings(values.Location ?? []);
@@ -84,8 +86,9 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
           name='InterestArea'
           label='What do you want to study?'
           showLabel
-          placeholder='Ex. Nursing'
+          placeholder='Ex. Nursing or digital'
           multiple
+          creatable
           options={interestAreaOptions}
         />
         <Dropdown<ProviderStudySearchFormValues>
@@ -94,6 +97,7 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
           showLabel
           placeholder='Ex. Sydney'
           multiple
+          creatable
           options={locationOptions}
         />
         <div className={styles.buttonContainer}>

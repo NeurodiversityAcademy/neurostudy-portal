@@ -45,9 +45,31 @@
   font-weight: 600;
 }
 
+.compact .content {
+  gap: 10px 24px;
+  padding: 10px 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.compact .content > * {
+  width: min(220px, 100%);
+  min-width: 140px;
+}
+
+.compact .content > button,
+.compact .content > .buttonContainer {
+  flex: 0 0 auto;
+}
+
 @media (max-width: 480px) {
   .content > * {
     flex-basis: auto;
     width: 100%;
+  }
+
+  .compact .content {
+    gap: 8px;
+    padding: 8px 10px;
   }
 }

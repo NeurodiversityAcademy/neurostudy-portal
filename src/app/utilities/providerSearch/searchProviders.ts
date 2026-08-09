@@ -5,7 +5,7 @@ import {
   type ProviderSearchTier,
   type ProviderSearchTierResults,
 } from './constants';
-import { includesNormalized } from './normalize';
+import { matchesSearchToken } from './normalize';
 
 export function matchesProviderSearchFilters(
   provider: ProviderSearchRecord,
@@ -16,10 +16,10 @@ export function matchesProviderSearchFilters(
 
   const areaOk =
     selectedAreas.length === 0 ||
-    selectedAreas.some((area) => includesNormalized(provider.interestAreas, area));
+    selectedAreas.some((area) => matchesSearchToken(provider.interestAreas, area));
   const locationOk =
     selectedLocations.length === 0 ||
-    selectedLocations.some((location) => includesNormalized(provider.locations, location));
+    selectedLocations.some((location) => matchesSearchToken(provider.locations, location));
 
   return areaOk && locationOk;
 }

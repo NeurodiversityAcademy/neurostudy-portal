@@ -1,6 +1,6 @@
 import { getProviderSearchInterestAreaCatalog, getProviderSearchLocationCatalog } from './catalog';
 import { PROVIDER_SEARCH_QUERY, type ProviderSearchFilters } from './constants';
-import { filterToKnownCatalogValues, parseMultiQueryParam } from './normalize';
+import { parseMultiQueryParam, resolveSearchFilterValues } from './normalize';
 import { isProviderSearchDemoEnabled } from './buildSearchHref';
 
 export type ProviderSearchPageParams = {
@@ -18,11 +18,11 @@ export function resolveProviderSearchFilters(searchParams: ProviderSearchPagePar
   const locationCatalog = getProviderSearchLocationCatalog({ searchDemo });
 
   const filters: ProviderSearchFilters = {
-    interestAreas: filterToKnownCatalogValues(
+    interestAreas: resolveSearchFilterValues(
       parseMultiQueryParam(searchParams[PROVIDER_SEARCH_QUERY.INTEREST_AREA]),
       areaCatalog,
     ),
-    locations: filterToKnownCatalogValues(
+    locations: resolveSearchFilterValues(
       parseMultiQueryParam(searchParams[PROVIDER_SEARCH_QUERY.LOCATION]),
       locationCatalog,
     ),
