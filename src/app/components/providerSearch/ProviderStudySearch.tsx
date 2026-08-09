@@ -107,6 +107,7 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
             label='Search'
             icon={searchSrc}
             disabled={!canSearch}
+            className={compact ? styles.compactSearchButton : undefined}
           />
         </div>
       </div>

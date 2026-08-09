@@ -8,6 +8,14 @@
   min-height: 100vh;
 }
 
+.intro {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 5vw 1rem;
+  box-sizing: border-box;
+}
+
 .searchBanner {
   position: relative;
   width: 100%;
@@ -55,7 +63,7 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 1.5rem 5vw 3rem;
+  padding: 1.25rem 5vw 3rem;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;

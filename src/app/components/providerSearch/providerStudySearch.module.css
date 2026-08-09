@@ -76,6 +76,20 @@
   margin: 0;
 }
 
+.compactSearchButton {
+  width: calc(var(--primary-button-width) / 2);
+  max-width: 156px;
+  min-width: 0;
+  padding: 6px 10px;
+  gap: 6px;
+  font-size: var(--body3-font-size);
+}
+
+.compactSearchButton :global(img) {
+  width: 16px;
+  height: 16px;
+}
+
 @media (max-width: 768px) {
   .compact .content {
     display: grid;
@@ -96,11 +110,14 @@
   .compact .content > .buttonContainer {
     grid-column: 1 / -1;
     width: 100%;
+    display: flex;
+    justify-content: center;
   }
 
   .compact .content > .buttonContainer > button,
   .compact .content > button {
-    width: 100%;
+    width: calc(var(--primary-button-width) / 2);
+    max-width: 156px;
   }
 }
 
