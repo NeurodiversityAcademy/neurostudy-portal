@@ -85,6 +85,12 @@
   font-size: var(--body3-font-size);
 }
 
+/* Beat ActionButton `.primary { width: var(--primary-button-width) }` */
+.compact .buttonContainer .compactSearchButton {
+  width: calc(var(--primary-button-width) / 2);
+  max-width: 156px;
+}
+
 .compactSearchButton :global(img) {
   width: 16px;
   height: 16px;
@@ -120,9 +126,9 @@
     align-self: center;
   }
 
+  .compact .buttonContainer .compactSearchButton,
   .compact .content > .buttonContainer > button,
-  .compact .content > button,
-  .compactSearchButton {
+  .compact .content > button {
     width: calc(var(--primary-button-width) / 2);
     max-width: 156px;
   }
