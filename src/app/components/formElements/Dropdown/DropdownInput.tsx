@@ -375,10 +375,10 @@ const DropdownInput = <TFieldValues extends FieldValues>({
       )}
       {multiple &&
         selectedOptions.map((option) => (
-          <input key={String(option)} type='hidden' name={name} value={option} />
+          <input key={String(option)} type='hidden' name={name} value={String(option)} />
         ))}
       {!multiple && selectedOptions.length > 0 && (
-        <input type='hidden' name={name} value={selectedOptions[0]} />
+        <input type='hidden' name={name} value={String(selectedOptions[0])} />
       )}
     </div>
   );

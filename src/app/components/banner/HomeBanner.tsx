@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import styles from './banner.module.css';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import BadgeDisplay from '../badges/BadgeDisplay';
@@ -34,9 +35,11 @@ export default function HomeBanner({
   return (
     <div className={showSearch ? styles.bannerWithSearch : undefined}>
       <div
-        className={`home-hero-banner ${styles.bannerContainer}${
-          showSearch ? ` ${styles.bannerContainerWithSearch}` : ''
-        }`}
+        className={classNames(
+          'home-hero-banner',
+          styles.bannerContainer,
+          showSearch && styles.bannerContainerWithSearch,
+        )}
       >
         <div className={styles.bannerOverlay} aria-hidden='true' />
         <div className={styles.bannerTextAndBadge}>
