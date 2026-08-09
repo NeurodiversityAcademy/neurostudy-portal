@@ -8,25 +8,15 @@
   min-height: 100vh;
 }
 
-.intro {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1.5rem 5vw 1rem;
-  box-sizing: border-box;
-}
-
 .searchBanner {
   position: relative;
   width: 100%;
-  max-height: 15vh;
-  min-height: 64px;
   display: flex;
   align-items: center;
   justify-content: stretch;
-  padding: 0.5rem 5vw;
+  padding: 1.5rem 5vw 1.25rem;
   box-sizing: border-box;
-  /* Allow dropdown menus to escape the compact banner */
+  /* Allow dropdown menus to escape the banner */
   overflow: visible;
   background-color: #4a2a8a;
   background-image: url('/images/hero-mobile.webp');
@@ -53,10 +43,26 @@
   );
 }
 
-.searchBannerForm {
+.searchBannerInner {
   position: relative;
   z-index: 2;
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-sizing: border-box;
+}
+
+.searchBannerForm {
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
 }
 
 .results {
@@ -68,12 +74,6 @@
   flex-direction: column;
   gap: 1.25rem;
   box-sizing: border-box;
-}
-
-.header {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
 }
 
 .summary {

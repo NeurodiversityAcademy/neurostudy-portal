@@ -51,29 +51,28 @@ export default async function ProviderSearchPage({ searchParams }: SearchPagePro
 
   return (
     <main className={styles.page}>
-      <div className={styles.intro}>
-        <header className={styles.header}>
-          <Typography variant={TypographyVariant.H1} color={TypographyColorToken.BondBlack}>
-            Find providers
-          </Typography>
-          <Typography variant={TypographyVariant.Body1} color={TypographyColorToken.BondBlack}>
-            Search by area of study and location to explore neuro-inclusive education providers.
-          </Typography>
-        </header>
-      </div>
-
       <section className={styles.searchBanner} aria-label='Provider search'>
         <div className={styles.searchBannerOverlay} aria-hidden='true' />
-        <ProviderStudySearch
-          className={styles.searchBannerForm}
-          compact
-          surface='search_page'
-          interestAreaOptions={interestAreaOptions}
-          locationOptions={locationOptions}
-          defaultInterestAreas={filters.interestAreas}
-          defaultLocations={filters.locations}
-          searchDemo={searchDemo}
-        />
+        <div className={styles.searchBannerInner}>
+          <header className={styles.header}>
+            <Typography variant={TypographyVariant.H1} color={TypographyColorToken.GhostWhite}>
+              Find providers
+            </Typography>
+            <Typography variant={TypographyVariant.Body1} color={TypographyColorToken.GhostWhite}>
+              Search by area of study and location to explore neuro-inclusive education providers.
+            </Typography>
+          </header>
+          <ProviderStudySearch
+            className={styles.searchBannerForm}
+            compact
+            surface='search_page'
+            interestAreaOptions={interestAreaOptions}
+            locationOptions={locationOptions}
+            defaultInterestAreas={filters.interestAreas}
+            defaultLocations={filters.locations}
+            searchDemo={searchDemo}
+          />
+        </div>
       </section>
 
       <div className={styles.results}>
