@@ -1,7 +1,7 @@
 import { resolveProviderSearchFilters } from '../resolveFilters';
 
 describe('resolveProviderSearchFilters', () => {
-  it('keeps catalog values, free-text partial queries, and detects searchDemo', () => {
+  it('expands partial queries onto catalog labels and detects searchDemo', () => {
     const { filters, searchDemo } = resolveProviderSearchFilters({
       InterestArea: ['Music', 'digital', 'x'],
       Location: ['Sydney', 'pen'],
@@ -9,9 +9,13 @@ describe('resolveProviderSearchFilters', () => {
     });
 
     expect(searchDemo).toBe(true);
-    // Free-text partial queries are kept; tokens shorter than 2 chars are dropped.
-    expect(filters.interestAreas).toEqual(['digital', 'Music']);
-    expect(filters.locations).toEqual(['pen', 'Sydney']);
+    // "digital" expands to catalog study areas; short tokens are dropped.
+    expect(filters.interestAreas).toEqual(
+      expect.arrayContaining(['Digital Skills', 'Digital Technology', 'Music']),
+    );
+    expect(filters.interestAreas).not.toContain('digital');
+    expect(filters.locations).toEqual(expect.arrayContaining(['Penrith', 'Sydney']));
+    expect(filters.locations).not.toContain('pen');
   });
 
   it('returns empty filters for missing params', () => {

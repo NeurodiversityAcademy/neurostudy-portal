@@ -261,10 +261,13 @@ describe('provider search href helpers', () => {
     expect(results.endorsed.map((p) => p.slug).sort()).toEqual(['skills-uni', 'tech-uni']);
   });
 
-  it('resolveSearchFilterValues keeps free-text partial queries', () => {
+  it('resolveSearchFilterValues expands free-text partial queries onto catalog labels', () => {
     expect(resolveSearchFilterValues(['digital', 'Music', 'a'], ['Music', 'Nursing'])).toEqual([
       'digital',
       'Music',
     ]);
+    expect(
+      resolveSearchFilterValues(['digital'], ['Digital Skills', 'Digital Technology', 'Nursing']),
+    ).toEqual(['Digital Skills', 'Digital Technology']);
   });
 });

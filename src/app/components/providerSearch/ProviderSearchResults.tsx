@@ -100,7 +100,6 @@ function renderEndorsedCard(params: {
       key={`${tier}-${provider.slug}`}
       ndaCertified={provider.ndaCertified}
       ctaHref={href}
-      compact
       header={
         provider.topBackgroundImage
           ? {

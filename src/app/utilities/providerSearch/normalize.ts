@@ -75,24 +75,43 @@ export function matchesSearchToken(haystack: readonly string[], needle: string):
   });
 }
 
-/** Keep catalog values and free-text queries long enough for partial matching. */
+/** Expand free-text / partial queries onto catalog labels when possible. */
 export function resolveSearchFilterValues(
   selected: readonly string[],
   catalog: readonly string[],
 ): string[] {
-  return uniqueSortedStrings(
-    selected.filter((value) => {
-      const normalized = normalizeSearchToken(value);
-      if (normalized.length < MIN_PARTIAL_QUERY_LENGTH) {
-        return false;
-      }
-      if (includesNormalized(catalog, value)) {
-        return true;
-      }
-      // Free-text / creatable partial query
-      return true;
-    }),
-  );
+  const resolved: string[] = [];
+
+  for (const value of selected) {
+    const normalized = normalizeSearchToken(value);
+    if (normalized.length < MIN_PARTIAL_QUERY_LENGTH) {
+      continue;
+    }
+
+    const exact = catalog.find((item) => normalizeSearchToken(item) === normalized);
+    if (exact) {
+      resolved.push(exact);
+      continue;
+    }
+
+    const partialMatches = catalog.filter((item) => {
+      const itemNorm = normalizeSearchToken(item);
+      return (
+        itemNorm.includes(normalized) ||
+        (itemNorm.length >= MIN_PARTIAL_QUERY_LENGTH && normalized.includes(itemNorm))
+      );
+    });
+
+    if (partialMatches.length > 0) {
+      resolved.push(...partialMatches);
+      continue;
+    }
+
+    // Keep free-text so provider-tag partial matching still works.
+    resolved.push(value.trim());
+  }
+
+  return uniqueSortedStrings(resolved);
 }
 
 /** @deprecated Prefer resolveSearchFilterValues for partial/creatable queries. */

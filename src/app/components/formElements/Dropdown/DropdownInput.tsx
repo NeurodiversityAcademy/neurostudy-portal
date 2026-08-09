@@ -126,11 +126,15 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     if (!creatable) {
       return;
     }
-    const valLowerCase = val.toLowerCase();
+    const trimmed = val.trim();
+    if (!trimmed) {
+      return;
+    }
+    const valLowerCase = trimmed.toLowerCase();
     setInputValue('');
     const option = selectedOptions.find((option) => String(option).toLowerCase() === valLowerCase);
     if (!option) {
-      setSelectedOptions([...selectedOptions, val]);
+      setSelectedOptions([...selectedOptions, trimmed]);
     }
     inputRef.current?.focus();
   };
