@@ -15,7 +15,7 @@
   min-height: 64px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: stretch;
   padding: 0.5rem 5vw;
   box-sizing: border-box;
   /* Allow dropdown menus to escape the compact banner */
