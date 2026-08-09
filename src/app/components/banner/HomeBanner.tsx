@@ -2,8 +2,7 @@ import React from 'react';
 import styles from './banner.module.css';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import BadgeDisplay from '../badges/BadgeDisplay';
-import CoursePrimaryFilter from '../course/CoursePrimaryFilter';
-import CourseProvider from '@/app/utilities/course/CourseProvider';
+import ProviderStudySearch from '../providerSearch/ProviderStudySearch';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 import ActionButton from '../buttons/ActionButton';
 
@@ -14,6 +13,9 @@ interface PropType {
   title?: string;
   subtitle?: string;
   showSearchBar?: boolean;
+  interestAreaOptions?: { label: string; value: string }[];
+  locationOptions?: { label: string; value: string }[];
+  searchDemo?: boolean;
 }
 
 export default function HomeBanner({
@@ -23,9 +25,14 @@ export default function HomeBanner({
   title,
   subtitle,
   showSearchBar = false,
+  interestAreaOptions = [],
+  locationOptions = [],
+  searchDemo = false,
 }: PropType) {
+  const showSearch = Boolean(showSearchBar && displayFilter);
+
   return (
-    <>
+    <div className={showSearch ? styles.bannerWithSearch : undefined}>
       <div className={`home-hero-banner ${styles.bannerContainer}`}>
         <div className={styles.bannerOverlay} aria-hidden='true' />
         <div className={styles.bannerTextAndBadge}>
@@ -51,17 +58,16 @@ export default function HomeBanner({
           </div>
           {displayBadges && <BadgeDisplay />}
         </div>
-        {showSearchBar && displayFilter && (
-          <CourseProvider redirectToSearchPage>
-            <CoursePrimaryFilter className={styles.form} />
-          </CourseProvider>
-        )}
       </div>
-      {showSearchBar && displayFilter && (
-        <CourseProvider redirectToSearchPage>
-          <CoursePrimaryFilter className={styles.formMobile} />
-        </CourseProvider>
+      {showSearch && (
+        <ProviderStudySearch
+          className={styles.form}
+          surface='homepage'
+          interestAreaOptions={interestAreaOptions}
+          locationOptions={locationOptions}
+          searchDemo={searchDemo}
+        />
       )}
-    </>
+    </div>
   );
 }

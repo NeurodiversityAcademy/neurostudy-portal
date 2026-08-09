@@ -9,11 +9,17 @@ import HowItWorks from './components/howItWorks/HowItWorks';
 import dynamic from 'next/dynamic';
 
 import StudentFacts from './components/studentFacts/StudentFacts';
-import isFeatureEnabled from './utilities/featureToggle';
 import EmergingInstitutions from './components/emergingInstitutions/EmergingInstitutions';
 import EndorsedProviders from './components/endorsedProviders/EndorsedProviders';
 import { resolveHomeDemoAccess } from './utilities/demoAccess';
 import type { SearchParams } from './utilities/featureToggle';
+import {
+  getProviderSearchInterestAreaCatalog,
+  getProviderSearchLocationCatalog,
+  toDropdownOptions,
+} from './utilities/providerSearch/catalog';
+import { isProviderSearchDemoEnabled } from './utilities/providerSearch/buildSearchHref';
+import { PROVIDER_SEARCH_QUERY } from './utilities/providerSearch/constants';
 
 const ArticleList = dynamic(() => import('./components/articleList/articleList'), {
   loading: () => null,
@@ -63,8 +69,14 @@ export const metadata: Metadata = createMetadata(META_KEY.HOME, {
 
 export default async function Home({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const resolvedSearchParams = await searchParams;
-  const showSearchBar = isFeatureEnabled(resolvedSearchParams, 'searchBar');
   const demoAccess = resolveHomeDemoAccess(resolvedSearchParams);
+  const searchDemo = isProviderSearchDemoEnabled(
+    resolvedSearchParams[PROVIDER_SEARCH_QUERY.SEARCH_DEMO],
+  );
+  const interestAreaOptions = toDropdownOptions(
+    getProviderSearchInterestAreaCatalog({ searchDemo }),
+  );
+  const locationOptions = toDropdownOptions(getProviderSearchLocationCatalog({ searchDemo }));
 
   return (
     <main className={styles.main}>
@@ -74,7 +86,10 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
         displayBadges={true}
         showButton={false}
         displayFilter={true}
-        showSearchBar={showSearchBar}
+        showSearchBar={true}
+        interestAreaOptions={interestAreaOptions}
+        locationOptions={locationOptions}
+        searchDemo={searchDemo}
       />
       <StudentFacts />
       <EndorsedProviders demoGuid={demoAccess?.demoGuid} demoSlug={demoAccess?.demoSlug} />

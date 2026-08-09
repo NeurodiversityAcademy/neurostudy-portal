@@ -5,33 +5,43 @@
     "ndaCertified": true,
     "logo": "/images/AcademiaLogoLong.png",
     "topBackgroundImage": "/images/NepeanCover.webp",
-    "institutionCoursesUrl": "https://ncc.nsw.edu.au/our-courses/"
+    "institutionCoursesUrl": "https://ncc.nsw.edu.au/our-courses/",
+    "locations": ["Penrith", "Sydney", "NSW"],
+    "interestAreas": []
   },
   {
     "id": "HSH",
     "live": true,
     "logo": "/images/AcademiaLogoLong.png",
     "topBackgroundImage": "/images/HSHCover.webp",
-    "institutionCoursesUrl": "https://www.hsh.edu.au"
+    "institutionCoursesUrl": "https://www.hsh.edu.au",
+    "locations": ["Perth"],
+    "interestAreas": ["Nursing", "Education", "Public Health"]
   },
   {
     "id": "academia",
     "logo": "/images/AcademiaLogoLong.png",
     "topBackgroundImage": "/images/AcademiaCover.webp",
-    "institutionCoursesUrl": "https://www.studyacademia.edu.au"
+    "institutionCoursesUrl": "https://www.studyacademia.edu.au",
+    "locations": ["Brisbane"],
+    "interestAreas": []
   },
   {
     "id": "Blueprint Career Development",
     "live": true,
     "logo": "/images/AcademiaLogoLong.png",
     "topBackgroundImage": "/images/BlueprintCover.webp",
-    "institutionCoursesUrl": "https://www.blueprintcd.com.au/"
+    "institutionCoursesUrl": "https://www.blueprintcd.com.au/",
+    "locations": ["Brisbane"],
+    "interestAreas": ["Business Administration", "Sport and Exercise Science"]
   },
   {
     "id": "Collarts",
     "live": true,
     "logo": "/images/AcademiaLogoLong.png",
     "topBackgroundImage": "/images/CollartsCover.webp",
-    "institutionCoursesUrl": "https://www.collarts.edu.au/courses"
+    "institutionCoursesUrl": "https://www.collarts.edu.au/courses",
+    "locations": ["Melbourne", "Sydney"],
+    "interestAreas": ["Music", "Media and Communication", "Design", "Fine Arts"]
   }
 ]

@@ -5,6 +5,10 @@ export type EmergingInstitution = {
   state: AustralianState;
   /** Demo listings have no detail page yet — shown in teaser/directory only. */
   demo?: boolean;
+  /** Canonical study-search interest areas (verified subset only). */
+  interestAreas?: string[];
+  /** Optional city-level location tags; state is always searchable. */
+  locations?: string[];
 };
 
 /** Neutral geographic order — not a popularity rank. */

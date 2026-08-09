@@ -1387,7 +1387,13 @@ export const SUPPORT_FRAMEWORK_BY_SLUG: Record<string, SupportFrameworkSection[]
   ],
 };
 
-type EndorsedJsonRow = {
+export type EndorsedPromotedCourse = {
+  id: string;
+  title: string;
+  interestAreas: string[];
+};
+
+export type EndorsedJsonRow = {
   id: string;
   /** When true, profile is public via slug URL and shown on the homepage. */
   live?: boolean;
@@ -1398,9 +1404,38 @@ type EndorsedJsonRow = {
   metaStripInstitutionIconSrc?: string;
   topBackgroundImage?: string;
   institutionCoursesUrl: string;
+  /** Canonical study-search interest areas (catalog values). */
+  interestAreas?: string[];
+  /** Canonical study-search location tokens (cities and/or AU states). */
+  locations?: string[];
+  /** Promoted courses for course-endorsed search tier. */
+  promotedCourses?: EndorsedPromotedCourse[];
 };
 
 const rows = endorsedData as EndorsedJsonRow[];
+
+export function getEndorsedJsonRows(): readonly EndorsedJsonRow[] {
+  return rows;
+}
+
+export function getPromotedCoursesForSlug(slug: string): EndorsedPromotedCourse[] {
+  const row = rows.find((item) => slugify(item.id) === slug);
+  return row?.promotedCourses ?? [];
+}
+
+export function hasPromotedCoursesForSlug(slug: string): boolean {
+  return getPromotedCoursesForSlug(slug).length > 0;
+}
+
+export function getEndorsedInterestAreasForSlug(slug: string): string[] {
+  const row = rows.find((item) => slugify(item.id) === slug);
+  return row?.interestAreas ?? [];
+}
+
+export function getEndorsedLocationsForSlug(slug: string): string[] {
+  const row = rows.find((item) => slugify(item.id) === slug);
+  return row?.locations ?? [];
+}
 
 const INSTITUTION_COURSES_URL_BY_SLUG: Record<string, string> = Object.fromEntries(
   rows.map((row) => [slugify(row.id), row.institutionCoursesUrl.trim()]),

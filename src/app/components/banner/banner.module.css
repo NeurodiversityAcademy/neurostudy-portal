@@ -1,3 +1,8 @@
+.bannerWithSearch {
+  width: 100%;
+  position: relative;
+}
+
 .bannerContainer {
   box-sizing: border-box;
   width: 100%;
@@ -8,9 +13,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative; /* allow absolutely positioned filter to sit inside the picture */
+  position: relative;
   overflow: hidden;
-  /* Fallback + mobile hero as CSS background so LCP can be text (faster CWV). */
   background-color: #4a2a8a;
   background-image: url('/images/hero-mobile.webp');
   background-size: cover;
@@ -53,14 +57,25 @@
 .form {
   position: relative;
   z-index: 2;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 5vw 1.5rem;
+  box-sizing: border-box;
 }
 
-.form > :first-child {
-  flex: 1;
-}
+@media (min-width: 481px) {
+  .form {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 1.5rem;
+    padding-bottom: 0;
+  }
 
-.bannerContainer + .formMobile {
-  display: none;
+  .bannerWithSearch {
+    margin-bottom: 0;
+  }
 }
 
 .buttonContainer {
@@ -78,11 +93,7 @@
     flex-direction: column;
   }
 
-  .bannerContainer .form {
-    display: none;
-  }
-
-  .bannerContainer + .formMobile {
-    display: flex;
+  .form {
+    margin-top: 0.75rem;
   }
 }

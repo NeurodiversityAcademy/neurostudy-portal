@@ -5,7 +5,10 @@
   },
   {
     "name": "Australian College of Physical Education",
-    "state": "NSW"
+    "state": "NSW",
+    "interestAreas": [
+      "Sport and Exercise Science"
+    ]
   },
   {
     "name": "Flinders University",
@@ -17,7 +20,10 @@
   },
   {
     "name": "Jazz Music Institute",
-    "state": "QLD"
+    "state": "QLD",
+    "interestAreas": [
+      "Music"
+    ]
   },
   {
     "name": "Academies Australasia Polytechnic",
@@ -29,7 +35,10 @@
   },
   {
     "name": "Adelaide Central School of Art",
-    "state": "SA"
+    "state": "SA",
+    "interestAreas": [
+      "Fine Arts"
+    ]
   },
   {
     "name": "Adelaide University",
