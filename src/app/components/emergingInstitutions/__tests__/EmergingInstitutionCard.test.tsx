@@ -62,4 +62,10 @@ describe('EmergingInstitutionCard', () => {
     const { container } = render(<EmergingInstitutionCard name='Bond University' state='QLD' />);
     expect(container.querySelector('[data-state-tint="QLD"]')).toBeInTheDocument();
   });
+
+  it('allows search surfaces to keep same-tab navigation', () => {
+    render(<EmergingInstitutionCard name='Bond University' state='QLD' ctaOpenInNewTab={false} />);
+    const link = screen.getByRole('link', { name: 'Explore More' });
+    expect(link).not.toHaveAttribute('target');
+  });
 });

@@ -48,7 +48,7 @@
 .searchBannerForm {
   position: relative;
   z-index: 2;
-  width: min(100%, 1100px);
+  width: 100%;
 }
 
 .results {

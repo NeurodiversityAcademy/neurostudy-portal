@@ -23,6 +23,17 @@ jest.mock('../../institutionProviderCard/InstitutionProviderCard', () => ({
   ),
 }));
 
+jest.mock('../../emergingInstitutions/EmergingInstitutionCard', () => ({
+  __esModule: true,
+  default: ({ name, state }: { name: string; state: string }) => (
+    <div data-testid='emerging-card'>
+      <span>{name}</span>
+      <span>{state}</span>
+      <a href={`/emergingproviders/${name.toLowerCase().replace(/\s+/g, '-')}`}>Explore More</a>
+    </div>
+  ),
+}));
+
 jest.mock('../../endorsedProviders/EndorsedCertifiedBadge', () => ({
   __esModule: true,
   default: () => <div>badge</div>,
@@ -52,7 +63,7 @@ describe('ProviderSearchResults', () => {
     expect(screen.queryByRole('link')).not.toBeInTheDocument();
   });
 
-  it('renders matching providers as cards across tiers', () => {
+  it('renders matching providers as shared cards across tiers', () => {
     const results = emptyResults();
     results.course_endorsed = [
       {
@@ -105,7 +116,9 @@ describe('ProviderSearchResults', () => {
     expect(screen.getByText('NDA Certified providers')).toBeInTheDocument();
     expect(screen.getByText('Emerging providers')).toBeInTheDocument();
     expect(screen.getByText('Jazz Music Institute')).toBeInTheDocument();
-    expect(screen.getAllByTestId('provider-card')).toHaveLength(3);
+    expect(screen.getByText('QLD')).toBeInTheDocument();
+    expect(screen.getAllByTestId('provider-card')).toHaveLength(2);
+    expect(screen.getAllByTestId('emerging-card')).toHaveLength(1);
     expect(screen.getAllByRole('link', { name: 'Explore More' })[0]).toHaveAttribute(
       'href',
       '/endorsedproviders/collarts/courses?searchDemo=1',

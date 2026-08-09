@@ -93,12 +93,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </NextAuthProvider>
         <Footer />
         <ToasterWrapper />
-        {process.env.NODE_ENV === 'production' && <MetaPixel />}
-        <DeferredGoogleAnalytics
-          gaId='G-5YMLVTTK45'
-          debugMode={process.env.NODE_ENV !== 'production'}
-        />
-        <DeferredVercelInsights />
+        {process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' && <MetaPixel />}
+        {process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' && (
+          <DeferredGoogleAnalytics gaId='G-5YMLVTTK45' />
+        )}
+        {process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' && <DeferredVercelInsights />}
         <DeferredTabNavEmbed />
       </body>
     </html>

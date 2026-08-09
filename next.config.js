@@ -225,6 +225,10 @@ const globalSecurityHeaders = [
 ];
 
 module.exports = {
+  env: {
+    // Expose Vercel deploy target to the client so analytics can gate on Production only.
+    NEXT_PUBLIC_VERCEL_ENV: process.env.VERCEL_ENV ?? process.env.NEXT_PUBLIC_VERCEL_ENV ?? '',
+  },
   experimental: {
     // Speeds repeat production builds when the Turbopack FS cache is warm.
     turbopackFileSystemCacheForBuild: true,

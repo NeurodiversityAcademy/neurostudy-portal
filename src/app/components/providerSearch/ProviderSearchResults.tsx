@@ -4,6 +4,8 @@ import Image, { type StaticImageData } from 'next/image';
 import InstitutionProviderCard from '@/app/components/institutionProviderCard/InstitutionProviderCard';
 import { INSTITUTION_PROVIDER_HEADER_KIND } from '@/app/components/institutionProviderCard/institutionProviderHeader';
 import cardStyles from '@/app/components/institutionProviderCard/institutionProviderCard.module.css';
+import EmergingInstitutionCard from '@/app/components/emergingInstitutions/EmergingInstitutionCard';
+import { hasEmergingProviderProfile } from '@/app/components/emergingInstitutions/emergingProviderProfileSlugs';
 import EndorsedCertifiedBadge from '@/app/components/endorsedProviders/EndorsedCertifiedBadge';
 import Typography, { TypographyVariant } from '@/app/components/typography/Typography';
 import { TypographyColorToken } from '@/app/components/typography/typographyColorToken';
@@ -12,7 +14,6 @@ import {
   resolveEndorsedProviderLogoSrc,
 } from '@/app/utilities/endorsedProvidersDemo';
 import { buildEmergingProviderDetailHref } from '@/app/emergingproviders/emergingProviderMetadata';
-import { hasEmergingProviderProfile } from '@/app/components/emergingInstitutions/emergingProviderProfileSlugs';
 import { ENDORSED_PROVIDER_LOGO_BY_SLUG } from '@/app/components/endorsedProviders/endorsedProviderBrandAssets';
 import {
   PROVIDER_SEARCH_GA,
@@ -45,21 +46,121 @@ function getLogoDimensions(logoSrc: string | StaticImageData): { width: number; 
   return { width: logoSrc.width, height: logoSrc.height };
 }
 
-function resolveHref(
+function resolveEndorsedHref(
   provider: ProviderSearchRecord,
   tier: ProviderSearchTier,
   searchDemo: boolean,
-): string | undefined {
-  if (provider.kind === 'endorsed') {
-    if (tier === 'course_endorsed') {
-      return buildEndorsedCoursesHref(provider.slug, { searchDemo });
-    }
-    return buildEndorsedProviderDetailHref(provider.slug, '');
+): string {
+  if (tier === 'course_endorsed') {
+    return buildEndorsedCoursesHref(provider.slug, { searchDemo });
   }
-  if (!hasEmergingProviderProfile(provider.slug)) {
-    return undefined;
-  }
-  return buildEmergingProviderDetailHref(provider.slug);
+  return buildEndorsedProviderDetailHref(provider.slug, '');
+}
+
+function searchResultGaEvent(params: {
+  provider: ProviderSearchRecord;
+  tier: ProviderSearchTier;
+  position: number;
+  filters: ProviderSearchFilters;
+  destinationUrl: string;
+}) {
+  const { provider, tier, position, filters, destinationUrl } = params;
+  return {
+    eventName: PROVIDER_SEARCH_GA.resultClick.eventName,
+    category: PROVIDER_SEARCH_GA.resultClick.category,
+    params: {
+      provider_slug: provider.slug,
+      provider_tier: tier,
+      result_position: position,
+      interest_areas: joinGaMultiValue(filters.interestAreas),
+      locations: joinGaMultiValue(filters.locations),
+      destination_url: destinationUrl,
+    },
+  };
+}
+
+function renderEndorsedCard(params: {
+  provider: ProviderSearchRecord;
+  tier: ProviderSearchTier;
+  searchDemo: boolean;
+  position: number;
+  filters: ProviderSearchFilters;
+}) {
+  const { provider, tier, searchDemo, position, filters } = params;
+  const href = resolveEndorsedHref(provider, tier, searchDemo);
+  const logoSrc = resolveEndorsedProviderLogoSrc(
+    provider.slug,
+    provider.logoSrc || '/images/AcademiaLogoLong.png',
+    ENDORSED_PROVIDER_LOGO_BY_SLUG,
+  );
+  const logoDimensions = getLogoDimensions(logoSrc);
+
+  return (
+    <InstitutionProviderCard
+      key={`${tier}-${provider.slug}`}
+      ndaCertified={provider.ndaCertified}
+      ctaHref={href}
+      compact
+      header={
+        provider.topBackgroundImage
+          ? {
+              kind: INSTITUTION_PROVIDER_HEADER_KIND.REMOTE_IMAGE,
+              src: provider.topBackgroundImage,
+            }
+          : { kind: INSTITUTION_PROVIDER_HEADER_KIND.YELLOW }
+      }
+      badge={<EndorsedCertifiedBadge size='card' certified={provider.ndaCertified} />}
+      center={
+        <div className={cardStyles.logoWrap}>
+          <Image
+            src={logoSrc}
+            alt={`${provider.name} logo`}
+            width={logoDimensions.width}
+            height={logoDimensions.height}
+          />
+        </div>
+      }
+      gaEvent={searchResultGaEvent({
+        provider,
+        tier,
+        position,
+        filters,
+        destinationUrl: href,
+      })}
+    />
+  );
+}
+
+function renderEmergingCard(params: {
+  provider: ProviderSearchRecord;
+  tier: ProviderSearchTier;
+  position: number;
+  filters: ProviderSearchFilters;
+}) {
+  const { provider, tier, position, filters } = params;
+  const state = (provider.emergingState as AustralianState | undefined) ?? 'NSW';
+  const hasProfile = hasEmergingProviderProfile(provider.slug);
+  const destinationUrl = hasProfile ? buildEmergingProviderDetailHref(provider.slug) : undefined;
+
+  return (
+    <EmergingInstitutionCard
+      key={`${tier}-${provider.slug}`}
+      name={provider.name}
+      state={state}
+      ctaOpenInNewTab={false}
+      gaEvent={
+        destinationUrl
+          ? searchResultGaEvent({
+              provider,
+              tier,
+              position,
+              filters,
+              destinationUrl,
+            })
+          : undefined
+      }
+    />
+  );
 }
 
 function renderProviderCard(params: {
@@ -69,80 +170,10 @@ function renderProviderCard(params: {
   position: number;
   filters: ProviderSearchFilters;
 }) {
-  const { provider, tier, searchDemo, position, filters } = params;
-  const href = resolveHref(provider, tier, searchDemo);
-  const logoSrc =
-    provider.kind === 'endorsed'
-      ? resolveEndorsedProviderLogoSrc(
-          provider.slug,
-          provider.logoSrc || '/images/AcademiaLogoLong.png',
-          ENDORSED_PROVIDER_LOGO_BY_SLUG,
-        )
-      : undefined;
-  const logoDimensions = logoSrc ? getLogoDimensions(logoSrc) : null;
-  const emergingState = provider.emergingState as AustralianState | undefined;
-
-  return (
-    <InstitutionProviderCard
-      key={`${tier}-${provider.slug}`}
-      ndaCertified={provider.ndaCertified}
-      ctaHref={href}
-      comingSoonLabel={href ? undefined : 'Profile coming soon'}
-      header={
-        provider.kind === 'emerging'
-          ? {
-              kind: INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT,
-              stateTint: emergingState ?? 'NSW',
-            }
-          : provider.topBackgroundImage
-            ? {
-                kind: INSTITUTION_PROVIDER_HEADER_KIND.REMOTE_IMAGE,
-                src: provider.topBackgroundImage,
-              }
-            : { kind: INSTITUTION_PROVIDER_HEADER_KIND.YELLOW }
-      }
-      badge={
-        provider.kind === 'endorsed' ? (
-          <EndorsedCertifiedBadge size='card' certified={provider.ndaCertified} />
-        ) : undefined
-      }
-      center={
-        provider.kind === 'endorsed' && logoSrc && logoDimensions ? (
-          <div className={cardStyles.logoWrap}>
-            <Image
-              src={logoSrc}
-              alt={`${provider.name} logo`}
-              width={logoDimensions.width}
-              height={logoDimensions.height}
-            />
-          </div>
-        ) : (
-          <Typography
-            variant={TypographyVariant.Body2Strong}
-            color={TypographyColorToken.BondBlack}
-          >
-            {provider.name}
-          </Typography>
-        )
-      }
-      gaEvent={
-        href
-          ? {
-              eventName: PROVIDER_SEARCH_GA.resultClick.eventName,
-              category: PROVIDER_SEARCH_GA.resultClick.category,
-              params: {
-                provider_slug: provider.slug,
-                provider_tier: tier,
-                result_position: position,
-                interest_areas: joinGaMultiValue(filters.interestAreas),
-                locations: joinGaMultiValue(filters.locations),
-                destination_url: href,
-              },
-            }
-          : undefined
-      }
-    />
-  );
+  if (params.provider.kind === 'emerging') {
+    return renderEmergingCard(params);
+  }
+  return renderEndorsedCard(params);
 }
 
 export default function ProviderSearchResults({

@@ -1,3 +1,4 @@
+import { isProductionAnalyticsEnabled } from '@/app/utilities/analyticsEnv';
 import { sendGaEvent, type GaEventParams } from '@/app/utilities/gaTracking';
 import {
   PROVIDER_SEARCH_GA,
@@ -56,7 +57,7 @@ function ensureFlushLoop(): void {
 }
 
 export function queueProviderSearchGaEvent(eventName: string, params: GaEventParams): void {
-  if (typeof window === 'undefined') {
+  if (typeof window === 'undefined' || !isProductionAnalyticsEnabled()) {
     return;
   }
   if (hasGtag()) {

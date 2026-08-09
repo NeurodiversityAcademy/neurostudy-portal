@@ -63,7 +63,7 @@
   max-height: 15vh;
   flex: 0 0 auto;
   display: flex;
-  justify-content: center;
+  justify-content: stretch;
   align-items: center;
   padding: 0.5rem 0 0;
   box-sizing: border-box;

@@ -13,7 +13,10 @@ import { PROVIDER_SEARCH_GA } from '../constants';
 import { installGtagMock, type GtagTestWindow } from '@/app/utilities/__tests__/gaTestHelpers';
 
 describe('providerSearchGa queue', () => {
+  const originalVercelEnv = process.env.NEXT_PUBLIC_VERCEL_ENV;
+
   beforeEach(() => {
+    process.env.NEXT_PUBLIC_VERCEL_ENV = 'production';
     resetProviderSearchGaQueueForTests();
     (window as unknown as GtagTestWindow).gtag = null;
     jest.useFakeTimers();
@@ -22,6 +25,11 @@ describe('providerSearchGa queue', () => {
   afterEach(() => {
     resetProviderSearchGaQueueForTests();
     jest.useRealTimers();
+    if (originalVercelEnv === undefined) {
+      delete process.env.NEXT_PUBLIC_VERCEL_ENV;
+    } else {
+      process.env.NEXT_PUBLIC_VERCEL_ENV = originalVercelEnv;
+    }
   });
 
   it('queues events until gtag is available then flushes', () => {
@@ -110,5 +118,18 @@ describe('providerSearchGa queue', () => {
     });
     jest.advanceTimersByTime(250 * 45);
     expect((window as unknown as GtagTestWindow).gtag).toBeNull();
+  });
+
+  it('does not queue or send events outside Vercel production', () => {
+    process.env.NEXT_PUBLIC_VERCEL_ENV = 'preview';
+    const mockGtag = installGtagMock();
+
+    trackProviderSearchSubmit({
+      surface: 'homepage',
+      interestAreas: ['Music'],
+      locations: [],
+    });
+
+    expect(mockGtag).not.toHaveBeenCalled();
   });
 });
