@@ -76,6 +76,12 @@
   width: 100%;
 }
 
+@media (max-width: 768px) {
+  .form {
+    max-height: none;
+  }
+}
+
 @media (max-width: 480px) {
   .bannerContainer {
     flex-direction: column;
@@ -88,9 +94,9 @@
   }
 
   .form {
-    max-height: 15vh;
+    max-height: none;
     order: -1;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
     padding: 0;
   }
 }

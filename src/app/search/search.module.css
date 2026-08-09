@@ -25,6 +25,20 @@
   background-repeat: no-repeat;
 }
 
+@media (max-width: 768px) {
+  .searchBanner {
+    padding: 1.25rem 4vw 1rem;
+  }
+
+  .searchBannerInner {
+    gap: 0.85rem;
+  }
+
+  .results {
+    padding: 1rem 4vw 2.5rem;
+  }
+}
+
 @media (min-width: 769px) {
   .searchBanner {
     background-image: url('/images/hero-desktop.webp');

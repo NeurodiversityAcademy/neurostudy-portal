@@ -61,3 +61,20 @@
     flex: none;
   }
 }
+
+/* Phone: one full-width card per row — 2-up is too skinny */
+@media (max-width: 560px) {
+  .cardGrid {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+    width: 100%;
+  }
+
+  .cardGrid > * {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+  }
+}

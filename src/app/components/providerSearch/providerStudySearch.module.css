@@ -90,32 +90,39 @@
   height: 16px;
 }
 
+/* Phone + narrow tablet: stack fields so chips and placeholders stay readable */
 @media (max-width: 768px) {
   .compact .content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px 8px;
-    padding: 6px 8px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 10px;
+    padding: 12px;
     align-items: stretch;
   }
 
   .compact .content > * {
     width: 100%;
     min-width: 0;
-    flex: unset;
+    flex: 0 0 auto;
     margin: 0;
+  }
+
+  .compact .content > *[role='combobox'] {
+    margin-left: 0;
   }
 
   .compact .content > button,
   .compact .content > .buttonContainer {
-    grid-column: 1 / -1;
     width: 100%;
     display: flex;
     justify-content: center;
+    align-self: center;
   }
 
   .compact .content > .buttonContainer > button,
-  .compact .content > button {
+  .compact .content > button,
+  .compactSearchButton {
     width: calc(var(--primary-button-width) / 2);
     max-width: 156px;
   }
@@ -125,14 +132,5 @@
   .content > * {
     flex-basis: auto;
     width: 100%;
-  }
-
-  .compact .content > * {
-    width: 100%;
-    min-width: 0;
-  }
-
-  .compact .content > *[role='combobox'] {
-    margin-left: 0;
   }
 }
