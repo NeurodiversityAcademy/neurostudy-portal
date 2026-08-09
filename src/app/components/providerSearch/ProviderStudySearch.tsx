@@ -28,7 +28,7 @@ export type ProviderStudySearchProps = FormHTMLAttributes<HTMLFormElement> & {
   compact?: boolean;
 };
 
-function normalizeFormValues(values: ProviderStudySearchFormValues) {
+function normalizeFormValues(values: Partial<ProviderStudySearchFormValues>) {
   return {
     interestAreas: uniqueSortedStrings(values.InterestArea ?? []),
     locations: uniqueSortedStrings(values.Location ?? []),

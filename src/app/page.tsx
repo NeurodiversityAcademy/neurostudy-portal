@@ -13,10 +13,7 @@ import EmergingInstitutions from './components/emergingInstitutions/EmergingInst
 import EndorsedProviders from './components/endorsedProviders/EndorsedProviders';
 import { resolveHomeDemoAccess } from './utilities/demoAccess';
 import type { SearchParams } from './utilities/featureToggle';
-import {
-  loadProviderSearchContext,
-  toDropdownOptions,
-} from './utilities/providerSearch/catalog';
+import { loadProviderSearchContext, toDropdownOptions } from './utilities/providerSearch/catalog';
 import { isProviderSearchDemoEnabled } from './utilities/providerSearch/demoFlag';
 import { PROVIDER_SEARCH_QUERY } from './utilities/providerSearch/constants';
 

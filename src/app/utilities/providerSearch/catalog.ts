@@ -121,9 +121,7 @@ export function loadProviderSearchContext(options?: {
   };
 }
 
-export function getProviderSearchInterestAreaCatalog(options?: {
-  searchDemo?: boolean;
-}): string[] {
+export function getProviderSearchInterestAreaCatalog(options?: { searchDemo?: boolean }): string[] {
   return loadProviderSearchContext(options).interestAreaCatalog;
 }
 
