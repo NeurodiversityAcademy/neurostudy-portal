@@ -3,9 +3,6 @@
 import { useEffect } from 'react';
 import Typography, { TypographyVariant } from '@/app/components/typography/Typography';
 import { TypographyColorToken } from '@/app/components/typography/typographyColorToken';
-import ActionButton from '@/app/components/buttons/ActionButton';
-import { BUTTON_STYLE } from '@/app/utilities/constants';
-import { buildEndorsedLiveDetailHref } from '@/app/utilities/demoAccess';
 import { trackProviderCoursesPlaceholderView } from '@/app/utilities/providerSearch/providerSearchGa';
 import styles from './providerCoursesPlaceholder.module.css';
 
@@ -24,18 +21,28 @@ export default function ProviderCoursesPlaceholder({
 
   return (
     <main className={styles.page}>
-      <Typography variant={TypographyVariant.H1} color={TypographyColorToken.BondBlack}>
-        Courses from {providerName}
-      </Typography>
-      <Typography variant={TypographyVariant.Body1} color={TypographyColorToken.BondBlack}>
-        Courses are coming soon. In the meantime, explore this provider&apos;s endorsed profile.
-      </Typography>
-      <ActionButton
-        type='button'
-        label='View provider profile'
-        style={BUTTON_STYLE.Primary}
-        to={buildEndorsedLiveDetailHref(providerSlug)}
-      />
+      <header className={styles.header}>
+        <Typography variant={TypographyVariant.H1} color={TypographyColorToken.BondBlack}>
+          Courses from {providerName}
+        </Typography>
+        <Typography variant={TypographyVariant.Body1} color={TypographyColorToken.BondBlack}>
+          Course listings for this provider will appear here.
+        </Typography>
+      </header>
+
+      <section className={styles.courseList} aria-label={`Courses from ${providerName}`}>
+        <div className={styles.emptyCourseCard} role='status'>
+          <Typography
+            variant={TypographyVariant.Body2Strong}
+            color={TypographyColorToken.BondBlack}
+          >
+            No courses listed yet
+          </Typography>
+          <Typography variant={TypographyVariant.Body2} color={TypographyColorToken.BondBlack}>
+            Check back soon for promoted courses from {providerName}.
+          </Typography>
+        </div>
+      </section>
     </main>
   );
 }

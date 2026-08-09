@@ -23,8 +23,7 @@
   width: 100%;
 }
 
-.emptyState,
-.emergingFallback {
+.emptyState {
   display: flex;
   flex-direction: column;
   align-items: flex-start;

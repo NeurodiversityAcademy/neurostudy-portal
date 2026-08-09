@@ -28,11 +28,6 @@ jest.mock('../../endorsedProviders/EndorsedCertifiedBadge', () => ({
   default: () => <div>badge</div>,
 }));
 
-jest.mock('../../buttons/ActionButton', () => ({
-  __esModule: true,
-  default: ({ label, to }: { label: string; to?: string }) => <a href={to}>{label}</a>,
-}));
-
 jest.mock('next/image', () => require('@/testUtils/mockNextImage'));
 
 const emptyResults = (): ProviderSearchTierResults => ({
@@ -43,7 +38,7 @@ const emptyResults = (): ProviderSearchTierResults => ({
 });
 
 describe('ProviderSearchResults', () => {
-  it('renders empty state with emerging directory CTA', () => {
+  it('renders empty state without directory links', () => {
     render(
       <ProviderSearchResults
         results={emptyResults()}
@@ -54,13 +49,10 @@ describe('ProviderSearchResults', () => {
     );
 
     expect(screen.getByText('No providers matched your search')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Explore emerging providers' })).toHaveAttribute(
-      'href',
-      '/emergingproviders',
-    );
+    expect(screen.queryByRole('link')).not.toBeInTheDocument();
   });
 
-  it('renders tier headings and course-endorsed href', () => {
+  it('renders matching providers as cards across tiers', () => {
     const results = emptyResults();
     results.course_endorsed = [
       {
@@ -87,22 +79,37 @@ describe('ProviderSearchResults', () => {
         logoSrc: '/images/AcademiaLogoLong.png',
       },
     ];
+    results.emerging = [
+      {
+        kind: 'emerging',
+        slug: 'jazz-music-institute',
+        name: 'Jazz Music Institute',
+        interestAreas: ['Music'],
+        locations: ['QLD'],
+        ndaCertified: false,
+        hasPromotedCourses: false,
+        emergingState: 'QLD',
+      },
+    ];
 
     render(
       <ProviderSearchResults
         results={results}
-        filters={{ interestAreas: ['Music'], locations: ['Sydney'] }}
+        filters={{ interestAreas: ['Music'], locations: [] }}
         searchDemo
-        totalCount={2}
+        totalCount={3}
       />,
     );
 
-    expect(screen.getByText('Courses from endorsed providers')).toBeInTheDocument();
+    expect(screen.getByText('Providers with courses')).toBeInTheDocument();
     expect(screen.getByText('NDA Certified providers')).toBeInTheDocument();
+    expect(screen.getByText('Emerging providers')).toBeInTheDocument();
+    expect(screen.getByText('Jazz Music Institute')).toBeInTheDocument();
+    expect(screen.getAllByTestId('provider-card')).toHaveLength(3);
     expect(screen.getAllByRole('link', { name: 'Explore More' })[0]).toHaveAttribute(
       'href',
       '/endorsedproviders/collarts/courses?searchDemo=1',
     );
-    expect(screen.getByRole('link', { name: 'Explore emerging providers' })).toBeInTheDocument();
+    expect(screen.queryByText(/Explore emerging providers/i)).not.toBeInTheDocument();
   });
 });

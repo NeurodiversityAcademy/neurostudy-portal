@@ -8,9 +8,6 @@ import cardStyles from '@/app/components/institutionProviderCard/institutionProv
 import EndorsedCertifiedBadge from '@/app/components/endorsedProviders/EndorsedCertifiedBadge';
 import Typography, { TypographyVariant } from '@/app/components/typography/Typography';
 import { TypographyColorToken } from '@/app/components/typography/typographyColorToken';
-import ActionButton from '@/app/components/buttons/ActionButton';
-import { BUTTON_STYLE } from '@/app/utilities/constants';
-import { EMERGING_PROVIDERS_DIRECTORY_PATH } from '@/app/components/emergingInstitutions/emergingProvidersPaths';
 import {
   buildEndorsedProviderDetailHref,
   resolveEndorsedProviderLogoSrc,
@@ -66,6 +63,89 @@ function resolveHref(
   return buildEmergingProviderDetailHref(provider.slug);
 }
 
+function renderProviderCard(params: {
+  provider: ProviderSearchRecord;
+  tier: ProviderSearchTier;
+  searchDemo: boolean;
+  position: number;
+  filters: ProviderSearchFilters;
+}) {
+  const { provider, tier, searchDemo, position, filters } = params;
+  const href = resolveHref(provider, tier, searchDemo);
+  const logoSrc =
+    provider.kind === 'endorsed'
+      ? resolveEndorsedProviderLogoSrc(
+          provider.slug,
+          provider.logoSrc || '/images/AcademiaLogoLong.png',
+          ENDORSED_PROVIDER_LOGO_BY_SLUG,
+        )
+      : undefined;
+  const logoDimensions = logoSrc ? getLogoDimensions(logoSrc) : null;
+  const emergingState = provider.emergingState as AustralianState | undefined;
+
+  return (
+    <InstitutionProviderCard
+      key={`${tier}-${provider.slug}`}
+      equalWidth
+      ndaCertified={provider.ndaCertified}
+      ctaHref={href}
+      comingSoonLabel={href ? undefined : 'Profile coming soon'}
+      header={
+        provider.kind === 'emerging'
+          ? {
+              kind: INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT,
+              stateTint: emergingState ?? 'NSW',
+            }
+          : provider.topBackgroundImage
+            ? {
+                kind: INSTITUTION_PROVIDER_HEADER_KIND.REMOTE_IMAGE,
+                src: provider.topBackgroundImage,
+              }
+            : { kind: INSTITUTION_PROVIDER_HEADER_KIND.YELLOW }
+      }
+      badge={
+        provider.kind === 'endorsed' ? (
+          <EndorsedCertifiedBadge size='card' certified={provider.ndaCertified} />
+        ) : undefined
+      }
+      center={
+        provider.kind === 'endorsed' && logoSrc && logoDimensions ? (
+          <Image
+            src={logoSrc}
+            alt={provider.name}
+            width={logoDimensions.width}
+            height={logoDimensions.height}
+            className={classNames(cardStyles.logo)}
+          />
+        ) : (
+          <Typography
+            variant={TypographyVariant.Body2Strong}
+            color={TypographyColorToken.BondBlack}
+          >
+            {provider.name}
+          </Typography>
+        )
+      }
+      gaEvent={
+        href
+          ? {
+              eventName: PROVIDER_SEARCH_GA.resultClick.eventName,
+              category: PROVIDER_SEARCH_GA.resultClick.category,
+              params: {
+                provider_slug: provider.slug,
+                provider_tier: tier,
+                result_position: position,
+                interest_areas: joinGaMultiValue(filters.interestAreas),
+                locations: joinGaMultiValue(filters.locations),
+                destination_url: href,
+              },
+            }
+          : undefined
+      }
+    />
+  );
+}
+
 export default function ProviderSearchResults({
   results,
   filters,
@@ -82,14 +162,8 @@ export default function ProviderSearchResults({
             No providers matched your search
           </Typography>
           <Typography variant={TypographyVariant.Body1} color={TypographyColorToken.BondBlack}>
-            Try a different area of study or location, or explore emerging providers.
+            Try a different area of study or location.
           </Typography>
-          <ActionButton
-            type='button'
-            label='Explore emerging providers'
-            style={BUTTON_STYLE.Secondary}
-            to={EMERGING_PROVIDERS_DIRECTORY_PATH}
-          />
         </div>
       ) : (
         PROVIDER_SEARCH_TIER_ORDER.map((tier) => {
@@ -115,99 +189,18 @@ export default function ProviderSearchResults({
               <div className={styles.cardGrid}>
                 {providers.map((provider) => {
                   globalPosition += 1;
-                  const position = globalPosition;
-                  const href = resolveHref(provider, tier, searchDemo);
-                  const logoSrc =
-                    provider.kind === 'endorsed'
-                      ? resolveEndorsedProviderLogoSrc(
-                          provider.slug,
-                          provider.logoSrc || '/images/AcademiaLogoLong.png',
-                          ENDORSED_PROVIDER_LOGO_BY_SLUG,
-                        )
-                      : undefined;
-                  const logoDimensions = logoSrc ? getLogoDimensions(logoSrc) : null;
-                  const emergingState = provider.emergingState as AustralianState | undefined;
-
-                  return (
-                    <InstitutionProviderCard
-                      key={`${tier}-${provider.slug}`}
-                      equalWidth
-                      ndaCertified={provider.ndaCertified}
-                      ctaHref={href}
-                      comingSoonLabel={href ? undefined : 'Profile coming soon'}
-                      header={
-                        provider.kind === 'emerging'
-                          ? {
-                              kind: INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT,
-                              stateTint: emergingState ?? 'NSW',
-                            }
-                          : provider.topBackgroundImage
-                            ? {
-                                kind: INSTITUTION_PROVIDER_HEADER_KIND.REMOTE_IMAGE,
-                                src: provider.topBackgroundImage,
-                              }
-                            : { kind: INSTITUTION_PROVIDER_HEADER_KIND.YELLOW }
-                      }
-                      badge={
-                        provider.kind === 'endorsed' ? (
-                          <EndorsedCertifiedBadge size='card' certified={provider.ndaCertified} />
-                        ) : undefined
-                      }
-                      center={
-                        provider.kind === 'endorsed' && logoSrc && logoDimensions ? (
-                          <Image
-                            src={logoSrc}
-                            alt={provider.name}
-                            width={logoDimensions.width}
-                            height={logoDimensions.height}
-                            className={classNames(cardStyles.logo)}
-                          />
-                        ) : (
-                          <Typography
-                            variant={TypographyVariant.Body2Strong}
-                            color={TypographyColorToken.BondBlack}
-                          >
-                            {provider.name}
-                          </Typography>
-                        )
-                      }
-                      gaEvent={
-                        href
-                          ? {
-                              eventName: PROVIDER_SEARCH_GA.resultClick.eventName,
-                              category: PROVIDER_SEARCH_GA.resultClick.category,
-                              params: {
-                                provider_slug: provider.slug,
-                                provider_tier: tier,
-                                result_position: position,
-                                interest_areas: joinGaMultiValue(filters.interestAreas),
-                                locations: joinGaMultiValue(filters.locations),
-                                destination_url: href,
-                              },
-                            }
-                          : undefined
-                      }
-                    />
-                  );
+                  return renderProviderCard({
+                    provider,
+                    tier,
+                    searchDemo,
+                    position: globalPosition,
+                    filters,
+                  });
                 })}
               </div>
             </section>
           );
         })
-      )}
-
-      {totalCount > 0 && results.emerging.length === 0 && (
-        <div className={styles.emergingFallback}>
-          <Typography variant={TypographyVariant.Body1} color={TypographyColorToken.BondBlack}>
-            Looking for more options?
-          </Typography>
-          <ActionButton
-            type='button'
-            label='Explore emerging providers'
-            style={BUTTON_STYLE.Secondary}
-            to={EMERGING_PROVIDERS_DIRECTORY_PATH}
-          />
-        </div>
       )}
     </div>
   );

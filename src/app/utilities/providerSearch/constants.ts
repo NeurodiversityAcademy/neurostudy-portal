@@ -27,7 +27,7 @@ export const PROVIDER_SEARCH_TIER_ORDER: readonly ProviderSearchTier[] = [
 ] as const;
 
 export const PROVIDER_SEARCH_TIER_HEADING: Record<ProviderSearchTier, string> = {
-  course_endorsed: 'Courses from endorsed providers',
+  course_endorsed: 'Providers with courses',
   starred_endorsed: 'NDA Certified providers',
   endorsed: 'Endorsed providers',
   emerging: 'Emerging providers',
