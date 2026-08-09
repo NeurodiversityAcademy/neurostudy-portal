@@ -63,46 +63,72 @@ function buildEmergingRecord(institution: EmergingInstitution): ProviderSearchRe
   };
 }
 
+function withDemoPromotedCourses(row: EndorsedJsonRow): EndorsedPromotedCourse[] {
+  const existing = row.promotedCourses ?? [];
+  const hasDemo = existing.some((course) => course.id === PROVIDER_SEARCH_DEMO_PROMOTED_COURSE.id);
+  if (hasDemo) {
+    return existing;
+  }
+  return [
+    ...existing,
+    {
+      id: PROVIDER_SEARCH_DEMO_PROMOTED_COURSE.id,
+      title: PROVIDER_SEARCH_DEMO_PROMOTED_COURSE.title,
+      interestAreas: [...PROVIDER_SEARCH_DEMO_PROMOTED_COURSE.interestAreas],
+    },
+  ];
+}
+
+function toEndorsedSearchRecord(row: EndorsedJsonRow, searchDemo: boolean): ProviderSearchRecord {
+  const isDemoTarget = slugify(row.id) === PROVIDER_SEARCH_DEMO_COURSE_ENDORSED_SLUG;
+  if (searchDemo && isDemoTarget) {
+    return buildEndorsedRecord(row, withDemoPromotedCourses(row));
+  }
+  return buildEndorsedRecord(row);
+}
+
+export type ProviderSearchContext = {
+  searchDemo: boolean;
+  providers: ProviderSearchRecord[];
+  interestAreaCatalog: string[];
+  locationCatalog: string[];
+};
+
 export function listSearchableProviders(options?: {
   searchDemo?: boolean;
 }): ProviderSearchRecord[] {
   const searchDemo = options?.searchDemo === true;
-  const endorsedRows = getEndorsedJsonRows().filter((row) => row.live === true);
-  const endorsed = endorsedRows.map((row) => {
-    if (searchDemo && slugify(row.id) === PROVIDER_SEARCH_DEMO_COURSE_ENDORSED_SLUG) {
-      const existing = row.promotedCourses ?? [];
-      const hasDemo = existing.some(
-        (course) => course.id === PROVIDER_SEARCH_DEMO_PROMOTED_COURSE.id,
-      );
-      const promotedCourses = hasDemo
-        ? existing
-        : [
-            ...existing,
-            {
-              id: PROVIDER_SEARCH_DEMO_PROMOTED_COURSE.id,
-              title: PROVIDER_SEARCH_DEMO_PROMOTED_COURSE.title,
-              interestAreas: [...PROVIDER_SEARCH_DEMO_PROMOTED_COURSE.interestAreas],
-            },
-          ];
-      return buildEndorsedRecord(row, promotedCourses);
-    }
-    return buildEndorsedRecord(row);
-  });
-
+  const endorsed = getEndorsedJsonRows()
+    .filter((row) => row.live === true)
+    .map((row) => toEndorsedSearchRecord(row, searchDemo));
   const emerging = (emergingInstitutions as EmergingInstitution[]).map(buildEmergingRecord);
   return [...endorsed, ...emerging];
 }
 
-export function getProviderSearchInterestAreaCatalog(options?: { searchDemo?: boolean }): string[] {
-  return uniqueSortedStrings(
-    listSearchableProviders(options).flatMap((provider) => provider.interestAreas),
-  );
+/** One catalog pass shared by pages and filter resolution. */
+export function loadProviderSearchContext(options?: {
+  searchDemo?: boolean;
+}): ProviderSearchContext {
+  const searchDemo = options?.searchDemo === true;
+  const providers = listSearchableProviders({ searchDemo });
+  return {
+    searchDemo,
+    providers,
+    interestAreaCatalog: uniqueSortedStrings(
+      providers.flatMap((provider) => provider.interestAreas),
+    ),
+    locationCatalog: uniqueSortedStrings(providers.flatMap((provider) => provider.locations)),
+  };
+}
+
+export function getProviderSearchInterestAreaCatalog(options?: {
+  searchDemo?: boolean;
+}): string[] {
+  return loadProviderSearchContext(options).interestAreaCatalog;
 }
 
 export function getProviderSearchLocationCatalog(options?: { searchDemo?: boolean }): string[] {
-  return uniqueSortedStrings(
-    listSearchableProviders(options).flatMap((provider) => provider.locations),
-  );
+  return loadProviderSearchContext(options).locationCatalog;
 }
 
 export function toDropdownOptions(values: readonly string[]): { label: string; value: string }[] {

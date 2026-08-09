@@ -1,15 +1,16 @@
 import {
   classifyProviderSearchTier,
   countProviderSearchResults,
+  listPositionedProviderSearchResults,
   matchesProviderSearchFilters,
   searchProvidersByFilters,
 } from '../searchProviders';
 import type { ProviderSearchRecord } from '../constants';
 import {
-  filterToKnownCatalogValues,
   matchesSearchToken,
   parseMultiQueryParam,
   resolveSearchFilterValues,
+  tokensPartialMatch,
   uniqueSortedStrings,
 } from '../normalize';
 import {
@@ -21,6 +22,7 @@ import {
   getProviderSearchInterestAreaCatalog,
   getProviderSearchLocationCatalog,
   listSearchableProviders,
+  loadProviderSearchContext,
 } from '../catalog';
 
 function makeProvider(
@@ -148,8 +150,22 @@ describe('provider search matching', () => {
     ).toBe('starred_endorsed');
   });
 
-  it('ignores unknown catalog values when filtering selected params', () => {
-    expect(filterToKnownCatalogValues(['Music', 'Nope'], ['Music', 'Nursing'])).toEqual(['Music']);
+  it('partial-matches tokens for catalog expansion and provider matching', () => {
+    expect(tokensPartialMatch('Digital Skills', 'digital')).toBe(true);
+    expect(tokensPartialMatch('Nursing', 'digital')).toBe(false);
+    expect(tokensPartialMatch('a', 'ab')).toBe(false);
+  });
+
+  it('assigns stable global positions across tiers without render mutation', () => {
+    const results = searchProvidersByFilters(providers, {
+      interestAreas: ['Music'],
+      locations: [],
+    });
+    const positioned = listPositionedProviderSearchResults(results);
+    expect(positioned.map((item) => item.position)).toEqual(
+      positioned.map((_, index) => index + 1),
+    );
+    expect(positioned[0]?.tier).toBe('course_endorsed');
   });
 
   it('parses multi query params from repeated and pipe-delimited values', () => {
@@ -269,5 +285,12 @@ describe('provider search href helpers', () => {
     expect(
       resolveSearchFilterValues(['digital'], ['Digital Skills', 'Digital Technology', 'Nursing']),
     ).toEqual(['Digital Skills', 'Digital Technology']);
+  });
+
+  it('loadProviderSearchContext returns providers and catalogs together', () => {
+    const context = loadProviderSearchContext();
+    expect(context.providers.length).toBeGreaterThan(0);
+    expect(context.interestAreaCatalog).toEqual(getProviderSearchInterestAreaCatalog());
+    expect(context.locationCatalog).toEqual(getProviderSearchLocationCatalog());
   });
 });

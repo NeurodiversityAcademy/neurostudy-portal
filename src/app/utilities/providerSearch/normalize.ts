@@ -44,35 +44,43 @@ export function joinGaMultiValue(values: readonly string[]): string {
     .join('|');
 }
 
-/** Exact case-insensitive equality. */
-export function includesNormalized(haystack: readonly string[], needle: string): boolean {
-  const normalizedNeedle = normalizeSearchToken(needle);
-  return haystack.some((item) => normalizeSearchToken(item) === normalizedNeedle);
-}
-
 const MIN_PARTIAL_QUERY_LENGTH = 2;
+
+/** Shared partial/exact token compare used by matching and catalog expansion. */
+export function tokensPartialMatch(left: string, right: string): boolean {
+  const a = normalizeSearchToken(left);
+  const b = normalizeSearchToken(right);
+  if (a.length < MIN_PARTIAL_QUERY_LENGTH || b.length < MIN_PARTIAL_QUERY_LENGTH) {
+    return false;
+  }
+  return a === b || a.includes(b) || b.includes(a);
+}
 
 /**
  * Partial match: "digital" matches "Digital Skills" and "Digital Technology".
- * Exact matches still work. Reverse contains only when the catalog token is long enough.
+ * Exact matches still work.
  */
 export function matchesSearchToken(haystack: readonly string[], needle: string): boolean {
-  const normalizedNeedle = normalizeSearchToken(needle);
-  if (normalizedNeedle.length < MIN_PARTIAL_QUERY_LENGTH) {
-    return false;
+  return haystack.some((item) => tokensPartialMatch(item, needle));
+}
+
+function expandSelectedValue(value: string, catalog: readonly string[]): string[] {
+  const normalized = normalizeSearchToken(value);
+  if (normalized.length < MIN_PARTIAL_QUERY_LENGTH) {
+    return [];
   }
-  return haystack.some((item) => {
-    const normalizedItem = normalizeSearchToken(item);
-    if (normalizedItem === normalizedNeedle) {
-      return true;
-    }
-    if (normalizedItem.includes(normalizedNeedle)) {
-      return true;
-    }
-    return (
-      normalizedItem.length >= MIN_PARTIAL_QUERY_LENGTH && normalizedNeedle.includes(normalizedItem)
-    );
-  });
+
+  const exact = catalog.find((item) => normalizeSearchToken(item) === normalized);
+  if (exact) {
+    return [exact];
+  }
+
+  const partialMatches = catalog.filter((item) => tokensPartialMatch(item, value));
+  if (partialMatches.length > 0) {
+    return partialMatches;
+  }
+
+  return [value.trim()];
 }
 
 /** Expand free-text / partial queries onto catalog labels when possible. */
@@ -80,44 +88,5 @@ export function resolveSearchFilterValues(
   selected: readonly string[],
   catalog: readonly string[],
 ): string[] {
-  const resolved: string[] = [];
-
-  for (const value of selected) {
-    const normalized = normalizeSearchToken(value);
-    if (normalized.length < MIN_PARTIAL_QUERY_LENGTH) {
-      continue;
-    }
-
-    const exact = catalog.find((item) => normalizeSearchToken(item) === normalized);
-    if (exact) {
-      resolved.push(exact);
-      continue;
-    }
-
-    const partialMatches = catalog.filter((item) => {
-      const itemNorm = normalizeSearchToken(item);
-      return (
-        itemNorm.includes(normalized) ||
-        (itemNorm.length >= MIN_PARTIAL_QUERY_LENGTH && normalized.includes(itemNorm))
-      );
-    });
-
-    if (partialMatches.length > 0) {
-      resolved.push(...partialMatches);
-      continue;
-    }
-
-    // Keep free-text so provider-tag partial matching still works.
-    resolved.push(value.trim());
-  }
-
-  return uniqueSortedStrings(resolved);
-}
-
-/** @deprecated Prefer resolveSearchFilterValues for partial/creatable queries. */
-export function filterToKnownCatalogValues(
-  selected: readonly string[],
-  catalog: readonly string[],
-): string[] {
-  return uniqueSortedStrings(selected.filter((value) => includesNormalized(catalog, value)));
+  return uniqueSortedStrings(selected.flatMap((value) => expandSelectedValue(value, catalog)));
 }

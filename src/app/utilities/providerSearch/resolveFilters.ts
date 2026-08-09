@@ -1,7 +1,7 @@
-import { getProviderSearchInterestAreaCatalog, getProviderSearchLocationCatalog } from './catalog';
+import { loadProviderSearchContext, type ProviderSearchContext } from './catalog';
 import { PROVIDER_SEARCH_QUERY, type ProviderSearchFilters } from './constants';
+import { isProviderSearchDemoEnabled } from './demoFlag';
 import { parseMultiQueryParam, resolveSearchFilterValues } from './normalize';
-import { isProviderSearchDemoEnabled } from './buildSearchHref';
 
 export type ProviderSearchPageParams = {
   [PROVIDER_SEARCH_QUERY.INTEREST_AREA]?: string | string[];
@@ -12,21 +12,21 @@ export type ProviderSearchPageParams = {
 export function resolveProviderSearchFilters(searchParams: ProviderSearchPageParams): {
   filters: ProviderSearchFilters;
   searchDemo: boolean;
+  context: ProviderSearchContext;
 } {
   const searchDemo = isProviderSearchDemoEnabled(searchParams[PROVIDER_SEARCH_QUERY.SEARCH_DEMO]);
-  const areaCatalog = getProviderSearchInterestAreaCatalog({ searchDemo });
-  const locationCatalog = getProviderSearchLocationCatalog({ searchDemo });
+  const context = loadProviderSearchContext({ searchDemo });
 
   const filters: ProviderSearchFilters = {
     interestAreas: resolveSearchFilterValues(
       parseMultiQueryParam(searchParams[PROVIDER_SEARCH_QUERY.INTEREST_AREA]),
-      areaCatalog,
+      context.interestAreaCatalog,
     ),
     locations: resolveSearchFilterValues(
       parseMultiQueryParam(searchParams[PROVIDER_SEARCH_QUERY.LOCATION]),
-      locationCatalog,
+      context.locationCatalog,
     ),
   };
 
-  return { filters, searchDemo };
+  return { filters, searchDemo, context };
 }

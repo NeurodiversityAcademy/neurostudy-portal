@@ -1,6 +1,6 @@
 'use client';
 
-import { FormHTMLAttributes, useMemo } from 'react';
+import { FormHTMLAttributes } from 'react';
 import classNames from 'classnames';
 import { useForm, useWatch, type UseFormReturn } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
@@ -28,6 +28,13 @@ export type ProviderStudySearchProps = FormHTMLAttributes<HTMLFormElement> & {
   compact?: boolean;
 };
 
+function normalizeFormValues(values: ProviderStudySearchFormValues) {
+  return {
+    interestAreas: uniqueSortedStrings(values.InterestArea ?? []),
+    locations: uniqueSortedStrings(values.Location ?? []),
+  };
+}
+
 const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
   className,
   interestAreaOptions,
@@ -50,14 +57,8 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
     });
 
   const watchedValues = useWatch({ control: methods.control });
-  const selectedAreas = useMemo(
-    () => uniqueSortedStrings(watchedValues.InterestArea ?? []),
-    [watchedValues.InterestArea],
-  );
-  const selectedLocations = useMemo(
-    () => uniqueSortedStrings(watchedValues.Location ?? []),
-    [watchedValues.Location],
-  );
+  const { interestAreas: selectedAreas, locations: selectedLocations } =
+    normalizeFormValues(watchedValues);
   const canSearch = selectedAreas.length > 0 || selectedLocations.length > 0;
 
   return (
@@ -65,16 +66,11 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
       methods={methods}
       className={classNames(styles.container, compact && styles.compact, className)}
       onSubmit={methods.handleSubmit((values) => {
-        const interestAreas = uniqueSortedStrings(values.InterestArea ?? []);
-        const locations = uniqueSortedStrings(values.Location ?? []);
+        const { interestAreas, locations } = normalizeFormValues(values);
         if (interestAreas.length === 0 && locations.length === 0) {
           return;
         }
-        trackProviderSearchSubmit({
-          surface,
-          interestAreas,
-          locations,
-        });
+        trackProviderSearchSubmit({ surface, interestAreas, locations });
         router.push(buildProviderSearchHref({ interestAreas, locations }, { searchDemo }));
       })}
       aria-label='Search providers by area of study and location'

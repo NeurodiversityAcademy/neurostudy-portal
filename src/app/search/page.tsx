@@ -4,12 +4,7 @@ import { TypographyColorToken } from '@/app/components/typography/typographyColo
 import ProviderStudySearch from '@/app/components/providerSearch/ProviderStudySearch';
 import ProviderSearchResults from '@/app/components/providerSearch/ProviderSearchResults';
 import ProviderSearchResultsTracker from '@/app/components/providerSearch/ProviderSearchResultsTracker';
-import {
-  getProviderSearchInterestAreaCatalog,
-  getProviderSearchLocationCatalog,
-  listSearchableProviders,
-  toDropdownOptions,
-} from '@/app/utilities/providerSearch/catalog';
+import { toDropdownOptions } from '@/app/utilities/providerSearch/catalog';
 import { resolveProviderSearchFilters } from '@/app/utilities/providerSearch/resolveFilters';
 import {
   countProviderSearchResults,
@@ -34,19 +29,16 @@ type SearchPageProps = {
 
 export default async function ProviderSearchPage({ searchParams }: SearchPageProps) {
   const resolved = await searchParams;
-  const { filters, searchDemo } = resolveProviderSearchFilters({
+  const { filters, searchDemo, context } = resolveProviderSearchFilters({
     [PROVIDER_SEARCH_QUERY.INTEREST_AREA]: resolved[PROVIDER_SEARCH_QUERY.INTEREST_AREA],
     [PROVIDER_SEARCH_QUERY.LOCATION]: resolved[PROVIDER_SEARCH_QUERY.LOCATION],
     [PROVIDER_SEARCH_QUERY.SEARCH_DEMO]: resolved[PROVIDER_SEARCH_QUERY.SEARCH_DEMO],
   });
 
-  const providers = listSearchableProviders({ searchDemo });
-  const results = searchProvidersByFilters(providers, filters);
+  const results = searchProvidersByFilters(context.providers, filters);
   const totalCount = countProviderSearchResults(results);
-  const interestAreaOptions = toDropdownOptions(
-    getProviderSearchInterestAreaCatalog({ searchDemo }),
-  );
-  const locationOptions = toDropdownOptions(getProviderSearchLocationCatalog({ searchDemo }));
+  const interestAreaOptions = toDropdownOptions(context.interestAreaCatalog);
+  const locationOptions = toDropdownOptions(context.locationCatalog);
   const hasQuery = filters.interestAreas.length > 0 || filters.locations.length > 0;
 
   return (

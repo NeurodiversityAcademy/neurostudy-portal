@@ -24,9 +24,7 @@ export function matchesProviderSearchFilters(
   return areaOk && locationOk;
 }
 
-export function classifyProviderSearchTier(
-  provider: ProviderSearchRecord,
-): ProviderSearchTier | null {
+export function classifyProviderSearchTier(provider: ProviderSearchRecord): ProviderSearchTier {
   if (provider.kind === 'emerging') {
     return 'emerging';
   }
@@ -36,10 +34,7 @@ export function classifyProviderSearchTier(
   if (provider.ndaCertified) {
     return 'starred_endorsed';
   }
-  if (provider.kind === 'endorsed') {
-    return 'endorsed';
-  }
-  return null;
+  return 'endorsed';
 }
 
 function sortProvidersByName(providers: ProviderSearchRecord[]): ProviderSearchRecord[] {
@@ -69,11 +64,7 @@ export function searchProvidersByFilters(
     if (!matchesProviderSearchFilters(provider, filters)) {
       continue;
     }
-    const tier = classifyProviderSearchTier(provider);
-    if (tier === null) {
-      continue;
-    }
-    results[tier].push(provider);
+    results[classifyProviderSearchTier(provider)].push(provider);
   }
 
   for (const tier of PROVIDER_SEARCH_TIER_ORDER) {
@@ -85,4 +76,25 @@ export function searchProvidersByFilters(
 
 export function countProviderSearchResults(results: ProviderSearchTierResults): number {
   return PROVIDER_SEARCH_TIER_ORDER.reduce((total, tier) => total + results[tier].length, 0);
+}
+
+export type PositionedProviderSearchResult = {
+  provider: ProviderSearchRecord;
+  tier: ProviderSearchTier;
+  position: number;
+};
+
+/** Pure position assignment for result cards (no render-time mutation). */
+export function listPositionedProviderSearchResults(
+  results: ProviderSearchTierResults,
+): PositionedProviderSearchResult[] {
+  const positioned: PositionedProviderSearchResult[] = [];
+  let position = 0;
+  for (const tier of PROVIDER_SEARCH_TIER_ORDER) {
+    for (const provider of results[tier]) {
+      position += 1;
+      positioned.push({ provider, tier, position });
+    }
+  }
+  return positioned;
 }

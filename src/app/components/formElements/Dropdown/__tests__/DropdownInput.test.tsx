@@ -72,6 +72,55 @@ describe('DropdownInput advanced behaviour', () => {
     expect(handleChange).toHaveBeenCalledWith(['Dragonfruit']);
   });
 
+  it('trims whitespace when creating a creatable option', () => {
+    const handleChange = jest.fn();
+
+    render(
+      <TestWrapper>
+        <Dropdown
+          name='fruit'
+          label='Fruit'
+          options={options}
+          placeholder='Search'
+          creatable
+          onChange={handleChange}
+        />
+      </TestWrapper>,
+    );
+
+    const input = screen.getByPlaceholderText('Search');
+    fireEvent.focus(input);
+    fireEvent.change(input, { target: { value: '  Papaya  ' } });
+    fireEvent.keyDown(input, { key: 'Enter' });
+
+    expect(handleChange).toHaveBeenCalledWith(['Papaya']);
+    expect(document.querySelector('input[type="hidden"][name="fruit"]')).toHaveValue('Papaya');
+  });
+
+  it('does not create a blank creatable option from whitespace-only input', () => {
+    const handleChange = jest.fn();
+
+    render(
+      <TestWrapper>
+        <Dropdown
+          name='fruit'
+          label='Fruit'
+          options={options}
+          placeholder='Search'
+          creatable
+          onChange={handleChange}
+        />
+      </TestWrapper>,
+    );
+
+    const input = screen.getByPlaceholderText('Search');
+    fireEvent.focus(input);
+    fireEvent.change(input, { target: { value: '   ' } });
+    fireEvent.keyDown(input, { key: 'Enter' });
+
+    expect(handleChange).not.toHaveBeenCalled();
+  });
+
   it('creates a new option via the Add item button', () => {
     render(
       <TestWrapper>

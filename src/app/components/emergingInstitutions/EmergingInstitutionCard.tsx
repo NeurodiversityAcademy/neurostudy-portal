@@ -39,15 +39,6 @@ export default function EmergingInstitutionCard({
           state,
           destinationPath: href,
         });
-  const resolvedGa = gaEventOverride ?? defaultGaEvent;
-  const gaEvent = resolvedGa
-    ? {
-        eventName: resolvedGa.eventName,
-        category: resolvedGa.category,
-        fileName: resolvedGa.fileName,
-        params: resolvedGa.params,
-      }
-    : undefined;
 
   return (
     <InstitutionProviderCard
@@ -55,7 +46,7 @@ export default function EmergingInstitutionCard({
       ctaOpenInNewTab={ctaOpenInNewTab}
       compact
       comingSoonLabel={isComingSoon ? 'Coming soon' : undefined}
-      gaEvent={gaEvent}
+      gaEvent={gaEventOverride ?? defaultGaEvent}
       header={{
         kind: INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT,
         stateTint: state,

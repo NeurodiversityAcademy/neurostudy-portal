@@ -14,11 +14,10 @@ import EndorsedProviders from './components/endorsedProviders/EndorsedProviders'
 import { resolveHomeDemoAccess } from './utilities/demoAccess';
 import type { SearchParams } from './utilities/featureToggle';
 import {
-  getProviderSearchInterestAreaCatalog,
-  getProviderSearchLocationCatalog,
+  loadProviderSearchContext,
   toDropdownOptions,
 } from './utilities/providerSearch/catalog';
-import { isProviderSearchDemoEnabled } from './utilities/providerSearch/buildSearchHref';
+import { isProviderSearchDemoEnabled } from './utilities/providerSearch/demoFlag';
 import { PROVIDER_SEARCH_QUERY } from './utilities/providerSearch/constants';
 
 const ArticleList = dynamic(() => import('./components/articleList/articleList'), {
@@ -73,10 +72,9 @@ export default async function Home({ searchParams }: { searchParams: Promise<Sea
   const searchDemo = isProviderSearchDemoEnabled(
     resolvedSearchParams[PROVIDER_SEARCH_QUERY.SEARCH_DEMO],
   );
-  const interestAreaOptions = toDropdownOptions(
-    getProviderSearchInterestAreaCatalog({ searchDemo }),
-  );
-  const locationOptions = toDropdownOptions(getProviderSearchLocationCatalog({ searchDemo }));
+  const searchContext = loadProviderSearchContext({ searchDemo });
+  const interestAreaOptions = toDropdownOptions(searchContext.interestAreaCatalog);
+  const locationOptions = toDropdownOptions(searchContext.locationCatalog);
 
   return (
     <main className={styles.main}>

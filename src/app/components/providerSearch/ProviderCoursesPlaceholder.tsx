@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import Typography, { TypographyVariant } from '@/app/components/typography/Typography';
 import { TypographyColorToken } from '@/app/components/typography/typographyColorToken';
 import { trackProviderCoursesPlaceholderView } from '@/app/utilities/providerSearch/providerSearchGa';
@@ -15,7 +15,13 @@ export default function ProviderCoursesPlaceholder({
   providerSlug,
   providerName,
 }: ProviderCoursesPlaceholderProps) {
+  const trackedSlugRef = useRef<string | null>(null);
+
   useEffect(() => {
+    if (trackedSlugRef.current === providerSlug) {
+      return;
+    }
+    trackedSlugRef.current = providerSlug;
     trackProviderCoursesPlaceholderView(providerSlug);
   }, [providerSlug]);
 

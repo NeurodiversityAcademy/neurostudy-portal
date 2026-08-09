@@ -16,7 +16,6 @@ import {
 import { buildEmergingProviderDetailHref } from '@/app/emergingproviders/emergingProviderMetadata';
 import { ENDORSED_PROVIDER_LOGO_BY_SLUG } from '@/app/components/endorsedProviders/endorsedProviderBrandAssets';
 import {
-  PROVIDER_SEARCH_GA,
   PROVIDER_SEARCH_TIER_HEADING,
   PROVIDER_SEARCH_TIER_ORDER,
   type ProviderSearchFilters,
@@ -25,7 +24,11 @@ import {
   type ProviderSearchTierResults,
 } from '@/app/utilities/providerSearch/constants';
 import { buildEndorsedCoursesHref } from '@/app/utilities/providerSearch/buildSearchHref';
-import { joinGaMultiValue } from '@/app/utilities/providerSearch/normalize';
+import { buildProviderSearchResultClickAnalytics } from '@/app/utilities/providerSearch/providerSearchGa';
+import {
+  listPositionedProviderSearchResults,
+  type PositionedProviderSearchResult,
+} from '@/app/utilities/providerSearch/searchProviders';
 import type { AustralianState } from '@/app/components/emergingInstitutions/emergingInstitutionTypes';
 import styles from './providerSearchResults.module.css';
 
@@ -57,36 +60,27 @@ function resolveEndorsedHref(
   return buildEndorsedProviderDetailHref(provider.slug, '');
 }
 
-function searchResultGaEvent(params: {
-  provider: ProviderSearchRecord;
-  tier: ProviderSearchTier;
-  position: number;
-  filters: ProviderSearchFilters;
-  destinationUrl: string;
-}) {
-  const { provider, tier, position, filters, destinationUrl } = params;
-  return {
-    eventName: PROVIDER_SEARCH_GA.resultClick.eventName,
-    category: PROVIDER_SEARCH_GA.resultClick.category,
-    params: {
-      provider_slug: provider.slug,
-      provider_tier: tier,
-      result_position: position,
-      interest_areas: joinGaMultiValue(filters.interestAreas),
-      locations: joinGaMultiValue(filters.locations),
-      destination_url: destinationUrl,
-    },
-  };
+function resultClickAnalytics(
+  item: PositionedProviderSearchResult,
+  filters: ProviderSearchFilters,
+  destinationUrl: string,
+) {
+  return buildProviderSearchResultClickAnalytics({
+    providerSlug: item.provider.slug,
+    providerTier: item.tier,
+    resultPosition: item.position,
+    interestAreas: filters.interestAreas,
+    locations: filters.locations,
+    destinationUrl,
+  });
 }
 
-function renderEndorsedCard(params: {
-  provider: ProviderSearchRecord;
-  tier: ProviderSearchTier;
-  searchDemo: boolean;
-  position: number;
-  filters: ProviderSearchFilters;
-}) {
-  const { provider, tier, searchDemo, position, filters } = params;
+function renderEndorsedCard(
+  item: PositionedProviderSearchResult,
+  searchDemo: boolean,
+  filters: ProviderSearchFilters,
+) {
+  const { provider, tier } = item;
   const href = resolveEndorsedHref(provider, tier, searchDemo);
   const logoSrc = resolveEndorsedProviderLogoSrc(
     provider.slug,
@@ -119,60 +113,50 @@ function renderEndorsedCard(params: {
           />
         </div>
       }
-      gaEvent={searchResultGaEvent({
-        provider,
-        tier,
-        position,
-        filters,
-        destinationUrl: href,
-      })}
+      gaEvent={resultClickAnalytics(item, filters, href)}
     />
   );
 }
 
-function renderEmergingCard(params: {
-  provider: ProviderSearchRecord;
-  tier: ProviderSearchTier;
-  position: number;
-  filters: ProviderSearchFilters;
-}) {
-  const { provider, tier, position, filters } = params;
-  const state = (provider.emergingState as AustralianState | undefined) ?? 'NSW';
+function renderEmergingCard(item: PositionedProviderSearchResult, filters: ProviderSearchFilters) {
+  const { provider } = item;
+  const state = provider.emergingState as AustralianState;
   const hasProfile = hasEmergingProviderProfile(provider.slug);
   const destinationUrl = hasProfile ? buildEmergingProviderDetailHref(provider.slug) : undefined;
 
   return (
     <EmergingInstitutionCard
-      key={`${tier}-${provider.slug}`}
+      key={`${item.tier}-${provider.slug}`}
       name={provider.name}
       state={state}
       ctaOpenInNewTab={false}
-      gaEvent={
-        destinationUrl
-          ? searchResultGaEvent({
-              provider,
-              tier,
-              position,
-              filters,
-              destinationUrl,
-            })
-          : undefined
-      }
+      gaEvent={destinationUrl ? resultClickAnalytics(item, filters, destinationUrl) : undefined}
     />
   );
 }
 
-function renderProviderCard(params: {
-  provider: ProviderSearchRecord;
-  tier: ProviderSearchTier;
-  searchDemo: boolean;
-  position: number;
-  filters: ProviderSearchFilters;
-}) {
-  if (params.provider.kind === 'emerging') {
-    return renderEmergingCard(params);
+function renderProviderCard(
+  item: PositionedProviderSearchResult,
+  searchDemo: boolean,
+  filters: ProviderSearchFilters,
+) {
+  if (item.provider.kind === 'emerging') {
+    return renderEmergingCard(item, filters);
   }
-  return renderEndorsedCard(params);
+  return renderEndorsedCard(item, searchDemo, filters);
+}
+
+function groupPositionedByTier(items: PositionedProviderSearchResult[]) {
+  const byTier = new Map<ProviderSearchTier, PositionedProviderSearchResult[]>();
+  for (const item of items) {
+    const bucket = byTier.get(item.tier) ?? [];
+    bucket.push(item);
+    byTier.set(item.tier, bucket);
+  }
+  return PROVIDER_SEARCH_TIER_ORDER.filter((tier) => byTier.has(tier)).map((tier) => ({
+    tier,
+    items: byTier.get(tier) ?? [],
+  }));
 }
 
 export default function ProviderSearchResults({
@@ -181,7 +165,8 @@ export default function ProviderSearchResults({
   searchDemo,
   totalCount,
 }: ProviderSearchResultsProps) {
-  let globalPosition = 0;
+  const positioned = listPositionedProviderSearchResults(results);
+  const tierGroups = groupPositionedByTier(positioned);
 
   return (
     <div className={styles.root}>
@@ -195,41 +180,25 @@ export default function ProviderSearchResults({
           </Typography>
         </div>
       ) : (
-        PROVIDER_SEARCH_TIER_ORDER.map((tier) => {
-          const providers = results[tier];
-          if (providers.length === 0) {
-            return null;
-          }
-
-          return (
-            <section
-              key={tier}
-              className={styles.tierSection}
-              aria-labelledby={`provider-search-tier-${tier}`}
+        tierGroups.map(({ tier, items }) => (
+          <section
+            key={tier}
+            className={styles.tierSection}
+            aria-labelledby={`provider-search-tier-${tier}`}
+          >
+            <Typography
+              id={`provider-search-tier-${tier}`}
+              variant={TypographyVariant.H2}
+              color={TypographyColorToken.BondBlack}
+              className={styles.tierHeading}
             >
-              <Typography
-                id={`provider-search-tier-${tier}`}
-                variant={TypographyVariant.H2}
-                color={TypographyColorToken.BondBlack}
-                className={styles.tierHeading}
-              >
-                {PROVIDER_SEARCH_TIER_HEADING[tier]}
-              </Typography>
-              <div className={styles.cardGrid}>
-                {providers.map((provider) => {
-                  globalPosition += 1;
-                  return renderProviderCard({
-                    provider,
-                    tier,
-                    searchDemo,
-                    position: globalPosition,
-                    filters,
-                  });
-                })}
-              </div>
-            </section>
-          );
-        })
+              {PROVIDER_SEARCH_TIER_HEADING[tier]}
+            </Typography>
+            <div className={styles.cardGrid}>
+              {items.map((item) => renderProviderCard(item, searchDemo, filters))}
+            </div>
+          </section>
+        ))
       )}
     </div>
   );

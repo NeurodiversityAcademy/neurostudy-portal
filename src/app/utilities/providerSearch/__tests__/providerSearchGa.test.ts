@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import {
+  buildProviderSearchResultClickAnalytics,
   queueProviderSearchGaEvent,
   resetProviderSearchGaQueueForTests,
   trackProviderCoursesPlaceholderView,
@@ -131,5 +132,30 @@ describe('providerSearchGa queue', () => {
     });
 
     expect(mockGtag).not.toHaveBeenCalled();
+  });
+
+  it('builds card CTA analytics with the same result-click schema', () => {
+    expect(
+      buildProviderSearchResultClickAnalytics({
+        providerSlug: 'collarts',
+        providerTier: 'course_endorsed',
+        resultPosition: 2,
+        interestAreas: ['Music'],
+        locations: ['Sydney'],
+        destinationUrl: '/endorsedproviders/collarts/courses',
+      }),
+    ).toEqual({
+      eventName: PROVIDER_SEARCH_GA.resultClick.eventName,
+      category: PROVIDER_SEARCH_GA.resultClick.category,
+      params: {
+        category: PROVIDER_SEARCH_GA.resultClick.category,
+        provider_slug: 'collarts',
+        provider_tier: 'course_endorsed',
+        result_position: 2,
+        interest_areas: 'Music',
+        locations: 'Sydney',
+        destination_url: '/endorsedproviders/collarts/courses',
+      },
+    });
   });
 });

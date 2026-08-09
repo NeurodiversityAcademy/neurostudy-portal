@@ -1,5 +1,6 @@
 import { isProductionAnalyticsEnabled } from '@/app/utilities/analyticsEnv';
 import { sendGaEvent, type GaEventParams } from '@/app/utilities/gaTracking';
+import type { InstitutionCtaAnalytics } from '@/app/components/emergingInstitutions/EmergingInstitutionCtaButton';
 import {
   PROVIDER_SEARCH_GA,
   type ProviderSearchSurface,
@@ -126,26 +127,43 @@ export function trackProviderSearchResultsView(params: {
   );
 }
 
-export function trackProviderSearchResultClick(params: {
+type ResultClickParams = {
   providerSlug: string;
   providerTier: ProviderSearchTier;
   resultPosition: number;
   interestAreas: readonly string[];
   locations: readonly string[];
   destinationUrl: string;
-}): void {
+};
+
+function buildResultClickParams(params: ResultClickParams): GaEventParams {
+  return {
+    category: PROVIDER_SEARCH_GA.resultClick.category,
+    provider_slug: params.providerSlug,
+    provider_tier: params.providerTier,
+    result_position: params.resultPosition,
+    interest_areas: joinGaMultiValue(params.interestAreas),
+    locations: joinGaMultiValue(params.locations),
+    destination_url: params.destinationUrl,
+  };
+}
+
+export function trackProviderSearchResultClick(params: ResultClickParams): void {
   queueProviderSearchGaEvent(
     PROVIDER_SEARCH_GA.resultClick.eventName,
-    withPagePath({
-      category: PROVIDER_SEARCH_GA.resultClick.category,
-      provider_slug: params.providerSlug,
-      provider_tier: params.providerTier,
-      result_position: params.resultPosition,
-      interest_areas: joinGaMultiValue(params.interestAreas),
-      locations: joinGaMultiValue(params.locations),
-      destination_url: params.destinationUrl,
-    }),
+    withPagePath(buildResultClickParams(params)),
   );
+}
+
+/** Card CTA analytics — same schema as trackProviderSearchResultClick. */
+export function buildProviderSearchResultClickAnalytics(
+  params: ResultClickParams,
+): InstitutionCtaAnalytics {
+  return {
+    eventName: PROVIDER_SEARCH_GA.resultClick.eventName,
+    category: PROVIDER_SEARCH_GA.resultClick.category,
+    params: buildResultClickParams(params),
+  };
 }
 
 export function trackProviderCoursesPlaceholderView(providerSlug: string): void {

@@ -36,12 +36,4 @@ export function buildEndorsedCoursesHref(slug: string, options?: { searchDemo?: 
   return `${base}?${PROVIDER_SEARCH_QUERY.SEARCH_DEMO}=${PROVIDER_SEARCH_DEMO_PARAM_VALUE}`;
 }
 
-export function isProviderSearchDemoEnabled(
-  searchDemoParam: string | string[] | undefined,
-): boolean {
-  if (searchDemoParam === undefined) {
-    return false;
-  }
-  const value = Array.isArray(searchDemoParam) ? searchDemoParam[0] : searchDemoParam;
-  return value?.toLowerCase() === PROVIDER_SEARCH_DEMO_PARAM_VALUE;
-}
+export { isProviderSearchDemoEnabled } from './demoFlag';
