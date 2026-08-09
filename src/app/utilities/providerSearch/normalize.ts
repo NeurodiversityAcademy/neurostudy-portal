@@ -38,7 +38,10 @@ export function parseMultiQueryParam(value: string | string[] | undefined): stri
 }
 
 export function joinGaMultiValue(values: readonly string[]): string {
-  return values.map((value) => value.trim()).filter(Boolean).join('|');
+  return values
+    .map((value) => value.trim())
+    .filter(Boolean)
+    .join('|');
 }
 
 export function includesNormalized(haystack: readonly string[], needle: string): boolean {

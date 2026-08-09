@@ -81,9 +81,7 @@ export function listSearchableProviders(options?: {
   return [...endorsed, ...emerging];
 }
 
-export function getProviderSearchInterestAreaCatalog(options?: {
-  searchDemo?: boolean;
-}): string[] {
+export function getProviderSearchInterestAreaCatalog(options?: { searchDemo?: boolean }): string[] {
   return uniqueSortedStrings(
     listSearchableProviders(options).flatMap((provider) => provider.interestAreas),
   );

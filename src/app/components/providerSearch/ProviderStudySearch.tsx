@@ -73,12 +73,7 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
           interestAreas,
           locations,
         });
-        router.push(
-          buildProviderSearchHref(
-            { interestAreas, locations },
-            { searchDemo },
-          ),
-        );
+        router.push(buildProviderSearchHref({ interestAreas, locations }, { searchDemo }));
       })}
       aria-label='Search providers by area of study and location'
       role='search'
