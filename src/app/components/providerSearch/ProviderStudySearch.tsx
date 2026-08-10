@@ -86,6 +86,7 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
           multiple
           creatable
           pillsBelow
+          clearable={false}
           options={interestAreaOptions}
           onDraftChange={setAreaDraft}
         />
@@ -97,6 +98,7 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
           multiple
           creatable
           pillsBelow
+          clearable={false}
           options={locationOptions}
           onDraftChange={setLocationDraft}
         />
