@@ -31,9 +31,6 @@ export function classifyProviderSearchTier(provider: ProviderSearchRecord): Prov
   if (provider.hasPromotedCourses) {
     return 'course_endorsed';
   }
-  if (provider.ndaCertified) {
-    return 'starred_endorsed';
-  }
   return 'endorsed';
 }
 
@@ -41,10 +38,19 @@ function sortProvidersByName(providers: ProviderSearchRecord[]): ProviderSearchR
   return [...providers].sort((a, b) => a.name.localeCompare(b.name));
 }
 
+/** Certified endorsed providers always lead the endorsed list. */
+function sortEndorsedProviders(providers: ProviderSearchRecord[]): ProviderSearchRecord[] {
+  return [...providers].sort((a, b) => {
+    if (a.ndaCertified !== b.ndaCertified) {
+      return a.ndaCertified ? -1 : 1;
+    }
+    return a.name.localeCompare(b.name);
+  });
+}
+
 export function emptyProviderSearchTierResults(): ProviderSearchTierResults {
   return {
     course_endorsed: [],
-    starred_endorsed: [],
     endorsed: [],
     emerging: [],
   };
@@ -64,15 +70,19 @@ export function searchProvidersByFilters(
     results[classifyProviderSearchTier(provider)].push(provider);
   }
 
-  for (const tier of PROVIDER_SEARCH_TIER_ORDER) {
-    results[tier] = sortProvidersByName(results[tier]);
-  }
+  results.course_endorsed = sortProvidersByName(results.course_endorsed);
+  results.endorsed = sortEndorsedProviders(results.endorsed);
+  results.emerging = sortProvidersByName(results.emerging);
 
   return results;
 }
 
 export function countProviderSearchResults(results: ProviderSearchTierResults): number {
   return PROVIDER_SEARCH_TIER_ORDER.reduce((total, tier) => total + results[tier].length, 0);
+}
+
+export function countStarredEndorsedResults(results: ProviderSearchTierResults): number {
+  return results.endorsed.filter((provider) => provider.ndaCertified).length;
 }
 
 export type PositionedProviderSearchResult = {

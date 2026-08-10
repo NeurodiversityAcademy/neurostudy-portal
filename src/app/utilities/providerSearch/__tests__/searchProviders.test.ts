@@ -88,8 +88,17 @@ describe('provider search matching', () => {
       locations: ['Sydney', 'QLD'],
     });
     expect(results.course_endorsed.map((p) => p.slug)).toEqual(['collarts']);
-    expect(results.starred_endorsed.map((p) => p.slug)).toEqual(['nepean-community-college']);
+    expect(results.endorsed.map((p) => p.slug)).toEqual(['nepean-community-college']);
     expect(results.emerging.map((p) => p.slug)).toEqual(['jazz-music-institute']);
+  });
+
+  it('places certified endorsed providers first within the endorsed list', () => {
+    const results = searchProvidersByFilters(providers, {
+      interestAreas: [],
+      locations: ['Sydney', 'Perth'],
+    });
+    expect(results.endorsed.map((p) => p.slug)).toEqual(['nepean-community-college', 'hsh']);
+    expect(results.endorsed[0]?.ndaCertified).toBe(true);
   });
 
   it('requires AND when both area and location are selected', () => {
@@ -127,7 +136,7 @@ describe('provider search matching', () => {
     expect(results.endorsed.map((p) => p.name)).toEqual(['AAA Provider', 'Health Science Hub']);
   });
 
-  it('classifies tiers with course-endorsed winning over ndaCertified', () => {
+  it('classifies course-endorsed over plain endorsed; certified stays endorsed', () => {
     expect(
       classifyProviderSearchTier(
         makeProvider({
@@ -148,7 +157,7 @@ describe('provider search matching', () => {
           ndaCertified: true,
         }),
       ),
-    ).toBe('starred_endorsed');
+    ).toBe('endorsed');
   });
 
   it('partial-matches tokens for catalog expansion and provider matching', () => {

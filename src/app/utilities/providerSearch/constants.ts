@@ -17,18 +17,16 @@ export const PROVIDER_SEARCH_DEMO_PROMOTED_COURSE = {
   interestAreas: ['Music'],
 } as const;
 
-export type ProviderSearchTier = 'course_endorsed' | 'starred_endorsed' | 'endorsed' | 'emerging';
+export type ProviderSearchTier = 'course_endorsed' | 'endorsed' | 'emerging';
 
 export const PROVIDER_SEARCH_TIER_ORDER: readonly ProviderSearchTier[] = [
   'course_endorsed',
-  'starred_endorsed',
   'endorsed',
   'emerging',
 ] as const;
 
 export const PROVIDER_SEARCH_TIER_HEADING: Record<ProviderSearchTier, string> = {
   course_endorsed: 'Providers with courses',
-  starred_endorsed: 'NDA Certified providers',
   endorsed: 'Endorsed providers',
   emerging: 'Emerging providers',
 };

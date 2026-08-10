@@ -8,6 +8,7 @@ import { toDropdownOptions } from '@/app/utilities/providerSearch/catalog';
 import { resolveProviderSearchFilters } from '@/app/utilities/providerSearch/resolveFilters';
 import {
   countProviderSearchResults,
+  countStarredEndorsedResults,
   searchProvidersByFilters,
 } from '@/app/utilities/providerSearch/searchProviders';
 import { PROVIDER_SEARCH_QUERY } from '@/app/utilities/providerSearch/constants';
@@ -72,7 +73,7 @@ export default async function ProviderSearchPage({ searchParams }: SearchPagePro
           locations={filters.locations}
           resultCountTotal={totalCount}
           countCourseEndorsed={results.course_endorsed.length}
-          countStarredEndorsed={results.starred_endorsed.length}
+          countStarredEndorsed={countStarredEndorsedResults(results)}
           countEndorsed={results.endorsed.length}
           countEmerging={results.emerging.length}
         />

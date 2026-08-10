@@ -43,7 +43,6 @@ jest.mock('next/image', () => require('@/testUtils/mockNextImage'));
 
 const emptyResults = (): ProviderSearchTierResults => ({
   course_endorsed: [],
-  starred_endorsed: [],
   endorsed: [],
   emerging: [],
 });
@@ -78,7 +77,7 @@ describe('ProviderSearchResults', () => {
         topBackgroundImage: '/images/CollartsCover.webp',
       },
     ];
-    results.starred_endorsed = [
+    results.endorsed = [
       {
         kind: 'endorsed',
         slug: 'nepean-community-college',
@@ -113,7 +112,8 @@ describe('ProviderSearchResults', () => {
     );
 
     expect(screen.getByText('Providers with courses')).toBeInTheDocument();
-    expect(screen.getByText('NDA Certified providers')).toBeInTheDocument();
+    expect(screen.getByText('Endorsed providers')).toBeInTheDocument();
+    expect(screen.queryByText('NDA Certified providers')).not.toBeInTheDocument();
     expect(screen.getByText('Emerging providers')).toBeInTheDocument();
     expect(screen.getByText('Jazz Music Institute')).toBeInTheDocument();
     expect(screen.getByText('QLD')).toBeInTheDocument();
