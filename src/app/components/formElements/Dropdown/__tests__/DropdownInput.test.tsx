@@ -321,9 +321,9 @@ describe('DropdownInput advanced behaviour', () => {
     expect(pillsRow).toHaveTextContent('Apple');
     expect(pillsRow).toHaveTextContent('Banana');
     expect(screen.getByPlaceholderText('Select fruit')).toHaveValue('');
-    expect(screen.getByPlaceholderText('Select fruit').closest('.dropdown-input-wrapper')).not.toContainElement(
-      pillsRow,
-    );
+    expect(
+      screen.getByPlaceholderText('Select fruit').closest('.dropdown-input-wrapper'),
+    ).not.toContainElement(pillsRow);
   });
 
   it('notifies onDraftChange while typing searchable text', async () => {
