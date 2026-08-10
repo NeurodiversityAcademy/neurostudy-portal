@@ -7,21 +7,29 @@ import {
 } from './constants';
 import { matchesSearchToken } from './normalize';
 
+function fieldAllowsEmptyOrMatch(
+  selected: readonly string[],
+  haystack: readonly string[],
+): boolean {
+  if (selected.length === 0) {
+    return true;
+  }
+  return selected.some((token) => matchesSearchToken(haystack, token));
+}
+
 export function matchesProviderSearchFilters(
   provider: ProviderSearchRecord,
   filters: ProviderSearchFilters,
 ): boolean {
-  const selectedAreas = filters.interestAreas;
-  const selectedLocations = filters.locations;
-
-  const areaOk =
-    selectedAreas.length === 0 ||
-    selectedAreas.some((area) => matchesSearchToken(provider.interestAreas, area));
-  const locationOk =
-    selectedLocations.length === 0 ||
-    selectedLocations.some((location) => matchesSearchToken(provider.locations, location));
-
-  return areaOk && locationOk;
+  const areaOk = fieldAllowsEmptyOrMatch(filters.interestAreas, provider.interestAreas);
+  const locationOk = fieldAllowsEmptyOrMatch(filters.locations, provider.locations);
+  if (!areaOk) {
+    return false;
+  }
+  if (!locationOk) {
+    return false;
+  }
+  return true;
 }
 
 export function classifyProviderSearchTier(provider: ProviderSearchRecord): ProviderSearchTier {
@@ -38,14 +46,19 @@ function sortProvidersByName(providers: ProviderSearchRecord[]): ProviderSearchR
   return [...providers].sort((a, b) => a.name.localeCompare(b.name));
 }
 
+function compareCertifiedFirst(a: ProviderSearchRecord, b: ProviderSearchRecord): number {
+  if (a.ndaCertified === b.ndaCertified) {
+    return a.name.localeCompare(b.name);
+  }
+  if (a.ndaCertified) {
+    return -1;
+  }
+  return 1;
+}
+
 /** Certified endorsed providers always lead the endorsed list. */
 function sortEndorsedProviders(providers: ProviderSearchRecord[]): ProviderSearchRecord[] {
-  return [...providers].sort((a, b) => {
-    if (a.ndaCertified !== b.ndaCertified) {
-      return a.ndaCertified ? -1 : 1;
-    }
-    return a.name.localeCompare(b.name);
-  });
+  return [...providers].sort(compareCertifiedFirst);
 }
 
 export function emptyProviderSearchTierResults(): ProviderSearchTierResults {
@@ -56,12 +69,22 @@ export function emptyProviderSearchTierResults(): ProviderSearchTierResults {
   };
 }
 
+function hasActiveFilters(filters: ProviderSearchFilters): boolean {
+  if (filters.interestAreas.length > 0) {
+    return true;
+  }
+  if (filters.locations.length > 0) {
+    return true;
+  }
+  return false;
+}
+
 export function searchProvidersByFilters(
   providers: readonly ProviderSearchRecord[],
   filters: ProviderSearchFilters,
 ): ProviderSearchTierResults {
   const results = emptyProviderSearchTierResults();
-  const browseAll = filters.interestAreas.length === 0 && filters.locations.length === 0;
+  const browseAll = !hasActiveFilters(filters);
 
   for (const provider of providers) {
     if (!browseAll && !matchesProviderSearchFilters(provider, filters)) {

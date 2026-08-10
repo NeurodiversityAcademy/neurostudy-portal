@@ -19,6 +19,14 @@ function endorsedDisplayName(row: EndorsedJsonRow): string {
   return getEndorsedDisplayNameForSlug(slugify(row.id)) ?? row.id;
 }
 
+function optionalTrimmed(value: string | undefined): string | undefined {
+  const trimmed = value?.trim();
+  if (!trimmed) {
+    return undefined;
+  }
+  return trimmed;
+}
+
 function resolveEndorsedInterestAreas(
   row: EndorsedJsonRow,
   promotedCourses: EndorsedPromotedCourse[],
@@ -32,10 +40,9 @@ function resolveEndorsedInterestAreas(
 
 function buildEndorsedRecord(
   row: EndorsedJsonRow,
-  promotedCoursesOverride?: EndorsedPromotedCourse[],
+  promotedCourses: EndorsedPromotedCourse[],
 ): ProviderSearchRecord {
   const slug = slugify(row.id);
-  const promotedCourses = promotedCoursesOverride ?? row.promotedCourses ?? [];
   return {
     kind: 'endorsed',
     slug,
@@ -44,8 +51,8 @@ function buildEndorsedRecord(
     locations: row.locations ?? [],
     ndaCertified: row.ndaCertified === true,
     hasPromotedCourses: promotedCourses.length > 0,
-    logoSrc: row.logo?.trim() || undefined,
-    topBackgroundImage: row.topBackgroundImage?.trim() || undefined,
+    logoSrc: optionalTrimmed(row.logo),
+    topBackgroundImage: optionalTrimmed(row.topBackgroundImage),
   };
 }
 
@@ -79,12 +86,20 @@ function withDemoPromotedCourses(row: EndorsedJsonRow): EndorsedPromotedCourse[]
   ];
 }
 
-function toEndorsedSearchRecord(row: EndorsedJsonRow, searchDemo: boolean): ProviderSearchRecord {
+function promotedCoursesForRow(row: EndorsedJsonRow, searchDemo: boolean): EndorsedPromotedCourse[] {
+  const existing = row.promotedCourses ?? [];
   const isDemoTarget = slugify(row.id) === PROVIDER_SEARCH_DEMO_COURSE_ENDORSED_SLUG;
-  if (searchDemo && isDemoTarget) {
-    return buildEndorsedRecord(row, withDemoPromotedCourses(row));
+  if (!searchDemo) {
+    return existing;
   }
-  return buildEndorsedRecord(row);
+  if (!isDemoTarget) {
+    return existing;
+  }
+  return withDemoPromotedCourses(row);
+}
+
+function toEndorsedSearchRecord(row: EndorsedJsonRow, searchDemo: boolean): ProviderSearchRecord {
+  return buildEndorsedRecord(row, promotedCoursesForRow(row, searchDemo));
 }
 
 export type ProviderSearchContext = {

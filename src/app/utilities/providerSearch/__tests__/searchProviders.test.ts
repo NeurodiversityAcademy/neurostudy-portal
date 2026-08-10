@@ -1,6 +1,7 @@
 import {
   classifyProviderSearchTier,
   countProviderSearchResults,
+  countStarredEndorsedResults,
   listPositionedProviderSearchResults,
   matchesProviderSearchFilters,
   searchProvidersByFilters,
@@ -172,10 +173,41 @@ describe('provider search matching', () => {
       locations: [],
     });
     const positioned = listPositionedProviderSearchResults(results);
-    expect(positioned.map((item) => item.position)).toEqual(
-      positioned.map((_, index) => index + 1),
-    );
-    expect(positioned[0]?.tier).toBe('course_endorsed');
+    expect(positioned).toEqual([
+      {
+        provider: expect.objectContaining({ slug: 'collarts' }),
+        tier: 'course_endorsed',
+        position: 1,
+      },
+      {
+        provider: expect.objectContaining({ slug: 'jazz-music-institute' }),
+        tier: 'emerging',
+        position: 2,
+      },
+    ]);
+  });
+
+  it('rejects providers that fail the AND across fields', () => {
+    expect(
+      matchesProviderSearchFilters(
+        makeProvider({
+          kind: 'emerging',
+          slug: 'jazz-music-institute',
+          name: 'Jazz Music Institute',
+          interestAreas: ['Music'],
+          locations: ['QLD'],
+        }),
+        { interestAreas: ['Music'], locations: ['Melbourne'] },
+      ),
+    ).toBe(false);
+  });
+
+  it('counts starred endorsed providers only inside the endorsed tier', () => {
+    const results = searchProvidersByFilters(providers, {
+      interestAreas: [],
+      locations: [],
+    });
+    expect(countStarredEndorsedResults(results)).toBe(1);
   });
 
   it('parses multi query params from repeated and pipe-delimited values', () => {
@@ -199,18 +231,29 @@ describe('provider search catalog seeds', () => {
         'Fine Arts',
       ]),
     );
+    // Catalog must be unique + sorted; soft length guards against empty fixture regressions.
+    expect(catalog).toEqual([...new Set(catalog)].sort((a, b) => a.localeCompare(b)));
     expect(catalog.length).toBeGreaterThan(10);
   });
 
   it('includes emerging states in location catalog', () => {
     const catalog = getProviderSearchLocationCatalog();
     expect(catalog).toEqual(expect.arrayContaining(['NSW', 'QLD', 'VIC', 'Sydney', 'Melbourne']));
+    expect(catalog).toEqual([...new Set(catalog)].sort((a, b) => a.localeCompare(b)));
   });
 
   it('marks demo course-endorsed provider when searchDemo is enabled', () => {
-    const providers = listSearchableProviders({ searchDemo: true });
-    const collarts = providers.find((provider) => provider.slug === 'collarts');
-    expect(collarts?.hasPromotedCourses).toBe(true);
+    const baseline = listSearchableProviders({ searchDemo: false }).find(
+      (provider) => provider.slug === 'collarts',
+    );
+    const demo = listSearchableProviders({ searchDemo: true }).find(
+      (provider) => provider.slug === 'collarts',
+    );
+    expect(demo?.hasPromotedCourses).toBe(true);
+    // Demo flag must be what unlocks promoted courses when the live row has none.
+    if (!baseline?.hasPromotedCourses) {
+      expect(demo?.hasPromotedCourses).not.toBe(baseline?.hasPromotedCourses);
+    }
   });
 });
 
@@ -222,6 +265,16 @@ describe('provider search href helpers', () => {
         locations: ['Sydney'],
       }),
     ).toBe('/search?InterestArea=Music&Location=Sydney');
+  });
+
+  it('builds bare /search when filters are empty', () => {
+    expect(buildProviderSearchHref({ interestAreas: [], locations: [] })).toBe('/search');
+  });
+
+  it('appends searchDemo without inventing empty filter params', () => {
+    expect(buildProviderSearchHref({ interestAreas: [], locations: [] }, { searchDemo: true })).toBe(
+      '/search?searchDemo=1',
+    );
   });
 
   it('builds courses href with optional searchDemo', () => {

@@ -165,20 +165,27 @@ function groupPositionedByTier(items: PositionedProviderSearchResult[]) {
 function TierSectionHeader({ tier }: { tier: ProviderSearchTier }) {
   const meta = PROVIDER_SEARCH_TIER_META[tier];
   const isProminent = meta.emphasis === 'endorsed';
+  const eyebrowColor = isProminent
+    ? TypographyColorToken.CherryPie
+    : TypographyColorToken.BondBlackVariant;
+  const titleVariant = isProminent ? TypographyVariant.H2 : TypographyVariant.H3;
+  const titleColor = isProminent
+    ? TypographyColorToken.BondBlack
+    : TypographyColorToken.BondBlackVariant;
 
   return (
     <header className={styles.tierHeader}>
       <Typography
         variant={TypographyVariant.Body3Strong}
-        color={isProminent ? TypographyColorToken.CherryPie : TypographyColorToken.BondBlackVariant}
+        color={eyebrowColor}
         className={styles.tierEyebrow}
       >
         {meta.eyebrow}
       </Typography>
       <Typography
         id={`provider-search-tier-${tier}`}
-        variant={isProminent ? TypographyVariant.H2 : TypographyVariant.H3}
-        color={isProminent ? TypographyColorToken.BondBlack : TypographyColorToken.BondBlackVariant}
+        variant={titleVariant}
+        color={titleColor}
         className={classNames(
           styles.tierHeading,
           isProminent ? styles.tierHeadingProminent : styles.tierHeadingQuiet,
@@ -187,7 +194,7 @@ function TierSectionHeader({ tier }: { tier: ProviderSearchTier }) {
         {PROVIDER_SEARCH_TIER_HEADING[tier]}
       </Typography>
       <div
-        className={classNames(styles.tierRule, !isProminent && styles.tierRuleQuiet)}
+        className={classNames(styles.tierRule, isProminent ? undefined : styles.tierRuleQuiet)}
         aria-hidden='true'
       />
       <Typography

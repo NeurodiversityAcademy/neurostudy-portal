@@ -20,6 +20,42 @@ type EmergingInstitutionCardProps = {
   ctaOpenInNewTab?: boolean;
 };
 
+function resolveEmergingCta(params: {
+  name: string;
+  state: AustralianState;
+  demo: boolean;
+  gaEventOverride?: InstitutionCtaAnalytics;
+}): {
+  href: string | undefined;
+  comingSoonLabel: string | undefined;
+  gaEvent: InstitutionCtaAnalytics | undefined;
+} {
+  const providerSlug = slugify(params.name);
+  const missingProfile = !hasEmergingProviderProfile(providerSlug);
+  const isComingSoon = params.demo || missingProfile;
+  if (isComingSoon) {
+    return {
+      href: undefined,
+      comingSoonLabel: 'Coming soon',
+      gaEvent: params.gaEventOverride,
+    };
+  }
+
+  const href = buildEmergingProviderDetailHref(providerSlug);
+  const defaultGaEvent = buildEmergingExploreMoreAnalytics({
+    providerName: params.name,
+    providerSlug,
+    state: params.state,
+    destinationPath: href,
+  });
+
+  return {
+    href,
+    comingSoonLabel: undefined,
+    gaEvent: params.gaEventOverride ?? defaultGaEvent,
+  };
+}
+
 export default function EmergingInstitutionCard({
   name,
   state,
@@ -27,26 +63,15 @@ export default function EmergingInstitutionCard({
   gaEvent: gaEventOverride,
   ctaOpenInNewTab = true,
 }: EmergingInstitutionCardProps) {
-  const providerSlug = slugify(name);
-  const isComingSoon = demo || !hasEmergingProviderProfile(providerSlug);
-  const href = isComingSoon ? undefined : buildEmergingProviderDetailHref(providerSlug);
-  const defaultGaEvent =
-    href === undefined
-      ? undefined
-      : buildEmergingExploreMoreAnalytics({
-          providerName: name,
-          providerSlug,
-          state,
-          destinationPath: href,
-        });
+  const cta = resolveEmergingCta({ name, state, demo, gaEventOverride });
 
   return (
     <InstitutionProviderCard
-      ctaHref={href}
+      ctaHref={cta.href}
       ctaOpenInNewTab={ctaOpenInNewTab}
       compact
-      comingSoonLabel={isComingSoon ? 'Coming soon' : undefined}
-      gaEvent={gaEventOverride ?? defaultGaEvent}
+      comingSoonLabel={cta.comingSoonLabel}
+      gaEvent={cta.gaEvent}
       header={{
         kind: INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT,
         stateTint: state,

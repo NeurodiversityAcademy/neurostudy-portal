@@ -3,6 +3,7 @@
  */
 import {
   buildProviderSearchResultClickAnalytics,
+  isProviderSearchGaFlushLoopActiveForTests,
   queueProviderSearchGaEvent,
   resetProviderSearchGaQueueForTests,
   trackProviderCoursesPlaceholderView,
@@ -41,6 +42,7 @@ describe('providerSearchGa queue', () => {
     });
 
     expect((window as unknown as GtagTestWindow).gtag).toBeNull();
+    expect(isProviderSearchGaFlushLoopActiveForTests()).toBe(true);
 
     const mockGtag = installGtagMock();
     jest.advanceTimersByTime(300);
@@ -55,6 +57,7 @@ describe('providerSearchGa queue', () => {
         locations: 'Sydney',
       }),
     );
+    expect(isProviderSearchGaFlushLoopActiveForTests()).toBe(false);
   });
 
   it('sends immediately when gtag already exists', () => {
@@ -65,6 +68,7 @@ describe('providerSearchGa queue', () => {
       'custom_event',
       expect.objectContaining({ foo: 'bar' }),
     );
+    expect(isProviderSearchGaFlushLoopActiveForTests()).toBe(false);
   });
 
   it('tracks results view, result click, and placeholder view', () => {
@@ -117,8 +121,14 @@ describe('providerSearchGa queue', () => {
       interestAreas: ['Nursing'],
       locations: [],
     });
-    jest.advanceTimersByTime(250 * 45);
-    expect((window as unknown as GtagTestWindow).gtag).toBeNull();
+    expect(isProviderSearchGaFlushLoopActiveForTests()).toBe(true);
+
+    jest.advanceTimersByTime(250 * 40);
+    expect(isProviderSearchGaFlushLoopActiveForTests()).toBe(false);
+
+    const lateGtag = installGtagMock();
+    jest.advanceTimersByTime(1000);
+    expect(lateGtag).not.toHaveBeenCalled();
   });
 
   it('does not queue or send events outside Vercel production', () => {
@@ -132,6 +142,7 @@ describe('providerSearchGa queue', () => {
     });
 
     expect(mockGtag).not.toHaveBeenCalled();
+    expect(isProviderSearchGaFlushLoopActiveForTests()).toBe(false);
   });
 
   it('builds card CTA analytics with the same result-click schema', () => {

@@ -20,6 +20,18 @@ export function uniqueSortedStrings(values: readonly string[]): string[] {
   return result.sort((a, b) => a.localeCompare(b));
 }
 
+function splitPipeDelimited(raw: string): string[] {
+  const tokens: string[] = [];
+  for (const part of raw.split('|')) {
+    const trimmed = part.trim();
+    if (trimmed === '') {
+      continue;
+    }
+    tokens.push(trimmed);
+  }
+  return tokens;
+}
+
 export function parseMultiQueryParam(value: string | string[] | undefined): string[] {
   if (value === undefined) {
     return [];
@@ -27,12 +39,7 @@ export function parseMultiQueryParam(value: string | string[] | undefined): stri
   const rawValues = Array.isArray(value) ? value : [value];
   const tokens: string[] = [];
   for (const raw of rawValues) {
-    for (const part of raw.split('|')) {
-      const trimmed = part.trim();
-      if (trimmed !== '') {
-        tokens.push(trimmed);
-      }
-    }
+    tokens.push(...splitPipeDelimited(raw));
   }
   return uniqueSortedStrings(tokens);
 }
@@ -46,14 +53,30 @@ export function joinGaMultiValue(values: readonly string[]): string {
 
 const MIN_PARTIAL_QUERY_LENGTH = 2;
 
+function isTooShortForPartialMatch(token: string): boolean {
+  return token.length < MIN_PARTIAL_QUERY_LENGTH;
+}
+
 /** Shared partial/exact token compare used by matching and catalog expansion. */
 export function tokensPartialMatch(left: string, right: string): boolean {
   const a = normalizeSearchToken(left);
   const b = normalizeSearchToken(right);
-  if (a.length < MIN_PARTIAL_QUERY_LENGTH || b.length < MIN_PARTIAL_QUERY_LENGTH) {
+  if (isTooShortForPartialMatch(a)) {
     return false;
   }
-  return a === b || a.includes(b) || b.includes(a);
+  if (isTooShortForPartialMatch(b)) {
+    return false;
+  }
+  if (a === b) {
+    return true;
+  }
+  if (a.includes(b)) {
+    return true;
+  }
+  if (b.includes(a)) {
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -66,7 +89,7 @@ export function matchesSearchToken(haystack: readonly string[], needle: string):
 
 function expandSelectedValue(value: string, catalog: readonly string[]): string[] {
   const normalized = normalizeSearchToken(value);
-  if (normalized.length < MIN_PARTIAL_QUERY_LENGTH) {
+  if (isTooShortForPartialMatch(normalized)) {
     return [];
   }
 

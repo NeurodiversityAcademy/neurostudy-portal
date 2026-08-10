@@ -31,6 +31,67 @@ type DropdownFieldControlsProps<TFieldValues extends FieldValues> = {
   onToggleExpand: (e: MouseEvent) => void;
 };
 
+function DropdownTextControl({
+  inputRef,
+  showInputAsText,
+  searchable,
+  disabled,
+  placeholder,
+  inputValue,
+  onInputChange,
+  onInputKeyDown,
+}: {
+  inputRef: Ref<HTMLInputElement | HTMLSpanElement>;
+  showInputAsText: boolean;
+  searchable: boolean;
+  disabled?: boolean;
+  placeholder?: string;
+  inputValue: string;
+  onInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onInputKeyDown: (e: KeyboardEvent<HTMLInputElement>) => void;
+}) {
+  if (showInputAsText) {
+    return (
+      <span ref={inputRef} className={styles.inputAsText} tabIndex={0}>
+        {inputValue}
+      </span>
+    );
+  }
+
+  return (
+    <input
+      ref={inputRef as Ref<HTMLInputElement>}
+      type='text'
+      role={searchable ? 'searchbox' : undefined}
+      disabled={disabled}
+      placeholder={placeholder}
+      className={styles.input}
+      onChange={onInputChange}
+      value={inputValue}
+      onKeyDown={onInputKeyDown}
+      readOnly={!searchable}
+    />
+  );
+}
+
+function wrapperClassName(error?: boolean, pillsBelow?: boolean): string {
+  return classNames(
+    styles.inputWrapper,
+    error ? styles.error : undefined,
+    pillsBelow ? styles.inputWrapperPillsBelow : undefined,
+    // NOTE: Exposing for CSS Selectors
+    'dropdown-input-wrapper',
+  );
+}
+
+function pillRowClassName(hasInlinePills: boolean, pillsBelow: boolean): string {
+  return classNames(
+    styles.pillAndInput,
+    hasInlinePills ? styles.hasValue : undefined,
+    pillsBelow ? styles.pillAndInputSingleLine : undefined,
+  );
+}
+
 export default function DropdownFieldControls<TFieldValues extends FieldValues>({
   name,
   value,
@@ -56,46 +117,26 @@ export default function DropdownFieldControls<TFieldValues extends FieldValues>(
 }: DropdownFieldControlsProps<TFieldValues>) {
   return (
     <div
-      className={classNames(
-        styles.inputWrapper,
-        error && styles.error,
-        pillsBelow && styles.inputWrapperPillsBelow,
-        // NOTE: Exposing for CSS Selectors
-        'dropdown-input-wrapper',
-      )}
+      className={wrapperClassName(error, pillsBelow)}
       onBlurCapture={onBlurCapture}
       onMouseDown={onMouseDown}
     >
-      <div
-        className={classNames(
-          styles.pillAndInput,
-          hasInlinePills && styles.hasValue,
-          pillsBelow && styles.pillAndInputSingleLine,
-        )}
-        onMouseDown={onMouseDown}
-      >
+      <div className={pillRowClassName(hasInlinePills, pillsBelow)} onMouseDown={onMouseDown}>
         {inlinePills}
-        {showTextControl &&
-          (showInputAsText ? (
-            <span ref={inputRef} className={styles.inputAsText} tabIndex={0}>
-              {inputValue}
-            </span>
-          ) : (
-            <input
-              ref={inputRef as Ref<HTMLInputElement>}
-              type='text'
-              role={searchable ? 'searchbox' : undefined}
-              disabled={disabled}
-              placeholder={placeholder}
-              className={styles.input}
-              onChange={onInputChange}
-              value={inputValue}
-              onKeyDown={onInputKeyDown}
-              readOnly={!searchable}
-            />
-          ))}
+        {showTextControl ? (
+          <DropdownTextControl
+            inputRef={inputRef}
+            showInputAsText={showInputAsText}
+            searchable={searchable}
+            disabled={disabled}
+            placeholder={placeholder}
+            inputValue={inputValue}
+            onInputChange={onInputChange}
+            onInputKeyDown={onInputKeyDown}
+          />
+        ) : null}
       </div>
-      {clearable && (
+      {clearable ? (
         <ClearButton
           name={name}
           value={value}
@@ -104,7 +145,7 @@ export default function DropdownFieldControls<TFieldValues extends FieldValues>(
           disabled={disabled}
           onClick={onClearDraft}
         />
-      )}
+      ) : null}
       <ArrowDownIcon aria-hidden className={styles.expandIcon} onMouseDown={onToggleExpand} />
     </div>
   );

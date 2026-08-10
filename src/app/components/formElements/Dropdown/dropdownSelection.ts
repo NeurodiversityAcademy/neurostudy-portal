@@ -2,13 +2,23 @@ import type { SelectOption } from '@/app/interfaces/FormElements';
 
 export type SelectValue = SelectOption['value'];
 
+function isBlankSelection(item: unknown): boolean {
+  if (item == null) {
+    return true;
+  }
+  return String(item).trim() === '';
+}
+
 /** Clear/deselect paths may store '' instead of []; never treat that as a selected value. */
 export function toSelectedOptions(value: unknown): SelectValue[] {
-  if (value == null || value === '') {
+  if (value == null) {
+    return [];
+  }
+  if (value === '') {
     return [];
   }
   const values = Array.isArray(value) ? value : [value];
-  return values.filter((item) => item != null && String(item).trim() !== '');
+  return values.filter((item) => !isBlankSelection(item));
 }
 
 export function buildOptionLookup(options: readonly SelectOption[]) {
@@ -17,8 +27,13 @@ export function buildOptionLookup(options: readonly SelectOption[]) {
     byValue[String(item.value)] = item;
   }
   return {
-    getLabel: (val: SelectValue): SelectOption['label'] =>
-      byValue[String(val)]?.label || String(val),
+    getLabel: (val: SelectValue): SelectOption['label'] => {
+      const match = byValue[String(val)];
+      if (match) {
+        return match.label;
+      }
+      return String(val);
+    },
     exists: (val: SelectValue): boolean => String(val) in byValue,
   };
 }
@@ -62,7 +77,10 @@ export function fieldValueFromSelection(cleaned: SelectValue[], multiple: boolea
   if (multiple) {
     return cleaned;
   }
-  return cleaned.length ? cleaned[0] : '';
+  if (cleaned.length) {
+    return cleaned[0];
+  }
+  return '';
 }
 
 export function canCreateOption(params: {
@@ -73,10 +91,22 @@ export function canCreateOption(params: {
   isSelected: (val: SelectValue) => boolean;
 }): boolean {
   const trimmed = params.inputValue.trim();
-  if (params.disabled || !params.creatable || !trimmed) {
+  if (params.disabled) {
     return false;
   }
-  return !params.exists(trimmed) && !params.isSelected(trimmed);
+  if (!params.creatable) {
+    return false;
+  }
+  if (!trimmed) {
+    return false;
+  }
+  if (params.exists(trimmed)) {
+    return false;
+  }
+  if (params.isSelected(trimmed)) {
+    return false;
+  }
+  return true;
 }
 
 export function resolveDisplayInputValue(

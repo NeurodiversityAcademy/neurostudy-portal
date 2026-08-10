@@ -29,7 +29,10 @@ export type ProviderStudySearchProps = FormHTMLAttributes<HTMLFormElement> & {
 };
 
 function asSelectedList(value: unknown): string[] {
-  return Array.isArray(value) ? uniqueSortedStrings(value) : [];
+  if (!Array.isArray(value)) {
+    return [];
+  }
+  return uniqueSortedStrings(value);
 }
 
 function normalizeFormValues(values: Partial<ProviderStudySearchFormValues>) {
@@ -37,6 +40,41 @@ function normalizeFormValues(values: Partial<ProviderStudySearchFormValues>) {
     interestAreas: asSelectedList(values.InterestArea),
     locations: asSelectedList(values.Location),
   };
+}
+
+function interestPlaceholder(compact: boolean): string {
+  if (compact) {
+    return 'What do you want to study?';
+  }
+  return 'Ex. Nursing or digital';
+}
+
+function locationPlaceholder(compact: boolean): string {
+  if (compact) {
+    return 'Where do you want to study?';
+  }
+  return 'Ex. Sydney';
+}
+
+function submitProviderSearch(params: {
+  values: Partial<ProviderStudySearchFormValues>;
+  areaDraft: string;
+  locationDraft: string;
+  surface: ProviderSearchSurface;
+  searchDemo: boolean;
+  push: (href: string) => void;
+}): void {
+  const selected = normalizeFormValues(params.values);
+  const interestAreas = mergeSearchTokens(selected.interestAreas, params.areaDraft);
+  const locations = mergeSearchTokens(selected.locations, params.locationDraft);
+  trackProviderSearchSubmit({
+    surface: params.surface,
+    interestAreas,
+    locations,
+  });
+  params.push(
+    buildProviderSearchHref({ interestAreas, locations }, { searchDemo: params.searchDemo }),
+  );
 }
 
 const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
@@ -65,13 +103,16 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
   return (
     <Form
       methods={methods}
-      className={classNames(styles.container, compact && styles.compact, className)}
+      className={classNames(styles.container, compact ? styles.compact : undefined, className)}
       onSubmit={methods.handleSubmit((values) => {
-        const selected = normalizeFormValues(values);
-        const interestAreas = mergeSearchTokens(selected.interestAreas, areaDraft);
-        const locations = mergeSearchTokens(selected.locations, locationDraft);
-        trackProviderSearchSubmit({ surface, interestAreas, locations });
-        router.push(buildProviderSearchHref({ interestAreas, locations }, { searchDemo }));
+        submitProviderSearch({
+          values,
+          areaDraft,
+          locationDraft,
+          surface,
+          searchDemo,
+          push: router.push,
+        });
       })}
       aria-label='Search providers by area of study and location'
       role='search'
@@ -82,7 +123,7 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
           name='InterestArea'
           label='What do you want to study?'
           showLabel={!compact}
-          placeholder={compact ? 'What do you want to study?' : 'Ex. Nursing or digital'}
+          placeholder={interestPlaceholder(compact)}
           multiple
           creatable
           pillsBelow
@@ -93,7 +134,7 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
           name='Location'
           label='Where do you want to study?'
           showLabel={!compact}
-          placeholder={compact ? 'Where do you want to study?' : 'Ex. Sydney'}
+          placeholder={locationPlaceholder(compact)}
           multiple
           creatable
           pillsBelow

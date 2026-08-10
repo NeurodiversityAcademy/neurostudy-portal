@@ -25,6 +25,14 @@ function hasGtag(): boolean {
   return typeof (window as unknown as { gtag?: unknown }).gtag === 'function';
 }
 
+function stopFlushLoop(): void {
+  if (flushTimerId === null) {
+    return;
+  }
+  clearInterval(flushTimerId);
+  flushTimerId = null;
+}
+
 function flushPendingGaEvents(): void {
   if (!hasGtag()) {
     return;
@@ -36,29 +44,34 @@ function flushPendingGaEvents(): void {
     }
     sendGaEvent(next.eventName, next.params);
   }
-  if (flushTimerId !== null && pendingEvents.length === 0) {
-    clearInterval(flushTimerId);
-    flushTimerId = null;
+  if (pendingEvents.length === 0) {
+    stopFlushLoop();
   }
 }
 
 function ensureFlushLoop(): void {
-  if (typeof window === 'undefined' || flushTimerId !== null) {
+  if (typeof window === 'undefined') {
+    return;
+  }
+  if (flushTimerId !== null) {
     return;
   }
   let attempts = 0;
   flushTimerId = setInterval(() => {
     attempts += 1;
     flushPendingGaEvents();
-    if (attempts >= FLUSH_MAX_ATTEMPTS && flushTimerId !== null) {
-      clearInterval(flushTimerId);
-      flushTimerId = null;
+    if (attempts < FLUSH_MAX_ATTEMPTS) {
+      return;
     }
+    stopFlushLoop();
   }, FLUSH_INTERVAL_MS);
 }
 
 export function queueProviderSearchGaEvent(eventName: string, params: GaEventParams): void {
-  if (typeof window === 'undefined' || !isProductionAnalyticsEnabled()) {
+  if (typeof window === 'undefined') {
+    return;
+  }
+  if (!isProductionAnalyticsEnabled()) {
     return;
   }
   if (hasGtag()) {
@@ -72,10 +85,12 @@ export function queueProviderSearchGaEvent(eventName: string, params: GaEventPar
 /** Test helper — clears queued events and flush timer. */
 export function resetProviderSearchGaQueueForTests(): void {
   pendingEvents.length = 0;
-  if (flushTimerId !== null) {
-    clearInterval(flushTimerId);
-    flushTimerId = null;
-  }
+  stopFlushLoop();
+}
+
+/** Test helper — whether the retry flush interval is still scheduled. */
+export function isProviderSearchGaFlushLoopActiveForTests(): boolean {
+  return flushTimerId !== null;
 }
 
 function withPagePath(params: GaEventParams): GaEventParams {
