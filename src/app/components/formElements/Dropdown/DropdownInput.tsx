@@ -340,9 +340,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
         onInputChange={onInputChange}
         onInputKeyDown={onInputKeyDown}
         onClearDraft={() => {
-          if (!multiple) {
-            setDraftValue('');
-          }
+          setDraftValue('');
         }}
         onToggleExpand={(e) => {
           inputRef.current?.[isExpanded ? 'blur' : 'focus']();
