@@ -13,6 +13,16 @@
   align-items: flex-start;
 }
 
+@media (max-width: 560px) {
+  .root {
+    gap: 1.5rem;
+  }
+
+  .tierSection {
+    gap: 0.75rem;
+  }
+}
+
 .tierHeading {
   margin: 0;
   width: 100%;
@@ -62,19 +72,21 @@
   }
 }
 
-/* Phone: one full-width card per row — 2-up is too skinny */
+/* Phone: keep 2-up so ~4–5 cards fit in the viewport */
 @media (max-width: 560px) {
   .cardGrid {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 10px;
     width: 100%;
+    max-width: none;
+    margin-inline: 0;
   }
 
   .cardGrid > * {
     width: 100%;
     max-width: none;
     min-width: 0;
+    flex: none;
   }
 }
