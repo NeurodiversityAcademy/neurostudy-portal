@@ -19,13 +19,7 @@ function getComboboxAriaLabel(showLabel: boolean, label?: string): string | unde
   return label || undefined;
 }
 
-function CreateOptionItem({
-  inputValue,
-  onCreate,
-}: {
-  inputValue: string;
-  onCreate: () => void;
-}) {
+function CreateOptionItem({ inputValue, onCreate }: { inputValue: string; onCreate: () => void }) {
   return (
     <CheckBoxItem
       label={'Add "' + inputValue + '"'}
@@ -75,10 +69,7 @@ function DropdownOptionItems({
   ));
 }
 
-function showEmptyOptions(
-  hasCreateItem: boolean,
-  filteredCount: number,
-): boolean {
+function showEmptyOptions(hasCreateItem: boolean, filteredCount: number): boolean {
   if (hasCreateItem) {
     return false;
   }
@@ -212,9 +203,7 @@ function OptionalLabel({
   if (!showLabel) {
     return null;
   }
-  return (
-    <Label name={name} color={error ? 'red' : undefined} label={label} required={required} />
-  );
+  return <Label name={name} color={error ? 'red' : undefined} label={label} required={required} />;
 }
 
 function OptionalError({

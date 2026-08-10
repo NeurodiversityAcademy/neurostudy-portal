@@ -151,10 +151,7 @@ describe('ProviderSearchResults', () => {
     expect(screen.getAllByTestId('emerging-card')).toHaveLength(1);
 
     const links = screen.getAllByRole('link', { name: 'Explore More' });
-    expect(links[0]).toHaveAttribute(
-      'href',
-      '/endorsedproviders/collarts/courses?searchDemo=1',
-    );
+    expect(links[0]).toHaveAttribute('href', '/endorsedproviders/collarts/courses?searchDemo=1');
     expect(links[0]).toHaveAttribute('data-slug', 'collarts');
     expect(links[1]).toHaveAttribute('href', expect.stringContaining('nepean'));
     expect(links[1]).toHaveAttribute('data-slug', 'nepean-community-college');

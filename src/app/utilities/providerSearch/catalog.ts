@@ -86,7 +86,10 @@ function withDemoPromotedCourses(row: EndorsedJsonRow): EndorsedPromotedCourse[]
   ];
 }
 
-function promotedCoursesForRow(row: EndorsedJsonRow, searchDemo: boolean): EndorsedPromotedCourse[] {
+function promotedCoursesForRow(
+  row: EndorsedJsonRow,
+  searchDemo: boolean,
+): EndorsedPromotedCourse[] {
   const existing = row.promotedCourses ?? [];
   const isDemoTarget = slugify(row.id) === PROVIDER_SEARCH_DEMO_COURSE_ENDORSED_SLUG;
   if (!searchDemo) {

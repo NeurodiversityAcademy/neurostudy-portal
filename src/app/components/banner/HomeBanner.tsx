@@ -83,13 +83,7 @@ function BannerSearch({
   );
 }
 
-function BannerFrame({
-  showSearch,
-  children,
-}: {
-  showSearch: boolean;
-  children: React.ReactNode;
-}) {
+function BannerFrame({ showSearch, children }: { showSearch: boolean; children: React.ReactNode }) {
   return (
     <div className={showSearch ? styles.bannerWithSearch : undefined}>
       <div

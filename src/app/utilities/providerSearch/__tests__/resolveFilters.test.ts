@@ -23,14 +23,14 @@ describe('resolveProviderSearchFilters', () => {
 
     // Expanded filters must actually retrieve matching providers.
     const digitalProviders = context.providers.filter((provider) =>
-      provider.interestAreas.some((area) =>
-        filters.interestAreas.includes(area),
-      ),
+      provider.interestAreas.some((area) => filters.interestAreas.includes(area)),
     );
     expect(digitalProviders.length).toBeGreaterThan(0);
     expect(
       digitalProviders.every((provider) =>
-        provider.interestAreas.some((area) => area === 'Digital Skills' || area === 'Digital Technology' || area === 'Music'),
+        provider.interestAreas.some(
+          (area) => area === 'Digital Skills' || area === 'Digital Technology' || area === 'Music',
+        ),
       ),
     ).toBe(true);
   });

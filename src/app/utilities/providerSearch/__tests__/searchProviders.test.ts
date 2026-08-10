@@ -272,9 +272,9 @@ describe('provider search href helpers', () => {
   });
 
   it('appends searchDemo without inventing empty filter params', () => {
-    expect(buildProviderSearchHref({ interestAreas: [], locations: [] }, { searchDemo: true })).toBe(
-      '/search?searchDemo=1',
-    );
+    expect(
+      buildProviderSearchHref({ interestAreas: [], locations: [] }, { searchDemo: true }),
+    ).toBe('/search?searchDemo=1');
   });
 
   it('builds courses href with optional searchDemo', () => {

@@ -168,9 +168,7 @@ const DropdownInput = <TFieldValues extends FieldValues>(
         state.setDraftValue('');
       }}
       onToggleExpand={state.toggleExpand}
-      onClearNextFocus={() => {
-        state.nextFocusElemRef.current = undefined;
-      }}
+      onClearNextFocus={state.clearNextFocus}
       createFromInput={state.createFromInput}
       toggleOption={state.toggleOption}
       clearDraftOnCollapse={state.clearDraftOnCollapse}
