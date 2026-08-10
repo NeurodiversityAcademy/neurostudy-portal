@@ -77,13 +77,15 @@ export default async function ProviderSearchPage({ searchParams }: SearchPagePro
           countEndorsed={results.endorsed.length}
           countEmerging={results.emerging.length}
         />
-        <Typography
-          variant={TypographyVariant.Body2}
-          color={TypographyColorToken.BondBlack}
-          className={styles.summary}
-        >
-          {totalCount === 1 ? '1 provider found' : `${totalCount} providers found`}
-        </Typography>
+        <div className={styles.resultsSummary}>
+          <Typography
+            variant={TypographyVariant.Body2}
+            color={TypographyColorToken.BondBlack}
+            className={styles.summary}
+          >
+            {totalCount === 1 ? '1 provider found' : `${totalCount} providers found`}
+          </Typography>
+        </div>
         <ProviderSearchResults
           results={results}
           filters={filters}

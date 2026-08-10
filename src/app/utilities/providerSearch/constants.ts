@@ -31,6 +31,33 @@ export const PROVIDER_SEARCH_TIER_HEADING: Record<ProviderSearchTier, string> = 
   emerging: 'Emerging providers',
 };
 
+export type ProviderSearchTierEmphasis = 'endorsed' | 'emerging';
+
+export const PROVIDER_SEARCH_TIER_META: Record<
+  ProviderSearchTier,
+  {
+    eyebrow: string;
+    subtitle: string;
+    emphasis: ProviderSearchTierEmphasis;
+  }
+> = {
+  course_endorsed: {
+    eyebrow: 'NDA ENDORSED',
+    subtitle: 'Neuro-inclusive institutions with courses to explore',
+    emphasis: 'endorsed',
+  },
+  endorsed: {
+    eyebrow: 'NDA ENDORSED',
+    subtitle: 'Neuro-inclusive institutions verified by NDA',
+    emphasis: 'endorsed',
+  },
+  emerging: {
+    eyebrow: 'EXPLORING',
+    subtitle: 'Building neuro-inclusion — not yet endorsed',
+    emphasis: 'emerging',
+  },
+};
+
 export const PROVIDER_SEARCH_GA_CATEGORY = 'ProviderSearch' as const;
 
 export const PROVIDER_SEARCH_GA = {

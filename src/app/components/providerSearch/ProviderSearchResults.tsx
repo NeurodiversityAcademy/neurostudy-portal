@@ -1,6 +1,7 @@
 'use client';
 
 import Image, { type StaticImageData } from 'next/image';
+import classNames from 'classnames';
 import InstitutionProviderCard from '@/app/components/institutionProviderCard/InstitutionProviderCard';
 import { INSTITUTION_PROVIDER_HEADER_KIND } from '@/app/components/institutionProviderCard/institutionProviderHeader';
 import cardStyles from '@/app/components/institutionProviderCard/institutionProviderCard.module.css';
@@ -17,6 +18,7 @@ import { buildEmergingProviderDetailHref } from '@/app/emergingproviders/emergin
 import { ENDORSED_PROVIDER_LOGO_BY_SLUG } from '@/app/components/endorsedProviders/endorsedProviderBrandAssets';
 import {
   PROVIDER_SEARCH_TIER_HEADING,
+  PROVIDER_SEARCH_TIER_META,
   PROVIDER_SEARCH_TIER_ORDER,
   type ProviderSearchFilters,
   type ProviderSearchRecord,
@@ -160,6 +162,45 @@ function groupPositionedByTier(items: PositionedProviderSearchResult[]) {
   }));
 }
 
+function TierSectionHeader({ tier }: { tier: ProviderSearchTier }) {
+  const meta = PROVIDER_SEARCH_TIER_META[tier];
+  const isProminent = meta.emphasis === 'endorsed';
+
+  return (
+    <header className={styles.tierHeader}>
+      <Typography
+        variant={TypographyVariant.Body3Strong}
+        color={isProminent ? TypographyColorToken.CherryPie : TypographyColorToken.BondBlackVariant}
+        className={styles.tierEyebrow}
+      >
+        {meta.eyebrow}
+      </Typography>
+      <Typography
+        id={`provider-search-tier-${tier}`}
+        variant={isProminent ? TypographyVariant.H2 : TypographyVariant.H3}
+        color={isProminent ? TypographyColorToken.BondBlack : TypographyColorToken.BondBlackVariant}
+        className={classNames(
+          styles.tierHeading,
+          isProminent ? styles.tierHeadingProminent : styles.tierHeadingQuiet,
+        )}
+      >
+        {PROVIDER_SEARCH_TIER_HEADING[tier]}
+      </Typography>
+      <div
+        className={classNames(styles.tierRule, !isProminent && styles.tierRuleQuiet)}
+        aria-hidden='true'
+      />
+      <Typography
+        variant={TypographyVariant.Body2}
+        color={TypographyColorToken.BondBlackVariant}
+        className={styles.tierSubtitle}
+      >
+        {meta.subtitle}
+      </Typography>
+    </header>
+  );
+}
+
 export default function ProviderSearchResults({
   results,
   filters,
@@ -181,25 +222,26 @@ export default function ProviderSearchResults({
           </Typography>
         </div>
       ) : (
-        tierGroups.map(({ tier, items }) => (
-          <section
-            key={tier}
-            className={styles.tierSection}
-            aria-labelledby={`provider-search-tier-${tier}`}
-          >
-            <Typography
-              id={`provider-search-tier-${tier}`}
-              variant={TypographyVariant.H2}
-              color={TypographyColorToken.BondBlack}
-              className={styles.tierHeading}
+        tierGroups.map(({ tier, items }) => {
+          const isProminent = PROVIDER_SEARCH_TIER_META[tier].emphasis === 'endorsed';
+          return (
+            <section
+              key={tier}
+              className={classNames(
+                styles.tierSection,
+                isProminent ? styles.tierSectionProminent : styles.tierSectionQuiet,
+              )}
+              aria-labelledby={`provider-search-tier-${tier}`}
             >
-              {PROVIDER_SEARCH_TIER_HEADING[tier]}
-            </Typography>
-            <div className={styles.cardGrid}>
-              {items.map((item) => renderProviderCard(item, searchDemo, filters))}
-            </div>
-          </section>
-        ))
+              <div className={styles.tierInner}>
+                <TierSectionHeader tier={tier} />
+                <div className={styles.cardGrid}>
+                  {items.map((item) => renderProviderCard(item, searchDemo, filters))}
+                </div>
+              </div>
+            </section>
+          );
+        })
       )}
     </div>
   );

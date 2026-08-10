@@ -113,6 +113,10 @@ describe('ProviderSearchResults', () => {
 
     expect(screen.getByText('Providers with courses')).toBeInTheDocument();
     expect(screen.getByText('Endorsed providers')).toBeInTheDocument();
+    expect(screen.getAllByText('NDA ENDORSED')).toHaveLength(2);
+    expect(screen.getByText('EXPLORING')).toBeInTheDocument();
+    expect(screen.getByText('Neuro-inclusive institutions verified by NDA')).toBeInTheDocument();
+    expect(screen.getByText('Building neuro-inclusion — not yet endorsed')).toBeInTheDocument();
     expect(screen.queryByText('NDA Certified providers')).not.toBeInTheDocument();
     expect(screen.getByText('Emerging providers')).toBeInTheDocument();
     expect(screen.getByText('Jazz Music Institute')).toBeInTheDocument();
