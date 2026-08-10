@@ -10,7 +10,7 @@ import {
   useMemo,
   MutableRefObject,
 } from 'react';
-import { FieldValues, Path, RefCallBack } from 'react-hook-form';
+import { FieldValues, Path, PathValue, RefCallBack } from 'react-hook-form';
 import { PillFocusEventHandler } from '@/app/interfaces/Pill';
 import { DropdownInputProps } from '@/app/interfaces/FormElements';
 import useDefaultValue from '@/app/hooks/useDefaultValue';
@@ -56,7 +56,7 @@ type DropdownCore<TFieldValues extends FieldValues> = {
   error: unknown;
   disabled?: boolean;
   onBlur: () => void;
-  value: unknown;
+  value: PathValue<TFieldValues, Path<TFieldValues>>;
   fieldRef: RefCallBack;
   selectedOptions: SelectValue[];
   getLabel: (val: SelectValue) => string;
