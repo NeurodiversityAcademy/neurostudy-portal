@@ -136,6 +136,31 @@
   align-self: flex-start;
 }
 
+.inputWrapperPillsBelow {
+  align-items: center;
+}
+
+.inputWrapperPillsBelow .clearBtn {
+  margin-top: 0;
+  align-self: center;
+}
+
+.pillAndInputSingleLine {
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.selectedPillsBelow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.selectedPillsBelow > [role='button'] {
+  margin: 0;
+}
+
 .expandIcon {
   padding: 6px 5px;
   transition: transform 150ms linear;

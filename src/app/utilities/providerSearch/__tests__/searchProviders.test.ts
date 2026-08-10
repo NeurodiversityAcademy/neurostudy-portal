@@ -8,6 +8,7 @@ import {
 import type { ProviderSearchRecord } from '../constants';
 import {
   matchesSearchToken,
+  mergeSearchTokens,
   parseMultiQueryParam,
   resolveSearchFilterValues,
   tokensPartialMatch,
@@ -100,12 +101,12 @@ describe('provider search matching', () => {
     expect(results.emerging).toEqual([]);
   });
 
-  it('returns empty results when no filters selected', () => {
+  it('returns all providers when no filters selected', () => {
     const results = searchProvidersByFilters(providers, {
       interestAreas: [],
       locations: [],
     });
-    expect(countProviderSearchResults(results)).toBe(0);
+    expect(countProviderSearchResults(results)).toBe(providers.length);
   });
 
   it('sorts alphabetically within a tier', () => {
@@ -285,6 +286,12 @@ describe('provider search href helpers', () => {
     expect(
       resolveSearchFilterValues(['digital'], ['Digital Skills', 'Digital Technology', 'Nursing']),
     ).toEqual(['Digital Skills', 'Digital Technology']);
+  });
+
+  it('mergeSearchTokens includes typed draft text with selected values', () => {
+    expect(mergeSearchTokens(['Music'], 'business')).toEqual(['business', 'Music']);
+    expect(mergeSearchTokens([], '  business  ')).toEqual(['business']);
+    expect(mergeSearchTokens(['Music'], '   ')).toEqual(['Music']);
   });
 
   it('loadProviderSearchContext returns providers and catalogs together', () => {

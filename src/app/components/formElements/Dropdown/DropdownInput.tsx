@@ -63,10 +63,12 @@ const DropdownInput = <TFieldValues extends FieldValues>({
   clearable = true,
   radioMode = false,
   multiple = false,
+  pillsBelow = false,
   closeOnSelect = false,
   showInputAsText = false,
   cols,
   defaultErrorMessage,
+  onDraftChange,
   methods,
 }: DropdownInputProps<TFieldValues>) => {
   const {
@@ -126,6 +128,11 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     return (val: SelectValue): boolean => String(val).toLowerCase() in obj;
   })();
 
+  const setDraftValue = (next: string) => {
+    setInputValue(next);
+    onDraftChange?.(next);
+  };
+
   const createItem = (val: string) => {
     if (!creatable) {
       return;
@@ -135,7 +142,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
       return;
     }
     const valLowerCase = trimmed.toLowerCase();
-    setInputValue('');
+    setDraftValue('');
     const option = selectedOptions.find((option) => String(option).toLowerCase() === valLowerCase);
     if (!option) {
       setSelectedOptions([...selectedOptions, trimmed]);
@@ -147,11 +154,25 @@ const DropdownInput = <TFieldValues extends FieldValues>({
     if (!searchable) {
       return;
     }
-    setInputValue(e.target.value);
+    setDraftValue(e.target.value);
     if (!multiple && selectedOptions.length) {
       setSelectedOptions([]);
     }
   };
+
+  const renderSelectedPills = () =>
+    selectedOptions.map((option) => (
+      <Pill
+        key={String(option)}
+        label={getLabel(option)}
+        value={option}
+        selected
+        onClose={onRemove}
+        onFocus={onPillFocus}
+        disabled={disabled}
+        button-aria-label={BUTTON_ARIA_LABEL}
+      />
+    ));
 
   const onInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && hasCreateItem) {
@@ -241,6 +262,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
         className={classNames(
           styles.inputWrapper,
           error && styles.error,
+          pillsBelow && styles.inputWrapperPillsBelow,
           // NOTE: Exposing for CSS Selectors
           'dropdown-input-wrapper',
         )}
@@ -250,22 +272,14 @@ const DropdownInput = <TFieldValues extends FieldValues>({
         onMouseDown={focusInput}
       >
         <div
-          className={classNames(styles.pillAndInput, selectedOptions.length && styles.hasValue)}
+          className={classNames(
+            styles.pillAndInput,
+            !pillsBelow && selectedOptions.length && styles.hasValue,
+            pillsBelow && styles.pillAndInputSingleLine,
+          )}
           onMouseDown={focusInput}
         >
-          {multiple &&
-            selectedOptions.map((option) => (
-              <Pill
-                key={String(option)}
-                label={getLabel(option)}
-                value={option}
-                selected
-                onClose={onRemove}
-                onFocus={onPillFocus}
-                disabled={disabled}
-                button-aria-label={BUTTON_ARIA_LABEL}
-              />
-            ))}
+          {multiple && !pillsBelow && renderSelectedPills()}
           {(!disabled || !selectedOptions.length) &&
             (showInputAsText ? (
               <span ref={attachInputRef} className={styles.inputAsText} tabIndex={0}>
@@ -293,7 +307,11 @@ const DropdownInput = <TFieldValues extends FieldValues>({
             methods={methods}
             className={styles.clearBtn}
             disabled={disabled}
-            onClick={() => !multiple && setInputValue('')}
+            onClick={() => {
+              if (!multiple) {
+                setDraftValue('');
+              }
+            }}
           />
         )}
         <ArrowDownIcon
@@ -305,6 +323,11 @@ const DropdownInput = <TFieldValues extends FieldValues>({
           }}
         />
       </div>
+      {multiple && pillsBelow && selectedOptions.length > 0 && (
+        <div className={styles.selectedPillsBelow} data-testid={`${name}-selected-pills`}>
+          {renderSelectedPills()}
+        </div>
+      )}
       <div className={styles.dropdownListContainer}>
         <ul
           className={styles.dropdownList}
@@ -317,7 +340,7 @@ const DropdownInput = <TFieldValues extends FieldValues>({
               !isExpanded &&
               (multiple || !selectedOptions.length)
             ) {
-              setInputValue('');
+              setDraftValue('');
             }
           }}
         >

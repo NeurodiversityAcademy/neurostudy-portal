@@ -13,7 +13,7 @@
 
 .buttonContainer {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
 }
 
 .content {
@@ -58,7 +58,7 @@
   width: 80%;
   max-width: 80%;
   box-sizing: border-box;
-  align-items: center;
+  align-items: flex-start;
   align-self: center;
   flex-wrap: nowrap;
 }

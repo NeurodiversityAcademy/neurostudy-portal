@@ -90,3 +90,12 @@ export function resolveSearchFilterValues(
 ): string[] {
   return uniqueSortedStrings(selected.flatMap((value) => expandSelectedValue(value, catalog)));
 }
+
+/** Merge committed selections with in-progress typed draft (e.g. "business"). */
+export function mergeSearchTokens(selected: readonly string[], draft: string): string[] {
+  const trimmed = draft.trim();
+  if (trimmed === '') {
+    return uniqueSortedStrings(selected);
+  }
+  return uniqueSortedStrings([...selected, trimmed]);
+}

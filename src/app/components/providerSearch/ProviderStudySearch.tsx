@@ -1,8 +1,8 @@
 'use client';
 
-import { FormHTMLAttributes } from 'react';
+import { FormHTMLAttributes, useState } from 'react';
 import classNames from 'classnames';
-import { useForm, useWatch, type UseFormReturn } from 'react-hook-form';
+import { useForm, type UseFormReturn } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import Form from '@/app/components/formElements/Form';
 import Dropdown from '@/app/components/formElements/Dropdown/Dropdown';
@@ -15,7 +15,7 @@ import {
 } from '@/app/utilities/providerSearch/constants';
 import { buildProviderSearchHref } from '@/app/utilities/providerSearch/buildSearchHref';
 import { trackProviderSearchSubmit } from '@/app/utilities/providerSearch/providerSearchGa';
-import { uniqueSortedStrings } from '@/app/utilities/providerSearch/normalize';
+import { mergeSearchTokens, uniqueSortedStrings } from '@/app/utilities/providerSearch/normalize';
 import styles from './providerStudySearch.module.css';
 
 export type ProviderStudySearchProps = FormHTMLAttributes<HTMLFormElement> & {
@@ -51,6 +51,8 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
   ...rest
 }) => {
   const router = useRouter();
+  const [areaDraft, setAreaDraft] = useState('');
+  const [locationDraft, setLocationDraft] = useState('');
   const methods: UseFormReturn<ProviderStudySearchFormValues> =
     useForm<ProviderStudySearchFormValues>({
       mode: 'onChange',
@@ -60,20 +62,14 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
       },
     });
 
-  const watchedValues = useWatch({ control: methods.control });
-  const { interestAreas: selectedAreas, locations: selectedLocations } =
-    normalizeFormValues(watchedValues);
-  const canSearch = selectedAreas.length > 0 || selectedLocations.length > 0;
-
   return (
     <Form
       methods={methods}
       className={classNames(styles.container, compact && styles.compact, className)}
       onSubmit={methods.handleSubmit((values) => {
-        const { interestAreas, locations } = normalizeFormValues(values);
-        if (interestAreas.length === 0 && locations.length === 0) {
-          return;
-        }
+        const selected = normalizeFormValues(values);
+        const interestAreas = mergeSearchTokens(selected.interestAreas, areaDraft);
+        const locations = mergeSearchTokens(selected.locations, locationDraft);
         trackProviderSearchSubmit({ surface, interestAreas, locations });
         router.push(buildProviderSearchHref({ interestAreas, locations }, { searchDemo }));
       })}
@@ -89,7 +85,9 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
           placeholder={compact ? 'What do you want to study?' : 'Ex. Nursing or digital'}
           multiple
           creatable
+          pillsBelow
           options={interestAreaOptions}
+          onDraftChange={setAreaDraft}
         />
         <Dropdown<ProviderStudySearchFormValues>
           name='Location'
@@ -98,7 +96,9 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
           placeholder={compact ? 'Where do you want to study?' : 'Ex. Sydney'}
           multiple
           creatable
+          pillsBelow
           options={locationOptions}
+          onDraftChange={setLocationDraft}
         />
         <div className={styles.buttonContainer}>
           <ActionButton
@@ -106,7 +106,6 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
             style={BUTTON_STYLE.Primary}
             label='Search'
             icon={searchSrc}
-            disabled={!canSearch}
             className={compact ? styles.compactSearchButton : undefined}
           />
         </div>

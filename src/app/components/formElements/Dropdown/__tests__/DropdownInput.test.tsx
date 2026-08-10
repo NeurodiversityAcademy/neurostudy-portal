@@ -303,6 +303,48 @@ describe('DropdownInput advanced behaviour', () => {
     expect(screen.getByPlaceholderText('Select')).toBeInTheDocument();
   });
 
+  it('renders selected pills below the input when pillsBelow is set', () => {
+    render(
+      <TestWrapper defaultValues={{ fruits: ['apple', 'banana'] }}>
+        <Dropdown
+          name='fruits'
+          label='Fruits'
+          options={options}
+          multiple
+          pillsBelow
+          placeholder='Select fruit'
+        />
+      </TestWrapper>,
+    );
+
+    const pillsRow = screen.getByTestId('fruits-selected-pills');
+    expect(pillsRow).toHaveTextContent('Apple');
+    expect(pillsRow).toHaveTextContent('Banana');
+    expect(screen.getByPlaceholderText('Select fruit')).toHaveValue('');
+    expect(screen.getByPlaceholderText('Select fruit').closest('.dropdown-input-wrapper')).not.toContainElement(
+      pillsRow,
+    );
+  });
+
+  it('notifies onDraftChange while typing searchable text', async () => {
+    const onDraftChange = jest.fn();
+    render(
+      <TestWrapper>
+        <Dropdown
+          name='fruit'
+          label='Fruit'
+          options={options}
+          placeholder='Search'
+          creatable
+          onDraftChange={onDraftChange}
+        />
+      </TestWrapper>,
+    );
+
+    fireEvent.change(screen.getByPlaceholderText('Search'), { target: { value: 'business' } });
+    expect(onDraftChange).toHaveBeenCalledWith('business');
+  });
+
   it('shows label fallback for values not in options', () => {
     render(
       <TestWrapper defaultValues={{ fruit: 'unknown-value' }}>

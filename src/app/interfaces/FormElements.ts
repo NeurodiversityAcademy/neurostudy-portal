@@ -88,6 +88,10 @@ export interface DropdownProps<TFieldValues extends FieldValues> {
   showInputAsText?: boolean;
   cols?: FORM_ELEMENT_COL_WIDTH;
   multiple?: boolean;
+  /** When true, selected pills render under the field instead of inside the input. */
+  pillsBelow?: boolean;
+  /** Fires as the searchable input text changes (for draft/partial submit). */
+  onDraftChange?: (draft: string) => void;
   rules?: DefaultRules<TFieldValues>;
   onChange?: (selected: SelectOption['value'][]) => void;
 }

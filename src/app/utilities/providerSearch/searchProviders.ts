@@ -55,13 +55,10 @@ export function searchProvidersByFilters(
   filters: ProviderSearchFilters,
 ): ProviderSearchTierResults {
   const results = emptyProviderSearchTierResults();
-
-  if (filters.interestAreas.length === 0 && filters.locations.length === 0) {
-    return results;
-  }
+  const browseAll = filters.interestAreas.length === 0 && filters.locations.length === 0;
 
   for (const provider of providers) {
-    if (!matchesProviderSearchFilters(provider, filters)) {
+    if (!browseAll && !matchesProviderSearchFilters(provider, filters)) {
       continue;
     }
     results[classifyProviderSearchTier(provider)].push(provider);

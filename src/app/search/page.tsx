@@ -39,7 +39,6 @@ export default async function ProviderSearchPage({ searchParams }: SearchPagePro
   const totalCount = countProviderSearchResults(results);
   const interestAreaOptions = toDropdownOptions(context.interestAreaCatalog);
   const locationOptions = toDropdownOptions(context.locationCatalog);
-  const hasQuery = filters.interestAreas.length > 0 || filters.locations.length > 0;
 
   return (
     <main className={styles.page}>
@@ -68,36 +67,28 @@ export default async function ProviderSearchPage({ searchParams }: SearchPagePro
       </section>
 
       <div className={styles.results}>
-        {hasQuery ? (
-          <>
-            <ProviderSearchResultsTracker
-              interestAreas={filters.interestAreas}
-              locations={filters.locations}
-              resultCountTotal={totalCount}
-              countCourseEndorsed={results.course_endorsed.length}
-              countStarredEndorsed={results.starred_endorsed.length}
-              countEndorsed={results.endorsed.length}
-              countEmerging={results.emerging.length}
-            />
-            <Typography
-              variant={TypographyVariant.Body2}
-              color={TypographyColorToken.BondBlack}
-              className={styles.summary}
-            >
-              {totalCount === 1 ? '1 provider found' : `${totalCount} providers found`}
-            </Typography>
-            <ProviderSearchResults
-              results={results}
-              filters={filters}
-              searchDemo={searchDemo}
-              totalCount={totalCount}
-            />
-          </>
-        ) : (
-          <Typography variant={TypographyVariant.Body1} color={TypographyColorToken.BondBlack}>
-            Choose an area of study and/or location to see matching providers.
-          </Typography>
-        )}
+        <ProviderSearchResultsTracker
+          interestAreas={filters.interestAreas}
+          locations={filters.locations}
+          resultCountTotal={totalCount}
+          countCourseEndorsed={results.course_endorsed.length}
+          countStarredEndorsed={results.starred_endorsed.length}
+          countEndorsed={results.endorsed.length}
+          countEmerging={results.emerging.length}
+        />
+        <Typography
+          variant={TypographyVariant.Body2}
+          color={TypographyColorToken.BondBlack}
+          className={styles.summary}
+        >
+          {totalCount === 1 ? '1 provider found' : `${totalCount} providers found`}
+        </Typography>
+        <ProviderSearchResults
+          results={results}
+          filters={filters}
+          searchDemo={searchDemo}
+          totalCount={totalCount}
+        />
       </div>
     </main>
   );

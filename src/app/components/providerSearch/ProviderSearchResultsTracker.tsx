@@ -30,9 +30,6 @@ export default function ProviderSearchResultsTracker({
   const lastKeyRef = useRef<string>('');
 
   useEffect(() => {
-    if (interestAreas.length === 0 && locations.length === 0) {
-      return;
-    }
     const key = queryKey({ interestAreas, locations });
     if (lastKeyRef.current === key) {
       return;

@@ -29,16 +29,22 @@ jest.mock('../../formElements/Dropdown/Dropdown', () => ({
   default: function MockSearchDropdown({
     name,
     label,
+    onDraftChange,
   }: {
     name: 'InterestArea' | 'Location';
     label: string;
+    onDraftChange?: (draft: string) => void;
   }) {
     const { useFormContext } = require('react-hook-form');
     const { setValue, watch } = useFormContext();
     const value = watch(name) ?? [];
     return (
-      <label>
-        {label}
+      <div>
+        <span>{label}</span>
+        <input
+          aria-label={`${name}-draft`}
+          onChange={(event) => onDraftChange?.(event.target.value)}
+        />
         <select
           aria-label={label}
           multiple
@@ -55,7 +61,7 @@ jest.mock('../../formElements/Dropdown/Dropdown', () => ({
           <option value='Sydney'>Sydney</option>
           <option value='Melbourne'>Melbourne</option>
         </select>
-      </label>
+      </div>
     );
   },
 }));
@@ -68,7 +74,8 @@ describe('ProviderStudySearch', () => {
     (trackProviderSearchSubmit as jest.Mock).mockClear();
   });
 
-  it('disables search until an area or location is selected', () => {
+  it('allows searching with no selections to browse all providers', async () => {
+    const user = userEvent.setup();
     render(
       <ProviderStudySearch
         surface='homepage'
@@ -83,7 +90,18 @@ describe('ProviderStudySearch', () => {
       />,
     );
 
-    expect(screen.getByRole('button', { name: 'Search' })).toBeDisabled();
+    const searchButton = screen.getByRole('button', { name: 'Search' });
+    expect(searchButton).toBeEnabled();
+    await user.click(searchButton);
+
+    await waitFor(() => {
+      expect(trackProviderSearchSubmit).toHaveBeenCalledWith({
+        surface: 'homepage',
+        interestAreas: [],
+        locations: [],
+      });
+      expect(pushMock).toHaveBeenCalledWith('/search');
+    });
   });
 
   it('submits selected filters to /search and tracks GA', async () => {
@@ -115,6 +133,29 @@ describe('ProviderStudySearch', () => {
         locations: ['Sydney'],
       });
       expect(pushMock).toHaveBeenCalledWith('/search?InterestArea=Music&Location=Sydney');
+    });
+  });
+
+  it('includes typed draft text like business without requiring a pill', async () => {
+    const user = userEvent.setup();
+    render(
+      <ProviderStudySearch
+        surface='homepage'
+        interestAreaOptions={[{ label: 'Music', value: 'Music' }]}
+        locationOptions={[{ label: 'Sydney', value: 'Sydney' }]}
+      />,
+    );
+
+    await user.type(screen.getByLabelText('InterestArea-draft'), 'business');
+    await user.click(screen.getByRole('button', { name: 'Search' }));
+
+    await waitFor(() => {
+      expect(trackProviderSearchSubmit).toHaveBeenCalledWith({
+        surface: 'homepage',
+        interestAreas: ['business'],
+        locations: [],
+      });
+      expect(pushMock).toHaveBeenCalledWith('/search?InterestArea=business');
     });
   });
 });

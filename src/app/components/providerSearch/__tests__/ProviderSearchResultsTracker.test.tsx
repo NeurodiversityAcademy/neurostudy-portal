@@ -63,18 +63,25 @@ describe('ProviderSearchResultsTracker', () => {
     );
   });
 
-  it('does not fire when filters are empty', () => {
+  it('fires browse-all results_view when filters are empty', () => {
     render(
       <ProviderSearchResultsTracker
         interestAreas={[]}
         locations={[]}
-        resultCountTotal={0}
-        countCourseEndorsed={0}
-        countStarredEndorsed={0}
-        countEndorsed={0}
-        countEmerging={0}
+        resultCountTotal={12}
+        countCourseEndorsed={1}
+        countStarredEndorsed={2}
+        countEndorsed={4}
+        countEmerging={5}
       />,
     );
-    expect(trackMock).not.toHaveBeenCalled();
+    expect(trackMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        interestAreas: [],
+        locations: [],
+        resultCountTotal: 12,
+        hasResults: true,
+      }),
+    );
   });
 });
