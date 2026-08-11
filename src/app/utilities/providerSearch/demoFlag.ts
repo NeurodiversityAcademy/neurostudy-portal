@@ -7,5 +7,5 @@ export function isProviderSearchDemoEnabled(
     return false;
   }
   const value = Array.isArray(searchDemoParam) ? searchDemoParam[0] : searchDemoParam;
-  return value?.toLowerCase() === PROVIDER_SEARCH_DEMO_PARAM_VALUE;
+  return value === PROVIDER_SEARCH_DEMO_PARAM_VALUE;
 }

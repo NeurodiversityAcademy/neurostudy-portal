@@ -8,10 +8,10 @@ import { toDropdownOptions } from '@/app/utilities/providerSearch/catalog';
 import { resolveProviderSearchFilters } from '@/app/utilities/providerSearch/resolveFilters';
 import {
   countProviderSearchResults,
-  countStarredEndorsedResults,
   searchProvidersByFilters,
 } from '@/app/utilities/providerSearch/searchProviders';
 import { PROVIDER_SEARCH_QUERY } from '@/app/utilities/providerSearch/constants';
+import { joinGaMultiValue } from '@/app/utilities/providerSearch/normalize';
 import type { SearchParams } from '@/app/utilities/featureToggle';
 import styles from './search.module.css';
 
@@ -40,6 +40,11 @@ export default async function ProviderSearchPage({ searchParams }: SearchPagePro
   const totalCount = countProviderSearchResults(results);
   const interestAreaOptions = toDropdownOptions(context.interestAreaCatalog);
   const locationOptions = toDropdownOptions(context.locationCatalog);
+  const searchFormKey = [
+    joinGaMultiValue(filters.interestAreas),
+    joinGaMultiValue(filters.locations),
+    searchDemo ? '1' : '0',
+  ].join('::');
 
   return (
     <main className={styles.page}>
@@ -55,6 +60,7 @@ export default async function ProviderSearchPage({ searchParams }: SearchPagePro
             </Typography>
           </header>
           <ProviderStudySearch
+            key={searchFormKey}
             className={styles.searchBannerForm}
             compact
             surface='search_page'
@@ -68,16 +74,8 @@ export default async function ProviderSearchPage({ searchParams }: SearchPagePro
       </section>
 
       <div className={styles.results}>
-        <ProviderSearchResultsTracker
-          interestAreas={filters.interestAreas}
-          locations={filters.locations}
-          resultCountTotal={totalCount}
-          countCourseEndorsed={results.course_endorsed.length}
-          countStarredEndorsed={countStarredEndorsedResults(results)}
-          countEndorsed={results.endorsed.length}
-          countEmerging={results.emerging.length}
-        />
-        <div className={styles.resultsSummary}>
+        <ProviderSearchResultsTracker filters={filters} results={results} />
+        <div className={styles.resultsSummary} aria-live='polite'>
           <Typography
             variant={TypographyVariant.Body2}
             color={TypographyColorToken.BondBlack}
@@ -86,12 +84,7 @@ export default async function ProviderSearchPage({ searchParams }: SearchPagePro
             {totalCount === 1 ? '1 provider found' : `${totalCount} providers found`}
           </Typography>
         </div>
-        <ProviderSearchResults
-          results={results}
-          filters={filters}
-          searchDemo={searchDemo}
-          totalCount={totalCount}
-        />
+        <ProviderSearchResults results={results} filters={filters} searchDemo={searchDemo} />
       </div>
     </main>
   );

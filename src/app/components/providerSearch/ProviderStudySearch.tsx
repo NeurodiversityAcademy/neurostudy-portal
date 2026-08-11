@@ -111,7 +111,9 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
           locationDraft,
           surface,
           searchDemo,
-          push: router.push,
+          push: (href) => {
+            router.push(href);
+          },
         });
       })}
       aria-label='Search providers by area of study and location'

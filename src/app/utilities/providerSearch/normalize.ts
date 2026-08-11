@@ -51,29 +51,23 @@ export function joinGaMultiValue(values: readonly string[]): string {
     .join('|');
 }
 
-const MIN_PARTIAL_QUERY_LENGTH = 2;
+const MIN_PARTIAL_QUERY_LENGTH = 3;
 
 function isTooShortForPartialMatch(token: string): boolean {
   return token.length < MIN_PARTIAL_QUERY_LENGTH;
 }
 
-/** Shared partial/exact token compare used by matching and catalog expansion. */
+/** Shared exact/partial token compare used by matching and catalog expansion. */
 export function tokensPartialMatch(left: string, right: string): boolean {
   const a = normalizeSearchToken(left);
   const b = normalizeSearchToken(right);
-  if (isTooShortForPartialMatch(a)) {
-    return false;
-  }
-  if (isTooShortForPartialMatch(b)) {
-    return false;
-  }
   if (a === b) {
     return true;
   }
-  if (a.includes(b)) {
-    return true;
+  if (isTooShortForPartialMatch(a) || isTooShortForPartialMatch(b)) {
+    return false;
   }
-  if (b.includes(a)) {
+  if (a.includes(b) || b.includes(a)) {
     return true;
   }
   return false;
@@ -88,22 +82,28 @@ export function matchesSearchToken(haystack: readonly string[], needle: string):
 }
 
 function expandSelectedValue(value: string, catalog: readonly string[]): string[] {
-  const normalized = normalizeSearchToken(value);
-  if (isTooShortForPartialMatch(normalized)) {
+  const trimmed = value.trim();
+  if (trimmed === '') {
     return [];
   }
 
+  const normalized = normalizeSearchToken(trimmed);
   const exact = catalog.find((item) => normalizeSearchToken(item) === normalized);
   if (exact) {
     return [exact];
   }
 
-  const partialMatches = catalog.filter((item) => tokensPartialMatch(item, value));
+  // Keep short free-text as-is; do not expand via partial match.
+  if (isTooShortForPartialMatch(normalized)) {
+    return [trimmed];
+  }
+
+  const partialMatches = catalog.filter((item) => tokensPartialMatch(item, trimmed));
   if (partialMatches.length > 0) {
     return partialMatches;
   }
 
-  return [value.trim()];
+  return [trimmed];
 }
 
 /** Expand free-text / partial queries onto catalog labels when possible. */

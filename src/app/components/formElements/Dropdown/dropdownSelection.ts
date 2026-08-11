@@ -24,17 +24,17 @@ export function toSelectedOptions(value: unknown): SelectValue[] {
 export function buildOptionLookup(options: readonly SelectOption[]) {
   const byValue: Record<string, SelectOption> = {};
   for (const item of options) {
-    byValue[String(item.value)] = item;
+    byValue[String(item.value).toLowerCase()] = item;
   }
   return {
     getLabel: (val: SelectValue): SelectOption['label'] => {
-      const match = byValue[String(val)];
+      const match = byValue[String(val).toLowerCase()];
       if (match) {
         return match.label;
       }
       return String(val);
     },
-    exists: (val: SelectValue): boolean => String(val) in byValue,
+    exists: (val: SelectValue): boolean => String(val).toLowerCase() in byValue,
   };
 }
 

@@ -21,8 +21,7 @@ interface PropType {
 
 const DEFAULT_TITLE = 'We endorse Neuro-inclusion in tertiary education';
 const DEFAULT_SUBTITLE =
-  'Reach out to learn more about our endorsements and the \
-              impact we are creating for Neurodivergent students.';
+  'Reach out to learn more about our endorsements and the impact we are creating for Neurodivergent students.';
 
 function BannerCopy({
   title,

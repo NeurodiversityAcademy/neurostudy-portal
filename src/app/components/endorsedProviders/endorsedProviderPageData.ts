@@ -1427,16 +1427,6 @@ export function hasPromotedCoursesForSlug(slug: string): boolean {
   return getPromotedCoursesForSlug(slug).length > 0;
 }
 
-export function getEndorsedInterestAreasForSlug(slug: string): string[] {
-  const row = rows.find((item) => slugify(item.id) === slug);
-  return row?.interestAreas ?? [];
-}
-
-export function getEndorsedLocationsForSlug(slug: string): string[] {
-  const row = rows.find((item) => slugify(item.id) === slug);
-  return row?.locations ?? [];
-}
-
 const INSTITUTION_COURSES_URL_BY_SLUG: Record<string, string> = Object.fromEntries(
   rows.map((row) => [slugify(row.id), row.institutionCoursesUrl.trim()]),
 );

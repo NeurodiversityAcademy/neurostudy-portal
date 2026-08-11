@@ -80,7 +80,6 @@ describe('ProviderSearchResults', () => {
         results={emptyResults()}
         filters={{ interestAreas: ['Music'], locations: [] }}
         searchDemo={false}
-        totalCount={0}
       />,
     );
 
@@ -133,7 +132,6 @@ describe('ProviderSearchResults', () => {
         results={results}
         filters={{ interestAreas: ['Music'], locations: [] }}
         searchDemo
-        totalCount={3}
       />,
     );
 
@@ -180,7 +178,6 @@ describe('ProviderSearchResults', () => {
         results={results}
         filters={{ interestAreas: [], locations: [] }}
         searchDemo={false}
-        totalCount={1}
       />,
     );
 

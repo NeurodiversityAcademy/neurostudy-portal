@@ -22,14 +22,10 @@ export function matchesProviderSearchFilters(
   filters: ProviderSearchFilters,
 ): boolean {
   const areaOk = fieldAllowsEmptyOrMatch(filters.interestAreas, provider.interestAreas);
-  const locationOk = fieldAllowsEmptyOrMatch(filters.locations, provider.locations);
   if (!areaOk) {
     return false;
   }
-  if (!locationOk) {
-    return false;
-  }
-  return true;
+  return fieldAllowsEmptyOrMatch(filters.locations, provider.locations);
 }
 
 export function classifyProviderSearchTier(provider: ProviderSearchRecord): ProviderSearchTier {
@@ -61,7 +57,7 @@ function sortEndorsedProviders(providers: ProviderSearchRecord[]): ProviderSearc
   return [...providers].sort(compareCertifiedFirst);
 }
 
-export function emptyProviderSearchTierResults(): ProviderSearchTierResults {
+function emptyProviderSearchTierResults(): ProviderSearchTierResults {
   return {
     course_endorsed: [],
     endorsed: [],
@@ -70,13 +66,7 @@ export function emptyProviderSearchTierResults(): ProviderSearchTierResults {
 }
 
 function hasActiveFilters(filters: ProviderSearchFilters): boolean {
-  if (filters.interestAreas.length > 0) {
-    return true;
-  }
-  if (filters.locations.length > 0) {
-    return true;
-  }
-  return false;
+  return filters.interestAreas.length > 0 || filters.locations.length > 0;
 }
 
 export function searchProvidersByFilters(
@@ -90,7 +80,8 @@ export function searchProvidersByFilters(
     if (!browseAll && !matchesProviderSearchFilters(provider, filters)) {
       continue;
     }
-    results[classifyProviderSearchTier(provider)].push(provider);
+    const tier = classifyProviderSearchTier(provider);
+    results[tier].push(provider);
   }
 
   results.course_endorsed = sortProvidersByName(results.course_endorsed);
@@ -114,17 +105,35 @@ export type PositionedProviderSearchResult = {
   position: number;
 };
 
-/** Pure position assignment for result cards (no render-time mutation). */
+export type ProviderSearchTierGroup = {
+  tier: ProviderSearchTier;
+  items: PositionedProviderSearchResult[];
+};
+
+/** Assign global positions and group by tier in one pass. */
+export function listProviderSearchTierGroups(
+  results: ProviderSearchTierResults,
+): ProviderSearchTierGroup[] {
+  const groups: ProviderSearchTierGroup[] = [];
+  let position = 0;
+  for (const tier of PROVIDER_SEARCH_TIER_ORDER) {
+    const providers = results[tier];
+    if (providers.length === 0) {
+      continue;
+    }
+    const items: PositionedProviderSearchResult[] = [];
+    for (const provider of providers) {
+      position += 1;
+      items.push({ provider, tier, position });
+    }
+    groups.push({ tier, items });
+  }
+  return groups;
+}
+
+/** Flat list of positioned results (tests / GA helpers). */
 export function listPositionedProviderSearchResults(
   results: ProviderSearchTierResults,
 ): PositionedProviderSearchResult[] {
-  const positioned: PositionedProviderSearchResult[] = [];
-  let position = 0;
-  for (const tier of PROVIDER_SEARCH_TIER_ORDER) {
-    for (const provider of results[tier]) {
-      position += 1;
-      positioned.push({ provider, tier, position });
-    }
-  }
-  return positioned;
+  return listProviderSearchTierGroups(results).flatMap((group) => group.items);
 }

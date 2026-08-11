@@ -66,10 +66,31 @@ describe('DropdownInput advanced behaviour', () => {
     const input = screen.getByPlaceholderText('Search');
     fireEvent.focus(input);
     fireEvent.change(input, { target: { value: 'Dragonfruit' } });
-    fireEvent.keyDown(input, { key: 'Enter' });
+    // false means preventDefault ran — stops the parent form from submitting
+    expect(fireEvent.keyDown(input, { key: 'Enter' })).toBe(false);
 
     expect(document.querySelector('input[type="hidden"][name="fruit"]')).toHaveValue('Dragonfruit');
     expect(handleChange).toHaveBeenCalledWith(['Dragonfruit']);
+  });
+
+  it('does not offer create for a case-variant of an existing option', () => {
+    render(
+      <TestWrapper>
+        <Dropdown
+          name='fruit'
+          label='Fruit'
+          options={options}
+          placeholder='Search'
+          creatable
+          multiple
+        />
+      </TestWrapper>,
+    );
+
+    const input = screen.getByPlaceholderText('Search');
+    fireEvent.focus(input);
+    fireEvent.change(input, { target: { value: 'APPLE' } });
+    expect(screen.queryByText('Add "APPLE"')).not.toBeInTheDocument();
   });
 
   it('trims whitespace when creating a creatable option', () => {

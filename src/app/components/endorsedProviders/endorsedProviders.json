@@ -15,7 +15,7 @@
     "logo": "/images/AcademiaLogoLong.png",
     "topBackgroundImage": "/images/HSHCover.webp",
     "institutionCoursesUrl": "https://www.hsh.edu.au",
-    "locations": ["Perth"],
+    "locations": ["Perth", "WA"],
     "interestAreas": ["Nursing", "Education", "Public Health"]
   },
   {
@@ -23,7 +23,7 @@
     "logo": "/images/AcademiaLogoLong.png",
     "topBackgroundImage": "/images/AcademiaCover.webp",
     "institutionCoursesUrl": "https://www.studyacademia.edu.au",
-    "locations": ["Brisbane"],
+    "locations": ["Brisbane", "QLD"],
     "interestAreas": []
   },
   {
@@ -32,7 +32,7 @@
     "logo": "/images/AcademiaLogoLong.png",
     "topBackgroundImage": "/images/BlueprintCover.webp",
     "institutionCoursesUrl": "https://www.blueprintcd.com.au/",
-    "locations": ["Brisbane"],
+    "locations": ["Brisbane", "QLD"],
     "interestAreas": ["Business Administration", "Sport and Exercise Science"]
   },
   {
@@ -41,7 +41,7 @@
     "logo": "/images/AcademiaLogoLong.png",
     "topBackgroundImage": "/images/CollartsCover.webp",
     "institutionCoursesUrl": "https://www.collarts.edu.au/courses",
-    "locations": ["Melbourne", "Sydney"],
+    "locations": ["Melbourne", "Sydney", "VIC", "NSW"],
     "interestAreas": ["Music", "Media and Communication", "Design", "Fine Arts"]
   }
 ]

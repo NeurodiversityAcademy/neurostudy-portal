@@ -4,11 +4,10 @@ import styles from '../institutionProviderCard/institutionProviderCard.module.cs
 import Typography, { TypographyVariant } from '../typography/Typography';
 import { TypographyColorToken } from '../typography/typographyColorToken';
 import type { AustralianState } from './emergingInstitutionTypes';
-import { buildEmergingProviderDetailHref } from '@/app/emergingproviders/emergingProviderMetadata';
 import { slugify } from '@/app/utilities/common';
 import { buildEmergingExploreMoreAnalytics } from './emergingProvidersGa';
-import { hasEmergingProviderProfile } from './emergingProviderProfileSlugs';
 import type { InstitutionCtaAnalytics } from './EmergingInstitutionCtaButton';
+import { resolveEmergingProviderHref } from './resolveEmergingProviderHref';
 
 type EmergingInstitutionCardProps = {
   name: string;
@@ -30,10 +29,8 @@ function resolveEmergingCta(params: {
   comingSoonLabel: string | undefined;
   gaEvent: InstitutionCtaAnalytics | undefined;
 } {
-  const providerSlug = slugify(params.name);
-  const missingProfile = !hasEmergingProviderProfile(providerSlug);
-  const isComingSoon = params.demo || missingProfile;
-  if (isComingSoon) {
+  const href = resolveEmergingProviderHref({ name: params.name, demo: params.demo });
+  if (!href) {
     return {
       href: undefined,
       comingSoonLabel: 'Coming soon',
@@ -41,10 +38,9 @@ function resolveEmergingCta(params: {
     };
   }
 
-  const href = buildEmergingProviderDetailHref(providerSlug);
   const defaultGaEvent = buildEmergingExploreMoreAnalytics({
     providerName: params.name,
-    providerSlug,
+    providerSlug: slugify(params.name),
     state: params.state,
     destinationPath: href,
   });

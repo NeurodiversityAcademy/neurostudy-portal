@@ -67,6 +67,16 @@ function ensureFlushLoop(): void {
   }, FLUSH_INTERVAL_MS);
 }
 
+function withPagePath(params: GaEventParams): GaEventParams {
+  if (typeof window === 'undefined') {
+    return params;
+  }
+  return {
+    ...params,
+    page_path: window.location.pathname,
+  };
+}
+
 export function queueProviderSearchGaEvent(eventName: string, params: GaEventParams): void {
   if (typeof window === 'undefined') {
     return;
@@ -74,11 +84,12 @@ export function queueProviderSearchGaEvent(eventName: string, params: GaEventPar
   if (!isProductionAnalyticsEnabled()) {
     return;
   }
+  const enriched = withPagePath(params);
   if (hasGtag()) {
-    sendGaEvent(eventName, params);
+    sendGaEvent(eventName, enriched);
     return;
   }
-  pendingEvents.push({ eventName, params });
+  pendingEvents.push({ eventName, params: enriched });
   ensureFlushLoop();
 }
 
@@ -93,27 +104,17 @@ export function isProviderSearchGaFlushLoopActiveForTests(): boolean {
   return flushTimerId !== null;
 }
 
-function withPagePath(params: GaEventParams): GaEventParams {
-  return {
-    ...params,
-    page_path: window.location.pathname,
-  };
-}
-
 export function trackProviderSearchSubmit(params: {
   surface: ProviderSearchSurface;
   interestAreas: readonly string[];
   locations: readonly string[];
 }): void {
-  queueProviderSearchGaEvent(
-    PROVIDER_SEARCH_GA.submit.eventName,
-    withPagePath({
-      category: PROVIDER_SEARCH_GA.submit.category,
-      surface: params.surface,
-      interest_areas: joinGaMultiValue(params.interestAreas),
-      locations: joinGaMultiValue(params.locations),
-    }),
-  );
+  queueProviderSearchGaEvent(PROVIDER_SEARCH_GA.submit.eventName, {
+    category: PROVIDER_SEARCH_GA.submit.category,
+    surface: params.surface,
+    interest_areas: joinGaMultiValue(params.interestAreas),
+    locations: joinGaMultiValue(params.locations),
+  });
 }
 
 export function trackProviderSearchResultsView(params: {
@@ -126,20 +127,17 @@ export function trackProviderSearchResultsView(params: {
   countEmerging: number;
   hasResults: boolean;
 }): void {
-  queueProviderSearchGaEvent(
-    PROVIDER_SEARCH_GA.resultsView.eventName,
-    withPagePath({
-      category: PROVIDER_SEARCH_GA.resultsView.category,
-      interest_areas: joinGaMultiValue(params.interestAreas),
-      locations: joinGaMultiValue(params.locations),
-      result_count_total: params.resultCountTotal,
-      count_course_endorsed: params.countCourseEndorsed,
-      count_starred_endorsed: params.countStarredEndorsed,
-      count_endorsed: params.countEndorsed,
-      count_emerging: params.countEmerging,
-      has_results: params.hasResults,
-    }),
-  );
+  queueProviderSearchGaEvent(PROVIDER_SEARCH_GA.resultsView.eventName, {
+    category: PROVIDER_SEARCH_GA.resultsView.category,
+    interest_areas: joinGaMultiValue(params.interestAreas),
+    locations: joinGaMultiValue(params.locations),
+    result_count_total: params.resultCountTotal,
+    count_course_endorsed: params.countCourseEndorsed,
+    count_starred_endorsed: params.countStarredEndorsed,
+    count_endorsed: params.countEndorsed,
+    count_emerging: params.countEmerging,
+    has_results: params.hasResults,
+  });
 }
 
 type ResultClickParams = {
@@ -166,7 +164,7 @@ function buildResultClickParams(params: ResultClickParams): GaEventParams {
 export function trackProviderSearchResultClick(params: ResultClickParams): void {
   queueProviderSearchGaEvent(
     PROVIDER_SEARCH_GA.resultClick.eventName,
-    withPagePath(buildResultClickParams(params)),
+    buildResultClickParams(params),
   );
 }
 
@@ -182,11 +180,8 @@ export function buildProviderSearchResultClickAnalytics(
 }
 
 export function trackProviderCoursesPlaceholderView(providerSlug: string): void {
-  queueProviderSearchGaEvent(
-    PROVIDER_SEARCH_GA.coursesPlaceholderView.eventName,
-    withPagePath({
-      category: PROVIDER_SEARCH_GA.coursesPlaceholderView.category,
-      provider_slug: providerSlug,
-    }),
-  );
+  queueProviderSearchGaEvent(PROVIDER_SEARCH_GA.coursesPlaceholderView.eventName, {
+    category: PROVIDER_SEARCH_GA.coursesPlaceholderView.category,
+    provider_slug: providerSlug,
+  });
 }

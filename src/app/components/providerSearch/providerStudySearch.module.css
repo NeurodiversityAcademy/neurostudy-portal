@@ -1,8 +1,5 @@
 .container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin: 0;
+  composes: container from '../searchForm/searchFormShell.module.css';
 }
 
 .compact {
@@ -12,43 +9,11 @@
 }
 
 .buttonContainer {
-  display: flex;
-  align-items: center;
+  composes: buttonContainer from '../searchForm/searchFormShell.module.css';
 }
 
 .content {
-  width: auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px 60px;
-  background-color: var(--GhostWhite);
-  flex-direction: row;
-  align-self: center;
-  border-radius: 8px;
-  box-shadow: 0px 8px 20px 0px #0000001f;
-  padding: 15px;
-}
-
-.content > * {
-  width: 260px;
-  flex: 1;
-  align-self: stretch;
-  justify-content: flex-start;
-}
-
-.content > *[role='combobox'] {
-  margin-left: 5px;
-}
-
-.content > button,
-.content > .buttonContainer {
-  flex: 0 0 116px;
-  margin: auto;
-  align-self: center;
-}
-
-.content > *[role='combobox'] label > * {
-  font-weight: 600;
+  composes: content from '../searchForm/searchFormShell.module.css';
 }
 
 .compact .content {
@@ -80,7 +45,8 @@
 }
 
 .compactSearchButton {
-  width: calc(var(--primary-button-width) / 2);
+  --compact-search-btn-width: calc(var(--primary-button-width) / 2);
+  width: var(--compact-search-btn-width);
   max-width: 156px;
   min-width: 0;
   padding: 6px 10px;
@@ -90,7 +56,7 @@
 
 /* Beat ActionButton `.primary { width: var(--primary-button-width) }` */
 .compact .buttonContainer .compactSearchButton {
-  width: calc(var(--primary-button-width) / 2);
+  width: var(--compact-search-btn-width);
   max-width: 156px;
 }
 
@@ -134,14 +100,7 @@
   .compact .buttonContainer .compactSearchButton,
   .compact .content > .buttonContainer > button,
   .compact .content > button {
-    width: calc(var(--primary-button-width) / 2);
+    width: var(--compact-search-btn-width);
     max-width: 156px;
-  }
-}
-
-@media (max-width: 480px) {
-  .content > * {
-    flex-basis: auto;
-    width: 100%;
   }
 }
