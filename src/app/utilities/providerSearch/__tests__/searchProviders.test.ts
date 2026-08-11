@@ -243,7 +243,16 @@ describe('provider search catalog seeds', () => {
   it('includes emerging states and derived endorsed states in location catalog', () => {
     const catalog = loadProviderSearchContext().locationCatalog;
     expect(catalog).toEqual(
-      expect.arrayContaining(['NSW', 'QLD', 'VIC', 'WA', 'Sydney', 'Melbourne', 'Brisbane', 'Perth']),
+      expect.arrayContaining([
+        'NSW',
+        'QLD',
+        'VIC',
+        'WA',
+        'Sydney',
+        'Melbourne',
+        'Brisbane',
+        'Perth',
+      ]),
     );
     expect(catalog).toEqual([...new Set(catalog)].sort((a, b) => a.localeCompare(b)));
   });

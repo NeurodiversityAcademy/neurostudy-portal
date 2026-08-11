@@ -11,7 +11,9 @@ jest.mock('@/app/utilities/providerSearch/providerSearchGa', () => ({
   trackProviderSearchResultsView: (...args: unknown[]) => trackMock(...args),
 }));
 
-function makeResults(overrides: Partial<ProviderSearchTierResults> = {}): ProviderSearchTierResults {
+function makeResults(
+  overrides: Partial<ProviderSearchTierResults> = {},
+): ProviderSearchTierResults {
   return {
     course_endorsed: [],
     endorsed: [],

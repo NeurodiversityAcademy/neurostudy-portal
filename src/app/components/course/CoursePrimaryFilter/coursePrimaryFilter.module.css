@@ -1,14 +1,14 @@
 .container {
-  composes: container from '../searchForm/searchFormShell.module.css';
+  composes: container from '../../searchForm/searchFormShell.module.css';
 }
 
 .buttonContainer {
-  composes: buttonContainer from '../searchForm/searchFormShell.module.css';
+  composes: buttonContainer from '../../searchForm/searchFormShell.module.css';
   align-items: flex-end;
 }
 
 .content {
-  composes: content from '../searchForm/searchFormShell.module.css';
+  composes: content from '../../searchForm/searchFormShell.module.css';
 }
 
 .container.disabled :global(.dropdown-input-wrapper) {
