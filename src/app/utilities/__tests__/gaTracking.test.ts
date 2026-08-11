@@ -18,13 +18,31 @@ import { CONVERSION_FORM_NAMES, GA_EVENTS } from '@/app/utilities/constants';
 import { installGtagMock, installTestPagePath } from '@/app/utilities/__tests__/gaTestHelpers';
 
 describe('gaTracking', () => {
+  const originalVercelEnv = process.env.NEXT_PUBLIC_VERCEL_ENV;
+
   beforeEach(() => {
+    process.env.NEXT_PUBLIC_VERCEL_ENV = 'production';
     installTestPagePath('/endorsedproviders/collarts');
+  });
+
+  afterEach(() => {
+    if (originalVercelEnv === undefined) {
+      delete process.env.NEXT_PUBLIC_VERCEL_ENV;
+    } else {
+      process.env.NEXT_PUBLIC_VERCEL_ENV = originalVercelEnv;
+    }
   });
 
   it('sendGaEvent is a no-op when gtag is missing', () => {
     (window as unknown as { gtag: null }).gtag = null;
     expect(() => sendGaEvent('test_event', { [GA_PARAM.CATEGORY]: 'Test' })).not.toThrow();
+  });
+
+  it('sendGaEvent is a no-op outside Vercel production', () => {
+    process.env.NEXT_PUBLIC_VERCEL_ENV = 'preview';
+    const mockGtag = installGtagMock();
+    sendGaEvent('test_event', { [GA_PARAM.CATEGORY]: 'Test' });
+    expect(mockGtag).not.toHaveBeenCalled();
   });
 
   it('buildProviderScopedParams includes slug and page path', () => {

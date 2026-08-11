@@ -6,6 +6,11 @@ if (typeof globalThis.TextEncoder === 'undefined') {
   Object.defineProperty(globalThis, 'TextDecoder', { value: TextDecoder });
 }
 
+// Default analytics gate open in tests. Vercel Preview sets NEXT_PUBLIC_VERCEL_ENV=preview
+// during `vercel:build`, which would no-op sendGaEvent and fail engagement suites.
+// Suites that assert the prod-only gate override this in beforeEach/afterEach.
+process.env.NEXT_PUBLIC_VERCEL_ENV = 'production';
+
 // RTL / React 19 require the test act environment. Jest scripts force NODE_ENV=test
 // so React.act is available even when the parent Vercel build uses NODE_ENV=production.
 Object.defineProperty(globalThis, 'IS_REACT_ACT_ENVIRONMENT', {

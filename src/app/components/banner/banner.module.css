@@ -1,3 +1,10 @@
+.bannerWithSearch {
+  width: 100%;
+  position: relative;
+  /* Keep open search dropdowns above the next homepage section */
+  z-index: 4;
+}
+
 .bannerContainer {
   box-sizing: border-box;
   width: 100%;
@@ -6,16 +13,20 @@
   gap: 1vw;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  position: relative; /* allow absolutely positioned filter to sit inside the picture */
+  position: relative;
   overflow: hidden;
-  /* Fallback + mobile hero as CSS background so LCP can be text (faster CWV). */
   background-color: #4a2a8a;
   background-image: url('/images/hero-mobile.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+/* Allow study/location menus to extend past the hero edge */
+.bannerContainerWithSearch {
+  overflow: visible;
 }
 
 @media (min-width: 769px) {
@@ -44,6 +55,8 @@
   max-width: 100%;
   position: relative;
   z-index: 2;
+  flex: 1 1 auto;
+  align-items: center;
 }
 
 .textContainer {
@@ -52,15 +65,16 @@
 
 .form {
   position: relative;
-  z-index: 2;
-}
-
-.form > :first-child {
-  flex: 1;
-}
-
-.bannerContainer + .formMobile {
-  display: none;
+  z-index: 3;
+  width: 100%;
+  max-height: none;
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.75rem 0 0;
+  box-sizing: border-box;
+  overflow: visible;
 }
 
 .buttonContainer {
@@ -69,20 +83,26 @@
   width: 100%;
 }
 
+@media (max-width: 768px) {
+  .form {
+    max-height: none;
+  }
+}
+
 @media (max-width: 480px) {
   .bannerContainer {
     flex-direction: column;
+    height: auto;
+    min-height: 70vh;
   }
 
   .bannerTextAndBadge {
     flex-direction: column;
   }
 
-  .bannerContainer .form {
-    display: none;
-  }
-
-  .bannerContainer + .formMobile {
-    display: flex;
+  .form {
+    max-height: none;
+    margin-top: 0.75rem;
+    padding: 0;
   }
 }

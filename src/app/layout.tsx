@@ -12,6 +12,9 @@ import MetaPixel from './components/article/MetaPixel';
 import DeferredTabNavEmbed from './components/tabnav/DeferredTabNavEmbed';
 import DeferredGoogleAnalytics from './components/analytics/DeferredGoogleAnalytics';
 import DeferredVercelInsights from './components/analytics/DeferredVercelInsights';
+import { isProductionAnalyticsEnabled } from './utilities/analyticsEnv';
+
+const isProductionAnalytics = isProductionAnalyticsEnabled();
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -93,12 +96,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </NextAuthProvider>
         <Footer />
         <ToasterWrapper />
-        {process.env.NODE_ENV === 'production' && <MetaPixel />}
-        <DeferredGoogleAnalytics
-          gaId='G-5YMLVTTK45'
-          debugMode={process.env.NODE_ENV !== 'production'}
-        />
-        <DeferredVercelInsights />
+        {isProductionAnalytics && <MetaPixel />}
+        {isProductionAnalytics && <DeferredGoogleAnalytics gaId='G-5YMLVTTK45' />}
+        {isProductionAnalytics && <DeferredVercelInsights />}
         <DeferredTabNavEmbed />
       </body>
     </html>

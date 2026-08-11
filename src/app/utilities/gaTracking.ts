@@ -1,3 +1,4 @@
+import { isProductionAnalyticsEnabled } from '@/app/utilities/analyticsEnv';
 import { CONVERSION_FORM_NAMES, GA_EVENTS } from '@/app/utilities/constants';
 
 export const GA_EVENT_COMMAND = 'event' as const;
@@ -61,6 +62,9 @@ export function buildProviderScopedParams(
 }
 
 export function sendGaEvent(eventName: string, params: GaEventParams): void {
+  if (!isProductionAnalyticsEnabled()) {
+    return;
+  }
   const gtag = resolveGtag();
   if (gtag === null) {
     return;

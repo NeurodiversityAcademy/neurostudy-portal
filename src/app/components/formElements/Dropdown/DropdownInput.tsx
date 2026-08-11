@@ -1,369 +1,178 @@
 'use client';
 
-import {
-  useState,
-  ChangeEvent,
-  KeyboardEvent,
-  useRef,
-  useLayoutEffect,
-  FocusEvent,
-  KeyboardEventHandler,
-  useId,
-  useMemo,
-} from 'react';
-import styles from './dropdown.module.css';
-import classNames from 'classnames';
 import { FieldValues } from 'react-hook-form';
-import CheckBoxItem from '../CheckBoxItem/CheckBoxItem';
-import Label from '../Label/Label';
-import { PillFocusEventHandler } from '@/app/interfaces/Pill';
-import { SelectOption, DropdownInputProps } from '@/app/interfaces/FormElements';
-import ErrorBox from '../ErrorBox/ErrorBox';
 import Pill from '../Pill/Pill';
-import HelperText from '../HelperText/HelperText';
-import ClearButton from '../ClearButton/ClearButton';
-import useDefaultValue from '@/app/hooks/useDefaultValue';
-import { emptyFunc } from '@/app/utilities/common';
-import ArrowDownIcon from '../../images/ArrowDown';
+import { DropdownInputProps } from '@/app/interfaces/FormElements';
+import DropdownComboboxView from './DropdownComboboxView';
+import { useDropdownInputState } from './useDropdownInputState';
 
 const BUTTON_ARIA_LABEL = 'Clear';
 
-type SelectValue = SelectOption['value'];
+function shouldShowPillsBelow(
+  multiple: boolean,
+  pillsBelow: boolean,
+  selectedCount: number,
+): boolean {
+  if (!multiple) {
+    return false;
+  }
+  if (!pillsBelow) {
+    return false;
+  }
+  return selectedCount > 0;
+}
 
-const DropdownInput = <TFieldValues extends FieldValues>({
-  name,
-  label,
-  defaultValue,
-  showLabel = false,
+function resolveInlinePills(
+  multiple: boolean,
+  pillsBelow: boolean,
+  selectedPills: React.ReactNode,
+): React.ReactNode {
+  if (!multiple) {
+    return null;
+  }
+  if (pillsBelow) {
+    return null;
+  }
+  return selectedPills;
+}
+
+function shouldShowTextControl(disabled: boolean | undefined, selectedCount: number): boolean {
+  if (!disabled) {
+    return true;
+  }
+  return selectedCount === 0;
+}
+
+function boolProp(value: boolean | undefined, fallback: boolean): boolean {
+  if (value === undefined) {
+    return fallback;
+  }
+  return value;
+}
+
+function isSearchableEnabled(searchable: boolean | undefined): boolean {
+  return searchable !== false;
+}
+
+type ResolvedDropdownFlags = {
+  showLabel: boolean;
+  required: boolean;
+  clearable: boolean;
+  radioMode: boolean;
+  multiple: boolean;
+  pillsBelow: boolean;
+  showInputAsText: boolean;
+  searchable: boolean;
+};
+
+function resolveDropdownFlags<TFieldValues extends FieldValues>(
+  props: DropdownInputProps<TFieldValues>,
+): ResolvedDropdownFlags {
+  return {
+    showLabel: boolProp(props.showLabel, false),
+    required: boolProp(props.required, false),
+    clearable: boolProp(props.clearable, true),
+    radioMode: boolProp(props.radioMode, false),
+    multiple: boolProp(props.multiple, false),
+    pillsBelow: boolProp(props.pillsBelow, false),
+    showInputAsText: boolProp(props.showInputAsText, false),
+    searchable: isSearchableEnabled(props.searchable),
+  };
+}
+
+function SelectedOptionPills({
   options,
-  placeholder,
-  helperText,
-  required = false,
-  onChange,
-  className,
-  renderProps,
-  creatable,
-  searchable = true,
-  clearable = true,
-  radioMode = false,
-  multiple = false,
-  closeOnSelect = false,
-  showInputAsText = false,
-  cols,
-  defaultErrorMessage,
-  methods,
-}: DropdownInputProps<TFieldValues>) => {
-  const {
-    field,
-    formState: { errors },
-  } = renderProps;
-  const error = errors[name];
-  const { disabled, onBlur, value } = field;
+  getLabel,
+  disabled,
+  onRemove,
+  onFocus,
+}: {
+  options: Array<string | number | boolean>;
+  getLabel: (value: string | number | boolean) => string;
+  disabled?: boolean;
+  onRemove: (value: string | number | boolean) => void;
+  onFocus: Parameters<typeof Pill>[0]['onFocus'];
+}) {
+  return options.map((option) => (
+    <Pill
+      key={String(option)}
+      label={getLabel(option)}
+      value={option}
+      selected
+      onClose={onRemove}
+      onFocus={onFocus}
+      disabled={disabled}
+      button-aria-label={BUTTON_ARIA_LABEL}
+    />
+  ));
+}
 
-  const inputRef = useRef<HTMLInputElement | HTMLSpanElement | undefined>(undefined);
-  const nextFocusElemRef = useRef<HTMLElement | undefined>(undefined);
-  const selectedOptions = useMemo(
-    () => (value != null ? (Array.isArray(value) ? value : [value]) : []),
-    [value],
+const DropdownInput = <TFieldValues extends FieldValues>(
+  props: DropdownInputProps<TFieldValues>,
+) => {
+  const flags = resolveDropdownFlags(props);
+  const state = useDropdownInputState(props);
+  const selectedPills = (
+    <SelectedOptionPills
+      options={state.selectedOptions}
+      getLabel={state.getLabel}
+      disabled={state.disabled}
+      onRemove={state.onRemove}
+      onFocus={state.onPillFocus}
+    />
   );
-  const listId = useId();
-  const [expanded, setExpanded] = useState(false);
-
-  radioMode = !multiple && radioMode;
-
-  useDefaultValue<TFieldValues>({
-    renderProps,
-    defaultValue,
-    setValue: methods.setValue,
-  });
-
-  const setSelectedOptions = (val: SelectValue[]) => {
-    if (multiple) {
-      const newValue = val.length ? val : '';
-      field.onChange(newValue);
-    } else {
-      const newValue = val.length ? val[0] : '';
-      field.onChange(newValue);
-    }
-    // The external onChange prop might expect an array, so we pass the array `val`
-    onChange?.(val);
-  };
-
-  const { getLabel, exists } = (() => {
-    const obj: Record<string, SelectOption> = {};
-    for (const item of options) {
-      obj[String(item.value)] = item;
-    }
-
-    return {
-      getLabel: (val: SelectValue): SelectOption['label'] => obj[String(val)]?.label || String(val),
-      exists: (val: SelectValue): boolean => String(val) in obj,
-    };
-  })();
-
-  const [_inputValue, setInputValue] = useState('');
-  const inputValue =
-    !multiple && selectedOptions.length ? getLabel(selectedOptions[0]) : _inputValue;
-
-  const isSelected = (() => {
-    const obj: Record<string, true> = {};
-    for (const item of selectedOptions) {
-      obj[String(item).toLowerCase()] = true;
-    }
-
-    return (val: SelectValue): boolean => String(val).toLowerCase() in obj;
-  })();
-
-  const createItem = (val: string) => {
-    if (!creatable) {
-      return;
-    }
-    const valLowerCase = val.toLowerCase();
-    setInputValue('');
-    const option = selectedOptions.find((option) => String(option).toLowerCase() === valLowerCase);
-    if (!option) {
-      setSelectedOptions([...selectedOptions, val]);
-    }
-    inputRef.current?.focus();
-  };
-
-  const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!searchable) {
-      return;
-    }
-    setInputValue(e.target.value);
-    if (!multiple && selectedOptions.length) {
-      setSelectedOptions([]);
-    }
-  };
-
-  const onInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && hasCreateItem) {
-      createItem(inputValue);
-    }
-  };
-
-  const onKeyDown: KeyboardEventHandler<HTMLDivElement> = ({ key }) => {
-    if (key === 'Escape') {
-      setExpanded(false);
-      inputRef.current?.focus();
-    }
-  };
-
-  const onRemove = (val: SelectValue) => {
-    setSelectedOptions(selectedOptions.filter((item) => item !== val));
-  };
-
-  const onPillFocus: PillFocusEventHandler = ({ parent }) => {
-    if (parent) {
-      nextFocusElemRef.current = parent.nextElementSibling as HTMLElement;
-    }
-  };
-
-  const attachInputRef = (node: HTMLInputElement | HTMLSpanElement | null) => {
-    inputRef.current = node || undefined;
-    field.ref(node);
-  };
-
-  const handleCloseOnSelect = () => {
-    if (closeOnSelect) {
-      setExpanded(false);
-      (document.activeElement as HTMLElement)?.blur();
-    }
-  };
-
-  useLayoutEffect(() => {
-    nextFocusElemRef.current?.focus();
-  }, [selectedOptions]);
-
-  const isExpanded = !disabled && expanded;
-
-  const filteredOptions = searchable
-    ? options.filter((option) => {
-        const inputValueLC = inputValue.toLowerCase();
-        return option.label.toLowerCase().includes(inputValueLC);
-      })
-    : options;
-
-  const focusInput = (e: React.MouseEvent<HTMLElement>) => {
-    if (e.currentTarget === e.target) {
-      if (document.activeElement === inputRef.current) {
-        e.preventDefault();
-      } else {
-        setTimeout(() => inputRef.current?.focus());
-      }
-    }
-  };
-
-  const hasCreateItem =
-    !disabled && creatable && inputValue.trim() && !exists(inputValue) && !isSelected(inputValue);
 
   return (
-    <div
-      className={classNames(
-        styles.container,
-        'border-box-parent',
-        cols && 'col-md-' + cols,
-        className,
+    <DropdownComboboxView
+      name={props.name}
+      label={props.label}
+      showLabel={flags.showLabel}
+      placeholder={props.placeholder}
+      helperText={props.helperText}
+      required={flags.required}
+      className={props.className}
+      clearable={flags.clearable}
+      radioMode={flags.radioMode}
+      multiple={flags.multiple}
+      pillsBelow={flags.pillsBelow}
+      showInputAsText={flags.showInputAsText}
+      searchable={flags.searchable}
+      cols={props.cols}
+      defaultErrorMessage={props.defaultErrorMessage}
+      methods={props.methods}
+      error={state.error}
+      disabled={state.disabled}
+      value={state.value}
+      selectedOptions={state.selectedOptions}
+      isSelected={state.isSelected}
+      inputValue={state.inputValue}
+      isExpanded={state.isExpanded}
+      filteredOptions={state.filteredOptions}
+      hasCreateItem={state.hasCreateItem}
+      selectedPills={selectedPills}
+      showBelowPills={shouldShowPillsBelow(
+        flags.multiple,
+        flags.pillsBelow,
+        state.selectedOptions.length,
       )}
-      role='combobox'
-      aria-controls={listId}
-      aria-expanded={isExpanded}
-      aria-disabled={disabled}
-      onFocusCapture={() => !disabled && !expanded && setExpanded(true)}
-      onBlurCapture={(e: FocusEvent<HTMLDivElement, Element>) => {
-        if (!(e.currentTarget as Node)?.contains(e.relatedTarget as Node)) {
-          onBlur();
-          setExpanded(false);
-        }
+      inlinePills={resolveInlinePills(flags.multiple, flags.pillsBelow, selectedPills)}
+      showTextControl={shouldShowTextControl(state.disabled, state.selectedOptions.length)}
+      attachInputRef={state.attachInputRef}
+      expandIfEnabled={state.expandIfEnabled}
+      collapseIfLeaving={state.collapseIfLeaving}
+      onKeyDown={state.onKeyDown}
+      focusInput={state.focusInput}
+      onInputChange={state.onInputChange}
+      onInputKeyDown={state.onInputKeyDown}
+      onClearDraft={() => {
+        state.setDraftValue('');
       }}
-      onKeyDown={onKeyDown}
-    >
-      {showLabel && <Label name={name} color={error && 'red'} label={label} required={required} />}
-      <div
-        className={classNames(
-          styles.inputWrapper,
-          error && styles.error,
-          // NOTE: Exposing for CSS Selectors
-          'dropdown-input-wrapper',
-        )}
-        onBlurCapture={() => {
-          nextFocusElemRef.current = undefined;
-        }}
-        onMouseDown={focusInput}
-      >
-        <div
-          className={classNames(styles.pillAndInput, selectedOptions.length && styles.hasValue)}
-          onMouseDown={focusInput}
-        >
-          {multiple &&
-            selectedOptions.map((option) => (
-              <Pill
-                key={String(option)}
-                label={getLabel(option)}
-                value={option}
-                selected
-                onClose={onRemove}
-                onFocus={onPillFocus}
-                disabled={disabled}
-                button-aria-label={BUTTON_ARIA_LABEL}
-              />
-            ))}
-          {(!disabled || !selectedOptions.length) &&
-            (showInputAsText ? (
-              <span ref={attachInputRef} className={styles.inputAsText} tabIndex={0}>
-                {inputValue}
-              </span>
-            ) : (
-              <input
-                ref={attachInputRef}
-                type='text'
-                role={searchable ? 'searchbox' : undefined}
-                disabled={disabled}
-                placeholder={placeholder}
-                className={styles.input}
-                onChange={onInputChange}
-                value={inputValue}
-                onKeyDown={onInputKeyDown}
-                readOnly={!searchable}
-              />
-            ))}
-        </div>
-        {clearable && (
-          <ClearButton
-            name={name}
-            value={value}
-            methods={methods}
-            className={styles.clearBtn}
-            disabled={disabled}
-            onClick={() => !multiple && setInputValue('')}
-          />
-        )}
-        <ArrowDownIcon
-          aria-hidden
-          className={styles.expandIcon}
-          onMouseDown={(e) => {
-            inputRef.current?.[isExpanded ? 'blur' : 'focus']();
-            e.preventDefault();
-          }}
-        />
-      </div>
-      <div className={styles.dropdownListContainer}>
-        <ul
-          className={styles.dropdownList}
-          id={listId}
-          role='listbox'
-          aria-multiselectable={multiple}
-          onTransitionEnd={(e) => {
-            if (
-              e.target === e.currentTarget &&
-              !isExpanded &&
-              (multiple || !selectedOptions.length)
-            ) {
-              setInputValue('');
-            }
-          }}
-        >
-          {hasCreateItem && (
-            <CheckBoxItem
-              label={'Add "' + inputValue + '"'}
-              checked={false}
-              onChange={() => {
-                createItem(inputValue);
-                handleCloseOnSelect();
-              }}
-              type='pill'
-              role='option'
-            />
-          )}
-          {filteredOptions.map(({ label, value }) => (
-            <CheckBoxItem
-              key={String(value)}
-              label={label}
-              checked={isSelected(value)}
-              role='option'
-              type={radioMode ? 'radio' : undefined}
-              onChange={(selected) => {
-                if (multiple) {
-                  setSelectedOptions(
-                    selected
-                      ? [...selectedOptions, value]
-                      : selectedOptions.filter((item) => item !== value),
-                  );
-                } else {
-                  setSelectedOptions(selected ? [value] : []);
-                }
-
-                handleCloseOnSelect();
-              }}
-            />
-          ))}
-          {!hasCreateItem && !filteredOptions.length && (
-            <CheckBoxItem
-              type='pill'
-              label='No options'
-              checked={false}
-              role='option'
-              aria-disabled
-              onChange={emptyFunc}
-              className={styles.noOptionItem}
-              tabIndex={-1}
-            />
-          )}
-        </ul>
-      </div>
-      <HelperText>{helperText}</HelperText>
-      {error && (
-        <ErrorBox message={error.message?.toString() || defaultErrorMessage} label={label} />
-      )}
-      {multiple &&
-        selectedOptions.map((option) => (
-          <input key={String(option)} type='hidden' name={name} value={option} />
-        ))}
-      {!multiple && selectedOptions.length > 0 && (
-        <input type='hidden' name={name} value={selectedOptions[0]} />
-      )}
-    </div>
+      onToggleExpand={state.toggleExpand}
+      onClearNextFocus={state.clearNextFocus}
+      createFromInput={state.createFromInput}
+      toggleOption={state.toggleOption}
+      clearDraftOnCollapse={state.clearDraftOnCollapse}
+    />
   );
 };
 

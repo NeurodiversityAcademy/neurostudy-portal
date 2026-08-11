@@ -1,0 +1,147 @@
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+
+.compact {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonContainer {
+  display: flex;
+  align-items: center;
+}
+
+.content {
+  width: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px 60px;
+  background-color: var(--GhostWhite);
+  flex-direction: row;
+  align-self: center;
+  border-radius: 8px;
+  box-shadow: 0px 8px 20px 0px #0000001f;
+  padding: 15px;
+}
+
+.content > * {
+  width: 260px;
+  flex: 1;
+  align-self: stretch;
+  justify-content: flex-start;
+}
+
+.content > *[role='combobox'] {
+  margin-left: 5px;
+}
+
+.content > button,
+.content > .buttonContainer {
+  flex: 0 0 116px;
+  margin: auto;
+  align-self: center;
+}
+
+.content > *[role='combobox'] label > * {
+  font-weight: 600;
+}
+
+.compact .content {
+  gap: 8px 16px;
+  padding: 8px 10px;
+  /* Prior 80% width + 10% horizontal increase */
+  width: 88%;
+  max-width: 88%;
+  box-sizing: border-box;
+  align-items: flex-start;
+  align-self: center;
+  flex-wrap: nowrap;
+}
+
+.compact .content > * {
+  width: auto;
+  min-width: 0;
+  flex: 1 1 0;
+}
+
+.compact .content > button,
+.compact .content > .buttonContainer {
+  flex: 0 0 auto;
+  width: auto;
+  min-width: 0;
+  margin: 0;
+  /* Keep Search aligned with dropdown inputs, not centered against pill stacks */
+  align-self: flex-start;
+}
+
+.compactSearchButton {
+  width: calc(var(--primary-button-width) / 2);
+  max-width: 156px;
+  min-width: 0;
+  padding: 6px 10px;
+  gap: 6px;
+  font-size: var(--body3-font-size);
+}
+
+/* Beat ActionButton `.primary { width: var(--primary-button-width) }` */
+.compact .buttonContainer .compactSearchButton {
+  width: calc(var(--primary-button-width) / 2);
+  max-width: 156px;
+}
+
+.compactSearchButton :global(img) {
+  width: 16px;
+  height: 16px;
+}
+
+/* Phone + narrow tablet: stack fields so chips and placeholders stay readable */
+@media (max-width: 768px) {
+  .compact .content {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 10px;
+    padding: 12px;
+    align-items: stretch;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .compact .content > * {
+    width: 100%;
+    min-width: 0;
+    flex: 0 0 auto;
+    margin: 0;
+  }
+
+  .compact .content > *[role='combobox'] {
+    margin-left: 0;
+  }
+
+  .compact .content > button,
+  .compact .content > .buttonContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+  }
+
+  .compact .buttonContainer .compactSearchButton,
+  .compact .content > .buttonContainer > button,
+  .compact .content > button {
+    width: calc(var(--primary-button-width) / 2);
+    max-width: 156px;
+  }
+}
+
+@media (max-width: 480px) {
+  .content > * {
+    flex-basis: auto;
+    width: 100%;
+  }
+}

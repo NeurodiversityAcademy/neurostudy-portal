@@ -25,18 +25,13 @@ jest.mock('../../badges/BadgeDisplay', () => ({
   default: () => <div data-testid='badge-display'>Badges</div>,
 }));
 
-jest.mock('../../course/CoursePrimaryFilter', () => ({
+jest.mock('../../providerSearch/ProviderStudySearch', () => ({
   __esModule: true,
-  default: ({ className }: { className: string }) => (
-    <div data-testid='course-filter' className={className}>
-      Filter
+  default: ({ className }: { className?: string }) => (
+    <div data-testid='provider-study-search' className={className}>
+      Provider search
     </div>
   ),
-}));
-
-jest.mock('@/app/utilities/course/CourseProvider', () => ({
-  __esModule: true,
-  default: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 
 import HomeBanner from '../HomeBanner';
@@ -84,14 +79,27 @@ describe('HomeBanner', () => {
     expect(link).toHaveAttribute('href', '/endorsements');
   });
 
-  it('renders course filter when showSearchBar and displayFilter are true', () => {
+  it('renders a single provider search when showSearchBar and displayFilter are true', () => {
     render(<HomeBanner showSearchBar displayFilter />);
-    const filters = screen.getAllByTestId('course-filter');
-    expect(filters.length).toBeGreaterThanOrEqual(1);
+    const filters = screen.getAllByTestId('provider-study-search');
+    expect(filters).toHaveLength(1);
   });
 
-  it('does not render course filter when showSearchBar is false', () => {
+  it('places provider search beneath the hero subtitle when enabled', () => {
+    const { container } = render(
+      <HomeBanner showSearchBar displayFilter title='Hero Title' subtitle='Hero Subtitle' />,
+    );
+    const search = screen.getByTestId('provider-study-search');
+    const subtitle = screen.getByText('Hero Subtitle');
+    const banner = container.querySelector('.home-hero-banner');
+    expect(banner?.contains(search)).toBe(true);
+    expect(
+      Boolean(subtitle.compareDocumentPosition(search) & Node.DOCUMENT_POSITION_FOLLOWING),
+    ).toBe(true);
+  });
+
+  it('does not render provider search when showSearchBar is false', () => {
     render(<HomeBanner showSearchBar={false} displayFilter />);
-    expect(screen.queryByTestId('course-filter')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('provider-study-search')).not.toBeInTheDocument();
   });
 });

@@ -72,6 +72,55 @@ describe('DropdownInput advanced behaviour', () => {
     expect(handleChange).toHaveBeenCalledWith(['Dragonfruit']);
   });
 
+  it('trims whitespace when creating a creatable option', () => {
+    const handleChange = jest.fn();
+
+    render(
+      <TestWrapper>
+        <Dropdown
+          name='fruit'
+          label='Fruit'
+          options={options}
+          placeholder='Search'
+          creatable
+          onChange={handleChange}
+        />
+      </TestWrapper>,
+    );
+
+    const input = screen.getByPlaceholderText('Search');
+    fireEvent.focus(input);
+    fireEvent.change(input, { target: { value: '  Papaya  ' } });
+    fireEvent.keyDown(input, { key: 'Enter' });
+
+    expect(handleChange).toHaveBeenCalledWith(['Papaya']);
+    expect(document.querySelector('input[type="hidden"][name="fruit"]')).toHaveValue('Papaya');
+  });
+
+  it('does not create a blank creatable option from whitespace-only input', () => {
+    const handleChange = jest.fn();
+
+    render(
+      <TestWrapper>
+        <Dropdown
+          name='fruit'
+          label='Fruit'
+          options={options}
+          placeholder='Search'
+          creatable
+          onChange={handleChange}
+        />
+      </TestWrapper>,
+    );
+
+    const input = screen.getByPlaceholderText('Search');
+    fireEvent.focus(input);
+    fireEvent.change(input, { target: { value: '   ' } });
+    fireEvent.keyDown(input, { key: 'Enter' });
+
+    expect(handleChange).not.toHaveBeenCalled();
+  });
+
   it('creates a new option via the Add item button', () => {
     render(
       <TestWrapper>
@@ -223,6 +272,77 @@ describe('DropdownInput advanced behaviour', () => {
 
     expect(screen.queryByDisplayValue('apple')).not.toBeInTheDocument();
     expect(screen.getByDisplayValue('banana')).toBeInTheDocument();
+  });
+
+  it('does not render an empty pill after deselecting the last multiple option', () => {
+    render(
+      <TestWrapper defaultValues={{ fruits: ['apple'] }}>
+        <Dropdown name='fruits' label='Fruits' options={options} multiple placeholder='Select' />
+      </TestWrapper>,
+    );
+
+    fireEvent.focus(screen.getByPlaceholderText('Select'));
+    const appleOption = screen
+      .getAllByRole('option')
+      .find((option) => option.textContent?.includes('Apple'))!;
+    fireEvent.click(appleOption);
+
+    expect(screen.queryByDisplayValue('apple')).not.toBeInTheDocument();
+    expect(screen.queryAllByRole('button', { pressed: true })).toHaveLength(0);
+    expect(screen.getByPlaceholderText('Select')).toBeInTheDocument();
+  });
+
+  it('does not render an empty pill when the field value is an empty string', () => {
+    render(
+      <TestWrapper defaultValues={{ fruits: '' }}>
+        <Dropdown name='fruits' label='Fruits' options={options} multiple placeholder='Select' />
+      </TestWrapper>,
+    );
+
+    expect(screen.queryAllByRole('button', { pressed: true })).toHaveLength(0);
+    expect(screen.getByPlaceholderText('Select')).toBeInTheDocument();
+  });
+
+  it('renders selected pills below the input when pillsBelow is set', () => {
+    render(
+      <TestWrapper defaultValues={{ fruits: ['apple', 'banana'] }}>
+        <Dropdown
+          name='fruits'
+          label='Fruits'
+          options={options}
+          multiple
+          pillsBelow
+          placeholder='Select fruit'
+        />
+      </TestWrapper>,
+    );
+
+    const pillsRow = screen.getByTestId('fruits-selected-pills');
+    expect(pillsRow).toHaveTextContent('Apple');
+    expect(pillsRow).toHaveTextContent('Banana');
+    expect(screen.getByPlaceholderText('Select fruit')).toHaveValue('');
+    expect(
+      screen.getByPlaceholderText('Select fruit').closest('.dropdown-input-wrapper'),
+    ).not.toContainElement(pillsRow);
+  });
+
+  it('notifies onDraftChange while typing searchable text', async () => {
+    const onDraftChange = jest.fn();
+    render(
+      <TestWrapper>
+        <Dropdown
+          name='fruit'
+          label='Fruit'
+          options={options}
+          placeholder='Search'
+          creatable
+          onDraftChange={onDraftChange}
+        />
+      </TestWrapper>,
+    );
+
+    fireEvent.change(screen.getByPlaceholderText('Search'), { target: { value: 'business' } });
+    expect(onDraftChange).toHaveBeenCalledWith('business');
   });
 
   it('shows label fallback for values not in options', () => {
