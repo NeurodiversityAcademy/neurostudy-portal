@@ -1,12 +1,12 @@
 'use client';
 
-import Image, { type StaticImageData } from 'next/image';
+import Image from 'next/image';
 import classNames from 'classnames';
 import InstitutionProviderCard from '@/app/components/institutionProviderCard/InstitutionProviderCard';
 import { INSTITUTION_PROVIDER_HEADER_KIND } from '@/app/components/institutionProviderCard/institutionProviderHeader';
 import cardStyles from '@/app/components/institutionProviderCard/institutionProviderCard.module.css';
 import EmergingInstitutionCard from '@/app/components/emergingInstitutions/EmergingInstitutionCard';
-import { hasEmergingProviderProfile } from '@/app/components/emergingInstitutions/emergingProviderProfileSlugs';
+import { resolveEmergingProviderHref } from '@/app/components/emergingInstitutions/resolveEmergingProviderHref';
 import EndorsedCertifiedBadge from '@/app/components/endorsedProviders/EndorsedCertifiedBadge';
 import Typography, { TypographyVariant } from '@/app/components/typography/Typography';
 import { TypographyColorToken } from '@/app/components/typography/typographyColorToken';
@@ -14,12 +14,14 @@ import {
   buildEndorsedProviderDetailHref,
   resolveEndorsedProviderLogoSrc,
 } from '@/app/utilities/endorsedProvidersDemo';
-import { buildEmergingProviderDetailHref } from '@/app/emergingproviders/emergingProviderMetadata';
+import {
+  ENDORSED_FALLBACK_LOGO_SRC,
+  getEndorsedLogoDimensions,
+} from '@/app/utilities/endorsedProviderLogo';
 import { ENDORSED_PROVIDER_LOGO_BY_SLUG } from '@/app/components/endorsedProviders/endorsedProviderBrandAssets';
 import {
   PROVIDER_SEARCH_TIER_HEADING,
   PROVIDER_SEARCH_TIER_META,
-  PROVIDER_SEARCH_TIER_ORDER,
   type ProviderSearchFilters,
   type ProviderSearchRecord,
   type ProviderSearchTier,
@@ -28,28 +30,18 @@ import {
 import { buildEndorsedCoursesHref } from '@/app/utilities/providerSearch/buildSearchHref';
 import { buildProviderSearchResultClickAnalytics } from '@/app/utilities/providerSearch/providerSearchGa';
 import {
-  listPositionedProviderSearchResults,
+  countProviderSearchResults,
+  listProviderSearchTierGroups,
   type PositionedProviderSearchResult,
 } from '@/app/utilities/providerSearch/searchProviders';
 import type { AustralianState } from '@/app/components/emergingInstitutions/emergingInstitutionTypes';
 import styles from './providerSearchResults.module.css';
 
-const FALLBACK_LOGO_WIDTH = 921;
-const FALLBACK_LOGO_HEIGHT = 271;
-
 type ProviderSearchResultsProps = {
   results: ProviderSearchTierResults;
   filters: ProviderSearchFilters;
   searchDemo: boolean;
-  totalCount: number;
 };
-
-function getLogoDimensions(logoSrc: string | StaticImageData): { width: number; height: number } {
-  if (typeof logoSrc === 'string') {
-    return { width: FALLBACK_LOGO_WIDTH, height: FALLBACK_LOGO_HEIGHT };
-  }
-  return { width: logoSrc.width, height: logoSrc.height };
-}
 
 function resolveEndorsedHref(
   provider: ProviderSearchRecord,
@@ -86,10 +78,10 @@ function renderEndorsedCard(
   const href = resolveEndorsedHref(provider, tier, searchDemo);
   const logoSrc = resolveEndorsedProviderLogoSrc(
     provider.slug,
-    provider.logoSrc || '/images/AcademiaLogoLong.png',
+    provider.logoSrc || ENDORSED_FALLBACK_LOGO_SRC,
     ENDORSED_PROVIDER_LOGO_BY_SLUG,
   );
-  const logoDimensions = getLogoDimensions(logoSrc);
+  const logoDimensions = getEndorsedLogoDimensions(logoSrc);
 
   return (
     <InstitutionProviderCard
@@ -123,9 +115,8 @@ function renderEndorsedCard(
 
 function renderEmergingCard(item: PositionedProviderSearchResult, filters: ProviderSearchFilters) {
   const { provider } = item;
-  const state = provider.emergingState as AustralianState;
-  const hasProfile = hasEmergingProviderProfile(provider.slug);
-  const destinationUrl = hasProfile ? buildEmergingProviderDetailHref(provider.slug) : undefined;
+  const state = (provider.emergingState ?? 'NSW') as AustralianState;
+  const destinationUrl = resolveEmergingProviderHref({ name: provider.name });
 
   return (
     <EmergingInstitutionCard
@@ -149,19 +140,6 @@ function renderProviderCard(
   return renderEndorsedCard(item, searchDemo, filters);
 }
 
-function groupPositionedByTier(items: PositionedProviderSearchResult[]) {
-  const byTier = new Map<ProviderSearchTier, PositionedProviderSearchResult[]>();
-  for (const item of items) {
-    const bucket = byTier.get(item.tier) ?? [];
-    bucket.push(item);
-    byTier.set(item.tier, bucket);
-  }
-  return PROVIDER_SEARCH_TIER_ORDER.filter((tier) => byTier.has(tier)).map((tier) => ({
-    tier,
-    items: byTier.get(tier) ?? [],
-  }));
-}
-
 function TierSectionHeader({ tier }: { tier: ProviderSearchTier }) {
   const meta = PROVIDER_SEARCH_TIER_META[tier];
   const isProminent = meta.emphasis === 'endorsed';
@@ -169,9 +147,6 @@ function TierSectionHeader({ tier }: { tier: ProviderSearchTier }) {
     ? TypographyColorToken.CherryPie
     : TypographyColorToken.BondBlackVariant;
   const titleVariant = isProminent ? TypographyVariant.H2 : TypographyVariant.H3;
-  const titleColor = isProminent
-    ? TypographyColorToken.BondBlack
-    : TypographyColorToken.BondBlackVariant;
 
   return (
     <header className={styles.tierHeader}>
@@ -185,7 +160,6 @@ function TierSectionHeader({ tier }: { tier: ProviderSearchTier }) {
       <Typography
         id={`provider-search-tier-${tier}`}
         variant={titleVariant}
-        color={titleColor}
         className={classNames(
           styles.tierHeading,
           isProminent ? styles.tierHeadingProminent : styles.tierHeadingQuiet,
@@ -212,10 +186,9 @@ export default function ProviderSearchResults({
   results,
   filters,
   searchDemo,
-  totalCount,
 }: ProviderSearchResultsProps) {
-  const positioned = listPositionedProviderSearchResults(results);
-  const tierGroups = groupPositionedByTier(positioned);
+  const totalCount = countProviderSearchResults(results);
+  const tierGroups = listProviderSearchTierGroups(results);
 
   return (
     <div className={styles.root}>

@@ -25,6 +25,7 @@ import {
   toSelectedOptions,
   type SelectValue,
 } from './dropdownSelection';
+import { boolProp } from './boolProp';
 
 type UseDropdownInputStateParams<TFieldValues extends FieldValues> = Pick<
   DropdownInputProps<TFieldValues>,
@@ -40,13 +41,6 @@ type UseDropdownInputStateParams<TFieldValues extends FieldValues> = Pick<
   | 'onDraftChange'
   | 'methods'
 >;
-
-function boolProp(value: boolean | undefined, fallback: boolean): boolean {
-  if (value === undefined) {
-    return fallback;
-  }
-  return value;
-}
 
 type DropdownCore<TFieldValues extends FieldValues> = {
   params: UseDropdownInputStateParams<TFieldValues>;
@@ -207,6 +201,7 @@ function useDropdownHandlers<TFieldValues extends FieldValues>(core: DropdownCor
     if (!core.hasCreateItem) {
       return;
     }
+    e.preventDefault();
     createItem(core.inputValue);
   };
 

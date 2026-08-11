@@ -5,6 +5,7 @@ import Pill from '../Pill/Pill';
 import { DropdownInputProps } from '@/app/interfaces/FormElements';
 import DropdownComboboxView from './DropdownComboboxView';
 import { useDropdownInputState } from './useDropdownInputState';
+import { boolProp } from './boolProp';
 
 const BUTTON_ARIA_LABEL = 'Clear';
 
@@ -13,10 +14,7 @@ function shouldShowPillsBelow(
   pillsBelow: boolean,
   selectedCount: number,
 ): boolean {
-  if (!multiple) {
-    return false;
-  }
-  if (!pillsBelow) {
+  if (!multiple || !pillsBelow) {
     return false;
   }
   return selectedCount > 0;
@@ -27,10 +25,7 @@ function resolveInlinePills(
   pillsBelow: boolean,
   selectedPills: React.ReactNode,
 ): React.ReactNode {
-  if (!multiple) {
-    return null;
-  }
-  if (pillsBelow) {
+  if (!multiple || pillsBelow) {
     return null;
   }
   return selectedPills;
@@ -41,13 +36,6 @@ function shouldShowTextControl(disabled: boolean | undefined, selectedCount: num
     return true;
   }
   return selectedCount === 0;
-}
-
-function boolProp(value: boolean | undefined, fallback: boolean): boolean {
-  if (value === undefined) {
-    return fallback;
-  }
-  return value;
 }
 
 function isSearchableEnabled(searchable: boolean | undefined): boolean {

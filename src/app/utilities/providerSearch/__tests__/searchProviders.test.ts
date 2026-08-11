@@ -20,12 +20,8 @@ import {
   buildProviderSearchHref,
   isProviderSearchDemoEnabled,
 } from '../buildSearchHref';
-import {
-  getProviderSearchInterestAreaCatalog,
-  getProviderSearchLocationCatalog,
-  listSearchableProviders,
-  loadProviderSearchContext,
-} from '../catalog';
+import { loadProviderSearchContext, resetProviderSearchContextCacheForTests } from '../catalog';
+import { withDerivedLocationStates } from '../locationState';
 
 function makeProvider(
   overrides: Partial<ProviderSearchRecord> & Pick<ProviderSearchRecord, 'slug' | 'name' | 'kind'>,
@@ -38,6 +34,10 @@ function makeProvider(
     ...overrides,
   };
 }
+
+beforeEach(() => {
+  resetProviderSearchContextCacheForTests();
+});
 
 describe('provider search matching', () => {
   const providers: ProviderSearchRecord[] = [
@@ -161,9 +161,12 @@ describe('provider search matching', () => {
     ).toBe('endorsed');
   });
 
-  it('partial-matches tokens for catalog expansion and provider matching', () => {
+  it('partial-matches tokens of length 3+; exact still works for short tokens', () => {
     expect(tokensPartialMatch('Digital Skills', 'digital')).toBe(true);
     expect(tokensPartialMatch('Nursing', 'digital')).toBe(false);
+    expect(tokensPartialMatch('Digital Technology', 'it')).toBe(false);
+    expect(tokensPartialMatch('Media and Communication', 'ed')).toBe(false);
+    expect(tokensPartialMatch('AI', 'AI')).toBe(true);
     expect(tokensPartialMatch('a', 'ab')).toBe(false);
   });
 
@@ -220,40 +223,50 @@ describe('provider search matching', () => {
 });
 
 describe('provider search catalog seeds', () => {
-  it('derives interest area catalog from tagged providers only', () => {
-    const catalog = getProviderSearchInterestAreaCatalog();
+  it('derives interest area catalog from curated tags only (not profile prose)', () => {
+    const catalog = loadProviderSearchContext().interestAreaCatalog;
     expect(catalog).toEqual(
       expect.arrayContaining([
-        'Music & Audio',
+        'Music',
         'Nursing',
-        'Accredited Qualifications',
-        'Training & Assessment (TAE)',
         'Fine Arts',
+        'Media and Communication',
+        'Business Administration',
       ]),
     );
-    // Catalog must be unique + sorted; soft length guards against empty fixture regressions.
+    expect(catalog).not.toEqual(expect.arrayContaining(['Music & Audio']));
+    expect(catalog).not.toEqual(expect.arrayContaining(['Accredited Qualifications']));
     expect(catalog).toEqual([...new Set(catalog)].sort((a, b) => a.localeCompare(b)));
-    expect(catalog.length).toBeGreaterThan(10);
+    expect(catalog.length).toBeGreaterThan(5);
   });
 
-  it('includes emerging states in location catalog', () => {
-    const catalog = getProviderSearchLocationCatalog();
-    expect(catalog).toEqual(expect.arrayContaining(['NSW', 'QLD', 'VIC', 'Sydney', 'Melbourne']));
+  it('includes emerging states and derived endorsed states in location catalog', () => {
+    const catalog = loadProviderSearchContext().locationCatalog;
+    expect(catalog).toEqual(
+      expect.arrayContaining(['NSW', 'QLD', 'VIC', 'WA', 'Sydney', 'Melbourne', 'Brisbane', 'Perth']),
+    );
     expect(catalog).toEqual([...new Set(catalog)].sort((a, b) => a.localeCompare(b)));
   });
 
   it('marks demo course-endorsed provider when searchDemo is enabled', () => {
-    const baseline = listSearchableProviders({ searchDemo: false }).find(
+    const baseline = loadProviderSearchContext({ searchDemo: false }).providers.find(
       (provider) => provider.slug === 'collarts',
     );
-    const demo = listSearchableProviders({ searchDemo: true }).find(
+    const demo = loadProviderSearchContext({ searchDemo: true }).providers.find(
       (provider) => provider.slug === 'collarts',
     );
+    expect(baseline?.hasPromotedCourses).toBe(false);
     expect(demo?.hasPromotedCourses).toBe(true);
-    // Demo flag must be what unlocks promoted courses when the live row has none.
-    if (!baseline?.hasPromotedCourses) {
-      expect(demo?.hasPromotedCourses).not.toBe(baseline?.hasPromotedCourses);
-    }
+  });
+
+  it('derives AU state from city location tags', () => {
+    expect(withDerivedLocationStates(['Brisbane'])).toEqual(['Brisbane', 'QLD']);
+    expect(withDerivedLocationStates(['Melbourne', 'Sydney'])).toEqual([
+      'Melbourne',
+      'NSW',
+      'Sydney',
+      'VIC',
+    ]);
   });
 });
 
@@ -284,7 +297,7 @@ describe('provider search href helpers', () => {
     );
   });
 
-  it('detects searchDemo flag case-insensitively', () => {
+  it('detects searchDemo flag exactly as 1', () => {
     expect(isProviderSearchDemoEnabled('1')).toBe(true);
     expect(isProviderSearchDemoEnabled('true')).toBe(false);
   });
@@ -341,7 +354,8 @@ describe('provider search href helpers', () => {
   });
 
   it('resolveSearchFilterValues expands free-text partial queries onto catalog labels', () => {
-    expect(resolveSearchFilterValues(['digital', 'Music', 'a'], ['Music', 'Nursing'])).toEqual([
+    expect(resolveSearchFilterValues(['digital', 'Music', 'ab'], ['Music', 'Nursing'])).toEqual([
+      'ab',
       'digital',
       'Music',
     ]);
@@ -359,7 +373,7 @@ describe('provider search href helpers', () => {
   it('loadProviderSearchContext returns providers and catalogs together', () => {
     const context = loadProviderSearchContext();
     expect(context.providers.length).toBeGreaterThan(0);
-    expect(context.interestAreaCatalog).toEqual(getProviderSearchInterestAreaCatalog());
-    expect(context.locationCatalog).toEqual(getProviderSearchLocationCatalog());
+    expect(context.interestAreaCatalog.length).toBeGreaterThan(0);
+    expect(context.locationCatalog.length).toBeGreaterThan(0);
   });
 });

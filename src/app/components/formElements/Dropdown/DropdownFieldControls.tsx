@@ -143,6 +143,7 @@ export default function DropdownFieldControls<TFieldValues extends FieldValues>(
           methods={methods}
           className={styles.clearBtn}
           disabled={disabled}
+          forceVisible={inputValue.trim().length > 0}
           onClick={onClearDraft}
         />
       ) : null}

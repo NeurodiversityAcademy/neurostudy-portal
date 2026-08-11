@@ -132,6 +132,13 @@ describe('dropdownSelection', () => {
       expect(exists('unknown')).toBe(false);
     });
 
+    it('matches option existence case-insensitively', () => {
+      const { getLabel, exists } = buildOptionLookup([{ label: 'Sydney', value: 'Sydney' }]);
+      expect(exists('sydney')).toBe(true);
+      expect(exists('SYDNEY')).toBe(true);
+      expect(getLabel('sydney')).toBe('Sydney');
+    });
+
     it('matches selected values case-insensitively', () => {
       const isSelected = buildSelectedLookup(['Music']);
       expect(isSelected('music')).toBe(true);

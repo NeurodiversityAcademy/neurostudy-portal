@@ -3,7 +3,6 @@ import type { EmergingInstitution } from '@/app/components/emergingInstitutions/
 import {
   getEndorsedDisplayNameForSlug,
   getEndorsedJsonRows,
-  getStudyAreasForSlug,
   type EndorsedJsonRow,
   type EndorsedPromotedCourse,
 } from '@/app/components/endorsedProviders/endorsedProviderPageData';
@@ -13,6 +12,7 @@ import {
   PROVIDER_SEARCH_DEMO_PROMOTED_COURSE,
   type ProviderSearchRecord,
 } from './constants';
+import { withDerivedLocationStates } from './locationState';
 import { uniqueSortedStrings } from './normalize';
 
 function endorsedDisplayName(row: EndorsedJsonRow): string {
@@ -27,15 +27,14 @@ function optionalTrimmed(value: string | undefined): string | undefined {
   return trimmed;
 }
 
+/** Curated JSON tags + promoted courses only — not profile marketing study-area prose. */
 function resolveEndorsedInterestAreas(
   row: EndorsedJsonRow,
   promotedCourses: EndorsedPromotedCourse[],
 ): string[] {
-  const slug = slugify(row.id);
-  const profileAreas = getStudyAreasForSlug(slug);
   const taggedAreas = row.interestAreas ?? [];
   const promotedAreas = promotedCourses.flatMap((course) => course.interestAreas);
-  return uniqueSortedStrings([...profileAreas, ...taggedAreas, ...promotedAreas]);
+  return uniqueSortedStrings([...taggedAreas, ...promotedAreas]);
 }
 
 function buildEndorsedRecord(
@@ -48,7 +47,7 @@ function buildEndorsedRecord(
     slug,
     name: endorsedDisplayName(row),
     interestAreas: resolveEndorsedInterestAreas(row, promotedCourses),
-    locations: row.locations ?? [],
+    locations: withDerivedLocationStates(row.locations ?? []),
     ndaCertified: row.ndaCertified === true,
     hasPromotedCourses: promotedCourses.length > 0,
     logoSrc: optionalTrimmed(row.logo),
@@ -57,7 +56,10 @@ function buildEndorsedRecord(
 }
 
 function buildEmergingRecord(institution: EmergingInstitution): ProviderSearchRecord {
-  const locations = uniqueSortedStrings([institution.state, ...(institution.locations ?? [])]);
+  const locations = withDerivedLocationStates([
+    institution.state,
+    ...(institution.locations ?? []),
+  ]);
   return {
     kind: 'emerging',
     slug: slugify(institution.name),
@@ -92,10 +94,7 @@ function promotedCoursesForRow(
 ): EndorsedPromotedCourse[] {
   const existing = row.promotedCourses ?? [];
   const isDemoTarget = slugify(row.id) === PROVIDER_SEARCH_DEMO_COURSE_ENDORSED_SLUG;
-  if (!searchDemo) {
-    return existing;
-  }
-  if (!isDemoTarget) {
+  if (!searchDemo || !isDemoTarget) {
     return existing;
   }
   return withDemoPromotedCourses(row);
@@ -112,10 +111,9 @@ export type ProviderSearchContext = {
   locationCatalog: string[];
 };
 
-export function listSearchableProviders(options?: {
-  searchDemo?: boolean;
-}): ProviderSearchRecord[] {
-  const searchDemo = options?.searchDemo === true;
+const contextCache = new Map<string, ProviderSearchContext>();
+
+function listSearchableProviders(searchDemo: boolean): ProviderSearchRecord[] {
   const endorsed = getEndorsedJsonRows()
     .filter((row) => row.live === true)
     .map((row) => toEndorsedSearchRecord(row, searchDemo));
@@ -123,13 +121,19 @@ export function listSearchableProviders(options?: {
   return [...endorsed, ...emerging];
 }
 
-/** One catalog pass shared by pages and filter resolution. */
+/** One catalog pass shared by pages and filter resolution (memoised per demo flag). */
 export function loadProviderSearchContext(options?: {
   searchDemo?: boolean;
 }): ProviderSearchContext {
   const searchDemo = options?.searchDemo === true;
-  const providers = listSearchableProviders({ searchDemo });
-  return {
+  const cacheKey = searchDemo ? 'demo' : 'live';
+  const cached = contextCache.get(cacheKey);
+  if (cached) {
+    return cached;
+  }
+
+  const providers = listSearchableProviders(searchDemo);
+  const context: ProviderSearchContext = {
     searchDemo,
     providers,
     interestAreaCatalog: uniqueSortedStrings(
@@ -137,14 +141,13 @@ export function loadProviderSearchContext(options?: {
     ),
     locationCatalog: uniqueSortedStrings(providers.flatMap((provider) => provider.locations)),
   };
+  contextCache.set(cacheKey, context);
+  return context;
 }
 
-export function getProviderSearchInterestAreaCatalog(options?: { searchDemo?: boolean }): string[] {
-  return loadProviderSearchContext(options).interestAreaCatalog;
-}
-
-export function getProviderSearchLocationCatalog(options?: { searchDemo?: boolean }): string[] {
-  return loadProviderSearchContext(options).locationCatalog;
+/** Test helper — clears the module-level catalog memo. */
+export function resetProviderSearchContextCacheForTests(): void {
+  contextCache.clear();
 }
 
 export function toDropdownOptions(values: readonly string[]): { label: string; value: string }[] {

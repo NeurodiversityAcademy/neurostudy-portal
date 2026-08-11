@@ -93,4 +93,46 @@ describe('ClearButton', () => {
     fireEvent.click(screen.getByLabelText('Clear'));
     expect(onClick).toHaveBeenCalled();
   });
+
+  it('clears multi-select arrays to [] instead of empty string', () => {
+    interface MultiValues {
+      tags: string[];
+    }
+
+    function Harness() {
+      const methods = useForm<MultiValues>({
+        defaultValues: { tags: ['Music', 'Nursing'] },
+      });
+      const value = useWatch({ control: methods.control, name: 'tags' });
+
+      return (
+        <FormProvider {...methods}>
+          <ClearButton name='tags' value={value} methods={methods} />
+          <span data-testid='tags-json'>{JSON.stringify(value)}</span>
+        </FormProvider>
+      );
+    }
+
+    render(<Harness />);
+    fireEvent.click(screen.getByLabelText('Clear'));
+    expect(screen.getByTestId('tags-json')).toHaveTextContent('[]');
+  });
+
+  it('renders when forceVisible even if value is empty', () => {
+    function Harness() {
+      const methods = useForm<FormValues>({
+        defaultValues: { name: '' },
+      });
+      const value = useWatch({ control: methods.control, name: 'name' });
+
+      return (
+        <FormProvider {...methods}>
+          <ClearButton name='name' value={value} methods={methods} forceVisible />
+        </FormProvider>
+      );
+    }
+
+    render(<Harness />);
+    expect(screen.getByLabelText('Clear')).toBeInTheDocument();
+  });
 });
