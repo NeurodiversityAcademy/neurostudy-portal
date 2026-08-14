@@ -242,6 +242,18 @@ describe('provider search catalog seeds', () => {
     expect(catalog).toEqual([...new Set(catalog)].sort((a, b) => a.localeCompare(b)));
   });
 
+  it('uses spreadsheet study areas to make emerging providers searchable', () => {
+    const providers = listSearchableProviders();
+    const results = searchProvidersByFilters(providers, {
+      interestAreas: ['Chiropractic'],
+      locations: [],
+    });
+
+    expect(results.emerging.map((provider) => provider.slug)).toContain(
+      'australian-chiropractic-college-acc',
+    );
+  });
+
   it('marks demo course-endorsed provider when searchDemo is enabled', () => {
     const baseline = listSearchableProviders({ searchDemo: false }).find(
       (provider) => provider.slug === 'collarts',
