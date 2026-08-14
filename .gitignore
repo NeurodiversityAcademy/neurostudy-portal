@@ -43,3 +43,11 @@ next-env.d.ts
 
 # Local Lighthouse reports
 lighthouse-*.json
+
+# Local GA / partner-report credentials (never commit)
+.secrets/
+.secrets-venv/
+partner-reports/
+scripts/.mplconfig/
+/scripts
+/scripts

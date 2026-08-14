@@ -13,6 +13,7 @@ import {
   PROVIDER_SEARCH_DEMO_PROMOTED_COURSE,
   type ProviderSearchRecord,
 } from './constants';
+import { EMERGING_INTEREST_AREAS_BY_SLUG } from './emergingInterestAreas';
 import { uniqueSortedStrings } from './normalize';
 
 function endorsedDisplayName(row: EndorsedJsonRow): string {
@@ -57,12 +58,16 @@ function buildEndorsedRecord(
 }
 
 function buildEmergingRecord(institution: EmergingInstitution): ProviderSearchRecord {
+  const slug = slugify(institution.name);
   const locations = uniqueSortedStrings([institution.state, ...(institution.locations ?? [])]);
   return {
     kind: 'emerging',
-    slug: slugify(institution.name),
+    slug,
     name: institution.name,
-    interestAreas: institution.interestAreas ?? [],
+    interestAreas: uniqueSortedStrings([
+      ...(EMERGING_INTEREST_AREAS_BY_SLUG[slug] ?? []),
+      ...(institution.interestAreas ?? []),
+    ]),
     locations,
     ndaCertified: false,
     hasPromotedCourses: false,
