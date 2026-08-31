@@ -21,17 +21,6 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  title: 'Articles - Neurodiversity Academy',
-  description: 'Explore articles on neurodiversity, education',
-  keywords: [
-    'Neurodiversity Academy',
-    'Blogs',
-    'Neurodiversity',
-    'Education',
-    'Neurodiverse Individuals',
-    'Neurodivergent Mates',
-    'Neurodiversity in vocational education',
-  ],
 };
 
 const CardList: React.FC = () => {

@@ -40,11 +40,6 @@ export enum META_TYPE {
 export enum META_KEY {
   HOME = 'home',
   NEURODIVERGENT_MATES = 'neurodivergentmates',
-  NEURODIVERSITY_TRAINING = 'neurodiversitytraining',
-  ADVISORY_CONSULTING = 'advisoryconsulting',
-  NETWORKING = 'networking',
-  COACHING = 'coaching',
-  PLACEMENTS = 'placements',
   ABOUT = 'about',
   CONTACT = 'contact',
   ARTICLES = 'articles',
