@@ -37,6 +37,7 @@ const eslintConfig = [
       'deliverables/**',
       'coverage/**',
       '.secrets-venv/**',
+      '.vercel/**',
     ],
   },
   js.configs.recommended,
