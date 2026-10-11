@@ -26,7 +26,7 @@ describe('getStripe', () => {
 
     expect(mockStripeConstructor).toHaveBeenCalledTimes(1);
     expect(mockStripeConstructor).toHaveBeenCalledWith('sk_test_mock_secret', {
-      apiVersion: '2026-06-24.dahlia',
+      apiVersion: '2026-08-26.dahlia',
     });
     expect(instance).toEqual({ apiKey: 'sk_test_mock_secret' });
   });

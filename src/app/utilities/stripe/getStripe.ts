@@ -1,7 +1,7 @@
 import Stripe from 'stripe';
 import { getStripeSecret } from './helper';
 
-const STRIPE_API_VERSION = '2026-06-24.dahlia' as const;
+const STRIPE_API_VERSION = '2026-08-26.dahlia' as const;
 
 let stripe: Stripe | undefined;
 
