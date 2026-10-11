@@ -36,6 +36,7 @@ const eslintConfig = [
       'out/**',
       'deliverables/**',
       'coverage/**',
+      '.secrets-venv/**',
     ],
   },
   js.configs.recommended,
