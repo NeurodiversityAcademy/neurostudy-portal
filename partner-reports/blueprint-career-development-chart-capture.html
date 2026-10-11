@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Blueprint Career Development chart — July 2026</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 28px 32px;
+        background: #ffffff;
+      }
+      .chart-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 14px;
+        margin: 0 0 14px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: #faf8ff;
+        border: 1px solid #efefff;
+        font-size: 12px;
+        color: #5c5b5b;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      .chart-legend .swatch {
+        display: inline-block;
+        width: 11px;
+        height: 11px;
+        border-radius: 3px;
+        margin-right: 6px;
+        vertical-align: -1px;
+      }
+      .month-series {
+        display: flex;
+        align-items: flex-end;
+        gap: 14px;
+        overflow-x: auto;
+        padding: 8px 0 4px;
+      }
+      .month-col {
+        flex: 1 1 0;
+        min-width: 88px;
+        text-align: center;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      .month-col.current .month-name {
+        color: #330066;
+        font-weight: 800;
+      }
+      .month-col.current .month-bar-group {
+        box-shadow: inset 0 0 0 2px rgba(102, 0, 204, 0.18);
+        border-radius: 10px;
+        padding: 4px 4px 0;
+      }
+      .month-bar-group {
+        height: 160px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 5px;
+        margin-bottom: 8px;
+      }
+      .month-bar {
+        display: block;
+        width: 16px;
+        min-height: 4px;
+        border-radius: 5px 5px 2px 2px;
+      }
+      .month-name {
+        margin: 0;
+        font-size: 12px;
+        font-weight: 700;
+        color: #330066;
+      }
+      .month-stats {
+        margin: 4px 0 0;
+        font-size: 10px;
+        color: #5c5b5b;
+        line-height: 1.35;
+      }
+      .series-key {
+        margin: 10px 0 0;
+        font-size: 12px;
+        color: #5c5b5b;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="width: 1036px">
+      <p
+        style="
+          margin: 0 0 12px 0;
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: 13px;
+          font-weight: 700;
+          color: #330066;
+        "
+      >
+        Blueprint Career Development · July 2026
+      </p>
+      <div id="month-chart" style="padding: 8px 0">
+        <div class="chart-legend">
+          <span><span class="swatch" style="background: #330066"></span>Page views</span
+          ><span><span class="swatch" style="background: #6600cc"></span>Unique visitors</span
+          ><span><span class="swatch" style="background: #0f7b4a"></span>Explore clicks</span>
+        </div>
+        <div class="month-series">
+          <div class="month-col current">
+            <div class="month-bar-group">
+              <span
+                class="month-bar"
+                style="height: 140px; background: #330066"
+                title="Page views: 44"
+              ></span
+              ><span
+                class="month-bar"
+                style="height: 105px; background: #6600cc"
+                title="Unique visitors: 33"
+              ></span
+              ><span
+                class="month-bar"
+                style="height: 13px; background: #0f7b4a"
+                title="Explore clicks: 4"
+              ></span>
+            </div>
+            <p class="month-name">Jul</p>
+            <p class="month-stats">44 · 33 · 4 · 12.1%</p>
+          </div>
+        </div>
+        <p class="series-key">
+          Same scale for all three counts (taller = larger number). Figures: views · visitors ·
+          Explore · Explore rate.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
