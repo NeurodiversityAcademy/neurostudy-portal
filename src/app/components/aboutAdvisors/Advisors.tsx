@@ -9,8 +9,9 @@ import LesleyImage from '../../images/lesley.png';
 import KatieImage from '../../images/katie.png';
 import Rachel from '../../images/rachel.png';
 import CarlyImage from '../../images/Carly.png';
-import Chelsea from '../../images/chelsea.png';
 import NatashaImage from '../../images/natasha.png';
+import TylerPayne from '../../images/tyler-payne.png';
+import KatyaHolker from '../../images/katya-holker.png';
 import linkedin from '../../images/linkedin.svg';
 
 import styles from './advisors.module.css';
@@ -41,14 +42,6 @@ export default function Advisors() {
       logo: linkedin,
       linkedin: 'https://www.linkedin.com/in/drtimweir',
       company: 'Teton Advisory Group',
-      type: 'Business Advisor',
-    },
-    {
-      ProfilePic: Chelsea,
-      name: 'Chelsea Matulich',
-      logo: linkedin,
-      linkedin: 'https://www.linkedin.com/in/chelsea-matulich-034711225/',
-      company: 'Academia Pty Ltd',
       type: 'Business Advisor',
     },
     // Events Advisory Board
@@ -100,6 +93,22 @@ export default function Advisors() {
       linkedin: 'https://www.linkedin.com/in/drrachelmorley',
       company: 'Liverpool Powerhouse',
       type: 'Academic Advisor',
+    },
+    {
+      ProfilePic: TylerPayne,
+      name: 'Dr Tyler Payne',
+      logo: linkedin,
+      linkedin: 'https://www.linkedin.com/in/tyler-payne-153625109/',
+      company: 'RMIT University',
+      type: 'Academic Advisor',
+    },
+    {
+      ProfilePic: KatyaHolker,
+      name: 'Katya Holker',
+      logo: linkedin,
+      linkedin: 'https://www.linkedin.com/in/katya-holker-5a5223151/',
+      company: 'Hawkeye Consultancy',
+      type: 'Business Advisor',
     },
   ];
 
