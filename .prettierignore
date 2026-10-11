@@ -27,3 +27,4 @@ public
 openspec
 .cursor
 tmp-*
+.secrets-venv
