@@ -75,6 +75,7 @@ const eslintConfig = [
       'src/app/components/auth/AuthInitSignUp.tsx',
       'src/app/components/footer/Footer.tsx',
       'src/app/components/page.tsx',
+      'src/app/components/aboutAdvisors/Advisors.tsx',
       'src/app/endorsements/page.tsx',
     ],
     rules: {
