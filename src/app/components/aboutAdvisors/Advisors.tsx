@@ -12,6 +12,7 @@ import CarlyImage from '../../images/Carly.png';
 import NatashaImage from '../../images/natasha.png';
 import TylerPayne from '../../images/tyler-payne.png';
 import KatyaHolker from '../../images/katya-holker.png';
+import TamsinJowett from '../../images/tamsin-jowett.png';
 import linkedin from '../../images/linkedin.svg';
 
 import styles from './advisors.module.css';
@@ -42,6 +43,14 @@ export default function Advisors() {
       logo: linkedin,
       linkedin: 'https://www.linkedin.com/in/drtimweir',
       company: 'Teton Advisory Group',
+      type: 'Business Advisor',
+    },
+    {
+      ProfilePic: TamsinJowett,
+      name: 'Tamsin Jowett',
+      logo: linkedin,
+      linkedin: 'https://www.linkedin.com/in/tamsin-jowett111/',
+      company: 'South-East Monash Legal Service',
       type: 'Business Advisor',
     },
     // Events Advisory Board
