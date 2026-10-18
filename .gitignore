@@ -51,3 +51,7 @@ partner-reports/
 scripts/.mplconfig/
 /scripts
 /scripts
+
+# Local-only files (kept on disk, never committed)
+/cookies.txt
+/src/app/tamsin-jowett.png
