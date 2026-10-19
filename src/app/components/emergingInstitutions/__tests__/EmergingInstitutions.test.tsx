@@ -455,7 +455,19 @@ describe('EmergingProvidersFAQs', () => {
   it('renders evidence sources', () => {
     render(<EmergingProvidersFAQs />);
     expect(screen.getByText('Provider website')).toBeInTheDocument();
-    expect(screen.getByText('QILT survey data')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'QILT Student Experience Survey' })).toHaveAttribute(
+      'href',
+      'https://www.qilt.edu.au/surveys/student-experience-survey-(ses)',
+    );
+    expect(screen.getByRole('link', { name: 'QILT 2025 SES National Report' })).toHaveAttribute(
+      'href',
+      expect.stringContaining('2025-ses-national-report.pdf'),
+    );
+    expect(screen.getByRole('link', { name: 'QILT 2024 SES National Report' })).toHaveAttribute(
+      'href',
+      expect.stringContaining('2024-ses-national-report.pdf'),
+    );
+    expect(screen.getByText('Government provider listing')).toBeInTheDocument();
   });
 
   it('renders disclaimer accordion', () => {

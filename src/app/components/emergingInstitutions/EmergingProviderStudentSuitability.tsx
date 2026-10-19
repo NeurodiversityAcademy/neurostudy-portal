@@ -34,6 +34,9 @@ export default function EmergingProviderStudentSuitability({
             listClassName={styles.providerBenefitsList}
             itemClassName={styles.providerBenefitsItem}
             positiveIconClassName={styles.providerBenefitsPositiveIcon}
+            links={tab.links}
+            sourceListClassName={styles.providerBenefitsSources}
+            sourceLinkClassName={styles.providerBenefitsSourceLink}
           />
         );
       }}

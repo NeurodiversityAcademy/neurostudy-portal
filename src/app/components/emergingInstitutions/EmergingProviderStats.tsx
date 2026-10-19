@@ -94,7 +94,8 @@ export default function EmergingProviderStats({
             color='var(--BondBlack)'
             className={styles.providerStatsDisclaimerLine}
           >
-            <sup>*</sup>Based on Undergraduate Student Experience Survey data
+            <sup>*</sup>Based on Undergraduate Student Experience Survey data. National averages are
+            pooled 2024–25.
           </Typography>
           <Typography
             variant={TypographyVariant.Body3}

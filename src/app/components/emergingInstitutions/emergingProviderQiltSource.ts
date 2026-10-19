@@ -5,6 +5,21 @@ const COMPARED_EDU_INSTITUTION_BASE = 'https://www.compared.edu.au/institution';
 
 export const QILT_SURVEY_2024_LABEL = 'QILT survey 2024';
 
+/** QILT Student Experience Survey (overview page). */
+export const QILT_SES_URL = 'https://www.qilt.edu.au/surveys/student-experience-survey-(ses)';
+
+/** 2024 SES National Report (published Sep 2025). */
+export const QILT_2024_NATIONAL_REPORT_URL =
+  'https://www.qilt.edu.au/docs/default-source/default-document-library/2024-ses-national-report.pdf?sfvrsn=87f4ab8b_8';
+
+/** 2025 SES National Report (published Sep 2026). */
+export const QILT_2025_NATIONAL_REPORT_URL =
+  'https://www.qilt.edu.au/docs/default-source/default-document-library/2025-ses-national-report.pdf?sfvrsn=7dc1977b_1';
+
+/** UOW media release covering its 2025 SES results. */
+export const UOW_2025_SES_MEDIA_RELEASE_URL =
+  'https://www.uow.edu.au/media/2026/teacher-education-retains-australias-top-undergraduate-ranking.php';
+
 const PARENTHETICAL_ACRONYM_PATTERN = /\(([A-Za-z]{2,5})\)\s*$/;
 
 /** Trailing parenthetical acronym e.g. "(ACU)" → "acu". */
