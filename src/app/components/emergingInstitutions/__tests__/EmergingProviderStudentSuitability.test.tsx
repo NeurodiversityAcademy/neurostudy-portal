@@ -30,4 +30,12 @@ describe('EmergingProviderStudentSuitability', () => {
     expect(screen.getByText('Prefer fully online learning')).toBeInTheDocument();
     expect(screen.queryByText('Prefer structured academic programs')).not.toBeInTheDocument();
   });
+
+  it('renders source links when a tab defines them', () => {
+    render(<EmergingProviderStudentSuitability instituteSlug='leaders-institute' />);
+
+    expect(
+      screen.getByRole('link', { name: 'Source: QILT 2025 SES National Report' }),
+    ).toHaveAttribute('href', expect.stringContaining('2025-ses-national-report.pdf'));
+  });
 });

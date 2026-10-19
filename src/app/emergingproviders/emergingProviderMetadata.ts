@@ -7,7 +7,7 @@ import {
   STATS_BY_SLUG,
   hasEmergingProviderProfile,
 } from '@/app/components/emergingInstitutions/emergingProviderPageData';
-import { buildComparedEduUndergraduateHref } from '@/app/components/emergingInstitutions/emergingProviderQiltSource';
+import { QILT_2024_NATIONAL_REPORT_URL } from '@/app/components/emergingInstitutions/emergingProviderQiltSource';
 import { EMERGING_PROVIDERS_DIRECTORY_PATH } from '@/app/components/emergingInstitutions/emergingProvidersPaths';
 import { HOST_URL } from '@/app/utilities/constants';
 import { slugify } from '@/app/utilities/common';
@@ -90,7 +90,7 @@ export function resolveEmergingProviderForSlug(slug: string): ResolvedEmergingPr
     name: institution.name,
     heroInfoItems,
     providerStats,
-    qiltSourceHref: buildComparedEduUndergraduateHref(slug),
+    qiltSourceHref: QILT_2024_NATIONAL_REPORT_URL,
   };
 }
 
