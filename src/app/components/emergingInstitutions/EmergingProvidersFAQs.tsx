@@ -1,5 +1,10 @@
 import Accordion from '@/app/components/accordion/Accordian';
 import { ACCORDION_TRACKING_DISABLED } from '@/app/utilities/accordionActions';
+import {
+  QILT_2024_NATIONAL_REPORT_URL,
+  QILT_2025_NATIONAL_REPORT_URL,
+  QILT_SES_URL,
+} from './emergingProviderQiltSource';
 import Typography, { TypographyVariant } from '../typography/Typography';
 import styles from './emergingProviderDetail.module.css';
 
@@ -119,16 +124,41 @@ export default function EmergingProvidersFAQs() {
           className={styles.emergingFAQAccordion}
           accordionToggleLabel={ACCORDION_TRACKING_DISABLED}
         >
-          <Typography
-            variant={TypographyVariant.Body3}
-            color='var(--BondBlackVariant)'
-            className={styles.emergingFAQLead}
-          >
+          <ul className={styles.emergingFAQKeyAreasList}>
             <li>Provider website</li>
             <li>Student support pages</li>
-            <li>QILT survey data</li>
+            <li>
+              <a
+                className={styles.emergingFAQLink}
+                href={QILT_SES_URL}
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                QILT Student Experience Survey
+              </a>
+            </li>
+            <li>
+              <a
+                className={styles.emergingFAQLink}
+                href={QILT_2025_NATIONAL_REPORT_URL}
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                QILT 2025 SES National Report
+              </a>
+            </li>
+            <li>
+              <a
+                className={styles.emergingFAQLink}
+                href={QILT_2024_NATIONAL_REPORT_URL}
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                QILT 2024 SES National Report
+              </a>
+            </li>
             <li>Government provider listing</li>
-          </Typography>
+          </ul>
         </Accordion>
       </div>
     </section>

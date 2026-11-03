@@ -375,6 +375,21 @@
   color: #1e8e3e;
 }
 
+.providerBenefitsSources {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 8px 0;
+}
+
+.providerBenefitsSourceLink {
+  color: var(--GhostWhiteVariant);
+  text-decoration: underline;
+  font-size: var(--body3-font-size);
+  line-height: 1.45;
+  width: fit-content;
+}
+
 @media (max-width: 767px) {
   .providerBenefitsSection {
     padding: 0 0 32px;
@@ -709,6 +724,11 @@
 
 .emergingFAQKeyAreasList li:last-child {
   margin-bottom: 0;
+}
+
+.emergingFAQLink {
+  color: inherit;
+  text-decoration: underline;
 }
 
 .emergingFAQAreasTable {

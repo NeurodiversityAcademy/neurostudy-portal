@@ -1,7 +1,11 @@
 import institutions from '../emergingInstitutions.json';
 import {
   NDA_TO_COMPARED_EDU_SLUG,
+  QILT_2024_NATIONAL_REPORT_URL,
+  QILT_2025_NATIONAL_REPORT_URL,
+  QILT_SES_URL,
   QILT_SURVEY_2024_LABEL,
+  UOW_2025_SES_MEDIA_RELEASE_URL,
   buildComparedEduUndergraduateHref,
   extractParentheticalAcronym,
   resolveComparedEduSlug,
@@ -12,6 +16,13 @@ import { slugify } from '@/app/utilities/common';
 describe('emergingProviderQiltSource', () => {
   it('uses the QILT survey 2024 label', () => {
     expect(QILT_SURVEY_2024_LABEL).toBe('QILT survey 2024');
+  });
+
+  it('exposes the QILT and UOW source URLs', () => {
+    expect(QILT_SES_URL).toBe('https://www.qilt.edu.au/surveys/student-experience-survey-(ses)');
+    expect(QILT_2024_NATIONAL_REPORT_URL).toContain('2024-ses-national-report.pdf');
+    expect(QILT_2025_NATIONAL_REPORT_URL).toContain('2025-ses-national-report.pdf');
+    expect(UOW_2025_SES_MEDIA_RELEASE_URL).toContain('uow.edu.au/media/2026');
   });
 
   it('extracts a trailing parenthetical acronym from an institute name', () => {

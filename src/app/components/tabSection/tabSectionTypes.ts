@@ -16,11 +16,18 @@ export interface CourseBenefitsTabSectionConfig {
   disclaimer?: string | null;
 }
 
+export interface InstituteTabSectionLink {
+  label: string;
+  href: string;
+}
+
 export interface InstituteTabSectionTab {
   id: string;
   label: string;
   iconType: TabIconType;
   items: string[];
+  /** Optional source links rendered under the tab's item list. */
+  links?: InstituteTabSectionLink[];
 }
 
 export interface InstituteTabSectionConfig {

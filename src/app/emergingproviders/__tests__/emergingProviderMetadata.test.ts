@@ -32,7 +32,8 @@ describe('resolveEmergingProviderForSlug', () => {
       expect.objectContaining({
         slug: 'bond-university',
         name: 'Bond University',
-        qiltSourceHref: 'https://www.compared.edu.au/institution/bond-university/undergraduate',
+        qiltSourceHref:
+          'https://www.qilt.edu.au/docs/default-source/default-document-library/2024-ses-national-report.pdf?sfvrsn=87f4ab8b_8',
       }),
     );
     expect(provider?.heroInfoItems.length).toBeGreaterThan(0);
