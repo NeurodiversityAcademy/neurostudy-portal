@@ -3,13 +3,22 @@
 **Branch:** `feat/phase2-recommendation-and-lead-capture`
 **Owner:** next agent
 **Status:** plan only — no application code written yet
-**Companion doc:** `docs/conversational-search-final-plan.md` (sections §12–§14 are the spec; Appendix A Passes 3–4 are the critique log)
+
+**This document contains the full plan and the full task list.** You should not need any other file to build. The companion `docs/conversational-search-final-plan.md` holds the longer narrative, the four critique passes (Appendix A), and the Phase 1 design — read it for *why*, not for *what*.
 
 ---
 
 ## 0. How to use this document
 
-Read §1–§5 before touching code. §6 is the task list — work top to bottom, one task per commit, and do not start a task whose dependencies are unmet. §7 defines what "done" means. §8 lists questions that require a human answer; if you hit one, stop and ask rather than guessing.
+| Part | Sections | Contents |
+|---|---|---|
+| **Plan** | §1–§5 | context, locked decisions, non-goals, architecture, implementation contracts |
+| **Tasks** | §6 | 20 tasks with IDs, files, hours, acceptance criteria |
+| **Done** | §7 | tests, copy rules, QA matrix, rollout and rollback |
+| **Blockers** | §8 | questions only the owner can answer |
+| **Reference** | §9–§12 | traps, expected rankings, commit convention |
+
+Work §6 top to bottom, one task per commit. Do not start a task whose dependencies are unmet. If you hit an item in §8, stop and ask rather than guessing.
 
 This work is **Phase 2 only**. The conversational/AI search box (Phase 1) is explicitly out of scope and must not be built here.
 
@@ -118,6 +127,143 @@ GET /api/providerCompare   (requires cookie) → comparison payload
 | `src/app/utilities/register/registerSenderContact.ts` | Handle `other` persona without throwing |
 | `src/app/utilities/providerSearch/providerSearchGa.ts` | Add Phase 2 events |
 | `src/app/utilities/providerSearch/constants.ts` | New event names, copy constants |
+
+### 5.1 Implementation contracts
+
+These are the exact shapes to build against. They are duplicated here so this document stands alone; the narrative spec is in `docs/conversational-search-final-plan.md` §12–§14.
+
+#### Ranking module
+
+```ts
+// src/app/utilities/providerSearch/providerRanking.ts
+
+export type QiltIndex = { points: number; dims: number; responses: number } | null;
+
+export function parsePercent(value: string): number | null;   // "84.6%" → 84.6 ; "L/N" → null
+export function parseCount(value: string): number | null;     // "1,278" → 1278
+
+export function computeQiltIndex(stats: readonly ProviderStatItem[]): QiltIndex {
+  const usable = stats
+    .map((s) => ({
+      value: parsePercent(s.value),
+      average: parsePercent(s.nationalAverage),
+      responses: parseCount(s.responses),
+    }))
+    .filter((d) => d.value !== null && d.average !== null);
+
+  if (usable.length < 4) return null;
+
+  return {
+    points: mean(usable.map((d) => (d.value as number) - (d.average as number))),
+    dims: usable.length,
+    responses: Math.max(...usable.map((d) => d.responses ?? 0)),
+  };
+}
+
+export function computeSupportInPlace(slug: string): { inPlace: number; inWorks: number } | null;
+
+/** Pure, deterministic. No network, no model, no randomness. */
+export function compareByRecommendation(a: Ranked, b: Ranked): number {
+  if (TIER_RANK[a.tier] !== TIER_RANK[b.tier]) return TIER_RANK[a.tier] - TIER_RANK[b.tier];
+  if (a.certified !== b.certified) return a.certified ? -1 : 1;
+
+  if (a.tier === 'emerging') {
+    return b.qilt.points - a.qilt.points || a.name.localeCompare(b.name);
+  }
+  return b.supportInPlace - a.supportInPlace || a.name.localeCompare(b.name);
+}
+
+export function buildRankReason(provider: Ranked): string;
+// endorsed  → "43 supports in place · 8 in the works"
+// emerging  → "Student experience +18.2 pts vs national avg (n=297)"
+// no data   → "QILT does not survey VET providers" | ""
+```
+
+`TIER_RANK = { course_endorsed: 0, endorsed: 1, emerging: 2 }`.
+
+#### `POST /api/shortlist`
+
+```jsonc
+// request
+{
+  "email": "user@example.com",
+  "consent": true,
+  "consentVersion": "2026-11-04",
+  "slugs": ["nepean-community-college", "campion-college-australia"],
+  "filters": { "interestAreas": ["IT"], "locations": ["NSW", "Sydney"] }
+}
+
+// 200
+{ "ok": true, "unlockedUntil": "2026-12-04T00:00:00.000Z" }
+// sets: Set-Cookie: nda_shortlist=<hmac>; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=2592000
+
+// 422
+{ "ok": false, "reason": "syntax" | "disposable" | "no_mx" | "role" | "consent" }
+// 429
+{ "ok": false, "reason": "rate_limited" }
+```
+
+Rules: `consent` must be literally `true`; `slugs` ≤ 3; `email` ≤ 254 chars; never log the email; never echo it back.
+
+#### `GET /api/providerCompare?slugs=…`
+
+| Status | Meaning |
+|---|---|
+| 200 | Cookie valid; returns `{ providers: [...] }` limited to requested slugs |
+| 401 | Missing/invalid/expired cookie |
+| 400 | More than 3 slugs or unknown slug |
+
+Response per provider: `slug`, `name`, `tier`, `locations`, `type`, `supportInPlace`, `supportInWorks`, `supportSections[]`, `qilt` (`null` for VET), `qiltSourceHref`.
+
+#### Validation
+
+```ts
+// src/app/utilities/leads/validateEmail.ts
+export type EmailReason = 'syntax' | 'disposable' | 'no_mx' | 'role';
+export type EmailVerdict = { ok: true } | { ok: false; reason: EmailReason };
+
+export async function validateEmail(raw: string): Promise<EmailVerdict>;
+```
+
+Order: normalise (trim, lowercase, punycode) → L1 syntax/length → L2 blocklist → L4 role → L3 MX (1.5 s timeout, 10 min cache).
+
+**Always accept:** `@privaterelay.appleid.com`, `@relay.firefox.com`.
+**Always reject:** `mailsac.com`, `mailinator.com`, `guerrillamail.com`, `10minutemail.com`, `temp-mail.org`, `yopmail.com`, `sharklasers.com`, `dispostable.com`, `trashmail.com`, `getnada.com`, `maildrop.cc`, `throwawaymail.com`.
+
+`disposableDomains.ts` must start with `import 'server-only';`.
+
+#### Cookie
+
+```
+value   = `${email}|${expEpochMs}`
+cookie  = base64url(value) + '.' + base64url(HMAC-SHA256(value, LEAD_COOKIE_SECRET))
+```
+
+Verify: split, recompute HMAC with `crypto.timingSafeEqual`, check `exp > now`. Never trust the value without the HMAC.
+
+#### HubSpot payload
+
+`registerCRMContact` posts `{ properties: contact }`. The contact object must use only these keys:
+
+```ts
+{
+  email,
+  nda_source: 'search_shortlist',
+  nda_consent_version: consentVersion,
+  nda_shortlist_unlocked_at: new Date().toISOString(),
+  nda_verify_token: token,
+  nda_verify_status: 'pending',
+}
+```
+
+Unknown keys cause a 400 — create the properties first (T0.1).
+
+#### Double opt-in
+
+1. `POST /api/shortlist` generates a 32-byte random token, writes it to the contact, and triggers the confirm email.
+2. `GET /api/shortlist/confirm?t=<token>` looks up the contact by token, sets `nda_verify_status=verified`, clears the token, renders a plain confirmation page.
+3. Token is single-use and expires after 7 days.
+4. Unverified contacts never receive marketing.
 
 ---
 
@@ -316,8 +462,9 @@ One task per commit. Do not mix Phase 1 and Phase 2 work.
 
 ## 12. Definition of "handover complete"
 
-- [ ] Branch `feat/phase2-recommendation-and-lead-capture` created
-- [ ] Plan doc §12–§14 revised after four critique passes
-- [ ] This handover document committed
-- [ ] Open questions in §8 sent to the owner
-- [ ] No application code written (this is a planning branch state)
+- [x] Branch `feat/phase2-recommendation-and-lead-capture` created
+- [x] Plan doc §12–§14 revised after four critique passes
+- [x] This handover document committed, with plan (§1–§5) and tasks (§6) in one file
+- [ ] Open questions in §8 answered by the owner
+- [ ] Phase 0 tasks (T0.1–T0.6) completed
+- [x] No application code written (this is a planning branch state)
