@@ -84,9 +84,7 @@ export default function ProviderCompareTable({
           <tr>
             <th scope='row'>Student experience</th>
             {providers.map((provider) => (
-              <td key={provider.slug}>
-                {provider.tier === 'emerging' ? 'Average' : 'Excellent'}
-              </td>
+              <td key={provider.slug}>{provider.tier === 'emerging' ? 'Average' : 'Excellent'}</td>
             ))}
           </tr>
         </tbody>

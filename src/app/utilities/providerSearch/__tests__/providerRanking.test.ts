@@ -7,9 +7,16 @@ import {
   formatSignedPoints,
   parseCount,
   parsePercent,
+  sortProvidersForTier,
+  toRankedProvider,
   type RankedProvider,
 } from '../providerRanking';
-import { buildProviderRankSignals, getProviderRankSignals } from '../providerRankingSignals';
+import {
+  buildProviderRankReasons,
+  buildProviderRankSignals,
+  getProviderRankSignals,
+  getQiltStatsForSlug,
+} from '../providerRankingSignals';
 import { resolveProviderSearchFilters } from '../resolveFilters';
 import { searchProvidersByFilters } from '../searchProviders';
 
@@ -54,6 +61,7 @@ describe('parsePercent', () => {
     expect(parsePercent('L/N')).toBeNull();
     expect(parsePercent('')).toBeNull();
     expect(parsePercent(undefined)).toBeNull();
+    expect(parsePercent(null)).toBeNull();
     expect(parsePercent('n/a')).toBeNull();
   });
 });
@@ -67,6 +75,8 @@ describe('parseCount', () => {
   it('rejects junk', () => {
     expect(parseCount('L/N')).toBeNull();
     expect(parseCount('')).toBeNull();
+    expect(parseCount(undefined)).toBeNull();
+    expect(parseCount(null)).toBeNull();
   });
 });
 
@@ -103,6 +113,16 @@ describe('computeQiltIndex', () => {
     ]);
     expect(withSuppression?.dims).toBe(5);
     expect(withSuppression?.points).toBe(10);
+  });
+
+  it('treats missing response counts as zero and ignores unparsable values', () => {
+    const index = computeQiltIndex([
+      { value: '80%', nationalAverage: '70%' },
+      { value: '80%', nationalAverage: '70%' },
+      { value: '80%', nationalAverage: '70%' },
+      { value: '80%', nationalAverage: '70%' },
+    ]);
+    expect(index).toEqual({ points: 10, dims: 4, responses: 0 });
   });
 });
 
@@ -142,6 +162,12 @@ describe('compareRanked', () => {
     expect(compareRanked(certified, uncertified)).toBeLessThan(0);
   });
 
+  it('sorts an uncertified provider after a certified one', () => {
+    const uncertified = ranked({ tier: 'endorsed', name: 'Alpha', supportInPlace: 50 });
+    const certified = ranked({ tier: 'endorsed', certified: true, name: 'Zeta' });
+    expect(compareRanked(uncertified, certified)).toBeGreaterThan(0);
+  });
+
   it('orders endorsed providers by absolute supports in place, not proportion', () => {
     const broad = ranked({ tier: 'endorsed', name: 'Broad', supportInPlace: 43 });
     const narrow = ranked({ tier: 'endorsed', name: 'Narrow', supportInPlace: 5 });
@@ -161,6 +187,13 @@ describe('compareRanked', () => {
     expect(compareRanked(unscored, scored)).toBeGreaterThan(0);
   });
 
+  it('sorts an endorsed provider without support counts after one with counts', () => {
+    const counted = ranked({ tier: 'endorsed', name: 'Counted', supportInPlace: 0 });
+    const missing = ranked({ tier: 'endorsed', name: 'Missing', supportInPlace: null });
+    expect(compareRanked(counted, missing)).toBeLessThan(0);
+    expect(compareRanked(missing, counted)).toBeGreaterThan(0);
+  });
+
   it('falls through to name on equal scores', () => {
     const a = ranked({ name: 'Alpha', qilt: 5 });
     const b = ranked({ name: 'Beta', qilt: 5 });
@@ -170,6 +203,71 @@ describe('compareRanked', () => {
     const c = ranked({ tier: 'endorsed', name: 'Alpha', supportInPlace: 10 });
     const d = ranked({ tier: 'endorsed', name: 'Beta', supportInPlace: 10 });
     expect(compareRanked(c, d)).toBeLessThan(0);
+  });
+
+  it('falls through to name for emerging providers with equal QILT scores', () => {
+    const a = ranked({ name: 'Alpha', qilt: 5 });
+    const b = ranked({ name: 'Beta', qilt: 5 });
+    expect(compareRanked(a, b)).toBeLessThan(0);
+  });
+});
+
+describe('toRankedProvider', () => {
+  it('reads certification and signals for a known slug', () => {
+    const signals = new Map([
+      [
+        'known',
+        { qilt: { points: 12.5, dims: 5, responses: 100 }, support: { inPlace: 4, inWorks: 2 } },
+      ],
+    ]);
+
+    expect(
+      toRankedProvider(
+        makeProvider({ slug: 'known', name: 'Known', kind: 'endorsed', ndaCertified: true }),
+        'endorsed',
+        signals,
+      ),
+    ).toEqual({
+      tier: 'endorsed',
+      certified: true,
+      name: 'Known',
+      qilt: 12.5,
+      supportInPlace: 4,
+    });
+  });
+
+  it('returns nulls for a slug without signals', () => {
+    expect(
+      toRankedProvider(
+        makeProvider({ slug: 'unknown', name: 'Unknown', kind: 'emerging' }),
+        'emerging',
+        new Map(),
+      ),
+    ).toEqual({
+      tier: 'emerging',
+      certified: false,
+      name: 'Unknown',
+      qilt: null,
+      supportInPlace: null,
+    });
+  });
+});
+
+describe('sortProvidersForTier', () => {
+  it('sorts a copy and leaves the input untouched', () => {
+    const providers = [
+      makeProvider({ slug: 'a', name: 'Alpha', kind: 'emerging' }),
+      makeProvider({ slug: 'b', name: 'Beta', kind: 'emerging' }),
+    ];
+    const signals = new Map([
+      ['a', { qilt: { points: 1, dims: 4, responses: 0 }, support: null }],
+      ['b', { qilt: { points: 9, dims: 4, responses: 0 }, support: null }],
+    ]);
+
+    const sorted = sortProvidersForTier(providers, 'emerging', signals);
+
+    expect(sorted.map((provider) => provider.slug)).toEqual(['b', 'a']);
+    expect(providers.map((provider) => provider.slug)).toEqual(['a', 'b']);
   });
 });
 
@@ -199,6 +297,17 @@ describe('buildRankReason', () => {
     expect(buildRankReason({ tier: 'endorsed', signals: undefined, isVet: true })).toBe(
       'QILT does not survey VET providers',
     );
+    expect(buildRankReason({ tier: 'endorsed', signals: undefined, isVet: false })).toBe('');
+  });
+
+  it('omits the sample size when no responses were reported', () => {
+    expect(
+      buildRankReason({
+        tier: 'emerging',
+        signals: { qilt: { points: 3, dims: 4, responses: 0 }, support: null },
+        isVet: false,
+      }),
+    ).toBe('Student experience +3.0 pts vs national avg');
   });
 });
 
@@ -291,5 +400,39 @@ describe('sorting real search results', () => {
     expect(getProviderRankSignals(orphan.slug)).toEqual({ qilt: null, support: null });
     const signals = buildProviderRankSignals([orphan]);
     expect(signals.get(orphan.slug)).toEqual({ qilt: null, support: null });
+  });
+});
+
+describe('providerRankingSignals', () => {
+  it('returns no QILT rows for an unknown slug', () => {
+    expect(getQiltStatsForSlug('does-not-exist')).toEqual([]);
+  });
+
+  it('returns labelled QILT dimensions for a known emerging provider', () => {
+    const rows = getQiltStatsForSlug('campion-college-australia');
+    expect(rows.length).toBeGreaterThan(0);
+    expect(rows[0]).toEqual(expect.objectContaining({ title: 'Overall experience' }));
+    expect(rows[0]).toHaveProperty('value');
+    expect(rows[0]).toHaveProperty('nationalAverage');
+    expect(typeof rows[0].responses).toBe('string');
+  });
+
+  it('caches support counts per slug and returns null for unknown providers', () => {
+    const first = getProviderRankSignals('campion-college-australia');
+    const second = getProviderRankSignals('campion-college-australia');
+    expect(second).toEqual(first);
+    expect(getProviderRankSignals('does-not-exist').support).toBeNull();
+  });
+
+  it('builds one reason per provider keyed by slug', () => {
+    const { context } = resolveProviderSearchFilters({
+      InterestArea: 'IT',
+      Location: 'NSW',
+    });
+    const signals = buildProviderRankSignals(context.providers);
+    const reasons = buildProviderRankReasons(context.providers, signals);
+
+    expect(Object.keys(reasons)).toHaveLength(context.providers.length);
+    expect(reasons['campion-college-australia']).toContain('Student experience');
   });
 });

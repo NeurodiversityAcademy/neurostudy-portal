@@ -35,6 +35,10 @@ function escapeRegExp(value: string): string {
 
 function aliasMatches(text: string, catalog: string[]): string[] {
   const normalizedText = normalizeSearchToken(text);
+  if (!normalizedText) {
+    return [];
+  }
+
   const matches = new Set<string>();
 
   for (const [alias, candidates] of Object.entries(FUZZY_AREA_ALIASES)) {
@@ -94,7 +98,9 @@ export function detectInText(text: string, catalog: string[]): string[] {
   }
 
   return catalog.filter((item) => {
-    const itemTokens = normalizeSearchToken(item).split(/[^a-z0-9]+/).filter(Boolean);
+    const itemTokens = normalizeSearchToken(item)
+      .split(/[^a-z0-9]+/)
+      .filter(Boolean);
     if (itemTokens.length === 0) {
       return false;
     }
@@ -114,13 +120,15 @@ export function detectInText(text: string, catalog: string[]): string[] {
 
 export function expandLocations(location: string, catalog: string[]): string[] {
   const key = normalizeSearchToken(location);
-  const state = CITY_TO_STATE[key] ?? (STATES.has(location) ? location : null);
+  const upper = location.trim().toUpperCase();
+  const cityState = CITY_TO_STATE[key];
+  const state = cityState ?? (STATES.has(upper) ? upper : null);
   if (!state) {
     return [location];
   }
 
   return uniqueSortedStrings([
-    location,
+    cityState ? location : state,
     state,
     ...catalog.filter((item) => CITY_TO_STATE[normalizeSearchToken(item)] === state),
   ]);

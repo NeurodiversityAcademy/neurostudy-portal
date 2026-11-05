@@ -1,7 +1,12 @@
 /**
  * @jest-environment node
  */
-import { validateEmail } from '../validateEmail';
+jest.mock('node:dns/promises', () => ({
+  resolveMx: jest.fn(),
+}));
+
+import { resolveMx } from 'node:dns/promises';
+import { resetEmailValidationCacheForTests, validateEmail } from '../validateEmail';
 
 const acceptMx = jest.fn().mockResolvedValue(true);
 const rejectMx = jest.fn().mockResolvedValue(false);
@@ -93,5 +98,81 @@ describe('validateEmail', () => {
     await expect(
       validateEmail('jane.doe+study@example.com', { lookupMx: acceptMx }),
     ).resolves.toEqual({ ok: true, email: 'jane.doe+study@example.com' });
+  });
+
+  describe('default MX lookup', () => {
+    beforeEach(() => {
+      resetEmailValidationCacheForTests();
+      jest.mocked(resolveMx).mockReset();
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    it('accepts a domain with MX records', async () => {
+      jest.mocked(resolveMx).mockResolvedValue([{ exchange: 'mail.example.com', priority: 10 }]);
+
+      await expect(validateEmail('jane@has-mx.example')).resolves.toEqual({
+        ok: true,
+        email: 'jane@has-mx.example',
+      });
+    });
+
+    it('rejects a domain with an empty MX answer', async () => {
+      jest.mocked(resolveMx).mockResolvedValue([]);
+
+      await expect(validateEmail('jane@empty-mx.example')).resolves.toEqual({
+        ok: false,
+        reason: 'no_mx',
+      });
+    });
+
+    it.each(['ENOTFOUND', 'ENODATA'])('rejects a nonexistent domain (%s)', async (code) => {
+      jest.mocked(resolveMx).mockRejectedValue(Object.assign(new Error(code), { code }));
+
+      await expect(validateEmail(`jane@missing-${code.toLowerCase()}.example`)).resolves.toEqual({
+        ok: false,
+        reason: 'no_mx',
+      });
+    });
+
+    it('fails open on transient DNS errors', async () => {
+      jest
+        .mocked(resolveMx)
+        .mockRejectedValue(Object.assign(new Error('timeout'), { code: 'ETIMEOUT' }));
+
+      await expect(validateEmail('jane@flaky-dns.example')).resolves.toEqual({
+        ok: true,
+        email: 'jane@flaky-dns.example',
+      });
+    });
+
+    it('caches lookups for the same domain', async () => {
+      jest.mocked(resolveMx).mockResolvedValue([{ exchange: 'mail.example.com', priority: 10 }]);
+
+      await validateEmail('jane@cached.example');
+      await validateEmail('john@cached.example');
+
+      expect(resolveMx).toHaveBeenCalledTimes(1);
+    });
+
+    it('skips DNS for privacy relays', async () => {
+      await expect(validateEmail('jane@privaterelay.appleid.com')).resolves.toEqual({
+        ok: true,
+        email: 'jane@privaterelay.appleid.com',
+      });
+      expect(resolveMx).not.toHaveBeenCalled();
+    });
+
+    it('fails open when DNS does not answer before the timeout', async () => {
+      jest.useFakeTimers();
+      jest.mocked(resolveMx).mockReturnValue(new Promise<never>(() => {}));
+
+      const pending = validateEmail('jane@slow-dns.example');
+      jest.advanceTimersByTime(1500);
+
+      await expect(pending).resolves.toEqual({ ok: true, email: 'jane@slow-dns.example' });
+    });
   });
 });

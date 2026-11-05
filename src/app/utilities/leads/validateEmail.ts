@@ -83,11 +83,12 @@ async function defaultLookupMx(domain: string): Promise<boolean> {
   }
 
   let hasMx = false;
+  let timer: ReturnType<typeof setTimeout> | undefined;
   try {
     const records = await Promise.race([
       resolveMx(domain),
       new Promise<never>((_, reject) => {
-        setTimeout(() => reject(new Error('mx_timeout')), MX_TIMEOUT_MS);
+        timer = setTimeout(() => reject(new Error('mx_timeout')), MX_TIMEOUT_MS);
       }),
     ]);
     hasMx = Array.isArray(records) && records.length > 0;
@@ -96,6 +97,10 @@ async function defaultLookupMx(domain: string): Promise<boolean> {
     // ENOTFOUND / ENODATA: the domain has no mail service.
     // Anything else (timeout, SERVFAIL) is not proof of a fake address, so let it through.
     hasMx = code !== 'ENOTFOUND' && code !== 'ENODATA';
+  } finally {
+    if (timer !== undefined) {
+      clearTimeout(timer);
+    }
   }
 
   mxCache.set(domain, { expiresAt: Date.now() + MX_CACHE_TTL_MS, hasMx });

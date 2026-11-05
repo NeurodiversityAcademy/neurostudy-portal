@@ -155,14 +155,13 @@ describe('ProviderStudySearch', () => {
     });
 
     render(
-      <ProviderStudySearch
-        surface='homepage'
-        interestAreaOptions={[]}
-        locationOptions={[]}
-      />,
+      <ProviderStudySearch surface='homepage' interestAreaOptions={[]} locationOptions={[]} />,
     );
 
-    await user.type(screen.getByPlaceholderText('E.g. Nursing in melbourne'), 'Business analyst in Cairns');
+    await user.type(
+      screen.getByPlaceholderText('E.g. Nursing in melbourne'),
+      'Business analyst in Cairns',
+    );
     await user.click(screen.getByRole('button', { name: 'Ask' }));
 
     expect(await screen.findByRole('status')).toHaveTextContent(

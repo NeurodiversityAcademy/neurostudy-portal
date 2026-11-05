@@ -39,7 +39,12 @@ import APIError from '@/app/interfaces/APIError';
 import { checkBotId } from 'botid/server';
 import { consumeRateWithIp } from '@/app/utilities/api/rateLimiter';
 import { callModel } from '@/app/utilities/providerSearch/assist/llm';
-import { tryKeywordHit } from '@/app/utilities/providerSearch/assist/parse';
+import {
+  detectInText,
+  isOutOfScope,
+  suggestAreas,
+  tryKeywordHit,
+} from '@/app/utilities/providerSearch/assist/parse';
 import { POST } from '@/app/api/search/assist/route';
 
 const BROWSER_UA =
@@ -172,5 +177,77 @@ describe('POST /api/search/assist', () => {
     const response = await POST(makeRequest({}, { rawBody: 'not-json' }));
 
     expect(response.status).toBe(400);
+  });
+
+  it('rejects non-string query text', async () => {
+    const response = await POST(makeRequest({ text: 42 }));
+
+    expect(response.status).toBe(400);
+  });
+
+  it('returns off-topic for advice or prompt-injection attempts', async () => {
+    jest.mocked(isOutOfScope).mockReturnValueOnce(true);
+
+    const response = await POST(makeRequest({ text: 'which university should i pick' }));
+
+    expect(await response.json()).toEqual({ offTopic: true, suggestions: [], usedModel: false });
+    expect(callModel).not.toHaveBeenCalled();
+  });
+
+  it('uses the model result when the area and location resolve', async () => {
+    jest.mocked(callModel).mockResolvedValueOnce({ area: 'Nursing', location: 'VIC' });
+    jest.mocked(detectInText).mockReturnValueOnce(['VIC']);
+
+    const response = await POST(makeRequest({ text: 'nursing near me' }));
+
+    expect(await response.json()).toEqual({
+      area: 'Nursing',
+      locations: ['VIC'],
+      suggestions: [],
+      usedModel: true,
+    });
+  });
+
+  it('drops model locations that are not in the catalog', async () => {
+    jest.mocked(callModel).mockResolvedValueOnce({ area: 'Nursing', location: 'Narnia' });
+    jest.mocked(detectInText).mockReturnValueOnce([]);
+
+    const response = await POST(makeRequest({ text: 'nursing somewhere' }));
+
+    expect(await response.json()).toEqual({
+      area: 'Nursing',
+      locations: [],
+      suggestions: [],
+      usedModel: true,
+    });
+  });
+
+  it('falls back to area suggestions when the model finds no area', async () => {
+    jest.mocked(callModel).mockResolvedValueOnce({ area: null, location: null });
+    jest.mocked(suggestAreas).mockReturnValueOnce(['Nursing']);
+
+    const response = await POST(makeRequest({ text: 'nurs' }));
+
+    expect(await response.json()).toEqual({
+      area: null,
+      locations: [],
+      suggestions: ['Nursing'],
+      usedModel: false,
+    });
+  });
+
+  it('falls back to detected interest areas when there are no suggestions', async () => {
+    jest.mocked(callModel).mockResolvedValueOnce(null);
+    jest.mocked(suggestAreas).mockReturnValueOnce([]);
+    jest.mocked(detectInText).mockReturnValueOnce(['Design']);
+
+    const response = await POST(makeRequest({ text: 'design' }));
+
+    expect(await response.json()).toEqual({
+      area: null,
+      locations: [],
+      suggestions: ['Design'],
+      usedModel: false,
+    });
   });
 });

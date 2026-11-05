@@ -42,14 +42,17 @@ function resolveStudentExperienceTone(note: string | undefined): {
     return null;
   }
 
-  const match = note.match(/^Student experience ([+-]?\d+(?:\.\d+)?) pts vs national avg(?: \(n=\d+\))?$/);
+  const match = note.match(
+    /^Student experience ([+-]?\d+(?:\.\d+)?) pts vs national avg(?: \(n=\d+\))?$/,
+  );
   if (!match) {
     return null;
   }
 
   const points = Number.parseFloat(match[1]);
   return {
-    toneClassName: points >= 0 ? styles.studentExperiencePositive : styles.studentExperienceNegative,
+    toneClassName:
+      points >= 0 ? styles.studentExperiencePositive : styles.studentExperienceNegative,
     label: 'Student experience',
     value: `${points >= 0 ? '+' : ''}${points.toFixed(1)} pts`,
   };
@@ -125,11 +128,17 @@ export default function ProviderSearchResults({
           <div className={styles.legendRow} aria-label='Provider color legend'>
             <span className={styles.legendLabel}>Legend</span>
             <span className={styles.legendItem}>
-              <span className={classNames(styles.legendSwatch, styles.legendVerified)} aria-hidden='true' />
+              <span
+                className={classNames(styles.legendSwatch, styles.legendVerified)}
+                aria-hidden='true'
+              />
               Verified
             </span>
             <span className={styles.legendItem}>
-              <span className={classNames(styles.legendSwatch, styles.legendEmerging)} aria-hidden='true' />
+              <span
+                className={classNames(styles.legendSwatch, styles.legendEmerging)}
+                aria-hidden='true'
+              />
               Emerging
             </span>
           </div>
