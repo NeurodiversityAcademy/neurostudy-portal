@@ -35,17 +35,14 @@ const QILT_STAT_SECTIONS = [
 
 type StatNumbers = Pick<ProviderStatItem, 'value' | 'nationalAverage' | 'responses'>;
 
-/** Placeholder QILT-style stats per endorsed slug; replace with provider-specific data when available. */
-const STAT_NUMBERS_BY_SLUG: Record<string, StatNumbers[]> = {
-  collarts: [
-    { value: '87.3%', nationalAverage: '78.6%', responses: '1278' },
-    { value: '91.0%', nationalAverage: '81.1%', responses: '1219' },
-    { value: '90.6%', nationalAverage: '80.5%', responses: '1261' },
-    { value: '86.1%', nationalAverage: '73.1%', responses: '1281' },
-    { value: '93.0%', nationalAverage: '85.3%', responses: '1226' },
-    { value: '90.6%', nationalAverage: '86.4%', responses: '1035' },
-  ],
-};
+/**
+ * Provider-specific QILT figures for endorsed higher-education providers.
+ *
+ * Intentionally empty. The Collarts entry was placeholder data and has been removed —
+ * do not reinstate invented figures. Add real, sourced numbers per slug when available;
+ * the detail page renders a "not yet published" notice while a slug has none here.
+ */
+const STAT_NUMBERS_BY_SLUG: Record<string, StatNumbers[]> = {};
 
 type VetKeyDataPointContent = {
   id: string;
@@ -1490,11 +1487,15 @@ export function getVetKeyDataPointsForSlug(slug: string): VetKeyDataPoint[] {
 }
 
 export function hasEndorsedDeliverySignals(slug: string): boolean {
-  const institutionType = getInstitutionTypeForSlug(slug);
-  if (institutionType === 'VET') {
+  // A published profile is the real signal. Higher-education slugs remain valid
+  // without QILT stats; the page shows a "not yet published" notice instead.
+  if (!HERO_DETAILS_BY_SLUG[slug]) {
+    return false;
+  }
+  if (getInstitutionTypeForSlug(slug) === 'VET') {
     return VET_KEY_DATA_POINTS.length > 0;
   }
-  return (STATS_BY_SLUG[slug]?.length ?? 0) > 0;
+  return true;
 }
 
 function displayNameForEndorsedId(id: string): string {

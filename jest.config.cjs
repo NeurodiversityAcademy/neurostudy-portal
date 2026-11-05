@@ -18,6 +18,8 @@ module.exports = {
   moduleNameMapper: {
     '\\.(png|jpg|jpeg|gif|webp|svg)$': '<rootDir>/jest.fileMock.js',
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+    // Jest does not apply Next's `react-server` export condition; the real marker throws.
+    '^server-only$': '<rootDir>/src/testUtils/serverOnlyMock.js',
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   transform: {

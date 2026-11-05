@@ -4,19 +4,19 @@
 **Owner:** next agent
 **Status:** plan only — no application code written yet
 
-**This document contains the full plan and the full task list.** You should not need any other file to build. The companion `docs/conversational-search-final-plan.md` holds the longer narrative, the four critique passes (Appendix A), and the Phase 1 design — read it for *why*, not for *what*.
+**This document contains the full plan and the full task list.** You should not need any other file to build. The companion `docs/conversational-search-final-plan.md` holds the longer narrative, the four critique passes (Appendix A), and the Phase 1 design — read it for _why_, not for _what_.
 
 ---
 
 ## 0. How to use this document
 
-| Part | Sections | Contents |
-|---|---|---|
-| **Plan** | §1–§5 | context, locked decisions, non-goals, architecture, implementation contracts |
-| **Tasks** | §6 | 20 tasks with IDs, files, hours, acceptance criteria |
-| **Done** | §7 | tests, copy rules, QA matrix, rollout and rollback |
-| **Blockers** | §8 | questions only the owner can answer |
-| **Reference** | §9–§12 | traps, expected rankings, commit convention |
+| Part          | Sections | Contents                                                                     |
+| ------------- | -------- | ---------------------------------------------------------------------------- |
+| **Plan**      | §1–§5    | context, locked decisions, non-goals, architecture, implementation contracts |
+| **Tasks**     | §6       | 20 tasks with IDs, files, hours, acceptance criteria                         |
+| **Done**      | §7       | tests, copy rules, QA matrix, rollout and rollback                           |
+| **Blockers**  | §8       | questions only the owner can answer                                          |
+| **Reference** | §9–§12   | traps, expected rankings, commit convention                                  |
 
 Work §6 top to bottom, one task per commit. Do not start a task whose dependencies are unmet. If you hit an item in §8, stop and ask rather than guessing.
 
@@ -33,16 +33,16 @@ This work is **Phase 2 only**. The conversational/AI search box (Phase 1) is exp
 
 ## 2. Locked decisions (do not relitigate)
 
-| Decision | Value |
-|---|---|
-| Ranking method | **Lexicographic**: tier first, then per-tier evidence. No blended score. |
-| Endorsed sort key | NDA-certified first, then **absolute count of supports in place** |
-| Emerging sort key | **QILT index** (mean of `value − nationalAverage` over SES dimensions), descending |
-| Copy rule | Never describe the cross-tier order as "QILT-based" |
-| Gate scope | Email unlocks **comparison + emailed shortlist**, not facts that are already public |
-| Lead destination | `registerCRMContact` → HubSpot only |
-| Email validation | L1–L4 heuristics + **L5 double opt-in**; privacy aliases allowlisted |
-| Model involvement | **None.** No model ranks, scores, or writes user-facing text. |
+| Decision          | Value                                                                               |
+| ----------------- | ----------------------------------------------------------------------------------- |
+| Ranking method    | **Lexicographic**: tier first, then per-tier evidence. No blended score.            |
+| Endorsed sort key | NDA-certified first, then **absolute count of supports in place**                   |
+| Emerging sort key | **QILT index** (mean of `value − nationalAverage` over SES dimensions), descending  |
+| Copy rule         | Never describe the cross-tier order as "QILT-based"                                 |
+| Gate scope        | Email unlocks **comparison + emailed shortlist**, not facts that are already public |
+| Lead destination  | `registerCRMContact` → HubSpot only                                                 |
+| Email validation  | L1–L4 heuristics + **L5 double opt-in**; privacy aliases allowlisted                |
+| Model involvement | **None.** No model ranks, scores, or writes user-facing text.                       |
 
 ## 3. Non-goals
 
@@ -103,30 +103,30 @@ GET /api/providerCompare   (requires cookie) → comparison payload
 
 **Files to create**
 
-| Path | Purpose |
-|---|---|
-| `src/app/utilities/providerSearch/providerRanking.ts` | Pure ranking functions |
-| `src/app/utilities/providerSearch/__tests__/providerRanking.test.ts` | Property tests |
-| `src/app/utilities/leads/validateEmail.ts` | L1–L4 validation |
-| `src/app/utilities/leads/disposableDomains.ts` | Bundled blocklist (`server-only`) |
-| `src/app/utilities/leads/leadCookie.ts` | HMAC sign/verify |
-| `src/app/api/shortlist/route.ts` | POST capture |
-| `src/app/api/shortlist/confirm/route.ts` | Double opt-in confirmation |
-| `src/app/api/providerCompare/route.ts` | GET gated comparison |
-| `src/app/components/providerSearch/ShortlistGate.tsx` | Inline capture UI |
-| `src/app/components/providerSearch/ProviderCompareTable.tsx` | Comparison table |
-| `src/app/how-we-rank/page.tsx` | Methodology page |
+| Path                                                                 | Purpose                           |
+| -------------------------------------------------------------------- | --------------------------------- |
+| `src/app/utilities/providerSearch/providerRanking.ts`                | Pure ranking functions            |
+| `src/app/utilities/providerSearch/__tests__/providerRanking.test.ts` | Property tests                    |
+| `src/app/utilities/leads/validateEmail.ts`                           | L1–L4 validation                  |
+| `src/app/utilities/leads/disposableDomains.ts`                       | Bundled blocklist (`server-only`) |
+| `src/app/utilities/leads/leadCookie.ts`                              | HMAC sign/verify                  |
+| `src/app/api/shortlist/route.ts`                                     | POST capture                      |
+| `src/app/api/shortlist/confirm/route.ts`                             | Double opt-in confirmation        |
+| `src/app/api/providerCompare/route.ts`                               | GET gated comparison              |
+| `src/app/components/providerSearch/ShortlistGate.tsx`                | Inline capture UI                 |
+| `src/app/components/providerSearch/ProviderCompareTable.tsx`         | Comparison table                  |
+| `src/app/how-we-rank/page.tsx`                                       | Methodology page                  |
 
 **Files to modify**
 
-| Path | Change |
-|---|---|
-| `src/app/utilities/providerSearch/searchProviders.ts` | Replace name/certified sort with `compareByRecommendation` |
-| `src/app/components/providerSearch/ProviderSearchResults.tsx` | Render chips; pass ranking metadata |
-| `src/app/components/endorsedProviders/endorsedProviderPageData.ts` | Delete placeholder QILT numbers |
-| `src/app/utilities/register/registerSenderContact.ts` | Handle `other` persona without throwing |
-| `src/app/utilities/providerSearch/providerSearchGa.ts` | Add Phase 2 events |
-| `src/app/utilities/providerSearch/constants.ts` | New event names, copy constants |
+| Path                                                               | Change                                                     |
+| ------------------------------------------------------------------ | ---------------------------------------------------------- |
+| `src/app/utilities/providerSearch/searchProviders.ts`              | Replace name/certified sort with `compareByRecommendation` |
+| `src/app/components/providerSearch/ProviderSearchResults.tsx`      | Render chips; pass ranking metadata                        |
+| `src/app/components/endorsedProviders/endorsedProviderPageData.ts` | Delete placeholder QILT numbers                            |
+| `src/app/utilities/register/registerSenderContact.ts`              | Handle `other` persona without throwing                    |
+| `src/app/utilities/providerSearch/providerSearchGa.ts`             | Add Phase 2 events                                         |
+| `src/app/utilities/providerSearch/constants.ts`                    | New event names, copy constants                            |
 
 ### 5.1 Implementation contracts
 
@@ -139,8 +139,8 @@ These are the exact shapes to build against. They are duplicated here so this do
 
 export type QiltIndex = { points: number; dims: number; responses: number } | null;
 
-export function parsePercent(value: string): number | null;   // "84.6%" → 84.6 ; "L/N" → null
-export function parseCount(value: string): number | null;     // "1,278" → 1278
+export function parsePercent(value: string): number | null; // "84.6%" → 84.6 ; "L/N" → null
+export function parseCount(value: string): number | null; // "1,278" → 1278
 
 export function computeQiltIndex(stats: readonly ProviderStatItem[]): QiltIndex {
   const usable = stats
@@ -207,11 +207,11 @@ Rules: `consent` must be literally `true`; `slugs` ≤ 3; `email` ≤ 254 chars;
 
 #### `GET /api/providerCompare?slugs=…`
 
-| Status | Meaning |
-|---|---|
-| 200 | Cookie valid; returns `{ providers: [...] }` limited to requested slugs |
-| 401 | Missing/invalid/expired cookie |
-| 400 | More than 3 slugs or unknown slug |
+| Status | Meaning                                                                 |
+| ------ | ----------------------------------------------------------------------- |
+| 200    | Cookie valid; returns `{ providers: [...] }` limited to requested slugs |
+| 401    | Missing/invalid/expired cookie                                          |
+| 400    | More than 3 slugs or unknown slug                                       |
 
 Response per provider: `slug`, `name`, `tier`, `locations`, `type`, `supportInPlace`, `supportInWorks`, `supportSections[]`, `qilt` (`null` for VET), `qiltSourceHref`.
 
@@ -273,66 +273,66 @@ Effort in hours. Each task is a separate commit. Update this table as you go.
 
 ### Phase 0 — Preconditions (human, blocking)
 
-| ID | Task | Effort | Acceptance |
-|---|---|---|---|
-| T0.1 | Create HubSpot custom contact properties: `nda_source`, `nda_shortlist_unlocked_at`, `nda_verify_token`, `nda_verify_status` (enum: pending/verified/bounced), `nda_consent_version` | 1 | Properties visible in HubSpot; a test POST via `registerCRMContact` with all fields returns 2xx |
-| T0.2 | Confirm licensing/attribution terms for republishing QILT/Compared.edu-derived figures | 1 | Written confirmation or a decision to cite-only |
-| T0.3 | Delete the Collarts placeholder QILT numbers from `STAT_NUMBERS_BY_SLUG` | 0.1 | `STATS_BY_SLUG.collarts` is `[]`; no UI renders a fake score |
-| T0.4 | Confirm gate scope: comparison-only (recommended) or also per-card depth | 0.1 | Written decision recorded in §2 |
-| T0.5 | Legal review of consent copy + privacy policy update | 2 | Signed-off copy |
-| T0.6 | Decide Sender.net handling for `hs_persona: 'other'` | 0.5 | Either a new group mapping or an explicit skip |
+| ID   | Task                                                                                                                                                                                 | Effort | Acceptance                                                                                      |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ | ----------------------------------------------------------------------------------------------- |
+| T0.1 | Create HubSpot custom contact properties: `nda_source`, `nda_shortlist_unlocked_at`, `nda_verify_token`, `nda_verify_status` (enum: pending/verified/bounced), `nda_consent_version` | 1      | Properties visible in HubSpot; a test POST via `registerCRMContact` with all fields returns 2xx |
+| T0.2 | Confirm licensing/attribution terms for republishing QILT/Compared.edu-derived figures                                                                                               | 1      | Written confirmation or a decision to cite-only                                                 |
+| T0.3 | Delete the Collarts placeholder QILT numbers from `STAT_NUMBERS_BY_SLUG`                                                                                                             | 0.1    | `STATS_BY_SLUG.collarts` is `[]`; no UI renders a fake score                                    |
+| T0.4 | Confirm gate scope: comparison-only (recommended) or also per-card depth                                                                                                             | 0.1    | Written decision recorded in §2                                                                 |
+| T0.5 | Legal review of consent copy + privacy policy update                                                                                                                                 | 2      | Signed-off copy                                                                                 |
+| T0.6 | Decide Sender.net handling for `hs_persona: 'other'`                                                                                                                                 | 0.5    | Either a new group mapping or an explicit skip                                                  |
 
 **Do not start Phase 4 until T0.1, T0.2, T0.4 and T0.5 are complete.**
 
 ### Phase 1 — Ranking core (no UI)
 
-| ID | Task | Files | Effort | Acceptance |
-|---|---|---|---|---|
-| T1.1 | Implement `parsePercent`, `parseCount`, `computeQiltIndex`, `computeSupportInPlace`, `compareByRecommendation`, `buildRankReason` | `providerRanking.ts` | 4 | Functions are pure; no imports of React, `fetch`, or model code |
-| T1.2 | Replace the tier sorts in `searchProviders.ts`; keep tier grouping intact | `searchProviders.ts` | 1 | Tier order unchanged; within-tier order deterministic |
-| T1.3 | Property tests (see §7) | `providerRanking.test.ts` | 3 | All pass; includes shuffle-determinism test |
-| T1.4 | Snapshot fixtures for 5 filter sets: `nursing in melbourne`, `psychology sydney`, `business in melbourne`, `IT in NSW`, `teaching in perth` | test file | 1 | Snapshots committed and reviewed by a human |
+| ID   | Task                                                                                                                                        | Files                     | Effort | Acceptance                                                      |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ------ | --------------------------------------------------------------- |
+| T1.1 | Implement `parsePercent`, `parseCount`, `computeQiltIndex`, `computeSupportInPlace`, `compareByRecommendation`, `buildRankReason`           | `providerRanking.ts`      | 4      | Functions are pure; no imports of React, `fetch`, or model code |
+| T1.2 | Replace the tier sorts in `searchProviders.ts`; keep tier grouping intact                                                                   | `searchProviders.ts`      | 1      | Tier order unchanged; within-tier order deterministic           |
+| T1.3 | Property tests (see §7)                                                                                                                     | `providerRanking.test.ts` | 3      | All pass; includes shuffle-determinism test                     |
+| T1.4 | Snapshot fixtures for 5 filter sets: `nursing in melbourne`, `psychology sydney`, `business in melbourne`, `IT in NSW`, `teaching in perth` | test file                 | 1      | Snapshots committed and reviewed by a human                     |
 
 ### Phase 2 — Result-card evidence
 
-| ID | Task | Files | Effort | Acceptance |
-|---|---|---|---|---|
-| T2.1 | Endorsed chip: `43 supports in place · 8 in the works` | `ProviderSearchResults.tsx`, CSS | 2 | Renders only when support data exists; no percentage shown as rank basis |
-| T2.2 | Emerging chip: `Student experience +18.2 pts vs national avg (n=297)` + QILT link | same | 2 | `n` always present when an index exists; hidden when no index |
-| T2.3 | GA events `rec_view`, `rec_result_click` | `providerSearchGa.ts`, `constants.ts` | 2 | Fires in production only; no PII in params |
-| T2.4 | Accessibility pass on chips | — | 1 | Text alternatives, contrast AA, no colour-only meaning |
+| ID   | Task                                                                              | Files                                 | Effort | Acceptance                                                               |
+| ---- | --------------------------------------------------------------------------------- | ------------------------------------- | ------ | ------------------------------------------------------------------------ |
+| T2.1 | Endorsed chip: `43 supports in place · 8 in the works`                            | `ProviderSearchResults.tsx`, CSS      | 2      | Renders only when support data exists; no percentage shown as rank basis |
+| T2.2 | Emerging chip: `Student experience +18.2 pts vs national avg (n=297)` + QILT link | same                                  | 2      | `n` always present when an index exists; hidden when no index            |
+| T2.3 | GA events `rec_view`, `rec_result_click`                                          | `providerSearchGa.ts`, `constants.ts` | 2      | Fires in production only; no PII in params                               |
+| T2.4 | Accessibility pass on chips                                                       | —                                     | 1      | Text alternatives, contrast AA, no colour-only meaning                   |
 
 ### Phase 3 — Methodology page
 
-| ID | Task | Files | Effort | Acceptance |
-|---|---|---|---|---|
-| T3.1 | `/how-we-rank` with per-tier basis, QILT citation, last-reviewed date, change log | new page | 2 | Does not claim the cross-tier order is QILT-based |
-| T3.2 | Link from results page and footer | layout/footer | 0.5 | Reachable within one click from results |
+| ID   | Task                                                                              | Files         | Effort | Acceptance                                        |
+| ---- | --------------------------------------------------------------------------------- | ------------- | ------ | ------------------------------------------------- |
+| T3.1 | `/how-we-rank` with per-tier basis, QILT citation, last-reviewed date, change log | new page      | 2      | Does not claim the cross-tier order is QILT-based |
+| T3.2 | Link from results page and footer                                                 | layout/footer | 0.5    | Reachable within one click from results           |
 
 ### Phase 4 — Lead capture
 
-| ID | Task | Files | Effort | Acceptance |
-|---|---|---|---|---|
-| T4.1 | `validateEmail` — L1 syntax/length, L2 blocklist, L3 MX (Node, 1.5 s timeout, 10 min cache), L4 role heuristics; allowlist `privaterelay.appleid.com`, `relay.firefox.com` | `leads/validateEmail.ts` | 4 | Returns typed reason codes; unit tests for each layer |
-| T4.2 | Bundled disposable blocklist, marked `server-only` | `leads/disposableDomains.ts` | 1 | Client bundle size unchanged (verify build output) |
-| T4.3 | HMAC cookie sign/verify: 30 d, `httpOnly`, `Secure`, `SameSite=Lax`, rotatable secret | `leads/leadCookie.ts` | 2 | Tampered/expired cookies rejected in tests |
-| T4.4 | `POST /api/shortlist` — validate, rate limit, `registerCRMContact`, set cookie, return reason codes | route | 3 | 422 for invalid email; 200 + cookie for valid; no email in logs |
-| T4.5 | Double opt-in token + `GET /api/shortlist/confirm` | route | 3 | Token single-use; sets `nda_verify_status=verified` |
-| T4.6 | `GET /api/providerCompare` gated by cookie | route | 2 | 401 without cookie; payload limited to requested slugs |
-| T4.7 | `ShortlistGate` — inline, labelled, `aria-live` errors, unticked consent checkbox | component | 3 | Keyboard operable; no focus trap; unlock announced |
-| T4.8 | `ProviderCompareTable` — up to 3 providers, support counts + QILT dims, no verdict row | component | 3 | No "best"/ranking language; responsive |
-| T4.9 | Consent copy + privacy policy update | content | 2 | Matches legal sign-off (T0.5) |
-| T4.10 | GA `shortlist_view`, `shortlist_compare`, `lead_capture`, `lead_verify` | `providerSearchGa.ts` | 2 | Funnel visible end to end |
+| ID    | Task                                                                                                                                                                       | Files                        | Effort | Acceptance                                                      |
+| ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- | ------ | --------------------------------------------------------------- |
+| T4.1  | `validateEmail` — L1 syntax/length, L2 blocklist, L3 MX (Node, 1.5 s timeout, 10 min cache), L4 role heuristics; allowlist `privaterelay.appleid.com`, `relay.firefox.com` | `leads/validateEmail.ts`     | 4      | Returns typed reason codes; unit tests for each layer           |
+| T4.2  | Bundled disposable blocklist, marked `server-only`                                                                                                                         | `leads/disposableDomains.ts` | 1      | Client bundle size unchanged (verify build output)              |
+| T4.3  | HMAC cookie sign/verify: 30 d, `httpOnly`, `Secure`, `SameSite=Lax`, rotatable secret                                                                                      | `leads/leadCookie.ts`        | 2      | Tampered/expired cookies rejected in tests                      |
+| T4.4  | `POST /api/shortlist` — validate, rate limit, `registerCRMContact`, set cookie, return reason codes                                                                        | route                        | 3      | 422 for invalid email; 200 + cookie for valid; no email in logs |
+| T4.5  | Double opt-in token + `GET /api/shortlist/confirm`                                                                                                                         | route                        | 3      | Token single-use; sets `nda_verify_status=verified`             |
+| T4.6  | `GET /api/providerCompare` gated by cookie                                                                                                                                 | route                        | 2      | 401 without cookie; payload limited to requested slugs          |
+| T4.7  | `ShortlistGate` — inline, labelled, `aria-live` errors, unticked consent checkbox                                                                                          | component                    | 3      | Keyboard operable; no focus trap; unlock announced              |
+| T4.8  | `ProviderCompareTable` — up to 3 providers, support counts + QILT dims, no verdict row                                                                                     | component                    | 3      | No "best"/ranking language; responsive                          |
+| T4.9  | Consent copy + privacy policy update                                                                                                                                       | content                      | 2      | Matches legal sign-off (T0.5)                                   |
+| T4.10 | GA `shortlist_view`, `shortlist_compare`, `lead_capture`, `lead_verify`                                                                                                    | `providerSearchGa.ts`        | 2      | Funnel visible end to end                                       |
 
 ### Phase 5 — Monitoring and QA
 
-| ID | Task | Effort | Acceptance |
-|---|---|---|---|
-| T5.1 | Server log line per lead request: outcome, reason, elapsed — never email | 1 | Logs contain no PII |
-| T5.2 | Dashboard doc: rank CTR by tier, gate funnel, invalid-email reasons, opt-in rate | 1 | Documented queries/exploration saved |
-| T5.3 | Manual QA matrix (§7.3) | 2 | All rows pass |
-| T5.4 | Accessibility audit of gate + compare table | 1 | No critical axe violations |
-| T5.5 | Feature flag (`NEXT_PUBLIC_RECOMMENDATIONS_ENABLED`) + rollback drill | 1 | Flag off restores the old order and hides the gate |
+| ID   | Task                                                                             | Effort | Acceptance                                         |
+| ---- | -------------------------------------------------------------------------------- | ------ | -------------------------------------------------- |
+| T5.1 | Server log line per lead request: outcome, reason, elapsed — never email         | 1      | Logs contain no PII                                |
+| T5.2 | Dashboard doc: rank CTR by tier, gate funnel, invalid-email reasons, opt-in rate | 1      | Documented queries/exploration saved               |
+| T5.3 | Manual QA matrix (§7.3)                                                          | 2      | All rows pass                                      |
+| T5.4 | Accessibility audit of gate + compare table                                      | 1      | No critical axe violations                         |
+| T5.5 | Feature flag (`NEXT_PUBLIC_RECOMMENDATIONS_ENABLED`) + rollback drill            | 1      | Flag off restores the old order and hides the gate |
 
 **Total: ~46 h.** Phase 0 is human time; Phases 1–5 are engineering.
 
@@ -342,18 +342,18 @@ Effort in hours. Each task is a separate commit. Update this table as you go.
 
 ### 7.1 Automated tests
 
-| Test | Assertion |
-|---|---|
-| Tier dominance | No emerging result ever precedes an endorsed result |
-| Determinism | Shuffling input produces identical output |
-| Tie-break | Equal scores fall through to name, never input order |
+| Test           | Assertion                                                                                                                                                                           |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tier dominance | No emerging result ever precedes an endorsed result                                                                                                                                 |
+| Determinism    | Shuffling input produces identical output                                                                                                                                           |
+| Tie-break      | Equal scores fall through to name, never input order                                                                                                                                |
 | Index fixtures | The 8 `IT in NSW` values reproduce exactly: Campion +18.18, ASA +14.62, AIH +7.48, ICMS +7.07, UOW College +6.25, Holmes +5.83, APIC +5.60, UOW +3.83, UTS +2.13, Alphacrucis −3.18 |
-| `L/N` | Dimension skipped; index still produced |
-| Missing data | Provider without QILT sorts last, never crashes |
-| Blocklist | `mailsac.com` rejected; `privaterelay.appleid.com` accepted |
-| Cookie | Tampered/expired rejected |
-| Route | Invalid email → 422, valid → 200 + cookie, compare without cookie → 401 |
-| Snapshot | 5 filter sets match committed snapshots |
+| `L/N`          | Dimension skipped; index still produced                                                                                                                                             |
+| Missing data   | Provider without QILT sorts last, never crashes                                                                                                                                     |
+| Blocklist      | `mailsac.com` rejected; `privaterelay.appleid.com` accepted                                                                                                                         |
+| Cookie         | Tampered/expired rejected                                                                                                                                                           |
+| Route          | Invalid email → 422, valid → 200 + cookie, compare without cookie → 401                                                                                                             |
+| Snapshot       | 5 filter sets match committed snapshots                                                                                                                                             |
 
 Run: `npm test`, `npm run lint`, `npm run typecheck`.
 
@@ -366,19 +366,19 @@ Run: `npm test`, `npm run lint`, `npm run typecheck`.
 
 ### 7.3 Manual QA matrix
 
-| Input | Expected |
-|---|---|
-| `nursing in melbourne` | No endorsed results; no endorsed chip; emerging chip with `n` |
-| `IT in NSW` | Nepean first with `43 supports in place`; 10 emerging by QILT |
-| `business in melbourne` | Collarts first; QILT order below |
-| `design in brisbane` | Empty state unchanged |
-| Email `mailsac.com` | Inline error, no HubSpot contact created |
-| Email `x@privaterelay.appleid.com` | Accepted |
-| Valid Gmail | Cookie set, comparison unlocks, HubSpot contact created |
-| Confirm link | Status becomes verified |
-| Gate disabled | Old alphabetical order returns |
-| Keyboard only | Gate completable, unlock announced |
-| Screen reader | Errors and unlock announced |
+| Input                              | Expected                                                      |
+| ---------------------------------- | ------------------------------------------------------------- |
+| `nursing in melbourne`             | No endorsed results; no endorsed chip; emerging chip with `n` |
+| `IT in NSW`                        | Nepean first with `43 supports in place`; 10 emerging by QILT |
+| `business in melbourne`            | Collarts first; QILT order below                              |
+| `design in brisbane`               | Empty state unchanged                                         |
+| Email `mailsac.com`                | Inline error, no HubSpot contact created                      |
+| Email `x@privaterelay.appleid.com` | Accepted                                                      |
+| Valid Gmail                        | Cookie set, comparison unlocks, HubSpot contact created       |
+| Confirm link                       | Status becomes verified                                       |
+| Gate disabled                      | Old alphabetical order returns                                |
+| Keyboard only                      | Gate completable, unlock announced                            |
+| Screen reader                      | Errors and unlock announced                                   |
 
 ### 7.4 Rollout
 
@@ -390,14 +390,14 @@ Run: `npm test`, `npm run lint`, `npm run typecheck`.
 
 ## 8. Open questions for the human
 
-| # | Question | Why it blocks |
-|---|---|---|
-| 1 | Is QILT/Compared.edu republication permitted, and what attribution is required? | Cannot ship chips without it |
-| 2 | Gate scope: comparison-only, or also per-card depth? | Changes component count and conversion expectations |
-| 3 | Does Sender.net support double opt-in for this flow, or should the confirm route send the email itself? | Changes T4.5 substantially |
-| 4 | Where does the "email me this shortlist" email get sent from (Sender template vs transactional)? | May add a task |
-| 5 | Is the consent copy acceptable to legal as drafted? | Blocks T4.9 |
-| 6 | Should the gate be hidden entirely for logged-in users? | Affects component state |
+| #   | Question                                                                                                | Why it blocks                                       |
+| --- | ------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| 1   | Is QILT/Compared.edu republication permitted, and what attribution is required?                         | Cannot ship chips without it                        |
+| 2   | Gate scope: comparison-only, or also per-card depth?                                                    | Changes component count and conversion expectations |
+| 3   | Does Sender.net support double opt-in for this flow, or should the confirm route send the email itself? | Changes T4.5 substantially                          |
+| 4   | Where does the "email me this shortlist" email get sent from (Sender template vs transactional)?        | May add a task                                      |
+| 5   | Is the consent copy acceptable to legal as drafted?                                                     | Blocks T4.9                                         |
+| 6   | Should the gate be hidden entirely for logged-in users?                                                 | Affects component state                             |
 
 ---
 
@@ -422,19 +422,19 @@ Computed from the current catalogue on 4 Nov 2026. Use these as review fixtures.
 
 **`IT in NSW`** — 11 results
 
-| # | Provider | Tier | Signal |
-|---|---|---|---|
-| 1 | Nepean Community College | endorsed | 43 in place · 8 in the works |
-| 2 | Campion College Australia | emerging | +18.18 pts |
-| 3 | ASA Institute of Higher Education | emerging | +14.62 |
-| 4 | Australian Institute of Higher Education (AIH) | emerging | +7.48 |
-| 5 | ICMS | emerging | +7.07 |
-| 6 | UOW College Australia | emerging | +6.25 |
-| 7 | Holmes Institute | emerging | +5.83 |
-| 8 | APIC | emerging | +5.60 |
-| 9 | University of Wollongong | emerging | +3.83 |
-| 10 | University of Technology Sydney | emerging | +2.13 |
-| 11 | Alphacrucis University College | emerging | −3.18 |
+| #   | Provider                                       | Tier     | Signal                       |
+| --- | ---------------------------------------------- | -------- | ---------------------------- |
+| 1   | Nepean Community College                       | endorsed | 43 in place · 8 in the works |
+| 2   | Campion College Australia                      | emerging | +18.18 pts                   |
+| 3   | ASA Institute of Higher Education              | emerging | +14.62                       |
+| 4   | Australian Institute of Higher Education (AIH) | emerging | +7.48                        |
+| 5   | ICMS                                           | emerging | +7.07                        |
+| 6   | UOW College Australia                          | emerging | +6.25                        |
+| 7   | Holmes Institute                               | emerging | +5.83                        |
+| 8   | APIC                                           | emerging | +5.60                        |
+| 9   | University of Wollongong                       | emerging | +3.83                        |
+| 10  | University of Technology Sydney                | emerging | +2.13                        |
+| 11  | Alphacrucis University College                 | emerging | −3.18                        |
 
 **`business in melbourne`** — 7 results: Collarts (endorsed, 23 in place) → Marcus Oldham +21.62 → Lyons +12.38 → Chisholm +8.75 → Academies Australasia +7.02 → Victoria University +4.45 → La Trobe College +2.63.
 
@@ -465,6 +465,6 @@ One task per commit. Do not mix Phase 1 and Phase 2 work.
 - [x] Branch `feat/phase2-recommendation-and-lead-capture` created
 - [x] Plan doc §12–§14 revised after four critique passes
 - [x] This handover document committed, with plan (§1–§5) and tasks (§6) in one file
-- [ ] Open questions in §8 answered by the owner
-- [ ] Phase 0 tasks (T0.1–T0.6) completed
+- [x] Open questions in §8 answered by the owner
+- [x] Phase 0 tasks (T0.1–T0.6) completed
 - [x] No application code written (this is a planning branch state)

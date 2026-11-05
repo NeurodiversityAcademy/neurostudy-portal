@@ -2,7 +2,10 @@
 
 import { useEffect, useRef } from 'react';
 import type { ProviderSearchFilters } from '@/app/utilities/providerSearch/constants';
-import { trackProviderSearchResultsView } from '@/app/utilities/providerSearch/providerSearchGa';
+import {
+  trackProviderRecommendationView,
+  trackProviderSearchResultsView,
+} from '@/app/utilities/providerSearch/providerSearchGa';
 
 type ProviderSearchResultsTrackerProps = {
   interestAreas: string[];
@@ -12,6 +15,9 @@ type ProviderSearchResultsTrackerProps = {
   countStarredEndorsed: number;
   countEndorsed: number;
   countEmerging: number;
+  /** When true, also emits the evidence-layer view event. */
+  recommendationsEnabled?: boolean;
+  countWithEvidence?: number;
 };
 
 function queryKey(filters: ProviderSearchFilters): string {
@@ -26,6 +32,8 @@ export default function ProviderSearchResultsTracker({
   countStarredEndorsed,
   countEndorsed,
   countEmerging,
+  recommendationsEnabled = false,
+  countWithEvidence = 0,
 }: ProviderSearchResultsTrackerProps) {
   const lastKeyRef = useRef<string>('');
 
@@ -45,6 +53,14 @@ export default function ProviderSearchResultsTracker({
       countEmerging,
       hasResults: resultCountTotal > 0,
     });
+
+    if (recommendationsEnabled) {
+      trackProviderRecommendationView({
+        countEndorsed: countEndorsed + countCourseEndorsed,
+        countEmerging,
+        countWithEvidence,
+      });
+    }
   }, [
     interestAreas,
     locations,
@@ -53,6 +69,8 @@ export default function ProviderSearchResultsTracker({
     countStarredEndorsed,
     countEndorsed,
     countEmerging,
+    recommendationsEnabled,
+    countWithEvidence,
   ]);
 
   return null;

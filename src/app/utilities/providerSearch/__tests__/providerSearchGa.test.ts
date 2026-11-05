@@ -6,10 +6,15 @@ import {
   isProviderSearchGaFlushLoopActiveForTests,
   queueProviderSearchGaEvent,
   resetProviderSearchGaQueueForTests,
+  trackLeadCapture,
+  trackLeadVerify,
   trackProviderCoursesPlaceholderView,
+  trackProviderRecommendationView,
   trackProviderSearchResultClick,
   trackProviderSearchResultsView,
   trackProviderSearchSubmit,
+  trackShortlistCompare,
+  trackShortlistView,
 } from '../providerSearchGa';
 import { PROVIDER_SEARCH_GA } from '../constants';
 import { installGtagMock, type GtagTestWindow } from '@/app/utilities/__tests__/gaTestHelpers';
@@ -112,6 +117,60 @@ describe('providerSearchGa queue', () => {
       'event',
       PROVIDER_SEARCH_GA.coursesPlaceholderView.eventName,
       expect.objectContaining({ provider_slug: 'collarts' }),
+    );
+  });
+
+  it('tracks the evidence-layer view without sending PII', () => {
+    const mockGtag = installGtagMock();
+
+    trackProviderRecommendationView({
+      countEndorsed: 1,
+      countEmerging: 10,
+      countWithEvidence: 11,
+    });
+
+    expect(mockGtag).toHaveBeenCalledWith(
+      'event',
+      PROVIDER_SEARCH_GA.recommendationView.eventName,
+      expect.objectContaining({
+        category: PROVIDER_SEARCH_GA.recommendationView.category,
+        count_endorsed: 1,
+        count_emerging: 10,
+        count_with_evidence: 11,
+      }),
+    );
+  });
+
+  it('tracks shortlist and lead funnel events', () => {
+    const mockGtag = installGtagMock();
+
+    trackShortlistView({ locked: true });
+    trackShortlistCompare({ providerCount: 2 });
+    trackLeadCapture({ placement: 'shortlist_gate', action: 'submit', providerCount: 2 });
+    trackLeadVerify({ result: 'confirmed' });
+
+    expect(mockGtag).toHaveBeenCalledWith(
+      'event',
+      PROVIDER_SEARCH_GA.shortlistView.eventName,
+      expect.objectContaining({
+        category: PROVIDER_SEARCH_GA.shortlistView.category,
+        locked: true,
+      }),
+    );
+    expect(mockGtag).toHaveBeenCalledWith(
+      'event',
+      PROVIDER_SEARCH_GA.shortlistCompare.eventName,
+      expect.objectContaining({ provider_count: 2 }),
+    );
+    expect(mockGtag).toHaveBeenCalledWith(
+      'event',
+      PROVIDER_SEARCH_GA.leadCapture.eventName,
+      expect.objectContaining({ placement: 'shortlist_gate', action: 'submit', provider_count: 2 }),
+    );
+    expect(mockGtag).toHaveBeenCalledWith(
+      'event',
+      PROVIDER_SEARCH_GA.leadVerify.eventName,
+      expect.objectContaining({ result: 'confirmed' }),
     );
   });
 

@@ -4,10 +4,23 @@ import CRMCreateResponseInterface from '../../interfaces/CRMCreateResponseInterf
 import axios from 'axios';
 import { UserFormSubmissionType } from '../../interfaces/UserFormSubmissionType';
 import { UserSubscriptionType } from '../../interfaces/UserSubscriptionType';
+import { ShortlistCRMContact } from '../../interfaces/ShortlistCRMContact';
 
 export const registerCRMContact = async (
-  contact: TeacherCRMContactInterface | UserFormSubmissionType | UserSubscriptionType,
+  contact:
+    | TeacherCRMContactInterface
+    | UserFormSubmissionType
+    | UserSubscriptionType
+    | ShortlistCRMContact,
 ): Promise<CRMCreateResponseInterface | boolean> => {
+  const crmBaseUrl = process.env.CRM_BASE_URL;
+  const crmAccessKey = process.env.CRM_ACCESS_KEY;
+
+  if (!crmBaseUrl || !crmAccessKey) {
+    console.warn('CRM contact registration skipped: missing CRM configuration');
+    return false;
+  }
+
   const data = JSON.stringify({
     properties: {
       ...contact,
@@ -16,9 +29,9 @@ export const registerCRMContact = async (
 
   const config = {
     method: 'post',
-    url: `${process.env.CRM_BASE_URL}/objects/contacts`,
+    url: `${crmBaseUrl.replace(/\/+$/, '')}/objects/contacts`,
     headers: {
-      authorization: `Bearer ${process.env.CRM_ACCESS_KEY}`,
+      authorization: `Bearer ${crmAccessKey}`,
       'content-type': 'application/json',
     },
     data: data,
@@ -31,7 +44,8 @@ export const registerCRMContact = async (
       return { id, updatedAt, createdAt } as CRMCreateResponseInterface;
     })
     .catch((error: Error) => {
-      console.log(error);
+      // Never log the Axios error object: its config carries the contact payload (email).
+      console.log('CRM contact request failed', { message: error.message });
       return false;
     });
 };

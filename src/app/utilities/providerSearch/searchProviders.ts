@@ -6,6 +6,7 @@ import {
   type ProviderSearchTierResults,
 } from './constants';
 import { matchesSearchToken } from './normalize';
+import { sortProvidersForTier, type ProviderRankSignalMap } from './providerRanking';
 
 function fieldAllowsEmptyOrMatch(
   selected: readonly string[],
@@ -79,9 +80,17 @@ function hasActiveFilters(filters: ProviderSearchFilters): boolean {
   return false;
 }
 
+/**
+ * Filters and tiers providers.
+ *
+ * When `signals` is supplied, each tier is ordered by evidence
+ * (endorsement tier → supports in place / QILT index). Without it, the historical
+ * alphabetical/certified-first order is kept, so existing callers and tests are unaffected.
+ */
 export function searchProvidersByFilters(
   providers: readonly ProviderSearchRecord[],
   filters: ProviderSearchFilters,
+  signals?: ProviderRankSignalMap,
 ): ProviderSearchTierResults {
   const results = emptyProviderSearchTierResults();
   const browseAll = !hasActiveFilters(filters);
@@ -91,6 +100,17 @@ export function searchProvidersByFilters(
       continue;
     }
     results[classifyProviderSearchTier(provider)].push(provider);
+  }
+
+  if (signals) {
+    results.course_endorsed = sortProvidersForTier(
+      results.course_endorsed,
+      'course_endorsed',
+      signals,
+    );
+    results.endorsed = sortProvidersForTier(results.endorsed, 'endorsed', signals);
+    results.emerging = sortProvidersForTier(results.emerging, 'emerging', signals);
+    return results;
   }
 
   results.course_endorsed = sortProvidersByName(results.course_endorsed);

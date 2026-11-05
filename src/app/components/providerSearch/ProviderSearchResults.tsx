@@ -1,221 +1,113 @@
 'use client';
 
-import Image, { type StaticImageData } from 'next/image';
 import classNames from 'classnames';
-import InstitutionProviderCard from '@/app/components/institutionProviderCard/InstitutionProviderCard';
-import { INSTITUTION_PROVIDER_HEADER_KIND } from '@/app/components/institutionProviderCard/institutionProviderHeader';
-import cardStyles from '@/app/components/institutionProviderCard/institutionProviderCard.module.css';
-import EmergingInstitutionCard from '@/app/components/emergingInstitutions/EmergingInstitutionCard';
-import { hasEmergingProviderProfile } from '@/app/components/emergingInstitutions/emergingProviderProfileSlugs';
-import EndorsedCertifiedBadge from '@/app/components/endorsedProviders/EndorsedCertifiedBadge';
 import Typography, { TypographyVariant } from '@/app/components/typography/Typography';
 import { TypographyColorToken } from '@/app/components/typography/typographyColorToken';
 import {
-  buildEndorsedProviderDetailHref,
-  resolveEndorsedProviderLogoSrc,
-} from '@/app/utilities/endorsedProvidersDemo';
-import { buildEmergingProviderDetailHref } from '@/app/emergingproviders/emergingProviderMetadata';
-import { ENDORSED_PROVIDER_LOGO_BY_SLUG } from '@/app/components/endorsedProviders/endorsedProviderBrandAssets';
-import {
-  PROVIDER_SEARCH_TIER_HEADING,
-  PROVIDER_SEARCH_TIER_META,
-  PROVIDER_SEARCH_TIER_ORDER,
   type ProviderSearchFilters,
-  type ProviderSearchRecord,
-  type ProviderSearchTier,
   type ProviderSearchTierResults,
 } from '@/app/utilities/providerSearch/constants';
-import { buildEndorsedCoursesHref } from '@/app/utilities/providerSearch/buildSearchHref';
-import { buildProviderSearchResultClickAnalytics } from '@/app/utilities/providerSearch/providerSearchGa';
 import {
   listPositionedProviderSearchResults,
   type PositionedProviderSearchResult,
 } from '@/app/utilities/providerSearch/searchProviders';
-import type { AustralianState } from '@/app/components/emergingInstitutions/emergingInstitutionTypes';
 import styles from './providerSearchResults.module.css';
-
-const FALLBACK_LOGO_WIDTH = 921;
-const FALLBACK_LOGO_HEIGHT = 271;
 
 type ProviderSearchResultsProps = {
   results: ProviderSearchTierResults;
   filters: ProviderSearchFilters;
   searchDemo: boolean;
   totalCount: number;
+  rankReasons?: Readonly<Record<string, string>>;
+  detailsUnlocked?: boolean;
 };
 
-function getLogoDimensions(logoSrc: string | StaticImageData): { width: number; height: number } {
-  if (typeof logoSrc === 'string') {
-    return { width: FALLBACK_LOGO_WIDTH, height: FALLBACK_LOGO_HEIGHT };
+const EMERGING_STATE_TINT_CLASS: Record<string, string> = {
+  NSW: styles.stateNSW,
+  VIC: styles.stateVIC,
+  QLD: styles.stateQLD,
+  SA: styles.stateSA,
+  WA: styles.stateWA,
+  TAS: styles.stateTAS,
+  NT: styles.stateNT,
+  ACT: styles.stateACT,
+};
+
+function resolveStudentExperienceTone(note: string | undefined): {
+  toneClassName?: string;
+  label: string;
+  value: string;
+} | null {
+  if (!note) {
+    return null;
   }
-  return { width: logoSrc.width, height: logoSrc.height };
-}
 
-function resolveEndorsedHref(
-  provider: ProviderSearchRecord,
-  tier: ProviderSearchTier,
-  searchDemo: boolean,
-): string {
-  if (tier === 'course_endorsed') {
-    return buildEndorsedCoursesHref(provider.slug, { searchDemo });
+  const match = note.match(/^Student experience ([+-]?\d+(?:\.\d+)?) pts vs national avg(?: \(n=\d+\))?$/);
+  if (!match) {
+    return null;
   }
-  return buildEndorsedProviderDetailHref(provider.slug, '');
+
+  const points = Number.parseFloat(match[1]);
+  return {
+    toneClassName: points >= 0 ? styles.studentExperiencePositive : styles.studentExperienceNegative,
+    label: 'Student experience',
+    value: `${points >= 0 ? '+' : ''}${points.toFixed(1)} pts`,
+  };
 }
 
-function resultClickAnalytics(
-  item: PositionedProviderSearchResult,
-  filters: ProviderSearchFilters,
-  destinationUrl: string,
-) {
-  return buildProviderSearchResultClickAnalytics({
-    providerSlug: item.provider.slug,
-    providerTier: item.tier,
-    resultPosition: item.position,
-    interestAreas: filters.interestAreas,
-    locations: filters.locations,
-    destinationUrl,
-  });
-}
-
-function renderEndorsedCard(
-  item: PositionedProviderSearchResult,
-  searchDemo: boolean,
-  filters: ProviderSearchFilters,
-) {
-  const { provider, tier } = item;
-  const href = resolveEndorsedHref(provider, tier, searchDemo);
-  const logoSrc = resolveEndorsedProviderLogoSrc(
-    provider.slug,
-    provider.logoSrc || '/images/AcademiaLogoLong.png',
-    ENDORSED_PROVIDER_LOGO_BY_SLUG,
-  );
-  const logoDimensions = getLogoDimensions(logoSrc);
-
-  return (
-    <InstitutionProviderCard
-      key={`${tier}-${provider.slug}`}
-      ndaCertified={provider.ndaCertified}
-      ctaHref={href}
-      compact
-      header={
-        provider.topBackgroundImage
-          ? {
-              kind: INSTITUTION_PROVIDER_HEADER_KIND.REMOTE_IMAGE,
-              src: provider.topBackgroundImage,
-            }
-          : { kind: INSTITUTION_PROVIDER_HEADER_KIND.YELLOW }
-      }
-      badge={<EndorsedCertifiedBadge size='card' certified={provider.ndaCertified} />}
-      center={
-        <div className={cardStyles.logoWrap}>
-          <Image
-            src={logoSrc}
-            alt={`${provider.name} logo`}
-            width={logoDimensions.width}
-            height={logoDimensions.height}
-          />
-        </div>
-      }
-      gaEvent={resultClickAnalytics(item, filters, href)}
-    />
-  );
-}
-
-function renderEmergingCard(item: PositionedProviderSearchResult, filters: ProviderSearchFilters) {
-  const { provider } = item;
-  const state = provider.emergingState as AustralianState;
-  const hasProfile = hasEmergingProviderProfile(provider.slug);
-  const destinationUrl = hasProfile ? buildEmergingProviderDetailHref(provider.slug) : undefined;
-
-  return (
-    <EmergingInstitutionCard
-      key={`${item.tier}-${provider.slug}`}
-      name={provider.name}
-      state={state}
-      ctaOpenInNewTab={false}
-      gaEvent={destinationUrl ? resultClickAnalytics(item, filters, destinationUrl) : undefined}
-    />
-  );
-}
-
-function renderProviderCard(
-  item: PositionedProviderSearchResult,
-  searchDemo: boolean,
-  filters: ProviderSearchFilters,
-) {
+function resolveProviderPillClassName(item: PositionedProviderSearchResult): string {
   if (item.provider.kind === 'emerging') {
-    return renderEmergingCard(item, filters);
+    const state = item.provider.emergingState ?? 'NSW';
+    return classNames(
+      styles.providerPill,
+      styles.providerPillEmerging,
+      EMERGING_STATE_TINT_CLASS[state] ?? styles.stateNSW,
+    );
   }
-  return renderEndorsedCard(item, searchDemo, filters);
+
+  return classNames(styles.providerPill, styles.providerPillVerified);
 }
 
-function groupPositionedByTier(items: PositionedProviderSearchResult[]) {
-  const byTier = new Map<ProviderSearchTier, PositionedProviderSearchResult[]>();
-  for (const item of items) {
-    const bucket = byTier.get(item.tier) ?? [];
-    bucket.push(item);
-    byTier.set(item.tier, bucket);
-  }
-  return PROVIDER_SEARCH_TIER_ORDER.filter((tier) => byTier.has(tier)).map((tier) => ({
-    tier,
-    items: byTier.get(tier) ?? [],
-  }));
-}
-
-function TierSectionHeader({ tier }: { tier: ProviderSearchTier }) {
-  const meta = PROVIDER_SEARCH_TIER_META[tier];
-  const isProminent = meta.emphasis === 'endorsed';
-  const eyebrowColor = isProminent
-    ? TypographyColorToken.CherryPie
-    : TypographyColorToken.BondBlackVariant;
-  const titleVariant = isProminent ? TypographyVariant.H2 : TypographyVariant.H3;
-  const titleColor = isProminent
-    ? TypographyColorToken.BondBlack
-    : TypographyColorToken.BondBlackVariant;
+function renderProviderPill(
+  item: PositionedProviderSearchResult,
+  rankReasons: Readonly<Record<string, string>>,
+  detailsUnlocked: boolean,
+) {
+  const note = detailsUnlocked ? rankReasons[item.provider.slug] || undefined : undefined;
+  const badge = resolveStudentExperienceTone(note);
 
   return (
-    <header className={styles.tierHeader}>
-      <Typography
-        variant={TypographyVariant.Body3Strong}
-        color={eyebrowColor}
-        className={styles.tierEyebrow}
-      >
-        {meta.eyebrow}
-      </Typography>
-      <Typography
-        id={`provider-search-tier-${tier}`}
-        variant={titleVariant}
-        color={titleColor}
-        className={classNames(
-          styles.tierHeading,
-          isProminent ? styles.tierHeadingProminent : styles.tierHeadingQuiet,
-        )}
-      >
-        {PROVIDER_SEARCH_TIER_HEADING[tier]}
-      </Typography>
-      <div
-        className={classNames(styles.tierRule, isProminent ? undefined : styles.tierRuleQuiet)}
-        aria-hidden='true'
-      />
-      <Typography
-        variant={TypographyVariant.Body2}
-        color={TypographyColorToken.BondBlackVariant}
-        className={styles.tierSubtitle}
-      >
-        {meta.subtitle}
-      </Typography>
-    </header>
+    <div className={resolveProviderPillClassName(item)} key={`${item.tier}-${item.provider.slug}`}>
+      <div className={styles.providerPillBody}>
+        <span className={styles.providerName}>{item.provider.name}</span>
+        {badge ? (
+          <span className={classNames(styles.studentExperiencePill, badge.toneClassName)}>
+            <span>{badge.label}</span>
+            <strong>{badge.value}</strong>
+          </span>
+        ) : null}
+      </div>
+    </div>
   );
 }
 
 export default function ProviderSearchResults({
   results,
-  filters,
-  searchDemo,
   totalCount,
+  rankReasons = {},
+  detailsUnlocked = false,
 }: ProviderSearchResultsProps) {
   const positioned = listPositionedProviderSearchResults(results);
-  const tierGroups = groupPositionedByTier(positioned);
+  const verifiedProviders = positioned.filter((item) => item.provider.kind !== 'emerging');
+  const emergingProviders = positioned.filter((item) => item.provider.kind === 'emerging');
+  const emergingByState = new Map<string, PositionedProviderSearchResult[]>();
+
+  for (const item of emergingProviders) {
+    const state = item.provider.emergingState ?? 'NSW';
+    const group = emergingByState.get(state) ?? [];
+    group.push(item);
+    emergingByState.set(state, group);
+  }
 
   return (
     <div className={styles.root}>
@@ -229,26 +121,39 @@ export default function ProviderSearchResults({
           </Typography>
         </div>
       ) : (
-        tierGroups.map(({ tier, items }) => {
-          const isProminent = PROVIDER_SEARCH_TIER_META[tier].emphasis === 'endorsed';
-          return (
-            <section
-              key={tier}
-              className={classNames(
-                styles.tierSection,
-                isProminent ? styles.tierSectionProminent : styles.tierSectionQuiet,
-              )}
-              aria-labelledby={`provider-search-tier-${tier}`}
-            >
-              <div className={styles.tierInner}>
-                <TierSectionHeader tier={tier} />
-                <div className={styles.cardGrid}>
-                  {items.map((item) => renderProviderCard(item, searchDemo, filters))}
+        <>
+          <div className={styles.legendRow} aria-label='Provider color legend'>
+            <span className={styles.legendLabel}>Legend</span>
+            <span className={styles.legendItem}>
+              <span className={classNames(styles.legendSwatch, styles.legendVerified)} aria-hidden='true' />
+              Verified
+            </span>
+            <span className={styles.legendItem}>
+              <span className={classNames(styles.legendSwatch, styles.legendEmerging)} aria-hidden='true' />
+              Emerging
+            </span>
+          </div>
+          <div className={styles.resultsStack}>
+            {verifiedProviders.length > 0 ? (
+              <div className={styles.stateRow}>
+                <span className={styles.stateTitle}>Verified</span>
+                <div className={styles.pillRow}>
+                  {verifiedProviders.map((item) =>
+                    renderProviderPill(item, rankReasons, detailsUnlocked),
+                  )}
                 </div>
               </div>
-            </section>
-          );
-        })
+            ) : null}
+            {[...emergingByState.entries()].map(([state, items]) => (
+              <div className={styles.stateRow} key={state}>
+                <span className={styles.stateTitle}>{state}</span>
+                <div className={styles.pillRow}>
+                  {items.map((item) => renderProviderPill(item, rankReasons, detailsUnlocked))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

@@ -165,8 +165,12 @@ export default async function EndorsedProviderDetailPage({ params, searchParams 
             >
               {institutionType === ENDORSED_INSTITUTION_TYPE.VET ? (
                 <EndorsedVetKeyDataPoints dataPoints={vetKeyDataPoints} />
-              ) : (
+              ) : providerStats.length > 0 ? (
                 <InstitutionStats stats={providerStats} isAlignedWithPageColumn />
+              ) : (
+                <p className={pageStyles.statsUnavailable}>
+                  Student experience survey data is not yet published for this provider.
+                </p>
               )}
             </section>
             <section
