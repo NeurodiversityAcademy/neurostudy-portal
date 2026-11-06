@@ -1,7 +1,39 @@
+import { buildAssistCacheKey, createTtlCache, normalizeAssistCacheText } from './cache';
+
 export type AssistRaw = {
   area: string | null;
   location: string | null;
 };
+
+/** Search intent is stable for a day; a model or prompt change rolls the cache. */
+const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+const CACHE_MAX_ENTRIES = 500;
+
+const responseCache = createTtlCache<AssistRaw>({
+  maxEntries: CACHE_MAX_ENTRIES,
+  ttlMs: CACHE_TTL_MS,
+});
+
+/** Coalesces concurrent identical requests so one query makes one model call. */
+const inFlight = new Map<string, Promise<AssistRaw | null>>();
+
+function cacheEnabled(): boolean {
+  return process.env.ASSIST_CACHE !== 'off';
+}
+
+function cacheKey(model: string, system: string, userMessage: string): string {
+  return buildAssistCacheKey([
+    model,
+    normalizeAssistCacheText(system),
+    normalizeAssistCacheText(userMessage),
+  ]);
+}
+
+/** Test helper — clears cached responses and in-flight requests. */
+export function resetAssistModelCacheForTests(): void {
+  responseCache.clear();
+  inFlight.clear();
+}
 
 function extractJson(text: string | null | undefined): AssistRaw | null {
   if (!text) {
@@ -32,14 +64,13 @@ function extractJson(text: string | null | undefined): AssistRaw | null {
   }
 }
 
-export async function callModel(userMessage: string, system: string): Promise<AssistRaw | null> {
-  const apiUrl = process.env.ASSIST_API_URL;
-  const apiKey = process.env.ASSIST_API_KEY;
-  const model = process.env.ASSIST_MODEL;
-  if (!apiUrl || !apiKey || !model) {
-    return null;
-  }
-
+async function requestModel(
+  apiUrl: string,
+  apiKey: string,
+  model: string,
+  userMessage: string,
+  system: string,
+): Promise<AssistRaw | null> {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
   };
@@ -90,4 +121,44 @@ export async function callModel(userMessage: string, system: string): Promise<As
   } finally {
     clearTimeout(timer);
   }
+}
+
+export async function callModel(userMessage: string, system: string): Promise<AssistRaw | null> {
+  const apiUrl = process.env.ASSIST_API_URL;
+  const apiKey = process.env.ASSIST_API_KEY;
+  const model = process.env.ASSIST_MODEL;
+  if (!apiUrl || !apiKey || !model) {
+    return null;
+  }
+
+  if (!cacheEnabled()) {
+    return requestModel(apiUrl, apiKey, model, userMessage, system);
+  }
+
+  const key = cacheKey(model, system, userMessage);
+  const cached = responseCache.get(key);
+  if (cached !== undefined) {
+    return cached;
+  }
+
+  const pending = inFlight.get(key);
+  if (pending) {
+    return pending;
+  }
+
+  const request = requestModel(apiUrl, apiKey, model, userMessage, system)
+    .then((result) => {
+      // Only cache a parsed answer (including explicit nulls). Transient model
+      // failures and malformed output stay uncached so the next request retries.
+      if (result !== null) {
+        responseCache.set(key, result);
+      }
+      return result;
+    })
+    .finally(() => {
+      inFlight.delete(key);
+    });
+
+  inFlight.set(key, request);
+  return request;
 }

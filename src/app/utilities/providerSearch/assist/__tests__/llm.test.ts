@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import { callModel } from '../llm';
+import { callModel, resetAssistModelCacheForTests } from '../llm';
 
 const ENV_KEYS = [
   'ASSIST_API_URL',
@@ -11,6 +11,7 @@ const ENV_KEYS = [
   'ASSIST_JSON_MODE',
   'ASSIST_TEMPERATURE',
   'ASSIST_MAX_TOKENS_PARAM',
+  'ASSIST_CACHE',
 ];
 
 function modelResponse(content: string | null) {
@@ -25,6 +26,7 @@ describe('callModel', () => {
   const originalFetch = global.fetch;
 
   beforeEach(() => {
+    resetAssistModelCacheForTests();
     process.env = {
       ...originalEnv,
       ASSIST_API_URL: 'https://example.test/chat',
@@ -165,5 +167,96 @@ describe('callModel', () => {
     expect(body.max_tokens).toBe(80);
     expect(body.max_completion_tokens).toBeUndefined();
     expect(body.temperature).toBeUndefined();
+  });
+
+  describe('response caching', () => {
+    it('serves a repeated prompt from cache without another model call', async () => {
+      const fetchMock = jest
+        .fn()
+        .mockResolvedValue(modelResponse('{"area":"Nursing","location":"VIC"}'));
+      setFetch(fetchMock);
+
+      const first = await callModel('nursing in vic', 'system');
+      const second = await callModel('nursing in vic', 'system');
+
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+      expect(second).toBe(first);
+    });
+
+    it('matches the same intent across case and whitespace differences', async () => {
+      const fetchMock = jest
+        .fn()
+        .mockResolvedValue(modelResponse('{"area":"Nursing","location":"VIC"}'));
+      setFetch(fetchMock);
+
+      await callModel('Nursing in VIC', 'system');
+      await callModel('  nursing   in   vic  ', 'system');
+
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+    });
+
+    it('caches an explicit "no match" answer', async () => {
+      const fetchMock = jest.fn().mockResolvedValue(modelResponse('{"area":null,"location":null}'));
+      setFetch(fetchMock);
+
+      await callModel('something health related', 'system');
+      await callModel('something health related', 'system');
+
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not cache malformed model output', async () => {
+      const fetchMock = jest.fn().mockResolvedValue(modelResponse('I cannot help with that'));
+      setFetch(fetchMock);
+
+      await callModel('nursing', 'system');
+      await callModel('nursing', 'system');
+
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+    });
+
+    it('does not cache an HTTP failure', async () => {
+      const fetchMock = jest.fn().mockResolvedValue({ ok: false });
+      setFetch(fetchMock);
+
+      await callModel('nursing', 'system');
+      await callModel('nursing', 'system');
+
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+    });
+
+    it('coalesces concurrent identical requests into one call', async () => {
+      let resolveFetch!: (value: unknown) => void;
+      const pending = new Promise((resolve) => {
+        resolveFetch = resolve;
+      });
+      const fetchMock = jest.fn().mockReturnValue(pending);
+      setFetch(fetchMock);
+
+      const first = callModel('nursing in vic', 'system');
+      const second = callModel('NURSING IN VIC', 'system');
+
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+
+      resolveFetch(modelResponse('{"area":"Nursing","location":"VIC"}'));
+
+      await expect(Promise.all([first, second])).resolves.toEqual([
+        { area: 'Nursing', location: 'VIC' },
+        { area: 'Nursing', location: 'VIC' },
+      ]);
+    });
+
+    it('can be disabled with ASSIST_CACHE=off', async () => {
+      process.env.ASSIST_CACHE = 'off';
+      const fetchMock = jest
+        .fn()
+        .mockResolvedValue(modelResponse('{"area":"Nursing","location":"VIC"}'));
+      setFetch(fetchMock);
+
+      await callModel('nursing in vic', 'system');
+      await callModel('nursing in vic', 'system');
+
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+    });
   });
 });
