@@ -3,6 +3,7 @@ export type AssistSearchResponse = {
   locations?: string[];
   offTopic?: boolean;
   suggestions?: string[];
+  traceId?: string;
 };
 
 /**
@@ -23,7 +24,10 @@ export async function requestAssistSearch(text: string): Promise<AssistSearchRes
       return null;
     }
 
-    return (await response.json()) as AssistSearchResponse;
+    return {
+      ...((await response.json()) as AssistSearchResponse),
+      traceId: response.headers?.get?.('x-nda-trace-id') ?? undefined,
+    };
   } catch {
     return null;
   }

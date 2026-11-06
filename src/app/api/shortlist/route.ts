@@ -15,6 +15,7 @@ import {
 import { isLeadCaptureEnabled } from '@/app/utilities/leads/leadFlags';
 import { isKnownProviderSlug } from '@/app/utilities/leads/providerCompare';
 import { sendShortlistConfirmationEmail } from '@/app/utilities/leads/sendConfirmationEmail';
+import { observeApi, type ApiTrace } from '@/app/utilities/observability/apiTrace';
 
 export const runtime = 'nodejs';
 
@@ -64,38 +65,52 @@ function confirmationBaseUrl(request: NextRequest): string {
   return new URL(request.url).origin;
 }
 
-export async function POST(request: NextRequest) {
+async function handlePost(request: NextRequest, trace: ApiTrace): Promise<Response> {
   try {
+    trace.setUsage({ surface: 'api', mode: 'n/a', usedModel: false });
+
     if (!isLeadCaptureEnabled()) {
+      trace.setOutcome('not_available', 'lead_capture_disabled');
       return reject('not_available', 404);
     }
 
-    await consumeRateWithIp(request);
+    try {
+      await consumeRateWithIp(request);
+    } catch (error) {
+      trace.setOutcome('rate_limited', 'rate_limit');
+      throw error;
+    }
 
     let body: ShortlistBody;
     try {
       body = (await request.json()) as ShortlistBody;
     } catch {
+      trace.setOutcome('invalid_request', 'malformed_json');
       return reject('invalid_request', 400);
     }
 
     if (body.consent !== true) {
+      trace.setOutcome('consent_required', 'consent');
       return reject('consent');
     }
 
     const consentVersion =
       typeof body.consentVersion === 'string' ? body.consentVersion.trim() : '';
     if (consentVersion === '' || consentVersion.length > MAX_CONSENT_VERSION_LENGTH) {
+      trace.setOutcome('consent_required', 'consent_version');
       return reject('consent');
     }
 
     const slugs = parseSlugs(body.slugs);
     if (!slugs) {
+      trace.setOutcome('invalid_request', 'invalid_slugs');
       return reject('invalid_request', 400);
     }
+    trace.setUsage({ slugCount: slugs.length });
 
     const verdict = await validateEmail(body.email);
     if (!verdict.ok) {
+      trace.setOutcome('invalid_request', `email_${verdict.reason}`);
       return reject(verdict.reason);
     }
 
@@ -117,12 +132,14 @@ export async function POST(request: NextRequest) {
       : (await registerCRMContact(contact)) !== false;
 
     if (!stored) {
+      trace.setOutcome('storage_failed', 'crm_write');
       return reject('storage_failed', 502);
     }
 
     const signed = signLeadCookie(verdict.email);
     if (!signed) {
       // Missing/short LEAD_COOKIE_SECRET: do not hand out an unsigned gate.
+      trace.setOutcome('error', 'lead_cookie_secret_missing');
       throw new APIError({ status: 500, error: 'Lead capture is not configured.' });
     }
 
@@ -139,8 +156,23 @@ export async function POST(request: NextRequest) {
       slugs,
     });
     response.cookies.set(LEAD_COOKIE_NAME, signed.value, leadCookieOptions());
+
+    trace.setUsage({ emailSent });
+    trace.setOutcome(
+      'ok',
+      emailSent ? 'shortlist_created' : 'shortlist_created_email_unconfigured',
+    );
     return response;
   } catch (error) {
+    if (error instanceof APIError && error.status < 500) {
+      // The specific outcome was already recorded above.
+      return processAPIError(error);
+    }
+    trace.setOutcome('error', 'unhandled_route_error');
     return processAPIError(error instanceof Error ? error : null);
   }
+}
+
+export async function POST(request: NextRequest) {
+  return observeApi('shortlist', request, (trace) => handlePost(request, trace));
 }

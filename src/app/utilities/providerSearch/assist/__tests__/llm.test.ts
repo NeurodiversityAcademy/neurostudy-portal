@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import { callModel, resetAssistModelCacheForTests } from '../llm';
+import { callModel, callModelWithMeta, resetAssistModelCacheForTests } from '../llm';
 
 const ENV_KEYS = [
   'ASSIST_API_URL',
@@ -18,6 +18,13 @@ function modelResponse(content: string | null) {
   return {
     ok: true,
     json: async () => ({ choices: [{ message: { content } }] }),
+  };
+}
+
+function modelResponseWithUsage(content: string | null, usage: Record<string, unknown>) {
+  return {
+    ok: true,
+    json: async () => ({ choices: [{ message: { content } }], usage }),
   };
 }
 
@@ -257,6 +264,99 @@ describe('callModel', () => {
       await callModel('nursing in vic', 'system');
 
       expect(fetchMock).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe('model metadata', () => {
+    it('captures token usage, outcome, and latency', async () => {
+      const fetchMock = jest.fn().mockResolvedValue(
+        modelResponseWithUsage('{"area":"Nursing","location":"VIC"}', {
+          prompt_tokens: 123,
+          completion_tokens: 17,
+          total_tokens: 140,
+        }),
+      );
+      setFetch(fetchMock);
+
+      const call = await callModelWithMeta('nursing in vic', 'system');
+
+      expect(call.value).toEqual({ area: 'Nursing', location: 'VIC' });
+      expect(call.meta).toMatchObject({
+        model: 'test-model',
+        outcome: 'ok',
+        cacheHit: false,
+        usage: { prompt: 123, completion: 17, total: 140 },
+      });
+      expect(call.meta.latencyMs).toBeGreaterThanOrEqual(0);
+    });
+
+    it('accepts input/output token names from other providers', async () => {
+      const fetchMock = jest.fn().mockResolvedValue(
+        modelResponseWithUsage('{"area":null,"location":"Perth"}', {
+          input_tokens: 50,
+          output_tokens: 10,
+        }),
+      );
+      setFetch(fetchMock);
+
+      const call = await callModelWithMeta('perth', 'system');
+
+      expect(call.meta.outcome).toBe('ok');
+      expect(call.meta.usage).toEqual({ prompt: 50, completion: 10, total: null });
+    });
+
+    it('marks a repeated prompt as a cache hit with no new model call', async () => {
+      const fetchMock = jest
+        .fn()
+        .mockResolvedValue(modelResponse('{"area":"Nursing","location":"VIC"}'));
+      setFetch(fetchMock);
+
+      const first = await callModelWithMeta('nursing in vic', 'system');
+      const second = await callModelWithMeta('NURSING IN VIC', 'system');
+
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+      expect(first.meta.cacheHit).toBe(false);
+      expect(second.meta.cacheHit).toBe(true);
+      expect(second.value).toBe(first.value);
+    });
+
+    it('reports a no-match answer and caches it', async () => {
+      const fetchMock = jest.fn().mockResolvedValue(modelResponse('{"area":null,"location":null}'));
+      setFetch(fetchMock);
+
+      const first = await callModelWithMeta('something health related', 'system');
+      const second = await callModelWithMeta('something health related', 'system');
+
+      expect(first.meta.outcome).toBe('no_match');
+      expect(second.meta.outcome).toBe('no_match');
+      expect(second.meta.cacheHit).toBe(true);
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+    });
+
+    it('reports malformed output without caching it', async () => {
+      const fetchMock = jest.fn().mockResolvedValue(modelResponse('I cannot help'));
+      setFetch(fetchMock);
+
+      const first = await callModelWithMeta('nursing', 'system');
+      const second = await callModelWithMeta('nursing', 'system');
+
+      expect(first.meta.outcome).toBe('malformed');
+      expect(second.meta.cacheHit).toBe(false);
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+    });
+
+    it('reports an unconfigured model without calling fetch', async () => {
+      delete process.env.ASSIST_API_KEY;
+      const fetchMock = jest.fn();
+      setFetch(fetchMock);
+
+      const call = await callModelWithMeta('nursing', 'system');
+
+      expect(call).toMatchObject({
+        value: null,
+        meta: { outcome: 'unconfigured', cacheHit: false },
+      });
+      expect(fetchMock).not.toHaveBeenCalled();
     });
   });
 });

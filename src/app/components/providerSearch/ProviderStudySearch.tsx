@@ -115,6 +115,7 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
       interestAreas,
       locations,
       mode: 'ask',
+      ...(data.traceId ? { traceId: data.traceId } : {}),
     });
     router.push(buildProviderSearchHref({ interestAreas, locations }, { searchDemo }));
   }

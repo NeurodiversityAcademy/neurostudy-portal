@@ -157,15 +157,62 @@ const INJECTION =
 const ADVICE =
   /\b(best|better|recommend|should i|which (uni|university|provider|one)|compare|versus|vs\.?|ranking|rank|worth it|review|opinion|advice|pros and cons)\b/i;
 
-export function isOutOfScope(text: string): boolean {
+/**
+ * A real search slot is an exact catalog label or a known alias — not a loose
+ * token match. The catalog contains broad free-text rows ("… university …"),
+ * so token matching would treat "best university" as a searchable intent.
+ * Location labels such as SA/WA are two characters but are still real slots.
+ */
+function hasSearchSlot(text: string, ctx: ProviderSearchContext): boolean {
+  const haystack = normalizeSearchToken(text);
+
+  const exactMatch = (catalog: readonly string[], minLength: number) =>
+    catalog.some((item) => {
+      const needle = normalizeSearchToken(item);
+      if (needle.length < minLength) {
+        return false;
+      }
+      return new RegExp(`(^|[^a-z0-9])${escapeRegExp(needle)}([^a-z0-9]|$)`).test(haystack);
+    });
+
+  return (
+    exactMatch(ctx.interestAreaCatalog, 3) ||
+    exactMatch(ctx.locationCatalog, 2) ||
+    aliasMatches(text, ctx.interestAreaCatalog).length > 0
+  );
+}
+
+export type OutOfScopeReason = 'generative' | 'injection' | 'advice_no_slot';
+
+/**
+ * Classifies a deterministic refusal with a stable reason code.
+ * The route logs the reason; it never returns this text to the client.
+ */
+export function classifyOutOfScope(
+  text: string,
+  ctx: ProviderSearchContext,
+): OutOfScopeReason | null {
   const lowercase = text.toLowerCase();
-  if (GENERATIVE.test(lowercase) || INJECTION.test(lowercase)) {
-    return true;
+
+  // Writing/coding/injection is refused even when it mentions a catalog area.
+  if (GENERATIVE.test(lowercase)) {
+    return 'generative';
   }
-  if (ADVICE.test(lowercase) && !/[a-z]{3,}/.test(lowercase)) {
-    return true;
+  if (INJECTION.test(lowercase)) {
+    return 'injection';
   }
-  return false;
+
+  // Advice/comparison is refused only when there is nothing to search on.
+  // "best nursing in Sydney" stays a search: results, never advice.
+  if (ADVICE.test(lowercase) && !hasSearchSlot(text, ctx)) {
+    return 'advice_no_slot';
+  }
+
+  return null;
+}
+
+export function isOutOfScope(text: string, ctx: ProviderSearchContext): boolean {
+  return classifyOutOfScope(text, ctx) !== null;
 }
 
 export function suggestAreas(text: string, ctx: ProviderSearchContext): string[] {

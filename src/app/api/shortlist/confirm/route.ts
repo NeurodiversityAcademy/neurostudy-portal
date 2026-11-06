@@ -3,6 +3,7 @@ import { NextRequest } from 'next/server';
 import { consumeRateWithIp } from '@/app/utilities/api/rateLimiter';
 import { isLeadCaptureEnabled } from '@/app/utilities/leads/leadFlags';
 import { findCRMContactByProperty, updateCRMContact } from '@/app/utilities/register/shortlistCRM';
+import { observeApi, type ApiTrace } from '@/app/utilities/observability/apiTrace';
 
 export const runtime = 'nodejs';
 
@@ -71,24 +72,30 @@ function isExpired(unlockedAt: string | null | undefined): boolean {
   return Date.now() - issued > TOKEN_TTL_MS;
 }
 
-export async function GET(request: NextRequest) {
+async function handleGet(request: NextRequest, trace: ApiTrace): Promise<Response> {
+  trace.setUsage({ surface: 'api', mode: 'n/a', usedModel: false });
+
   if (!isLeadCaptureEnabled()) {
+    trace.setOutcome('not_available', 'lead_capture_disabled');
     return htmlPage('Not available', 'This link is not active.', 404, 'expired');
   }
 
   try {
     await consumeRateWithIp(request);
   } catch {
+    trace.setOutcome('rate_limited', 'rate_limit');
     return htmlPage('Too many requests', 'Please wait a moment and try again.', 429, 'expired');
   }
 
   const token = request.nextUrl.searchParams.get('t')?.trim() ?? '';
   if (!TOKEN_PATTERN.test(token)) {
+    trace.setOutcome('invalid_request', 'invalid_token');
     return htmlPage('Invalid link', 'This confirmation link is not valid.', 400, 'expired');
   }
 
   const contact = await findCRMContactByProperty('nda_verify_token', token);
   if (!contact) {
+    trace.setOutcome('expired', 'already_used_or_unknown');
     return htmlPage(
       'Link already used',
       'This confirmation link has already been used or has expired.',
@@ -98,6 +105,7 @@ export async function GET(request: NextRequest) {
   }
 
   if (contact.properties.nda_verify_status === 'bounced') {
+    trace.setOutcome('expired', 'email_bounced');
     return htmlPage(
       'Email could not be delivered',
       'We could not deliver email to this address. Please sign up again with a different address.',
@@ -107,6 +115,7 @@ export async function GET(request: NextRequest) {
   }
 
   if (isExpired(contact.properties.nda_shortlist_unlocked_at)) {
+    trace.setOutcome('expired', 'token_expired');
     return htmlPage(
       'Link expired',
       'This confirmation link has expired. Please request a new shortlist.',
@@ -120,6 +129,7 @@ export async function GET(request: NextRequest) {
     nda_verify_token: '',
   });
   if (!updated) {
+    trace.setOutcome('storage_failed', 'crm_write');
     return htmlPage(
       'Something went wrong',
       'We could not confirm your email just now. Please try the link again shortly.',
@@ -128,10 +138,15 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  trace.setOutcome('confirmed', 'email_verified');
   return htmlPage(
     'Email confirmed',
     'Thanks — your email is confirmed. We will only email you about the shortlist you asked for.',
     200,
     'confirmed',
   );
+}
+
+export async function GET(request: NextRequest) {
+  return observeApi('shortlist/confirm', request, (trace) => handleGet(request, trace));
 }

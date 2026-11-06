@@ -105,6 +105,7 @@ export function trackProviderSearchSubmit(params: {
   interestAreas: readonly string[];
   locations: readonly string[];
   mode?: 'quick' | 'ask';
+  traceId?: string;
 }): void {
   queueProviderSearchGaEvent(
     PROVIDER_SEARCH_GA.submit.eventName,
@@ -114,6 +115,7 @@ export function trackProviderSearchSubmit(params: {
       mode: params.mode ?? 'quick',
       interest_areas: joinGaMultiValue(params.interestAreas),
       locations: joinGaMultiValue(params.locations),
+      ...(params.traceId ? { trace_id: params.traceId } : {}),
     }),
   );
 }

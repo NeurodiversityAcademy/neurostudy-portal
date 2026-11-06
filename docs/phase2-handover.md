@@ -349,9 +349,24 @@ Effort in hours. Each task is a separate commit. Update this table as you go.
 | T5.17 | Token-usage tracing: capture `prompt_tokens`, `completion_tokens`, total, latency, and model/deployment per assist call from the Foundry response (and estimated size for keyword hits)                                                                                                                                  | 2      | Token fields present on ≥99% of model calls; no prompt/completion text stored                                                                        |
 | T5.18 | Cost rollup + budget alert: daily/weekly tokens, model calls per 1k searches, estimated cost vs $5 Foundry budget from Foundry cost metrics; alert on 50%/100% burn                                                                                                                                                      | 2      | Weekly cost line in dashboard doc; alert fires at 50% and 100% of budget                                                                             |
 | T5.19 | Assist response cache: normalized query hash → parsed `AssistRaw`, 24h TTL, 500-entry LRU, single-flight dedupe; cache parsed answers only (including explicit nulls), never transient failures; `ASSIST_CACHE=off` kill switch                                                                                          | 2      | Repeat prompts make one model call; concurrent identical prompts share one call; tests cover TTL, eviction, normalization, negative-result behaviour |
-| T5.20 | Shared-cache evaluation: measure in-memory hit rate from T5.16/T5.17 traces; add a shared store (Vercel KV/Upstash or Azure Redis) only if cross-instance misses are material. Azure automatic prompt caching needs no code — confirm its hit metrics in Foundry                                                         | 1      | Written go/no-go with hit-rate data; Foundry prompt-cache metrics reviewed                                                                           |
+| T5.20 | Shared-cache evaluation: measure in-memory hit rate from T5.16/T5.17 traces; add a shared store (Vercel KV/Upstash or Azure Redis) only if cross-instance misses are material. Azure automatic prompt caching needs no code but cannot engage at ~140 prompt tokens (Azure requires ≥1,024) — record that finding instead of waiting on hit metrics                                                         | 1      | Written go/no-go with hit-rate data; Foundry prompt-cache metrics reviewed                                                                           |
 
 **Total: ~80 h.** Phase 0 is human time; Phases 1–5 are engineering.
+
+**Implementation status (2026-11-07):**
+
+- **T5.10 done** — `src/app/utilities/observability/` emits one JSON line per observed route with `outcome`, `reason`, `latencyMs`, `usedModel`; no raw text or email. Routes wrapped: assist, health, shortlist, confirm, compare, verify.
+- **T5.11 done** — `docs/observability.md` contains the runbook, KQL queries, and alert table. Startup logs a `config_health` warning naming missing secrets (never values).
+- **T5.12 done** — `GET /api/search/health` probes the keyword path hourly and returns 503 on regression; token/cost queries are in the runbook.
+- **T5.13 done** — schema and examples in `docs/decision-tracing.md`; every non-match/refusal carries a machine-readable reason.
+- **T5.14 done (code)** — `traceId` joins spans, JSON logs, and GA `provider_search_submit.trace_id`; 90-day retention and sampling documented.
+- **T5.15 done** — `reasonCoverage.test.ts` fails CI when a reason-requiring outcome is logged without a reason.
+- **T5.16 done** — `surface`/`mode` on every assist trace; action is `decision.path`.
+- **T5.17 done** — `callModelWithMeta()` records prompt/completion/total tokens, model, latency, and cache hits; cache hits report zero spend plus `tokensSaved`.
+- **T5.18 done (instrumentation)** — token/cost KQL and 50%/100% budget alerts documented; weekly dashboard line still to be populated from live data.
+- **T5.19 done** — assist response cache shipped in `898f961`.
+- **T5.20 pending data** — needs a week of `usage.cache_hit` traces before the shared-cache go/no-go. Azure prompt caching is expected to yield nothing at the current prompt length, so only the in-memory vs shared-store decision remains.
+- **T5.6–T5.9 in progress** — golden set and harness are being built next.
 
 ---
 

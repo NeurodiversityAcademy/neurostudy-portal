@@ -21,6 +21,7 @@ jest.mock('@/app/utilities/providerSearch/catalog', () => ({
 
 jest.mock('@/app/utilities/providerSearch/assist/parse', () => ({
   tryKeywordHit: jest.fn(),
+  classifyOutOfScope: jest.fn(() => null),
   isOutOfScope: jest.fn(() => false),
   suggestAreas: jest.fn(() => []),
   detectInText: jest.fn(() => []),
@@ -28,6 +29,7 @@ jest.mock('@/app/utilities/providerSearch/assist/parse', () => ({
 
 jest.mock('@/app/utilities/providerSearch/assist/llm', () => ({
   callModel: jest.fn(),
+  callModelWithMeta: jest.fn(),
 }));
 
 jest.mock('@/app/utilities/providerSearch/assist/prompt', () => ({
@@ -38,14 +40,27 @@ jest.mock('@/app/utilities/providerSearch/assist/prompt', () => ({
 import APIError from '@/app/interfaces/APIError';
 import { checkBotId } from 'botid/server';
 import { consumeRateWithIp } from '@/app/utilities/api/rateLimiter';
-import { callModel } from '@/app/utilities/providerSearch/assist/llm';
+import { callModelWithMeta } from '@/app/utilities/providerSearch/assist/llm';
 import {
+  classifyOutOfScope,
   detectInText,
-  isOutOfScope,
   suggestAreas,
   tryKeywordHit,
 } from '@/app/utilities/providerSearch/assist/parse';
 import { POST } from '@/app/api/search/assist/route';
+
+function modelCall(value: { area: string | null; location: string | null } | null) {
+  return {
+    value,
+    meta: {
+      model: 'test-model',
+      latencyMs: 12,
+      outcome: value ? ('ok' as const) : ('malformed' as const),
+      cacheHit: false,
+      usage: { prompt: 100, completion: 20, total: 120 },
+    },
+  };
+}
 
 const BROWSER_UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36';
@@ -80,6 +95,8 @@ describe('POST /api/search/assist', () => {
       bypassed: false,
     });
     jest.mocked(tryKeywordHit).mockReturnValue(null);
+    jest.mocked(classifyOutOfScope).mockReturnValue(null);
+    jest.mocked(callModelWithMeta).mockResolvedValue(modelCall(null));
   });
 
   it('refuses declared AI crawlers before doing any work', async () => {
@@ -92,7 +109,7 @@ describe('POST /api/search/assist', () => {
       error: 'Search is available to people using this site.',
     });
     expect(consumeRateWithIp).not.toHaveBeenCalled();
-    expect(callModel).not.toHaveBeenCalled();
+    expect(callModelWithMeta).not.toHaveBeenCalled();
   });
 
   it('refuses scripted clients', async () => {
@@ -101,7 +118,7 @@ describe('POST /api/search/assist', () => {
     );
 
     expect(response.status).toBe(403);
-    expect(callModel).not.toHaveBeenCalled();
+    expect(callModelWithMeta).not.toHaveBeenCalled();
   });
 
   it('refuses requests without a user agent', async () => {
@@ -152,7 +169,7 @@ describe('POST /api/search/assist', () => {
       suggestions: [],
       usedModel: false,
     });
-    expect(callModel).not.toHaveBeenCalled();
+    expect(callModelWithMeta).not.toHaveBeenCalled();
   });
 
   it('returns 429 when the rate limiter rejects the request', async () => {
@@ -186,16 +203,18 @@ describe('POST /api/search/assist', () => {
   });
 
   it('returns off-topic for advice or prompt-injection attempts', async () => {
-    jest.mocked(isOutOfScope).mockReturnValueOnce(true);
+    jest.mocked(classifyOutOfScope).mockReturnValueOnce('advice_no_slot');
 
     const response = await POST(makeRequest({ text: 'which university should i pick' }));
 
     expect(await response.json()).toEqual({ offTopic: true, suggestions: [], usedModel: false });
-    expect(callModel).not.toHaveBeenCalled();
+    expect(callModelWithMeta).not.toHaveBeenCalled();
   });
 
   it('uses the model result when the area and location resolve', async () => {
-    jest.mocked(callModel).mockResolvedValueOnce({ area: 'Nursing', location: 'VIC' });
+    jest
+      .mocked(callModelWithMeta)
+      .mockResolvedValueOnce(modelCall({ area: 'Nursing', location: 'VIC' }));
     jest.mocked(detectInText).mockReturnValueOnce(['VIC']);
 
     const response = await POST(makeRequest({ text: 'nursing near me' }));
@@ -209,7 +228,9 @@ describe('POST /api/search/assist', () => {
   });
 
   it('drops model locations that are not in the catalog', async () => {
-    jest.mocked(callModel).mockResolvedValueOnce({ area: 'Nursing', location: 'Narnia' });
+    jest
+      .mocked(callModelWithMeta)
+      .mockResolvedValueOnce(modelCall({ area: 'Nursing', location: 'Narnia' }));
     jest.mocked(detectInText).mockReturnValueOnce([]);
 
     const response = await POST(makeRequest({ text: 'nursing somewhere' }));
@@ -223,7 +244,7 @@ describe('POST /api/search/assist', () => {
   });
 
   it('falls back to area suggestions when the model finds no area', async () => {
-    jest.mocked(callModel).mockResolvedValueOnce({ area: null, location: null });
+    jest.mocked(callModelWithMeta).mockResolvedValueOnce(modelCall({ area: null, location: null }));
     jest.mocked(suggestAreas).mockReturnValueOnce(['Nursing']);
 
     const response = await POST(makeRequest({ text: 'nurs' }));
@@ -237,7 +258,7 @@ describe('POST /api/search/assist', () => {
   });
 
   it('falls back to detected interest areas when there are no suggestions', async () => {
-    jest.mocked(callModel).mockResolvedValueOnce(null);
+    jest.mocked(callModelWithMeta).mockResolvedValueOnce(modelCall(null));
     jest.mocked(suggestAreas).mockReturnValueOnce([]);
     jest.mocked(detectInText).mockReturnValueOnce(['Design']);
 
