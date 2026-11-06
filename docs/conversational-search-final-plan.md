@@ -144,7 +144,7 @@ Computed as: `1,000 requests × 1,050 input tokens = 1.05M × $in` + `30,000 out
 
 **If you want to squeeze it further (all free, no extra architecture):**
 
-1. Keep the prompt prefix identical on every call → Azure's automatic prompt caching can engage around the 1,024-token threshold (our prompt sits near it). If it doesn't engage, the cost is still trivial.
+1. Keep the prompt prefix identical on every call → that is the only prerequisite for Azure's automatic prompt caching, and it still won't engage at our prompt size: the system prompt is ~550 characters (~140 tokens), while Azure requires at least 1,024 prompt tokens with an identical first 1,024. Budget **$0** savings from prompt caching; the in-memory result cache (item 3) is what removes repeat calls.
 2. Keep the output cap at 80 tokens (`max_completion_tokens` on the verified deployment) — output is the expensive side per token.
 3. Add the optional in-memory result cache (15 lines) — repeat homepage searches become $0.
 4. Deploy **Global Standard**, not Provisioned — provisioned throughput has a fixed hourly cost and is pointless at this volume.
