@@ -333,8 +333,12 @@ Effort in hours. Each task is a separate commit. Update this table as you go.
 | T5.3 | Manual QA matrix (§7.3)                                                          | 2      | All rows pass                                      |
 | T5.4 | Accessibility audit of gate + compare table                                      | 1      | No critical axe violations                         |
 | T5.5 | Feature flag (`NEXT_PUBLIC_RECOMMENDATIONS_ENABLED`) + rollback drill            | 1      | Flag off restores the old order and hides the gate |
+| T5.6 | Golden search-intent set: 75 hand-written queries (25 keyword, 25 synonym/typo, 15 location-only/ambiguous, 10 off-topic/injection) with expected `area`, `location`, `outcome` | 3 | `docs/evals/golden-search.json` committed; human-reviewed against the 62-provider catalog; no query containing personal data |
+| T5.7 | Eval harness: runs `tryKeywordHit` + `callModel` + `searchProvidersByFilters` against the golden set; scores extraction accuracy, keyword-hit rate, top-3 hit rate, zero-result rate, off-topic/injection refusal | 4 | Script exits non-zero on threshold breach; report written to `docs/evals/latest.md` |
+| T5.8 | Eval gate: run nightly + on demand in CI; block if extraction <95%, top-3 hit <85%, off-topic/injection refusal <100%; live-model runs retry ≤3× on transient errors | 2 | CI job green on main; failure report links to diff |
+| T5.9 | Ranking relevance review: human labels top-3 for 20 query buckets (area × location); measure agreement with lexicographic sort (tier → certified → QILT/support) | 3 | Signed label sheet committed; disagreements logged as catalog/data fixes, not code changes |
 
-**Total: ~46 h.** Phase 0 is human time; Phases 1–5 are engineering.
+**Total: ~58 h.** Phase 0 is human time; Phases 1–5 are engineering.
 
 ---
 
