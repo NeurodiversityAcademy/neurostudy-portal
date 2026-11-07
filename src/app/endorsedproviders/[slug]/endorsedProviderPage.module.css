@@ -39,6 +39,13 @@
   font-weight: 700;
 }
 
+.statsUnavailable {
+  margin: 0;
+  color: var(--BondBlack);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
 @media (max-width: 767px) {
   .pageMain {
     gap: 32px;

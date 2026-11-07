@@ -27,6 +27,7 @@ const INTENTIONAL_COVERAGE_EXCLUSIONS = [
   /^src\/app\/sitemap\.xml\/route\.ts$/,
   /^src\/app\/robots\.txt\/route\.ts$/,
   /^src\/testUtils\//,
+  /^src\/app\/utilities\/providerSearch\/evals\//,
 ];
 
 const isIntentionallyExcluded = (relativeFile) =>

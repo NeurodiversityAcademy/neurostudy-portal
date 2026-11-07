@@ -64,10 +64,9 @@ const ContactUsForm: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const outcome = (await registerContactData(
-        userRegistrationData,
-      )) as CRMCreateResponseInterface;
-      if (outcome.id) {
+      const outcome = (await registerContactData(userRegistrationData)) as
+        CRMCreateResponseInterface | undefined;
+      if (outcome && outcome.id) {
         notifySuccess('Successfully sent');
         sendContactSubmitEvent(hs_persona);
         sendMetaContactLeadEvent();

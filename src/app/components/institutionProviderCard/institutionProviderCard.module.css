@@ -255,6 +255,16 @@
   box-shadow: 0px 2px 8px 0px var(--color-shadow-pressed);
 }
 
+.cardNote {
+  width: 88%;
+  margin: 0;
+  text-align: center;
+  color: var(--BondBlackVariant);
+  font-family: var(--poppins-font);
+  font-size: var(--body3-font-size);
+  line-height: 1.35;
+}
+
 .comingSoon {
   margin-top: 16px;
   display: inline-flex;

@@ -51,6 +51,8 @@ export interface InstitutionProviderCardProps {
   comingSoonLabel?: string;
   /** Denser card for 2-up mobile directory grids. */
   compact?: boolean;
+  /** Small evidence line under the card body (never a verdict). */
+  note?: ReactNode;
 }
 
 function resolveEmergingStateTint(header: InstitutionProviderHeader): AustralianState | undefined {
@@ -150,6 +152,7 @@ export default function InstitutionProviderCard({
   ctaOpenInNewTab,
   comingSoonLabel,
   compact = false,
+  note,
 }: InstitutionProviderCardProps) {
   const emergingStateTint = resolveEmergingStateTint(header);
   const isClickable = Boolean(ctaHref);
@@ -211,6 +214,11 @@ export default function InstitutionProviderCard({
       </div>
       <div key='card-body' className={styles.cardBody}>
         <Fragment key='card-center'>{center}</Fragment>
+        {note ? (
+          <div key='card-note' className={styles.cardNote}>
+            {note}
+          </div>
+        ) : null}
         {bodyAction ? <Fragment key='card-action'>{bodyAction}</Fragment> : null}
       </div>
     </div>

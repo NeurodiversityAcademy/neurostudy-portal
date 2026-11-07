@@ -17,8 +17,27 @@ jest.mock('@/app/utilities/providerSearch/providerSearchGa', () => ({
 
 jest.mock('../../buttons/ActionButton', () => ({
   __esModule: true,
-  default: ({ label, disabled, type }: { label: string; disabled?: boolean; type?: string }) => (
-    <button type={type === 'submit' ? 'submit' : 'button'} disabled={disabled}>
+  default: ({
+    label,
+    disabled,
+    type,
+    onClick,
+  }: {
+    label: string;
+    disabled?: boolean;
+    type?: string;
+    onClick?: () => void;
+  }) => (
+    <button type={type === 'submit' ? 'submit' : 'button'} disabled={disabled} onClick={onClick}>
+      {label}
+    </button>
+  ),
+}));
+
+jest.mock('../../formElements/Pill/Pill', () => ({
+  __esModule: true,
+  default: ({ label, onClose }: { label: string; onClose?: () => void }) => (
+    <button type='button' onClick={onClose}>
       {label}
     </button>
   ),
@@ -72,90 +91,97 @@ describe('ProviderStudySearch', () => {
   beforeEach(() => {
     pushMock.mockReset();
     (trackProviderSearchSubmit as jest.Mock).mockClear();
+    (global as typeof globalThis & { fetch?: jest.Mock }).fetch = jest.fn();
   });
 
-  it('allows searching with no selections to browse all providers', async () => {
-    const user = userEvent.setup();
+  it('renders the Ask bar as the main search control', () => {
     render(
       <ProviderStudySearch
         surface='homepage'
-        interestAreaOptions={[
-          { label: 'Music', value: 'Music' },
-          { label: 'Nursing', value: 'Nursing' },
-        ]}
+        interestAreaOptions={[{ label: 'Nursing', value: 'Nursing' }]}
+        locationOptions={[{ label: 'Melbourne', value: 'Melbourne' }]}
+      />,
+    );
+
+    expect(screen.getByPlaceholderText('E.g. Nursing in melbourne')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Ask' })).toBeEnabled();
+  });
+
+  it('submits natural-language queries and tracks GA', async () => {
+    const user = userEvent.setup();
+    const fetchMock = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ area: 'Nursing', locations: ['Melbourne', 'VIC'] }),
+    });
+    (global as typeof globalThis & { fetch: jest.Mock }).fetch = fetchMock;
+
+    render(
+      <ProviderStudySearch
+        surface='homepage'
+        interestAreaOptions={[{ label: 'Nursing', value: 'Nursing' }]}
         locationOptions={[
-          { label: 'Sydney', value: 'Sydney' },
           { label: 'Melbourne', value: 'Melbourne' },
+          { label: 'VIC', value: 'VIC' },
         ]}
       />,
     );
 
-    const searchButton = screen.getByRole('button', { name: 'Search' });
-    expect(searchButton).toBeEnabled();
-    await user.click(searchButton);
+    const askInput = screen.getByPlaceholderText('E.g. Nursing in melbourne');
+    await user.type(askInput, 'nursing in melbourne');
+    await user.click(screen.getByRole('button', { name: 'Ask' }));
 
     await waitFor(() => {
+      expect(fetchMock).toHaveBeenCalledWith(
+        '/api/search/assist',
+        expect.objectContaining({ method: 'POST' }),
+      );
       expect(trackProviderSearchSubmit).toHaveBeenCalledWith({
         surface: 'homepage',
-        interestAreas: [],
-        locations: [],
+        interestAreas: ['Nursing'],
+        locations: ['Melbourne', 'VIC'],
+        mode: 'ask',
       });
-      expect(pushMock).toHaveBeenCalledWith('/search');
+      expect(pushMock).toHaveBeenCalledWith(
+        '/search?InterestArea=Nursing&Location=Melbourne&Location=VIC',
+      );
     });
   });
 
-  it('submits selected filters to /search and tracks GA', async () => {
+  it('explains that results remain unchanged when the Ask query cannot be matched', async () => {
     const user = userEvent.setup();
+    (global as typeof globalThis & { fetch: jest.Mock }).fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ area: null, locations: [] }),
+    });
+
     render(
-      <ProviderStudySearch
-        surface='homepage'
-        interestAreaOptions={[
-          { label: 'Music', value: 'Music' },
-          { label: 'Nursing', value: 'Nursing' },
-        ]}
-        locationOptions={[
-          { label: 'Sydney', value: 'Sydney' },
-          { label: 'Melbourne', value: 'Melbourne' },
-        ]}
-      />,
+      <ProviderStudySearch surface='homepage' interestAreaOptions={[]} locationOptions={[]} />,
     );
 
-    await user.selectOptions(screen.getByLabelText('What do you want to study?'), ['Music']);
-    await user.selectOptions(screen.getByLabelText('Where do you want to study?'), ['Sydney']);
+    await user.type(
+      screen.getByPlaceholderText('E.g. Nursing in melbourne'),
+      'Business analyst in Cairns',
+    );
+    await user.click(screen.getByRole('button', { name: 'Ask' }));
 
-    expect(screen.getByRole('button', { name: 'Search' })).toBeEnabled();
-    await user.click(screen.getByRole('button', { name: 'Search' }));
-
-    await waitFor(() => {
-      expect(trackProviderSearchSubmit).toHaveBeenCalledWith({
-        surface: 'homepage',
-        interestAreas: ['Music'],
-        locations: ['Sydney'],
-      });
-      expect(pushMock).toHaveBeenCalledWith('/search?InterestArea=Music&Location=Sydney');
-    });
+    expect(await screen.findByRole('status')).toHaveTextContent(
+      "We couldn't match that search, so we're showing all results. Try a supported study area or location.",
+    );
+    expect(pushMock).not.toHaveBeenCalled();
   });
 
-  it('includes typed draft text like business without requiring a pill', async () => {
-    const user = userEvent.setup();
+  it('shows active filter chips under the Ask bar when defaults are supplied', () => {
     render(
       <ProviderStudySearch
         surface='homepage'
-        interestAreaOptions={[{ label: 'Music', value: 'Music' }]}
-        locationOptions={[{ label: 'Sydney', value: 'Sydney' }]}
+        interestAreaOptions={[{ label: 'Nursing', value: 'Nursing' }]}
+        locationOptions={[{ label: 'Melbourne', value: 'Melbourne' }]}
+        defaultInterestAreas={['Nursing']}
+        defaultLocations={['Melbourne']}
       />,
     );
 
-    await user.type(screen.getByLabelText('InterestArea-draft'), 'business');
-    await user.click(screen.getByRole('button', { name: 'Search' }));
-
-    await waitFor(() => {
-      expect(trackProviderSearchSubmit).toHaveBeenCalledWith({
-        surface: 'homepage',
-        interestAreas: ['business'],
-        locations: [],
-      });
-      expect(pushMock).toHaveBeenCalledWith('/search?InterestArea=business');
-    });
+    expect(screen.getByText('Nursing')).toBeInTheDocument();
+    expect(screen.getByText('Melbourne')).toBeInTheDocument();
   });
 });
