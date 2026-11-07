@@ -42,6 +42,8 @@ type AssistBody = {
   mode?: unknown;
 };
 
+type KeywordHit = { area: string; locations: string[] };
+
 /** Assist calls cost a model request, so automation is refused before any work. */
 function rejectAutomation(request: Request): Response | null {
   if (
@@ -102,140 +104,173 @@ function resultCounts(
   };
 }
 
+/** Cheap guards first: each one is traced with the gate it came from. */
+async function enforceGates(request: NextRequest, trace: ApiTrace): Promise<Response | null> {
+  const automation = rejectAutomation(request);
+  if (automation) {
+    trace.setGate({ automation: 'blocked' });
+    trace.setOutcome('forbidden', 'automation');
+    return automation;
+  }
+  trace.setGate({ automation: 'pass' });
+
+  try {
+    await consumeRateWithIp(request);
+    trace.setGate({ rateLimit: 'pass' });
+  } catch (error) {
+    trace.setGate({ rateLimit: 'blocked' });
+    trace.setOutcome('rate_limited', 'rate_limit');
+    return processAPIError(error instanceof Error ? error : null);
+  }
+
+  try {
+    const verification = await checkBotId({
+      // Ignored in production; lets search work in local development.
+      developmentOptions: { bypass: 'HUMAN' },
+    });
+    if (verification.isBot || verification.isVerifiedBot) {
+      trace.setGate({ botId: 'blocked' });
+      trace.setOutcome('forbidden', 'bot');
+      return Response.json({ error: SEARCH_IS_FOR_PEOPLE }, { status: 403 });
+    }
+    trace.setGate({ botId: 'pass' });
+  } catch {
+    // BotID unavailable: the user-agent guard and rate limit above still apply.
+    trace.setGate({ botId: 'unavailable' });
+  }
+
+  return null;
+}
+
+/** Returns the query text, or the error response for an unusable body. */
+async function readAssistQuery(request: NextRequest, trace: ApiTrace): Promise<string | Response> {
+  let body: AssistBody;
+  try {
+    body = (await request.json()) as AssistBody;
+  } catch {
+    trace.setOutcome('invalid_request', 'malformed_json');
+    return Response.json({ error: 'Invalid request body' }, { status: 400 });
+  }
+
+  const text = typeof body.text === 'string' ? body.text.trim() : '';
+  trace.setUsage({ surface: parseSurface(body.surface), mode: parseMode(body.mode) });
+
+  if (text.length < 3) {
+    trace.setOutcome('invalid_request', 'query_too_short');
+    return Response.json({ error: 'Query too short' }, { status: 400 });
+  }
+
+  if (text.length > MAX_QUERY_LENGTH) {
+    trace.setOutcome('invalid_request', 'query_too_long');
+    return Response.json({ error: 'Query too long' }, { status: 400 });
+  }
+
+  trace.setQuery(text);
+  return text;
+}
+
+function respondKeywordHit(
+  hit: KeywordHit,
+  context: ProviderSearchContext,
+  trace: ApiTrace,
+): Response {
+  trace.setDecision({
+    path: 'keyword',
+    area: hit.area,
+    locations: hit.locations,
+    ...resultCounts(context, hit.area, hit.locations),
+  });
+  trace.setUsage({ usedModel: false, tokens: { ...ZERO_TOKENS } });
+  trace.setOutcome('keyword_hit', 'keyword_match');
+  return Response.json({
+    area: hit.area,
+    locations: hit.locations,
+    suggestions: [],
+    usedModel: false,
+  });
+}
+
+function respondOffTopic(reason: string, trace: ApiTrace): Response {
+  trace.setDecision({ path: 'off_topic' });
+  trace.setOutcome('off_topic', reason);
+  return Response.json({ offTopic: true, suggestions: [], usedModel: false });
+}
+
+async function respondFromModel(
+  text: string,
+  context: ProviderSearchContext,
+  trace: ApiTrace,
+): Promise<Response> {
+  const modelCall = await callModelWithMeta(buildUserMessage(text), buildAssistSystemPrompt());
+  const measuredTokens = {
+    prompt: modelCall.meta.usage.prompt,
+    completion: modelCall.meta.usage.completion,
+    total: modelCall.meta.usage.total,
+  };
+  trace.setUsage({
+    usedModel: true,
+    model: modelCall.meta.model,
+    cacheHit: modelCall.meta.cacheHit,
+    tokens: modelCall.meta.cacheHit ? { ...ZERO_TOKENS } : measuredTokens,
+    tokensSaved: modelCall.meta.cacheHit ? measuredTokens : undefined,
+  });
+
+  const area = normaliseArea(modelCall.value?.area);
+  if (area) {
+    const locations = normaliseLocation(modelCall.value?.location).filter(
+      (value) => detectInText(value, context.locationCatalog).length > 0,
+    );
+    trace.setDecision({
+      path: 'model',
+      area,
+      locations,
+      ...resultCounts(context, area, locations),
+    });
+    trace.setOutcome('model_hit', 'model_area');
+    return Response.json({ area, locations, suggestions: [], usedModel: true });
+  }
+
+  const suggestions = suggestAreas(text, context);
+  const fallbackSuggestions =
+    suggestions.length > 0 ? suggestions : detectInText(text, context.interestAreaCatalog);
+  trace.setDecision({ path: 'suggestion', area: null, locations: [] });
+  trace.setOutcome(
+    'suggestion',
+    modelCall.meta.outcome === 'no_match' ? 'model_no_match' : `model_${modelCall.meta.outcome}`,
+  );
+  return Response.json({
+    area: null,
+    locations: [],
+    suggestions: fallbackSuggestions,
+    usedModel: false,
+  });
+}
+
 /** Kept separate so every return path can be traced with one outcome. */
 async function handlePost(request: NextRequest, trace: ApiTrace): Promise<Response> {
   try {
-    const automation = rejectAutomation(request);
-    if (automation) {
-      trace.setGate({ automation: 'blocked' });
-      trace.setOutcome('forbidden', 'automation');
-      return automation;
-    }
-    trace.setGate({ automation: 'pass' });
-
-    try {
-      await consumeRateWithIp(request);
-      trace.setGate({ rateLimit: 'pass' });
-    } catch (error) {
-      trace.setGate({ rateLimit: 'blocked' });
-      trace.setOutcome('rate_limited', 'rate_limit');
-      return processAPIError(error instanceof Error ? error : null);
+    const blocked = await enforceGates(request, trace);
+    if (blocked) {
+      return blocked;
     }
 
-    try {
-      const verification = await checkBotId({
-        // Ignored in production; lets search work in local development.
-        developmentOptions: { bypass: 'HUMAN' },
-      });
-      if (verification.isBot || verification.isVerifiedBot) {
-        trace.setGate({ botId: 'blocked' });
-        trace.setOutcome('forbidden', 'bot');
-        return Response.json({ error: SEARCH_IS_FOR_PEOPLE }, { status: 403 });
-      }
-      trace.setGate({ botId: 'pass' });
-    } catch {
-      // BotID unavailable: the user-agent guard and rate limit above still apply.
-      trace.setGate({ botId: 'unavailable' });
+    const query = await readAssistQuery(request, trace);
+    if (query instanceof Response) {
+      return query;
     }
-
-    let body: AssistBody;
-    try {
-      body = (await request.json()) as AssistBody;
-    } catch {
-      trace.setOutcome('invalid_request', 'malformed_json');
-      return Response.json({ error: 'Invalid request body' }, { status: 400 });
-    }
-
-    const text = typeof body.text === 'string' ? body.text.trim() : '';
-    trace.setUsage({ surface: parseSurface(body.surface), mode: parseMode(body.mode) });
-
-    if (text.length < 3) {
-      trace.setOutcome('invalid_request', 'query_too_short');
-      return Response.json({ error: 'Query too short' }, { status: 400 });
-    }
-
-    if (text.length > MAX_QUERY_LENGTH) {
-      trace.setOutcome('invalid_request', 'query_too_long');
-      return Response.json({ error: 'Query too long' }, { status: 400 });
-    }
-
-    trace.setQuery(text);
 
     const context = loadProviderSearchContext();
-    const keywordHit = tryKeywordHit(text, context);
+    const keywordHit = tryKeywordHit(query, context);
     if (keywordHit) {
-      trace.setDecision({
-        path: 'keyword',
-        area: keywordHit.area,
-        locations: keywordHit.locations,
-        ...resultCounts(context, keywordHit.area, keywordHit.locations),
-      });
-      trace.setUsage({ usedModel: false, tokens: { ...ZERO_TOKENS } });
-      trace.setOutcome('keyword_hit', 'keyword_match');
-      return Response.json({
-        area: keywordHit.area,
-        locations: keywordHit.locations,
-        suggestions: [],
-        usedModel: false,
-      });
+      return respondKeywordHit(keywordHit, context, trace);
     }
 
-    const offTopicReason = classifyOutOfScope(text, context);
+    const offTopicReason = classifyOutOfScope(query, context);
     if (offTopicReason) {
-      trace.setDecision({ path: 'off_topic' });
-      trace.setOutcome('off_topic', offTopicReason);
-      return Response.json({ offTopic: true, suggestions: [], usedModel: false });
+      return respondOffTopic(offTopicReason, trace);
     }
 
-    const modelCall = await callModelWithMeta(buildUserMessage(text), buildAssistSystemPrompt());
-    const measuredTokens = {
-      prompt: modelCall.meta.usage.prompt,
-      completion: modelCall.meta.usage.completion,
-      total: modelCall.meta.usage.total,
-    };
-    trace.setUsage({
-      usedModel: true,
-      model: modelCall.meta.model,
-      cacheHit: modelCall.meta.cacheHit,
-      tokens: modelCall.meta.cacheHit ? { ...ZERO_TOKENS } : measuredTokens,
-      tokensSaved: modelCall.meta.cacheHit ? measuredTokens : undefined,
-    });
-
-    const area = normaliseArea(modelCall.value?.area);
-    if (area) {
-      const locationCandidates = normaliseLocation(modelCall.value?.location);
-      const locations = locationCandidates.filter(
-        (value) => detectInText(value, context.locationCatalog).length > 0,
-      );
-      trace.setDecision({
-        path: 'model',
-        area,
-        locations,
-        ...resultCounts(context, area, locations),
-      });
-      trace.setOutcome('model_hit', 'model_area');
-      return Response.json({
-        area,
-        locations,
-        suggestions: [],
-        usedModel: true,
-      });
-    }
-
-    const suggestions = suggestAreas(text, context);
-    const fallbackSuggestions =
-      suggestions.length > 0 ? suggestions : detectInText(text, context.interestAreaCatalog);
-    trace.setDecision({ path: 'suggestion', area: null, locations: [] });
-    trace.setOutcome(
-      'suggestion',
-      modelCall.meta.outcome === 'no_match' ? 'model_no_match' : `model_${modelCall.meta.outcome}`,
-    );
-    return Response.json({
-      area: null,
-      locations: [],
-      suggestions: fallbackSuggestions,
-      usedModel: false,
-    });
+    return await respondFromModel(query, context, trace);
   } catch (error) {
     trace.setOutcome('error', 'unhandled_route_error');
     return processAPIError(error instanceof Error ? error : null);

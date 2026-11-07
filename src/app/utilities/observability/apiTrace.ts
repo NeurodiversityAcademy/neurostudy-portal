@@ -28,6 +28,67 @@ const DEFAULT_USAGE: UsageTrace = {
   usedModel: false,
 };
 
+type SpanAttributes = Parameters<typeof toSpanAttributes>[0];
+
+function baseSpanAttributes(params: {
+  route: string;
+  method: string;
+  status: number;
+  outcome: OutcomeCode;
+  reason: string | undefined;
+  latencyMs: number;
+  queryHash: string | undefined;
+}): SpanAttributes {
+  return {
+    'api.route': params.route,
+    'api.method': params.method,
+    'api.status': params.status,
+    'api.outcome': params.outcome,
+    'api.reason': params.reason,
+    'api.latency_ms': params.latencyMs,
+    'search.query_hash': params.queryHash,
+  };
+}
+
+function searchSpanAttributes(decision: DecisionTrace | undefined): SpanAttributes {
+  return {
+    'search.path': decision?.path,
+    'search.area': decision?.area,
+    'search.locations': decision?.locations,
+    'search.result_count': decision?.resultCount,
+    'search.tier_course_endorsed': decision?.tierCounts?.courseEndorsed,
+    'search.tier_endorsed': decision?.tierCounts?.endorsed,
+    'search.tier_emerging': decision?.tierCounts?.emerging,
+  };
+}
+
+function gateSpanAttributes(gate: GateTrace | undefined): SpanAttributes {
+  return {
+    'gate.automation': gate?.automation,
+    'gate.botid': gate?.botId,
+    'gate.rate_limit': gate?.rateLimit,
+  };
+}
+
+function usageSpanAttributes(usage: UsageTrace): SpanAttributes {
+  const tokens = usage.tokens;
+  return {
+    'usage.surface': usage.surface,
+    'usage.mode': usage.mode,
+    'usage.used_model': usage.usedModel,
+    'usage.cache_hit': usage.cacheHit,
+    'usage.email_sent': usage.emailSent,
+    'usage.slug_count': usage.slugCount,
+    'model.name': usage.model,
+    'tokens.prompt': tokens?.prompt,
+    'tokens.completion': tokens?.completion,
+    'tokens.total': tokens?.total,
+    'tokens.saved_prompt': usage.tokensSaved?.prompt,
+    'tokens.saved_completion': usage.tokensSaved?.completion,
+    'tokens.saved_total': usage.tokensSaved?.total,
+  };
+}
+
 export function startApiTrace(route: string, request: Request): ApiTrace {
   const id = createTraceId();
   const startedAt = Date.now();
@@ -101,40 +162,13 @@ export function startApiTrace(route: string, request: Request): ApiTrace {
 
       recordApiEvent(event);
 
-      const tokens = usage.tokens;
       endSpan(
         span,
         toSpanAttributes({
-          'api.route': route,
-          'api.method': method,
-          'api.status': status,
-          'api.outcome': outcome,
-          'api.reason': reason,
-          'api.latency_ms': latencyMs,
-          'search.query_hash': queryHash,
-          'search.path': decision?.path,
-          'search.area': decision?.area,
-          'search.locations': decision?.locations,
-          'search.result_count': decision?.resultCount,
-          'search.tier_course_endorsed': decision?.tierCounts?.courseEndorsed,
-          'search.tier_endorsed': decision?.tierCounts?.endorsed,
-          'search.tier_emerging': decision?.tierCounts?.emerging,
-          'gate.automation': gate?.automation,
-          'gate.botid': gate?.botId,
-          'gate.rate_limit': gate?.rateLimit,
-          'usage.surface': usage.surface,
-          'usage.mode': usage.mode,
-          'usage.used_model': usage.usedModel,
-          'usage.cache_hit': usage.cacheHit,
-          'usage.email_sent': usage.emailSent,
-          'usage.slug_count': usage.slugCount,
-          'model.name': usage.model,
-          'tokens.prompt': tokens?.prompt,
-          'tokens.completion': tokens?.completion,
-          'tokens.total': tokens?.total,
-          'tokens.saved_prompt': usage.tokensSaved?.prompt,
-          'tokens.saved_completion': usage.tokensSaved?.completion,
-          'tokens.saved_total': usage.tokensSaved?.total,
+          ...baseSpanAttributes({ route, method, status, outcome, reason, latencyMs, queryHash }),
+          ...searchSpanAttributes(decision),
+          ...gateSpanAttributes(gate),
+          ...usageSpanAttributes(usage),
         }),
       );
 

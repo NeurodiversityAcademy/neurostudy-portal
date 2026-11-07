@@ -30,6 +30,14 @@ type ShortlistBody = {
   slugs?: unknown;
 };
 
+type ShortlistRequest = {
+  email: unknown;
+  consentVersion: string;
+  slugs: string[];
+};
+
+type SignedLead = NonNullable<ReturnType<typeof signLeadCookie>>;
+
 function json(status: number, body: Record<string, unknown>): NextResponse {
   return NextResponse.json(body, { status });
 }
@@ -65,74 +73,137 @@ function confirmationBaseUrl(request: NextRequest): string {
   return new URL(request.url).origin;
 }
 
+async function enforceShortlistGates(
+  request: NextRequest,
+  trace: ApiTrace,
+): Promise<Response | null> {
+  trace.setUsage({ surface: 'api', mode: 'n/a', usedModel: false });
+
+  if (!isLeadCaptureEnabled()) {
+    trace.setOutcome('not_available', 'lead_capture_disabled');
+    return reject('not_available', 404);
+  }
+
+  try {
+    await consumeRateWithIp(request);
+    return null;
+  } catch (error) {
+    trace.setOutcome('rate_limited', 'rate_limit');
+    throw error;
+  }
+}
+
+/** Validates consent and slugs before any CRM or email work happens. */
+async function readShortlistRequest(
+  request: NextRequest,
+  trace: ApiTrace,
+): Promise<ShortlistRequest | Response> {
+  let body: ShortlistBody;
+  try {
+    body = (await request.json()) as ShortlistBody;
+  } catch {
+    trace.setOutcome('invalid_request', 'malformed_json');
+    return reject('invalid_request', 400);
+  }
+
+  if (body.consent !== true) {
+    trace.setOutcome('consent_required', 'consent');
+    return reject('consent');
+  }
+
+  const consentVersion = typeof body.consentVersion === 'string' ? body.consentVersion.trim() : '';
+  if (consentVersion === '' || consentVersion.length > MAX_CONSENT_VERSION_LENGTH) {
+    trace.setOutcome('consent_required', 'consent_version');
+    return reject('consent');
+  }
+
+  const slugs = parseSlugs(body.slugs);
+  if (!slugs) {
+    trace.setOutcome('invalid_request', 'invalid_slugs');
+    return reject('invalid_request', 400);
+  }
+
+  return { email: body.email, consentVersion, slugs };
+}
+
+/** Creates or updates the CRM contact. Returns false when the write failed. */
+async function persistShortlistContact(
+  email: string,
+  consentVersion: string,
+  token: string,
+  trace: ApiTrace,
+): Promise<boolean> {
+  const contact: ShortlistCRMContact = {
+    email,
+    nda_source: 'search_shortlist',
+    nda_consent_version: consentVersion,
+    nda_shortlist_unlocked_at: new Date().toISOString(),
+    nda_verify_token: token,
+    nda_verify_status: 'pending',
+  };
+
+  const existing = await findCRMContactByProperty('email', email);
+  const stored = existing
+    ? await updateCRMContact(existing.id, contact)
+    : (await registerCRMContact(contact)) !== false;
+
+  if (!stored) {
+    trace.setOutcome('storage_failed', 'crm_write');
+  }
+  return stored;
+}
+
+async function completeShortlist(
+  request: NextRequest,
+  email: string,
+  token: string,
+  slugs: string[],
+  signed: SignedLead,
+  trace: ApiTrace,
+): Promise<NextResponse> {
+  const confirmUrl = `${confirmationBaseUrl(request)}/api/shortlist/confirm?t=${token}`;
+  const emailSent = await sendShortlistConfirmationEmail({ email, confirmUrl });
+
+  const response = json(200, {
+    ok: true,
+    verification: emailSent ? 'pending' : 'pending_email_unconfigured',
+    unlockedUntil: new Date(signed.expiresAt).toISOString(),
+    slugs,
+  });
+  response.cookies.set(LEAD_COOKIE_NAME, signed.value, leadCookieOptions());
+
+  trace.setUsage({ emailSent });
+  trace.setOutcome('ok', emailSent ? 'shortlist_created' : 'shortlist_created_email_unconfigured');
+  return response;
+}
+
 async function handlePost(request: NextRequest, trace: ApiTrace): Promise<Response> {
   try {
-    trace.setUsage({ surface: 'api', mode: 'n/a', usedModel: false });
-
-    if (!isLeadCaptureEnabled()) {
-      trace.setOutcome('not_available', 'lead_capture_disabled');
-      return reject('not_available', 404);
+    const blocked = await enforceShortlistGates(request, trace);
+    if (blocked) {
+      return blocked;
     }
 
-    try {
-      await consumeRateWithIp(request);
-    } catch (error) {
-      trace.setOutcome('rate_limited', 'rate_limit');
-      throw error;
+    const parsed = await readShortlistRequest(request, trace);
+    if (parsed instanceof Response) {
+      return parsed;
     }
+    trace.setUsage({ slugCount: parsed.slugs.length });
 
-    let body: ShortlistBody;
-    try {
-      body = (await request.json()) as ShortlistBody;
-    } catch {
-      trace.setOutcome('invalid_request', 'malformed_json');
-      return reject('invalid_request', 400);
-    }
-
-    if (body.consent !== true) {
-      trace.setOutcome('consent_required', 'consent');
-      return reject('consent');
-    }
-
-    const consentVersion =
-      typeof body.consentVersion === 'string' ? body.consentVersion.trim() : '';
-    if (consentVersion === '' || consentVersion.length > MAX_CONSENT_VERSION_LENGTH) {
-      trace.setOutcome('consent_required', 'consent_version');
-      return reject('consent');
-    }
-
-    const slugs = parseSlugs(body.slugs);
-    if (!slugs) {
-      trace.setOutcome('invalid_request', 'invalid_slugs');
-      return reject('invalid_request', 400);
-    }
-    trace.setUsage({ slugCount: slugs.length });
-
-    const verdict = await validateEmail(body.email);
+    const verdict = await validateEmail(parsed.email);
     if (!verdict.ok) {
       trace.setOutcome('invalid_request', `email_${verdict.reason}`);
       return reject(verdict.reason);
     }
 
     const token = randomBytes(TOKEN_BYTES).toString('hex');
-    const unlockedAt = new Date().toISOString();
-
-    const contact: ShortlistCRMContact = {
-      email: verdict.email,
-      nda_source: 'search_shortlist',
-      nda_consent_version: consentVersion,
-      nda_shortlist_unlocked_at: unlockedAt,
-      nda_verify_token: token,
-      nda_verify_status: 'pending',
-    };
-
-    const existing = await findCRMContactByProperty('email', verdict.email);
-    const stored = existing
-      ? await updateCRMContact(existing.id, contact)
-      : (await registerCRMContact(contact)) !== false;
-
+    const stored = await persistShortlistContact(
+      verdict.email,
+      parsed.consentVersion,
+      token,
+      trace,
+    );
     if (!stored) {
-      trace.setOutcome('storage_failed', 'crm_write');
       return reject('storage_failed', 502);
     }
 
@@ -143,26 +214,7 @@ async function handlePost(request: NextRequest, trace: ApiTrace): Promise<Respon
       throw new APIError({ status: 500, error: 'Lead capture is not configured.' });
     }
 
-    const confirmUrl = `${confirmationBaseUrl(request)}/api/shortlist/confirm?t=${token}`;
-    const emailSent = await sendShortlistConfirmationEmail({
-      email: verdict.email,
-      confirmUrl,
-    });
-
-    const response = json(200, {
-      ok: true,
-      verification: emailSent ? 'pending' : 'pending_email_unconfigured',
-      unlockedUntil: new Date(signed.expiresAt).toISOString(),
-      slugs,
-    });
-    response.cookies.set(LEAD_COOKIE_NAME, signed.value, leadCookieOptions());
-
-    trace.setUsage({ emailSent });
-    trace.setOutcome(
-      'ok',
-      emailSent ? 'shortlist_created' : 'shortlist_created_email_unconfigured',
-    );
-    return response;
+    return await completeShortlist(request, verdict.email, token, parsed.slugs, signed, trace);
   } catch (error) {
     if (error instanceof APIError && error.status < 500) {
       // The specific outcome was already recorded above.
