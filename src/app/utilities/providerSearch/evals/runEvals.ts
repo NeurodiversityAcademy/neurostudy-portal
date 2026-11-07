@@ -399,17 +399,40 @@ export async function runEvals(options: {
   };
 }
 
-function formatMetric(result: MetricResult): string {
+/** Pads cells the way Prettier formats markdown tables, so the generated report stays format-clean. */
+function renderTable(headers: string[], rows: string[][]): string[] {
+  const widths = headers.map((header, column) =>
+    Math.max(header.length, ...rows.map((row) => (row[column] ?? '').length)),
+  );
+  const formatRow = (cells: string[]) =>
+    `| ${cells.map((cell, column) => cell.padEnd(widths[column])).join(' | ')} |`;
+
+  return [
+    formatRow(headers),
+    `| ${widths.map((width) => '-'.repeat(width)).join(' | ')} |`,
+    ...rows.map(formatRow),
+  ];
+}
+
+function formatMetric(result: MetricResult): string[] {
   const rate = result.rate === null ? 'n/a' : `${(result.rate * 100).toFixed(1)}%`;
   const threshold =
     result.label === 'zero-result rate'
       ? `≤ ${(result.threshold * 100).toFixed(0)}%`
       : `≥ ${(result.threshold * 100).toFixed(0)}%`;
-  return `| ${result.label} | ${result.passed}/${result.total} (${rate}) | ${threshold} | ${result.ok ? 'pass' : 'FAIL'} |`;
+  const status = result.total === 0 ? 'not run' : result.ok ? 'pass' : 'FAIL';
+  return [result.label, `${result.passed}/${result.total} (${rate})`, threshold, status];
 }
 
 export function formatReport(report: EvalReport): string {
   const failures = report.cases.filter((c) => !c.passed);
+  const metricRows = [
+    report.metrics.extractionAccuracy,
+    report.metrics.keywordHitRate,
+    report.metrics.refusalAccuracy,
+    report.metrics.zeroResultRate,
+    report.metrics.top3Rate,
+  ].map(formatMetric);
   const lines = [
     '# Search intent eval — latest',
     '',
@@ -417,15 +440,16 @@ export function formatReport(report: EvalReport): string {
     `- Run: ${report.startedAt}`,
     `- Golden set: \`${report.goldenPath}\` (${report.cases.length} cases: ${report.counts.keyword} keyword, ${report.counts.model} model/synonym, ${report.counts.location} location-only, ${report.counts.offtopic} off-topic/injection)`,
     '',
-    '| Metric | Result | Threshold | Status |',
-    '| --- | --- | --- | --- |',
-    formatMetric(report.metrics.extractionAccuracy),
-    formatMetric(report.metrics.keywordHitRate),
-    formatMetric(report.metrics.refusalAccuracy),
-    formatMetric(report.metrics.zeroResultRate),
-    formatMetric(report.metrics.top3Rate),
+    ...renderTable(['Metric', 'Result', 'Threshold', 'Status'], metricRows),
     '',
   ];
+
+  if (report.metrics.extractionAccuracy.total === 0) {
+    lines.push(
+      'Extraction accuracy is not measured offline; the nightly live job enforces the ≥95% gate.',
+      '',
+    );
+  }
 
   if (report.live) {
     lines.push(
@@ -434,21 +458,27 @@ export function formatReport(report: EvalReport): string {
     );
   }
 
-  lines.push(
-    report.breaches.length === 0
-      ? '**Result: all thresholds met.**'
-      : '**Result: threshold breach.**',
-  );
+  const unmeasured = Object.values(report.metrics).some((result) => result.total === 0);
+  const resultLine =
+    report.breaches.length > 0
+      ? '**Result: threshold breach.**'
+      : unmeasured
+        ? '**Result: all measured thresholds met; one or more metrics did not run.**'
+        : '**Result: all thresholds met.**';
+  lines.push(resultLine);
   if (report.breaches.length > 0) {
     lines.push('', 'Breaches:', ...report.breaches.map((breach) => `- ${breach}`));
   }
 
   lines.push('', `Failures: ${failures.length}`);
   if (failures.length > 0) {
-    lines.push('', '| Case | Query | Detail |', '| --- | --- | --- |');
-    for (const failure of failures) {
-      lines.push(`| ${failure.id} | ${failure.query} | ${failure.detail ?? 'failed'} |`);
-    }
+    lines.push(
+      '',
+      ...renderTable(
+        ['Case', 'Query', 'Detail'],
+        failures.map((failure) => [failure.id, failure.query, failure.detail ?? 'failed']),
+      ),
+    );
   }
 
   return `${lines.join('\n')}\n`;

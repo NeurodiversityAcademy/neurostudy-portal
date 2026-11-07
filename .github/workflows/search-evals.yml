@@ -9,6 +9,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: search-evals
+  cancel-in-progress: false
+
 jobs:
   offline-evals:
     name: Offline search intent evals
@@ -26,5 +30,48 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: search-eval-report
+          path: docs/evals/latest.md
+          if-no-files-found: ignore
+
+  # Offline runs cannot score extraction (no model call), so the 95% extraction
+  # gate is enforced here. Fails closed when the model secrets are absent: an
+  # unenforced gate must not report green.
+  live-extraction:
+    name: Live extraction gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Check model credentials
+        env:
+          ASSIST_API_URL: ${{ secrets.ASSIST_API_URL }}
+          ASSIST_API_KEY: ${{ secrets.ASSIST_API_KEY }}
+          ASSIST_MODEL: ${{ secrets.ASSIST_MODEL }}
+        run: |
+          missing=0
+          for name in ASSIST_API_URL ASSIST_API_KEY ASSIST_MODEL; do
+            if [ -z "${!name}" ]; then
+              echo "::error::$name is not set; the live extraction gate cannot run. Add it under Settings -> Secrets and variables -> Actions."
+              missing=1
+            fi
+          done
+          exit "$missing"
+      - name: Run live extraction eval
+        env:
+          ASSIST_API_URL: ${{ secrets.ASSIST_API_URL }}
+          ASSIST_API_KEY: ${{ secrets.ASSIST_API_KEY }}
+          ASSIST_MODEL: ${{ secrets.ASSIST_MODEL }}
+          ASSIST_AUTH_HEADER: api-key
+          ASSIST_CACHE: 'off'
+        run: npm run eval:search:live
+      - name: Upload live eval report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: search-eval-live-report
           path: docs/evals/latest.md
           if-no-files-found: ignore
