@@ -1,0 +1,30 @@
+name: Search evals
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Nightly at 15:00 UTC (01:00 AEST).
+    - cron: '0 15 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  offline-evals:
+    name: Offline search intent evals
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run eval:search
+      - name: Upload eval report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: search-eval-report
+          path: docs/evals/latest.md
+          if-no-files-found: ignore

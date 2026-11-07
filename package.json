@@ -18,6 +18,8 @@
     "test": "NODE_ENV=test jest --passWithNoTests",
     "test:coverage": "NODE_ENV=test jest --coverage --passWithNoTests",
     "test:ci": "NODE_ENV=test SILENT_TEST_CONSOLE=1 jest --ci --silent --coverage --passWithNoTests --workerIdleMemoryLimit=512MB",
+    "eval:search": "NODE_ENV=test EVAL_SEARCH_MODE=offline jest --ci --silent --runTestsByPath src/app/utilities/providerSearch/evals/evalSearch.test.ts",
+    "eval:search:live": "NODE_ENV=test EVAL_SEARCH_MODE=live jest --ci --silent --runTestsByPath src/app/utilities/providerSearch/evals/evalSearch.test.ts",
     "coverage:changed": "node scripts/check-changed-coverage.mjs",
     "verify:quality": "node scripts/verify-quality.mjs",
     "vercel:build": "node scripts/vercel-build.mjs",
