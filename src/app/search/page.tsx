@@ -5,6 +5,7 @@ import { TypographyColorToken } from '@/app/components/typography/typographyColo
 import ProviderStudySearch from '@/app/components/providerSearch/ProviderStudySearch';
 import SearchVerification from '@/app/components/providerSearch/SearchVerification';
 import ProviderSearchResultsTracker from '@/app/components/providerSearch/ProviderSearchResultsTracker';
+import ProviderSearchFeedback from '@/app/components/providerSearch/ProviderSearchFeedback';
 import ShortlistGate from '@/app/components/providerSearch/ShortlistGate';
 import {
   hasVerificationCookie,
@@ -132,6 +133,11 @@ export default async function ProviderSearchPage({ searchParams }: SearchPagePro
               </Link>
             ) : null}
           </div>
+          <ProviderSearchFeedback
+            filters={filters}
+            resultCount={totalCount}
+            surface='search_page'
+          />
           <ShortlistGate
             key={JSON.stringify([filters.interestAreas, filters.locations, searchDemo])}
             enabled={isLeadCaptureEnabled()}

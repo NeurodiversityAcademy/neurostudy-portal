@@ -2,7 +2,7 @@
 
 Search, lead capture, and shortlist confirmation emit one structured trace per
 request. Traces are correlated by `traceId` and joined to GA4 through the
-`trace_id` parameter on `provider_search_submit`.
+`trace_id` parameter on `provider_search_submit` and `provider_search_feedback`.
 
 ## 1. What ships where
 
@@ -273,6 +273,8 @@ regressed.
    `usage`. Every refusal has a reason code.
 4. **Join analytics.** GA4 `provider_search_submit` carries `trace_id`; use it to
    see whether the user navigated, got a suggestion, or was refused.
+   `provider_search_feedback` carries the same `trace_id`, so a reported
+   match/no-match joins the decision that produced those results.
 5. **Roll back if user-facing.** Set `ASSIST_CACHE=off` for cache problems, or
    `LEAD_CAPTURE_ENABLED=false` to disable lead capture. Search still works.
 6. **Escalate data issues.** A bad ranking is a catalog/data fix, not a code fix;

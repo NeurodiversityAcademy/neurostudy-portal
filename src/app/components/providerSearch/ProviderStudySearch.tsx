@@ -6,7 +6,7 @@ import { useForm, useWatch, type UseFormReturn } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import ActionButton from '@/app/components/buttons/ActionButton';
 import Pill from '@/app/components/formElements/Pill/Pill';
-import searchSrc from '@/app/images/Search.svg';
+import aiSparkleSrc from '@/app/images/aiSparkle.svg';
 import { BUTTON_STYLE } from '@/app/utilities/constants';
 import {
   type ProviderSearchSurface,
@@ -15,6 +15,7 @@ import {
 import { buildProviderSearchHref } from '@/app/utilities/providerSearch/buildSearchHref';
 import { requestAssistSearch } from '@/app/utilities/providerSearch/assist/client';
 import { trackProviderSearchSubmit } from '@/app/utilities/providerSearch/providerSearchGa';
+import { rememberSearchTraceId } from '@/app/utilities/providerSearch/searchTrace';
 import styles from './providerStudySearch.module.css';
 
 export type ProviderStudySearchProps = HTMLAttributes<HTMLDivElement> & {
@@ -117,6 +118,7 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
       mode: 'ask',
       ...(data.traceId ? { traceId: data.traceId } : {}),
     });
+    rememberSearchTraceId(data.traceId);
     router.push(buildProviderSearchHref({ interestAreas, locations }, { searchDemo }));
   }
 
@@ -134,6 +136,9 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
           void handleAssistSearch();
         }}
       >
+        <label className={styles.askLabel} htmlFor='provider-search-ask'>
+          What would you like to study?
+        </label>
         <div className={styles.assistRow}>
           <div className={styles.assistControls}>
             <input
@@ -142,13 +147,12 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
               value={askQuery}
               onChange={(event) => setAskQuery(event.target.value)}
               placeholder='E.g. Nursing in melbourne'
-              aria-label='Describe what and where you want to study'
             />
             <ActionButton
               type='submit'
               style={BUTTON_STYLE.Primary}
               label='Ask'
-              icon={searchSrc}
+              icon={aiSparkleSrc}
               className={styles.askButton}
             />
           </div>

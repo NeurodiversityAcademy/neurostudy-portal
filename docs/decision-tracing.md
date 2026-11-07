@@ -106,6 +106,8 @@ No route records the email address, consent text, token, or cookie value.
 - The server returns `x-nda-trace-id` on every observed response.
 - `requestAssistSearch()` forwards it as `traceId`.
 - GA `provider_search_submit` includes `trace_id` when present.
+- GA `provider_search_feedback` includes the same `trace_id` when the search came
+  through `/api/search/assist`, joining reported match/no-match to the decision.
 - App Insights spans include `trace.id`; the JSON line includes `traceId`.
 - HubSpot outcomes are joined by the shortlist's `slugCount` + timestamp window,
   not by email. If an exact join is needed, add the `traceId` to the CRM note

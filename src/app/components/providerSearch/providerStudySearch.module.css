@@ -12,18 +12,18 @@
 }
 
 .compact .searchBarShell {
-  padding: 12px;
+  padding: 10px;
 }
 
 .searchBarShell {
-  width: min(100%, 1120px);
+  width: min(100%, 908px);
   display: flex;
   flex-direction: column;
   gap: 8px;
   background-color: var(--GhostWhite);
   border-radius: 12px;
   box-shadow: 0px 8px 20px 0px #0000001f;
-  padding: 8px 10px;
+  padding: 20px;
   box-sizing: border-box;
 }
 
@@ -45,10 +45,21 @@
   display: flex;
   gap: 8px;
   align-items: stretch;
+  /* Input is capped, so the extra space becomes breathing room before the button */
+  justify-content: space-between;
+}
+
+.askLabel {
+  font-family: var(--poppins-font);
+  font-size: calc(var(--body1-font-size) * 0.9);
+  /* Half of the 600 strong weight */
+  font-weight: 300;
+  color: var(--BondBlack);
 }
 
 .askInput {
   flex: 1;
+  max-width: 75%;
   min-height: 32px;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 8px;
@@ -58,11 +69,20 @@
   background: var(--GhostWhite);
 }
 
-.askButton {
-  width: 132px;
-  min-height: 36px;
-  padding-top: 0.4rem;
-  padding-bottom: 0.4rem;
+/* Compact Ask control; two classes so it beats ActionButton `.primary { width: ... }` */
+/* ~2.4x the natural ~76px width, normal button height */
+.assistControls .askButton {
+  width: 184px;
+  min-width: 0;
+  min-height: 32px;
+  padding: 6px 12px;
+  gap: 6px;
+  font-size: var(--body2-strong-font-size);
+}
+
+.askButton img {
+  width: 32px;
+  height: 32px;
 }
 
 .askInput:focus {
@@ -163,11 +183,19 @@
 
 /* Phone + narrow tablet: stack fields so chips and placeholders stay readable */
 @media (max-width: 768px) {
+  .assistControls {
+    gap: 8px;
+  }
+
+  .askInput {
+    max-width: none;
+  }
+
   .compact .searchBarShell {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding: 12px;
+    padding: 10px;
     align-items: stretch;
     width: 100%;
     max-width: 100%;

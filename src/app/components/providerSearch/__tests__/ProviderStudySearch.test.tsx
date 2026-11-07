@@ -15,6 +15,10 @@ jest.mock('@/app/utilities/providerSearch/providerSearchGa', () => ({
   trackProviderSearchSubmit: jest.fn(),
 }));
 
+jest.mock('@/app/utilities/providerSearch/searchTrace', () => ({
+  rememberSearchTraceId: jest.fn(),
+}));
+
 jest.mock('../../buttons/ActionButton', () => ({
   __esModule: true,
   default: ({
@@ -86,11 +90,13 @@ jest.mock('../../formElements/Dropdown/Dropdown', () => ({
 }));
 
 import { trackProviderSearchSubmit } from '@/app/utilities/providerSearch/providerSearchGa';
+import { rememberSearchTraceId } from '@/app/utilities/providerSearch/searchTrace';
 
 describe('ProviderStudySearch', () => {
   beforeEach(() => {
     pushMock.mockReset();
     (trackProviderSearchSubmit as jest.Mock).mockClear();
+    (rememberSearchTraceId as jest.Mock).mockClear();
     (global as typeof globalThis & { fetch?: jest.Mock }).fetch = jest.fn();
   });
 
@@ -103,6 +109,7 @@ describe('ProviderStudySearch', () => {
       />,
     );
 
+    expect(screen.getByLabelText('What would you like to study?')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('E.g. Nursing in melbourne')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Ask' })).toBeEnabled();
   });
@@ -144,6 +151,37 @@ describe('ProviderStudySearch', () => {
       expect(pushMock).toHaveBeenCalledWith(
         '/search?InterestArea=Nursing&Location=Melbourne&Location=VIC',
       );
+    });
+  });
+
+  it('remembers the assist trace id before navigating', async () => {
+    const user = userEvent.setup();
+    const fetchMock = jest.fn().mockResolvedValue({
+      ok: true,
+      headers: {
+        get: (name: string) => (name === 'x-nda-trace-id' ? 'trace-123' : null),
+      },
+      json: async () => ({ area: 'Nursing', locations: ['Melbourne'] }),
+    });
+    (global as typeof globalThis & { fetch: jest.Mock }).fetch = fetchMock;
+
+    render(
+      <ProviderStudySearch
+        surface='homepage'
+        interestAreaOptions={[{ label: 'Nursing', value: 'Nursing' }]}
+        locationOptions={[{ label: 'Melbourne', value: 'Melbourne' }]}
+      />,
+    );
+
+    await user.type(
+      screen.getByPlaceholderText('E.g. Nursing in melbourne'),
+      'nursing in melbourne',
+    );
+    await user.click(screen.getByRole('button', { name: 'Ask' }));
+
+    await waitFor(() => {
+      expect(rememberSearchTraceId).toHaveBeenCalledWith('trace-123');
+      expect(pushMock).toHaveBeenCalled();
     });
   });
 

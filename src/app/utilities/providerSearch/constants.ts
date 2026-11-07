@@ -69,6 +69,10 @@ export const PROVIDER_SEARCH_GA = {
     eventName: 'provider_search_results_view',
     category: PROVIDER_SEARCH_GA_CATEGORY,
   },
+  feedback: {
+    eventName: 'provider_search_feedback',
+    category: PROVIDER_SEARCH_GA_CATEGORY,
+  },
   recommendationView: {
     eventName: 'rec_view',
     category: PROVIDER_SEARCH_GA_CATEGORY,

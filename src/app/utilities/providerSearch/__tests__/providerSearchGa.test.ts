@@ -10,6 +10,7 @@ import {
   trackLeadVerify,
   trackProviderCoursesPlaceholderView,
   trackProviderRecommendationView,
+  trackProviderSearchFeedback,
   trackProviderSearchResultClick,
   trackProviderSearchResultsView,
   trackProviderSearchSubmit,
@@ -202,6 +203,57 @@ describe('providerSearchGa queue', () => {
 
     expect(mockGtag).not.toHaveBeenCalled();
     expect(isProviderSearchGaFlushLoopActiveForTests()).toBe(false);
+  });
+
+  it('tracks results feedback without sending query text or PII', () => {
+    const mockGtag = installGtagMock();
+
+    trackProviderSearchFeedback({
+      match: 'no',
+      surface: 'search_page',
+      interestAreas: ['Nursing'],
+      locations: ['Melbourne', 'VIC'],
+      resultCount: 1,
+      traceId: 'trace-1',
+    });
+
+    expect(mockGtag).toHaveBeenCalledWith(
+      'event',
+      PROVIDER_SEARCH_GA.feedback.eventName,
+      expect.objectContaining({
+        category: PROVIDER_SEARCH_GA.feedback.category,
+        match: 'no',
+        surface: 'search_page',
+        interest_areas: 'Nursing',
+        locations: 'Melbourne|VIC',
+        result_count: 1,
+        trace_id: 'trace-1',
+        page_path: expect.any(String),
+      }),
+    );
+
+    const lastCall = mockGtag.mock.calls[mockGtag.mock.calls.length - 1];
+    const payload = lastCall[2] as Record<string, unknown>;
+    expect(payload).not.toHaveProperty('query');
+    expect(payload).not.toHaveProperty('text');
+    expect(payload).not.toHaveProperty('email');
+    expect(payload).not.toHaveProperty('prompt');
+  });
+
+  it('omits trace_id when the search was not assist-origin', () => {
+    const mockGtag = installGtagMock();
+
+    trackProviderSearchFeedback({
+      match: 'yes',
+      surface: 'search_page',
+      interestAreas: [],
+      locations: [],
+      resultCount: 3,
+    });
+
+    const lastCall = mockGtag.mock.calls[mockGtag.mock.calls.length - 1];
+    const payload = lastCall[2] as Record<string, unknown>;
+    expect(payload).not.toHaveProperty('trace_id');
   });
 
   it('builds card CTA analytics with the same result-click schema', () => {

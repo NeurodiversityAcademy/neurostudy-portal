@@ -146,6 +146,28 @@ export function trackProviderSearchResultsView(params: {
   );
 }
 
+export function trackProviderSearchFeedback(params: {
+  match: 'yes' | 'no';
+  surface: ProviderSearchSurface;
+  interestAreas: readonly string[];
+  locations: readonly string[];
+  resultCount: number;
+  traceId?: string;
+}): void {
+  queueProviderSearchGaEvent(
+    PROVIDER_SEARCH_GA.feedback.eventName,
+    withPagePath({
+      category: PROVIDER_SEARCH_GA.feedback.category,
+      match: params.match,
+      surface: params.surface,
+      interest_areas: joinGaMultiValue(params.interestAreas),
+      locations: joinGaMultiValue(params.locations),
+      result_count: params.resultCount,
+      ...(params.traceId ? { trace_id: params.traceId } : {}),
+    }),
+  );
+}
+
 /**
  * Fired once per result view when the evidence layer is enabled.
  * Clicks are already covered by `provider_search_result_click`, which carries
