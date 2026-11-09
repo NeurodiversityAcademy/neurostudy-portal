@@ -37,7 +37,15 @@ describe('SearchVerification', () => {
   });
 
   it('explains when verification fails and offers a retry', async () => {
-    setFetch(jest.fn().mockResolvedValue({ ok: false }));
+    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    setFetch(
+      jest.fn().mockResolvedValue({
+        ok: false,
+        status: 403,
+        statusText: 'Forbidden',
+        text: async () => '{"error":"Search is available to people using this site."}',
+      }),
+    );
 
     render(<SearchVerification />);
 
@@ -46,9 +54,23 @@ describe('SearchVerification', () => {
     ).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Try again' })).toBeInTheDocument();
     expect(refreshMock).not.toHaveBeenCalled();
+
+    // The rejection is the only browser-visible cause, so it must carry detail.
+    expect(errorSpy).toHaveBeenCalledWith(
+      '[search-verify] verification rejected by /api/verify',
+      expect.objectContaining({
+        status: 403,
+        statusText: 'Forbidden',
+        attempt: 1,
+        body: expect.stringContaining('Search is available to people using this site'),
+      }),
+    );
+
+    errorSpy.mockRestore();
   });
 
   it('stops retrying after repeated attempts', async () => {
+    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
     window.sessionStorage.setItem(ATTEMPT_KEY, '2');
     const fetchMock = jest.fn();
     setFetch(fetchMock);
@@ -59,5 +81,11 @@ describe('SearchVerification', () => {
       await screen.findByText(/Search is available to people using this site/),
     ).toBeInTheDocument();
     expect(fetchMock).not.toHaveBeenCalled();
+    expect(errorSpy).toHaveBeenCalledWith(
+      '[search-verify] giving up: retry budget exhausted',
+      expect.objectContaining({ attempts: 2, maxAttempts: 2 }),
+    );
+
+    errorSpy.mockRestore();
   });
 });
