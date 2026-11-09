@@ -5,6 +5,7 @@
     "keyword": 25,
     "model": 25,
     "location": 15,
+    "area": 8,
     "offtopic": 10
   },
   "cases": [
@@ -812,6 +813,86 @@
         "area": null,
         "locations": ["SA"],
         "minResults": 6
+      }
+    },
+    {
+      "id": "ar-01",
+      "category": "area",
+      "query": "nursing",
+      "expect": {
+        "outcome": "area",
+        "area": "Nursing",
+        "minResults": 1
+      }
+    },
+    {
+      "id": "ar-02",
+      "category": "area",
+      "query": "nursing courses",
+      "expect": {
+        "outcome": "area",
+        "area": "Nursing",
+        "minResults": 1
+      }
+    },
+    {
+      "id": "ar-03",
+      "category": "area",
+      "query": "psychology",
+      "expect": {
+        "outcome": "area",
+        "area": "Psychology",
+        "minResults": 1
+      }
+    },
+    {
+      "id": "ar-04",
+      "category": "area",
+      "query": "accounting",
+      "expect": {
+        "outcome": "area",
+        "area": "Accounting",
+        "minResults": 1
+      }
+    },
+    {
+      "id": "ar-05",
+      "category": "area",
+      "query": "business",
+      "expect": {
+        "outcome": "area",
+        "area": "Business",
+        "minResults": 1
+      }
+    },
+    {
+      "id": "ar-06",
+      "category": "area",
+      "query": "engineering",
+      "expect": {
+        "outcome": "area",
+        "area": "Engineering",
+        "minResults": 1
+      }
+    },
+    {
+      "id": "ar-07",
+      "category": "area",
+      "query": "hospitality",
+      "expect": {
+        "outcome": "area",
+        "area": "Hospitality",
+        "minResults": 1
+      }
+    },
+    {
+      "id": "ar-08",
+      "category": "area",
+      "query": "music",
+      "expect": {
+        "outcome": "area",
+        "area": "Music",
+        "minResults": 1
       }
     },
     {

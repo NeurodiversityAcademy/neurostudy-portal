@@ -12,7 +12,9 @@ import {
   classifyOutOfScope,
   detectInText,
   suggestAreas,
+  tryAreaOnlyHit,
   tryKeywordHit,
+  tryLocationOnlyHit,
 } from '@/app/utilities/providerSearch/assist/parse';
 import {
   buildAssistSystemPrompt,
@@ -84,14 +86,14 @@ function parseMode(value: unknown): 'quick' | 'ask' {
 
 function resultCounts(
   context: ProviderSearchContext,
-  area: string,
+  area: string | null,
   locations: string[],
 ): {
   resultCount: number;
   tierCounts: { courseEndorsed: number; endorsed: number; emerging: number };
 } {
   const results = searchProvidersByFilters(context.providers, {
-    interestAreas: [area],
+    interestAreas: area ? [area] : [],
     locations,
   });
   return {
@@ -215,18 +217,24 @@ async function respondFromModel(
     tokensSaved: modelCall.meta.cacheHit ? measuredTokens : undefined,
   });
 
-  const area = normaliseArea(modelCall.value?.area);
-  if (area) {
-    const locations = normaliseLocation(modelCall.value?.location).filter(
-      (value) => detectInText(value, context.locationCatalog).length > 0,
-    );
+  const modelLocations = normaliseLocation(modelCall.value?.location).filter(
+    (value) => detectInText(value, context.locationCatalog).length > 0,
+  );
+  // Location-only ("study in melbourne") and area-only ("nursing") queries are
+  // real searches: keep whichever side we found, so a bare area returns results
+  // across every location instead of a suggestions-only response.
+  const area = normaliseArea(modelCall.value?.area) ?? tryAreaOnlyHit(text, context);
+  const locations =
+    modelLocations.length > 0 ? modelLocations : (tryLocationOnlyHit(text, context) ?? []);
+
+  if (area || locations.length > 0) {
     trace.setDecision({
       path: 'model',
       area,
       locations,
       ...resultCounts(context, area, locations),
     });
-    trace.setOutcome('model_hit', 'model_area');
+    trace.setOutcome('model_hit', area ? 'model_area' : 'model_location');
     return Response.json({ area, locations, suggestions: [], usedModel: true });
   }
 

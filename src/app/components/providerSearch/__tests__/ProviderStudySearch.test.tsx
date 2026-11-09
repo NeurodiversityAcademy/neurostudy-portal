@@ -239,6 +239,46 @@ describe('ProviderStudySearch', () => {
     expect(pushMock).not.toHaveBeenCalled();
   });
 
+  it('navigates on a location-only answer such as "study in melbourne"', async () => {
+    const user = userEvent.setup();
+    (global as typeof globalThis & { fetch: jest.Mock }).fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ area: null, locations: ['Melbourne', 'VIC'] }),
+    });
+
+    render(
+      <ProviderStudySearch surface='homepage' interestAreaOptions={[]} locationOptions={[]} />,
+    );
+
+    await user.type(screen.getByPlaceholderText('E.g. Nursing in melbourne'), 'study in melbourne');
+    await user.click(screen.getByRole('button', { name: 'Ask' }));
+
+    await waitFor(() => {
+      expect(pushMock).toHaveBeenCalledWith('/search?Location=Melbourne&Location=VIC');
+    });
+    expect(screen.queryByRole('status')).not.toBeInTheDocument();
+  });
+
+  it('navigates on an area-only answer such as "nursing"', async () => {
+    const user = userEvent.setup();
+    (global as typeof globalThis & { fetch: jest.Mock }).fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ area: 'Nursing', locations: [] }),
+    });
+
+    render(
+      <ProviderStudySearch surface='homepage' interestAreaOptions={[]} locationOptions={[]} />,
+    );
+
+    await user.type(screen.getByPlaceholderText('E.g. Nursing in melbourne'), 'nursing');
+    await user.click(screen.getByRole('button', { name: 'Ask' }));
+
+    await waitFor(() => {
+      expect(pushMock).toHaveBeenCalledWith('/search?InterestArea=Nursing');
+    });
+    expect(screen.queryByRole('status')).not.toBeInTheDocument();
+  });
+
   it('shows active filter chips under the Ask bar when defaults are supplied', () => {
     render(
       <ProviderStudySearch

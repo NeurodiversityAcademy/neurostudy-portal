@@ -3,15 +3,15 @@ import path from 'node:path';
 import { loadProviderSearchContext, type ProviderSearchContext } from '../catalog';
 import { buildProviderRankSignals } from '../providerRankingSignals';
 import { countProviderSearchResults, searchProvidersByFilters } from '../searchProviders';
-import { classifyOutOfScope, tryKeywordHit } from '../assist/parse';
+import { classifyOutOfScope, tryAreaOnlyHit, tryKeywordHit } from '../assist/parse';
 import { callModelWithMeta, type AssistModelOutcome } from '../assist/llm';
 import { buildAssistSystemPrompt, buildUserMessage } from '../assist/prompt';
 
 export type EvalMode = 'offline' | 'live';
-export type EvalCategory = 'keyword' | 'model' | 'location' | 'offtopic';
+export type EvalCategory = 'keyword' | 'model' | 'location' | 'area' | 'offtopic';
 
 export type GoldenExpectation = {
-  outcome: 'keyword' | 'model' | 'location' | 'refusal';
+  outcome: 'keyword' | 'model' | 'location' | 'area' | 'refusal';
   area: string | null;
   /** Live-model extraction accepts any of these labels (catalog aliases). */
   acceptAreas?: string[];
@@ -72,6 +72,7 @@ export type EvalReport = {
   metrics: {
     extractionAccuracy: MetricResult;
     keywordHitRate: MetricResult;
+    areaHitRate: MetricResult;
     refusalAccuracy: MetricResult;
     zeroResultRate: MetricResult;
     top3Rate: MetricResult;
@@ -90,6 +91,8 @@ export const THRESHOLDS = {
   top3Rate: 0.85,
   refusalAccuracy: 1,
   keywordHitRate: 1,
+  /** Fraction of area-only queries that resolve an area and return providers. */
+  areaHitRate: 1,
   /** Fraction of searchable cases that return no providers. */
   zeroResultRate: 0,
 } as const;
@@ -210,6 +213,29 @@ function evaluateLocation(c: GoldenCase, hit: ReturnType<typeof tryKeywordHit>, 
     : fail(c, checks, `results ${result.count} for ${locations.join(', ')}`, result.count);
 }
 
+function evaluateArea(
+  c: GoldenCase,
+  hit: ReturnType<typeof tryKeywordHit>,
+  lookup: Lookup,
+  context: ProviderSearchContext,
+) {
+  const expected = c.expect.area ?? '';
+  const detected = tryAreaOnlyHit(c.query, context);
+  const areaOk = detected !== null && normalise(detected) === normalise(expected);
+  const result = lookup(detected ?? expected, []);
+  const nonEmpty = result.count >= (c.expect.minResults ?? 1);
+  const checks: CaseChecks = { reachesModel: hit === null, area: areaOk, nonEmpty };
+  const passed = hit === null && areaOk && nonEmpty;
+  return passed
+    ? pass(c, checks, result.count)
+    : fail(
+        c,
+        checks,
+        `detected=${detected ?? 'null'}, keyword=${String(hit !== null)}, results ${result.count}`,
+        result.count,
+      );
+}
+
 function evaluateRefusal(
   c: GoldenCase,
   hit: ReturnType<typeof tryKeywordHit>,
@@ -311,6 +337,9 @@ async function evaluateCase(
   if (c.category === 'location') {
     return evaluateLocation(c, hit, lookup);
   }
+  if (c.category === 'area') {
+    return evaluateArea(c, hit, lookup, context);
+  }
   return evaluateModelCase(c, hit, lookup, context, mode, live);
 }
 
@@ -336,6 +365,7 @@ export async function runEvals(options: {
   }
 
   const keywordCases = cases.filter((c) => c.category === 'keyword');
+  const areaCases = cases.filter((c) => c.category === 'area');
   const modelCases = cases.filter((c) => c.category === 'model');
   const searchable = cases.filter((c) => c.resultCount !== undefined);
   const labelled = cases.filter((c) => c.checks.top3 !== undefined);
@@ -352,6 +382,12 @@ export async function runEvals(options: {
       keywordCases.map((c) => c.checks.keywordMatch === true),
       THRESHOLDS.keywordHitRate,
       (rate) => rate >= THRESHOLDS.keywordHitRate,
+    ),
+    areaHitRate: metric(
+      'area-only routing',
+      areaCases.map((c) => c.checks.area === true && c.checks.nonEmpty === true),
+      THRESHOLDS.areaHitRate,
+      (rate) => rate >= THRESHOLDS.areaHitRate,
     ),
     refusalAccuracy: metric(
       'scope/refusal accuracy',
@@ -429,6 +465,7 @@ export function formatReport(report: EvalReport): string {
   const metricRows = [
     report.metrics.extractionAccuracy,
     report.metrics.keywordHitRate,
+    report.metrics.areaHitRate,
     report.metrics.refusalAccuracy,
     report.metrics.zeroResultRate,
     report.metrics.top3Rate,
@@ -438,7 +475,7 @@ export function formatReport(report: EvalReport): string {
     '',
     `- Mode: **${report.mode}**`,
     `- Run: ${report.startedAt}`,
-    `- Golden set: \`${report.goldenPath}\` (${report.cases.length} cases: ${report.counts.keyword} keyword, ${report.counts.model} model/synonym, ${report.counts.location} location-only, ${report.counts.offtopic} off-topic/injection)`,
+    `- Golden set: \`${report.goldenPath}\` (${report.cases.length} cases: ${report.counts.keyword} keyword, ${report.counts.model} model/synonym, ${report.counts.location} location-only, ${report.counts.area} area-only, ${report.counts.offtopic} off-topic/injection)`,
     '',
     ...renderTable(['Metric', 'Result', 'Threshold', 'Status'], metricRows),
     '',

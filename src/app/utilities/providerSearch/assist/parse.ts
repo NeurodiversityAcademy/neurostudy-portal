@@ -134,6 +134,56 @@ export function expandLocations(location: string, catalog: string[]): string[] {
   ]);
 }
 
+/**
+ * Location-only search, e.g. "study in melbourne".
+ *
+ * Deliberately separate from `tryKeywordHit`: the eval contract requires
+ * location-only queries to reach the model (`hit === null`), so this is used
+ * as the route's fallback when the model finds no area or location.
+ */
+export function tryLocationOnlyHit(text: string, ctx: ProviderSearchContext): string[] | null {
+  const locations = detectInText(text, ctx.locationCatalog);
+  if (locations.length !== 1) {
+    return null;
+  }
+
+  return expandLocations(locations[0], ctx.locationCatalog);
+}
+
+/**
+ * Area-only search, e.g. "nursing": results for every location.
+ *
+ * Only exact catalog labels and whole-word aliases count, so partial input
+ * such as "nurs" still falls through to suggestions instead of results.
+ */
+export function tryAreaOnlyHit(text: string, ctx: ProviderSearchContext): string | null {
+  const haystack = normalizeSearchToken(text);
+  const exact = ctx.interestAreaCatalog.filter((area) => {
+    const needle = normalizeSearchToken(area);
+    return (
+      needle.length >= 3 &&
+      new RegExp(`(^|[^a-z0-9])${escapeRegExp(needle)}([^a-z0-9]|$)`).test(haystack)
+    );
+  });
+  if (exact.length > 0) {
+    return exact.length === 1 ? exact[0] : null;
+  }
+
+  const words = new Set(haystack.split(/[^a-z0-9]+/).filter(Boolean));
+  const aliased = uniqueSortedStrings(
+    Object.entries(FUZZY_AREA_ALIASES)
+      .filter(([alias]) => words.has(normalizeSearchToken(alias)))
+      .flatMap(([, candidates]) =>
+        candidates.filter((candidate) =>
+          ctx.interestAreaCatalog.some(
+            (area) => normalizeSearchToken(area) === normalizeSearchToken(candidate),
+          ),
+        ),
+      ),
+  );
+  return aliased.length === 1 ? aliased[0] : null;
+}
+
 export function tryKeywordHit(
   text: string,
   ctx: ProviderSearchContext,

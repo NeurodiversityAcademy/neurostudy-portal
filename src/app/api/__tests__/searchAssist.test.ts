@@ -21,6 +21,8 @@ jest.mock('@/app/utilities/providerSearch/catalog', () => ({
 
 jest.mock('@/app/utilities/providerSearch/assist/parse', () => ({
   tryKeywordHit: jest.fn(),
+  tryAreaOnlyHit: jest.fn(() => null),
+  tryLocationOnlyHit: jest.fn(() => null),
   classifyOutOfScope: jest.fn(() => null),
   isOutOfScope: jest.fn(() => false),
   suggestAreas: jest.fn(() => []),
@@ -45,7 +47,9 @@ import {
   classifyOutOfScope,
   detectInText,
   suggestAreas,
+  tryAreaOnlyHit,
   tryKeywordHit,
+  tryLocationOnlyHit,
 } from '@/app/utilities/providerSearch/assist/parse';
 import { POST } from '@/app/api/search/assist/route';
 
@@ -95,6 +99,8 @@ describe('POST /api/search/assist', () => {
       bypassed: false,
     });
     jest.mocked(tryKeywordHit).mockReturnValue(null);
+    jest.mocked(tryAreaOnlyHit).mockReturnValue(null);
+    jest.mocked(tryLocationOnlyHit).mockReturnValue(null);
     jest.mocked(classifyOutOfScope).mockReturnValue(null);
     jest.mocked(callModelWithMeta).mockResolvedValue(modelCall(null));
   });
@@ -269,6 +275,65 @@ describe('POST /api/search/assist', () => {
       locations: [],
       suggestions: ['Design'],
       usedModel: false,
+    });
+  });
+
+  it('keeps a location-only answer so "study in melbourne" returns results', async () => {
+    jest
+      .mocked(callModelWithMeta)
+      .mockResolvedValueOnce(modelCall({ area: null, location: 'Melbourne' }));
+    jest.mocked(detectInText).mockReturnValueOnce(['Melbourne']);
+
+    const response = await POST(makeRequest({ text: 'study in melbourne' }));
+
+    expect(await response.json()).toEqual({
+      area: null,
+      locations: ['Melbourne'],
+      suggestions: [],
+      usedModel: true,
+    });
+  });
+
+  it('keeps a model area with no location so results cover every location', async () => {
+    jest
+      .mocked(callModelWithMeta)
+      .mockResolvedValueOnce(modelCall({ area: 'Business', location: null }));
+
+    const response = await POST(makeRequest({ text: 'business' }));
+
+    expect(await response.json()).toEqual({
+      area: 'Business',
+      locations: [],
+      suggestions: [],
+      usedModel: true,
+    });
+  });
+
+  it('keeps an area-only answer so "nursing" searches every location', async () => {
+    jest.mocked(callModelWithMeta).mockResolvedValueOnce(modelCall({ area: null, location: null }));
+    jest.mocked(tryAreaOnlyHit).mockReturnValueOnce('Nursing');
+
+    const response = await POST(makeRequest({ text: 'nursing' }));
+
+    expect(await response.json()).toEqual({
+      area: 'Nursing',
+      locations: [],
+      suggestions: [],
+      usedModel: true,
+    });
+  });
+
+  it('detects the location when the model returns nothing for a location-only query', async () => {
+    jest.mocked(callModelWithMeta).mockResolvedValueOnce(modelCall({ area: null, location: null }));
+    jest.mocked(tryLocationOnlyHit).mockReturnValueOnce(['Melbourne', 'VIC']);
+
+    const response = await POST(makeRequest({ text: 'study in melbourne' }));
+
+    expect(await response.json()).toEqual({
+      area: null,
+      locations: ['Melbourne', 'VIC'],
+      suggestions: [],
+      usedModel: true,
     });
   });
 });

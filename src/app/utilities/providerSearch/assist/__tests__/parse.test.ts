@@ -4,7 +4,9 @@ import {
   expandLocations,
   isOutOfScope,
   suggestAreas,
+  tryAreaOnlyHit,
   tryKeywordHit,
+  tryLocationOnlyHit,
 } from '../parse';
 
 const catalog = {
@@ -156,5 +158,41 @@ describe('tryKeywordHit', () => {
 
   it('returns null when several locations match', () => {
     expect(tryKeywordHit('nursing in melbourne and sydney', context())).toBeNull();
+  });
+});
+
+describe('tryAreaOnlyHit', () => {
+  it('resolves a bare catalog area so results cover every location', () => {
+    expect(tryAreaOnlyHit('nursing', context())).toBe('Nursing');
+    expect(tryAreaOnlyHit('nursing courses', context())).toBe('Nursing');
+    expect(tryAreaOnlyHit('nursing in melbourne', context())).toBe('Nursing');
+  });
+
+  it('leaves partial input and locations to the suggestion path', () => {
+    expect(tryAreaOnlyHit('nurs', context())).toBeNull();
+    expect(tryAreaOnlyHit('melbourne', context())).toBeNull();
+    expect(tryAreaOnlyHit('zzz', context())).toBeNull();
+  });
+
+  it('returns null when an alias points at several areas', () => {
+    expect(tryAreaOnlyHit('film', context())).toBeNull();
+  });
+});
+
+describe('tryLocationOnlyHit', () => {
+  it('resolves a location-only query such as "study in melbourne"', () => {
+    expect(tryLocationOnlyHit('study in melbourne', context())).toEqual([
+      'Geelong',
+      'Melbourne',
+      'VIC',
+    ]);
+  });
+
+  it('returns null without a recognised location', () => {
+    expect(tryLocationOnlyHit('study', context())).toBeNull();
+  });
+
+  it('returns null when several locations match', () => {
+    expect(tryLocationOnlyHit('melbourne and sydney', context())).toBeNull();
   });
 });
