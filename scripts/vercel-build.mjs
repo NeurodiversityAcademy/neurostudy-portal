@@ -23,9 +23,26 @@ const staticQuality = async () => {
   console.log('[quality] static checks passed');
 };
 
+/**
+ * `next build`'s type-check step needs more than Node's default old-space limit
+ * on this project: at ~2 GB it dies with "Failed to type check" after a
+ * Mark-Compact allocation failure. Raise the heap for the build process only.
+ */
+const BUILD_HEAP_MB = 4096;
+
+const buildNodeOptions = () => {
+  const current = process.env.NODE_OPTIONS ?? '';
+  if (current.includes('--max-old-space-size')) {
+    return current;
+  }
+  return `${current} --max-old-space-size=${BUILD_HEAP_MB}`.trim();
+};
+
 const buildLane = async () => {
-  console.log('[build] next build…');
-  await runCommand('npx', ['next', 'build']);
+  console.log(`[build] next build… (heap ${BUILD_HEAP_MB} MB)`);
+  await runCommand('npx', ['next', 'build'], {
+    env: { NODE_OPTIONS: buildNodeOptions() },
+  });
   console.log('[build] passed');
 };
 
