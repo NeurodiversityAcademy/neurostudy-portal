@@ -34,17 +34,16 @@ describe('callModel', () => {
 
   beforeEach(() => {
     resetAssistModelCacheForTests();
-    process.env = {
-      ...originalEnv,
+    process.env = { ...originalEnv };
+    // A developer shell with ASSIST_* exported must not change these assertions.
+    for (const key of ENV_KEYS) {
+      delete process.env[key];
+    }
+    Object.assign(process.env, {
       ASSIST_API_URL: 'https://example.test/chat',
       ASSIST_API_KEY: 'test-key',
       ASSIST_MODEL: 'test-model',
-    };
-    for (const key of ENV_KEYS) {
-      if (process.env[key] === undefined) {
-        delete process.env[key];
-      }
-    }
+    });
   });
 
   afterEach(() => {

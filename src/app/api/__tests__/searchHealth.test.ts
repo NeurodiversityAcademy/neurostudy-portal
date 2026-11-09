@@ -20,12 +20,28 @@ function makeRequest(headers: Record<string, string> = {}): NextRequest {
   return new NextRequest(new URL('http://localhost:3000/api/search/health'), { headers });
 }
 
+// Ambient values from a configured dev shell must not change the probe payload.
+const ENV_KEYS_TO_CLEAR = [
+  'ASSIST_API_URL',
+  'ASSIST_API_KEY',
+  'ASSIST_MODEL',
+  'ASSIST_AUTH_HEADER',
+  'ASSIST_JSON_MODE',
+  'ASSIST_TEMPERATURE',
+  'ASSIST_MAX_TOKENS_PARAM',
+  'ASSIST_CACHE',
+  'SEARCH_HEALTH_TOKEN',
+];
+
 describe('GET /api/search/health', () => {
   const originalEnv = process.env;
 
   beforeEach(() => {
     jest.clearAllMocks();
     process.env = { ...originalEnv };
+    for (const key of ENV_KEYS_TO_CLEAR) {
+      delete process.env[key];
+    }
     jest.mocked(consumeRateWithIp).mockResolvedValue({ ip: '127.0.0.1', data: {} });
     jest.mocked(tryKeywordHit).mockReturnValue({
       area: 'Nursing',
