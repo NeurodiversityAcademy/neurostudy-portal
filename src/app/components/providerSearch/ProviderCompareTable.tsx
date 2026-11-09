@@ -15,6 +15,13 @@ function valueOrDash(value: number | null): string {
   return value === null ? '—' : String(value);
 }
 
+function typeLabel(type: string): string {
+  if (type === 'higherEducation') {
+    return 'Higher education';
+  }
+  return type;
+}
+
 export default function ProviderCompareTable({
   providers,
 }: {
@@ -54,7 +61,7 @@ export default function ProviderCompareTable({
           <tr>
             <th scope='row'>Type</th>
             {providers.map((provider) => (
-              <td key={provider.slug}>{provider.type}</td>
+              <td key={provider.slug}>{typeLabel(provider.type)}</td>
             ))}
           </tr>
           <tr>

@@ -14,8 +14,6 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 1rem;
-  border-top: 1px solid color-mix(in srgb, var(--BondBlack) 14%, transparent);
-  padding-top: 1.5rem;
 }
 
 .heading {
@@ -71,6 +69,28 @@
   flex-wrap: wrap;
   gap: 0.5rem;
   width: 100%;
+}
+
+.panelFooter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+}
+
+.rankingLink {
+  margin-left: auto;
+  font-family: var(--poppins-font);
+  font-size: var(--body2-font-size);
+  color: var(--cherryPieVariant);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.rankingLink:focus-visible {
+  outline: 2px solid var(--cherryPieVariant);
+  outline-offset: 2px;
 }
 
 .legendRow {
@@ -285,7 +305,6 @@
 }
 
 .secondaryButton {
-  align-self: flex-start;
   padding: 0.6rem 1.1rem;
   background: transparent;
   color: var(--cherryPieVariant);

@@ -32,6 +32,7 @@ type ShortlistGateProps = {
     ndaCertified?: boolean;
   }>;
   filters: ProviderSearchFilters;
+  rankingHref?: string;
 };
 
 const EMERGING_STATE_TINT_CLASS: Record<string, string> = {
@@ -137,7 +138,34 @@ function ProviderSelectionList({ providers, selected, onToggle }: ProviderSelect
   );
 }
 
-export default function ShortlistGate({ enabled, providers }: ShortlistGateProps) {
+type PanelFooterProps = {
+  showClear: boolean;
+  onClear: () => void;
+  rankingHref?: string;
+};
+
+function PanelFooter({ showClear, onClear, rankingHref }: PanelFooterProps) {
+  if (!showClear && !rankingHref) {
+    return null;
+  }
+
+  return (
+    <div className={styles.panelFooter}>
+      {showClear ? (
+        <button type='button' className={styles.secondaryButton} onClick={onClear}>
+          Clear selection
+        </button>
+      ) : null}
+      {rankingHref ? (
+        <Link className={styles.rankingLink} href={rankingHref}>
+          How we rank providers
+        </Link>
+      ) : null}
+    </div>
+  );
+}
+
+export default function ShortlistGate({ enabled, providers, rankingHref }: ShortlistGateProps) {
   const [selected, setSelected] = useState<string[]>([]);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<ShortlistMessage | null>(null);
@@ -228,8 +256,7 @@ export default function ShortlistGate({ enabled, providers }: ShortlistGateProps
             Compare providers side by side
           </h2>
           <p className={styles.subheading}>
-            Select up to three providers and the comparison will stay on the page as the main
-            content.
+            Select two or three providers to compare them side by side below.
           </p>
         </div>
       </div>
@@ -254,7 +281,10 @@ export default function ShortlistGate({ enabled, providers }: ShortlistGateProps
             <span className={styles.selectionSummary}>Loading comparison…</span>
           ) : selected.length > 0 ? (
             <span className={styles.selectionSummary}>
-              {selected.length}/{Math.min(MAX_SELECTED, providers.length)} selected
+              {`${selected.length} of ${providers.length} providers selected (max ${Math.min(
+                MAX_SELECTED,
+                providers.length,
+              )})`}
             </span>
           ) : (
             <span className={styles.selectionSummary}>Select at least two providers</span>
@@ -277,19 +307,18 @@ export default function ShortlistGate({ enabled, providers }: ShortlistGateProps
         {compare ? (
           <div className={styles.compareWrap}>
             <ProviderCompareTable providers={compare} />
-            <button
-              type='button'
-              className={styles.secondaryButton}
-              onClick={() => {
-                setSelected([]);
-                setCompare(null);
-                setMessage(null);
-              }}
-            >
-              Clear selection
-            </button>
           </div>
         ) : null}
+
+        <PanelFooter
+          showClear={compare !== null}
+          onClear={() => {
+            setSelected([]);
+            setCompare(null);
+            setMessage(null);
+          }}
+          rankingHref={rankingHref}
+        />
       </div>
     </section>
   );

@@ -61,6 +61,7 @@
   flex: 1;
   max-width: 75%;
   min-height: 32px;
+  box-sizing: border-box;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   padding: 0.35rem 0.7rem;
@@ -184,11 +185,19 @@
 /* Phone + narrow tablet: stack fields so chips and placeholders stay readable */
 @media (max-width: 768px) {
   .assistControls {
+    flex-direction: column;
     gap: 8px;
   }
 
   .askInput {
+    width: 100%;
     max-width: none;
+  }
+
+  /* Full-width input, then a content-width button on its own line */
+  .assistControls .askButton {
+    width: auto;
+    align-self: flex-start;
   }
 
   .compact .searchBarShell {

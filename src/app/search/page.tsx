@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import Typography, { TypographyVariant } from '@/app/components/typography/Typography';
 import { TypographyColorToken } from '@/app/components/typography/typographyColorToken';
 import ProviderStudySearch from '@/app/components/providerSearch/ProviderStudySearch';
@@ -119,30 +118,17 @@ export default async function ProviderSearchPage({ searchParams }: SearchPagePro
             recommendationsEnabled={recommendationsEnabled}
             countWithEvidence={countWithEvidence}
           />
-          <div className={styles.resultsSummary}>
-            <Typography
-              variant={TypographyVariant.Body2}
-              color={TypographyColorToken.BondBlack}
-              className={styles.summary}
-            >
-              {totalCount === 1 ? '1 provider found' : `${totalCount} providers found`}
-            </Typography>
-            {recommendationsEnabled ? (
-              <Link className={styles.rankingLink} href='/how-we-rank'>
-                How we rank providers
-              </Link>
-            ) : null}
-          </div>
-          <ProviderSearchFeedback
-            filters={filters}
-            resultCount={totalCount}
-            surface='search_page'
-          />
           <ShortlistGate
             key={JSON.stringify([filters.interestAreas, filters.locations, searchDemo])}
             enabled={isLeadCaptureEnabled()}
             providers={shortlistProviders}
             filters={filters}
+            rankingHref={recommendationsEnabled ? '/how-we-rank' : undefined}
+          />
+          <ProviderSearchFeedback
+            filters={filters}
+            resultCount={totalCount}
+            surface='search_page'
           />
         </div>
       )}

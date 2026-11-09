@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ProviderStudySearch from '../ProviderStudySearch';
 
@@ -112,6 +112,37 @@ describe('ProviderStudySearch', () => {
     expect(screen.getByLabelText('What would you like to study?')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('E.g. Nursing in melbourne')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Ask' })).toBeEnabled();
+  });
+
+  it('focuses the Ask input when autoFocus is set', () => {
+    render(
+      <ProviderStudySearch
+        autoFocus
+        surface='homepage'
+        interestAreaOptions={[]}
+        locationOptions={[]}
+      />,
+    );
+
+    expect(screen.getByLabelText('What would you like to study?')).toHaveFocus();
+  });
+
+  it('re-runs the active filters on submit when the Ask input is empty', async () => {
+    render(
+      <ProviderStudySearch
+        surface='search_page'
+        interestAreaOptions={[]}
+        locationOptions={[]}
+        defaultInterestAreas={['Nursing']}
+        defaultLocations={['Melbourne']}
+      />,
+    );
+
+    fireEvent.submit(screen.getByLabelText('What would you like to study?').closest('form')!);
+
+    await waitFor(() => {
+      expect(pushMock).toHaveBeenCalledWith('/search?InterestArea=Nursing&Location=Melbourne');
+    });
   });
 
   it('submits natural-language queries and tracks GA', async () => {

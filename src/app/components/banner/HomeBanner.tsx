@@ -75,6 +75,7 @@ function BannerSearch({
     <ProviderStudySearch
       className={styles.form}
       compact
+      autoFocus
       surface='homepage'
       interestAreaOptions={interestAreaOptions}
       locationOptions={locationOptions}

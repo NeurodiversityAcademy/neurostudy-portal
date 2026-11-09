@@ -26,7 +26,25 @@ export type ProviderStudySearchProps = HTMLAttributes<HTMLDivElement> & {
   surface: ProviderSearchSurface;
   searchDemo?: boolean;
   compact?: boolean;
+  autoFocus?: boolean;
 };
+
+function buildSelectedFilters(interestAreas: string[], locations: string[]) {
+  return [
+    ...interestAreas.map((value) => ({
+      key: `interest-${value}`,
+      value,
+      label: value,
+      field: 'InterestArea' as const,
+    })),
+    ...locations.map((value) => ({
+      key: `location-${value}`,
+      value,
+      label: value,
+      field: 'Location' as const,
+    })),
+  ];
+}
 
 const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
   className,
@@ -38,6 +56,7 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
   surface,
   searchDemo = false,
   compact = false,
+  autoFocus = false,
   ...rest
 }) => {
   const router = useRouter();
@@ -64,20 +83,7 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
       name: 'Location',
       defaultValue: defaultLocations,
     }) ?? defaultLocations;
-  const selectedFilters = [
-    ...selectedInterestAreas.map((value) => ({
-      key: `interest-${value}`,
-      value,
-      label: value,
-      field: 'InterestArea' as const,
-    })),
-    ...selectedLocations.map((value) => ({
-      key: `location-${value}`,
-      value,
-      label: value,
-      field: 'Location' as const,
-    })),
-  ];
+  const selectedFilters = buildSelectedFilters(selectedInterestAreas, selectedLocations);
 
   function removeFilter(field: 'InterestArea' | 'Location', filterValue: string) {
     const currentValues = methods.getValues(field) ?? [];
@@ -88,9 +94,32 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
     });
   }
 
+  function submitActiveFilters(): void {
+    if (selectedInterestAreas.length === 0 && selectedLocations.length === 0) {
+      return;
+    }
+
+    trackProviderSearchSubmit({
+      surface,
+      interestAreas: selectedInterestAreas,
+      locations: selectedLocations,
+      mode: 'quick',
+    });
+    router.push(
+      buildProviderSearchHref(
+        { interestAreas: selectedInterestAreas, locations: selectedLocations },
+        { searchDemo },
+      ),
+    );
+  }
+
   async function handleAssistSearch(): Promise<void> {
     const trimmed = askQuery.trim();
+
     if (!trimmed) {
+      // Enter with no question still re-runs the active filters, as the old
+      // area/location form did before the Ask bar replaced it.
+      submitActiveFilters();
       return;
     }
 
@@ -144,6 +173,7 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
             <input
               id='provider-search-ask'
               className={styles.askInput}
+              autoFocus={autoFocus}
               value={askQuery}
               onChange={(event) => setAskQuery(event.target.value)}
               placeholder='E.g. Nursing in melbourne'

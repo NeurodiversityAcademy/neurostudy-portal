@@ -50,7 +50,7 @@ describe('ShortlistGate', () => {
     await user.click(screen.getByRole('link', { name: 'Holmes Institute' }));
 
     expect(screen.getByText('You can compare up to three providers.')).toBeInTheDocument();
-    expect(screen.getByText('3/3 selected')).toBeInTheDocument();
+    expect(screen.getByText('3 of 4 providers selected (max 3)')).toBeInTheDocument();
   });
 
   it('loads the comparison as soon as two provider pills are selected', async () => {
