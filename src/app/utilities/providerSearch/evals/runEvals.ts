@@ -97,7 +97,7 @@ export const THRESHOLDS = {
   zeroResultRate: 0,
 } as const;
 
-const GOLDEN_PATH = 'docs/evals/golden-search.json';
+const GOLDEN_PATH = 'src/app/utilities/providerSearch/evals/golden-search.json';
 const LATEST_REPORT_PATH = 'docs/evals/latest.md';
 const RETRYABLE = new Set<AssistModelOutcome>(['http_error', 'timeout', 'error']);
 const MAX_ATTEMPTS = 3;

@@ -3,8 +3,8 @@ export type ShortlistVerifyStatus = 'pending' | 'verified' | 'bounced';
 /**
  * HubSpot contact properties used by the shortlist flow.
  *
- * These must exist as custom contact properties before the route is enabled
- * (see docs/phase2-handover.md T0.1). HubSpot rejects unknown properties.
+ * These must exist as custom contact properties before the route is enabled.
+ * HubSpot rejects unknown properties.
  */
 export interface ShortlistCRMContact {
   email: string;

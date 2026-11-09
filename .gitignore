@@ -55,3 +55,6 @@ scripts/.mplconfig/
 # Local-only files (kept on disk, never committed)
 /cookies.txt
 /src/app/tamsin-jowett.png
+
+# Documentation folder (generated eval reports live here; never committed)
+/docs
