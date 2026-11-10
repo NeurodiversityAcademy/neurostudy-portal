@@ -231,6 +231,26 @@
   border-color: rgba(111, 87, 185, 0.42);
 }
 
+/* Each pill is a link to the provider's page, so it needs affordance. */
+.providerPillLink {
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    border-color 150ms ease;
+}
+
+.providerPillLink:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgb(0 0 0 / 0.1);
+}
+
+.providerPillLink:focus-visible {
+  outline: 2px solid var(--cherryPie);
+  outline-offset: 2px;
+}
+
 .providerPillBody {
   display: flex;
   flex-direction: column;

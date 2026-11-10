@@ -11,6 +11,7 @@ import {
   isBotIdGateEnabled,
 } from '@/app/utilities/botid/verificationCookie';
 import ProviderSearchResults from '@/app/components/providerSearch/ProviderSearchResults';
+import ProviderStudySearch from '@/app/components/providerSearch/ProviderStudySearch';
 import SearchVerification from '@/app/components/providerSearch/SearchVerification';
 import Page from '../page';
 
@@ -68,9 +69,46 @@ describe('Provider search page', () => {
   it('renders the provider matching an area and location query', async () => {
     const results = await renderPageResults(MATCHING_QUERY);
 
-    expect(results.props.totalCount).toBe(1);
+    expect(results.props.totalCount).toBeGreaterThan(0);
     expect(screen.getByText('Nepean Community College')).toBeInTheDocument();
     expect(screen.queryByText('No providers matched your search')).not.toBeInTheDocument();
+  });
+
+  it('surfaces state-tagged providers for a city search, like the assist bar does', async () => {
+    const results = await renderPageResults({ Location: 'Melbourne' });
+
+    // A city-only filter used to match only providers tagged with that city,
+    // hiding every VIC emerging provider.
+    expect(results.props.totalCount).toBeGreaterThan(1);
+    expect(screen.getByText('Collarts')).toBeInTheDocument();
+    expect(screen.getByText('Deakin University')).toBeInTheDocument();
+  });
+
+  it('remounts the search form for a new query so its filters match the URL', async () => {
+    const formFor = async (searchParams: Record<string, string>) => {
+      const page = await Page({ searchParams: Promise.resolve(searchParams) });
+      const form = findElement(page, (element) => element.type === ProviderStudySearch);
+      expect(form).not.toBeNull();
+      return form as WalkableElement;
+    };
+
+    const melbourne = await formFor({ Location: 'Melbourne' });
+    const perth = await formFor({ Location: 'Perth' });
+
+    // A stale mount keeps the old pills and would resubmit the old search.
+    expect(melbourne.props.defaultLocations).toEqual(expect.arrayContaining(['Melbourne', 'VIC']));
+    expect(perth.props.defaultLocations).toEqual(expect.arrayContaining(['Perth', 'WA']));
+    expect(melbourne.key).not.toBe(perth.key);
+  });
+
+  it('links each result to the provider page', async () => {
+    await renderPageResults({ Location: 'Melbourne' });
+
+    expect(screen.getByRole('link', { name: 'View Collarts' })).toHaveAttribute(
+      'href',
+      '/endorsedproviders/collarts',
+    );
+    expect(screen.getByRole('link', { name: 'View Deakin University' })).toBeInTheDocument();
   });
 
   it('renders the empty state, not a blank page, when nothing matches', async () => {

@@ -191,7 +191,69 @@ describe('ProviderSearchResults', () => {
     expect(screen.queryByText('43 supports in place · 8 in the works')).not.toBeInTheDocument();
   });
 
-  it('keeps shallow pills compact and hides links until the gate is unlocked', () => {
+  it('links each pill to its provider page', () => {
+    const results = emptyResults();
+    results.course_endorsed = [
+      {
+        kind: 'endorsed',
+        slug: 'collarts',
+        name: 'Collarts',
+        interestAreas: ['Music'],
+        locations: ['Melbourne'],
+        ndaCertified: false,
+        hasPromotedCourses: true,
+      },
+    ];
+    results.endorsed = [
+      {
+        kind: 'endorsed',
+        slug: 'nepean-community-college',
+        name: 'Nepean Community College',
+        interestAreas: [],
+        locations: ['Sydney'],
+        ndaCertified: true,
+        hasPromotedCourses: false,
+      },
+    ];
+    results.emerging = [
+      {
+        kind: 'emerging',
+        slug: 'jazz-music-institute',
+        name: 'Jazz Music Institute',
+        interestAreas: ['Music'],
+        locations: ['QLD'],
+        ndaCertified: false,
+        hasPromotedCourses: false,
+        emergingState: 'QLD',
+      },
+    ];
+
+    render(
+      <ProviderSearchResults
+        results={results}
+        filters={{ interestAreas: [], locations: [] }}
+        searchDemo={false}
+        totalCount={3}
+      />,
+    );
+
+    // Course-endorsed goes to courses, plain endorsed to the detail page,
+    // emerging to its profile.
+    expect(screen.getByRole('link', { name: 'View Collarts' })).toHaveAttribute(
+      'href',
+      '/endorsedproviders/collarts/courses',
+    );
+    expect(screen.getByRole('link', { name: 'View Nepean Community College' })).toHaveAttribute(
+      'href',
+      '/endorsedproviders/nepean-community-college',
+    );
+    expect(screen.getByRole('link', { name: 'View Jazz Music Institute' })).toHaveAttribute(
+      'href',
+      '/emergingproviders/jazz-music-institute',
+    );
+  });
+
+  it('keeps shallow pills compact and hides evidence notes until the gate is unlocked', () => {
     const results = emptyResults();
     results.endorsed = [
       {
@@ -218,7 +280,7 @@ describe('ProviderSearchResults', () => {
 
     expect(screen.getByText('Nepean Community College')).toBeInTheDocument();
     expect(screen.queryByText('43 supports in place · 8 in the works')).not.toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: 'Explore More' })).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'View Nepean Community College' })).toBeInTheDocument();
   });
 
   it('does not invent emerging CTAs when the provider has no profile', () => {

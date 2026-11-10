@@ -1,6 +1,7 @@
 import { loadProviderSearchContext, type ProviderSearchContext } from './catalog';
 import { PROVIDER_SEARCH_QUERY, type ProviderSearchFilters } from './constants';
 import { isProviderSearchDemoEnabled } from './demoFlag';
+import { expandLocationValues } from './locationStates';
 import { parseMultiQueryParam, resolveSearchFilterValues } from './normalize';
 
 export type ProviderSearchPageParams = {
@@ -22,8 +23,13 @@ export function resolveProviderSearchFilters(searchParams: ProviderSearchPagePar
       parseMultiQueryParam(searchParams[PROVIDER_SEARCH_QUERY.INTEREST_AREA]),
       context.interestAreaCatalog,
     ),
-    locations: resolveSearchFilterValues(
-      parseMultiQueryParam(searchParams[PROVIDER_SEARCH_QUERY.LOCATION]),
+    // A city query must also reach state-tagged providers (and vice versa):
+    // "Melbourne" → Melbourne | VIC, matching what the assist bar produces.
+    locations: expandLocationValues(
+      resolveSearchFilterValues(
+        parseMultiQueryParam(searchParams[PROVIDER_SEARCH_QUERY.LOCATION]),
+        context.locationCatalog,
+      ),
       context.locationCatalog,
     ),
   };

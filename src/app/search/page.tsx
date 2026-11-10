@@ -90,6 +90,10 @@ export default async function ProviderSearchPage({ searchParams }: SearchPagePro
             </Typography>
           </header>
           <ProviderStudySearch
+            // The form reads its filters from props only on mount, so a new query
+            // must remount it; otherwise the pills keep the previous search and
+            // re-submitting runs that old search again.
+            key={JSON.stringify([filters.interestAreas, filters.locations, searchDemo])}
             className={styles.searchBannerForm}
             compact
             surface='search_page'

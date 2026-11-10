@@ -1,7 +1,12 @@
 'use client';
 
+import Link from 'next/link';
 import classNames from 'classnames';
 import Typography, { TypographyVariant } from '@/app/components/typography/Typography';
+import { hasEmergingProviderProfile } from '@/app/components/emergingInstitutions/emergingProviderProfileSlugs';
+import { buildEmergingProviderDetailHref } from '@/app/emergingproviders/emergingProviderMetadata';
+import { buildEndorsedProviderDetailHref } from '@/app/utilities/endorsedProvidersDemo';
+import { buildEndorsedCoursesHref } from '@/app/utilities/providerSearch/buildSearchHref';
 import { TypographyColorToken } from '@/app/components/typography/typographyColorToken';
 import {
   type ProviderSearchFilters,
@@ -71,31 +76,75 @@ function resolveProviderPillClassName(item: PositionedProviderSearchResult): str
   return classNames(styles.providerPill, styles.providerPillVerified);
 }
 
+/**
+ * Every result links to its provider page when one exists: endorsed providers
+ * to their detail (or courses) page, emerging providers to their profile.
+ * Emerging providers without a profile stay non-clickable rather than
+ * linking to a page that would 404.
+ */
+function resolveProviderHref(
+  item: PositionedProviderSearchResult,
+  searchDemo: boolean,
+): string | null {
+  if (item.provider.kind === 'emerging') {
+    return hasEmergingProviderProfile(item.provider.slug)
+      ? buildEmergingProviderDetailHref(item.provider.slug)
+      : null;
+  }
+
+  if (item.tier === 'course_endorsed') {
+    return buildEndorsedCoursesHref(item.provider.slug, { searchDemo });
+  }
+
+  return buildEndorsedProviderDetailHref(item.provider.slug, '') || null;
+}
+
 function renderProviderPill(
   item: PositionedProviderSearchResult,
+  searchDemo: boolean,
   rankReasons: Readonly<Record<string, string>>,
   detailsUnlocked: boolean,
 ) {
   const note = detailsUnlocked ? rankReasons[item.provider.slug] || undefined : undefined;
   const badge = resolveStudentExperienceTone(note);
+  const href = resolveProviderHref(item, searchDemo);
+  const pillClassName = resolveProviderPillClassName(item);
+  const key = `${item.tier}-${item.provider.slug}`;
+  const body = (
+    <div className={styles.providerPillBody}>
+      <span className={styles.providerName}>{item.provider.name}</span>
+      {badge ? (
+        <span className={classNames(styles.studentExperiencePill, badge.toneClassName)}>
+          <span>{badge.label}</span>
+          <strong>{badge.value}</strong>
+        </span>
+      ) : null}
+    </div>
+  );
+
+  if (!href) {
+    return (
+      <div className={pillClassName} key={key}>
+        {body}
+      </div>
+    );
+  }
 
   return (
-    <div className={resolveProviderPillClassName(item)} key={`${item.tier}-${item.provider.slug}`}>
-      <div className={styles.providerPillBody}>
-        <span className={styles.providerName}>{item.provider.name}</span>
-        {badge ? (
-          <span className={classNames(styles.studentExperiencePill, badge.toneClassName)}>
-            <span>{badge.label}</span>
-            <strong>{badge.value}</strong>
-          </span>
-        ) : null}
-      </div>
-    </div>
+    <Link
+      className={classNames(pillClassName, styles.providerPillLink)}
+      href={href}
+      key={key}
+      aria-label={`View ${item.provider.name}`}
+    >
+      {body}
+    </Link>
   );
 }
 
 export default function ProviderSearchResults({
   results,
+  searchDemo,
   totalCount,
   rankReasons = {},
   detailsUnlocked = false,
@@ -148,7 +197,7 @@ export default function ProviderSearchResults({
                 <span className={styles.stateTitle}>Verified</span>
                 <div className={styles.pillRow}>
                   {verifiedProviders.map((item) =>
-                    renderProviderPill(item, rankReasons, detailsUnlocked),
+                    renderProviderPill(item, searchDemo, rankReasons, detailsUnlocked),
                   )}
                 </div>
               </div>
@@ -157,7 +206,9 @@ export default function ProviderSearchResults({
               <div className={styles.stateRow} key={state}>
                 <span className={styles.stateTitle}>{state}</span>
                 <div className={styles.pillRow}>
-                  {items.map((item) => renderProviderPill(item, rankReasons, detailsUnlocked))}
+                  {items.map((item) =>
+                    renderProviderPill(item, searchDemo, rankReasons, detailsUnlocked),
+                  )}
                 </div>
               </div>
             ))}

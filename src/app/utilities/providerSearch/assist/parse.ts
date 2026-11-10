@@ -1,25 +1,13 @@
 import type { ProviderSearchContext } from '@/app/utilities/providerSearch/catalog';
 import {
+  CITY_TO_STATE,
+  listCitiesForState,
+  resolveLocationState,
+} from '@/app/utilities/providerSearch/locationStates';
+import {
   normalizeSearchToken,
   uniqueSortedStrings,
 } from '@/app/utilities/providerSearch/normalize';
-
-const CITY_TO_STATE: Record<string, string> = {
-  melbourne: 'VIC',
-  sydney: 'NSW',
-  brisbane: 'QLD',
-  perth: 'WA',
-  adelaide: 'SA',
-  newcastle: 'NSW',
-  canberra: 'ACT',
-  hobart: 'TAS',
-  darwin: 'NT',
-  'gold coast': 'QLD',
-  wollongong: 'NSW',
-  geelong: 'VIC',
-};
-
-const STATES = new Set(['NSW', 'VIC', 'QLD', 'WA', 'SA', 'TAS', 'ACT', 'NT']);
 
 const FUZZY_AREA_ALIASES: Record<string, string[]> = {
   creative: ['Creative Industries', 'Design'],
@@ -119,18 +107,17 @@ export function detectInText(text: string, catalog: string[]): string[] {
 }
 
 export function expandLocations(location: string, catalog: string[]): string[] {
-  const key = normalizeSearchToken(location);
-  const upper = location.trim().toUpperCase();
-  const cityState = CITY_TO_STATE[key];
-  const state = cityState ?? (STATES.has(upper) ? upper : null);
+  const state = resolveLocationState(location);
   if (!state) {
     return [location];
   }
 
+  const cityState = CITY_TO_STATE[normalizeSearchToken(location)];
+
   return uniqueSortedStrings([
     cityState ? location : state,
     state,
-    ...catalog.filter((item) => CITY_TO_STATE[normalizeSearchToken(item)] === state),
+    ...listCitiesForState(state, catalog),
   ]);
 }
 
