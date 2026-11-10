@@ -271,6 +271,19 @@ describe('ProviderStudySearch', () => {
     });
   });
 
+  it('renders a partly understood search message under the filters', () => {
+    render(
+      <ProviderStudySearch
+        surface='search_page'
+        interestAreaOptions={[]}
+        locationOptions={[]}
+        initialMessage="We couldn't match “asdfgh” to an area of study."
+      />,
+    );
+
+    expect(screen.getByRole('status')).toHaveTextContent("We couldn't match “asdfgh”");
+  });
+
   it('explains an off-topic query instead of navigating', async () => {
     const user = userEvent.setup();
     (global as typeof globalThis & { fetch: jest.Mock }).fetch = jest.fn().mockResolvedValue({
@@ -289,6 +302,49 @@ describe('ProviderStudySearch', () => {
       "That doesn't look like a study area or location.",
     );
     expect(pushMock).not.toHaveBeenCalled();
+  });
+
+  it('carries unmatched words even when nothing at all was understood', async () => {
+    const user = userEvent.setup();
+    (global as typeof globalThis & { fetch: jest.Mock }).fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ area: null, locations: [], unmatched: ['gibberish', 'gubberush'] }),
+    });
+
+    render(
+      <ProviderStudySearch surface='homepage' interestAreaOptions={[]} locationOptions={[]} />,
+    );
+
+    await user.type(
+      screen.getByPlaceholderText('E.g. Nursing in melbourne'),
+      'gibberish in gubberush',
+    );
+    await user.click(screen.getByRole('button', { name: 'Ask' }));
+
+    await waitFor(() => {
+      expect(pushMock).toHaveBeenCalledWith('/search?Unmatched=gibberish%7Cgubberush');
+    });
+  });
+
+  it('carries unmatched words to the results page so it can explain them', async () => {
+    const user = userEvent.setup();
+    (global as typeof globalThis & { fetch: jest.Mock }).fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ area: null, locations: ['NSW', 'Sydney'], unmatched: ['asdfgh'] }),
+    });
+
+    render(
+      <ProviderStudySearch surface='homepage' interestAreaOptions={[]} locationOptions={[]} />,
+    );
+
+    await user.type(screen.getByPlaceholderText('E.g. Nursing in melbourne'), 'asdfgh in nsw');
+    await user.click(screen.getByRole('button', { name: 'Ask' }));
+
+    await waitFor(() => {
+      expect(pushMock).toHaveBeenCalledWith(
+        '/search?Location=NSW&Location=Sydney&Unmatched=asdfgh',
+      );
+    });
   });
 
   it('navigates on a location-only answer such as "study in melbourne"', async () => {

@@ -11,6 +11,7 @@ import { callModelWithMeta } from '@/app/utilities/providerSearch/assist/llm';
 import {
   classifyOutOfScope,
   detectInText,
+  findUnmatchedTerms,
   resolveCatalogArea,
   suggestAreas,
   tryAreaOnlyHit,
@@ -70,6 +71,18 @@ function normaliseArea(
   // A model label that is not in the catalog would search for providers that
   // cannot exist, so map it onto a real area or drop it.
   return trimmed.length > 0 ? resolveCatalogArea(trimmed, context) : null;
+}
+
+function normaliseUnmatched(value: string[] | undefined): string[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .filter((word): word is string => typeof word === 'string')
+    .map((word) => word.trim())
+    .filter((word) => word.length > 0)
+    .slice(0, 3);
 }
 
 function normaliseLocation(location: string | null | undefined): string[] {
@@ -244,12 +257,29 @@ async function respondFromModel(
       ...resultCounts(context, area, locations),
     });
     trace.setOutcome('model_hit', area ? 'model_area' : 'model_location');
-    return Response.json({ area, locations, suggestions: [], usedModel: true });
+    // The model knows which words it dropped; without a model call, work out
+    // which ones the catalog cannot explain.
+    const unmatched =
+      modelCall.value === null
+        ? findUnmatchedTerms(text, area, locations, context)
+        : normaliseUnmatched(modelCall.value.unmatched);
+    return Response.json({
+      area,
+      locations,
+      ...(unmatched.length > 0 ? { unmatched } : {}),
+      suggestions: [],
+      usedModel: true,
+    });
   }
 
   const suggestions = suggestAreas(text, context);
   const fallbackSuggestions =
     suggestions.length > 0 ? suggestions : detectInText(text, context.interestAreaCatalog);
+  // Nothing was understood: the dropped words still deserve an explanation.
+  const unmatchedNothing =
+    modelCall.value === null
+      ? findUnmatchedTerms(text, null, [], context)
+      : normaliseUnmatched(modelCall.value.unmatched);
   trace.setDecision({ path: 'suggestion', area: null, locations: [] });
   trace.setOutcome(
     'suggestion',
@@ -258,6 +288,7 @@ async function respondFromModel(
   return Response.json({
     area: null,
     locations: [],
+    ...(unmatchedNothing.length > 0 ? { unmatched: unmatchedNothing } : {}),
     suggestions: fallbackSuggestions,
     usedModel: false,
   });

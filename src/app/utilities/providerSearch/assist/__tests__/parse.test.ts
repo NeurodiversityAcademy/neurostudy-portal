@@ -2,6 +2,7 @@ import {
   classifyOutOfScope,
   detectInText,
   expandLocations,
+  findUnmatchedTerms,
   FUZZY_AREA_ALIASES,
   isOutOfScope,
   resolveCatalogArea,
@@ -181,6 +182,29 @@ describe('tryAreaOnlyHit', () => {
 
   it('returns null when an alias points at several areas', () => {
     expect(tryAreaOnlyHit('film', context())).toBeNull();
+  });
+});
+
+describe('findUnmatchedTerms', () => {
+  const context = loadProviderSearchContext();
+
+  it('names the gibberish in a partly understood query', () => {
+    expect(findUnmatchedTerms('asdfgh in nsw', null, ['NSW', 'Sydney'], context)).toEqual([
+      'asdfgh',
+    ]);
+  });
+
+  it('does not flag words the catalog or a synonym explains', () => {
+    expect(
+      findUnmatchedTerms('visual arts in melbourne', 'Arts', ['Melbourne', 'VIC'], context),
+    ).toEqual([]);
+    expect(findUnmatchedTerms('theatre in melbourne', 'Arts', ['Melbourne'], context)).toEqual([]);
+  });
+
+  it('ignores filler words in a location-only query', () => {
+    expect(findUnmatchedTerms('study in melbourne', null, ['Melbourne', 'VIC'], context)).toEqual(
+      [],
+    );
   });
 });
 

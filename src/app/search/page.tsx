@@ -24,6 +24,7 @@ import {
 } from '@/app/utilities/providerSearch/providerRankingSignals';
 import { isRecommendationsEnabled } from '@/app/utilities/providerSearch/providerSearchFlags';
 import { PROVIDER_SEARCH_QUERY } from '@/app/utilities/providerSearch/constants';
+import { buildUnmatchedMessage } from '@/app/utilities/providerSearch/unmatchedMessage';
 import type { SearchParams } from '@/app/utilities/featureToggle';
 import styles from './search.module.css';
 
@@ -42,10 +43,11 @@ type SearchPageProps = {
 
 export default async function ProviderSearchPage({ searchParams }: SearchPageProps) {
   const resolved = await searchParams;
-  const { filters, searchDemo, context } = resolveProviderSearchFilters({
+  const { filters, searchDemo, context, unmatched } = resolveProviderSearchFilters({
     [PROVIDER_SEARCH_QUERY.INTEREST_AREA]: resolved[PROVIDER_SEARCH_QUERY.INTEREST_AREA],
     [PROVIDER_SEARCH_QUERY.LOCATION]: resolved[PROVIDER_SEARCH_QUERY.LOCATION],
     [PROVIDER_SEARCH_QUERY.SEARCH_DEMO]: resolved[PROVIDER_SEARCH_QUERY.SEARCH_DEMO],
+    [PROVIDER_SEARCH_QUERY.UNMATCHED]: resolved[PROVIDER_SEARCH_QUERY.UNMATCHED],
   });
 
   const recommendationsEnabled = isRecommendationsEnabled();
@@ -71,6 +73,9 @@ export default async function ProviderSearchPage({ searchParams }: SearchPagePro
     emergingState: provider.emergingState,
     ndaCertified: provider.ndaCertified,
   }));
+  // Feedback on a partly understood query sits under the search filters, next
+  // to the pills, instead of becoming a separate banner above the results.
+  const unmatchedMessage = buildUnmatchedMessage(unmatched, filters.locations);
   const interestAreaOptions = toDropdownOptions(context.interestAreaCatalog);
   const locationOptions = toDropdownOptions(context.locationCatalog);
   const verificationRequired = isBotIdGateEnabled() && !(await hasVerificationCookie());
@@ -92,10 +97,11 @@ export default async function ProviderSearchPage({ searchParams }: SearchPagePro
             // The form reads its filters from props only on mount, so a new query
             // must remount it; otherwise the pills keep the previous search and
             // re-submitting runs that old search again.
-            key={JSON.stringify([filters.interestAreas, filters.locations, searchDemo])}
+            key={JSON.stringify([filters.interestAreas, filters.locations, searchDemo, unmatched])}
             className={styles.searchBannerForm}
             compact
             surface='search_page'
+            initialMessage={unmatchedMessage ?? undefined}
             interestAreaOptions={interestAreaOptions}
             locationOptions={locationOptions}
             defaultInterestAreas={filters.interestAreas}

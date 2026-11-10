@@ -115,6 +115,18 @@ describe('Provider search page', () => {
     );
   });
 
+  it('shows the unmatched-query message under the search filters', async () => {
+    // "asdfgh in nsw" resolves the location only; without this the page looks
+    // like a clean result for the whole query.
+    const page = await Page({
+      searchParams: Promise.resolve({ Location: 'NSW', Unmatched: 'asdfgh' }),
+    });
+    const form = findElement(page, (element) => element.type === ProviderStudySearch);
+
+    expect(form?.props.initialMessage).toContain("couldn't match “asdfgh”");
+    expect(form?.props.initialMessage).toContain('showing all results in NSW');
+  });
+
   it('renders the empty state, not a blank page, when nothing matches', async () => {
     const section = await renderPageResults({ Location: 'Hobart' });
 
