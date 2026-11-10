@@ -3,6 +3,8 @@ export type AssistSearchResponse = {
   locations?: string[];
   offTopic?: boolean;
   suggestions?: string[];
+  /** Words the assist could not map; the results page explains them. */
+  unmatched?: string[];
   traceId?: string;
 };
 

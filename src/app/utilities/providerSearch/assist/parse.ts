@@ -6,6 +6,7 @@ import {
 } from '@/app/utilities/providerSearch/locationStates';
 import {
   normalizeSearchToken,
+  tokensPartialMatch,
   uniqueSortedStrings,
 } from '@/app/utilities/providerSearch/normalize';
 
@@ -63,6 +64,86 @@ function aliasMatches(text: string, catalog: string[]): string[] {
  * "arts" while the catalog says "Creative Industries". Returns null rather
  * than inventing a label no provider carries.
  */
+const QUERY_FILLER_WORDS = new Set([
+  'a',
+  'about',
+  'an',
+  'and',
+  'any',
+  'area',
+  'areas',
+  'around',
+  'at',
+  'best',
+  'by',
+  'can',
+  'college',
+  'colleges',
+  'course',
+  'courses',
+  'degree',
+  'degrees',
+  'find',
+  'for',
+  'from',
+  'i',
+  'in',
+  'institute',
+  'is',
+  'like',
+  'me',
+  'my',
+  'near',
+  'of',
+  'or',
+  'provider',
+  'providers',
+  'school',
+  'schools',
+  'show',
+  'something',
+  'study',
+  'studying',
+  'the',
+  'to',
+  'university',
+  'want',
+  'with',
+  'would',
+]);
+
+function tokeniseForUnmatched(text: string): string[] {
+  return text.toLowerCase().match(/[\p{L}\p{N}]+/gu) ?? [];
+}
+
+/**
+ * Terms a keyword-only fallback could not explain. The model reports its own
+ * dropped words; this covers the case where no model call was possible, so a
+ * partly understood query is still explained rather than looking successful.
+ */
+export function findUnmatchedTerms(
+  text: string,
+  area: string | null,
+  locations: readonly string[],
+  ctx: ProviderSearchContext,
+): string[] {
+  const vocabulary = [
+    ...ctx.interestAreaCatalog,
+    ...ctx.locationCatalog,
+    ...Object.keys(FUZZY_AREA_ALIASES),
+  ].flatMap(tokeniseForUnmatched);
+  const explained = new Set([
+    ...(area ? tokeniseForUnmatched(area) : []),
+    ...locations.flatMap(tokeniseForUnmatched),
+  ]);
+
+  return tokeniseForUnmatched(text)
+    .filter((word) => word.length > 1 && !QUERY_FILLER_WORDS.has(word))
+    .filter((word) => !explained.has(word))
+    .filter((word) => !vocabulary.some((token) => tokensPartialMatch(token, word)))
+    .slice(0, 3);
+}
+
 export function resolveCatalogArea(text: string, ctx: ProviderSearchContext): string | null {
   // A label the model returns verbatim is always accepted: overlapping labels
   // ("Education" inside "Teaching/Education") can otherwise look ambiguous.

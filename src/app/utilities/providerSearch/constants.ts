@@ -4,6 +4,7 @@ export const PROVIDER_SEARCH_QUERY = {
   INTEREST_AREA: 'InterestArea',
   LOCATION: 'Location',
   SEARCH_DEMO: 'searchDemo',
+  UNMATCHED: 'Unmatched',
 } as const;
 
 export const PROVIDER_SEARCH_DEMO_PARAM_VALUE = '1' as const;

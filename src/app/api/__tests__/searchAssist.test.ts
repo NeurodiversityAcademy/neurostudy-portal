@@ -27,6 +27,7 @@ jest.mock('@/app/utilities/providerSearch/assist/parse', () => ({
   isOutOfScope: jest.fn(() => false),
   suggestAreas: jest.fn(() => []),
   detectInText: jest.fn(() => []),
+  findUnmatchedTerms: jest.fn(() => []),
   resolveCatalogArea: jest.fn((area: string | null | undefined) =>
     typeof area === 'string' && area.trim().length > 0 ? area.trim() : null,
   ),
@@ -49,6 +50,7 @@ import { callModelWithMeta } from '@/app/utilities/providerSearch/assist/llm';
 import {
   classifyOutOfScope,
   detectInText,
+  findUnmatchedTerms,
   suggestAreas,
   tryAreaOnlyHit,
   tryKeywordHit,
@@ -56,7 +58,9 @@ import {
 } from '@/app/utilities/providerSearch/assist/parse';
 import { POST } from '@/app/api/search/assist/route';
 
-function modelCall(value: { area: string | null; location: string | null } | null) {
+function modelCall(
+  value: { area: string | null; location: string | null; unmatched?: string[] } | null,
+) {
   return {
     value,
     meta: {
@@ -105,6 +109,7 @@ describe('POST /api/search/assist', () => {
     jest.mocked(tryAreaOnlyHit).mockReturnValue(null);
     jest.mocked(tryLocationOnlyHit).mockReturnValue(null);
     jest.mocked(classifyOutOfScope).mockReturnValue(null);
+    jest.mocked(findUnmatchedTerms).mockReturnValue([]);
     jest.mocked(callModelWithMeta).mockResolvedValue(modelCall(null));
   });
 
@@ -292,6 +297,68 @@ describe('POST /api/search/assist', () => {
     expect(await response.json()).toEqual({
       area: null,
       locations: ['Melbourne'],
+      suggestions: [],
+      usedModel: true,
+    });
+  });
+
+  it('reports unmatched words when neither an area nor a location was understood', async () => {
+    jest.mocked(callModelWithMeta).mockResolvedValueOnce(modelCall(null));
+    jest.mocked(suggestAreas).mockReturnValueOnce([]);
+    jest.mocked(detectInText).mockReturnValueOnce([]);
+    jest.mocked(findUnmatchedTerms).mockReturnValueOnce(['gibberish', 'gubberush']);
+
+    const response = await POST(makeRequest({ text: 'gibberish in gubberush' }));
+
+    expect(findUnmatchedTerms).toHaveBeenCalledWith(
+      'gibberish in gubberush',
+      null,
+      [],
+      expect.anything(),
+    );
+    expect(await response.json()).toEqual({
+      area: null,
+      locations: [],
+      unmatched: ['gibberish', 'gubberush'],
+      suggestions: [],
+      usedModel: false,
+    });
+  });
+
+  it('reports unmatched words even when no model call was possible', async () => {
+    jest.mocked(callModelWithMeta).mockResolvedValueOnce(modelCall(null));
+    jest.mocked(tryLocationOnlyHit).mockReturnValueOnce(['NSW', 'Sydney']);
+    jest.mocked(findUnmatchedTerms).mockReturnValueOnce(['asdfgh']);
+
+    const response = await POST(makeRequest({ text: 'asdfgh in nsw' }));
+
+    expect(findUnmatchedTerms).toHaveBeenCalledWith(
+      'asdfgh in nsw',
+      null,
+      ['NSW', 'Sydney'],
+      expect.anything(),
+    );
+    expect(await response.json()).toEqual({
+      area: null,
+      locations: ['NSW', 'Sydney'],
+      unmatched: ['asdfgh'],
+      suggestions: [],
+      usedModel: true,
+    });
+  });
+
+  it('reports the words the model could not map instead of hiding them', async () => {
+    jest
+      .mocked(callModelWithMeta)
+      .mockResolvedValueOnce(modelCall({ area: null, location: 'NSW', unmatched: ['asdfgh'] }));
+    jest.mocked(detectInText).mockReturnValueOnce(['NSW']);
+
+    const response = await POST(makeRequest({ text: 'asdfgh in nsw' }));
+
+    expect(await response.json()).toEqual({
+      area: null,
+      locations: ['NSW'],
+      unmatched: ['asdfgh'],
       suggestions: [],
       usedModel: true,
     });
