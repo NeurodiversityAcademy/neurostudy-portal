@@ -2,8 +2,15 @@ import type { Metadata } from 'next';
 import Typography, { TypographyVariant } from '@/app/components/typography/Typography';
 import { TypographyColorToken } from '@/app/components/typography/typographyColorToken';
 import ProviderStudySearch from '@/app/components/providerSearch/ProviderStudySearch';
-import ProviderSearchResults from '@/app/components/providerSearch/ProviderSearchResults';
+import SearchVerification from '@/app/components/providerSearch/SearchVerification';
 import ProviderSearchResultsTracker from '@/app/components/providerSearch/ProviderSearchResultsTracker';
+import ProviderSearchFeedback from '@/app/components/providerSearch/ProviderSearchFeedback';
+import ShortlistGate from '@/app/components/providerSearch/ShortlistGate';
+import {
+  hasVerificationCookie,
+  isBotIdGateEnabled,
+} from '@/app/utilities/botid/verificationCookie';
+import { isLeadCaptureEnabled } from '@/app/utilities/leads/leadFlags';
 import { toDropdownOptions } from '@/app/utilities/providerSearch/catalog';
 import { resolveProviderSearchFilters } from '@/app/utilities/providerSearch/resolveFilters';
 import {
@@ -11,6 +18,11 @@ import {
   countStarredEndorsedResults,
   searchProvidersByFilters,
 } from '@/app/utilities/providerSearch/searchProviders';
+import {
+  buildProviderRankReasons,
+  buildProviderRankSignals,
+} from '@/app/utilities/providerSearch/providerRankingSignals';
+import { isRecommendationsEnabled } from '@/app/utilities/providerSearch/providerSearchFlags';
 import { PROVIDER_SEARCH_QUERY } from '@/app/utilities/providerSearch/constants';
 import type { SearchParams } from '@/app/utilities/featureToggle';
 import styles from './search.module.css';
@@ -36,10 +48,32 @@ export default async function ProviderSearchPage({ searchParams }: SearchPagePro
     [PROVIDER_SEARCH_QUERY.SEARCH_DEMO]: resolved[PROVIDER_SEARCH_QUERY.SEARCH_DEMO],
   });
 
-  const results = searchProvidersByFilters(context.providers, filters);
+  const recommendationsEnabled = isRecommendationsEnabled();
+  const signals = recommendationsEnabled ? buildProviderRankSignals(context.providers) : undefined;
+  const results = searchProvidersByFilters(context.providers, filters, signals);
+  const rankReasons =
+    recommendationsEnabled && signals
+      ? buildProviderRankReasons(
+          [...results.course_endorsed, ...results.endorsed, ...results.emerging],
+          signals,
+        )
+      : {};
+  const countWithEvidence = Object.values(rankReasons).filter(Boolean).length;
   const totalCount = countProviderSearchResults(results);
+  const shortlistProviders = [
+    ...results.course_endorsed,
+    ...results.endorsed,
+    ...results.emerging,
+  ].map((provider) => ({
+    slug: provider.slug,
+    name: provider.name,
+    kind: provider.kind,
+    emergingState: provider.emergingState,
+    ndaCertified: provider.ndaCertified,
+  }));
   const interestAreaOptions = toDropdownOptions(context.interestAreaCatalog);
   const locationOptions = toDropdownOptions(context.locationCatalog);
+  const verificationRequired = isBotIdGateEnabled() && !(await hasVerificationCookie());
 
   return (
     <main className={styles.page}>
@@ -55,6 +89,10 @@ export default async function ProviderSearchPage({ searchParams }: SearchPagePro
             </Typography>
           </header>
           <ProviderStudySearch
+            // The form reads its filters from props only on mount, so a new query
+            // must remount it; otherwise the pills keep the previous search and
+            // re-submitting runs that old search again.
+            key={JSON.stringify([filters.interestAreas, filters.locations, searchDemo])}
             className={styles.searchBannerForm}
             compact
             surface='search_page'
@@ -67,32 +105,38 @@ export default async function ProviderSearchPage({ searchParams }: SearchPagePro
         </div>
       </section>
 
-      <div className={styles.results}>
-        <ProviderSearchResultsTracker
-          interestAreas={filters.interestAreas}
-          locations={filters.locations}
-          resultCountTotal={totalCount}
-          countCourseEndorsed={results.course_endorsed.length}
-          countStarredEndorsed={countStarredEndorsedResults(results)}
-          countEndorsed={results.endorsed.length}
-          countEmerging={results.emerging.length}
-        />
-        <div className={styles.resultsSummary}>
-          <Typography
-            variant={TypographyVariant.Body2}
-            color={TypographyColorToken.BondBlack}
-            className={styles.summary}
-          >
-            {totalCount === 1 ? '1 provider found' : `${totalCount} providers found`}
-          </Typography>
+      {verificationRequired ? (
+        <div className={styles.results}>
+          <SearchVerification />
         </div>
-        <ProviderSearchResults
-          results={results}
-          filters={filters}
-          searchDemo={searchDemo}
-          totalCount={totalCount}
-        />
-      </div>
+      ) : (
+        <div className={styles.results}>
+          <ProviderSearchResultsTracker
+            interestAreas={filters.interestAreas}
+            locations={filters.locations}
+            resultCountTotal={totalCount}
+            countCourseEndorsed={results.course_endorsed.length}
+            countStarredEndorsed={countStarredEndorsedResults(results)}
+            countEndorsed={results.endorsed.length}
+            countEmerging={results.emerging.length}
+            recommendationsEnabled={recommendationsEnabled}
+            countWithEvidence={countWithEvidence}
+          />
+          {/* Providers are listed only in the comparison section below. */}
+          <ShortlistGate
+            key={JSON.stringify([filters.interestAreas, filters.locations, searchDemo])}
+            enabled={isLeadCaptureEnabled()}
+            providers={shortlistProviders}
+            filters={filters}
+            rankingHref={recommendationsEnabled ? '/how-we-rank' : undefined}
+          />
+          <ProviderSearchFeedback
+            filters={filters}
+            resultCount={totalCount}
+            surface='search_page'
+          />
+        </div>
+      )}
     </main>
   );
 }

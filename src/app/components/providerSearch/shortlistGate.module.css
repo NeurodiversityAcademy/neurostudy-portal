@@ -1,0 +1,346 @@
+.root {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 5vw 3rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.heading {
+  margin: 0 0 0.35rem;
+  font-family: var(--poppins-font);
+  font-size: var(--h3-font-size);
+  color: var(--BondBlack);
+}
+
+.subheading {
+  margin: 0;
+  max-width: 55rem;
+  font-family: var(--poppins-font);
+  font-size: var(--body2-font-size);
+  line-height: 1.55;
+  color: var(--BondBlackVariant);
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid color-mix(in srgb, var(--BondBlack) 14%, transparent);
+  border-radius: 12px;
+  padding: 1.25rem;
+  background: var(--GhostWhite);
+}
+
+.emptyState {
+  margin: 0;
+  font-family: var(--poppins-font);
+  font-size: var(--body2-font-size);
+  line-height: 1.55;
+  color: var(--BondBlack);
+}
+
+.providerList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.stateRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.stateTitle {
+  font-family: var(--poppins-font);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--BondBlackVariant);
+}
+
+.pillRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.panelFooter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+}
+
+.rankingLink {
+  margin-left: auto;
+  font-family: var(--poppins-font);
+  font-size: var(--body2-font-size);
+  color: var(--cherryPieVariant);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.rankingLink:focus-visible {
+  outline: 2px solid var(--cherryPieVariant);
+  outline-offset: 2px;
+}
+
+.legendRow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.legendLabel {
+  font-family: var(--poppins-font);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--BondBlackVariant);
+  margin-right: 0.25rem;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--poppins-font);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--BondBlackVariant);
+}
+
+.legendSwatch {
+  display: inline-flex;
+  width: 0.875rem;
+  height: 0.875rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+
+.legendVerified {
+  background: #faf5ff;
+  border-color: rgba(102, 0, 204, 0.35);
+}
+
+.legendEmerging {
+  background: #f7faff;
+  border-color: rgba(88, 127, 189, 0.35);
+}
+
+.providerChip,
+.providerChipSelected,
+.secondaryButton {
+  font-family: var(--poppins-font);
+  font-size: 12px;
+  line-height: 1.2;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.providerChip,
+.providerChipSelected {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid color-mix(in srgb, var(--BondBlack) 18%, transparent);
+  color: var(--BondBlack);
+  padding: 0.5rem 0.8rem;
+  width: fit-content;
+  box-shadow: 0 1px 8px rgb(0 0 0 / 0.04);
+}
+
+.tick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 999px;
+  background: #330066;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  flex: 0 0 auto;
+}
+
+.star {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  font-size: 14px;
+  color: var(--ndaCertifiedGold);
+  text-shadow:
+    0 0 4px rgb(var(--ndaCertifiedGoldChannel) / 0.55),
+    0 1px 2px rgb(0 0 0 / 0.35);
+  flex: 0 0 auto;
+}
+
+/* Endorsed: light purplish tint (~20% darker than plain white) */
+.endorsedChip {
+  background: #f2eaff;
+  border-color: rgba(102, 0, 204, 0.45);
+}
+
+/* Emerging: very light state tints, close to white */
+.stateNSW {
+  background: #f7faff;
+  border-color: rgba(88, 127, 189, 0.35);
+}
+
+.stateVIC {
+  background: #f5fbf8;
+  border-color: rgba(66, 128, 97, 0.35);
+}
+
+.stateQLD {
+  background: #fffaf2;
+  border-color: rgba(174, 119, 46, 0.32);
+}
+
+.stateSA {
+  background: #fcf7fd;
+  border-color: rgba(128, 93, 157, 0.3);
+}
+
+.stateWA {
+  background: #fffaf0;
+  border-color: rgba(180, 127, 41, 0.32);
+}
+
+.stateTAS {
+  background: #f8fafc;
+  border-color: rgba(104, 126, 159, 0.3);
+}
+
+.stateNT {
+  background: #fdf8f6;
+  border-color: rgba(164, 108, 86, 0.32);
+}
+
+.stateACT {
+  background: #faf8ff;
+  border-color: rgba(111, 87, 185, 0.3);
+}
+
+/* Selected: keep the tint, stronger border + ring so it reads as selected */
+.providerChipSelected {
+  border-color: #330066;
+  border-width: 2px;
+  box-shadow:
+    0 1px 8px rgb(0 0 0 / 0.06),
+    0 0 0 3px rgba(51, 0, 102, 0.28);
+}
+
+.providerLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+/* Chip without a detail page: a button so it can still be selected. */
+.providerChipButton {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* NDA-certified (e.g. Nepean CC): golden border + glow, as on endorsed cards */
+.certifiedChip {
+  border: 1.5px solid var(--ndaCertifiedGold);
+  box-shadow:
+    0 1px 20px 0px var(--color-shadow-soft),
+    0 0 10px rgb(var(--ndaCertifiedGoldChannel) / 0.28);
+}
+
+.providerChipSelected.certifiedChip {
+  border-color: var(--ndaCertifiedGold);
+  box-shadow:
+    0 1px 20px 0px var(--color-shadow-soft),
+    0 0 10px rgb(var(--ndaCertifiedGoldChannel) / 0.28),
+    0 0 0 3px rgba(51, 0, 102, 0.28);
+}
+
+.providerChip:hover,
+.providerChipSelected:hover,
+.secondaryButton:hover {
+  transform: translateY(-1px);
+}
+
+.selectionRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  min-height: 1.5rem;
+  font-family: var(--poppins-font);
+  font-size: var(--body2-font-size);
+}
+
+.selectionSummary {
+  color: var(--BondBlackVariant);
+}
+
+.error {
+  color: #a3122a;
+}
+
+.success {
+  color: #1c6b3a;
+}
+
+.info {
+  color: var(--BondBlackVariant);
+}
+
+.secondaryButton {
+  padding: 0.6rem 1.1rem;
+  background: transparent;
+  color: var(--cherryPieVariant);
+  border: 1px solid var(--cherryPieVariant);
+}
+
+.compareWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .root {
+    padding: 1.25rem 4vw 2.5rem;
+  }
+
+  .intro {
+    align-items: flex-start;
+  }
+}

@@ -1,0 +1,16 @@
+# Netlify build command, base and publish directory are configured in the
+# Netlify UI; only the secrets-scan exceptions are declared here.
+
+[build.environment]
+  # These four ASSIST_* variables hold protocol/config values, not credentials:
+  # a header name ("api-key"), a request field name ("max_completion_tokens"),
+  # the Foundry deployment name and its endpoint URL. They necessarily appear
+  # as literals in src/app/utilities/providerSearch/assist/llm.ts and in the
+  # planning docs, so the secrets scan flags them on every build even though no
+  # secret leaks. ASSIST_API_KEY is deliberately *not* listed and must never
+  # appear in the repo.
+  SECRETS_SCAN_OMIT_KEYS = "ASSIST_AUTH_HEADER,ASSIST_MAX_TOKENS_PARAM,ASSIST_MODEL,ASSIST_API_URL"
+
+  # Previous deploy uploads carried a stale package/.netlify/.next build folder
+  # whose copied chunks tripped the scan too; it is never part of the site.
+  SECRETS_SCAN_OMIT_PATHS = "package/**"

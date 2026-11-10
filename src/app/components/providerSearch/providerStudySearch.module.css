@@ -11,9 +11,84 @@
   align-items: center;
 }
 
-.buttonContainer {
+.compact .searchBarShell {
+  padding: 10px;
+}
+
+.searchBarShell {
+  width: min(100%, 908px);
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 8px;
+  background-color: var(--GhostWhite);
+  border-radius: 12px;
+  box-shadow: 0px 8px 20px 0px #0000001f;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.selectedFiltersRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.assistRow {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.assistControls {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  /* Input is capped, so the extra space becomes breathing room before the button */
+  justify-content: space-between;
+}
+
+.askLabel {
+  font-family: var(--poppins-font);
+  font-size: calc(var(--body1-font-size) * 0.9);
+  /* Half of the 600 strong weight */
+  font-weight: 300;
+  color: var(--BondBlack);
+}
+
+.askInput {
+  flex: 1;
+  max-width: 75%;
+  min-height: 32px;
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 0.35rem 0.7rem;
+  font: inherit;
+  color: var(--BondBlack);
+  background: var(--GhostWhite);
+}
+
+/* Compact Ask control; two classes so it beats ActionButton `.primary { width: ... }` */
+/* ~2.4x the natural ~76px width, normal button height */
+.assistControls .askButton {
+  width: 184px;
+  min-width: 0;
+  min-height: 32px;
+  padding: 6px 12px;
+  gap: 6px;
+  font-size: var(--body2-strong-font-size);
+}
+
+.askButton img {
+  width: 32px;
+  height: 32px;
+}
+
+.askInput:focus {
+  outline: 2px solid rgba(0, 0, 0, 0.18);
+  outline-offset: 2px;
 }
 
 .content {
@@ -79,6 +154,14 @@
   align-self: flex-start;
 }
 
+.noMatchMessage {
+  margin-top: 0.75rem;
+  font-family: var(--poppins-font);
+  font-size: var(--body2-font-size);
+  color: var(--BondBlackVariant);
+  text-align: center;
+}
+
 .compactSearchButton {
   width: calc(var(--primary-button-width) / 2);
   max-width: 156px;
@@ -101,30 +184,48 @@
 
 /* Phone + narrow tablet: stack fields so chips and placeholders stay readable */
 @media (max-width: 768px) {
-  .compact .content {
+  .assistControls {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .askInput {
+    width: 100%;
+    max-width: none;
+  }
+
+  /* Full-width input, then a content-width button on its own line */
+  .assistControls .askButton {
+    width: auto;
+    align-self: flex-start;
+  }
+
+  .compact .searchBarShell {
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
     gap: 10px;
-    padding: 12px;
+    padding: 10px;
     align-items: stretch;
     width: 100%;
     max-width: 100%;
   }
 
-  .compact .content > * {
+  .compact .searchBarRow {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .compact .searchField {
     width: 100%;
     min-width: 0;
     flex: 0 0 auto;
     margin: 0;
   }
 
-  .compact .content > *[role='combobox'] {
-    margin-left: 0;
-  }
-
-  .compact .content > button,
-  .compact .content > .buttonContainer {
+  .compact .buttonContainer {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -132,8 +233,7 @@
   }
 
   .compact .buttonContainer .compactSearchButton,
-  .compact .content > .buttonContainer > button,
-  .compact .content > button {
+  .compact .buttonContainer > button {
     width: calc(var(--primary-button-width) / 2);
     max-width: 156px;
   }

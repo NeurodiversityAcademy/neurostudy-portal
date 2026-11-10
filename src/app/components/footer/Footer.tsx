@@ -120,6 +120,16 @@ export default function Footer() {
                 Partner with Us
               </Link>
             </li>
+            <li>
+              <Link
+                href='/how-we-rank'
+                rel='noopener noreferrer'
+                aria-label='How we rank providers'
+                title='How we rank providers'
+              >
+                How we rank
+              </Link>
+            </li>
           </ul>
         </div>
         <div className={styles.topFoot}>

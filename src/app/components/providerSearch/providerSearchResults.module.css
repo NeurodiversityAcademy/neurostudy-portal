@@ -97,11 +97,16 @@
 /* Match emerging directory card row so InstitutionProviderCard keeps its own sizing. */
 .cardGrid {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+  flex-flow: row wrap;
   align-items: stretch;
-  gap: 36px;
+  gap: 12px;
   width: 100%;
+}
+
+.cardGrid > * {
+  width: fit-content;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .emptyState {
@@ -114,6 +119,232 @@
   margin: 0 auto;
   padding: 1.25rem 5vw 3rem;
   box-sizing: border-box;
+}
+
+.studentExperiencePill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  font-family: var(--poppins-font);
+  font-size: 7.5px;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+
+.studentExperiencePositive {
+  background: rgb(26 156 92 / 0.12);
+  color: #0d7a42;
+  border-color: rgb(26 156 92 / 0.2);
+}
+
+.studentExperienceNegative {
+  background: rgb(206 78 34 / 0.12);
+  color: #a6431d;
+  border-color: rgb(206 78 34 / 0.2);
+}
+
+.studentExperiencePill strong {
+  font-size: 7.5px;
+  font-weight: 700;
+}
+
+.providerName {
+  font-family: var(--poppins-font);
+  font-size: 12px;
+  line-height: 1.2;
+  color: var(--BondBlack);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 24rem;
+}
+
+.providerPill {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.25rem;
+  width: fit-content;
+  min-height: 46px;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  box-shadow: 0 1px 8px rgb(0 0 0 / 0.04);
+}
+
+.providerPillVerified {
+  background: #f0ebff;
+  border-color: rgba(87, 67, 155, 0.45);
+}
+
+.providerPillEmerging {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(20, 24, 31, 0.18);
+}
+
+.stateNSW {
+  background: #dfeaf9;
+  border-color: rgba(88, 127, 189, 0.5);
+}
+
+.stateVIC {
+  background: #dff5eb;
+  border-color: rgba(66, 128, 97, 0.5);
+}
+
+.stateQLD {
+  background: #f9ebd6;
+  border-color: rgba(174, 119, 46, 0.45);
+}
+
+.stateSA {
+  background: #f0e6f6;
+  border-color: rgba(128, 93, 157, 0.42);
+}
+
+.stateWA {
+  background: #f9e9d1;
+  border-color: rgba(180, 127, 41, 0.45);
+}
+
+.stateTAS {
+  background: #edf2fb;
+  border-color: rgba(104, 126, 159, 0.42);
+}
+
+.stateNT {
+  background: #f6e7e1;
+  border-color: rgba(164, 108, 86, 0.45);
+}
+
+.stateACT {
+  background: #efe9ff;
+  border-color: rgba(111, 87, 185, 0.42);
+}
+
+/* Each pill is a link to the provider's page, so it needs affordance. */
+.providerPillLink {
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    border-color 150ms ease;
+}
+
+.providerPillLink:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgb(0 0 0 / 0.1);
+}
+
+.providerPillLink:focus-visible {
+  outline: 2px solid var(--cherryPie);
+  outline-offset: 2px;
+}
+
+.providerPillBody {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: fit-content;
+  min-width: 0;
+  gap: 0.2rem;
+}
+
+.resultsStack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 5vw;
+  box-sizing: border-box;
+}
+
+.stateRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.stateTitle {
+  font-family: var(--poppins-font);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--BondBlackVariant);
+}
+
+.pillRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.legendRow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 0.75rem;
+  padding: 0 5vw;
+  box-sizing: border-box;
+}
+
+.legendLabel {
+  font-family: var(--poppins-font);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--BondBlackVariant);
+  margin-right: 0.25rem;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--poppins-font);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--BondBlackVariant);
+}
+
+.legendSwatch {
+  display: inline-flex;
+  width: 0.875rem;
+  height: 0.875rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+
+.legendVerified {
+  background: #f0ebff;
+  border-color: rgba(87, 67, 155, 0.45);
+}
+
+.legendEmerging {
+  background: #dfeaf9;
+  border-color: rgba(88, 127, 189, 0.5);
 }
 
 @media (max-width: 1024px) {

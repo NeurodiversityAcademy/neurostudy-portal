@@ -46,11 +46,22 @@ export async function registerSenderContact(
   personaValue: string,
 ): Promise<SenderContactResponse | null> {
   try {
-    const url = `${process.env.SENDER_BASE_URL}/subscribers`;
-    const token = process.env.SENDER_ACCESS_TOKEN;
+    const senderBaseUrl = process.env.SENDER_BASE_URL;
+    const senderAccessToken = process.env.SENDER_ACCESS_TOKEN;
+
+    if (!senderBaseUrl || !senderAccessToken) {
+      console.warn('Sender contact registration skipped: missing Sender configuration');
+      return null;
+    }
+
+    const url = `${senderBaseUrl.replace(/\/+$/, '')}/subscribers`;
 
     const groupType = PERSONA_TO_GROUP_MAP[personaValue];
-    if (!groupType) throw new Error('Invalid persona value');
+    if (!groupType) {
+      // Unknown/new personas (e.g. `other`) are skipped rather than thrown.
+      // Callers already treat a null response as "sender contact not created".
+      return null;
+    }
 
     const payload = {
       ...contact,
@@ -61,7 +72,7 @@ export async function registerSenderContact(
     const response = await fetch(url, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${senderAccessToken}`,
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },

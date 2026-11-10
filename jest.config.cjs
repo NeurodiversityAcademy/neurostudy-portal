@@ -18,6 +18,8 @@ module.exports = {
   moduleNameMapper: {
     '\\.(png|jpg|jpeg|gif|webp|svg)$': '<rootDir>/jest.fileMock.js',
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+    // Jest does not apply Next's `react-server` export condition; the real marker throws.
+    '^server-only$': '<rootDir>/src/testUtils/serverOnlyMock.js',
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   transform: {
@@ -41,6 +43,8 @@ module.exports = {
     '!src/**/*.test.{ts,tsx}',
     '!src/**/*.spec.{ts,tsx}',
     '!src/testUtils/**',
+    // Eval harness runs only via `npm run eval:search`, not the unit suite.
+    '!src/app/utilities/providerSearch/evals/**',
     // No-logic exclusions: type-only, static data, page/layout, constants-only
     '!src/app/interfaces/**',
     '!src/**/page.tsx',

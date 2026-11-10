@@ -42,6 +42,12 @@
     "topBackgroundImage": "/images/CollartsCover.webp",
     "institutionCoursesUrl": "https://www.collarts.edu.au/courses",
     "locations": ["Melbourne", "Sydney"],
-    "interestAreas": ["Music", "Media and Communication", "Design", "Fine Arts"]
+    "interestAreas": [
+      "Music",
+      "Media and Communication",
+      "Design",
+      "Fine Arts",
+      "Creative Industries"
+    ]
   }
 ]

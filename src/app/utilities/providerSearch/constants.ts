@@ -69,12 +69,36 @@ export const PROVIDER_SEARCH_GA = {
     eventName: 'provider_search_results_view',
     category: PROVIDER_SEARCH_GA_CATEGORY,
   },
+  feedback: {
+    eventName: 'provider_search_feedback',
+    category: PROVIDER_SEARCH_GA_CATEGORY,
+  },
+  recommendationView: {
+    eventName: 'rec_view',
+    category: PROVIDER_SEARCH_GA_CATEGORY,
+  },
   resultClick: {
     eventName: 'provider_search_result_click',
     category: PROVIDER_SEARCH_GA_CATEGORY,
   },
   coursesPlaceholderView: {
     eventName: 'provider_courses_placeholder_view',
+    category: PROVIDER_SEARCH_GA_CATEGORY,
+  },
+  shortlistView: {
+    eventName: 'shortlist_view',
+    category: PROVIDER_SEARCH_GA_CATEGORY,
+  },
+  shortlistCompare: {
+    eventName: 'shortlist_compare',
+    category: PROVIDER_SEARCH_GA_CATEGORY,
+  },
+  leadCapture: {
+    eventName: 'lead_capture',
+    category: PROVIDER_SEARCH_GA_CATEGORY,
+  },
+  leadVerify: {
+    eventName: 'lead_verify',
     category: PROVIDER_SEARCH_GA_CATEGORY,
   },
 } as const;

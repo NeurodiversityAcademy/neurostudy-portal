@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import InstitutionProviderCard from '../institutionProviderCard/InstitutionProviderCard';
 import { INSTITUTION_PROVIDER_HEADER_KIND } from '../institutionProviderCard/institutionProviderHeader';
 import styles from '../institutionProviderCard/institutionProviderCard.module.css';
@@ -18,6 +19,8 @@ type EmergingInstitutionCardProps = {
   gaEvent?: InstitutionCtaAnalytics;
   /** Open detail links in a new tab (directory default). Search results keep same-tab. */
   ctaOpenInNewTab?: boolean;
+  /** Small evidence line rendered under the card body. */
+  note?: ReactNode;
 };
 
 function resolveEmergingCta(params: {
@@ -62,6 +65,7 @@ export default function EmergingInstitutionCard({
   demo = false,
   gaEvent: gaEventOverride,
   ctaOpenInNewTab = true,
+  note,
 }: EmergingInstitutionCardProps) {
   const cta = resolveEmergingCta({ name, state, demo, gaEventOverride });
 
@@ -72,6 +76,7 @@ export default function EmergingInstitutionCard({
       compact
       comingSoonLabel={cta.comingSoonLabel}
       gaEvent={cta.gaEvent}
+      note={note}
       header={{
         kind: INSTITUTION_PROVIDER_HEADER_KIND.EMERGING_DEFAULT,
         stateTint: state,

@@ -104,14 +104,18 @@ export function trackProviderSearchSubmit(params: {
   surface: ProviderSearchSurface;
   interestAreas: readonly string[];
   locations: readonly string[];
+  mode?: 'quick' | 'ask';
+  traceId?: string;
 }): void {
   queueProviderSearchGaEvent(
     PROVIDER_SEARCH_GA.submit.eventName,
     withPagePath({
       category: PROVIDER_SEARCH_GA.submit.category,
       surface: params.surface,
+      mode: params.mode ?? 'quick',
       interest_areas: joinGaMultiValue(params.interestAreas),
       locations: joinGaMultiValue(params.locations),
+      ...(params.traceId ? { trace_id: params.traceId } : {}),
     }),
   );
 }
@@ -138,6 +142,49 @@ export function trackProviderSearchResultsView(params: {
       count_endorsed: params.countEndorsed,
       count_emerging: params.countEmerging,
       has_results: params.hasResults,
+    }),
+  );
+}
+
+export function trackProviderSearchFeedback(params: {
+  match: 'yes' | 'no';
+  surface: ProviderSearchSurface;
+  interestAreas: readonly string[];
+  locations: readonly string[];
+  resultCount: number;
+  traceId?: string;
+}): void {
+  queueProviderSearchGaEvent(
+    PROVIDER_SEARCH_GA.feedback.eventName,
+    withPagePath({
+      category: PROVIDER_SEARCH_GA.feedback.category,
+      match: params.match,
+      surface: params.surface,
+      interest_areas: joinGaMultiValue(params.interestAreas),
+      locations: joinGaMultiValue(params.locations),
+      result_count: params.resultCount,
+      ...(params.traceId ? { trace_id: params.traceId } : {}),
+    }),
+  );
+}
+
+/**
+ * Fired once per result view when the evidence layer is enabled.
+ * Clicks are already covered by `provider_search_result_click`, which carries
+ * `provider_tier` and `result_position`, so no second click event is emitted.
+ */
+export function trackProviderRecommendationView(params: {
+  countEndorsed: number;
+  countEmerging: number;
+  countWithEvidence: number;
+}): void {
+  queueProviderSearchGaEvent(
+    PROVIDER_SEARCH_GA.recommendationView.eventName,
+    withPagePath({
+      category: PROVIDER_SEARCH_GA.recommendationView.category,
+      count_endorsed: params.countEndorsed,
+      count_emerging: params.countEmerging,
+      count_with_evidence: params.countWithEvidence,
     }),
   );
 }
@@ -187,6 +234,52 @@ export function trackProviderCoursesPlaceholderView(providerSlug: string): void 
     withPagePath({
       category: PROVIDER_SEARCH_GA.coursesPlaceholderView.category,
       provider_slug: providerSlug,
+    }),
+  );
+}
+
+export function trackShortlistView(params: { locked: boolean }): void {
+  queueProviderSearchGaEvent(
+    PROVIDER_SEARCH_GA.shortlistView.eventName,
+    withPagePath({
+      category: PROVIDER_SEARCH_GA.shortlistView.category,
+      locked: params.locked,
+    }),
+  );
+}
+
+export function trackShortlistCompare(params: { providerCount: number }): void {
+  queueProviderSearchGaEvent(
+    PROVIDER_SEARCH_GA.shortlistCompare.eventName,
+    withPagePath({
+      category: PROVIDER_SEARCH_GA.shortlistCompare.category,
+      provider_count: params.providerCount,
+    }),
+  );
+}
+
+export function trackLeadCapture(params: {
+  placement: string;
+  action: 'impression' | 'open' | 'submit' | 'success' | 'invalid';
+  providerCount?: number;
+}): void {
+  queueProviderSearchGaEvent(
+    PROVIDER_SEARCH_GA.leadCapture.eventName,
+    withPagePath({
+      category: PROVIDER_SEARCH_GA.leadCapture.category,
+      placement: params.placement,
+      action: params.action,
+      provider_count: params.providerCount ?? 0,
+    }),
+  );
+}
+
+export function trackLeadVerify(params: { result: 'confirmed' | 'expired' }): void {
+  queueProviderSearchGaEvent(
+    PROVIDER_SEARCH_GA.leadVerify.eventName,
+    withPagePath({
+      category: PROVIDER_SEARCH_GA.leadVerify.category,
+      result: params.result,
     }),
   );
 }
