@@ -30,21 +30,52 @@ describe('ShortlistGate', () => {
     jest.restoreAllMocks();
   });
 
-  it('renders nothing when disabled or when there is nothing to compare', () => {
+  it('still lists providers when comparison is disabled, and explains an empty search', () => {
     const { rerender } = render(
       <ShortlistGate enabled={false} providers={providers} filters={filters} />,
     );
-    expect(screen.queryByText('Compare providers side by side')).not.toBeInTheDocument();
 
-    rerender(<ShortlistGate enabled providers={providers.slice(0, 1)} filters={filters} />);
-    expect(screen.queryByText('Compare providers side by side')).not.toBeInTheDocument();
+    // Providers are listed only here, so they must not vanish with the compare flow.
+    expect(screen.getByText('Nepean Community College')).toBeInTheDocument();
+
+    rerender(<ShortlistGate enabled providers={[]} filters={filters} />);
+
+    expect(screen.getByText(/No providers matched your search/)).toBeInTheDocument();
+  });
+
+  it('lists a single provider without offering a comparison', () => {
+    render(<ShortlistGate enabled providers={providers.slice(0, 1)} filters={filters} />);
+
+    expect(screen.getByText('Nepean Community College')).toBeInTheDocument();
+    expect(screen.queryByText('Select at least two providers')).not.toBeInTheDocument();
+  });
+
+  it('does not link an emerging provider that has no profile page', () => {
+    render(
+      <ShortlistGate
+        enabled
+        providers={[
+          providers[0]!,
+          {
+            slug: 'unknown-college',
+            name: 'Unknown College',
+            kind: 'emerging',
+            emergingState: 'NSW',
+          },
+        ]}
+        filters={filters}
+      />,
+    );
+
+    expect(screen.getByText('Unknown College')).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /Unknown College/ })).not.toBeInTheDocument();
   });
 
   it('counts and enforces the three-provider limit as pill selections', async () => {
     const user = userEvent.setup();
     render(<ShortlistGate enabled providers={providers} filters={filters} />);
 
-    await user.click(screen.getByRole('link', { name: 'Nepean Community College' }));
+    await user.click(screen.getByRole('button', { name: 'Nepean Community College' }));
     await user.click(screen.getByRole('link', { name: 'Campion College Australia' }));
     await user.click(screen.getByRole('link', { name: 'ASA Institute of Higher Education' }));
     await user.click(screen.getByRole('link', { name: 'Holmes Institute' }));
@@ -97,7 +128,7 @@ describe('ShortlistGate', () => {
 
     render(<ShortlistGate enabled providers={providers} filters={filters} />);
 
-    await user.click(screen.getByRole('link', { name: 'Nepean Community College' }));
+    await user.click(screen.getByRole('button', { name: 'Nepean Community College' }));
     await user.click(screen.getByRole('link', { name: 'Campion College Australia' }));
 
     await waitFor(() => {
@@ -151,7 +182,7 @@ describe('ShortlistGate', () => {
       ) as unknown as typeof fetch;
 
     render(<ShortlistGate enabled providers={providers} filters={filters} />);
-    await user.click(screen.getByRole('link', { name: 'Nepean Community College' }));
+    await user.click(screen.getByRole('button', { name: 'Nepean Community College' }));
     await user.click(screen.getByRole('link', { name: 'Campion College Australia' }));
 
     await waitFor(() => {
@@ -172,7 +203,7 @@ describe('ShortlistGate', () => {
     }) as unknown as typeof fetch;
 
     render(<ShortlistGate enabled providers={providers} filters={filters} />);
-    await user.click(screen.getByRole('link', { name: 'Nepean Community College' }));
+    await user.click(screen.getByRole('button', { name: 'Nepean Community College' }));
     await user.click(screen.getByRole('link', { name: 'Campion College Australia' }));
 
     await waitFor(() => {
@@ -191,7 +222,7 @@ describe('ShortlistGate', () => {
       ) as unknown as typeof fetch;
 
     render(<ShortlistGate enabled providers={providers} filters={filters} />);
-    await user.click(screen.getByRole('link', { name: 'Nepean Community College' }));
+    await user.click(screen.getByRole('button', { name: 'Nepean Community College' }));
     await user.click(screen.getByRole('link', { name: 'Campion College Australia' }));
 
     await waitFor(() => {
@@ -205,7 +236,7 @@ describe('ShortlistGate', () => {
     global.fetch = jest.fn().mockRejectedValue(new Error('offline')) as unknown as typeof fetch;
 
     render(<ShortlistGate enabled providers={providers} filters={filters} />);
-    await user.click(screen.getByRole('link', { name: 'Nepean Community College' }));
+    await user.click(screen.getByRole('button', { name: 'Nepean Community College' }));
     await user.click(screen.getByRole('link', { name: 'Campion College Australia' }));
 
     await waitFor(() => {
@@ -252,7 +283,7 @@ describe('ShortlistGate', () => {
     ) as unknown as typeof fetch;
 
     render(<ShortlistGate enabled providers={providers} filters={filters} />);
-    await user.click(screen.getByRole('link', { name: 'Nepean Community College' }));
+    await user.click(screen.getByRole('button', { name: 'Nepean Community College' }));
     await user.click(screen.getByRole('link', { name: 'Campion College Australia' }));
 
     await waitFor(() => {

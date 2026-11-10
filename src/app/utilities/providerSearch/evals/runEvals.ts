@@ -250,16 +250,17 @@ function evaluateRefusal(
 
 async function callWithRetries(
   query: string,
+  context: ProviderSearchContext,
   live: NonNullable<EvalReport['live']>,
 ): Promise<{ area: string | null; outcome: AssistModelOutcome }> {
-  let call = await callModelWithMeta(buildUserMessage(query), buildAssistSystemPrompt());
+  let call = await callModelWithMeta(buildUserMessage(query), buildAssistSystemPrompt(context));
   live.modelCalls += 1;
   live.promptTokens += call.meta.usage.prompt ?? 0;
   live.completionTokens += call.meta.usage.completion ?? 0;
 
   let attempt = 1;
   while (RETRYABLE.has(call.meta.outcome) && attempt < MAX_ATTEMPTS) {
-    call = await callModelWithMeta(buildUserMessage(query), buildAssistSystemPrompt());
+    call = await callModelWithMeta(buildUserMessage(query), buildAssistSystemPrompt(context));
     attempt += 1;
     live.retries += 1;
     live.modelCalls += 1;
@@ -302,7 +303,7 @@ async function evaluateModelCase(
   }
 
   const accepted = c.expect.acceptAreas ?? (c.expect.area ? [c.expect.area] : []);
-  const model = await callWithRetries(c.query, live);
+  const model = await callWithRetries(c.query, context, live);
   const areaOk =
     model.area !== null &&
     accepted.some((value) => normalise(value) === normalise(model.area ?? ''));

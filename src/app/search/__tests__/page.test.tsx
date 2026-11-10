@@ -10,9 +10,9 @@ import {
   hasVerificationCookie,
   isBotIdGateEnabled,
 } from '@/app/utilities/botid/verificationCookie';
-import ProviderSearchResults from '@/app/components/providerSearch/ProviderSearchResults';
 import ProviderStudySearch from '@/app/components/providerSearch/ProviderStudySearch';
 import SearchVerification from '@/app/components/providerSearch/SearchVerification';
+import ShortlistGate from '@/app/components/providerSearch/ShortlistGate';
 import Page from '../page';
 
 type WalkableElement = ReactElement<{ children?: ReactNode } & Record<string, unknown>>;
@@ -43,21 +43,27 @@ function findElement(
   return findElement(element.props?.children, predicate);
 }
 
+type ListedProvider = { name: string };
+
 const MATCHING_QUERY = { InterestArea: 'IT', Location: 'Sydney' };
 
 /**
  * The page is an async server component, so it is invoked directly and the
- * results element is rendered from the returned tree. This is what guards the
- * regression where the page computed results but mounted no results list.
+ * comparison section is rendered from the returned tree. That section is the
+ * only place providers are listed, so it is what the results are asserted on.
  */
 async function renderPageResults(searchParams: Record<string, string>): Promise<WalkableElement> {
   const page = await Page({ searchParams: Promise.resolve(searchParams) });
-  const results = findElement(page, (element) => element.type === ProviderSearchResults);
+  const section = findElement(page, (element) => element.type === ShortlistGate);
 
-  expect(results).not.toBeNull();
-  render(results as WalkableElement);
+  expect(section).not.toBeNull();
+  render(section as WalkableElement);
 
-  return results as WalkableElement;
+  return section as WalkableElement;
+}
+
+function listedProviderNames(section: WalkableElement): string[] {
+  return (section.props.providers as ListedProvider[]).map((provider) => provider.name);
 }
 
 describe('Provider search page', () => {
@@ -66,22 +72,54 @@ describe('Provider search page', () => {
     verificationCookieValid.mockResolvedValue(true);
   });
 
-  it('renders the provider matching an area and location query', async () => {
-    const results = await renderPageResults(MATCHING_QUERY);
+  it('lists the provider matching an area and location query', async () => {
+    const section = await renderPageResults(MATCHING_QUERY);
 
-    expect(results.props.totalCount).toBeGreaterThan(0);
-    expect(screen.getByText('Nepean Community College')).toBeInTheDocument();
-    expect(screen.queryByText('No providers matched your search')).not.toBeInTheDocument();
+    expect(listedProviderNames(section)).toContain('Nepean Community College');
+    expect(screen.getByRole('link', { name: 'Nepean Community College' })).toBeInTheDocument();
+    expect(screen.queryByText(/No providers matched your search/)).not.toBeInTheDocument();
   });
 
   it('surfaces state-tagged providers for a city search, like the assist bar does', async () => {
-    const results = await renderPageResults({ Location: 'Melbourne' });
+    const section = await renderPageResults({ Location: 'Melbourne' });
 
     // A city-only filter used to match only providers tagged with that city,
     // hiding every VIC emerging provider.
-    expect(results.props.totalCount).toBeGreaterThan(1);
-    expect(screen.getByText('Collarts')).toBeInTheDocument();
-    expect(screen.getByText('Deakin University')).toBeInTheDocument();
+    expect(listedProviderNames(section).length).toBeGreaterThan(1);
+    expect(screen.getByRole('link', { name: 'Collarts' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Deakin University' })).toBeInTheDocument();
+  });
+
+  it('lists Collarts for a creative industries search in Melbourne', async () => {
+    // "creative studies in melbourne" resolves to Creative Industries, which
+    // Collarts must carry to be listed at all.
+    const section = await renderPageResults({
+      InterestArea: 'Creative Industries',
+      Location: 'Melbourne',
+    });
+
+    expect(listedProviderNames(section)).toContain('Collarts');
+    expect(screen.getByRole('link', { name: 'Collarts' })).toBeInTheDocument();
+  });
+
+  it('links each listed provider to its page', async () => {
+    await renderPageResults({ Location: 'Melbourne' });
+
+    expect(screen.getByRole('link', { name: 'Collarts' })).toHaveAttribute(
+      'href',
+      '/endorsedproviders/collarts',
+    );
+    expect(screen.getByRole('link', { name: 'Deakin University' })).toHaveAttribute(
+      'href',
+      '/emergingproviders/deakin-university',
+    );
+  });
+
+  it('renders the empty state, not a blank page, when nothing matches', async () => {
+    const section = await renderPageResults({ Location: 'Hobart' });
+
+    expect(listedProviderNames(section)).toEqual([]);
+    expect(screen.getByText(/No providers matched your search/)).toBeInTheDocument();
   });
 
   it('remounts the search form for a new query so its filters match the URL', async () => {
@@ -101,29 +139,13 @@ describe('Provider search page', () => {
     expect(melbourne.key).not.toBe(perth.key);
   });
 
-  it('links each result to the provider page', async () => {
-    await renderPageResults({ Location: 'Melbourne' });
-
-    expect(screen.getByRole('link', { name: 'View Collarts' })).toHaveAttribute(
-      'href',
-      '/endorsedproviders/collarts',
-    );
-    expect(screen.getByRole('link', { name: 'View Deakin University' })).toBeInTheDocument();
-  });
-
-  it('renders the empty state, not a blank page, when nothing matches', async () => {
-    await renderPageResults({ Location: 'Hobart' });
-
-    expect(screen.getByText('No providers matched your search')).toBeInTheDocument();
-  });
-
-  it('withholds the results list until the bot gate verifies the browser', async () => {
+  it('withholds the results section until the bot gate verifies the browser', async () => {
     gateEnabled.mockReturnValue(true);
     verificationCookieValid.mockResolvedValue(false);
 
     const page = await Page({ searchParams: Promise.resolve(MATCHING_QUERY) });
 
-    expect(findElement(page, (element) => element.type === ProviderSearchResults)).toBeNull();
+    expect(findElement(page, (element) => element.type === ShortlistGate)).toBeNull();
     expect(findElement(page, (element) => element.type === SearchVerification)).not.toBeNull();
   });
 });

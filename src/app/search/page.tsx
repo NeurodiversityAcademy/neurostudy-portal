@@ -4,7 +4,6 @@ import { TypographyColorToken } from '@/app/components/typography/typographyColo
 import ProviderStudySearch from '@/app/components/providerSearch/ProviderStudySearch';
 import SearchVerification from '@/app/components/providerSearch/SearchVerification';
 import ProviderSearchResultsTracker from '@/app/components/providerSearch/ProviderSearchResultsTracker';
-import ProviderSearchResults from '@/app/components/providerSearch/ProviderSearchResults';
 import ProviderSearchFeedback from '@/app/components/providerSearch/ProviderSearchFeedback';
 import ShortlistGate from '@/app/components/providerSearch/ShortlistGate';
 import {
@@ -123,13 +122,7 @@ export default async function ProviderSearchPage({ searchParams }: SearchPagePro
             recommendationsEnabled={recommendationsEnabled}
             countWithEvidence={countWithEvidence}
           />
-          <ProviderSearchResults
-            results={results}
-            filters={filters}
-            searchDemo={searchDemo}
-            totalCount={totalCount}
-            rankReasons={rankReasons}
-          />
+          {/* Providers are listed only in the comparison section below. */}
           <ShortlistGate
             key={JSON.stringify([filters.interestAreas, filters.locations, searchDemo])}
             enabled={isLeadCaptureEnabled()}

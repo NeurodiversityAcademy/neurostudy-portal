@@ -8,6 +8,7 @@ import ProviderCompareTable from './ProviderCompareTable';
 import { trackShortlistCompare } from '@/app/utilities/providerSearch/providerSearchGa';
 import { buildEndorsedProviderDetailHref } from '@/app/utilities/endorsedProvidersDemo';
 import { buildEmergingProviderDetailHref } from '@/app/emergingproviders/emergingProviderMetadata';
+import { hasEmergingProviderProfile } from '@/app/components/emergingInstitutions/emergingProviderProfileSlugs';
 import styles from './shortlistGate.module.css';
 
 const MAX_SELECTED = 3;
@@ -65,9 +66,16 @@ type ProviderSelectionListProps = {
   providers: ShortlistGateProps['providers'];
   selected: string[];
   onToggle: (slug: string) => void;
+  /** Selection needs the comparison API, so disabled/single results stay links. */
+  selectable: boolean;
 };
 
-function ProviderSelectionList({ providers, selected, onToggle }: ProviderSelectionListProps) {
+function ProviderSelectionList({
+  providers,
+  selected,
+  onToggle,
+  selectable,
+}: ProviderSelectionListProps) {
   const endorsed = providers.filter((provider) => provider.kind !== 'emerging');
   const emerging = providers.filter((provider) => provider.kind === 'emerging');
   const emergingByState = new Map<string, typeof emerging>();
@@ -79,12 +87,58 @@ function ProviderSelectionList({ providers, selected, onToggle }: ProviderSelect
     emergingByState.set(state, group);
   }
 
+  const renderChipContent = (
+    provider: ShortlistGateProps['providers'][number],
+    isSelected: boolean,
+  ) => (
+    <span className={resolveProviderChipClassName(provider, isSelected)}>
+      {isSelected ? (
+        <span className={styles.tick} aria-hidden='true'>
+          ✓
+        </span>
+      ) : null}
+      {provider.ndaCertified ? (
+        <span className={styles.star} aria-hidden='true'>
+          ★
+        </span>
+      ) : null}
+      {provider.name}
+    </span>
+  );
+
   const renderChip = (provider: ShortlistGateProps['providers'][number]) => {
     const isSelected = selected.includes(provider.slug);
     const detailHref =
       provider.kind === 'endorsed'
         ? buildEndorsedProviderDetailHref(provider.slug, '')
-        : buildEmergingProviderDetailHref(provider.slug);
+        : hasEmergingProviderProfile(provider.slug)
+          ? buildEmergingProviderDetailHref(provider.slug)
+          : '';
+
+    // Emerging providers without a profile page have no destination, so their
+    // chip is not a link rather than a link that would 404. It still has to be
+    // selectable, otherwise those providers could never be compared.
+    if (!detailHref) {
+      if (selectable) {
+        return (
+          <button
+            key={provider.slug}
+            type='button'
+            className={`${styles.providerLink} ${styles.providerChipButton}`}
+            aria-pressed={isSelected}
+            onClick={() => onToggle(provider.slug)}
+          >
+            {renderChipContent(provider, isSelected)}
+          </button>
+        );
+      }
+
+      return (
+        <span key={provider.slug} className={styles.providerLink}>
+          {renderChipContent(provider, false)}
+        </span>
+      );
+    }
 
     return (
       <Link
@@ -94,28 +148,13 @@ function ProviderSelectionList({ providers, selected, onToggle }: ProviderSelect
         rel='noopener noreferrer'
         className={styles.providerLink}
         onClick={(event) => {
-          if (!isSelected && detailHref) {
+          if (selectable && !isSelected) {
             event.preventDefault();
             onToggle(provider.slug);
           }
         }}
       >
-        <span
-          className={resolveProviderChipClassName(provider, isSelected)}
-          aria-pressed={isSelected}
-        >
-          {isSelected ? (
-            <span className={styles.tick} aria-hidden='true'>
-              ✓
-            </span>
-          ) : null}
-          {provider.ndaCertified ? (
-            <span className={styles.star} aria-hidden='true'>
-              ★
-            </span>
-          ) : null}
-          {provider.name}
-        </span>
+        {renderChipContent(provider, isSelected)}
       </Link>
     );
   };
@@ -165,6 +204,26 @@ function PanelFooter({ showClear, onClear, rankingHref }: PanelFooterProps) {
   );
 }
 
+/** Zero results: this section is the only listing, so it explains the empty search. */
+function EmptyResults({ headingId }: { headingId: string }) {
+  return (
+    <section className={styles.root} aria-labelledby={headingId}>
+      <div className={styles.intro}>
+        <div>
+          <h2 id={headingId} className={styles.heading}>
+            Compare providers side by side
+          </h2>
+        </div>
+      </div>
+      <div className={styles.panel}>
+        <p className={styles.emptyState} role='status'>
+          No providers matched your search. Try a different area of study or location.
+        </p>
+      </div>
+    </section>
+  );
+}
+
 export default function ShortlistGate({ enabled, providers, rankingHref }: ShortlistGateProps) {
   const [selected, setSelected] = useState<string[]>([]);
   const [busy, setBusy] = useState(false);
@@ -173,9 +232,12 @@ export default function ShortlistGate({ enabled, providers, rankingHref }: Short
 
   const panelId = useId();
   const statusId = useId();
+  const canCompare = enabled && providers.length >= 2;
 
-  if (!enabled || providers.length < 2) {
-    return null;
+  // This section is the only place results are listed, so it must render for
+  // zero and one provider too instead of disappearing.
+  if (providers.length === 0) {
+    return <EmptyResults headingId={`${panelId}-heading`} />;
   }
 
   const loadCompare = async (slugs: string[]) => {
@@ -255,9 +317,11 @@ export default function ShortlistGate({ enabled, providers, rankingHref }: Short
           <h2 id={`${panelId}-heading`} className={styles.heading}>
             Compare providers side by side
           </h2>
-          <p className={styles.subheading}>
-            Select two or three providers to compare them side by side below.
-          </p>
+          {canCompare ? (
+            <p className={styles.subheading}>
+              Select two or three providers to compare them side by side below.
+            </p>
+          ) : null}
         </div>
       </div>
 
@@ -267,42 +331,45 @@ export default function ShortlistGate({ enabled, providers, rankingHref }: Short
             providers={providers}
             selected={selected}
             onToggle={toggleProvider}
+            selectable={canCompare}
           />
         </div>
 
-        <div
-          className={styles.selectionRow}
-          id={statusId}
-          role='status'
-          aria-live='polite'
-          aria-busy={busy}
-        >
-          {busy ? (
-            <span className={styles.selectionSummary}>Loading comparison…</span>
-          ) : selected.length > 0 ? (
-            <span className={styles.selectionSummary}>
-              {`${selected.length} of ${providers.length} providers selected (max ${Math.min(
-                MAX_SELECTED,
-                providers.length,
-              )})`}
-            </span>
-          ) : (
-            <span className={styles.selectionSummary}>Select at least two providers</span>
-          )}
-          {message ? (
-            <span
-              className={
-                message.kind === 'error'
-                  ? styles.error
-                  : message.kind === 'success'
-                    ? styles.success
-                    : styles.info
-              }
-            >
-              {message.text}
-            </span>
-          ) : null}
-        </div>
+        {canCompare ? (
+          <div
+            className={styles.selectionRow}
+            id={statusId}
+            role='status'
+            aria-live='polite'
+            aria-busy={busy}
+          >
+            {busy ? (
+              <span className={styles.selectionSummary}>Loading comparison…</span>
+            ) : selected.length > 0 ? (
+              <span className={styles.selectionSummary}>
+                {`${selected.length} of ${providers.length} providers selected (max ${Math.min(
+                  MAX_SELECTED,
+                  providers.length,
+                )})`}
+              </span>
+            ) : (
+              <span className={styles.selectionSummary}>Select at least two providers</span>
+            )}
+            {message ? (
+              <span
+                className={
+                  message.kind === 'error'
+                    ? styles.error
+                    : message.kind === 'success'
+                      ? styles.success
+                      : styles.info
+                }
+              >
+                {message.text}
+              </span>
+            ) : null}
+          </div>
+        ) : null}
 
         {compare ? (
           <div className={styles.compareWrap}>
@@ -310,15 +377,17 @@ export default function ShortlistGate({ enabled, providers, rankingHref }: Short
           </div>
         ) : null}
 
-        <PanelFooter
-          showClear={compare !== null}
-          onClear={() => {
-            setSelected([]);
-            setCompare(null);
-            setMessage(null);
-          }}
-          rankingHref={rankingHref}
-        />
+        {canCompare ? (
+          <PanelFooter
+            showClear={compare !== null}
+            onClear={() => {
+              setSelected([]);
+              setCompare(null);
+              setMessage(null);
+            }}
+            rankingHref={rankingHref}
+          />
+        ) : null}
       </div>
     </section>
   );

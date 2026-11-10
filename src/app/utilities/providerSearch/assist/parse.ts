@@ -9,12 +9,24 @@ import {
   uniqueSortedStrings,
 } from '@/app/utilities/providerSearch/normalize';
 
-const FUZZY_AREA_ALIASES: Record<string, string[]> = {
+/**
+ * Hand-maintained synonyms: a query word maps to the catalog labels it stands
+ * for. Only labels present in the catalog survive, and the first match routes
+ * the search, so list the broadest label first.
+ */
+export const FUZZY_AREA_ALIASES: Record<string, string[]> = {
   creative: ['Creative Industries', 'Design'],
   media: ['Screen Media', 'Screen/Media/Games', 'Media & Communication'],
   film: ['Screen Media', 'Screen/Media/Games'],
   design: ['Design', 'Creative Industries'],
   nursing: ['Nursing'],
+  'visual arts': ['Visual Art', 'Arts'],
+  'performing arts': ['Creative Arts', 'Arts'],
+  theatre: ['Creative Arts', 'Arts'],
+  theater: ['Creative Arts', 'Arts'],
+  coding: ['IT', 'Information Technology'],
+  programming: ['IT', 'Information Technology'],
+  journalism: ['Media & Communication', 'Arts'],
 };
 
 function escapeRegExp(value: string): string {
@@ -44,6 +56,23 @@ function aliasMatches(text: string, catalog: string[]): string[] {
   }
 
   return uniqueSortedStrings([...matches]);
+}
+
+/**
+ * Maps area wording onto a catalog label: model output or typed text can say
+ * "arts" while the catalog says "Creative Industries". Returns null rather
+ * than inventing a label no provider carries.
+ */
+export function resolveCatalogArea(text: string, ctx: ProviderSearchContext): string | null {
+  // A label the model returns verbatim is always accepted: overlapping labels
+  // ("Education" inside "Teaching/Education") can otherwise look ambiguous.
+  const normalized = normalizeSearchToken(text);
+  const exact = ctx.interestAreaCatalog.find((area) => normalizeSearchToken(area) === normalized);
+  if (exact) {
+    return exact;
+  }
+
+  return resolveAreaMatch(text, ctx.interestAreaCatalog);
 }
 
 function resolveAreaMatch(text: string, catalog: string[]): string | null {

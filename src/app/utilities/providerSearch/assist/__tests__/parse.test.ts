@@ -2,12 +2,17 @@ import {
   classifyOutOfScope,
   detectInText,
   expandLocations,
+  FUZZY_AREA_ALIASES,
   isOutOfScope,
+  resolveCatalogArea,
   suggestAreas,
   tryAreaOnlyHit,
   tryKeywordHit,
   tryLocationOnlyHit,
 } from '../parse';
+
+import { loadProviderSearchContext } from '../../catalog';
+import { normalizeSearchToken } from '../../normalize';
 
 const catalog = {
   interestAreaCatalog: [
@@ -176,6 +181,45 @@ describe('tryAreaOnlyHit', () => {
 
   it('returns null when an alias points at several areas', () => {
     expect(tryAreaOnlyHit('film', context())).toBeNull();
+  });
+});
+
+describe('synonym table', () => {
+  const { interestAreaCatalog } = loadProviderSearchContext();
+  const labels = new Set(interestAreaCatalog.map((area) => normalizeSearchToken(area)));
+
+  // Both predate the guard and are deliberate: "nursing" maps to its own label,
+  // and "design" broadens onto Creative Industries (golden case kw-08). Any new
+  // shadow is a mistake — that is how "arts" stopped resolving to Arts.
+  const INTENTIONAL_SHADOWS = new Set(['design', 'nursing']);
+
+  it('never shadows a real catalog label', () => {
+    const clashes = Object.keys(FUZZY_AREA_ALIASES).filter(
+      (alias) => labels.has(normalizeSearchToken(alias)) && !INTENTIONAL_SHADOWS.has(alias),
+    );
+
+    expect(clashes).toEqual([]);
+  });
+
+  it('maps every synonym onto at least one real catalog label', () => {
+    const unusable = Object.entries(FUZZY_AREA_ALIASES)
+      .filter(
+        ([, candidates]) =>
+          !candidates.some((candidate) => labels.has(normalizeSearchToken(candidate))),
+      )
+      .map(([alias]) => alias);
+
+    expect(unusable).toEqual([]);
+  });
+});
+
+describe('resolveCatalogArea', () => {
+  it('maps wording onto a catalog label and rejects unknown labels', () => {
+    expect(resolveCatalogArea('creative', context())).toBe('Creative Industries');
+    expect(resolveCatalogArea('nursing', context())).toBe('Nursing');
+    // A label returned verbatim is accepted even when another label contains it.
+    expect(resolveCatalogArea('Design', context())).toBe('Design');
+    expect(resolveCatalogArea('Underwater basket weaving', context())).toBeNull();
   });
 });
 

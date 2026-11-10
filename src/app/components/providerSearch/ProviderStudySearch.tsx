@@ -46,6 +46,14 @@ function buildSelectedFilters(interestAreas: string[], locations: string[]) {
   ];
 }
 
+function NoMatchMessage({ message }: { message: string }) {
+  return (
+    <div className={styles.noMatchMessage} role='status' aria-live='polite'>
+      {message}
+    </div>
+  );
+}
+
 const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
   className,
   defaultInterestAreas = [],
@@ -94,23 +102,25 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
     });
   }
 
+  function navigateToResults(interestAreas: string[], locations: string[]): void {
+    router.push(buildProviderSearchHref({ interestAreas, locations }, { searchDemo }));
+  }
+
   function submitActiveFilters(): void {
-    if (selectedInterestAreas.length === 0 && selectedLocations.length === 0) {
-      return;
+    const hasFilters = selectedInterestAreas.length > 0 || selectedLocations.length > 0;
+
+    if (hasFilters) {
+      trackProviderSearchSubmit({
+        surface,
+        interestAreas: selectedInterestAreas,
+        locations: selectedLocations,
+        mode: 'quick',
+      });
     }
 
-    trackProviderSearchSubmit({
-      surface,
-      interestAreas: selectedInterestAreas,
-      locations: selectedLocations,
-      mode: 'quick',
-    });
-    router.push(
-      buildProviderSearchHref(
-        { interestAreas: selectedInterestAreas, locations: selectedLocations },
-        { searchDemo },
-      ),
-    );
+    // Every submit ends on the results page. With nothing selected that is the
+    // full provider list, which beats appearing to ignore the keystroke.
+    navigateToResults(selectedInterestAreas, selectedLocations);
   }
 
   async function handleAssistSearch(): Promise<void> {
@@ -125,7 +135,17 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
 
     const data = await requestAssistSearch(trimmed);
 
-    if (!data || data.offTopic) {
+    if (!data) {
+      // The assistant is an enhancement, not a gate: a refused or failed
+      // request still lands on the full provider list instead of nothing.
+      navigateToResults([], []);
+      return;
+    }
+
+    if (data.offTopic) {
+      setNoMatchMessage(
+        "That doesn't look like a study area or location. Try something like 'Nursing in Melbourne'.",
+      );
       return;
     }
 
@@ -133,9 +153,7 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
     const locations = data.locations ?? [];
 
     if (!interestAreas.length && !locations.length) {
-      setNoMatchMessage(
-        "We couldn't match that search, so we're showing all results. Try a supported study area or location.",
-      );
+      navigateToResults([], []);
       return;
     }
 
@@ -203,11 +221,7 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
           </div>
         ) : null}
 
-        {noMatchMessage ? (
-          <div className={styles.noMatchMessage} role='status' aria-live='polite'>
-            {noMatchMessage}
-          </div>
-        ) : null}
+        {noMatchMessage ? <NoMatchMessage message={noMatchMessage} /> : null}
       </form>
     </div>
   );

@@ -42,6 +42,14 @@
   background: var(--GhostWhite);
 }
 
+.emptyState {
+  margin: 0;
+  font-family: var(--poppins-font);
+  font-size: var(--body2-font-size);
+  line-height: 1.55;
+  color: var(--BondBlack);
+}
+
 .providerList {
   display: flex;
   flex-direction: column;
@@ -254,6 +262,16 @@
   text-decoration: none;
   color: inherit;
   display: block;
+}
+
+/* Chip without a detail page: a button so it can still be selected. */
+.providerChipButton {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 
 /* NDA-certified (e.g. Nepean CC): golden border + glow, as on endorsed cards */

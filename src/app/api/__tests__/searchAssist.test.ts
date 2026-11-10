@@ -27,6 +27,9 @@ jest.mock('@/app/utilities/providerSearch/assist/parse', () => ({
   isOutOfScope: jest.fn(() => false),
   suggestAreas: jest.fn(() => []),
   detectInText: jest.fn(() => []),
+  resolveCatalogArea: jest.fn((area: string | null | undefined) =>
+    typeof area === 'string' && area.trim().length > 0 ? area.trim() : null,
+  ),
 }));
 
 jest.mock('@/app/utilities/providerSearch/assist/llm', () => ({

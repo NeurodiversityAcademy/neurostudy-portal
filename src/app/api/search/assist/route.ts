@@ -11,6 +11,7 @@ import { callModelWithMeta } from '@/app/utilities/providerSearch/assist/llm';
 import {
   classifyOutOfScope,
   detectInText,
+  resolveCatalogArea,
   suggestAreas,
   tryAreaOnlyHit,
   tryKeywordHit,
@@ -58,12 +59,17 @@ function rejectAutomation(request: Request): Response | null {
   return null;
 }
 
-function normaliseArea(area: string | null | undefined): string | null {
+function normaliseArea(
+  area: string | null | undefined,
+  context: ProviderSearchContext,
+): string | null {
   if (typeof area !== 'string') {
     return null;
   }
   const trimmed = area.trim();
-  return trimmed.length > 0 ? trimmed : null;
+  // A model label that is not in the catalog would search for providers that
+  // cannot exist, so map it onto a real area or drop it.
+  return trimmed.length > 0 ? resolveCatalogArea(trimmed, context) : null;
 }
 
 function normaliseLocation(location: string | null | undefined): string[] {
@@ -203,7 +209,10 @@ async function respondFromModel(
   context: ProviderSearchContext,
   trace: ApiTrace,
 ): Promise<Response> {
-  const modelCall = await callModelWithMeta(buildUserMessage(text), buildAssistSystemPrompt());
+  const modelCall = await callModelWithMeta(
+    buildUserMessage(text),
+    buildAssistSystemPrompt(context),
+  );
   const measuredTokens = {
     prompt: modelCall.meta.usage.prompt,
     completion: modelCall.meta.usage.completion,
@@ -223,7 +232,7 @@ async function respondFromModel(
   // Location-only ("study in melbourne") and area-only ("nursing") queries are
   // real searches: keep whichever side we found, so a bare area returns results
   // across every location instead of a suggestions-only response.
-  const area = normaliseArea(modelCall.value?.area) ?? tryAreaOnlyHit(text, context);
+  const area = normaliseArea(modelCall.value?.area, context) ?? tryAreaOnlyHit(text, context);
   const locations =
     modelLocations.length > 0 ? modelLocations : (tryLocationOnlyHit(text, context) ?? []);
 

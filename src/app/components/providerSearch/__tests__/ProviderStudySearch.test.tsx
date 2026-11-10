@@ -216,7 +216,7 @@ describe('ProviderStudySearch', () => {
     });
   });
 
-  it('explains that results remain unchanged when the Ask query cannot be matched', async () => {
+  it('shows every provider when the Ask query cannot be matched', async () => {
     const user = userEvent.setup();
     (global as typeof globalThis & { fetch: jest.Mock }).fetch = jest.fn().mockResolvedValue({
       ok: true,
@@ -233,8 +233,60 @@ describe('ProviderStudySearch', () => {
     );
     await user.click(screen.getByRole('button', { name: 'Ask' }));
 
+    await waitFor(() => {
+      expect(pushMock).toHaveBeenCalledWith('/search');
+    });
+  });
+
+  it('still navigates when the assist request is refused', async () => {
+    const user = userEvent.setup();
+    (global as typeof globalThis & { fetch: jest.Mock }).fetch = jest
+      .fn()
+      .mockResolvedValue({ ok: false });
+
+    render(
+      <ProviderStudySearch surface='homepage' interestAreaOptions={[]} locationOptions={[]} />,
+    );
+
+    await user.type(
+      screen.getByPlaceholderText('E.g. Nursing in melbourne'),
+      'nursing in melbourne',
+    );
+    await user.click(screen.getByRole('button', { name: 'Ask' }));
+
+    await waitFor(() => {
+      expect(pushMock).toHaveBeenCalledWith('/search');
+    });
+  });
+
+  it('opens the full provider list on Enter with no query or filters', async () => {
+    render(
+      <ProviderStudySearch surface='homepage' interestAreaOptions={[]} locationOptions={[]} />,
+    );
+
+    fireEvent.submit(screen.getByLabelText('What would you like to study?').closest('form')!);
+
+    await waitFor(() => {
+      expect(pushMock).toHaveBeenCalledWith('/search');
+    });
+  });
+
+  it('explains an off-topic query instead of navigating', async () => {
+    const user = userEvent.setup();
+    (global as typeof globalThis & { fetch: jest.Mock }).fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ offTopic: true, suggestions: [] }),
+    });
+
+    render(
+      <ProviderStudySearch surface='homepage' interestAreaOptions={[]} locationOptions={[]} />,
+    );
+
+    await user.type(screen.getByPlaceholderText('E.g. Nursing in melbourne'), 'write me an essay');
+    await user.click(screen.getByRole('button', { name: 'Ask' }));
+
     expect(await screen.findByRole('status')).toHaveTextContent(
-      "We couldn't match that search, so we're showing all results. Try a supported study area or location.",
+      "That doesn't look like a study area or location.",
     );
     expect(pushMock).not.toHaveBeenCalled();
   });
