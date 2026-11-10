@@ -14,10 +14,18 @@ describe('buildAssistSystemPrompt', () => {
     expect(prompt).toContain('Never return an area or location that is not in the allowed lists.');
   });
 
+  it('asks the model to report words it could not map', () => {
+    const prompt = buildAssistSystemPrompt();
+
+    // Without this, a query the model only partly understood looks successful.
+    expect(prompt).toContain('"unmatched"');
+    expect(prompt).toContain('{"area": null, "location": "NSW", "unmatched": ["asdfgh"]}');
+  });
+
   it('stays usable without a catalog for offline callers', () => {
     const prompt = buildAssistSystemPrompt();
 
     expect(prompt).not.toContain('Allowed areas');
-    expect(prompt).toContain('Return only valid JSON with keys: area, location.');
+    expect(prompt).toContain('Return only valid JSON with keys: area, location, unmatched.');
   });
 });

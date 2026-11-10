@@ -3,7 +3,24 @@ import { buildAssistCacheKey, createTtlCache, normalizeAssistCacheText } from '.
 export type AssistRaw = {
   area: string | null;
   location: string | null;
+  /** Words the model could not map; lets the results page explain a partial match. */
+  unmatched?: string[];
 };
+
+const MAX_UNMATCHED_TERMS = 3;
+const MAX_UNMATCHED_LENGTH = 40;
+
+function readUnmatched(value: unknown): string[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .filter((word): word is string => typeof word === 'string')
+    .map((word) => word.trim())
+    .filter((word) => word.length > 0 && word.length <= MAX_UNMATCHED_LENGTH)
+    .slice(0, MAX_UNMATCHED_TERMS);
+}
 
 export type AssistModelOutcome =
   'ok' | 'no_match' | 'malformed' | 'http_error' | 'timeout' | 'error' | 'unconfigured';
@@ -85,9 +102,11 @@ function extractJson(text: string | null | undefined): AssistRaw | null {
     if (typeof parsed.location !== 'string' && parsed.location !== null) {
       return null;
     }
+    const unmatched = readUnmatched((parsed as { unmatched?: unknown }).unmatched);
     return {
       area: parsed.area ?? null,
       location: parsed.location ?? null,
+      ...(unmatched.length > 0 ? { unmatched } : {}),
     };
   } catch {
     return null;

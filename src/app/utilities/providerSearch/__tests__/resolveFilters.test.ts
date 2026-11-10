@@ -63,6 +63,14 @@ describe('resolveProviderSearchFilters', () => {
     expect(listMatchingProviders(context, filters).some((p) => p.slug === 'collarts')).toBe(true);
   });
 
+  it('keeps the unmatched terms so the page can explain a partial match', () => {
+    const { unmatched } = resolveProviderSearchFilters({
+      Unmatched: ['asdfgh|qwerty', 'a'.repeat(41)],
+    });
+
+    expect(unmatched).toEqual(['asdfgh', 'qwerty']);
+  });
+
   it('returns empty filters for missing params', () => {
     const { filters, searchDemo } = resolveProviderSearchFilters({});
     expect(searchDemo).toBe(false);

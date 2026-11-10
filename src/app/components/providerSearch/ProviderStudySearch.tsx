@@ -24,6 +24,8 @@ export type ProviderStudySearchProps = HTMLAttributes<HTMLDivElement> & {
   defaultInterestAreas?: string[];
   defaultLocations?: string[];
   surface: ProviderSearchSurface;
+  /** Shown under the filter pills, e.g. when a query was only partly understood. */
+  initialMessage?: string;
   searchDemo?: boolean;
   compact?: boolean;
   autoFocus?: boolean;
@@ -46,6 +48,35 @@ function buildSelectedFilters(interestAreas: string[], locations: string[]) {
   ];
 }
 
+const OFF_TOPIC_MESSAGE =
+  "That doesn't look like a study area or location. Try something like 'Nursing in Melbourne'.";
+
+type SelectedFilterPillsProps = {
+  filters: ReturnType<typeof buildSelectedFilters>;
+  onRemove: (field: 'InterestArea' | 'Location', value: string) => void;
+};
+
+function SelectedFilterPills({ filters, onRemove }: SelectedFilterPillsProps) {
+  if (filters.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className={styles.selectedFiltersRow} aria-live='polite'>
+      {filters.map((filter) => (
+        <Pill
+          key={filter.key}
+          label={filter.label}
+          value={filter.value}
+          selected
+          onClose={() => onRemove(filter.field, filter.value)}
+          button-aria-label={`Remove ${filter.label}`}
+        />
+      ))}
+    </div>
+  );
+}
+
 function NoMatchMessage({ message }: { message: string }) {
   return (
     <div className={styles.noMatchMessage} role='status' aria-live='polite'>
@@ -62,6 +93,7 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
   interestAreaOptions: _interestAreaOptions,
   locationOptions: _locationOptions,
   surface,
+  initialMessage,
   searchDemo = false,
   compact = false,
   autoFocus = false,
@@ -69,7 +101,7 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
 }) => {
   const router = useRouter();
   const [askQuery, setAskQuery] = useState('');
-  const [noMatchMessage, setNoMatchMessage] = useState<string | null>(null);
+  const [noMatchMessage, setNoMatchMessage] = useState<string | null>(initialMessage ?? null);
   const methods: UseFormReturn<ProviderStudySearchFormValues> =
     useForm<ProviderStudySearchFormValues>({
       mode: 'onChange',
@@ -102,8 +134,12 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
     });
   }
 
-  function navigateToResults(interestAreas: string[], locations: string[]): void {
-    router.push(buildProviderSearchHref({ interestAreas, locations }, { searchDemo }));
+  function navigateToResults(
+    interestAreas: string[],
+    locations: string[],
+    unmatched: string[] = [],
+  ): void {
+    router.push(buildProviderSearchHref({ interestAreas, locations }, { searchDemo, unmatched }));
   }
 
   function submitActiveFilters(): void {
@@ -118,8 +154,7 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
       });
     }
 
-    // Every submit ends on the results page. With nothing selected that is the
-    // full provider list, which beats appearing to ignore the keystroke.
+    // Every submit ends on the results page with nothing selected = full list.
     navigateToResults(selectedInterestAreas, selectedLocations);
   }
 
@@ -143,9 +178,7 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
     }
 
     if (data.offTopic) {
-      setNoMatchMessage(
-        "That doesn't look like a study area or location. Try something like 'Nursing in Melbourne'.",
-      );
+      setNoMatchMessage(OFF_TOPIC_MESSAGE);
       return;
     }
 
@@ -153,7 +186,7 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
     const locations = data.locations ?? [];
 
     if (!interestAreas.length && !locations.length) {
-      navigateToResults([], []);
+      navigateToResults([], [], data.unmatched ?? []);
       return;
     }
 
@@ -166,7 +199,8 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
       ...(data.traceId ? { traceId: data.traceId } : {}),
     });
     rememberSearchTraceId(data.traceId);
-    router.push(buildProviderSearchHref({ interestAreas, locations }, { searchDemo }));
+    // Carry dropped words so the results page can explain the widened list.
+    navigateToResults(interestAreas, locations, data.unmatched ?? []);
   }
 
   return (
@@ -206,20 +240,7 @@ const ProviderStudySearch: React.FC<ProviderStudySearchProps> = ({
           </div>
         </div>
 
-        {selectedFilters.length > 0 ? (
-          <div className={styles.selectedFiltersRow} aria-live='polite'>
-            {selectedFilters.map((filter) => (
-              <Pill
-                key={filter.key}
-                label={filter.label}
-                value={filter.value}
-                selected
-                onClose={() => removeFilter(filter.field, filter.value as string)}
-                button-aria-label={`Remove ${filter.label}`}
-              />
-            ))}
-          </div>
-        ) : null}
+        <SelectedFilterPills filters={selectedFilters} onRemove={removeFilter} />
 
         {noMatchMessage ? <NoMatchMessage message={noMatchMessage} /> : null}
       </form>
