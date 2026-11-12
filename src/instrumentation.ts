@@ -17,13 +17,17 @@ export async function register(): Promise<void> {
     return;
   }
 
-  const [{ BasicTracerProvider, BatchSpanProcessor }, { AzureMonitorTraceExporter }, { resourceFromAttributes }, { trace }] =
-    await Promise.all([
-      import('@opentelemetry/sdk-trace-base'),
-      import('@azure/monitor-opentelemetry-exporter'),
-      import('@opentelemetry/resources'),
-      import('@opentelemetry/api'),
-    ]);
+  const [
+    { BasicTracerProvider, BatchSpanProcessor },
+    { AzureMonitorTraceExporter },
+    { resourceFromAttributes },
+    { trace },
+  ] = await Promise.all([
+    import('@opentelemetry/sdk-trace-base'),
+    import('@azure/monitor-opentelemetry-exporter'),
+    import('@opentelemetry/resources'),
+    import('@opentelemetry/api'),
+  ]);
 
   // `useAzureMonitor` from @azure/monitor-opentelemetry leaves the global tracer
   // provider unset in this app, so spans were created by a no-op tracer and never
