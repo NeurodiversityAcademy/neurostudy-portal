@@ -6,6 +6,7 @@ import {
   hashQuery,
   outcomeRequiresReason,
   recordApiEvent,
+  sanitiseQueryText,
   sanitiseTraceFields,
   type ApiTraceEvent,
 } from '../events';
@@ -21,6 +22,14 @@ describe('telemetry events', () => {
 
   it('normalises case and surrounding whitespace in the hash', () => {
     expect(hashQuery('  Nursing in Melbourne ')).toBe(hashQuery('nursing in melbourne'));
+  });
+
+  it('keeps the query readable while removing contact details and length', () => {
+    expect(sanitiseQueryText('  nursing   in\nMelbourne ')).toBe('nursing in Melbourne');
+    expect(sanitiseQueryText('email person@example.com')).toBe('email [email]');
+    expect(sanitiseQueryText('call 0412 345 678')).toBe('call [number]');
+    expect(sanitiseQueryText('see https://example.com/courses')).toBe('see [url]');
+    expect(sanitiseQueryText('a'.repeat(400))).toHaveLength(200);
   });
 
   it('requires a reason for every refusal or failure outcome', () => {

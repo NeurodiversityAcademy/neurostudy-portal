@@ -17,18 +17,29 @@ export async function register(): Promise<void> {
     return;
   }
 
-  const { useAzureMonitor: startAzureMonitor } = await import('@azure/monitor-opentelemetry');
+  const [{ BasicTracerProvider, BatchSpanProcessor }, { AzureMonitorTraceExporter }, { resourceFromAttributes }, { trace }] =
+    await Promise.all([
+      import('@opentelemetry/sdk-trace-base'),
+      import('@azure/monitor-opentelemetry-exporter'),
+      import('@opentelemetry/resources'),
+      import('@opentelemetry/api'),
+    ]);
 
-  startAzureMonitor({
-    azureMonitorExporterOptions: { connectionString },
-    samplingRatio: 1,
-    enableLiveMetrics: false,
-    instrumentationOptions: {
-      // Vercel already captures function logs; avoid duplicating every console
-      // line into App Insights. Structured request traces are sent explicitly.
-      console: { enabled: false },
-    },
+  // `useAzureMonitor` from @azure/monitor-opentelemetry leaves the global tracer
+  // provider unset in this app, so spans were created by a no-op tracer and never
+  // exported. Registering the provider and the Azure Monitor exporter explicitly
+  // keeps request traces flowing. Batches flush every second because serverless
+  // instances can freeze shortly after the response is sent.
+  const provider = new BasicTracerProvider({
+    resource: resourceFromAttributes({ 'service.name': 'neurostudy-portal' }),
+    spanProcessors: [
+      new BatchSpanProcessor(new AzureMonitorTraceExporter({ connectionString }), {
+        scheduledDelayMillis: 1000,
+      }),
+    ],
   });
+
+  trace.setGlobalTracerProvider(provider);
 }
 
 /**

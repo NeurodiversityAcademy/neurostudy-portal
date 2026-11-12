@@ -23,6 +23,7 @@ import {
   buildUserMessage,
 } from '@/app/utilities/providerSearch/assist/prompt';
 import { observeApi, type ApiTrace } from '@/app/utilities/observability/apiTrace';
+import { hashQuery } from '@/app/utilities/observability/events';
 import {
   countProviderSearchResults,
   searchProvidersByFilters,
@@ -222,10 +223,10 @@ async function respondFromModel(
   context: ProviderSearchContext,
   trace: ApiTrace,
 ): Promise<Response> {
-  const modelCall = await callModelWithMeta(
-    buildUserMessage(text),
-    buildAssistSystemPrompt(context),
-  );
+  // The prompt is deterministic for a given catalog, so the trace stores its
+  // fingerprint instead of repeating ~2k characters on every request.
+  const systemPrompt = buildAssistSystemPrompt(context);
+  const modelCall = await callModelWithMeta(buildUserMessage(text), systemPrompt);
   const measuredTokens = {
     prompt: modelCall.meta.usage.prompt,
     completion: modelCall.meta.usage.completion,
@@ -235,6 +236,9 @@ async function respondFromModel(
     usedModel: true,
     model: modelCall.meta.model,
     cacheHit: modelCall.meta.cacheHit,
+    modelResponse: modelCall.meta.rawResponse ?? undefined,
+    promptChars: systemPrompt.length,
+    promptHash: hashQuery(systemPrompt),
     tokens: modelCall.meta.cacheHit ? { ...ZERO_TOKENS } : measuredTokens,
     tokensSaved: modelCall.meta.cacheHit ? measuredTokens : undefined,
   });
@@ -250,19 +254,20 @@ async function respondFromModel(
     modelLocations.length > 0 ? modelLocations : (tryLocationOnlyHit(text, context) ?? []);
 
   if (area || locations.length > 0) {
-    trace.setDecision({
-      path: 'model',
-      area,
-      locations,
-      ...resultCounts(context, area, locations),
-    });
-    trace.setOutcome('model_hit', area ? 'model_area' : 'model_location');
     // The model knows which words it dropped; without a model call, work out
     // which ones the catalog cannot explain.
     const unmatched =
       modelCall.value === null
         ? findUnmatchedTerms(text, area, locations, context)
         : normaliseUnmatched(modelCall.value.unmatched);
+    trace.setDecision({
+      path: 'model',
+      area,
+      locations,
+      unmatched,
+      ...resultCounts(context, area, locations),
+    });
+    trace.setOutcome('model_hit', area ? 'model_area' : 'model_location');
     return Response.json({
       area,
       locations,
@@ -280,7 +285,12 @@ async function respondFromModel(
     modelCall.value === null
       ? findUnmatchedTerms(text, null, [], context)
       : normaliseUnmatched(modelCall.value.unmatched);
-  trace.setDecision({ path: 'suggestion', area: null, locations: [] });
+  trace.setDecision({
+    path: 'suggestion',
+    area: null,
+    locations: [],
+    unmatched: unmatchedNothing,
+  });
   trace.setOutcome(
     'suggestion',
     modelCall.meta.outcome === 'no_match' ? 'model_no_match' : `model_${modelCall.meta.outcome}`,

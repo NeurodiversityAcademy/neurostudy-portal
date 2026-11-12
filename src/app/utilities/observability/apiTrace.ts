@@ -4,6 +4,7 @@ import {
   hashQuery,
   outcomeRequiresReason,
   recordApiEvent,
+  sanitiseQueryText,
   type ApiTraceEvent,
   type DecisionTrace,
   type GateTrace,
@@ -38,6 +39,7 @@ function baseSpanAttributes(params: {
   reason: string | undefined;
   latencyMs: number;
   queryHash: string | undefined;
+  query: string | undefined;
 }): SpanAttributes {
   return {
     'api.route': params.route,
@@ -47,6 +49,7 @@ function baseSpanAttributes(params: {
     'api.reason': params.reason,
     'api.latency_ms': params.latencyMs,
     'search.query_hash': params.queryHash,
+    'search.query': params.query,
   };
 }
 
@@ -55,6 +58,7 @@ function searchSpanAttributes(decision: DecisionTrace | undefined): SpanAttribut
     'search.path': decision?.path,
     'search.area': decision?.area,
     'search.locations': decision?.locations,
+    'search.unmatched': decision?.unmatched,
     'search.result_count': decision?.resultCount,
     'search.tier_course_endorsed': decision?.tierCounts?.courseEndorsed,
     'search.tier_endorsed': decision?.tierCounts?.endorsed,
@@ -80,6 +84,9 @@ function usageSpanAttributes(usage: UsageTrace): SpanAttributes {
     'usage.email_sent': usage.emailSent,
     'usage.slug_count': usage.slugCount,
     'model.name': usage.model,
+    'model.response': usage.modelResponse,
+    'model.prompt_chars': usage.promptChars,
+    'model.prompt_hash': usage.promptHash,
     'tokens.prompt': tokens?.prompt,
     'tokens.completion': tokens?.completion,
     'tokens.total': tokens?.total,
@@ -102,6 +109,7 @@ export function startApiTrace(route: string, request: Request): ApiTrace {
   let outcome: OutcomeCode = 'ok';
   let reason: string | undefined;
   let queryHash: string | undefined;
+  let query: string | undefined;
   let gate: GateTrace | undefined;
   let decision: DecisionTrace | undefined;
   let usage: UsageTrace = { ...DEFAULT_USAGE };
@@ -112,6 +120,7 @@ export function startApiTrace(route: string, request: Request): ApiTrace {
 
     setQuery(text) {
       queryHash = hashQuery(text);
+      query = sanitiseQueryText(text);
     },
 
     setOutcome(nextOutcome, nextReason) {
@@ -155,6 +164,7 @@ export function startApiTrace(route: string, request: Request): ApiTrace {
         reason: reason ?? (outcomeRequiresReason(outcome) ? 'unspecified' : undefined),
         latencyMs,
         queryHash,
+        ...(query ? { query } : {}),
         gate,
         decision,
         usage,
@@ -165,7 +175,16 @@ export function startApiTrace(route: string, request: Request): ApiTrace {
       endSpan(
         span,
         toSpanAttributes({
-          ...baseSpanAttributes({ route, method, status, outcome, reason, latencyMs, queryHash }),
+          ...baseSpanAttributes({
+            route,
+            method,
+            status,
+            outcome,
+            reason,
+            latencyMs,
+            queryHash,
+            query,
+          }),
           ...searchSpanAttributes(decision),
           ...gateSpanAttributes(gate),
           ...usageSpanAttributes(usage),
