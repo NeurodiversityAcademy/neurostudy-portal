@@ -64,6 +64,11 @@ export type UsageTrace = {
   mode: 'quick' | 'ask' | 'n/a';
   usedModel: boolean;
   model?: string;
+  /** Raw JSON the model returned, so a mapping can be audited after the fact. */
+  modelResponse?: string;
+  /** Length/fingerprint of the system prompt, which is too large to log in full. */
+  promptChars?: number;
+  promptHash?: string;
   cacheHit?: boolean;
   tokens?: TokenUsage;
   /** Tokens a cache hit avoided spending. Actual `tokens` stay zero. */
@@ -77,6 +82,8 @@ export type DecisionTrace = {
   reason?: string;
   area?: string | null;
   locations?: string[];
+  /** Words the model reported it could not map. */
+  unmatched?: string[];
   resultCount?: number;
   tierCounts?: TierCounts;
 };
@@ -92,6 +99,8 @@ export type ApiTraceEvent = {
   reason?: string;
   latencyMs: number;
   queryHash?: string;
+  /** Sanitised query text, only when the caller opted in (search assistant). */
+  query?: string;
   gate?: GateTrace;
   decision?: DecisionTrace;
   usage?: UsageTrace;
@@ -102,11 +111,36 @@ export function hashQuery(text: string): string {
   return createHash('sha256').update(text.trim().toLowerCase()).digest('hex').slice(0, 32);
 }
 
+/** Longest query text kept in telemetry. Queries are capped at 300 chars upstream. */
+export const MAX_TRACE_QUERY_LENGTH = 200;
+
+/**
+ * Makes a typed search phrase safe to keep: no emails, no phone numbers, no
+ * newlines, and bounded length. Search text is product content, not PII, but
+ * people do paste contact details into free-text boxes.
+ */
+export function sanitiseQueryText(text: string): string {
+  const scrubbed = text
+    .replace(/\S+@\S+\.\S+/g, '[email]')
+    .replace(/\+?\d[\d\s-]{6,}\d/g, '[number]')
+    .replace(/https?:\/\/\S+/gi, '[url]')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  return scrubbed.slice(0, MAX_TRACE_QUERY_LENGTH);
+}
+
 export function createTraceId(): string {
   return randomBytes(16).toString('hex');
 }
 
 const PII_KEY_PATTERN = /email|phone|name|address|query|text|message|prompt|completion/i;
+
+/**
+ * Keys that look like PII but hold pre-sanitised product data. Only add a key
+ * here when its value went through `sanitiseQueryText` first.
+ */
+const SANITISED_KEYS: ReadonlySet<string> = new Set(['search.query']);
 
 /**
  * Shallow sanitiser for telemetry attributes. It drops obvious PII keys rather
@@ -115,7 +149,7 @@ const PII_KEY_PATTERN = /email|phone|name|address|query|text|message|prompt|comp
 export function sanitiseTraceFields(fields: Record<string, unknown>): Record<string, unknown> {
   const clean: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(fields)) {
-    if (PII_KEY_PATTERN.test(key)) {
+    if (PII_KEY_PATTERN.test(key) && !SANITISED_KEYS.has(key)) {
       continue;
     }
     if (value === undefined) {

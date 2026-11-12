@@ -16,7 +16,7 @@ describe('startApiTrace', () => {
     info.mockRestore();
   });
 
-  it('records the decision, gate, usage, and latency without raw text', () => {
+  it('records the decision, gate, usage, and the sanitised search text', () => {
     const trace = startApiTrace('search/assist', REQUEST);
     trace.setQuery('nursing in melbourne');
     trace.setGate({ automation: 'pass', botId: 'pass', rateLimit: 'pass' });
@@ -49,8 +49,19 @@ describe('startApiTrace', () => {
       usage: { surface: 'search', mode: 'quick', usedModel: false },
     });
     expect(event.queryHash).toHaveLength(32);
-    expect(JSON.stringify(event)).not.toContain('nursing in melbourne');
+    expect(event.query).toBe('nursing in melbourne');
     expect(event.latencyMs).toBeGreaterThanOrEqual(0);
+  });
+
+  it('keeps emails and numbers out of the recorded query', () => {
+    const trace = startApiTrace('search/assist', REQUEST);
+    trace.setQuery('nursing in melbourne, email me at person@example.com or 0412 345 678');
+    trace.setOutcome('model_hit', 'model_area');
+
+    const event = trace.finish(200);
+
+    expect(event.query).toBe('nursing in melbourne, email me at [email] or [number]');
+    expect(JSON.stringify(event)).not.toContain('person@example.com');
   });
 
   it('refuses to finish the same trace twice', () => {

@@ -37,6 +37,8 @@ export type AssistModelMeta = {
   outcome: AssistModelOutcome;
   cacheHit: boolean;
   usage: AssistTokenUsage;
+  /** Model output as received, capped so a malformed answer stays diagnosable. */
+  rawResponse?: string | null;
 };
 
 export type AssistModelCall = {
@@ -48,7 +50,11 @@ type CachedAssist = {
   value: AssistRaw;
   outcome: 'ok' | 'no_match';
   usage: AssistTokenUsage;
+  rawResponse?: string | null;
 };
+
+/** Longest model output kept in telemetry; the schema allows ~80 tokens. */
+const MAX_RAW_RESPONSE_CHARS = 400;
 
 const EMPTY_USAGE: AssistTokenUsage = { prompt: null, completion: null, total: null };
 
@@ -203,6 +209,7 @@ async function requestModel(
           outcome: 'http_error',
           cacheHit: false,
           usage: { ...EMPTY_USAGE },
+          rawResponse: null,
         },
       };
     }
@@ -218,7 +225,8 @@ async function requestModel(
       };
     };
 
-    const value = extractJson(data?.choices?.[0]?.message?.content);
+    const raw = data?.choices?.[0]?.message?.content ?? null;
+    const value = extractJson(raw);
     return {
       value,
       meta: {
@@ -227,6 +235,7 @@ async function requestModel(
         outcome: outcomeFor(value),
         cacheHit: false,
         usage: readUsage(data),
+        rawResponse: raw === null ? null : raw.slice(0, MAX_RAW_RESPONSE_CHARS),
       },
     };
   } catch {
@@ -238,6 +247,7 @@ async function requestModel(
         outcome: controller.signal.aborted ? 'timeout' : 'error',
         cacheHit: false,
         usage: { ...EMPTY_USAGE },
+        rawResponse: null,
       },
     };
   } finally {
@@ -265,6 +275,7 @@ export async function callModelWithMeta(
         outcome: 'unconfigured',
         cacheHit: false,
         usage: { ...EMPTY_USAGE },
+        rawResponse: null,
       },
     };
   }
@@ -284,6 +295,7 @@ export async function callModelWithMeta(
         outcome: cached.outcome,
         cacheHit: true,
         usage: cached.usage,
+        rawResponse: cached.rawResponse ?? null,
       },
     };
   }
@@ -302,6 +314,7 @@ export async function callModelWithMeta(
           value: result.value,
           outcome: result.meta.outcome === 'no_match' ? 'no_match' : 'ok',
           usage: result.meta.usage,
+          rawResponse: result.meta.rawResponse ?? null,
         });
       }
       return result;
